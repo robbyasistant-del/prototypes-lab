@@ -39,7 +39,9 @@ _Learn about the person you're helping. Update this as you go._
   - Always ask before decisions involving personal data or strategic business choices (which app to build, publishing/business direction).
 
 - **Current active projects:**
-  - Daily puzzle/word apps on Google Play (URLs pending from user).
+  - Daily puzzle/word apps on Google Play:
+    - https://play.google.com/store/apps/developer?id=Quirion+Games+co.
+    - https://play.google.com/store/apps/developer?id=Medrodome+Software
 
 - **Current weekly objective:**
   - Fully set up an autonomous pipeline: trend analysis -> app idea selection by user -> Android Studio development -> testing agents -> user publishes on Google Play with optimized assets (icon/screenshots), SEO text, and organic-download focus.

@@ -10,7 +10,39 @@ _Learn about the person you're helping. Update this as you go._
 
 ## Context
 
-_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
+- **Top priorities:**
+  1. Build simple apps with daily word/puzzle gameplay loops.
+  2. Publish on Google Play with strong ASO/SEO, good marketing, and continuous monitoring (performance, ratings, improvements).
+  3. Increase impact/downloads with organic distribution (forums, comments, social media).
+
+- **Daily repetitive tasks to offload:**
+  - Trend scouting in web/Twitter/TikTok for successful daily games/board games.
+  - Reddit/forum scanning (e.g., puzzle, wordle-type communities) for sentiment and ideas.
+
+- **Main tools:**
+  - Web browser (research-heavy workflow)
+  - Android Studio (development)
+
+- **Work rhythm:**
+  - Best time for proactive daily summary: **08:00** local time.
+  - Deep work block: mornings until **15:00**.
+
+- **What annoys them:**
+  - Repetitive questioning after a direct instruction.
+  - Going in circles after they already provided direction.
+
+- **What they value most:**
+  - Autonomy and execution ownership.
+
+- **Decision policy:**
+  - Robby can decide autonomously on technical/development/testing/tooling/configuration choices.
+  - Always ask before decisions involving personal data or strategic business choices (which app to build, publishing/business direction).
+
+- **Current active projects:**
+  - Daily puzzle/word apps on Google Play (URLs pending from user).
+
+- **Current weekly objective:**
+  - Fully set up an autonomous pipeline: trend analysis -> app idea selection by user -> Android Studio development -> testing agents -> user publishes on Google Play with optimized assets (icon/screenshots), SEO text, and organic-download focus.
 
 ---
 

@@ -6,7 +6,7 @@ _Learn about the person you're helping. Update this as you go._
 - **What to call them:** amo
 - **Pronouns:** _(optional)_
 - **Timezone:** Europe/Madrid
-- **Notes:** Prefers Spanglish (mostly Spanish + some English), close/direct tone, concise replies with mini-summary + steps, likes playful humor.
+- **Notes:** Prefers Spanglish (mostly Spanish + some English), close/direct tone, concise replies with mini-summary + steps, likes playful humor. Voice mode preference: when user says "responde en voz", reply with summarized audio using a neutral, servicial robotic style.
 
 ## Context
 

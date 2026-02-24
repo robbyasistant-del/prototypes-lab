@@ -1,0 +1,338 @@
+{
+  "US": {
+    "groups": 1000,
+    "issues_count": 0,
+    "issues_sample": [],
+    "difficulty_counts": {
+      "1": 400,
+      "2": 300,
+      "3": 200,
+      "4": 100
+    },
+    "reused_words_count": 236,
+    "top_reused_words": [
+      [
+        "GIANTS",
+        37
+      ],
+      [
+        "STEAL",
+        37
+      ],
+      [
+        "JORDAN",
+        35
+      ],
+      [
+        "FACEOFF",
+        30
+      ],
+      [
+        "FLAGMAN",
+        25
+      ],
+      [
+        "WELTERWEIGHT",
+        25
+      ],
+      [
+        "STRIKEOUT",
+        24
+      ],
+      [
+        "LIGHTNING",
+        24
+      ],
+      [
+        "OFFSIDE",
+        24
+      ],
+      [
+        "EASTON",
+        23
+      ],
+      [
+        "HOMERUN",
+        23
+      ],
+      [
+        "PICK",
+        23
+      ],
+      [
+        "SEASONPASS",
+        23
+      ],
+      [
+        "MICHIGAN",
+        23
+      ],
+      [
+        "RUTH",
+        22
+      ]
+    ],
+    "pair_collision_rate": {
+      "1-2": 0.039,
+      "1-3": 0.0399,
+      "1-4": 0.0419,
+      "2-3": 0.0425,
+      "2-4": 0.04,
+      "3-4": 0.0438
+    },
+    "safe_boards_generated": 250,
+    "safe_boards_file": "C:\\Users\\robby\\.openclaw\\workspace\\outputs\\connections-sports\\validated_boards\\safe_boards_US.json"
+  },
+  "UK": {
+    "groups": 1000,
+    "issues_count": 0,
+    "issues_sample": [],
+    "difficulty_counts": {
+      "1": 400,
+      "2": 300,
+      "3": 200,
+      "4": 100
+    },
+    "reused_words_count": 235,
+    "top_reused_words": [
+      [
+        "COUNTER",
+        37
+      ],
+      [
+        "CARDIFF",
+        34
+      ],
+      [
+        "BRISTOL",
+        32
+      ],
+      [
+        "LIVERPOOL",
+        32
+      ],
+      [
+        "OLDTRAFFORD",
+        32
+      ],
+      [
+        "CUPTIE",
+        26
+      ],
+      [
+        "YORKER",
+        25
+      ],
+      [
+        "CADENCE",
+        24
+      ],
+      [
+        "TAUNTON",
+        24
+      ],
+      [
+        "PENALTY",
+        23
+      ],
+      [
+        "OVERS",
+        23
+      ],
+      [
+        "REDFERN",
+        23
+      ],
+      [
+        "BULLSEYE",
+        22
+      ],
+      [
+        "BAIZE",
+        22
+      ],
+      [
+        "NEWMARKET",
+        22
+      ]
+    ],
+    "pair_collision_rate": {
+      "1-2": 0.0433,
+      "1-3": 0.0438,
+      "1-4": 0.0453,
+      "2-3": 0.0422,
+      "2-4": 0.0449,
+      "3-4": 0.0425
+    },
+    "safe_boards_generated": 250,
+    "safe_boards_file": "C:\\Users\\robby\\.openclaw\\workspace\\outputs\\connections-sports\\validated_boards\\safe_boards_UK.json"
+  },
+  "MX": {
+    "groups": 1000,
+    "issues_count": 0,
+    "issues_sample": [],
+    "difficulty_counts": {
+      "1": 400,
+      "2": 300,
+      "3": 200,
+      "4": 100
+    },
+    "reused_words_count": 234,
+    "top_reused_words": [
+      [
+        "TIRO",
+        37
+      ],
+      [
+        "PASE",
+        35
+      ],
+      [
+        "REBOTE",
+        34
+      ],
+      [
+        "TIGRES",
+        32
+      ],
+      [
+        "TOLUCA",
+        32
+      ],
+      [
+        "LEON",
+        30
+      ],
+      [
+        "RADIOFORMULA",
+        28
+      ],
+      [
+        "FUERAJUEGO",
+        25
+      ],
+      [
+        "MONTERREY",
+        25
+      ],
+      [
+        "PLAYOFF",
+        25
+      ],
+      [
+        "PARED",
+        24
+      ],
+      [
+        "MANO",
+        23
+      ],
+      [
+        "SHORTSTOP",
+        23
+      ],
+      [
+        "CDMX",
+        23
+      ],
+      [
+        "MARCHA",
+        22
+      ]
+    ],
+    "pair_collision_rate": {
+      "1-2": 0.0434,
+      "1-3": 0.0442,
+      "1-4": 0.0459,
+      "2-3": 0.0436,
+      "2-4": 0.0425,
+      "3-4": 0.0456
+    },
+    "safe_boards_generated": 250,
+    "safe_boards_file": "C:\\Users\\robby\\.openclaw\\workspace\\outputs\\connections-sports\\validated_boards\\safe_boards_MX.json"
+  },
+  "ES": {
+    "groups": 1000,
+    "issues_count": 0,
+    "issues_sample": [],
+    "difficulty_counts": {
+      "1": 400,
+      "2": 300,
+      "3": 200,
+      "4": 100
+    },
+    "reused_words_count": 233,
+    "top_reused_words": [
+      [
+        "REGATA",
+        43
+      ],
+      [
+        "VALENCIA",
+        42
+      ],
+      [
+        "SEVILLA",
+        37
+      ],
+      [
+        "FONDO",
+        37
+      ],
+      [
+        "MURCIA",
+        35
+      ],
+      [
+        "MADRID",
+        31
+      ],
+      [
+        "META",
+        29
+      ],
+      [
+        "CAROLINA",
+        26
+      ],
+      [
+        "VALENCIA_BC",
+        24
+      ],
+      [
+        "CALLE",
+        24
+      ],
+      [
+        "CLAVADOS",
+        24
+      ],
+      [
+        "METROPOLITANO",
+        24
+      ],
+      [
+        "REPETICION",
+        24
+      ],
+      [
+        "NADAL",
+        23
+      ],
+      [
+        "FELICIANO",
+        22
+      ]
+    ],
+    "pair_collision_rate": {
+      "1-2": 0.0452,
+      "1-3": 0.045,
+      "1-4": 0.0457,
+      "2-3": 0.047,
+      "2-4": 0.0439,
+      "3-4": 0.0517
+    },
+    "safe_boards_generated": 250,
+    "safe_boards_file": "C:\\Users\\robby\\.openclaw\\workspace\\outputs\\connections-sports\\validated_boards\\safe_boards_ES.json"
+  }
+}

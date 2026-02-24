@@ -1,0 +1,9502 @@
+[
+  {
+    "group_ids": [
+      1184,
+      1615,
+      1219,
+      1710
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "FOOTBALL POSITIONS",
+      "UK FOOTBALL GROUNDS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARGENTINA",
+      "AUSTRALIA",
+      "FRANCE",
+      "WALES",
+      "CAPTAIN",
+      "FULLBACK",
+      "MIDFIELDER",
+      "SWEEPER",
+      "ANFIELD",
+      "CRAVEN",
+      "GOODISON",
+      "IBROX",
+      "CADENCE",
+      "CLIMB",
+      "DESCENT",
+      "DOMESTIQUE"
+    ]
+  },
+  {
+    "group_ids": [
+      1911,
+      1315,
+      1498,
+      1380
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "UK SWIMMING",
+      "DARTS TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EDINBURGH",
+      "LONDON",
+      "MANCHESTER",
+      "NOTTINGHAM",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "MEDLEY",
+      "SPLIT",
+      "FINS",
+      "LEG",
+      "OCHRE",
+      "SET",
+      "BRISTOL",
+      "LORDS",
+      "ROSEBOWL",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1791,
+      1735,
+      1728,
+      1750
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK TENNIS",
+      "UK SWIMMING",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AUSTRALIA",
+      "ENGLAND",
+      "JAPAN",
+      "SAMOA",
+      "QUALIFYING",
+      "SEEDING",
+      "SLICE",
+      "TIEBREAK",
+      "BUTTERFLY",
+      "SPLIT",
+      "TOUCHPAD",
+      "WHISTLE",
+      "CRAVEN",
+      "ETIHAD",
+      "SELHURST",
+      "STAMFORD"
+    ]
+  },
+  {
+    "group_ids": [
+      1053,
+      1906,
+      1699,
+      1800
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "DARTS TERMS",
+      "UK MOTORSPORT",
+      "UK SPORTS CITIES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AINTREE",
+      "FINISHPOST",
+      "GALLOP",
+      "NEWMARKET",
+      "BULLSEYE",
+      "FLIGHT",
+      "LEG",
+      "THROWLINE",
+      "CHICANE",
+      "FORMULAONE",
+      "PARCFERME",
+      "POLE",
+      "CARDIFF",
+      "LIVERPOOL",
+      "MANCHESTER",
+      "NEWCASTLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1953,
+      1887,
+      1239,
+      1950
+    ],
+    "cats": [
+      "UK CYCLING",
+      "UK TENNIS",
+      "CRICKET TERMS",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIDON",
+      "BREAKAWAY",
+      "CHAINRING",
+      "SPRINT",
+      "BALLBOY",
+      "GRASS",
+      "QUALIFYING",
+      "SEEDING",
+      "BATSMAN",
+      "BOWLER",
+      "LBW",
+      "SPIN",
+      "CLEARANCE",
+      "NUTMEG",
+      "PASS",
+      "PRESSING"
+    ]
+  },
+  {
+    "group_ids": [
+      1482,
+      1756,
+      1298,
+      1660
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK MOTORSPORT",
+      "UK FOOTBALL GROUNDS",
+      "UK TENNIS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCOT",
+      "EPSOM",
+      "HANDICAP",
+      "SADDLE",
+      "DOWNFORCE",
+      "DRS",
+      "GOODWOOD",
+      "PARCFERME",
+      "EMIRATES",
+      "HAMPDEN",
+      "IBROX",
+      "STAMFORD",
+      "SERVE",
+      "SLICE",
+      "TOPSPIN",
+      "WIMBLEDON"
+    ]
+  },
+  {
+    "group_ids": [
+      1162,
+      1146,
+      1069,
+      1890
+    ],
+    "cats": [
+      "CRICKET TERMS",
+      "UK TENNIS",
+      "DARTS TERMS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BATSMAN",
+      "BOWLER",
+      "GOOGLY",
+      "WICKET",
+      "QUALIFYING",
+      "SEEDING",
+      "SERVE",
+      "TIEBREAK",
+      "FLIGHT",
+      "LEG",
+      "NINEDARTER",
+      "OCHRE",
+      "BLACKBALL",
+      "CENTURY",
+      "CUE",
+      "POCKET"
+    ]
+  },
+  {
+    "group_ids": [
+      1233,
+      1985,
+      1569,
+      1650
+    ],
+    "cats": [
+      "FOOTBALL ACTIONS",
+      "UK HORSE RACING",
+      "UK CRICKET VENUES",
+      "UK SPORTS CITIES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "COUNTER",
+      "HEADER",
+      "MARKING",
+      "PRESSING",
+      "AINTREE",
+      "CHELTENHAM",
+      "EPSOM",
+      "FURLONG",
+      "HOVE",
+      "OVAL",
+      "TAUNTON",
+      "TRENTBRIDGE",
+      "CARDIFF",
+      "EDINBURGH",
+      "GLASGOW",
+      "NOTTINGHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1282,
+      1906,
+      1678,
+      1190
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "DARTS TERMS",
+      "UK TENNIS",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "LINEOUT",
+      "MAUL",
+      "OFFLOAD",
+      "PENALTY",
+      "BULLSEYE",
+      "FLIGHT",
+      "LEG",
+      "THROWLINE",
+      "BALLBOY",
+      "RALLY",
+      "SEEDING",
+      "TOPSPIN",
+      "CLINCH",
+      "COUNTER",
+      "CUT",
+      "TITLEFIGHT"
+    ]
+  },
+  {
+    "group_ids": [
+      1624,
+      1705,
+      1809,
+      1620
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK SPORTS CITIES",
+      "UK CRICKET VENUES",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FIJI",
+      "SAMOA",
+      "SCOTLAND",
+      "WALES",
+      "BRISTOL",
+      "EDINBURGH",
+      "MANCHESTER",
+      "NOTTINGHAM",
+      "OLDTRAFFORD",
+      "OVAL",
+      "ROSEBOWL",
+      "TAUNTON",
+      "CHELSEA",
+      "CITY",
+      "FULHAM",
+      "WESTHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1854,
+      1117,
+      1319,
+      1790
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "FOOTBALL ACTIONS",
+      "CRICKET TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELTENHAM",
+      "FURLONG",
+      "HANDICAP",
+      "STAKES",
+      "COUNTER",
+      "HEADER",
+      "MARKING",
+      "NUTMEG",
+      "CREASE",
+      "GOOGLY",
+      "MAIDEN",
+      "OVERS",
+      "EDGBASTON",
+      "HEADINGLEY",
+      "LORDS",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1114,
+      1567,
+      1488,
+      1890
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "PREMIER CLUBS",
+      "UK SWIMMING",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ADLINGTON",
+      "FROOME",
+      "REDFERN",
+      "THOMPSON",
+      "PALACE",
+      "VILLA",
+      "WESTHAM",
+      "WOLVES",
+      "FREESTYLE",
+      "SPLIT",
+      "STARTER",
+      "TOUCHPAD",
+      "BLACKBALL",
+      "CENTURY",
+      "CUE",
+      "POCKET"
+    ]
+  },
+  {
+    "group_ids": [
+      1244,
+      1875,
+      1549,
+      1960
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "UK SPORTS CITIES",
+      "CRICKET TERMS",
+      "UK TENNIS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHICANE",
+      "DOWNFORCE",
+      "POLE",
+      "SILVERSTONE",
+      "CARDIFF",
+      "MANCHESTER",
+      "NEWCASTLE",
+      "NOTTINGHAM",
+      "BATSMAN",
+      "OVERS",
+      "SLOGGER",
+      "WICKET",
+      "BALLBOY",
+      "QUALIFYING",
+      "QUEENS",
+      "TIEBREAK"
+    ]
+  },
+  {
+    "group_ids": [
+      1771,
+      1736,
+      1509,
+      1180
+    ],
+    "cats": [
+      "UK CRICKET VENUES",
+      "UK MOTORSPORT",
+      "UK FOOTBALL GROUNDS",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHESTERLE",
+      "HEADINGLEY",
+      "OLDTRAFFORD",
+      "TAUNTON",
+      "BRANDS",
+      "CHICANE",
+      "GOODWOOD",
+      "POLE",
+      "ANFIELD",
+      "HAMPDEN",
+      "IBROX",
+      "STAMFORD",
+      "FULHAM",
+      "LIVERPOOL",
+      "WESTHAM",
+      "WOLVES"
+    ]
+  },
+  {
+    "group_ids": [
+      1212,
+      1625,
+      1269,
+      1100
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "RUGBY TERMS",
+      "UK HORSE RACING",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "LONDON",
+      "MANCHESTER",
+      "NEWCASTLE",
+      "NOTTINGHAM",
+      "CONVERSION",
+      "PENALTY",
+      "PROP",
+      "RUCK",
+      "ASCOT",
+      "CHELTENHAM",
+      "GALLOP",
+      "NEWMARKET",
+      "CADENCE",
+      "CHAINRING",
+      "CLIMB",
+      "STAGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1552,
+      1217,
+      1718,
+      1790
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK CYCLING",
+      "UK MOTORSPORT",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVERSION",
+      "FLANKER",
+      "SCRUM",
+      "TRY",
+      "CADENCE",
+      "DOMESTIQUE",
+      "PINNACLE",
+      "TIME_TRIAL",
+      "BRANDS",
+      "DOWNFORCE",
+      "DRS",
+      "POLE",
+      "EDGBASTON",
+      "HEADINGLEY",
+      "LORDS",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1951,
+      1805,
+      1819,
+      1690
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "UK CYCLING",
+      "UK SPORTS CITIES",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CUPTIE",
+      "DERBY",
+      "RELEGATION",
+      "TURNSTILE",
+      "CADENCE",
+      "DESCENT",
+      "DOMESTIQUE",
+      "PELOTON",
+      "BRISTOL",
+      "EDINBURGH",
+      "NEWCASTLE",
+      "NOTTINGHAM",
+      "BACKSTROKE",
+      "FREESTYLE",
+      "MEDLEY",
+      "TOUCHPAD"
+    ]
+  },
+  {
+    "group_ids": [
+      1571,
+      1875,
+      1878,
+      1270
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK SPORTS CITIES",
+      "UK FAN CULTURE",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVERSION",
+      "HOOKER",
+      "OFFLOAD",
+      "RUCK",
+      "CARDIFF",
+      "MANCHESTER",
+      "NEWCASTLE",
+      "NOTTINGHAM",
+      "CHIPPY",
+      "TERRACE",
+      "TURNSTILE",
+      "ULTRAS",
+      "FARAH",
+      "HEMMINGS",
+      "REDFERN",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1501,
+      1417,
+      1958,
+      1270
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK FOOTBALL GROUNDS",
+      "RUGBY NATIONS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELTENHAM",
+      "FINISHPOST",
+      "FURLONG",
+      "STAKES",
+      "ANFIELD",
+      "ELLAND",
+      "ETIHAD",
+      "STAMFORD",
+      "ARGENTINA",
+      "ENGLAND",
+      "FRANCE",
+      "IRELAND",
+      "FARAH",
+      "HEMMINGS",
+      "REDFERN",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1764,
+      1926,
+      1799,
+      1210
+    ],
+    "cats": [
+      "FOOTBALL ACTIONS",
+      "SNOOKER TERMS",
+      "UK OLYMPIANS",
+      "UK HORSE RACING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CROSS",
+      "MARKING",
+      "NUTMEG",
+      "VOLLEY",
+      "BAIZE",
+      "CUSHION",
+      "POT",
+      "SAFETY",
+      "FARAH",
+      "PEATY",
+      "THOMPSON",
+      "WIGGINS",
+      "AINTREE",
+      "JOCKEY",
+      "SADDLE",
+      "STAKES"
+    ]
+  },
+  {
+    "group_ids": [
+      1682,
+      1635,
+      1679,
+      1070
+    ],
+    "cats": [
+      "UK BOXING",
+      "UK FAN CULTURE",
+      "UK MOTORSPORT",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNER",
+      "COUNTER",
+      "JAB",
+      "RINGWALK",
+      "CHANT",
+      "CUPTIE",
+      "SCARF",
+      "ULTRAS",
+      "CHICANE",
+      "DRS",
+      "FORMULAONE",
+      "SAFETYCAR",
+      "BLACKBALL",
+      "BREAK",
+      "CUSHION",
+      "POT"
+    ]
+  },
+  {
+    "group_ids": [
+      1504,
+      1206,
+      1609,
+      1230
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "UK MOTORSPORT",
+      "SNOOKER TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPTAIN",
+      "DEFENDER",
+      "FULLBACK",
+      "MIDFIELDER",
+      "DONINGTON",
+      "DOWNFORCE",
+      "DRS",
+      "SAFETYCAR",
+      "BAIZE",
+      "CUSHION",
+      "FRAME",
+      "SAFETY",
+      "ADLINGTON",
+      "FARAH",
+      "HEMMINGS",
+      "THOMPSON"
+    ]
+  },
+  {
+    "group_ids": [
+      1392,
+      1126,
+      1999,
+      1670
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "UK TENNIS",
+      "UK MOTORSPORT",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DEFENDER",
+      "FULLBACK",
+      "STRIKER",
+      "SWEEPER",
+      "QUALIFYING",
+      "SEEDING",
+      "TIEBREAK",
+      "TOPSPIN",
+      "BRANDS",
+      "DOWNFORCE",
+      "POLE",
+      "SAFETYCAR",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "HEATS",
+      "SPLIT"
+    ]
+  },
+  {
+    "group_ids": [
+      1491,
+      1436,
+      1538,
+      1880
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "PREMIER CLUBS",
+      "UK SPORTS MEDIA",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELLAND",
+      "HAMPDEN",
+      "IBROX",
+      "OLDTRAFFORD",
+      "PALACE",
+      "UNITED",
+      "VILLA",
+      "WOLVES",
+      "BBC",
+      "MOTD",
+      "RADIOTWO",
+      "TELEGRAPH",
+      "BIDON",
+      "PINNACLE",
+      "STAGE",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1221,
+      1366,
+      1408,
+      1580
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "SNOOKER TERMS",
+      "UK SPORTS MEDIA",
+      "UK FAN CULTURE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARGENTINA",
+      "AUSTRALIA",
+      "ITALY",
+      "SCOTLAND",
+      "BLACKBALL",
+      "POCKET",
+      "REST",
+      "SAFETY",
+      "BBC",
+      "BTSPORT",
+      "GUARDIAN",
+      "TIMES",
+      "DERBY",
+      "FIXTURE",
+      "SCARF",
+      "ULTRAS"
+    ]
+  },
+  {
+    "group_ids": [
+      1242,
+      1267,
+      1288,
+      1670
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK BOXING",
+      "UK SPORTS MEDIA",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FLANKER",
+      "KNOCKON",
+      "LINEOUT",
+      "OFFLOAD",
+      "CLINCH",
+      "JAB",
+      "RINGWALK",
+      "TITLEFIGHT",
+      "BTSPORT",
+      "GUARDIAN",
+      "SKY",
+      "TELEGRAPH",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "HEATS",
+      "SPLIT"
+    ]
+  },
+  {
+    "group_ids": [
+      1531,
+      1236,
+      1188,
+      1770
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "DARTS TERMS",
+      "CRICKET TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "IRELAND",
+      "JAPAN",
+      "SAMOA",
+      "SCOTLAND",
+      "BIDON",
+      "SPRINT",
+      "STAGE",
+      "TIME_TRIAL",
+      "CHECKOUT",
+      "FINS",
+      "NINEDARTER",
+      "SET",
+      "BATSMAN",
+      "OVERS",
+      "SPIN",
+      "WICKET"
+    ]
+  },
+  {
+    "group_ids": [
+      1612,
+      1907,
+      1298,
+      1020
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "SNOOKER TERMS",
+      "UK FOOTBALL GROUNDS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EPSOM",
+      "FINISHPOST",
+      "HANDICAP",
+      "SADDLE",
+      "BAIZE",
+      "BREAK",
+      "CENTURY",
+      "POCKET",
+      "EMIRATES",
+      "HAMPDEN",
+      "IBROX",
+      "STAMFORD",
+      "CHAINRING",
+      "PINNACLE",
+      "SPRINT",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1102,
+      1415,
+      1499,
+      1360
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "UK SWIMMING",
+      "SNOOKER TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELLAND",
+      "SELHURST",
+      "STAMFORD",
+      "WEMBLEY",
+      "BREASTSTROKE",
+      "HEATS",
+      "LANE",
+      "STARTER",
+      "CENTURY",
+      "POT",
+      "REST",
+      "SNOOKER",
+      "CHESTERLE",
+      "EDGBASTON",
+      "HEADINGLEY",
+      "HOVE"
+    ]
+  },
+  {
+    "group_ids": [
+      1191,
+      1197,
+      1158,
+      2000
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "UK FAN CULTURE",
+      "UK SWIMMING",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "BBC",
+      "SKY",
+      "TALKSport",
+      "CHANT",
+      "CHIPPY",
+      "FIXTURE",
+      "SCARF",
+      "BACKSTROKE",
+      "BUTTERFLY",
+      "STARTER",
+      "WHISTLE",
+      "BLACKBALL",
+      "BREAK",
+      "CUSHION",
+      "FRAME"
+    ]
+  },
+  {
+    "group_ids": [
+      1192,
+      1007,
+      1538,
+      1360
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK TENNIS",
+      "UK SPORTS MEDIA",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AINTREE",
+      "FINISHPOST",
+      "FURLONG",
+      "NEWMARKET",
+      "BALLBOY",
+      "CENTRECOURT",
+      "SLICE",
+      "WIMBLEDON",
+      "BBC",
+      "MOTD",
+      "RADIOTWO",
+      "TELEGRAPH",
+      "CHESTERLE",
+      "EDGBASTON",
+      "HEADINGLEY",
+      "HOVE"
+    ]
+  },
+  {
+    "group_ids": [
+      1531,
+      1416,
+      1558,
+      1250
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "UK SPORTS MEDIA",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "IRELAND",
+      "JAPAN",
+      "SAMOA",
+      "SCOTLAND",
+      "BREAKAWAY",
+      "CADENCE",
+      "DESCENT",
+      "SPRINT",
+      "BTSPORT",
+      "GUARDIAN",
+      "TIMES",
+      "TNT",
+      "FARAH",
+      "FROOME",
+      "HEMMINGS",
+      "THOMPSON"
+    ]
+  },
+  {
+    "group_ids": [
+      1874,
+      1507,
+      1958,
+      1880
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "UK SWIMMING",
+      "RUGBY NATIONS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ADLINGTON",
+      "PEATY",
+      "REDFERN",
+      "THOMPSON",
+      "BACKSTROKE",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "RELAY",
+      "ARGENTINA",
+      "ENGLAND",
+      "FRANCE",
+      "IRELAND",
+      "BIDON",
+      "PINNACLE",
+      "STAGE",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1591,
+      1976,
+      1269,
+      1830
+    ],
+    "cats": [
+      "DARTS TERMS",
+      "UK CRICKET VENUES",
+      "UK HORSE RACING",
+      "UK TENNIS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHECKOUT",
+      "DOUBLE",
+      "SET",
+      "THROWLINE",
+      "CHESTERLE",
+      "HEADINGLEY",
+      "OVAL",
+      "TRENTBRIDGE",
+      "ASCOT",
+      "CHELTENHAM",
+      "GALLOP",
+      "NEWMARKET",
+      "GRASS",
+      "SERVE",
+      "SLICE",
+      "TOPSPIN"
+    ]
+  },
+  {
+    "group_ids": [
+      1943,
+      1387,
+      1338,
+      1120
+    ],
+    "cats": [
+      "DARTS TERMS",
+      "UK BOXING",
+      "UK FOOTBALL GROUNDS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BULLSEYE",
+      "FINS",
+      "FLIGHT",
+      "SET",
+      "COUNTER",
+      "PROMOTER",
+      "SOUTHPAW",
+      "WEIGHIN",
+      "ELLAND",
+      "ETIHAD",
+      "OLDTRAFFORD",
+      "WEMBLEY",
+      "CADENCE",
+      "DESCENT",
+      "DOMESTIQUE",
+      "PINNACLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1214,
+      1666,
+      1859,
+      1980
+    ],
+    "cats": [
+      "FOOTBALL ACTIONS",
+      "UK OLYMPIANS",
+      "UK FAN CULTURE",
+      "UK MOTORSPORT"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "COUNTER",
+      "HEADER",
+      "NUTMEG",
+      "PRESSING",
+      "ADLINGTON",
+      "ENNIS",
+      "MURRAY",
+      "WIGGINS",
+      "CHANT",
+      "CHIPPY",
+      "CUPTIE",
+      "DERBY",
+      "DONINGTON",
+      "FORMULAONE",
+      "PARCFERME",
+      "SILVERSTONE"
+    ]
+  },
+  {
+    "group_ids": [
+      1323,
+      1475,
+      1528,
+      1290
+    ],
+    "cats": [
+      "UK TENNIS",
+      "RUGBY TERMS",
+      "UK FOOTBALL GROUNDS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BALLBOY",
+      "QUALIFYING",
+      "SERVE",
+      "TOPSPIN",
+      "CONVERSION",
+      "HOOKER",
+      "KNOCKON",
+      "TRY",
+      "ELLAND",
+      "ETIHAD",
+      "GOODISON",
+      "WEMBLEY",
+      "HOY",
+      "PEATY",
+      "REDFERN",
+      "WHITLOCK"
+    ]
+  },
+  {
+    "group_ids": [
+      1233,
+      1727,
+      1899,
+      1310
+    ],
+    "cats": [
+      "FOOTBALL ACTIONS",
+      "UK FAN CULTURE",
+      "PREMIER CLUBS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "COUNTER",
+      "HEADER",
+      "MARKING",
+      "PRESSING",
+      "AWAYDAY",
+      "CUPTIE",
+      "DERBY",
+      "TERRACE",
+      "EVERTON",
+      "LIVERPOOL",
+      "TOTTENHAM",
+      "VILLA",
+      "FARAH",
+      "HEMMINGS",
+      "HOY",
+      "REDFERN"
+    ]
+  },
+  {
+    "group_ids": [
+      1902,
+      1275,
+      1098,
+      1820
+    ],
+    "cats": [
+      "UK CRICKET VENUES",
+      "UK SWIMMING",
+      "UK FAN CULTURE",
+      "FOOTBALL POSITIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HEADINGLEY",
+      "HOVE",
+      "OVAL",
+      "TAUNTON",
+      "BACKSTROKE",
+      "BREASTSTROKE",
+      "FREESTYLE",
+      "WHISTLE",
+      "CHANT",
+      "CUPTIE",
+      "FIXTURE",
+      "ULTRAS",
+      "CAPTAIN",
+      "LIBERO",
+      "PLAYMAKER",
+      "STOPPER"
+    ]
+  },
+  {
+    "group_ids": [
+      1153,
+      1815,
+      1148,
+      1210
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "UK BOXING",
+      "DARTS TERMS",
+      "UK HORSE RACING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ADLINGTON",
+      "FARAH",
+      "FROOME",
+      "HEMMINGS",
+      "CUT",
+      "PROMOTER",
+      "TITLEFIGHT",
+      "WEIGHIN",
+      "BULLSEYE",
+      "NINEDARTER",
+      "THROWLINE",
+      "TREBLE",
+      "AINTREE",
+      "JOCKEY",
+      "SADDLE",
+      "STAKES"
+    ]
+  },
+  {
+    "group_ids": [
+      1073,
+      1325,
+      1859,
+      1190
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "DARTS TERMS",
+      "UK FAN CULTURE",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELTENHAM",
+      "FURLONG",
+      "GALLOP",
+      "JOCKEY",
+      "BULLSEYE",
+      "FINS",
+      "OCHRE",
+      "TREBLE",
+      "CHANT",
+      "CHIPPY",
+      "CUPTIE",
+      "DERBY",
+      "CLINCH",
+      "COUNTER",
+      "CUT",
+      "TITLEFIGHT"
+    ]
+  },
+  {
+    "group_ids": [
+      1172,
+      1775,
+      1909,
+      1780
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK MOTORSPORT",
+      "UK SPORTS MEDIA",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCOT",
+      "CHELTENHAM",
+      "HANDICAP",
+      "SADDLE",
+      "BRANDS",
+      "DONINGTON",
+      "DRS",
+      "FORMULAONE",
+      "GUARDIAN",
+      "ITV",
+      "MOTD",
+      "TIMES",
+      "ADLINGTON",
+      "FARAH",
+      "WHITLOCK",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1513,
+      1825,
+      1949,
+      1100
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "PREMIER CLUBS",
+      "FOOTBALL POSITIONS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HOOKER",
+      "LINEOUT",
+      "PROP",
+      "RUCK",
+      "FULHAM",
+      "LIVERPOOL",
+      "VILLA",
+      "WOLVES",
+      "FULLBACK",
+      "GOALKEEPER",
+      "PIVOT",
+      "SWEEPER",
+      "CADENCE",
+      "CHAINRING",
+      "CLIMB",
+      "STAGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1972,
+      1585,
+      1699,
+      1180
+    ],
+    "cats": [
+      "UK CYCLING",
+      "CRICKET TERMS",
+      "UK MOTORSPORT",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CADENCE",
+      "CLIMB",
+      "DOMESTIQUE",
+      "TIME_TRIAL",
+      "GOOGLY",
+      "MAIDEN",
+      "WICKET",
+      "YORKER",
+      "CHICANE",
+      "FORMULAONE",
+      "PARCFERME",
+      "POLE",
+      "FULHAM",
+      "LIVERPOOL",
+      "WESTHAM",
+      "WOLVES"
+    ]
+  },
+  {
+    "group_ids": [
+      1594,
+      1776,
+      1878,
+      1320
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "DARTS TERMS",
+      "UK FAN CULTURE",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "GUARDIAN",
+      "ITV",
+      "SKY",
+      "DOUBLE",
+      "NINEDARTER",
+      "OCHRE",
+      "SET",
+      "CHIPPY",
+      "TERRACE",
+      "TURNSTILE",
+      "ULTRAS",
+      "BRISTOL",
+      "CHESTERLE",
+      "HEADINGLEY",
+      "TRENTBRIDGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1354,
+      1947,
+      1198,
+      1620
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "UK HORSE RACING",
+      "UK CYCLING",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHIPPY",
+      "CUPTIE",
+      "FIXTURE",
+      "TURNSTILE",
+      "EPSOM",
+      "GALLOP",
+      "NEWMARKET",
+      "SADDLE",
+      "CADENCE",
+      "PELOTON",
+      "PINNACLE",
+      "STAGE",
+      "CHELSEA",
+      "CITY",
+      "FULHAM",
+      "WESTHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1251,
+      1116,
+      1119,
+      1980
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "FOOTBALL POSITIONS",
+      "UK SWIMMING",
+      "UK MOTORSPORT"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CARDIFF",
+      "GLASGOW",
+      "LONDON",
+      "MANCHESTER",
+      "FULLBACK",
+      "STOPPER",
+      "STRIKER",
+      "WINGER",
+      "LANE",
+      "MEDLEY",
+      "SPLIT",
+      "TOUCHPAD",
+      "DONINGTON",
+      "FORMULAONE",
+      "PARCFERME",
+      "SILVERSTONE"
+    ]
+  },
+  {
+    "group_ids": [
+      1712,
+      1346,
+      1569,
+      1040
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "SNOOKER TERMS",
+      "UK CRICKET VENUES",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAVEN",
+      "GOODISON",
+      "HAMPDEN",
+      "SELHURST",
+      "CENTURY",
+      "CUE",
+      "REST",
+      "SAFETY",
+      "HOVE",
+      "OVAL",
+      "TAUNTON",
+      "TRENTBRIDGE",
+      "BIDON",
+      "CADENCE",
+      "PELOTON",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1324,
+      1866,
+      1619,
+      1720
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DOWNFORCE",
+      "DRS",
+      "FORMULAONE",
+      "SAFETYCAR",
+      "AUSTRALIA",
+      "ITALY",
+      "TONGA",
+      "WALES",
+      "BIDON",
+      "BREAKAWAY",
+      "CLIMB",
+      "DESCENT",
+      "BLACKBALL",
+      "CUE",
+      "REST",
+      "SNOOKER"
+    ]
+  },
+  {
+    "group_ids": [
+      1741,
+      1277,
+      1608,
+      1330
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "PREMIER CLUBS",
+      "UK MOTORSPORT",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELTENHAM",
+      "EPSOM",
+      "FURLONG",
+      "NEWMARKET",
+      "CITY",
+      "EVERTON",
+      "FULHAM",
+      "WOLVES",
+      "BRANDS",
+      "CHICANE",
+      "PARCFERME",
+      "SILVERSTONE",
+      "ENNIS",
+      "FARAH",
+      "PEATY",
+      "WHITLOCK"
+    ]
+  },
+  {
+    "group_ids": [
+      1101,
+      1177,
+      1159,
+      1970
+    ],
+    "cats": [
+      "PREMIER CLUBS",
+      "UK FAN CULTURE",
+      "UK CYCLING",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELSEA",
+      "EVERTON",
+      "TOTTENHAM",
+      "WOLVES",
+      "CUPTIE",
+      "DERBY",
+      "RELEGATION",
+      "TERRACE",
+      "CADENCE",
+      "DESCENT",
+      "SPRINT",
+      "TIME_TRIAL",
+      "CLEARANCE",
+      "MARKING",
+      "NUTMEG",
+      "PRESSING"
+    ]
+  },
+  {
+    "group_ids": [
+      1831,
+      1355,
+      1199,
+      2000
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "UK SWIMMING",
+      "PREMIER CLUBS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRANDS",
+      "DONINGTON",
+      "DOWNFORCE",
+      "FORMULAONE",
+      "BREASTSTROKE",
+      "SPLIT",
+      "STARTER",
+      "WHISTLE",
+      "ARSENAL",
+      "EVERTON",
+      "FULHAM",
+      "WOLVES",
+      "BLACKBALL",
+      "BREAK",
+      "CUSHION",
+      "FRAME"
+    ]
+  },
+  {
+    "group_ids": [
+      1083,
+      1305,
+      1509,
+      1300
+    ],
+    "cats": [
+      "CRICKET TERMS",
+      "DARTS TERMS",
+      "UK FOOTBALL GROUNDS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BATSMAN",
+      "CREASE",
+      "LBW",
+      "SEAM",
+      "BULLSEYE",
+      "CHECKOUT",
+      "DOUBLE",
+      "FINS",
+      "ANFIELD",
+      "HAMPDEN",
+      "IBROX",
+      "STAMFORD",
+      "BRISTOL",
+      "HOVE",
+      "OVAL",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1813,
+      1717,
+      1178,
+      1440
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "UK TENNIS",
+      "UK SWIMMING",
+      "RUGBY TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DONINGTON",
+      "DRS",
+      "PARCFERME",
+      "SAFETYCAR",
+      "BALLBOY",
+      "QUALIFYING",
+      "QUEENS",
+      "SERVE",
+      "BACKSTROKE",
+      "HEATS",
+      "RELAY",
+      "TOUCHPAD",
+      "KNOCKON",
+      "PENALTY",
+      "PROP",
+      "TRY"
+    ]
+  },
+  {
+    "group_ids": [
+      1961,
+      1806,
+      1358,
+      1460
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "PREMIER CLUBS",
+      "UK FOOTBALL GROUNDS",
+      "DARTS TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRANDS",
+      "FORMULAONE",
+      "PITWALL",
+      "POLE",
+      "CHELSEA",
+      "PALACE",
+      "UNITED",
+      "WESTHAM",
+      "CRAVEN",
+      "GOODISON",
+      "OLDTRAFFORD",
+      "STAMFORD",
+      "BULLSEYE",
+      "FINS",
+      "NINEDARTER",
+      "TREBLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1332,
+      1765,
+      1309,
+      1270
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "UK FAN CULTURE",
+      "UK HORSE RACING",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPTAIN",
+      "MIDFIELDER",
+      "PLAYMAKER",
+      "STOPPER",
+      "CUPTIE",
+      "RELEGATION",
+      "TURNSTILE",
+      "ULTRAS",
+      "FINISHPOST",
+      "HANDICAP",
+      "JOCKEY",
+      "STAKES",
+      "FARAH",
+      "HEMMINGS",
+      "REDFERN",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1614,
+      1355,
+      1508,
+      1140
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "UK SWIMMING",
+      "UK CYCLING",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIRMINGHAM",
+      "LEEDS",
+      "LIVERPOOL",
+      "SHEFFIELD",
+      "BREASTSTROKE",
+      "SPLIT",
+      "STARTER",
+      "WHISTLE",
+      "BIDON",
+      "CLIMB",
+      "DOMESTIQUE",
+      "PELOTON",
+      "ARSENAL",
+      "TOTTENHAM",
+      "UNITED",
+      "WOLVES"
+    ]
+  },
+  {
+    "group_ids": [
+      1683,
+      1155,
+      1768,
+      1070
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "FOOTBALL POSITIONS",
+      "PREMIER CLUBS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "MOTD",
+      "TALKSport",
+      "TIMES",
+      "GOALKEEPER",
+      "PIVOT",
+      "STRIKER",
+      "WINGER",
+      "CITY",
+      "EVERTON",
+      "VILLA",
+      "WESTHAM",
+      "BLACKBALL",
+      "BREAK",
+      "CUSHION",
+      "POT"
+    ]
+  },
+  {
+    "group_ids": [
+      1574,
+      1046,
+      1148,
+      1390
+    ],
+    "cats": [
+      "UK BOXING",
+      "RUGBY TERMS",
+      "DARTS TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLINCH",
+      "COUNTER",
+      "PROMOTER",
+      "RINGWALK",
+      "KNOCKON",
+      "PENALTY",
+      "SCRUM",
+      "TRY",
+      "BULLSEYE",
+      "NINEDARTER",
+      "THROWLINE",
+      "TREBLE",
+      "ADLINGTON",
+      "ENNIS",
+      "REDFERN",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1673,
+      1037,
+      1078,
+      1610
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "FOOTBALL ACTIONS",
+      "UK FAN CULTURE",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAVEN",
+      "HAMPDEN",
+      "SELHURST",
+      "STAMFORD",
+      "NUTMEG",
+      "PASS",
+      "PRESSING",
+      "THROUGHBALL",
+      "FIXTURE",
+      "PROMOTION",
+      "RELEGATION",
+      "ULTRAS",
+      "CORNER",
+      "COUNTER",
+      "JAB",
+      "SOUTHPAW"
+    ]
+  },
+  {
+    "group_ids": [
+      1251,
+      1766,
+      1939,
+      1490
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "UK SWIMMING",
+      "RUGBY NATIONS",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CARDIFF",
+      "GLASGOW",
+      "LONDON",
+      "MANCHESTER",
+      "BUTTERFLY",
+      "LANE",
+      "MEDLEY",
+      "WHISTLE",
+      "ENGLAND",
+      "FIJI",
+      "FRANCE",
+      "SAMOA",
+      "ARSENAL",
+      "CITY",
+      "LIVERPOOL",
+      "PALACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1813,
+      1396,
+      1329,
+      1420
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "UK CYCLING",
+      "UK HORSE RACING",
+      "RUGBY NATIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DONINGTON",
+      "DRS",
+      "PARCFERME",
+      "SAFETYCAR",
+      "BREAKAWAY",
+      "CLIMB",
+      "SPRINT",
+      "TIME_TRIAL",
+      "JOCKEY",
+      "NEWMARKET",
+      "SADDLE",
+      "STAKES",
+      "ARGENTINA",
+      "FRANCE",
+      "JAPAN",
+      "TONGA"
+    ]
+  },
+  {
+    "group_ids": [
+      1232,
+      1475,
+      1958,
+      1890
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "RUGBY TERMS",
+      "RUGBY NATIONS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MIDFIELDER",
+      "PIVOT",
+      "STRIKER",
+      "SWEEPER",
+      "CONVERSION",
+      "HOOKER",
+      "KNOCKON",
+      "TRY",
+      "ARGENTINA",
+      "ENGLAND",
+      "FRANCE",
+      "IRELAND",
+      "BLACKBALL",
+      "CENTURY",
+      "CUE",
+      "POCKET"
+    ]
+  },
+  {
+    "group_ids": [
+      1872,
+      1337,
+      1148,
+      1820
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "PREMIER CLUBS",
+      "DARTS TERMS",
+      "FOOTBALL POSITIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBC",
+      "BTSPORT",
+      "ITV",
+      "TIMES",
+      "CITY",
+      "VILLA",
+      "WESTHAM",
+      "WOLVES",
+      "BULLSEYE",
+      "NINEDARTER",
+      "THROWLINE",
+      "TREBLE",
+      "CAPTAIN",
+      "LIBERO",
+      "PLAYMAKER",
+      "STOPPER"
+    ]
+  },
+  {
+    "group_ids": [
+      1254,
+      1486,
+      1829,
+      1110
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "FOOTBALL ACTIONS",
+      "RUGBY TERMS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHANT",
+      "CUPTIE",
+      "PROMOTION",
+      "RELEGATION",
+      "DRIBBLE",
+      "NUTMEG",
+      "PRESSING",
+      "THROUGHBALL",
+      "CONVERSION",
+      "OFFLOAD",
+      "PROP",
+      "TRY",
+      "BAIZE",
+      "BLACKBALL",
+      "BREAK",
+      "SAFETY"
+    ]
+  },
+  {
+    "group_ids": [
+      1943,
+      1877,
+      1249,
+      1270
+    ],
+    "cats": [
+      "DARTS TERMS",
+      "FOOTBALL ACTIONS",
+      "UK HORSE RACING",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BULLSEYE",
+      "FINS",
+      "FLIGHT",
+      "SET",
+      "DRIBBLE",
+      "HEADER",
+      "NUTMEG",
+      "PASS",
+      "AINTREE",
+      "ASCOT",
+      "FURLONG",
+      "NEWMARKET",
+      "FARAH",
+      "HEMMINGS",
+      "REDFERN",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1102,
+      1045,
+      1938,
+      1230
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "RUGBY NATIONS",
+      "UK CRICKET VENUES",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELLAND",
+      "SELHURST",
+      "STAMFORD",
+      "WEMBLEY",
+      "ARGENTINA",
+      "ENGLAND",
+      "JAPAN",
+      "WALES",
+      "CARDIFF",
+      "HEADINGLEY",
+      "HOVE",
+      "TAUNTON",
+      "ADLINGTON",
+      "FARAH",
+      "HEMMINGS",
+      "THOMPSON"
+    ]
+  },
+  {
+    "group_ids": [
+      1262,
+      1747,
+      1768,
+      1520
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK SWIMMING",
+      "PREMIER CLUBS",
+      "UK HORSE RACING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "OFFLOAD",
+      "PENALTY",
+      "RUCK",
+      "SCRUM",
+      "HEATS",
+      "RELAY",
+      "STARTER",
+      "WHISTLE",
+      "CITY",
+      "EVERTON",
+      "VILLA",
+      "WESTHAM",
+      "ASCOT",
+      "FINISHPOST",
+      "SADDLE",
+      "STAKES"
+    ]
+  },
+  {
+    "group_ids": [
+      1624,
+      1876,
+      1018,
+      1690
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "FOOTBALL POSITIONS",
+      "UK FAN CULTURE",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FIJI",
+      "SAMOA",
+      "SCOTLAND",
+      "WALES",
+      "FULLBACK",
+      "GOALKEEPER",
+      "MIDFIELDER",
+      "STOPPER",
+      "AWAYDAY",
+      "CUPTIE",
+      "DERBY",
+      "TURNSTILE",
+      "BACKSTROKE",
+      "FREESTYLE",
+      "MEDLEY",
+      "TOUCHPAD"
+    ]
+  },
+  {
+    "group_ids": [
+      1024,
+      1746,
+      1368,
+      1650
+    ],
+    "cats": [
+      "UK CRICKET VENUES",
+      "UK FAN CULTURE",
+      "UK SPORTS MEDIA",
+      "UK SPORTS CITIES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRISTOL",
+      "HEADINGLEY",
+      "OVAL",
+      "ROSEBOWL",
+      "AWAYDAY",
+      "CHIPPY",
+      "CUPTIE",
+      "DERBY",
+      "ATHLETIC",
+      "BTSPORT",
+      "ITV",
+      "TNT",
+      "CARDIFF",
+      "EDINBURGH",
+      "GLASGOW",
+      "NOTTINGHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1082,
+      1895,
+      1308,
+      1430
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "FOOTBALL POSITIONS",
+      "UK SPORTS MEDIA",
+      "UK SPORTS CITIES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ANFIELD",
+      "GOODISON",
+      "HAMPDEN",
+      "IBROX",
+      "FULLBACK",
+      "GOALKEEPER",
+      "LIBERO",
+      "MIDFIELDER",
+      "BBC",
+      "BTSPORT",
+      "GUARDIAN",
+      "MOTD",
+      "BRISTOL",
+      "CARDIFF",
+      "LIVERPOOL",
+      "NOTTINGHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1014,
+      1175,
+      1379,
+      1020
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "FOOTBALL POSITIONS",
+      "CRICKET TERMS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ADLINGTON",
+      "FROOME",
+      "HEMMINGS",
+      "MURRAY",
+      "CAPTAIN",
+      "FULLBACK",
+      "GOALKEEPER",
+      "LIBERO",
+      "MAIDEN",
+      "OVERS",
+      "SPIN",
+      "YORKER",
+      "CHAINRING",
+      "PINNACLE",
+      "SPRINT",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1243,
+      1355,
+      1498,
+      1310
+    ],
+    "cats": [
+      "UK TENNIS",
+      "UK SWIMMING",
+      "DARTS TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "QUALIFYING",
+      "RALLY",
+      "TOPSPIN",
+      "WIMBLEDON",
+      "BREASTSTROKE",
+      "SPLIT",
+      "STARTER",
+      "WHISTLE",
+      "FINS",
+      "LEG",
+      "OCHRE",
+      "SET",
+      "FARAH",
+      "HEMMINGS",
+      "HOY",
+      "REDFERN"
+    ]
+  },
+  {
+    "group_ids": [
+      1642,
+      1026,
+      1109,
+      1650
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "RUGBY TERMS",
+      "DARTS TERMS",
+      "UK SPORTS CITIES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AUSTRALIA",
+      "FIJI",
+      "ITALY",
+      "JAPAN",
+      "FLANKER",
+      "HOOKER",
+      "KNOCKON",
+      "TRY",
+      "DOUBLE",
+      "FINS",
+      "FLIGHT",
+      "SHAFT",
+      "CARDIFF",
+      "EDINBURGH",
+      "GLASGOW",
+      "NOTTINGHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1673,
+      1485,
+      1768,
+      1910
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "FOOTBALL POSITIONS",
+      "PREMIER CLUBS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAVEN",
+      "HAMPDEN",
+      "SELHURST",
+      "STAMFORD",
+      "DEFENDER",
+      "PLAYMAKER",
+      "STRIKER",
+      "SWEEPER",
+      "CITY",
+      "EVERTON",
+      "VILLA",
+      "WESTHAM",
+      "ENNIS",
+      "MURRAY",
+      "PEATY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1983,
+      1066,
+      1639,
+      1490
+    ],
+    "cats": [
+      "UK BOXING",
+      "RUGBY TERMS",
+      "UK FOOTBALL GROUNDS",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "JAB",
+      "ORTHODOX",
+      "RINGWALK",
+      "TITLEFIGHT",
+      "CONVERSION",
+      "KNOCKON",
+      "MAUL",
+      "PROP",
+      "ANFIELD",
+      "EMIRATES",
+      "GOODISON",
+      "OLDTRAFFORD",
+      "ARSENAL",
+      "CITY",
+      "LIVERPOOL",
+      "PALACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1474,
+      1725,
+      1048,
+      1040
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "FOOTBALL POSITIONS",
+      "UK MOTORSPORT",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENGLAND",
+      "FRANCE",
+      "ITALY",
+      "WALES",
+      "CAPTAIN",
+      "GOALKEEPER",
+      "PIVOT",
+      "PLAYMAKER",
+      "DONINGTON",
+      "DRS",
+      "GOODWOOD",
+      "SILVERSTONE",
+      "BIDON",
+      "CADENCE",
+      "PELOTON",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1944,
+      1816,
+      1448,
+      1980
+    ],
+    "cats": [
+      "SNOOKER TERMS",
+      "UK SPORTS MEDIA",
+      "UK OLYMPIANS",
+      "UK MOTORSPORT"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BAIZE",
+      "BLACKBALL",
+      "BREAK",
+      "POCKET",
+      "MOTD",
+      "RADIOTWO",
+      "SKY",
+      "TNT",
+      "ADLINGTON",
+      "HOY",
+      "REDFERN",
+      "THOMPSON",
+      "DONINGTON",
+      "FORMULAONE",
+      "PARCFERME",
+      "SILVERSTONE"
+    ]
+  },
+  {
+    "group_ids": [
+      1792,
+      1927,
+      1478,
+      1350
+    ],
+    "cats": [
+      "UK TENNIS",
+      "UK SPORTS MEDIA",
+      "DARTS TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GRASS",
+      "SERVE",
+      "SLICE",
+      "WIMBLEDON",
+      "BTSPORT",
+      "GUARDIAN",
+      "MOTD",
+      "TIMES",
+      "BULLSEYE",
+      "DOUBLE",
+      "FINS",
+      "NINEDARTER",
+      "ADLINGTON",
+      "HOY",
+      "MURRAY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1371,
+      1167,
+      1309,
+      1350
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "UK MOTORSPORT",
+      "UK HORSE RACING",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIRMINGHAM",
+      "GLASGOW",
+      "LIVERPOOL",
+      "MANCHESTER",
+      "BRANDS",
+      "PITWALL",
+      "SAFETYCAR",
+      "SILVERSTONE",
+      "FINISHPOST",
+      "HANDICAP",
+      "JOCKEY",
+      "STAKES",
+      "ADLINGTON",
+      "HOY",
+      "MURRAY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1453,
+      1325,
+      1208,
+      2000
+    ],
+    "cats": [
+      "PREMIER CLUBS",
+      "DARTS TERMS",
+      "UK BOXING",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARSENAL",
+      "CHELSEA",
+      "CITY",
+      "EVERTON",
+      "BULLSEYE",
+      "FINS",
+      "OCHRE",
+      "TREBLE",
+      "CUT",
+      "JAB",
+      "SOUTHPAW",
+      "WEIGHIN",
+      "BLACKBALL",
+      "BREAK",
+      "CUSHION",
+      "FRAME"
+    ]
+  },
+  {
+    "group_ids": [
+      1463,
+      1245,
+      1499,
+      1120
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "DARTS TERMS",
+      "SNOOKER TERMS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBC",
+      "GUARDIAN",
+      "ITV",
+      "TIMES",
+      "CHECKOUT",
+      "FLIGHT",
+      "NINEDARTER",
+      "OCHRE",
+      "CENTURY",
+      "POT",
+      "REST",
+      "SNOOKER",
+      "CADENCE",
+      "DESCENT",
+      "DOMESTIQUE",
+      "PINNACLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1484,
+      1587,
+      1238,
+      1320
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "RUGBY NATIONS",
+      "UK FOOTBALL GROUNDS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GLASGOW",
+      "LEEDS",
+      "LONDON",
+      "MANCHESTER",
+      "FRANCE",
+      "IRELAND",
+      "ITALY",
+      "SAMOA",
+      "ANFIELD",
+      "GOODISON",
+      "IBROX",
+      "STAMFORD",
+      "BRISTOL",
+      "CHESTERLE",
+      "HEADINGLEY",
+      "TRENTBRIDGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1534,
+      1617,
+      1219,
+      1370
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "UK FAN CULTURE",
+      "UK FOOTBALL GROUNDS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRANDS",
+      "DRS",
+      "PARCFERME",
+      "POLE",
+      "AWAYDAY",
+      "CUPTIE",
+      "TURNSTILE",
+      "ULTRAS",
+      "ANFIELD",
+      "CRAVEN",
+      "GOODISON",
+      "IBROX",
+      "ADLINGTON",
+      "FROOME",
+      "HEMMINGS",
+      "REDFERN"
+    ]
+  },
+  {
+    "group_ids": [
+      1472,
+      1915,
+      1519,
+      1600
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "UK SWIMMING",
+      "UK SPORTS MEDIA",
+      "UK FAN CULTURE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELLAND",
+      "ETIHAD",
+      "OLDTRAFFORD",
+      "STAMFORD",
+      "BACKSTROKE",
+      "BUTTERFLY",
+      "LANE",
+      "WHISTLE",
+      "ATHLETIC",
+      "RADIOTWO",
+      "TALKSport",
+      "TIMES",
+      "CHANT",
+      "CUPTIE",
+      "RELEGATION",
+      "SCARF"
+    ]
+  },
+  {
+    "group_ids": [
+      1421,
+      1265,
+      1658,
+      1020
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "DARTS TERMS",
+      "UK CRICKET VENUES",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVERSION",
+      "RUCK",
+      "SCRUM",
+      "TRY",
+      "DOUBLE",
+      "FINS",
+      "NINEDARTER",
+      "OCHRE",
+      "CARDIFF",
+      "OLDTRAFFORD",
+      "OVAL",
+      "TRENTBRIDGE",
+      "CHAINRING",
+      "PINNACLE",
+      "SPRINT",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1962,
+      1336,
+      1309,
+      1980
+    ],
+    "cats": [
+      "DARTS TERMS",
+      "UK CYCLING",
+      "UK HORSE RACING",
+      "UK MOTORSPORT"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FINS",
+      "NINEDARTER",
+      "OCHRE",
+      "THROWLINE",
+      "BREAKAWAY",
+      "CADENCE",
+      "CLIMB",
+      "DESCENT",
+      "FINISHPOST",
+      "HANDICAP",
+      "JOCKEY",
+      "STAKES",
+      "DONINGTON",
+      "FORMULAONE",
+      "PARCFERME",
+      "SILVERSTONE"
+    ]
+  },
+  {
+    "group_ids": [
+      1191,
+      1895,
+      1208,
+      1140
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "FOOTBALL POSITIONS",
+      "UK BOXING",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "BBC",
+      "SKY",
+      "TALKSport",
+      "FULLBACK",
+      "GOALKEEPER",
+      "LIBERO",
+      "MIDFIELDER",
+      "CUT",
+      "JAB",
+      "SOUTHPAW",
+      "WEIGHIN",
+      "ARSENAL",
+      "TOTTENHAM",
+      "UNITED",
+      "WOLVES"
+    ]
+  },
+  {
+    "group_ids": [
+      1782,
+      1935,
+      1769,
+      1190
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "PREMIER CLUBS",
+      "UK FOOTBALL GROUNDS",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MIDFIELDER",
+      "STOPPER",
+      "STRIKER",
+      "SWEEPER",
+      "CHELSEA",
+      "CITY",
+      "PALACE",
+      "VILLA",
+      "CRAVEN",
+      "IBROX",
+      "STAMFORD",
+      "WEMBLEY",
+      "CLINCH",
+      "COUNTER",
+      "CUT",
+      "TITLEFIGHT"
+    ]
+  },
+  {
+    "group_ids": [
+      1742,
+      1835,
+      1999,
+      1480
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "UK SPORTS MEDIA",
+      "UK MOTORSPORT",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FROOME",
+      "HEMMINGS",
+      "MURRAY",
+      "PEATY",
+      "GUARDIAN",
+      "MOTD",
+      "RADIOTWO",
+      "TNT",
+      "BRANDS",
+      "DOWNFORCE",
+      "POLE",
+      "SAFETYCAR",
+      "CUT",
+      "ORTHODOX",
+      "RINGWALK",
+      "UPPERCUT"
+    ]
+  },
+  {
+    "group_ids": [
+      1611,
+      1035,
+      1768,
+      1970
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "UK SPORTS CITIES",
+      "PREMIER CLUBS",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBC",
+      "BTSPORT",
+      "GUARDIAN",
+      "TELEGRAPH",
+      "CARDIFF",
+      "GLASGOW",
+      "LEEDS",
+      "MANCHESTER",
+      "CITY",
+      "EVERTON",
+      "VILLA",
+      "WESTHAM",
+      "CLEARANCE",
+      "MARKING",
+      "NUTMEG",
+      "PRESSING"
+    ]
+  },
+  {
+    "group_ids": [
+      1203,
+      1356,
+      1859,
+      1220
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "UK FAN CULTURE",
+      "CRICKET TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARGENTINA",
+      "SAMOA",
+      "TONGA",
+      "WALES",
+      "BIDON",
+      "CADENCE",
+      "DESCENT",
+      "STAGE",
+      "CHANT",
+      "CHIPPY",
+      "CUPTIE",
+      "DERBY",
+      "BATSMAN",
+      "GOOGLY",
+      "OVERS",
+      "SEAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1531,
+      1336,
+      1928,
+      1260
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "UK HORSE RACING",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "IRELAND",
+      "JAPAN",
+      "SAMOA",
+      "SCOTLAND",
+      "BREAKAWAY",
+      "CADENCE",
+      "CLIMB",
+      "DESCENT",
+      "AINTREE",
+      "FINISHPOST",
+      "HANDICAP",
+      "NEWMARKET",
+      "BRISTOL",
+      "CHESTERLE",
+      "HEADINGLEY",
+      "OVAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1474,
+      1155,
+      1968,
+      1670
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "FOOTBALL POSITIONS",
+      "UK SPORTS CITIES",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENGLAND",
+      "FRANCE",
+      "ITALY",
+      "WALES",
+      "GOALKEEPER",
+      "PIVOT",
+      "STRIKER",
+      "WINGER",
+      "CARDIFF",
+      "EDINBURGH",
+      "LIVERPOOL",
+      "NOTTINGHAM",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "HEATS",
+      "SPLIT"
+    ]
+  },
+  {
+    "group_ids": [
+      1424,
+      1817,
+      1169,
+      1230
+    ],
+    "cats": [
+      "DARTS TERMS",
+      "UK HORSE RACING",
+      "SNOOKER TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BULLSEYE",
+      "OCHRE",
+      "SET",
+      "THROWLINE",
+      "AINTREE",
+      "ASCOT",
+      "EPSOM",
+      "FINISHPOST",
+      "BAIZE",
+      "BREAK",
+      "FRAME",
+      "REST",
+      "ADLINGTON",
+      "FARAH",
+      "HEMMINGS",
+      "THOMPSON"
+    ]
+  },
+  {
+    "group_ids": [
+      1703,
+      1126,
+      1959,
+      1880
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "UK TENNIS",
+      "RUGBY TERMS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "BTSPORT",
+      "GUARDIAN",
+      "ITV",
+      "QUALIFYING",
+      "SEEDING",
+      "TIEBREAK",
+      "TOPSPIN",
+      "MAUL",
+      "PENALTY",
+      "PROP",
+      "RUCK",
+      "BIDON",
+      "PINNACLE",
+      "STAGE",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1871,
+      1966,
+      1499,
+      1390
+    ],
+    "cats": [
+      "UK BOXING",
+      "UK HORSE RACING",
+      "SNOOKER TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNER",
+      "CUT",
+      "JAB",
+      "ORTHODOX",
+      "GALLOP",
+      "HANDICAP",
+      "NEWMARKET",
+      "STAKES",
+      "CENTURY",
+      "POT",
+      "REST",
+      "SNOOKER",
+      "ADLINGTON",
+      "ENNIS",
+      "REDFERN",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1131,
+      1566,
+      1659,
+      1790
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "UK CYCLING",
+      "RUGBY TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GUARDIAN",
+      "ITV",
+      "RADIOTWO",
+      "TELEGRAPH",
+      "BIDON",
+      "CHAINRING",
+      "PINNACLE",
+      "STAGE",
+      "HOOKER",
+      "MAUL",
+      "PROP",
+      "TRY",
+      "EDGBASTON",
+      "HEADINGLEY",
+      "LORDS",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1222,
+      1415,
+      1989,
+      1830
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK SWIMMING",
+      "FOOTBALL ACTIONS",
+      "UK TENNIS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PENALTY",
+      "PROP",
+      "RUCK",
+      "SCRUM",
+      "BREASTSTROKE",
+      "HEATS",
+      "LANE",
+      "STARTER",
+      "CLEARANCE",
+      "COUNTER",
+      "DRIBBLE",
+      "PRESSING",
+      "GRASS",
+      "SERVE",
+      "SLICE",
+      "TOPSPIN"
+    ]
+  },
+  {
+    "group_ids": [
+      1421,
+      1515,
+      1299,
+      1600
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK MOTORSPORT",
+      "CRICKET TERMS",
+      "UK FAN CULTURE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVERSION",
+      "RUCK",
+      "SCRUM",
+      "TRY",
+      "CHICANE",
+      "GOODWOOD",
+      "PITWALL",
+      "SAFETYCAR",
+      "BATSMAN",
+      "OVERS",
+      "SLOGGER",
+      "YORKER",
+      "CHANT",
+      "CUPTIE",
+      "RELEGATION",
+      "SCARF"
+    ]
+  },
+  {
+    "group_ids": [
+      1624,
+      1545,
+      1848,
+      1180
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK SWIMMING",
+      "UK TENNIS",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FIJI",
+      "SAMOA",
+      "SCOTLAND",
+      "WALES",
+      "BUTTERFLY",
+      "RELAY",
+      "SPLIT",
+      "STARTER",
+      "QUEENS",
+      "RALLY",
+      "SEEDING",
+      "SLICE",
+      "FULHAM",
+      "LIVERPOOL",
+      "WESTHAM",
+      "WOLVES"
+    ]
+  },
+  {
+    "group_ids": [
+      1262,
+      1496,
+      1798,
+      1120
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK TENNIS",
+      "UK HORSE RACING",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "OFFLOAD",
+      "PENALTY",
+      "RUCK",
+      "SCRUM",
+      "QUEENS",
+      "RALLY",
+      "SEEDING",
+      "TOPSPIN",
+      "ASCOT",
+      "EPSOM",
+      "FURLONG",
+      "JOCKEY",
+      "CADENCE",
+      "DESCENT",
+      "DOMESTIQUE",
+      "PINNACLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1791,
+      1496,
+      1728,
+      1360
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK TENNIS",
+      "UK SWIMMING",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AUSTRALIA",
+      "ENGLAND",
+      "JAPAN",
+      "SAMOA",
+      "QUEENS",
+      "RALLY",
+      "SEEDING",
+      "TOPSPIN",
+      "BUTTERFLY",
+      "SPLIT",
+      "TOUCHPAD",
+      "WHISTLE",
+      "CHESTERLE",
+      "EDGBASTON",
+      "HEADINGLEY",
+      "HOVE"
+    ]
+  },
+  {
+    "group_ids": [
+      1923,
+      1855,
+      1319,
+      1670
+    ],
+    "cats": [
+      "UK TENNIS",
+      "UK OLYMPIANS",
+      "CRICKET TERMS",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GRASS",
+      "SEEDING",
+      "SLICE",
+      "WIMBLEDON",
+      "HEMMINGS",
+      "HOY",
+      "MURRAY",
+      "THOMPSON",
+      "CREASE",
+      "GOOGLY",
+      "MAIDEN",
+      "OVERS",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "HEATS",
+      "SPLIT"
+    ]
+  },
+  {
+    "group_ids": [
+      1884,
+      1745,
+      1898,
+      1050
+    ],
+    "cats": [
+      "UK CRICKET VENUES",
+      "FOOTBALL ACTIONS",
+      "UK CYCLING",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRISTOL",
+      "HEADINGLEY",
+      "ROSEBOWL",
+      "TAUNTON",
+      "CROSS",
+      "HEADER",
+      "TACKLE",
+      "THROUGHBALL",
+      "BIDON",
+      "PELOTON",
+      "PINNACLE",
+      "TIME_TRIAL",
+      "CUSHION",
+      "FRAME",
+      "POT",
+      "SAFETY"
+    ]
+  },
+  {
+    "group_ids": [
+      1494,
+      1185,
+      1038,
+      1870
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "RUGBY TERMS",
+      "UK FAN CULTURE",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENGLAND",
+      "FRANCE",
+      "IRELAND",
+      "TONGA",
+      "KNOCKON",
+      "PROP",
+      "RUCK",
+      "SCRUM",
+      "CHIPPY",
+      "CUPTIE",
+      "TERRACE",
+      "ULTRAS",
+      "BAIZE",
+      "BLACKBALL",
+      "CUE",
+      "CUSHION"
+    ]
+  },
+  {
+    "group_ids": [
+      1531,
+      1577,
+      1629,
+      1710
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK OLYMPIANS",
+      "UK BOXING",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "IRELAND",
+      "JAPAN",
+      "SAMOA",
+      "SCOTLAND",
+      "HEMMINGS",
+      "MURRAY",
+      "REDFERN",
+      "WIGGINS",
+      "CORNER",
+      "JAB",
+      "UPPERCUT",
+      "WEIGHIN",
+      "CADENCE",
+      "CLIMB",
+      "DESCENT",
+      "DOMESTIQUE"
+    ]
+  },
+  {
+    "group_ids": [
+      1964,
+      1045,
+      1149,
+      1790
+    ],
+    "cats": [
+      "UK BOXING",
+      "RUGBY NATIONS",
+      "SNOOKER TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNER",
+      "CUT",
+      "ORTHODOX",
+      "PROMOTER",
+      "ARGENTINA",
+      "ENGLAND",
+      "JAPAN",
+      "WALES",
+      "BAIZE",
+      "CENTURY",
+      "CUSHION",
+      "SNOOKER",
+      "EDGBASTON",
+      "HEADINGLEY",
+      "LORDS",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1273,
+      1377,
+      1699,
+      1740
+    ],
+    "cats": [
+      "FOOTBALL ACTIONS",
+      "PREMIER CLUBS",
+      "UK MOTORSPORT",
+      "UK SPORTS MEDIA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HEADER",
+      "NUTMEG",
+      "PRESSING",
+      "VOLLEY",
+      "ARSENAL",
+      "EVERTON",
+      "PALACE",
+      "VILLA",
+      "CHICANE",
+      "FORMULAONE",
+      "PARCFERME",
+      "POLE",
+      "BBC",
+      "BTSPORT",
+      "TALKSport",
+      "TELEGRAPH"
+    ]
+  },
+  {
+    "group_ids": [
+      1221,
+      1767,
+      1759,
+      1750
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "UK BOXING",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARGENTINA",
+      "AUSTRALIA",
+      "ITALY",
+      "SCOTLAND",
+      "BREAKAWAY",
+      "SPRINT",
+      "STAGE",
+      "TIME_TRIAL",
+      "COUNTER",
+      "CUT",
+      "UPPERCUT",
+      "WEIGHIN",
+      "CRAVEN",
+      "ETIHAD",
+      "SELHURST",
+      "STAMFORD"
+    ]
+  },
+  {
+    "group_ids": [
+      1203,
+      1637,
+      1988,
+      1160
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "FOOTBALL POSITIONS",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARGENTINA",
+      "SAMOA",
+      "TONGA",
+      "WALES",
+      "BREAKAWAY",
+      "PELOTON",
+      "SPRINT",
+      "STAGE",
+      "DEFENDER",
+      "LIBERO",
+      "PIVOT",
+      "STRIKER",
+      "CHELSEA",
+      "CITY",
+      "FULHAM",
+      "LIVERPOOL"
+    ]
+  },
+  {
+    "group_ids": [
+      1904,
+      1817,
+      1748,
+      1600
+    ],
+    "cats": [
+      "UK TENNIS",
+      "UK HORSE RACING",
+      "UK CYCLING",
+      "UK FAN CULTURE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "QUALIFYING",
+      "QUEENS",
+      "SERVE",
+      "SLICE",
+      "AINTREE",
+      "ASCOT",
+      "EPSOM",
+      "FINISHPOST",
+      "CADENCE",
+      "CHAINRING",
+      "CLIMB",
+      "TIME_TRIAL",
+      "CHANT",
+      "CUPTIE",
+      "RELEGATION",
+      "SCARF"
+    ]
+  },
+  {
+    "group_ids": [
+      1572,
+      1215,
+      1059,
+      1350
+    ],
+    "cats": [
+      "UK TENNIS",
+      "UK FAN CULTURE",
+      "UK SWIMMING",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CENTRECOURT",
+      "QUALIFYING",
+      "SEEDING",
+      "WIMBLEDON",
+      "CUPTIE",
+      "PROMOTION",
+      "TERRACE",
+      "ULTRAS",
+      "BACKSTROKE",
+      "RELAY",
+      "STARTER",
+      "TOUCHPAD",
+      "ADLINGTON",
+      "HOY",
+      "MURRAY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1532,
+      1207,
+      1269,
+      1140
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "SNOOKER TERMS",
+      "UK HORSE RACING",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVERSION",
+      "KNOCKON",
+      "MAUL",
+      "SCRUM",
+      "BAIZE",
+      "CENTURY",
+      "CUE",
+      "POCKET",
+      "ASCOT",
+      "CHELTENHAM",
+      "GALLOP",
+      "NEWMARKET",
+      "ARSENAL",
+      "TOTTENHAM",
+      "UNITED",
+      "WOLVES"
+    ]
+  },
+  {
+    "group_ids": [
+      1952,
+      1126,
+      1989,
+      1280
+    ],
+    "cats": [
+      "UK SWIMMING",
+      "UK TENNIS",
+      "FOOTBALL ACTIONS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "LANE",
+      "MEDLEY",
+      "STARTER",
+      "WHISTLE",
+      "QUALIFYING",
+      "SEEDING",
+      "TIEBREAK",
+      "TOPSPIN",
+      "CLEARANCE",
+      "COUNTER",
+      "DRIBBLE",
+      "PRESSING",
+      "EDGBASTON",
+      "OLDTRAFFORD",
+      "ROSEBOWL",
+      "TRENTBRIDGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1242,
+      1907,
+      1619,
+      1200
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "SNOOKER TERMS",
+      "UK CYCLING",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FLANKER",
+      "KNOCKON",
+      "LINEOUT",
+      "OFFLOAD",
+      "BAIZE",
+      "BREAK",
+      "CENTURY",
+      "POCKET",
+      "BIDON",
+      "BREAKAWAY",
+      "CLIMB",
+      "DESCENT",
+      "CRAVEN",
+      "EMIRATES",
+      "GOODISON",
+      "HAMPDEN"
+    ]
+  },
+  {
+    "group_ids": [
+      1504,
+      1165,
+      1758,
+      1620
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "RUGBY TERMS",
+      "SNOOKER TERMS",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPTAIN",
+      "DEFENDER",
+      "FULLBACK",
+      "MIDFIELDER",
+      "CONVERSION",
+      "FLANKER",
+      "HOOKER",
+      "PENALTY",
+      "BREAK",
+      "CUE",
+      "POT",
+      "SNOOKER",
+      "CHELSEA",
+      "CITY",
+      "FULHAM",
+      "WESTHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1792,
+      1417,
+      1388,
+      1730
+    ],
+    "cats": [
+      "UK TENNIS",
+      "UK FOOTBALL GROUNDS",
+      "UK SPORTS MEDIA",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GRASS",
+      "SERVE",
+      "SLICE",
+      "WIMBLEDON",
+      "ANFIELD",
+      "ELLAND",
+      "ETIHAD",
+      "STAMFORD",
+      "BBC",
+      "MOTD",
+      "TALKSport",
+      "TNT",
+      "ARSENAL",
+      "CHELSEA",
+      "LIVERPOOL",
+      "PALACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1631,
+      1026,
+      1908,
+      1650
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "RUGBY TERMS",
+      "UK BOXING",
+      "UK SPORTS CITIES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FURLONG",
+      "GALLOP",
+      "JOCKEY",
+      "SADDLE",
+      "FLANKER",
+      "HOOKER",
+      "KNOCKON",
+      "TRY",
+      "COUNTER",
+      "ORTHODOX",
+      "PROMOTER",
+      "WEIGHIN",
+      "CARDIFF",
+      "EDINBURGH",
+      "GLASGOW",
+      "NOTTINGHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1721,
+      1686,
+      1238,
+      1310
+    ],
+    "cats": [
+      "UK BOXING",
+      "UK SPORTS CITIES",
+      "UK FOOTBALL GROUNDS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "JAB",
+      "ORTHODOX",
+      "PROMOTER",
+      "TITLEFIGHT",
+      "BRISTOL",
+      "EDINBURGH",
+      "GLASGOW",
+      "NOTTINGHAM",
+      "ANFIELD",
+      "GOODISON",
+      "IBROX",
+      "STAMFORD",
+      "FARAH",
+      "HEMMINGS",
+      "HOY",
+      "REDFERN"
+    ]
+  },
+  {
+    "group_ids": [
+      1311,
+      1365,
+      1358,
+      1050
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "DARTS TERMS",
+      "UK FOOTBALL GROUNDS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRISTOL",
+      "GLASGOW",
+      "MANCHESTER",
+      "NEWCASTLE",
+      "BULLSEYE",
+      "CHECKOUT",
+      "SET",
+      "THROWLINE",
+      "CRAVEN",
+      "GOODISON",
+      "OLDTRAFFORD",
+      "STAMFORD",
+      "CUSHION",
+      "FRAME",
+      "POT",
+      "SAFETY"
+    ]
+  },
+  {
+    "group_ids": [
+      1971,
+      1845,
+      1108,
+      1850
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "UK FOOTBALL GROUNDS",
+      "UK MOTORSPORT",
+      "DARTS TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DERBY",
+      "FIXTURE",
+      "PROMOTION",
+      "RELEGATION",
+      "GOODISON",
+      "HAMPDEN",
+      "IBROX",
+      "OLDTRAFFORD",
+      "DONINGTON",
+      "DOWNFORCE",
+      "DRS",
+      "PITWALL",
+      "DOUBLE",
+      "FLIGHT",
+      "OCHRE",
+      "TREBLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1874,
+      1235,
+      1029,
+      1300
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "UK SWIMMING",
+      "DARTS TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ADLINGTON",
+      "PEATY",
+      "REDFERN",
+      "THOMPSON",
+      "BREASTSTROKE",
+      "LANE",
+      "SPLIT",
+      "WHISTLE",
+      "FINS",
+      "FLIGHT",
+      "OCHRE",
+      "SHAFT",
+      "BRISTOL",
+      "HOVE",
+      "OVAL",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1942,
+      1326,
+      1848,
+      1750
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "SNOOKER TERMS",
+      "UK TENNIS",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DONINGTON",
+      "PITWALL",
+      "POLE",
+      "SILVERSTONE",
+      "CUE",
+      "POCKET",
+      "POT",
+      "SNOOKER",
+      "QUEENS",
+      "RALLY",
+      "SEEDING",
+      "SLICE",
+      "CRAVEN",
+      "ETIHAD",
+      "SELHURST",
+      "STAMFORD"
+    ]
+  },
+  {
+    "group_ids": [
+      1903,
+      1565,
+      1229,
+      1680
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK SWIMMING",
+      "UK HORSE RACING",
+      "DARTS TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARGENTINA",
+      "FIJI",
+      "IRELAND",
+      "ITALY",
+      "BREASTSTROKE",
+      "LANE",
+      "RELAY",
+      "STARTER",
+      "CHELTENHAM",
+      "FURLONG",
+      "NEWMARKET",
+      "STAKES",
+      "BULLSEYE",
+      "DOUBLE",
+      "OCHRE",
+      "THROWLINE"
+    ]
+  },
+  {
+    "group_ids": [
+      1271,
+      1885,
+      1748,
+      1680
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "DARTS TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIRMINGHAM",
+      "CARDIFF",
+      "LEEDS",
+      "NOTTINGHAM",
+      "ITALY",
+      "JAPAN",
+      "SCOTLAND",
+      "TONGA",
+      "CADENCE",
+      "CHAINRING",
+      "CLIMB",
+      "TIME_TRIAL",
+      "BULLSEYE",
+      "DOUBLE",
+      "OCHRE",
+      "THROWLINE"
+    ]
+  },
+  {
+    "group_ids": [
+      1033,
+      1186,
+      1518,
+      1850
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK TENNIS",
+      "UK BOXING",
+      "DARTS TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AINTREE",
+      "ASCOT",
+      "GALLOP",
+      "SADDLE",
+      "BALLBOY",
+      "GRASS",
+      "SEEDING",
+      "SERVE",
+      "COUNTER",
+      "CUT",
+      "PROMOTER",
+      "RINGWALK",
+      "DOUBLE",
+      "FLIGHT",
+      "OCHRE",
+      "TREBLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1631,
+      1296,
+      1109,
+      1560
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK CYCLING",
+      "DARTS TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FURLONG",
+      "GALLOP",
+      "JOCKEY",
+      "SADDLE",
+      "CHAINRING",
+      "CLIMB",
+      "DESCENT",
+      "TIME_TRIAL",
+      "DOUBLE",
+      "FINS",
+      "FLIGHT",
+      "SHAFT",
+      "FROOME",
+      "HEMMINGS",
+      "HOY",
+      "WHITLOCK"
+    ]
+  },
+  {
+    "group_ids": [
+      1934,
+      1427,
+      1148,
+      1900
+    ],
+    "cats": [
+      "UK CYCLING",
+      "UK SPORTS MEDIA",
+      "DARTS TERMS",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CADENCE",
+      "CHAINRING",
+      "CLIMB",
+      "DOMESTIQUE",
+      "BTSPORT",
+      "ITV",
+      "TELEGRAPH",
+      "TIMES",
+      "BULLSEYE",
+      "NINEDARTER",
+      "THROWLINE",
+      "TREBLE",
+      "ANFIELD",
+      "GOODISON",
+      "STAMFORD",
+      "WEMBLEY"
+    ]
+  },
+  {
+    "group_ids": [
+      1402,
+      1257,
+      1038,
+      1280
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "PREMIER CLUBS",
+      "UK FAN CULTURE",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HOOKER",
+      "PENALTY",
+      "RUCK",
+      "TRY",
+      "CITY",
+      "FULHAM",
+      "PALACE",
+      "WESTHAM",
+      "CHIPPY",
+      "CUPTIE",
+      "TERRACE",
+      "ULTRAS",
+      "EDGBASTON",
+      "OLDTRAFFORD",
+      "ROSEBOWL",
+      "TRENTBRIDGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1151,
+      1075,
+      1318,
+      1100
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "UK SPORTS CITIES",
+      "UK FOOTBALL GROUNDS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "MOTD",
+      "SKY",
+      "TALKSport",
+      "EDINBURGH",
+      "GLASGOW",
+      "MANCHESTER",
+      "SHEFFIELD",
+      "HAMPDEN",
+      "IBROX",
+      "STAMFORD",
+      "WEMBLEY",
+      "CADENCE",
+      "CHAINRING",
+      "CLIMB",
+      "STAGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1811,
+      1986,
+      1338,
+      1420
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK OLYMPIANS",
+      "UK FOOTBALL GROUNDS",
+      "RUGBY NATIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "LINEOUT",
+      "MAUL",
+      "PENALTY",
+      "SCRUM",
+      "ENNIS",
+      "FROOME",
+      "REDFERN",
+      "THOMPSON",
+      "ELLAND",
+      "ETIHAD",
+      "OLDTRAFFORD",
+      "WEMBLEY",
+      "ARGENTINA",
+      "FRANCE",
+      "JAPAN",
+      "TONGA"
+    ]
+  },
+  {
+    "group_ids": [
+      1171,
+      1325,
+      1898,
+      1580
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "DARTS TERMS",
+      "UK CYCLING",
+      "UK FAN CULTURE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "GUARDIAN",
+      "TELEGRAPH",
+      "TNT",
+      "BULLSEYE",
+      "FINS",
+      "OCHRE",
+      "TREBLE",
+      "BIDON",
+      "PELOTON",
+      "PINNACLE",
+      "TIME_TRIAL",
+      "DERBY",
+      "FIXTURE",
+      "SCARF",
+      "ULTRAS"
+    ]
+  },
+  {
+    "group_ids": [
+      1991,
+      1455,
+      1288,
+      1410
+    ],
+    "cats": [
+      "UK CYCLING",
+      "CRICKET TERMS",
+      "UK SPORTS MEDIA",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CADENCE",
+      "CHAINRING",
+      "DOMESTIQUE",
+      "STAGE",
+      "CREASE",
+      "MAIDEN",
+      "WICKET",
+      "YORKER",
+      "BTSPORT",
+      "GUARDIAN",
+      "SKY",
+      "TELEGRAPH",
+      "FARAH",
+      "FROOME",
+      "WHITLOCK",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1492,
+      1335,
+      1799,
+      1950
+    ],
+    "cats": [
+      "CRICKET TERMS",
+      "UK SWIMMING",
+      "UK OLYMPIANS",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CREASE",
+      "LBW",
+      "MAIDEN",
+      "OVERS",
+      "BREASTSTROKE",
+      "HEATS",
+      "SPLIT",
+      "STARTER",
+      "FARAH",
+      "PEATY",
+      "THOMPSON",
+      "WIGGINS",
+      "CLEARANCE",
+      "NUTMEG",
+      "PASS",
+      "PRESSING"
+    ]
+  },
+  {
+    "group_ids": [
+      1512,
+      1575,
+      1699,
+      1900
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK SPORTS MEDIA",
+      "UK MOTORSPORT",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FIJI",
+      "JAPAN",
+      "SAMOA",
+      "SCOTLAND",
+      "BBC",
+      "ITV",
+      "TALKSport",
+      "TELEGRAPH",
+      "CHICANE",
+      "FORMULAONE",
+      "PARCFERME",
+      "POLE",
+      "ANFIELD",
+      "GOODISON",
+      "STAMFORD",
+      "WEMBLEY"
+    ]
+  },
+  {
+    "group_ids": [
+      1554,
+      1055,
+      1669,
+      1500
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "UK SPORTS CITIES",
+      "UK FAN CULTURE",
+      "UK SPORTS MEDIA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DOWNFORCE",
+      "PARCFERME",
+      "PITWALL",
+      "SAFETYCAR",
+      "CARDIFF",
+      "LEEDS",
+      "LIVERPOOL",
+      "LONDON",
+      "CHIPPY",
+      "RELEGATION",
+      "TURNSTILE",
+      "ULTRAS",
+      "BBC",
+      "ITV",
+      "MOTD",
+      "TNT"
+    ]
+  },
+  {
+    "group_ids": [
+      1154,
+      1416,
+      1398,
+      1510
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "UK CYCLING",
+      "UK FOOTBALL GROUNDS",
+      "CRICKET TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CARDIFF",
+      "EDINBURGH",
+      "NEWCASTLE",
+      "NOTTINGHAM",
+      "BREAKAWAY",
+      "CADENCE",
+      "DESCENT",
+      "SPRINT",
+      "ANFIELD",
+      "ELLAND",
+      "HAMPDEN",
+      "OLDTRAFFORD",
+      "BATSMAN",
+      "BOWLER",
+      "SEAM",
+      "YORKER"
+    ]
+  },
+  {
+    "group_ids": [
+      1134,
+      1836,
+      1938,
+      1560
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "UK HORSE RACING",
+      "UK CRICKET VENUES",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EDINBURGH",
+      "LEEDS",
+      "LIVERPOOL",
+      "MANCHESTER",
+      "CHELTENHAM",
+      "GALLOP",
+      "HANDICAP",
+      "SADDLE",
+      "CARDIFF",
+      "HEADINGLEY",
+      "HOVE",
+      "TAUNTON",
+      "FROOME",
+      "HEMMINGS",
+      "HOY",
+      "WHITLOCK"
+    ]
+  },
+  {
+    "group_ids": [
+      1764,
+      1377,
+      1259,
+      1900
+    ],
+    "cats": [
+      "FOOTBALL ACTIONS",
+      "PREMIER CLUBS",
+      "CRICKET TERMS",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CROSS",
+      "MARKING",
+      "NUTMEG",
+      "VOLLEY",
+      "ARSENAL",
+      "EVERTON",
+      "PALACE",
+      "VILLA",
+      "LBW",
+      "MAIDEN",
+      "SEAM",
+      "YORKER",
+      "ANFIELD",
+      "GOODISON",
+      "STAMFORD",
+      "WEMBLEY"
+    ]
+  },
+  {
+    "group_ids": [
+      1723,
+      1535,
+      1959,
+      1590
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "DARTS TERMS",
+      "RUGBY TERMS",
+      "UK MOTORSPORT"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AINTREE",
+      "ASCOT",
+      "CHELTENHAM",
+      "SADDLE",
+      "OCHRE",
+      "SHAFT",
+      "THROWLINE",
+      "TREBLE",
+      "MAUL",
+      "PENALTY",
+      "PROP",
+      "RUCK",
+      "DOWNFORCE",
+      "DRS",
+      "PARCFERME",
+      "SILVERSTONE"
+    ]
+  },
+  {
+    "group_ids": [
+      1562,
+      1916,
+      1528,
+      1280
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "UK CYCLING",
+      "UK FOOTBALL GROUNDS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPTAIN",
+      "DEFENDER",
+      "PLAYMAKER",
+      "STOPPER",
+      "BIDON",
+      "CADENCE",
+      "SPRINT",
+      "TIME_TRIAL",
+      "ELLAND",
+      "ETIHAD",
+      "GOODISON",
+      "WEMBLEY",
+      "EDGBASTON",
+      "OLDTRAFFORD",
+      "ROSEBOWL",
+      "TRENTBRIDGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1281,
+      1635,
+      1659,
+      1090
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK FAN CULTURE",
+      "RUGBY TERMS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENGLAND",
+      "FIJI",
+      "JAPAN",
+      "SAMOA",
+      "CHANT",
+      "CUPTIE",
+      "SCARF",
+      "ULTRAS",
+      "HOOKER",
+      "MAUL",
+      "PROP",
+      "TRY",
+      "BREAK",
+      "CENTURY",
+      "CUE",
+      "POCKET"
+    ]
+  },
+  {
+    "group_ids": [
+      1432,
+      1925,
+      1678,
+      1330
+    ],
+    "cats": [
+      "FOOTBALL ACTIONS",
+      "DARTS TERMS",
+      "UK TENNIS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DRIBBLE",
+      "MARKING",
+      "PRESSING",
+      "THROUGHBALL",
+      "BULLSEYE",
+      "DOUBLE",
+      "OCHRE",
+      "SHAFT",
+      "BALLBOY",
+      "RALLY",
+      "SEEDING",
+      "TOPSPIN",
+      "ENNIS",
+      "FARAH",
+      "PEATY",
+      "WHITLOCK"
+    ]
+  },
+  {
+    "group_ids": [
+      1861,
+      1427,
+      1028,
+      1350
+    ],
+    "cats": [
+      "UK CYCLING",
+      "UK SPORTS MEDIA",
+      "UK MOTORSPORT",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CADENCE",
+      "DESCENT",
+      "DOMESTIQUE",
+      "STAGE",
+      "BTSPORT",
+      "ITV",
+      "TELEGRAPH",
+      "TIMES",
+      "BRANDS",
+      "CHICANE",
+      "DONINGTON",
+      "DRS",
+      "ADLINGTON",
+      "HOY",
+      "MURRAY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1453,
+      1556,
+      1719,
+      1590
+    ],
+    "cats": [
+      "PREMIER CLUBS",
+      "SNOOKER TERMS",
+      "DARTS TERMS",
+      "UK MOTORSPORT"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARSENAL",
+      "CHELSEA",
+      "CITY",
+      "EVERTON",
+      "BAIZE",
+      "BREAK",
+      "CUE",
+      "FRAME",
+      "CHECKOUT",
+      "DOUBLE",
+      "LEG",
+      "SHAFT",
+      "DOWNFORCE",
+      "DRS",
+      "PARCFERME",
+      "SILVERSTONE"
+    ]
+  },
+  {
+    "group_ids": [
+      1584,
+      1977,
+      1819,
+      1490
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "RUGBY NATIONS",
+      "UK SPORTS CITIES",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EMIRATES",
+      "ETIHAD",
+      "IBROX",
+      "WEMBLEY",
+      "AUSTRALIA",
+      "ENGLAND",
+      "FRANCE",
+      "IRELAND",
+      "BRISTOL",
+      "EDINBURGH",
+      "NEWCASTLE",
+      "NOTTINGHAM",
+      "ARSENAL",
+      "CITY",
+      "LIVERPOOL",
+      "PALACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1051,
+      1617,
+      1009,
+      1910
+    ],
+    "cats": [
+      "UK BOXING",
+      "UK FAN CULTURE",
+      "DARTS TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNER",
+      "COUNTER",
+      "JAB",
+      "PROMOTER",
+      "AWAYDAY",
+      "CUPTIE",
+      "TURNSTILE",
+      "ULTRAS",
+      "BULLSEYE",
+      "CHECKOUT",
+      "FINS",
+      "FLIGHT",
+      "ENNIS",
+      "MURRAY",
+      "PEATY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1374,
+      1277,
+      1159,
+      1510
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "PREMIER CLUBS",
+      "UK CYCLING",
+      "CRICKET TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHIPPY",
+      "DERBY",
+      "SCARF",
+      "ULTRAS",
+      "CITY",
+      "EVERTON",
+      "FULHAM",
+      "WOLVES",
+      "CADENCE",
+      "DESCENT",
+      "SPRINT",
+      "TIME_TRIAL",
+      "BATSMAN",
+      "BOWLER",
+      "SEAM",
+      "YORKER"
+    ]
+  },
+  {
+    "group_ids": [
+      1484,
+      1165,
+      1658,
+      1640
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "RUGBY TERMS",
+      "UK CRICKET VENUES",
+      "CRICKET TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GLASGOW",
+      "LEEDS",
+      "LONDON",
+      "MANCHESTER",
+      "CONVERSION",
+      "FLANKER",
+      "HOOKER",
+      "PENALTY",
+      "CARDIFF",
+      "OLDTRAFFORD",
+      "OVAL",
+      "TRENTBRIDGE",
+      "CREASE",
+      "GOOGLY",
+      "WICKET",
+      "YORKER"
+    ]
+  },
+  {
+    "group_ids": [
+      1491,
+      1766,
+      1939,
+      2000
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "UK SWIMMING",
+      "RUGBY NATIONS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELLAND",
+      "HAMPDEN",
+      "IBROX",
+      "OLDTRAFFORD",
+      "BUTTERFLY",
+      "LANE",
+      "MEDLEY",
+      "WHISTLE",
+      "ENGLAND",
+      "FIJI",
+      "FRANCE",
+      "SAMOA",
+      "BLACKBALL",
+      "BREAK",
+      "CUSHION",
+      "FRAME"
+    ]
+  },
+  {
+    "group_ids": [
+      1122,
+      1606,
+      1508,
+      1500
+    ],
+    "cats": [
+      "CRICKET TERMS",
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "UK SPORTS MEDIA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BATSMAN",
+      "LBW",
+      "MAIDEN",
+      "OVERS",
+      "FRANCE",
+      "ITALY",
+      "SCOTLAND",
+      "WALES",
+      "BIDON",
+      "CLIMB",
+      "DOMESTIQUE",
+      "PELOTON",
+      "BBC",
+      "ITV",
+      "MOTD",
+      "TNT"
+    ]
+  },
+  {
+    "group_ids": [
+      1811,
+      1587,
+      1389,
+      1460
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "RUGBY NATIONS",
+      "UK HORSE RACING",
+      "DARTS TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "LINEOUT",
+      "MAUL",
+      "PENALTY",
+      "SCRUM",
+      "FRANCE",
+      "IRELAND",
+      "ITALY",
+      "SAMOA",
+      "ASCOT",
+      "GALLOP",
+      "SADDLE",
+      "STAKES",
+      "BULLSEYE",
+      "FINS",
+      "NINEDARTER",
+      "TREBLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1863,
+      1987,
+      1559,
+      1180
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "UK SPORTS CITIES",
+      "UK HORSE RACING",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAVEN",
+      "ELLAND",
+      "EMIRATES",
+      "WEMBLEY",
+      "BRISTOL",
+      "CARDIFF",
+      "LEEDS",
+      "NOTTINGHAM",
+      "CHELTENHAM",
+      "EPSOM",
+      "JOCKEY",
+      "NEWMARKET",
+      "FULHAM",
+      "LIVERPOOL",
+      "WESTHAM",
+      "WOLVES"
+    ]
+  },
+  {
+    "group_ids": [
+      1942,
+      1085,
+      1119,
+      1450
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "RUGBY NATIONS",
+      "UK SWIMMING",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DONINGTON",
+      "PITWALL",
+      "POLE",
+      "SILVERSTONE",
+      "AUSTRALIA",
+      "FRANCE",
+      "IRELAND",
+      "ITALY",
+      "LANE",
+      "MEDLEY",
+      "SPLIT",
+      "TOUCHPAD",
+      "COUNTER",
+      "CROSS",
+      "HEADER",
+      "THROUGHBALL"
+    ]
+  },
+  {
+    "group_ids": [
+      1493,
+      1026,
+      1018,
+      1730
+    ],
+    "cats": [
+      "UK CRICKET VENUES",
+      "RUGBY TERMS",
+      "UK FAN CULTURE",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRISTOL",
+      "CHESTERLE",
+      "EDGBASTON",
+      "LORDS",
+      "FLANKER",
+      "HOOKER",
+      "KNOCKON",
+      "TRY",
+      "AWAYDAY",
+      "CUPTIE",
+      "DERBY",
+      "TURNSTILE",
+      "ARSENAL",
+      "CHELSEA",
+      "LIVERPOOL",
+      "PALACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1474,
+      1995,
+      1148,
+      1950
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK CRICKET VENUES",
+      "DARTS TERMS",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENGLAND",
+      "FRANCE",
+      "ITALY",
+      "WALES",
+      "HEADINGLEY",
+      "HOVE",
+      "ROSEBOWL",
+      "TAUNTON",
+      "BULLSEYE",
+      "NINEDARTER",
+      "THROWLINE",
+      "TREBLE",
+      "CLEARANCE",
+      "NUTMEG",
+      "PASS",
+      "PRESSING"
+    ]
+  },
+  {
+    "group_ids": [
+      1001,
+      1507,
+      1919,
+      1380
+    ],
+    "cats": [
+      "PREMIER CLUBS",
+      "UK SWIMMING",
+      "CRICKET TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "TOTTENHAM",
+      "VILLA",
+      "WESTHAM",
+      "WOLVES",
+      "BACKSTROKE",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "RELAY",
+      "LBW",
+      "SEAM",
+      "SPIN",
+      "YORKER",
+      "BRISTOL",
+      "LORDS",
+      "ROSEBOWL",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1222,
+      1196,
+      1479,
+      1240
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "FOOTBALL ACTIONS",
+      "SNOOKER TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PENALTY",
+      "PROP",
+      "RUCK",
+      "SCRUM",
+      "CROSS",
+      "MARKING",
+      "PASS",
+      "PRESSING",
+      "BLACKBALL",
+      "CUE",
+      "REST",
+      "SAFETY",
+      "HEADINGLEY",
+      "LORDS",
+      "OLDTRAFFORD",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1662,
+      1465,
+      1298,
+      1710
+    ],
+    "cats": [
+      "SNOOKER TERMS",
+      "UK OLYMPIANS",
+      "UK FOOTBALL GROUNDS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CUE",
+      "FRAME",
+      "POT",
+      "SAFETY",
+      "FROOME",
+      "HEMMINGS",
+      "HOY",
+      "THOMPSON",
+      "EMIRATES",
+      "HAMPDEN",
+      "IBROX",
+      "STAMFORD",
+      "CADENCE",
+      "CLIMB",
+      "DESCENT",
+      "DOMESTIQUE"
+    ]
+  },
+  {
+    "group_ids": [
+      1644,
+      1415,
+      1569,
+      1770
+    ],
+    "cats": [
+      "UK TENNIS",
+      "UK SWIMMING",
+      "UK CRICKET VENUES",
+      "CRICKET TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GRASS",
+      "RALLY",
+      "SEEDING",
+      "TOPSPIN",
+      "BREASTSTROKE",
+      "HEATS",
+      "LANE",
+      "STARTER",
+      "HOVE",
+      "OVAL",
+      "TAUNTON",
+      "TRENTBRIDGE",
+      "BATSMAN",
+      "OVERS",
+      "SPIN",
+      "WICKET"
+    ]
+  },
+  {
+    "group_ids": [
+      1354,
+      1036,
+      1569,
+      1170
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "FOOTBALL POSITIONS",
+      "UK CRICKET VENUES",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHIPPY",
+      "CUPTIE",
+      "FIXTURE",
+      "TURNSTILE",
+      "DEFENDER",
+      "GOALKEEPER",
+      "MIDFIELDER",
+      "WINGER",
+      "HOVE",
+      "OVAL",
+      "TAUNTON",
+      "TRENTBRIDGE",
+      "CLINCH",
+      "COUNTER",
+      "JAB",
+      "ORTHODOX"
+    ]
+  },
+  {
+    "group_ids": [
+      1012,
+      1237,
+      1719,
+      1450
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "PREMIER CLUBS",
+      "DARTS TERMS",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBC",
+      "MOTD",
+      "RADIOTWO",
+      "TIMES",
+      "CHELSEA",
+      "CITY",
+      "LIVERPOOL",
+      "VILLA",
+      "CHECKOUT",
+      "DOUBLE",
+      "LEG",
+      "SHAFT",
+      "COUNTER",
+      "CROSS",
+      "HEADER",
+      "THROUGHBALL"
+    ]
+  },
+  {
+    "group_ids": [
+      1971,
+      1077,
+      1318,
+      1390
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "FOOTBALL ACTIONS",
+      "UK FOOTBALL GROUNDS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DERBY",
+      "FIXTURE",
+      "PROMOTION",
+      "RELEGATION",
+      "MARKING",
+      "NUTMEG",
+      "TACKLE",
+      "VOLLEY",
+      "HAMPDEN",
+      "IBROX",
+      "STAMFORD",
+      "WEMBLEY",
+      "ADLINGTON",
+      "ENNIS",
+      "REDFERN",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1742,
+      1047,
+      1889,
+      1010
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "UK TENNIS",
+      "DARTS TERMS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FROOME",
+      "HEMMINGS",
+      "MURRAY",
+      "PEATY",
+      "CENTRECOURT",
+      "QUEENS",
+      "RALLY",
+      "TOPSPIN",
+      "FINS",
+      "FLIGHT",
+      "OCHRE",
+      "TREBLE",
+      "BAIZE",
+      "CENTURY",
+      "REST",
+      "SNOOKER"
+    ]
+  },
+  {
+    "group_ids": [
+      1202,
+      1785,
+      1179,
+      1890
+    ],
+    "cats": [
+      "UK CRICKET VENUES",
+      "UK SWIMMING",
+      "UK CYCLING",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EDGBASTON",
+      "HEADINGLEY",
+      "OLDTRAFFORD",
+      "TRENTBRIDGE",
+      "MEDLEY",
+      "RELAY",
+      "SPLIT",
+      "TOUCHPAD",
+      "BREAKAWAY",
+      "CADENCE",
+      "STAGE",
+      "TIME_TRIAL",
+      "BLACKBALL",
+      "CENTURY",
+      "CUE",
+      "POCKET"
+    ]
+  },
+  {
+    "group_ids": [
+      1503,
+      1026,
+      1138,
+      1780
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "RUGBY TERMS",
+      "UK SWIMMING",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRISTOL",
+      "CARDIFF",
+      "MANCHESTER",
+      "NEWCASTLE",
+      "FLANKER",
+      "HOOKER",
+      "KNOCKON",
+      "TRY",
+      "FREESTYLE",
+      "HEATS",
+      "LANE",
+      "STARTER",
+      "ADLINGTON",
+      "FARAH",
+      "WHITLOCK",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1272,
+      1896,
+      1728,
+      1530
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "FOOTBALL ACTIONS",
+      "UK SWIMMING",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GOALKEEPER",
+      "PLAYMAKER",
+      "STOPPER",
+      "STRIKER",
+      "CROSS",
+      "DRIBBLE",
+      "HEADER",
+      "PASS",
+      "BUTTERFLY",
+      "SPLIT",
+      "TOUCHPAD",
+      "WHISTLE",
+      "CHESTERLE",
+      "LORDS",
+      "ROSEBOWL",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1091,
+      1615,
+      1978,
+      1750
+    ],
+    "cats": [
+      "UK BOXING",
+      "FOOTBALL POSITIONS",
+      "RUGBY TERMS",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNER",
+      "CUT",
+      "PROMOTER",
+      "RINGWALK",
+      "CAPTAIN",
+      "FULLBACK",
+      "MIDFIELDER",
+      "SWEEPER",
+      "HOOKER",
+      "KNOCKON",
+      "OFFLOAD",
+      "PENALTY",
+      "CRAVEN",
+      "ETIHAD",
+      "SELHURST",
+      "STAMFORD"
+    ]
+  },
+  {
+    "group_ids": [
+      1551,
+      1365,
+      1978,
+      1020
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "DARTS TERMS",
+      "RUGBY TERMS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENGLAND",
+      "FRANCE",
+      "JAPAN",
+      "SCOTLAND",
+      "BULLSEYE",
+      "CHECKOUT",
+      "SET",
+      "THROWLINE",
+      "HOOKER",
+      "KNOCKON",
+      "OFFLOAD",
+      "PENALTY",
+      "CHAINRING",
+      "PINNACLE",
+      "SPRINT",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1853,
+      1527,
+      1379,
+      1390
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "PREMIER CLUBS",
+      "CRICKET TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "BTSPORT",
+      "SKY",
+      "TNT",
+      "CHELSEA",
+      "LIVERPOOL",
+      "PALACE",
+      "WESTHAM",
+      "MAIDEN",
+      "OVERS",
+      "SPIN",
+      "YORKER",
+      "ADLINGTON",
+      "ENNIS",
+      "REDFERN",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1973,
+      1267,
+      1698,
+      1260
+    ],
+    "cats": [
+      "PREMIER CLUBS",
+      "UK BOXING",
+      "UK TENNIS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELSEA",
+      "CITY",
+      "EVERTON",
+      "UNITED",
+      "CLINCH",
+      "JAB",
+      "RINGWALK",
+      "TITLEFIGHT",
+      "BALLBOY",
+      "QUALIFYING",
+      "QUEENS",
+      "SLICE",
+      "BRISTOL",
+      "CHESTERLE",
+      "HEADINGLEY",
+      "OVAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1181,
+      1466,
+      1728,
+      1160
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "UK SPORTS CITIES",
+      "UK SWIMMING",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EMIRATES",
+      "ETIHAD",
+      "IBROX",
+      "STAMFORD",
+      "BIRMINGHAM",
+      "GLASGOW",
+      "LEEDS",
+      "MANCHESTER",
+      "BUTTERFLY",
+      "SPLIT",
+      "TOUCHPAD",
+      "WHISTLE",
+      "CHELSEA",
+      "CITY",
+      "FULHAM",
+      "LIVERPOOL"
+    ]
+  },
+  {
+    "group_ids": [
+      1283,
+      1486,
+      1488,
+      1130
+    ],
+    "cats": [
+      "UK TENNIS",
+      "FOOTBALL ACTIONS",
+      "UK SWIMMING",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BALLBOY",
+      "QUALIFYING",
+      "QUEENS",
+      "TOPSPIN",
+      "DRIBBLE",
+      "NUTMEG",
+      "PRESSING",
+      "THROUGHBALL",
+      "FREESTYLE",
+      "SPLIT",
+      "STARTER",
+      "TOUCHPAD",
+      "CORNER",
+      "COUNTER",
+      "ORTHODOX",
+      "RINGWALK"
+    ]
+  },
+  {
+    "group_ids": [
+      1194,
+      1956,
+      1689,
+      1660
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "CRICKET TERMS",
+      "UK FAN CULTURE",
+      "UK TENNIS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EDINBURGH",
+      "LEEDS",
+      "NEWCASTLE",
+      "SHEFFIELD",
+      "MAIDEN",
+      "SLOGGER",
+      "SPIN",
+      "YORKER",
+      "AWAYDAY",
+      "DERBY",
+      "FIXTURE",
+      "PROMOTION",
+      "SERVE",
+      "SLICE",
+      "TOPSPIN",
+      "WIMBLEDON"
+    ]
+  },
+  {
+    "group_ids": [
+      1602,
+      1745,
+      1368,
+      1430
+    ],
+    "cats": [
+      "UK CYCLING",
+      "FOOTBALL ACTIONS",
+      "UK SPORTS MEDIA",
+      "UK SPORTS CITIES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLIMB",
+      "DESCENT",
+      "DOMESTIQUE",
+      "STAGE",
+      "CROSS",
+      "HEADER",
+      "TACKLE",
+      "THROUGHBALL",
+      "ATHLETIC",
+      "BTSPORT",
+      "ITV",
+      "TNT",
+      "BRISTOL",
+      "CARDIFF",
+      "LIVERPOOL",
+      "NOTTINGHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1991,
+      1957,
+      1648,
+      1850
+    ],
+    "cats": [
+      "UK CYCLING",
+      "UK CRICKET VENUES",
+      "UK HORSE RACING",
+      "DARTS TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CADENCE",
+      "CHAINRING",
+      "DOMESTIQUE",
+      "STAGE",
+      "CARDIFF",
+      "OVAL",
+      "TAUNTON",
+      "TRENTBRIDGE",
+      "CHELTENHAM",
+      "EPSOM",
+      "FURLONG",
+      "HANDICAP",
+      "DOUBLE",
+      "FLIGHT",
+      "OCHRE",
+      "TREBLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1601,
+      1096,
+      1339,
+      1780
+    ],
+    "cats": [
+      "UK SWIMMING",
+      "FOOTBALL POSITIONS",
+      "CRICKET TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BACKSTROKE",
+      "LANE",
+      "SPLIT",
+      "TOUCHPAD",
+      "CAPTAIN",
+      "FULLBACK",
+      "LIBERO",
+      "PIVOT",
+      "LBW",
+      "MAIDEN",
+      "OVERS",
+      "YORKER",
+      "ADLINGTON",
+      "FARAH",
+      "WHITLOCK",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1873,
+      1105,
+      1488,
+      1790
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "RUGBY NATIONS",
+      "UK SWIMMING",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELTENHAM",
+      "GALLOP",
+      "JOCKEY",
+      "STAKES",
+      "AUSTRALIA",
+      "JAPAN",
+      "SAMOA",
+      "TONGA",
+      "FREESTYLE",
+      "SPLIT",
+      "STARTER",
+      "TOUCHPAD",
+      "EDGBASTON",
+      "HEADINGLEY",
+      "LORDS",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1394,
+      1547,
+      1838,
+      1400
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "PREMIER CLUBS",
+      "UK SPORTS CITIES",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DERBY",
+      "RELEGATION",
+      "SCARF",
+      "TERRACE",
+      "ARSENAL",
+      "EVERTON",
+      "VILLA",
+      "WOLVES",
+      "CARDIFF",
+      "LIVERPOOL",
+      "MANCHESTER",
+      "NOTTINGHAM",
+      "HEADINGLEY",
+      "ROSEBOWL",
+      "TAUNTON",
+      "TRENTBRIDGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1723,
+      1075,
+      1058,
+      1100
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK SPORTS CITIES",
+      "UK FAN CULTURE",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AINTREE",
+      "ASCOT",
+      "CHELTENHAM",
+      "SADDLE",
+      "EDINBURGH",
+      "GLASGOW",
+      "MANCHESTER",
+      "SHEFFIELD",
+      "AWAYDAY",
+      "CHIPPY",
+      "RELEGATION",
+      "TURNSTILE",
+      "CADENCE",
+      "CHAINRING",
+      "CLIMB",
+      "STAGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1612,
+      1285,
+      1888,
+      1060
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "DARTS TERMS",
+      "UK MOTORSPORT",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EPSOM",
+      "FINISHPOST",
+      "HANDICAP",
+      "SADDLE",
+      "FINS",
+      "FLIGHT",
+      "LEG",
+      "THROWLINE",
+      "DONINGTON",
+      "FORMULAONE",
+      "GOODWOOD",
+      "SAFETYCAR",
+      "CHAINRING",
+      "DESCENT",
+      "DOMESTIQUE",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1501,
+      1765,
+      1299,
+      1040
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK FAN CULTURE",
+      "CRICKET TERMS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELTENHAM",
+      "FINISHPOST",
+      "FURLONG",
+      "STAKES",
+      "CUPTIE",
+      "RELEGATION",
+      "TURNSTILE",
+      "ULTRAS",
+      "BATSMAN",
+      "OVERS",
+      "SLOGGER",
+      "YORKER",
+      "BIDON",
+      "CADENCE",
+      "PELOTON",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1054,
+      1146,
+      1379,
+      1950
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "UK TENNIS",
+      "CRICKET TERMS",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FROOME",
+      "HOY",
+      "PEATY",
+      "WHITLOCK",
+      "QUALIFYING",
+      "SEEDING",
+      "SERVE",
+      "TIEBREAK",
+      "MAIDEN",
+      "OVERS",
+      "SPIN",
+      "YORKER",
+      "CLEARANCE",
+      "NUTMEG",
+      "PASS",
+      "PRESSING"
+    ]
+  },
+  {
+    "group_ids": [
+      1841,
+      1107,
+      1178,
+      1950
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "UK TENNIS",
+      "UK SWIMMING",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DERBY",
+      "FIXTURE",
+      "RELEGATION",
+      "SCARF",
+      "BALLBOY",
+      "RALLY",
+      "TOPSPIN",
+      "WIMBLEDON",
+      "BACKSTROKE",
+      "HEATS",
+      "RELAY",
+      "TOUCHPAD",
+      "CLEARANCE",
+      "NUTMEG",
+      "PASS",
+      "PRESSING"
+    ]
+  },
+  {
+    "group_ids": [
+      1081,
+      1756,
+      1979,
+      1080
+    ],
+    "cats": [
+      "PREMIER CLUBS",
+      "UK MOTORSPORT",
+      "UK TENNIS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CITY",
+      "LIVERPOOL",
+      "VILLA",
+      "WESTHAM",
+      "DOWNFORCE",
+      "DRS",
+      "GOODWOOD",
+      "PARCFERME",
+      "QUALIFYING",
+      "RALLY",
+      "SEEDING",
+      "WIMBLEDON",
+      "BREAKAWAY",
+      "CHAINRING",
+      "DESCENT",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1073,
+      1477,
+      1569,
+      1870
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK MOTORSPORT",
+      "UK CRICKET VENUES",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELTENHAM",
+      "FURLONG",
+      "GALLOP",
+      "JOCKEY",
+      "DOWNFORCE",
+      "FORMULAONE",
+      "PARCFERME",
+      "SAFETYCAR",
+      "HOVE",
+      "OVAL",
+      "TAUNTON",
+      "TRENTBRIDGE",
+      "BAIZE",
+      "BLACKBALL",
+      "CUE",
+      "CUSHION"
+    ]
+  },
+  {
+    "group_ids": [
+      1481,
+      1677,
+      1809,
+      1520
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "RUGBY TERMS",
+      "UK CRICKET VENUES",
+      "UK HORSE RACING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ITV",
+      "SKY",
+      "TELEGRAPH",
+      "TNT",
+      "FLANKER",
+      "KNOCKON",
+      "MAUL",
+      "PENALTY",
+      "OLDTRAFFORD",
+      "OVAL",
+      "ROSEBOWL",
+      "TAUNTON",
+      "ASCOT",
+      "FINISHPOST",
+      "SADDLE",
+      "STAKES"
+    ]
+  },
+  {
+    "group_ids": [
+      1534,
+      1106,
+      1889,
+      1370
+    ],
+    "cats": [
+      "UK MOTORSPORT",
+      "RUGBY TERMS",
+      "DARTS TERMS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRANDS",
+      "DRS",
+      "PARCFERME",
+      "POLE",
+      "KNOCKON",
+      "LINEOUT",
+      "OFFLOAD",
+      "TRY",
+      "FINS",
+      "FLIGHT",
+      "OCHRE",
+      "TREBLE",
+      "ADLINGTON",
+      "FROOME",
+      "HEMMINGS",
+      "REDFERN"
+    ]
+  },
+  {
+    "group_ids": [
+      1701,
+      1165,
+      1578,
+      1560
+    ],
+    "cats": [
+      "SNOOKER TERMS",
+      "RUGBY TERMS",
+      "FOOTBALL POSITIONS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BAIZE",
+      "BLACKBALL",
+      "CUE",
+      "POCKET",
+      "CONVERSION",
+      "FLANKER",
+      "HOOKER",
+      "PENALTY",
+      "GOALKEEPER",
+      "PIVOT",
+      "PLAYMAKER",
+      "SWEEPER",
+      "FROOME",
+      "HEMMINGS",
+      "HOY",
+      "WHITLOCK"
+    ]
+  },
+  {
+    "group_ids": [
+      1742,
+      1946,
+      1058,
+      1640
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "UK SPORTS MEDIA",
+      "UK FAN CULTURE",
+      "CRICKET TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FROOME",
+      "HEMMINGS",
+      "MURRAY",
+      "PEATY",
+      "ITV",
+      "MOTD",
+      "RADIOTWO",
+      "TELEGRAPH",
+      "AWAYDAY",
+      "CHIPPY",
+      "RELEGATION",
+      "TURNSTILE",
+      "CREASE",
+      "GOOGLY",
+      "WICKET",
+      "YORKER"
+    ]
+  },
+  {
+    "group_ids": [
+      1031,
+      1765,
+      1178,
+      1620
+    ],
+    "cats": [
+      "UK BOXING",
+      "UK FAN CULTURE",
+      "UK SWIMMING",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNER",
+      "RINGWALK",
+      "SOUTHPAW",
+      "TITLEFIGHT",
+      "CUPTIE",
+      "RELEGATION",
+      "TURNSTILE",
+      "ULTRAS",
+      "BACKSTROKE",
+      "HEATS",
+      "RELAY",
+      "TOUCHPAD",
+      "CHELSEA",
+      "CITY",
+      "FULHAM",
+      "WESTHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1974,
+      1897,
+      1138,
+      1830
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "UK FAN CULTURE",
+      "UK SWIMMING",
+      "UK TENNIS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EMIRATES",
+      "ETIHAD",
+      "HAMPDEN",
+      "SELHURST",
+      "CHIPPY",
+      "FIXTURE",
+      "SCARF",
+      "ULTRAS",
+      "FREESTYLE",
+      "HEATS",
+      "LANE",
+      "STARTER",
+      "GRASS",
+      "SERVE",
+      "SLICE",
+      "TOPSPIN"
+    ]
+  },
+  {
+    "group_ids": [
+      1922,
+      1646,
+      1488,
+      1080
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "DARTS TERMS",
+      "UK SWIMMING",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HOOKER",
+      "KNOCKON",
+      "MAUL",
+      "SCRUM",
+      "DOUBLE",
+      "FLIGHT",
+      "OCHRE",
+      "SET",
+      "FREESTYLE",
+      "SPLIT",
+      "STARTER",
+      "TOUCHPAD",
+      "BREAKAWAY",
+      "CHAINRING",
+      "DESCENT",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1221,
+      1577,
+      1168,
+      1550
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK OLYMPIANS",
+      "DARTS TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARGENTINA",
+      "AUSTRALIA",
+      "ITALY",
+      "SCOTLAND",
+      "HEMMINGS",
+      "MURRAY",
+      "REDFERN",
+      "WIGGINS",
+      "BULLSEYE",
+      "FINS",
+      "FLIGHT",
+      "TREBLE",
+      "BRISTOL",
+      "HOVE",
+      "LORDS",
+      "ROSEBOWL"
+    ]
+  },
+  {
+    "group_ids": [
+      1522,
+      1286,
+      1199,
+      1580
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "SNOOKER TERMS",
+      "PREMIER CLUBS",
+      "UK FAN CULTURE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIRMINGHAM",
+      "CARDIFF",
+      "GLASGOW",
+      "NOTTINGHAM",
+      "BLACKBALL",
+      "CENTURY",
+      "CUSHION",
+      "POCKET",
+      "ARSENAL",
+      "EVERTON",
+      "FULHAM",
+      "WOLVES",
+      "DERBY",
+      "FIXTURE",
+      "SCARF",
+      "ULTRAS"
+    ]
+  },
+  {
+    "group_ids": [
+      1781,
+      1997,
+      1159,
+      1670
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "RUGBY TERMS",
+      "UK CYCLING",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIRMINGHAM",
+      "NEWCASTLE",
+      "NOTTINGHAM",
+      "SHEFFIELD",
+      "FLANKER",
+      "HOOKER",
+      "RUCK",
+      "TRY",
+      "CADENCE",
+      "DESCENT",
+      "SPRINT",
+      "TIME_TRIAL",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "HEATS",
+      "SPLIT"
+    ]
+  },
+  {
+    "group_ids": [
+      1881,
+      1226,
+      1219,
+      1410
+    ],
+    "cats": [
+      "PREMIER CLUBS",
+      "SNOOKER TERMS",
+      "UK FOOTBALL GROUNDS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELSEA",
+      "CITY",
+      "FULHAM",
+      "VILLA",
+      "CUE",
+      "CUSHION",
+      "POT",
+      "SAFETY",
+      "ANFIELD",
+      "CRAVEN",
+      "GOODISON",
+      "IBROX",
+      "FARAH",
+      "FROOME",
+      "WHITLOCK",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1483,
+      1937,
+      1098,
+      1730
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "CRICKET TERMS",
+      "UK FAN CULTURE",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ADLINGTON",
+      "PEATY",
+      "REDFERN",
+      "WHITLOCK",
+      "CREASE",
+      "LBW",
+      "SEAM",
+      "SLOGGER",
+      "CHANT",
+      "CUPTIE",
+      "FIXTURE",
+      "ULTRAS",
+      "ARSENAL",
+      "CHELSEA",
+      "LIVERPOOL",
+      "PALACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1484,
+      1515,
+      1208,
+      1990
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "UK MOTORSPORT",
+      "UK BOXING",
+      "UK FAN CULTURE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GLASGOW",
+      "LEEDS",
+      "LONDON",
+      "MANCHESTER",
+      "CHICANE",
+      "GOODWOOD",
+      "PITWALL",
+      "SAFETYCAR",
+      "CUT",
+      "JAB",
+      "SOUTHPAW",
+      "WEIGHIN",
+      "CUPTIE",
+      "PROMOTION",
+      "SCARF",
+      "TERRACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1904,
+      1707,
+      1699,
+      1520
+    ],
+    "cats": [
+      "UK TENNIS",
+      "FOOTBALL ACTIONS",
+      "UK MOTORSPORT",
+      "UK HORSE RACING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "QUALIFYING",
+      "QUEENS",
+      "SERVE",
+      "SLICE",
+      "COUNTER",
+      "CROSS",
+      "PASS",
+      "PRESSING",
+      "CHICANE",
+      "FORMULAONE",
+      "PARCFERME",
+      "POLE",
+      "ASCOT",
+      "FINISHPOST",
+      "SADDLE",
+      "STAKES"
+    ]
+  },
+  {
+    "group_ids": [
+      1702,
+      1835,
+      1658,
+      1350
+    ],
+    "cats": [
+      "UK BOXING",
+      "UK SPORTS MEDIA",
+      "UK CRICKET VENUES",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CUT",
+      "ORTHODOX",
+      "UPPERCUT",
+      "WEIGHIN",
+      "GUARDIAN",
+      "MOTD",
+      "RADIOTWO",
+      "TNT",
+      "CARDIFF",
+      "OLDTRAFFORD",
+      "OVAL",
+      "TRENTBRIDGE",
+      "ADLINGTON",
+      "HOY",
+      "MURRAY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1042,
+      1376,
+      1679,
+      1870
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "UK CYCLING",
+      "UK MOTORSPORT",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ETIHAD",
+      "GOODISON",
+      "IBROX",
+      "WEMBLEY",
+      "CLIMB",
+      "DESCENT",
+      "DOMESTIQUE",
+      "SPRINT",
+      "CHICANE",
+      "DRS",
+      "FORMULAONE",
+      "SAFETYCAR",
+      "BAIZE",
+      "BLACKBALL",
+      "CUE",
+      "CUSHION"
+    ]
+  },
+  {
+    "group_ids": [
+      1614,
+      1536,
+      1639,
+      1130
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "SNOOKER TERMS",
+      "UK FOOTBALL GROUNDS",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIRMINGHAM",
+      "LEEDS",
+      "LIVERPOOL",
+      "SHEFFIELD",
+      "BLACKBALL",
+      "POT",
+      "REST",
+      "SAFETY",
+      "ANFIELD",
+      "EMIRATES",
+      "GOODISON",
+      "OLDTRAFFORD",
+      "CORNER",
+      "COUNTER",
+      "ORTHODOX",
+      "RINGWALK"
+    ]
+  },
+  {
+    "group_ids": [
+      1622,
+      1735,
+      1388,
+      1430
+    ],
+    "cats": [
+      "CRICKET TERMS",
+      "UK TENNIS",
+      "UK SPORTS MEDIA",
+      "UK SPORTS CITIES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CREASE",
+      "SEAM",
+      "SLOGGER",
+      "SPIN",
+      "QUALIFYING",
+      "SEEDING",
+      "SLICE",
+      "TIEBREAK",
+      "BBC",
+      "MOTD",
+      "TALKSport",
+      "TNT",
+      "BRISTOL",
+      "CARDIFF",
+      "LIVERPOOL",
+      "NOTTINGHAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1891,
+      1285,
+      1749,
+      1230
+    ],
+    "cats": [
+      "UK BOXING",
+      "DARTS TERMS",
+      "PREMIER CLUBS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNER",
+      "JAB",
+      "RINGWALK",
+      "SOUTHPAW",
+      "FINS",
+      "FLIGHT",
+      "LEG",
+      "THROWLINE",
+      "FULHAM",
+      "LIVERPOOL",
+      "TOTTENHAM",
+      "WESTHAM",
+      "ADLINGTON",
+      "FARAH",
+      "HEMMINGS",
+      "THOMPSON"
+    ]
+  },
+  {
+    "group_ids": [
+      1982,
+      1897,
+      1409,
+      1480
+    ],
+    "cats": [
+      "SNOOKER TERMS",
+      "UK FAN CULTURE",
+      "UK HORSE RACING",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CENTURY",
+      "CUE",
+      "CUSHION",
+      "POCKET",
+      "CHIPPY",
+      "FIXTURE",
+      "SCARF",
+      "ULTRAS",
+      "FINISHPOST",
+      "JOCKEY",
+      "NEWMARKET",
+      "STAKES",
+      "CUT",
+      "ORTHODOX",
+      "RINGWALK",
+      "UPPERCUT"
+    ]
+  },
+  {
+    "group_ids": [
+      1383,
+      1026,
+      1779,
+      2000
+    ],
+    "cats": [
+      "UK TENNIS",
+      "RUGBY TERMS",
+      "UK HORSE RACING",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CENTRECOURT",
+      "GRASS",
+      "SEEDING",
+      "SLICE",
+      "FLANKER",
+      "HOOKER",
+      "KNOCKON",
+      "TRY",
+      "AINTREE",
+      "FINISHPOST",
+      "GALLOP",
+      "HANDICAP",
+      "BLACKBALL",
+      "BREAK",
+      "CUSHION",
+      "FRAME"
+    ]
+  },
+  {
+    "group_ids": [
+      1631,
+      1195,
+      1848,
+      1360
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "FOOTBALL POSITIONS",
+      "UK TENNIS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FURLONG",
+      "GALLOP",
+      "JOCKEY",
+      "SADDLE",
+      "DEFENDER",
+      "MIDFIELDER",
+      "PIVOT",
+      "PLAYMAKER",
+      "QUEENS",
+      "RALLY",
+      "SEEDING",
+      "SLICE",
+      "CHESTERLE",
+      "EDGBASTON",
+      "HEADINGLEY",
+      "HOVE"
+    ]
+  },
+  {
+    "group_ids": [
+      1541,
+      1905,
+      1339,
+      1670
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "UK MOTORSPORT",
+      "CRICKET TERMS",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "LIVERPOOL",
+      "MANCHESTER",
+      "NOTTINGHAM",
+      "SHEFFIELD",
+      "DONINGTON",
+      "DOWNFORCE",
+      "DRS",
+      "POLE",
+      "LBW",
+      "MAIDEN",
+      "OVERS",
+      "YORKER",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "HEATS",
+      "SPLIT"
+    ]
+  },
+  {
+    "group_ids": [
+      1702,
+      1625,
+      1459,
+      1350
+    ],
+    "cats": [
+      "UK BOXING",
+      "RUGBY TERMS",
+      "UK MOTORSPORT",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CUT",
+      "ORTHODOX",
+      "UPPERCUT",
+      "WEIGHIN",
+      "CONVERSION",
+      "PENALTY",
+      "PROP",
+      "RUCK",
+      "CHICANE",
+      "DONINGTON",
+      "POLE",
+      "SAFETYCAR",
+      "ADLINGTON",
+      "HOY",
+      "MURRAY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1144,
+      1725,
+      1239,
+      1630
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "FOOTBALL POSITIONS",
+      "CRICKET TERMS",
+      "UK SPORTS MEDIA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FIJI",
+      "JAPAN",
+      "SCOTLAND",
+      "TONGA",
+      "CAPTAIN",
+      "GOALKEEPER",
+      "PIVOT",
+      "PLAYMAKER",
+      "BATSMAN",
+      "BOWLER",
+      "LBW",
+      "SPIN",
+      "ATHLETIC",
+      "BTSPORT",
+      "TELEGRAPH",
+      "TNT"
+    ]
+  },
+  {
+    "group_ids": [
+      1863,
+      1595,
+      1029,
+      1030
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "UK HORSE RACING",
+      "DARTS TERMS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAVEN",
+      "ELLAND",
+      "EMIRATES",
+      "WEMBLEY",
+      "ASCOT",
+      "EPSOM",
+      "FINISHPOST",
+      "STAKES",
+      "FINS",
+      "FLIGHT",
+      "OCHRE",
+      "SHAFT",
+      "BLACKBALL",
+      "CENTURY",
+      "CUE",
+      "SAFETY"
+    ]
+  },
+  {
+    "group_ids": [
+      1374,
+      1036,
+      1769,
+      1960
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "FOOTBALL POSITIONS",
+      "UK FOOTBALL GROUNDS",
+      "UK TENNIS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHIPPY",
+      "DERBY",
+      "SCARF",
+      "ULTRAS",
+      "DEFENDER",
+      "GOALKEEPER",
+      "MIDFIELDER",
+      "WINGER",
+      "CRAVEN",
+      "IBROX",
+      "STAMFORD",
+      "WEMBLEY",
+      "BALLBOY",
+      "QUALIFYING",
+      "QUEENS",
+      "TIEBREAK"
+    ]
+  },
+  {
+    "group_ids": [
+      1003,
+      1237,
+      1268,
+      1030
+    ],
+    "cats": [
+      "CRICKET TERMS",
+      "PREMIER CLUBS",
+      "UK SPORTS MEDIA",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOWLER",
+      "LBW",
+      "MAIDEN",
+      "YORKER",
+      "CHELSEA",
+      "CITY",
+      "LIVERPOOL",
+      "VILLA",
+      "ATHLETIC",
+      "MOTD",
+      "RADIOTWO",
+      "TIMES",
+      "BLACKBALL",
+      "CENTURY",
+      "CUE",
+      "SAFETY"
+    ]
+  },
+  {
+    "group_ids": [
+      1912,
+      1077,
+      1968,
+      1090
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "FOOTBALL ACTIONS",
+      "UK SPORTS CITIES",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DEFENDER",
+      "PIVOT",
+      "PLAYMAKER",
+      "SWEEPER",
+      "MARKING",
+      "NUTMEG",
+      "TACKLE",
+      "VOLLEY",
+      "CARDIFF",
+      "EDINBURGH",
+      "LIVERPOOL",
+      "NOTTINGHAM",
+      "BREAK",
+      "CENTURY",
+      "CUE",
+      "POCKET"
+    ]
+  },
+  {
+    "group_ids": [
+      1624,
+      1145,
+      1209,
+      1150
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "RUGBY TERMS",
+      "UK SPORTS MEDIA",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FIJI",
+      "SAMOA",
+      "SCOTLAND",
+      "WALES",
+      "CONVERSION",
+      "PENALTY",
+      "RUCK",
+      "SCRUM",
+      "ITV",
+      "SKY",
+      "TALKSport",
+      "TNT",
+      "CLINCH",
+      "COUNTER",
+      "CUT",
+      "SOUTHPAW"
+    ]
+  },
+  {
+    "group_ids": [
+      1392,
+      1787,
+      1018,
+      1560
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "PREMIER CLUBS",
+      "UK FAN CULTURE",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DEFENDER",
+      "FULLBACK",
+      "STRIKER",
+      "SWEEPER",
+      "ARSENAL",
+      "CHELSEA",
+      "EVERTON",
+      "FULHAM",
+      "AWAYDAY",
+      "CUPTIE",
+      "DERBY",
+      "TURNSTILE",
+      "FROOME",
+      "HEMMINGS",
+      "HOY",
+      "WHITLOCK"
+    ]
+  },
+  {
+    "group_ids": [
+      1754,
+      1327,
+      1039,
+      1280
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK BOXING",
+      "UK SWIMMING",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "OFFLOAD",
+      "PROP",
+      "RUCK",
+      "TRY",
+      "COUNTER",
+      "JAB",
+      "ORTHODOX",
+      "WEIGHIN",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "LANE",
+      "SPLIT",
+      "EDGBASTON",
+      "OLDTRAFFORD",
+      "ROSEBOWL",
+      "TRENTBRIDGE"
+    ]
+  },
+  {
+    "group_ids": [
+      1743,
+      1295,
+      1218,
+      1220
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "UK SWIMMING",
+      "PREMIER CLUBS",
+      "CRICKET TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIRMINGHAM",
+      "BRISTOL",
+      "EDINBURGH",
+      "LONDON",
+      "BUTTERFLY",
+      "HEATS",
+      "LANE",
+      "STARTER",
+      "CITY",
+      "PALACE",
+      "UNITED",
+      "WESTHAM",
+      "BATSMAN",
+      "GOOGLY",
+      "OVERS",
+      "SEAM"
+    ]
+  },
+  {
+    "group_ids": [
+      1494,
+      1417,
+      1218,
+      1910
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK FOOTBALL GROUNDS",
+      "PREMIER CLUBS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENGLAND",
+      "FRANCE",
+      "IRELAND",
+      "TONGA",
+      "ANFIELD",
+      "ELLAND",
+      "ETIHAD",
+      "STAMFORD",
+      "CITY",
+      "PALACE",
+      "UNITED",
+      "WESTHAM",
+      "ENNIS",
+      "MURRAY",
+      "PEATY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1481,
+      1086,
+      1219,
+      1130
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "RUGBY TERMS",
+      "UK FOOTBALL GROUNDS",
+      "UK BOXING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ITV",
+      "SKY",
+      "TELEGRAPH",
+      "TNT",
+      "FLANKER",
+      "OFFLOAD",
+      "RUCK",
+      "TRY",
+      "ANFIELD",
+      "CRAVEN",
+      "GOODISON",
+      "IBROX",
+      "CORNER",
+      "COUNTER",
+      "ORTHODOX",
+      "RINGWALK"
+    ]
+  },
+  {
+    "group_ids": [
+      1884,
+      1607,
+      1379,
+      1030
+    ],
+    "cats": [
+      "UK CRICKET VENUES",
+      "UK TENNIS",
+      "CRICKET TERMS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRISTOL",
+      "HEADINGLEY",
+      "ROSEBOWL",
+      "TAUNTON",
+      "BALLBOY",
+      "QUEENS",
+      "SLICE",
+      "WIMBLEDON",
+      "MAIDEN",
+      "OVERS",
+      "SPIN",
+      "YORKER",
+      "BLACKBALL",
+      "CENTURY",
+      "CUE",
+      "SAFETY"
+    ]
+  },
+  {
+    "group_ids": [
+      1891,
+      1215,
+      1258,
+      1310
+    ],
+    "cats": [
+      "UK BOXING",
+      "UK FAN CULTURE",
+      "UK FOOTBALL GROUNDS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNER",
+      "JAB",
+      "RINGWALK",
+      "SOUTHPAW",
+      "CUPTIE",
+      "PROMOTION",
+      "TERRACE",
+      "ULTRAS",
+      "ETIHAD",
+      "GOODISON",
+      "IBROX",
+      "OLDTRAFFORD",
+      "FARAH",
+      "HEMMINGS",
+      "HOY",
+      "REDFERN"
+    ]
+  },
+  {
+    "group_ids": [
+      1301,
+      1877,
+      1808,
+      1300
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "FOOTBALL ACTIONS",
+      "CRICKET TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARGENTINA",
+      "ENGLAND",
+      "JAPAN",
+      "TONGA",
+      "DRIBBLE",
+      "HEADER",
+      "NUTMEG",
+      "PASS",
+      "CREASE",
+      "LBW",
+      "MAIDEN",
+      "SEAM",
+      "BRISTOL",
+      "HOVE",
+      "OVAL",
+      "TAUNTON"
+    ]
+  },
+  {
+    "group_ids": [
+      1882,
+      1917,
+      1928,
+      1250
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "PREMIER CLUBS",
+      "UK HORSE RACING",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAVEN",
+      "ETIHAD",
+      "HAMPDEN",
+      "WEMBLEY",
+      "CITY",
+      "EVERTON",
+      "PALACE",
+      "TOTTENHAM",
+      "AINTREE",
+      "FINISHPOST",
+      "HANDICAP",
+      "NEWMARKET",
+      "FARAH",
+      "FROOME",
+      "HEMMINGS",
+      "THOMPSON"
+    ]
+  },
+  {
+    "group_ids": [
+      1154,
+      1516,
+      1659,
+      1110
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "DARTS TERMS",
+      "RUGBY TERMS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CARDIFF",
+      "EDINBURGH",
+      "NEWCASTLE",
+      "NOTTINGHAM",
+      "DOUBLE",
+      "FINS",
+      "NINEDARTER",
+      "TREBLE",
+      "HOOKER",
+      "MAUL",
+      "PROP",
+      "TRY",
+      "BAIZE",
+      "BLACKBALL",
+      "BREAK",
+      "SAFETY"
+    ]
+  },
+  {
+    "group_ids": [
+      1421,
+      1707,
+      1638,
+      2000
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "FOOTBALL ACTIONS",
+      "PREMIER CLUBS",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVERSION",
+      "RUCK",
+      "SCRUM",
+      "TRY",
+      "COUNTER",
+      "CROSS",
+      "PASS",
+      "PRESSING",
+      "CITY",
+      "FULHAM",
+      "LIVERPOOL",
+      "WOLVES",
+      "BLACKBALL",
+      "BREAK",
+      "CUSHION",
+      "FRAME"
+    ]
+  },
+  {
+    "group_ids": [
+      1834,
+      1526,
+      1689,
+      1750
+    ],
+    "cats": [
+      "UK BOXING",
+      "UK CYCLING",
+      "UK FAN CULTURE",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNER",
+      "COUNTER",
+      "CUT",
+      "TITLEFIGHT",
+      "BIDON",
+      "DOMESTIQUE",
+      "PELOTON",
+      "PINNACLE",
+      "AWAYDAY",
+      "DERBY",
+      "FIXTURE",
+      "PROMOTION",
+      "CRAVEN",
+      "ETIHAD",
+      "SELHURST",
+      "STAMFORD"
+    ]
+  },
+  {
+    "group_ids": [
+      1233,
+      1335,
+      1539,
+      1870
+    ],
+    "cats": [
+      "FOOTBALL ACTIONS",
+      "UK SWIMMING",
+      "UK HORSE RACING",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "COUNTER",
+      "HEADER",
+      "MARKING",
+      "PRESSING",
+      "BREASTSTROKE",
+      "HEATS",
+      "SPLIT",
+      "STARTER",
+      "ASCOT",
+      "CHELTENHAM",
+      "FINISHPOST",
+      "FURLONG",
+      "BAIZE",
+      "BLACKBALL",
+      "CUE",
+      "CUSHION"
+    ]
+  },
+  {
+    "group_ids": [
+      1721,
+      1165,
+      1339,
+      1660
+    ],
+    "cats": [
+      "UK BOXING",
+      "RUGBY TERMS",
+      "CRICKET TERMS",
+      "UK TENNIS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "JAB",
+      "ORTHODOX",
+      "PROMOTER",
+      "TITLEFIGHT",
+      "CONVERSION",
+      "FLANKER",
+      "HOOKER",
+      "PENALTY",
+      "LBW",
+      "MAIDEN",
+      "OVERS",
+      "YORKER",
+      "SERVE",
+      "SLICE",
+      "TOPSPIN",
+      "WIMBLEDON"
+    ]
+  },
+  {
+    "group_ids": [
+      1411,
+      1116,
+      1269,
+      1450
+    ],
+    "cats": [
+      "UK SPORTS CITIES",
+      "FOOTBALL POSITIONS",
+      "UK HORSE RACING",
+      "FOOTBALL ACTIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "LIVERPOOL",
+      "LONDON",
+      "NEWCASTLE",
+      "SHEFFIELD",
+      "FULLBACK",
+      "STOPPER",
+      "STRIKER",
+      "WINGER",
+      "ASCOT",
+      "CHELTENHAM",
+      "GALLOP",
+      "NEWMARKET",
+      "COUNTER",
+      "CROSS",
+      "HEADER",
+      "THROUGHBALL"
+    ]
+  },
+  {
+    "group_ids": [
+      1213,
+      1466,
+      1018,
+      1570
+    ],
+    "cats": [
+      "FOOTBALL POSITIONS",
+      "UK SPORTS CITIES",
+      "UK FAN CULTURE",
+      "RUGBY NATIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPTAIN",
+      "PLAYMAKER",
+      "STOPPER",
+      "WINGER",
+      "BIRMINGHAM",
+      "GLASGOW",
+      "LEEDS",
+      "MANCHESTER",
+      "AWAYDAY",
+      "CUPTIE",
+      "DERBY",
+      "TURNSTILE",
+      "ARGENTINA",
+      "ENGLAND",
+      "FIJI",
+      "JAPAN"
+    ]
+  },
+  {
+    "group_ids": [
+      1243,
+      1447,
+      1129,
+      1690
+    ],
+    "cats": [
+      "UK TENNIS",
+      "UK HORSE RACING",
+      "SNOOKER TERMS",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "QUALIFYING",
+      "RALLY",
+      "TOPSPIN",
+      "WIMBLEDON",
+      "CHELTENHAM",
+      "FINISHPOST",
+      "JOCKEY",
+      "NEWMARKET",
+      "BAIZE",
+      "BLACKBALL",
+      "CUSHION",
+      "POCKET",
+      "BACKSTROKE",
+      "FREESTYLE",
+      "MEDLEY",
+      "TOUCHPAD"
+    ]
+  },
+  {
+    "group_ids": [
+      1254,
+      1125,
+      1139,
+      1750
+    ],
+    "cats": [
+      "UK FAN CULTURE",
+      "RUGBY TERMS",
+      "UK CYCLING",
+      "UK FOOTBALL GROUNDS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHANT",
+      "CUPTIE",
+      "PROMOTION",
+      "RELEGATION",
+      "CONVERSION",
+      "KNOCKON",
+      "SCRUM",
+      "TRY",
+      "CHAINRING",
+      "CLIMB",
+      "DESCENT",
+      "PELOTON",
+      "CRAVEN",
+      "ETIHAD",
+      "SELHURST",
+      "STAMFORD"
+    ]
+  },
+  {
+    "group_ids": [
+      1594,
+      1325,
+      1708,
+      1350
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "DARTS TERMS",
+      "UK FAN CULTURE",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "GUARDIAN",
+      "ITV",
+      "SKY",
+      "BULLSEYE",
+      "FINS",
+      "OCHRE",
+      "TREBLE",
+      "CHIPPY",
+      "CUPTIE",
+      "DERBY",
+      "TURNSTILE",
+      "ADLINGTON",
+      "HOY",
+      "MURRAY",
+      "WIGGINS"
+    ]
+  },
+  {
+    "group_ids": [
+      1293,
+      1457,
+      1428,
+      1860
+    ],
+    "cats": [
+      "FOOTBALL ACTIONS",
+      "RUGBY TERMS",
+      "UK HORSE RACING",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLEARANCE",
+      "COUNTER",
+      "CROSS",
+      "DRIBBLE",
+      "FLANKER",
+      "KNOCKON",
+      "OFFLOAD",
+      "PENALTY",
+      "AINTREE",
+      "FINISHPOST",
+      "FURLONG",
+      "STAKES",
+      "BACKSTROKE",
+      "HEATS",
+      "SPLIT",
+      "WHISTLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1602,
+      1585,
+      1998,
+      1730
+    ],
+    "cats": [
+      "UK CYCLING",
+      "CRICKET TERMS",
+      "UK TENNIS",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLIMB",
+      "DESCENT",
+      "DOMESTIQUE",
+      "STAGE",
+      "GOOGLY",
+      "MAIDEN",
+      "WICKET",
+      "YORKER",
+      "BALLBOY",
+      "CENTRECOURT",
+      "RALLY",
+      "TOPSPIN",
+      "ARSENAL",
+      "CHELSEA",
+      "LIVERPOOL",
+      "PALACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1741,
+      1785,
+      1028,
+      1080
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "UK SWIMMING",
+      "UK MOTORSPORT",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHELTENHAM",
+      "EPSOM",
+      "FURLONG",
+      "NEWMARKET",
+      "MEDLEY",
+      "RELAY",
+      "SPLIT",
+      "TOUCHPAD",
+      "BRANDS",
+      "CHICANE",
+      "DONINGTON",
+      "DRS",
+      "BREAKAWAY",
+      "CHAINRING",
+      "DESCENT",
+      "TIME_TRIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      1491,
+      1726,
+      1549,
+      1860
+    ],
+    "cats": [
+      "UK FOOTBALL GROUNDS",
+      "FOOTBALL ACTIONS",
+      "CRICKET TERMS",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELLAND",
+      "HAMPDEN",
+      "IBROX",
+      "OLDTRAFFORD",
+      "COUNTER",
+      "DRIBBLE",
+      "MARKING",
+      "TACKLE",
+      "BATSMAN",
+      "OVERS",
+      "SLOGGER",
+      "WICKET",
+      "BACKSTROKE",
+      "HEATS",
+      "SPLIT",
+      "WHISTLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1053,
+      1787,
+      1149,
+      1340
+    ],
+    "cats": [
+      "UK HORSE RACING",
+      "PREMIER CLUBS",
+      "SNOOKER TERMS",
+      "UK CRICKET VENUES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AINTREE",
+      "FINISHPOST",
+      "GALLOP",
+      "NEWMARKET",
+      "ARSENAL",
+      "CHELSEA",
+      "EVERTON",
+      "FULHAM",
+      "BAIZE",
+      "CENTURY",
+      "CUSHION",
+      "SNOOKER",
+      "BRISTOL",
+      "CHESTERLE",
+      "EDGBASTON",
+      "OLDTRAFFORD"
+    ]
+  },
+  {
+    "group_ids": [
+      1004,
+      1047,
+      1908,
+      1110
+    ],
+    "cats": [
+      "UK CRICKET VENUES",
+      "UK TENNIS",
+      "UK BOXING",
+      "SNOOKER TERMS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRISTOL",
+      "EDGBASTON",
+      "HOVE",
+      "TRENTBRIDGE",
+      "CENTRECOURT",
+      "QUEENS",
+      "RALLY",
+      "TOPSPIN",
+      "COUNTER",
+      "ORTHODOX",
+      "PROMOTER",
+      "WEIGHIN",
+      "BAIZE",
+      "BLACKBALL",
+      "BREAK",
+      "SAFETY"
+    ]
+  },
+  {
+    "group_ids": [
+      1643,
+      1426,
+      1379,
+      1120
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "UK BOXING",
+      "CRICKET TERMS",
+      "UK CYCLING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FLANKER",
+      "HOOKER",
+      "PENALTY",
+      "PROP",
+      "COUNTER",
+      "CUT",
+      "JAB",
+      "ORTHODOX",
+      "MAIDEN",
+      "OVERS",
+      "SPIN",
+      "YORKER",
+      "CADENCE",
+      "DESCENT",
+      "DOMESTIQUE",
+      "PINNACLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1552,
+      1676,
+      1548,
+      1800
+    ],
+    "cats": [
+      "RUGBY TERMS",
+      "RUGBY NATIONS",
+      "UK FOOTBALL GROUNDS",
+      "UK SPORTS CITIES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVERSION",
+      "FLANKER",
+      "SCRUM",
+      "TRY",
+      "ENGLAND",
+      "SAMOA",
+      "SCOTLAND",
+      "WALES",
+      "ELLAND",
+      "EMIRATES",
+      "GOODISON",
+      "IBROX",
+      "CARDIFF",
+      "LIVERPOOL",
+      "MANCHESTER",
+      "NEWCASTLE"
+    ]
+  },
+  {
+    "group_ids": [
+      1872,
+      1167,
+      1359,
+      1670
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "UK MOTORSPORT",
+      "CRICKET TERMS",
+      "UK SWIMMING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBC",
+      "BTSPORT",
+      "ITV",
+      "TIMES",
+      "BRANDS",
+      "PITWALL",
+      "SAFETYCAR",
+      "SILVERSTONE",
+      "BOWLER",
+      "MAIDEN",
+      "SEAM",
+      "YORKER",
+      "BREASTSTROKE",
+      "BUTTERFLY",
+      "HEATS",
+      "SPLIT"
+    ]
+  },
+  {
+    "group_ids": [
+      1461,
+      1176,
+      1589,
+      1310
+    ],
+    "cats": [
+      "SNOOKER TERMS",
+      "FOOTBALL ACTIONS",
+      "UK TENNIS",
+      "UK OLYMPIANS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BLACKBALL",
+      "BREAK",
+      "FRAME",
+      "REST",
+      "COUNTER",
+      "CROSS",
+      "HEADER",
+      "NUTMEG",
+      "QUEENS",
+      "SEEDING",
+      "SERVE",
+      "WIMBLEDON",
+      "FARAH",
+      "HEMMINGS",
+      "HOY",
+      "REDFERN"
+    ]
+  },
+  {
+    "group_ids": [
+      1124,
+      1546,
+      1779,
+      1730
+    ],
+    "cats": [
+      "RUGBY NATIONS",
+      "UK CYCLING",
+      "UK HORSE RACING",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AUSTRALIA",
+      "FRANCE",
+      "IRELAND",
+      "TONGA",
+      "CADENCE",
+      "CHAINRING",
+      "SPRINT",
+      "STAGE",
+      "AINTREE",
+      "FINISHPOST",
+      "GALLOP",
+      "HANDICAP",
+      "ARSENAL",
+      "CHELSEA",
+      "LIVERPOOL",
+      "PALACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1664,
+      1857,
+      1018,
+      1730
+    ],
+    "cats": [
+      "UK SPORTS MEDIA",
+      "FOOTBALL POSITIONS",
+      "UK FAN CULTURE",
+      "PREMIER CLUBS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBC",
+      "GUARDIAN",
+      "MOTD",
+      "TELEGRAPH",
+      "GOALKEEPER",
+      "PIVOT",
+      "STOPPER",
+      "WINGER",
+      "AWAYDAY",
+      "CUPTIE",
+      "DERBY",
+      "TURNSTILE",
+      "ARSENAL",
+      "CHELSEA",
+      "LIVERPOOL",
+      "PALACE"
+    ]
+  },
+  {
+    "group_ids": [
+      1893,
+      1055,
+      1469,
+      1570
+    ],
+    "cats": [
+      "UK OLYMPIANS",
+      "UK SPORTS CITIES",
+      "UK FAN CULTURE",
+      "RUGBY NATIONS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENNIS",
+      "FARAH",
+      "REDFERN",
+      "THOMPSON",
+      "CARDIFF",
+      "LEEDS",
+      "LIVERPOOL",
+      "LONDON",
+      "CUPTIE",
+      "PROMOTION",
+      "SCARF",
+      "ULTRAS",
+      "ARGENTINA",
+      "ENGLAND",
+      "FIJI",
+      "JAPAN"
+    ]
+  },
+  {
+    "group_ids": [
+      1123,
+      1025,
+      1109,
+      1520
+    ],
+    "cats": [
+      "UK CRICKET VENUES",
+      "RUGBY NATIONS",
+      "DARTS TERMS",
+      "UK HORSE RACING"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "EDGBASTON",
+      "HEADINGLEY",
+      "HOVE",
+      "LORDS",
+      "ARGENTINA",
+      "ITALY",
+      "SAMOA",
+      "SCOTLAND",
+      "DOUBLE",
+      "FINS",
+      "FLIGHT",
+      "SHAFT",
+      "ASCOT",
+      "FINISHPOST",
+      "SADDLE",
+      "STAKES"
+    ]
+  }
+]

@@ -1,0 +1,9502 @@
+[
+  {
+    "group_ids": [
+      2184,
+      2615,
+      2219,
+      2710
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "BASQUET MEXICO",
+      "ESTADIOS MEXICO",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CULIACAN",
+      "HERMOSILLO",
+      "MEXICALI",
+      "MOCHIS",
+      "ABEJAS",
+      "CAPITANES",
+      "HALCONES",
+      "REBOTE",
+      "AKRON",
+      "CORREGIDORA",
+      "NEMESIO",
+      "OLIMPICO",
+      "CHIVAS",
+      "PACHUCA",
+      "PUMAS",
+      "RAYADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2791,
+      2735,
+      2728,
+      2750
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "BOXEO MEXICANO",
+      "PALABRAS DEPORTIVAS",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPOTE",
+      "PASE",
+      "RUEDO",
+      "TORERO",
+      "ASALTO",
+      "CANELO",
+      "CHAVEZ",
+      "FINITO",
+      "CALENTAR",
+      "ENTRENADOR",
+      "TACTICA",
+      "VELOCIDAD",
+      "CULIACAN",
+      "MOCHIS",
+      "NOVENAS",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2053,
+      2906,
+      2699,
+      2800
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "TERMINOS BEISBOL",
+      "TAUROMAQUIA CULTURA",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "FUERAJUEGO",
+      "GOLEADA",
+      "TIRO",
+      "ELEVADO",
+      "IMPARABLE",
+      "JONRON",
+      "TRIPLE",
+      "BANDERILLAS",
+      "CAPOTE",
+      "FAENA",
+      "PLAZA",
+      "ENDURO",
+      "PARAPENTE",
+      "SKATE",
+      "TRAIL"
+    ]
+  },
+  {
+    "group_ids": [
+      2953,
+      2887,
+      2239,
+      2950
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "CIUDADES DEPORTE MX",
+      "SELECCION MEXICO",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ACEREROS",
+      "BRAVOS",
+      "SARAPEROS",
+      "SULTANES",
+      "LEON",
+      "MONTERREY",
+      "QUERETARO",
+      "TORREON",
+      "CAMISETA",
+      "DELANTERO",
+      "ELIMINATORIA",
+      "TRICOLOR",
+      "ATLAS",
+      "CHIVAS",
+      "PUMAS",
+      "SANTOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2482,
+      2756,
+      2298,
+      2660
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "DEPORTES OLIMPICOS MX",
+      "ESTADIOS MEXICO",
+      "LUCHA LIBRE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCENSO",
+      "HINCHA",
+      "LIGUILLA",
+      "TIFO",
+      "CANOTAJE",
+      "ESGRIMA",
+      "MARCHA",
+      "TIRO",
+      "AKRON",
+      "AZTECA",
+      "BBVA",
+      "HIDALGO",
+      "APLAUSO",
+      "ENMASCARADO",
+      "RUDO",
+      "TECNICO"
+    ]
+  },
+  {
+    "group_ids": [
+      2162,
+      2146,
+      2069,
+      2890
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "LUCHADORES ICONICOS",
+      "PELOTA VASCA",
+      "BASQUET MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMISTOSO",
+      "DEFENSA",
+      "DELANTERO",
+      "MUNDIAL",
+      "HECHICERO",
+      "MILMASCARAS",
+      "PSICOSIS",
+      "VOLADOR",
+      "CANCHA",
+      "FRONTON",
+      "RESTO",
+      "SACADOR",
+      "CAPITANES",
+      "PANTERAS",
+      "REBOTE",
+      "TRIPLES"
+    ]
+  },
+  {
+    "group_ids": [
+      2233,
+      2985,
+      2569,
+      2650
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "DEPORTES EXTREMOS",
+      "DEPORTES OLIMPICOS MX",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOMBO",
+      "COPA",
+      "HINCHA",
+      "PORRA",
+      "PARAPENTE",
+      "RAFTING",
+      "RAPPEL",
+      "TRAIL",
+      "CICLISMO",
+      "MARCHA",
+      "TAEKWONDO",
+      "TIRO",
+      "RECORD",
+      "TELEVISA",
+      "TUDN",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2624,
+      2705,
+      2809,
+      2620
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "MEDIOS DEPORTIVOS MX",
+      "BOXEO MEXICANO",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BLUEDEMON",
+      "HECHICERO",
+      "MILMASCARAS",
+      "PSICOSIS",
+      "RADIOFORMULA",
+      "TELEVISA",
+      "TVAZTECA",
+      "WDEPORTES",
+      "CHAVEZ",
+      "CINTURON",
+      "FINITO",
+      "JAB",
+      "CAMISETA",
+      "CONCACAF",
+      "MUNDIAL",
+      "TRICOLOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2114,
+      2567,
+      2488,
+      2890
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "PELOTA VASCA",
+      "SELECCION MEXICO",
+      "BASQUET MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLA",
+      "JONRON",
+      "PONCHE",
+      "SHORTSTOP",
+      "FALTA",
+      "PALETA",
+      "PARTIDO",
+      "TANTO",
+      "AFICION",
+      "CAMISETA",
+      "CONCACAF",
+      "DELANTERO",
+      "CAPITANES",
+      "PANTERAS",
+      "REBOTE",
+      "TRIPLES"
+    ]
+  },
+  {
+    "group_ids": [
+      2244,
+      2875,
+      2549,
+      2960
+    ],
+    "cats": [
+      "BOXEO MEXICANO",
+      "ESTADIOS MEXICO",
+      "PELOTA VASCA",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAMPANAZO",
+      "CHAVEZ",
+      "CINTURON",
+      "MORALES",
+      "AKRON",
+      "CUAUHTEMOC",
+      "HIDALGO",
+      "JALISCO",
+      "FALTA",
+      "GUANTE",
+      "MANO",
+      "TANTO",
+      "JULIO",
+      "LORENA",
+      "PHELAN",
+      "SOTOMAYOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2771,
+      2736,
+      2509,
+      2180
+    ],
+    "cats": [
+      "BOXEO MEXICANO",
+      "PELOTA VASCA",
+      "LIGA DEL PACIFICO",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHAVEZ",
+      "CINTURON",
+      "JAB",
+      "MARQUEZ",
+      "CANCHA",
+      "GUANTE",
+      "MANO",
+      "PARED",
+      "HERMOSILLO",
+      "MAZATLAN",
+      "MOCHIS",
+      "PLAYOFF",
+      "CRUZAZUL",
+      "LEON",
+      "SANTOS",
+      "TOLUCA"
+    ]
+  },
+  {
+    "group_ids": [
+      2212,
+      2625,
+      2269,
+      2100
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "BOXEO MEXICANO",
+      "TERMINOS FUTBOL",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CATCHER",
+      "ELEVADO",
+      "PONCHE",
+      "SHORTSTOP",
+      "CANELO",
+      "CINTURON",
+      "FINITO",
+      "JAB",
+      "DESMARQUE",
+      "GOLEADA",
+      "REGATE",
+      "SAQUE",
+      "ALINEACION",
+      "ENTRENADOR",
+      "RITMO",
+      "TACTICA"
+    ]
+  },
+  {
+    "group_ids": [
+      2752,
+      2406,
+      2809,
+      2380
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "MEDIOS DEPORTIVOS MX",
+      "BOXEO MEXICANO",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HECHICERO",
+      "MISTICO",
+      "PSICOSIS",
+      "SANTO",
+      "IMER",
+      "MARCA",
+      "RECORD",
+      "TUDN",
+      "CHAVEZ",
+      "CINTURON",
+      "FINITO",
+      "JAB",
+      "CANCHA",
+      "PALETA",
+      "PARTIDO",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2562,
+      2456,
+      2408,
+      2820
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "LUCHADORES ICONICOS",
+      "BASQUET MEXICO",
+      "ESTADIOS MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMISTOSO",
+      "ELIMINATORIA",
+      "MEDIOCAMPO",
+      "TRICOLOR",
+      "BLUEDEMON",
+      "LA_PARKA",
+      "PENTAGON",
+      "RUSH",
+      "LIBERTADORES",
+      "PANTERAS",
+      "TABLERO",
+      "TRIPLES",
+      "AZTECA",
+      "CORREGIDORA",
+      "HIDALGO",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      2951,
+      2805,
+      2819,
+      2690
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "BEISBOL MEXICANO",
+      "CLUBES LIGA MX",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORREGIDORA",
+      "JALISCO",
+      "NEMESIO",
+      "OLIMPICO",
+      "ACEREROS",
+      "SULTANES",
+      "TIGRES",
+      "YAQUIS",
+      "CRUZAZUL",
+      "PACHUCA",
+      "PUMAS",
+      "RAYADOS",
+      "FUERZA",
+      "RESISTENCIA",
+      "RITMO",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2571,
+      2875,
+      2878,
+      2270
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "ESTADIOS MEXICO",
+      "LIGA DEL PACIFICO",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FUERAJUEGO",
+      "GOLEADA",
+      "REMATE",
+      "TIRO",
+      "AKRON",
+      "CUAUHTEMOC",
+      "HIDALGO",
+      "JALISCO",
+      "CULIACAN",
+      "HERMOSILLO",
+      "MEXICALI",
+      "SERIE",
+      "CATCHER",
+      "ELEVADO",
+      "SHORTSTOP",
+      "TRIPLE"
+    ]
+  },
+  {
+    "group_ids": [
+      2501,
+      2417,
+      2958,
+      2270
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "LUCHADORES ICONICOS",
+      "PELOTA VASCA",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "CLASICO",
+      "TIFO",
+      "TRIBUNA",
+      "LA_PARKA",
+      "RUSH",
+      "SANTO",
+      "ULTIMOGUERRERO",
+      "PALETA",
+      "RESTO",
+      "SACADOR",
+      "TANTO",
+      "CATCHER",
+      "ELEVADO",
+      "SHORTSTOP",
+      "TRIPLE"
+    ]
+  },
+  {
+    "group_ids": [
+      2764,
+      2926,
+      2799,
+      2210
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "CIUDADES DEPORTE MX",
+      "BASQUET MEXICO",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENDURO",
+      "PARAPENTE",
+      "PARKOUR",
+      "TRAIL",
+      "CDMX",
+      "LEON",
+      "MONTERREY",
+      "TORREON",
+      "ABEJAS",
+      "CAPITANES",
+      "SOLES",
+      "TRIPLES",
+      "ESPINOZA",
+      "LIMON",
+      "ROMMEL",
+      "SOTOMAYOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2504,
+      2206,
+      2609,
+      2230
+    ],
+    "cats": [
+      "PALABRAS DEPORTIVAS",
+      "BOXEO MEXICANO",
+      "ATLETAS MEXICANOS",
+      "TERMINOS FUTBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENTRENADOR",
+      "FUERZA",
+      "RECUPERAR",
+      "RESISTENCIA",
+      "ESQUINA",
+      "FINITO",
+      "GANCHO",
+      "MORALES",
+      "ALEJANDRA",
+      "LIMON",
+      "PAOLA",
+      "ROMMEL",
+      "ATARJETA",
+      "FUERAJUEGO",
+      "PENAL",
+      "SAQUE"
+    ]
+  },
+  {
+    "group_ids": [
+      2392,
+      2126,
+      2999,
+      2670
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "LUCHA LIBRE",
+      "TERMINOS BEISBOL",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBVA",
+      "CUAUHTEMOC",
+      "HIDALGO",
+      "TERRITORIO",
+      "ARENA",
+      "CAIDA",
+      "LONA",
+      "TOPE",
+      "BOLA",
+      "ROBO",
+      "ROLA",
+      "STRIKE",
+      "CANALONCE",
+      "FOXSPORTS",
+      "RECORD",
+      "TELEVISA"
+    ]
+  },
+  {
+    "group_ids": [
+      2221,
+      2366,
+      2408,
+      2580
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "CIUDADES DEPORTE MX",
+      "BASQUET MEXICO",
+      "ESTADIOS MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ACEREROS",
+      "ALGODONEROS",
+      "SULTANES",
+      "VENADOS",
+      "CDMX",
+      "GUADALAJARA",
+      "LEON",
+      "MERIDA",
+      "LIBERTADORES",
+      "PANTERAS",
+      "TABLERO",
+      "TRIPLES",
+      "AKRON",
+      "JALISCO",
+      "UNIVERSITARIO",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      2242,
+      2267,
+      2288,
+      2670
+    ],
+    "cats": [
+      "LUCHA LIBRE",
+      "DEPORTES OLIMPICOS MX",
+      "ATLETAS MEXICANOS",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "APLAUSO",
+      "LLAVE",
+      "LONA",
+      "TOPE",
+      "ATLETISMO",
+      "MARCHA",
+      "NATACION",
+      "TAEKWONDO",
+      "ESPINOZA",
+      "JULIO",
+      "LIMON",
+      "SOTOMAYOR",
+      "CANALONCE",
+      "FOXSPORTS",
+      "RECORD",
+      "TELEVISA"
+    ]
+  },
+  {
+    "group_ids": [
+      2531,
+      2236,
+      2188,
+      2770
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "PALABRAS DEPORTIVAS",
+      "PELOTA VASCA",
+      "LUCHA LIBRE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BURLADERO",
+      "FAENA",
+      "PASE",
+      "TERCIO",
+      "AGILIDAD",
+      "ALINEACION",
+      "SUPLENTE",
+      "VELOCIDAD",
+      "GUANTE",
+      "PARED",
+      "SACADOR",
+      "TANTO",
+      "CAIDA",
+      "CASTIGO",
+      "PLANCHA",
+      "RELEVOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2102,
+      2415,
+      2499,
+      2360
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "LIGA DEL PACIFICO",
+      "CIUDADES DEPORTE MX",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AKRON",
+      "CUAUHTEMOC",
+      "TERRITORIO",
+      "VICTORIA",
+      "HERMOSILLO",
+      "MAZATLAN",
+      "PITCHEO",
+      "SERIE",
+      "CDMX",
+      "MONTERREY",
+      "PUEBLA",
+      "VERACRUZ",
+      "CANCHA",
+      "MANO",
+      "PARTIDO",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2191,
+      2197,
+      2158,
+      3000
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "BASQUET MEXICO",
+      "DEPORTES EXTREMOS",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALEJANDRA",
+      "LIMON",
+      "PAOLA",
+      "PHELAN",
+      "ABEJAS",
+      "CLAVADA",
+      "DORADOS",
+      "TABLERO",
+      "ENDURO",
+      "KITESURF",
+      "PARKOUR",
+      "SURF",
+      "CDMX",
+      "MONTERREY",
+      "QUERETARO",
+      "TIJUANA"
+    ]
+  },
+  {
+    "group_ids": [
+      2192,
+      2007,
+      2538,
+      2360
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "LUCHADORES ICONICOS",
+      "AFICION MEXICANA",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESMARQUE",
+      "FUERAJUEGO",
+      "REMATE",
+      "SAQUE",
+      "HECHICERO",
+      "PSICOSIS",
+      "RUSH",
+      "SANTO",
+      "ASCENSO",
+      "BOMBO",
+      "CLASICO",
+      "HINCHA",
+      "CANCHA",
+      "MANO",
+      "PARTIDO",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2403,
+      2456,
+      2938,
+      2570
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "LUCHADORES ICONICOS",
+      "BOXEO MEXICANO",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FUERAJUEGO",
+      "GOLEADA",
+      "PENAL",
+      "REMATE",
+      "BLUEDEMON",
+      "LA_PARKA",
+      "PENTAGON",
+      "RUSH",
+      "ESQUINA",
+      "GANCHO",
+      "MARQUEZ",
+      "MORALES",
+      "LIMON",
+      "OROZCO",
+      "PHELAN",
+      "SOTOMAYOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2531,
+      2416,
+      2558,
+      2250
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "LUCHA LIBRE",
+      "DEPORTES EXTREMOS",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BURLADERO",
+      "FAENA",
+      "PASE",
+      "TERCIO",
+      "ARENA",
+      "RELEVOS",
+      "RUDO",
+      "TECNICO",
+      "ENDURO",
+      "KITESURF",
+      "PARAPENTE",
+      "SKATE",
+      "BOLA",
+      "DOBLETE",
+      "ROBO",
+      "ROLA"
+    ]
+  },
+  {
+    "group_ids": [
+      2874,
+      2507,
+      2958,
+      2880
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "SELECCION MEXICO",
+      "PELOTA VASCA",
+      "LUCHADORES ICONICOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLAS",
+      "PACHUCA",
+      "PUMAS",
+      "RAYADOS",
+      "CAPITAN",
+      "DELANTERO",
+      "MEDIOCAMPO",
+      "MUNDIAL",
+      "PALETA",
+      "RESTO",
+      "SACADOR",
+      "TANTO",
+      "BLUEDEMON",
+      "FENIX",
+      "MILMASCARAS",
+      "ULTIMOGUERRERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2254,
+      2037,
+      2599,
+      2250
+    ],
+    "cats": [
+      "BASQUET MEXICO",
+      "AFICION MEXICANA",
+      "ESTADIOS MEXICO",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLAVADA",
+      "HALCONES",
+      "TABLERO",
+      "TRIPLES",
+      "DESCENSO",
+      "LIGUILLA",
+      "PORRA",
+      "TRIBUNA",
+      "CUAUHTEMOC",
+      "OLIMPICO",
+      "TERRITORIO",
+      "UNIVERSITARIO",
+      "BOLA",
+      "DOBLETE",
+      "ROBO",
+      "ROLA"
+    ]
+  },
+  {
+    "group_ids": [
+      2943,
+      2387,
+      2338,
+      2120
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "MEDIOS DEPORTIVOS MX",
+      "BEISBOL MEXICANO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLA",
+      "PONCHE",
+      "SHORTSTOP",
+      "TRIPLE",
+      "ESPN",
+      "FOXSPORTS",
+      "IMER",
+      "RADIOFORMULA",
+      "ALGODONEROS",
+      "BRAVOS",
+      "NARANJEROS",
+      "TIGRES",
+      "RECUPERAR",
+      "RESISTENCIA",
+      "RITMO",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2214,
+      2666,
+      2859,
+      2980
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "ATLETAS MEXICANOS",
+      "SELECCION MEXICO",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FOXSPORTS",
+      "MARCA",
+      "RADIOFORMULA",
+      "WDEPORTES",
+      "CHICHARITO",
+      "LORENA",
+      "PHELAN",
+      "SOTOMAYOR",
+      "AMISTOSO",
+      "DELANTERO",
+      "MEDIOCAMPO",
+      "MUNDIAL",
+      "JONRON",
+      "ROBO",
+      "ROLA",
+      "SHORTSTOP"
+    ]
+  },
+  {
+    "group_ids": [
+      2871,
+      2805,
+      2179,
+      2010
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "BEISBOL MEXICANO",
+      "PALABRAS DEPORTIVAS",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "BOMBO",
+      "PORRA",
+      "TIFO",
+      "ACEREROS",
+      "SULTANES",
+      "TIGRES",
+      "YAQUIS",
+      "AGILIDAD",
+      "ALINEACION",
+      "CALENTAR",
+      "RESISTENCIA",
+      "ESTOCADA",
+      "FAENA",
+      "RUEDO",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2323,
+      2475,
+      2528,
+      2290
+    ],
+    "cats": [
+      "BOXEO MEXICANO",
+      "PELOTA VASCA",
+      "LUCHA LIBRE",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASALTO",
+      "BARRERA",
+      "MARQUEZ",
+      "MORALES",
+      "CANCHA",
+      "PARED",
+      "REBOTE",
+      "TANTO",
+      "CAIDA",
+      "LLAVE",
+      "LONA",
+      "TECNICO",
+      "ELEVADO",
+      "JONRON",
+      "PONCHE",
+      "SHORTSTOP"
+    ]
+  },
+  {
+    "group_ids": [
+      2233,
+      2727,
+      2899,
+      2310
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "DEPORTES EXTREMOS",
+      "LUCHADORES ICONICOS",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOMBO",
+      "COPA",
+      "HINCHA",
+      "PORRA",
+      "ENDURO",
+      "RAFTING",
+      "SKATE",
+      "SURF",
+      "LA_PARKA",
+      "MISTICO",
+      "ULTIMOGUERRERO",
+      "VOLADOR",
+      "LEON",
+      "MONTERREY",
+      "PUEBLA",
+      "TORREON"
+    ]
+  },
+  {
+    "group_ids": [
+      2902,
+      2275,
+      2098,
+      2820
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "DEPORTES EXTREMOS",
+      "BASQUET MEXICO",
+      "ESTADIOS MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESTOCADA",
+      "MONTERA",
+      "PASE",
+      "TERCIO",
+      "BMX",
+      "RAFTING",
+      "RAPPEL",
+      "SURF",
+      "ABEJAS",
+      "CLAVADA",
+      "HALCONES",
+      "REBOTE",
+      "AZTECA",
+      "CORREGIDORA",
+      "HIDALGO",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      2153,
+      2815,
+      2148,
+      2210
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "MEDIOS DEPORTIVOS MX",
+      "PELOTA VASCA",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CATCHER",
+      "ROLA",
+      "SHORTSTOP",
+      "STRIKE",
+      "IMER",
+      "MEDIOTIEMPO",
+      "RADIOFORMULA",
+      "TVAZTECA",
+      "FRONTON",
+      "REBOTE",
+      "RESTO",
+      "TANTO",
+      "ESPINOZA",
+      "LIMON",
+      "ROMMEL",
+      "SOTOMAYOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2351,
+      2277,
+      2938,
+      2240
+    ],
+    "cats": [
+      "BASQUET MEXICO",
+      "CLUBES LIGA MX",
+      "BOXEO MEXICANO",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABEJAS",
+      "CAPITANES",
+      "MINEROS",
+      "SOLES",
+      "AMERICA",
+      "PACHUCA",
+      "RAYADOS",
+      "TOLUCA",
+      "ESQUINA",
+      "GANCHO",
+      "MARQUEZ",
+      "MORALES",
+      "ALGODONEROS",
+      "DIABLOS",
+      "TIGRES",
+      "VENADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2172,
+      2775,
+      2909,
+      2780
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "ATLETAS MEXICANOS",
+      "BASQUET MEXICO",
+      "AFICION MEXICANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESMARQUE",
+      "PENAL",
+      "REGATE",
+      "SAQUE",
+      "JULIO",
+      "LORENA",
+      "OROZCO",
+      "ROMMEL",
+      "DORADOS",
+      "HALCONES",
+      "PANTERAS",
+      "TABLERO",
+      "BANDERA",
+      "BOMBO",
+      "COPA",
+      "DESCENSO"
+    ]
+  },
+  {
+    "group_ids": [
+      2972,
+      2585,
+      2699,
+      2180
+    ],
+    "cats": [
+      "LUCHA LIBRE",
+      "LUCHADORES ICONICOS",
+      "TAUROMAQUIA CULTURA",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENMASCARADO",
+      "PLANCHA",
+      "RUDO",
+      "TECNICO",
+      "BLUEDEMON",
+      "FENIX",
+      "LA_PARKA",
+      "MILMASCARAS",
+      "BANDERILLAS",
+      "CAPOTE",
+      "FAENA",
+      "PLAZA",
+      "CRUZAZUL",
+      "LEON",
+      "SANTOS",
+      "TOLUCA"
+    ]
+  },
+  {
+    "group_ids": [
+      2173,
+      2016,
+      2338,
+      2750
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "MEDIOS DEPORTIVOS MX",
+      "BEISBOL MEXICANO",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLA",
+      "JONRON",
+      "PONCHE",
+      "TRIPLE",
+      "MEDIOTIEMPO",
+      "RADIOFORMULA",
+      "RECORD",
+      "TUDN",
+      "ALGODONEROS",
+      "BRAVOS",
+      "NARANJEROS",
+      "TIGRES",
+      "CULIACAN",
+      "MOCHIS",
+      "NOVENAS",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2354,
+      2947,
+      2198,
+      2620
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "BASQUET MEXICO",
+      "DEPORTES EXTREMOS",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AKRON",
+      "BBVA",
+      "JALISCO",
+      "VICTORIA",
+      "HALCONES",
+      "LIBERTADORES",
+      "MINEROS",
+      "PANTERAS",
+      "ESCALADA",
+      "PARAPENTE",
+      "PARKOUR",
+      "SURF",
+      "CAMISETA",
+      "CONCACAF",
+      "MUNDIAL",
+      "TRICOLOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2251,
+      2116,
+      2119,
+      2980
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "MEDIOS DEPORTIVOS MX",
+      "DEPORTES EXTREMOS",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CDMX",
+      "CHIHUAHUA",
+      "GUADALAJARA",
+      "QUERETARO",
+      "CANALONCE",
+      "IMER",
+      "RADIOFORMULA",
+      "WDEPORTES",
+      "BMX",
+      "ENDURO",
+      "RAFTING",
+      "SURF",
+      "JONRON",
+      "ROBO",
+      "ROLA",
+      "SHORTSTOP"
+    ]
+  },
+  {
+    "group_ids": [
+      2712,
+      2346,
+      2569,
+      2040
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "TERMINOS FUTBOL",
+      "DEPORTES OLIMPICOS MX",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMISTOSO",
+      "DEFENSA",
+      "ELIMINATORIA",
+      "MEDIOCAMPO",
+      "FUERAJUEGO",
+      "PASE",
+      "REGATE",
+      "REMATE",
+      "CICLISMO",
+      "MARCHA",
+      "TAEKWONDO",
+      "TIRO",
+      "ALINEACION",
+      "ENTRENADOR",
+      "RESISTENCIA",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2324,
+      2866,
+      2619,
+      2720
+    ],
+    "cats": [
+      "PELOTA VASCA",
+      "DEPORTES OLIMPICOS MX",
+      "ESTADIOS MEXICO",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FALTA",
+      "MANO",
+      "PARTIDO",
+      "RESTO",
+      "CANOTAJE",
+      "CICLISMO",
+      "MARCHA",
+      "NATACION",
+      "AZTECA",
+      "CORREGIDORA",
+      "JALISCO",
+      "VICTORIA",
+      "CHICHARITO",
+      "ESPINOZA",
+      "LIMON",
+      "MEMO"
+    ]
+  },
+  {
+    "group_ids": [
+      2741,
+      2277,
+      2608,
+      2330
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "CLUBES LIGA MX",
+      "DEPORTES OLIMPICOS MX",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHIHUAHUA",
+      "GUADALAJARA",
+      "LEON",
+      "TORREON",
+      "AMERICA",
+      "PACHUCA",
+      "RAYADOS",
+      "TOLUCA",
+      "ATLETISMO",
+      "CANOTAJE",
+      "NATACION",
+      "TIRO",
+      "CANALONCE",
+      "FOXSPORTS",
+      "TUDN",
+      "TVAZTECA"
+    ]
+  },
+  {
+    "group_ids": [
+      2344,
+      2167,
+      2889,
+      2970
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "BOXEO MEXICANO",
+      "AFICION MEXICANA",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETISMO",
+      "CANOTAJE",
+      "MARCHA",
+      "NATACION",
+      "CINTURON",
+      "FINITO",
+      "JAB",
+      "MORALES",
+      "BOMBO",
+      "CANTO",
+      "COPA",
+      "HINCHA",
+      "ALGODONEROS",
+      "SARAPEROS",
+      "TIGRES",
+      "YAQUIS"
+    ]
+  },
+  {
+    "group_ids": [
+      2101,
+      2177,
+      2159,
+      2970
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "BASQUET MEXICO",
+      "PALABRAS DEPORTIVAS",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLAS",
+      "LEON",
+      "PACHUCA",
+      "TOLUCA",
+      "DORADOS",
+      "PANTERAS",
+      "REBOTE",
+      "TRIPLES",
+      "AGILIDAD",
+      "CALENTAR",
+      "FUERZA",
+      "VELOCIDAD",
+      "ALGODONEROS",
+      "SARAPEROS",
+      "TIGRES",
+      "YAQUIS"
+    ]
+  },
+  {
+    "group_ids": [
+      2831,
+      2355,
+      2199,
+      3000
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "SELECCION MEXICO",
+      "PALABRAS DEPORTIVAS",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "PASE",
+      "PENAL",
+      "TIRO",
+      "CAPITAN",
+      "MEDIOCAMPO",
+      "MUNDIAL",
+      "TRICOLOR",
+      "ALINEACION",
+      "ENTRENADOR",
+      "RESISTENCIA",
+      "RITMO",
+      "CDMX",
+      "MONTERREY",
+      "QUERETARO",
+      "TIJUANA"
+    ]
+  },
+  {
+    "group_ids": [
+      2083,
+      2305,
+      2509,
+      2300
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "TAUROMAQUIA CULTURA",
+      "LIGA DEL PACIFICO",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AFICION",
+      "DEFENSA",
+      "ELIMINATORIA",
+      "MEDIOCAMPO",
+      "ESTOCADA",
+      "FAENA",
+      "MONTERA",
+      "PASE",
+      "HERMOSILLO",
+      "MAZATLAN",
+      "MOCHIS",
+      "PLAYOFF",
+      "ACEREROS",
+      "ALGODONEROS",
+      "NARANJEROS",
+      "PERICOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2813,
+      2717,
+      2178,
+      2440
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "PELOTA VASCA",
+      "DEPORTES EXTREMOS",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESMARQUE",
+      "FUERAJUEGO",
+      "PENAL",
+      "REMATE",
+      "FALTA",
+      "FRONTON",
+      "MANO",
+      "PARTIDO",
+      "BMX",
+      "ESCALADA",
+      "MOTOCROSS",
+      "RAPPEL",
+      "PASE",
+      "PLAZA",
+      "RUEDO",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2614,
+      2355,
+      2508,
+      2140
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "SELECCION MEXICO",
+      "BEISBOL MEXICANO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "BANDERA",
+      "BOMBO",
+      "CANTO",
+      "CAPITAN",
+      "MEDIOCAMPO",
+      "MUNDIAL",
+      "TRICOLOR",
+      "NARANJEROS",
+      "TOMATEROS",
+      "VENADOS",
+      "YAQUIS",
+      "ALINEACION",
+      "CALENTAR",
+      "TACTICA",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2683,
+      2155,
+      2768,
+      2070
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "MEDIOS DEPORTIVOS MX",
+      "BEISBOL MEXICANO",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARQUERIA",
+      "CANOTAJE",
+      "ESGRIMA",
+      "TIRO",
+      "MARCA",
+      "TELEVISA",
+      "TUDN",
+      "WDEPORTES",
+      "BRAVOS",
+      "DIABLOS",
+      "NARANJEROS",
+      "TIGRES",
+      "BANDERILLAS",
+      "CAPOTE",
+      "PLAZA",
+      "TERCIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2983,
+      2777,
+      2278,
+      2030
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "TERMINOS BEISBOL",
+      "ESTADIOS MEXICO",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "CANTO",
+      "COPA",
+      "LIGUILLA",
+      "DOBLETE",
+      "PONCHE",
+      "ROBO",
+      "TRIPLE",
+      "AZTECA",
+      "BBVA",
+      "JALISCO",
+      "NEMESIO",
+      "BURLADERO",
+      "ESTOCADA",
+      "MONTERA",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2574,
+      2046,
+      2148,
+      2390
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "LUCHA LIBRE",
+      "PELOTA VASCA",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESPN",
+      "IMER",
+      "TVAZTECA",
+      "WDEPORTES",
+      "APLAUSO",
+      "CAIDA",
+      "CASTIGO",
+      "TOPE",
+      "FRONTON",
+      "REBOTE",
+      "RESTO",
+      "TANTO",
+      "BMX",
+      "KITESURF",
+      "MOTOCROSS",
+      "SKATE"
+    ]
+  },
+  {
+    "group_ids": [
+      2673,
+      2037,
+      2078,
+      2610
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "AFICION MEXICANA",
+      "BASQUET MEXICO",
+      "TERMINOS FUTBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLAS",
+      "NECAXA",
+      "PUMAS",
+      "RAYADOS",
+      "DESCENSO",
+      "LIGUILLA",
+      "PORRA",
+      "TRIBUNA",
+      "LIBERTADORES",
+      "MINEROS",
+      "PANTERAS",
+      "TABLERO",
+      "FUERAJUEGO",
+      "REGATE",
+      "SAQUE",
+      "TIRO"
+    ]
+  },
+  {
+    "group_ids": [
+      2903,
+      2667,
+      2079,
+      2570
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "TERMINOS FUTBOL",
+      "DEPORTES EXTREMOS",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANOTAJE",
+      "NATACION",
+      "PESAS",
+      "TAEKWONDO",
+      "ATARJETA",
+      "REGATE",
+      "REMATE",
+      "TIRO",
+      "ESCALADA",
+      "KITESURF",
+      "MOTOCROSS",
+      "PARAPENTE",
+      "LIMON",
+      "OROZCO",
+      "PHELAN",
+      "SOTOMAYOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2251,
+      2766,
+      2939,
+      2490
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "ESTADIOS MEXICO",
+      "PELOTA VASCA",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CDMX",
+      "CHIHUAHUA",
+      "GUADALAJARA",
+      "QUERETARO",
+      "AZTECA",
+      "BBVA",
+      "CUAUHTEMOC",
+      "OLIMPICO",
+      "CANCHA",
+      "MANO",
+      "PALETA",
+      "RESTO",
+      "MAZATLAN",
+      "MEXICALI",
+      "NAYARIT",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2813,
+      2396,
+      2329,
+      2420
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "LUCHA LIBRE",
+      "CIUDADES DEPORTE MX",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESMARQUE",
+      "FUERAJUEGO",
+      "PENAL",
+      "REMATE",
+      "APLAUSO",
+      "ENMASCARADO",
+      "LLAVE",
+      "RUDO",
+      "MERIDA",
+      "MONTERREY",
+      "TOLUCA",
+      "VERACRUZ",
+      "CAPOTE",
+      "PLAZA",
+      "TERCIO",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2254,
+      2486,
+      2829,
+      2110
+    ],
+    "cats": [
+      "BASQUET MEXICO",
+      "CLUBES LIGA MX",
+      "DEPORTES OLIMPICOS MX",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLAVADA",
+      "HALCONES",
+      "TABLERO",
+      "TRIPLES",
+      "AMERICA",
+      "LEON",
+      "PACHUCA",
+      "PUMAS",
+      "ARQUERIA",
+      "MARCHA",
+      "PESAS",
+      "TIRO",
+      "CAPOTE",
+      "MONTERA",
+      "PLAZA",
+      "TERCIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2143,
+      2946,
+      2339,
+      2380
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "AFICION MEXICANA",
+      "LIGA DEL PACIFICO",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAMISETA",
+      "MUNDIAL",
+      "PORTERO",
+      "TRICOLOR",
+      "BANDERA",
+      "CLASICO",
+      "DESCENSO",
+      "PORRA",
+      "NAYARIT",
+      "OBREGON",
+      "PITCHEO",
+      "PLAYOFF",
+      "CANCHA",
+      "PALETA",
+      "PARTIDO",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2102,
+      2045,
+      2938,
+      2230
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "LIGA DEL PACIFICO",
+      "BOXEO MEXICANO",
+      "TERMINOS FUTBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AKRON",
+      "CUAUHTEMOC",
+      "TERRITORIO",
+      "VICTORIA",
+      "GUASAVE",
+      "MEXICALI",
+      "NAYARIT",
+      "OBREGON",
+      "ESQUINA",
+      "GANCHO",
+      "MARQUEZ",
+      "MORALES",
+      "ATARJETA",
+      "FUERAJUEGO",
+      "PENAL",
+      "SAQUE"
+    ]
+  },
+  {
+    "group_ids": [
+      2693,
+      2376,
+      2308,
+      2880
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "LIGA DEL PACIFICO",
+      "TERMINOS FUTBOL",
+      "LUCHADORES ICONICOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMISTOSO",
+      "ELIMINATORIA",
+      "MUNDIAL",
+      "TRICOLOR",
+      "CULIACAN",
+      "MEXICALI",
+      "PITCHEO",
+      "PLAYOFF",
+      "ATARJETA",
+      "DESMARQUE",
+      "GOLEADA",
+      "SAQUE",
+      "BLUEDEMON",
+      "FENIX",
+      "MILMASCARAS",
+      "ULTIMOGUERRERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2762,
+      2466,
+      2888,
+      2010
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "BASQUET MEXICO",
+      "MEDIOS DEPORTIVOS MX",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "BOMBO",
+      "CANTO",
+      "TRIBUNA",
+      "ABEJAS",
+      "LIBERTADORES",
+      "MINEROS",
+      "TABLERO",
+      "IMER",
+      "RADIOFORMULA",
+      "TELEVISA",
+      "WDEPORTES",
+      "ESTOCADA",
+      "FAENA",
+      "RUEDO",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2262,
+      2747,
+      2768,
+      2520
+    ],
+    "cats": [
+      "LUCHA LIBRE",
+      "ESTADIOS MEXICO",
+      "BEISBOL MEXICANO",
+      "BASQUET MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARENA",
+      "LLAVE",
+      "LONA",
+      "RUDO",
+      "AKRON",
+      "CORREGIDORA",
+      "JALISCO",
+      "VICTORIA",
+      "BRAVOS",
+      "DIABLOS",
+      "NARANJEROS",
+      "TIGRES",
+      "ABEJAS",
+      "MINEROS",
+      "PANTERAS",
+      "TABLERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2892,
+      2295,
+      2938,
+      2520
+    ],
+    "cats": [
+      "PALABRAS DEPORTIVAS",
+      "DEPORTES EXTREMOS",
+      "BOXEO MEXICANO",
+      "BASQUET MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FUERZA",
+      "RECUPERAR",
+      "SUPLENTE",
+      "TACTICA",
+      "MOTOCROSS",
+      "RAPPEL",
+      "SKATE",
+      "TRAIL",
+      "ESQUINA",
+      "GANCHO",
+      "MARQUEZ",
+      "MORALES",
+      "ABEJAS",
+      "MINEROS",
+      "PANTERAS",
+      "TABLERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2624,
+      2876,
+      2018,
+      2690
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "SELECCION MEXICO",
+      "BASQUET MEXICO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BLUEDEMON",
+      "HECHICERO",
+      "MILMASCARAS",
+      "PSICOSIS",
+      "CAMISETA",
+      "CONCACAF",
+      "MEDIOCAMPO",
+      "MUNDIAL",
+      "PANTERAS",
+      "REBOTE",
+      "TABLERO",
+      "TRIPLES",
+      "FUERZA",
+      "RESISTENCIA",
+      "RITMO",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2024,
+      2746,
+      2368,
+      2650
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "PALABRAS DEPORTIVAS",
+      "AFICION MEXICANA",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALGODONEROS",
+      "BRAVOS",
+      "SULTANES",
+      "YAQUIS",
+      "AGILIDAD",
+      "FUERZA",
+      "POTENCIA",
+      "RITMO",
+      "BANDERA",
+      "LIGUILLA",
+      "TIFO",
+      "TRIBUNA",
+      "RECORD",
+      "TELEVISA",
+      "TUDN",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2082,
+      2895,
+      2308,
+      2430
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "SELECCION MEXICO",
+      "TERMINOS FUTBOL",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AZTECA",
+      "NEMESIO",
+      "TERRITORIO",
+      "UNIVERSITARIO",
+      "CAPITAN",
+      "ELIMINATORIA",
+      "MEDIOCAMPO",
+      "PORTERO",
+      "ATARJETA",
+      "DESMARQUE",
+      "GOLEADA",
+      "SAQUE",
+      "AGILIDAD",
+      "POTENCIA",
+      "RITMO",
+      "SUPLENTE"
+    ]
+  },
+  {
+    "group_ids": [
+      2101,
+      2725,
+      2949,
+      2110
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "AFICION MEXICANA",
+      "PALABRAS DEPORTIVAS",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLAS",
+      "LEON",
+      "PACHUCA",
+      "TOLUCA",
+      "CANTO",
+      "CLASICO",
+      "HINCHA",
+      "TRIBUNA",
+      "CALENTAR",
+      "POTENCIA",
+      "RECUPERAR",
+      "VELOCIDAD",
+      "CAPOTE",
+      "MONTERA",
+      "PLAZA",
+      "TERCIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2014,
+      2175,
+      2379,
+      2020
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "MEDIOS DEPORTIVOS MX",
+      "BOXEO MEXICANO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLA",
+      "IMPARABLE",
+      "ROBO",
+      "TRIPLE",
+      "CANALONCE",
+      "MARCA",
+      "TELEVISA",
+      "TVAZTECA",
+      "ASALTO",
+      "BARRERA",
+      "ESQUINA",
+      "MARQUEZ",
+      "ALINEACION",
+      "ENTRENADOR",
+      "FUERZA",
+      "RITMO"
+    ]
+  },
+  {
+    "group_ids": [
+      2413,
+      2845,
+      2658,
+      2810
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "BOXEO MEXICANO",
+      "BEISBOL MEXICANO",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AFICION",
+      "DEFENSA",
+      "DELANTERO",
+      "TRICOLOR",
+      "ASALTO",
+      "CAMPANAZO",
+      "FINITO",
+      "JAB",
+      "NARANJEROS",
+      "SULTANES",
+      "TIGRES",
+      "TOMATEROS",
+      "FRONTON",
+      "GUANTE",
+      "SACADOR",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2812,
+      2067,
+      2929,
+      2240
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "LUCHADORES ICONICOS",
+      "BASQUET MEXICO",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESPINOZA",
+      "LIMON",
+      "LORENA",
+      "OROZCO",
+      "FENIX",
+      "PSICOSIS",
+      "RUSH",
+      "SANTO",
+      "DORADOS",
+      "HALCONES",
+      "LIBERTADORES",
+      "TRIPLES",
+      "ALGODONEROS",
+      "DIABLOS",
+      "TIGRES",
+      "VENADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2243,
+      2355,
+      2498,
+      2310
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "SELECCION MEXICO",
+      "TERMINOS BEISBOL",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FENIX",
+      "PENTAGON",
+      "SANTO",
+      "ULTIMOGUERRERO",
+      "CAPITAN",
+      "MEDIOCAMPO",
+      "MUNDIAL",
+      "TRICOLOR",
+      "JONRON",
+      "ROBO",
+      "SHORTSTOP",
+      "TRIPLE",
+      "LEON",
+      "MONTERREY",
+      "PUEBLA",
+      "TORREON"
+    ]
+  },
+  {
+    "group_ids": [
+      2491,
+      2567,
+      2688,
+      2200
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "PELOTA VASCA",
+      "AFICION MEXICANA",
+      "ESTADIOS MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FENIX",
+      "MILMASCARAS",
+      "MISTICO",
+      "VOLADOR",
+      "FALTA",
+      "PALETA",
+      "PARTIDO",
+      "TANTO",
+      "BANDERA",
+      "LIGUILLA",
+      "PORRA",
+      "TIFO",
+      "AZTECA",
+      "BBVA",
+      "HIDALGO",
+      "TERRITORIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2642,
+      2026,
+      2109,
+      2650
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "LUCHA LIBRE",
+      "PELOTA VASCA",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CULIACAN",
+      "GUASAVE",
+      "NAYARIT",
+      "PITCHEO",
+      "APLAUSO",
+      "ARENA",
+      "CASTIGO",
+      "ENMASCARADO",
+      "MANO",
+      "PALETA",
+      "SACADOR",
+      "TANTO",
+      "RECORD",
+      "TELEVISA",
+      "TUDN",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2673,
+      2485,
+      2768,
+      2910
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "PALABRAS DEPORTIVAS",
+      "BEISBOL MEXICANO",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLAS",
+      "NECAXA",
+      "PUMAS",
+      "RAYADOS",
+      "CALENTAR",
+      "FUERZA",
+      "RITMO",
+      "SUPLENTE",
+      "BRAVOS",
+      "DIABLOS",
+      "NARANJEROS",
+      "TIGRES",
+      "ENDURO",
+      "PARKOUR",
+      "RAPPEL",
+      "TRAIL"
+    ]
+  },
+  {
+    "group_ids": [
+      2983,
+      2066,
+      2639,
+      2490
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "LUCHA LIBRE",
+      "ESTADIOS MEXICO",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "CANTO",
+      "COPA",
+      "LIGUILLA",
+      "CAIDA",
+      "CASTIGO",
+      "RUDO",
+      "TOPE",
+      "AZTECA",
+      "CUAUHTEMOC",
+      "OLIMPICO",
+      "TERRITORIO",
+      "MAZATLAN",
+      "MEXICALI",
+      "NAYARIT",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2474,
+      2725,
+      2048,
+      2040
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "AFICION MEXICANA",
+      "BOXEO MEXICANO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PENTAGON",
+      "PSICOSIS",
+      "RUSH",
+      "ULTIMOGUERRERO",
+      "CANTO",
+      "CLASICO",
+      "HINCHA",
+      "TRIBUNA",
+      "CINTURON",
+      "FINITO",
+      "GANCHO",
+      "MORALES",
+      "ALINEACION",
+      "ENTRENADOR",
+      "RESISTENCIA",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2944,
+      2816,
+      2448,
+      2980
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "AFICION MEXICANA",
+      "DEPORTES EXTREMOS",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MONTERREY",
+      "PUEBLA",
+      "TORREON",
+      "VERACRUZ",
+      "BANDERA",
+      "BOMBO",
+      "TIFO",
+      "TRIBUNA",
+      "BMX",
+      "ENDURO",
+      "RAPPEL",
+      "TRAIL",
+      "JONRON",
+      "ROBO",
+      "ROLA",
+      "SHORTSTOP"
+    ]
+  },
+  {
+    "group_ids": [
+      2792,
+      2927,
+      2478,
+      2350
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "MEDIOS DEPORTIVOS MX",
+      "TERMINOS FUTBOL",
+      "AFICION MEXICANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETISMO",
+      "CICLISMO",
+      "MARCHA",
+      "NATACION",
+      "ESPN",
+      "MARCA",
+      "MEDIOTIEMPO",
+      "TVAZTECA",
+      "ATARJETA",
+      "GOLEADA",
+      "PENAL",
+      "REMATE",
+      "CLASICO",
+      "DESCENSO",
+      "TIFO",
+      "TRIBUNA"
+    ]
+  },
+  {
+    "group_ids": [
+      2371,
+      2167,
+      2309,
+      2350
+    ],
+    "cats": [
+      "PALABRAS DEPORTIVAS",
+      "BOXEO MEXICANO",
+      "TERMINOS BEISBOL",
+      "AFICION MEXICANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALINEACION",
+      "FUERZA",
+      "RECUPERAR",
+      "RITMO",
+      "CINTURON",
+      "FINITO",
+      "JAB",
+      "MORALES",
+      "BOLA",
+      "DOBLETE",
+      "ROBO",
+      "STRIKE",
+      "CLASICO",
+      "DESCENSO",
+      "TIFO",
+      "TRIBUNA"
+    ]
+  },
+  {
+    "group_ids": [
+      2453,
+      2325,
+      2208,
+      3000
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "DEPORTES OLIMPICOS MX",
+      "TAUROMAQUIA CULTURA",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DIABLOS",
+      "SARAPEROS",
+      "SULTANES",
+      "TIGRES",
+      "ARQUERIA",
+      "CLAVADOS",
+      "MARCHA",
+      "TAEKWONDO",
+      "BURLADERO",
+      "FAENA",
+      "TERCIO",
+      "TORERO",
+      "CDMX",
+      "MONTERREY",
+      "QUERETARO",
+      "TIJUANA"
+    ]
+  },
+  {
+    "group_ids": [
+      2463,
+      2245,
+      2499,
+      2120
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "PELOTA VASCA",
+      "CIUDADES DEPORTE MX",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELEVADO",
+      "IMPARABLE",
+      "ROBO",
+      "STRIKE",
+      "CANCHA",
+      "PALETA",
+      "PARED",
+      "SACADOR",
+      "CDMX",
+      "MONTERREY",
+      "PUEBLA",
+      "VERACRUZ",
+      "RECUPERAR",
+      "RESISTENCIA",
+      "RITMO",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2484,
+      2587,
+      2238,
+      2320
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "PELOTA VASCA",
+      "ESTADIOS MEXICO",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENDURO",
+      "MOTOCROSS",
+      "PARKOUR",
+      "RAPPEL",
+      "CANCHA",
+      "MANO",
+      "PARED",
+      "TANTO",
+      "CORREGIDORA",
+      "HIDALGO",
+      "TERRITORIO",
+      "UNIVERSITARIO",
+      "CULIACAN",
+      "HERMOSILLO",
+      "MEXICALI",
+      "PITCHEO"
+    ]
+  },
+  {
+    "group_ids": [
+      2534,
+      2617,
+      2219,
+      2370
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "PALABRAS DEPORTIVAS",
+      "ESTADIOS MEXICO",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FUERAJUEGO",
+      "PASE",
+      "REGATE",
+      "TIRO",
+      "AGILIDAD",
+      "ALINEACION",
+      "POTENCIA",
+      "VELOCIDAD",
+      "AKRON",
+      "CORREGIDORA",
+      "NEMESIO",
+      "OLIMPICO",
+      "ENDURO",
+      "MOTOCROSS",
+      "RAPPEL",
+      "SURF"
+    ]
+  },
+  {
+    "group_ids": [
+      2472,
+      2915,
+      2519,
+      2600
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "BEISBOL MEXICANO",
+      "AFICION MEXICANA",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CULIACAN",
+      "HERMOSILLO",
+      "MOCHIS",
+      "SERIE",
+      "ALGODONEROS",
+      "NARANJEROS",
+      "SARAPEROS",
+      "VENADOS",
+      "CANTO",
+      "PORRA",
+      "TIFO",
+      "TRIBUNA",
+      "CAPITAN",
+      "DELANTERO",
+      "MUNDIAL",
+      "PORTERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2421,
+      2265,
+      2658,
+      2020
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "PELOTA VASCA",
+      "BEISBOL MEXICANO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETISMO",
+      "CLAVADOS",
+      "PESAS",
+      "TIRO",
+      "GUANTE",
+      "PARTIDO",
+      "SACADOR",
+      "TANTO",
+      "NARANJEROS",
+      "SULTANES",
+      "TIGRES",
+      "TOMATEROS",
+      "ALINEACION",
+      "ENTRENADOR",
+      "FUERZA",
+      "RITMO"
+    ]
+  },
+  {
+    "group_ids": [
+      2413,
+      2955,
+      2479,
+      2240
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "LUCHA LIBRE",
+      "TERMINOS BEISBOL",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AFICION",
+      "DEFENSA",
+      "DELANTERO",
+      "TRICOLOR",
+      "ARENA",
+      "CAIDA",
+      "ENMASCARADO",
+      "TECNICO",
+      "ELEVADO",
+      "PONCHE",
+      "ROBO",
+      "STRIKE",
+      "ALGODONEROS",
+      "DIABLOS",
+      "TIGRES",
+      "VENADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2043,
+      2206,
+      2959,
+      2770
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "BOXEO MEXICANO",
+      "TAUROMAQUIA CULTURA",
+      "LUCHA LIBRE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPITAN",
+      "CONCACAF",
+      "DEFENSA",
+      "MUNDIAL",
+      "ESQUINA",
+      "FINITO",
+      "GANCHO",
+      "MORALES",
+      "BANDERILLAS",
+      "CAPOTE",
+      "FAENA",
+      "TERCIO",
+      "CAIDA",
+      "CASTIGO",
+      "PLANCHA",
+      "RELEVOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2004,
+      2715,
+      2958,
+      2590
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "LUCHA LIBRE",
+      "PELOTA VASCA",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALGODONEROS",
+      "BRAVOS",
+      "PERICOS",
+      "YAQUIS",
+      "CAIDA",
+      "LLAVE",
+      "TECNICO",
+      "TOPE",
+      "PALETA",
+      "RESTO",
+      "SACADOR",
+      "TANTO",
+      "JULIO",
+      "MEMO",
+      "PAOLA",
+      "ROMMEL"
+    ]
+  },
+  {
+    "group_ids": [
+      2191,
+      2895,
+      2208,
+      2140
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "SELECCION MEXICO",
+      "TAUROMAQUIA CULTURA",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALEJANDRA",
+      "LIMON",
+      "PAOLA",
+      "PHELAN",
+      "CAPITAN",
+      "ELIMINATORIA",
+      "MEDIOCAMPO",
+      "PORTERO",
+      "BURLADERO",
+      "FAENA",
+      "TERCIO",
+      "TORERO",
+      "ALINEACION",
+      "CALENTAR",
+      "TACTICA",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2742,
+      2835,
+      2999,
+      2480
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "AFICION MEXICANA",
+      "TERMINOS BEISBOL",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANALONCE",
+      "MARCA",
+      "MEDIOTIEMPO",
+      "TVAZTECA",
+      "ASCENSO",
+      "DESCENSO",
+      "PORRA",
+      "TRIBUNA",
+      "BOLA",
+      "ROBO",
+      "ROLA",
+      "STRIKE",
+      "GUADALAJARA",
+      "PUEBLA",
+      "TOLUCA",
+      "TORREON"
+    ]
+  },
+  {
+    "group_ids": [
+      2531,
+      2336,
+      2928,
+      2260
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "ESTADIOS MEXICO",
+      "AFICION MEXICANA",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BURLADERO",
+      "FAENA",
+      "PASE",
+      "TERCIO",
+      "JALISCO",
+      "TERRITORIO",
+      "UNIVERSITARIO",
+      "VICTORIA",
+      "DESCENSO",
+      "HINCHA",
+      "TIFO",
+      "TRIBUNA",
+      "ALGODONEROS",
+      "PERICOS",
+      "SARAPEROS",
+      "SULTANES"
+    ]
+  },
+  {
+    "group_ids": [
+      2424,
+      2817,
+      2169,
+      2230
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "BASQUET MEXICO",
+      "TAUROMAQUIA CULTURA",
+      "TERMINOS FUTBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELEVADO",
+      "JONRON",
+      "PONCHE",
+      "STRIKE",
+      "CLAVADA",
+      "DORADOS",
+      "LIBERTADORES",
+      "REBOTE",
+      "BANDERILLAS",
+      "BURLADERO",
+      "ESTOCADA",
+      "RUEDO",
+      "ATARJETA",
+      "FUERAJUEGO",
+      "PENAL",
+      "SAQUE"
+    ]
+  },
+  {
+    "group_ids": [
+      2703,
+      2126,
+      2959,
+      2880
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "LUCHA LIBRE",
+      "TAUROMAQUIA CULTURA",
+      "LUCHADORES ICONICOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLA",
+      "CATCHER",
+      "JONRON",
+      "SHORTSTOP",
+      "ARENA",
+      "CAIDA",
+      "LONA",
+      "TOPE",
+      "BANDERILLAS",
+      "CAPOTE",
+      "FAENA",
+      "TERCIO",
+      "BLUEDEMON",
+      "FENIX",
+      "MILMASCARAS",
+      "ULTIMOGUERRERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2133,
+      2095,
+      2958,
+      2420
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "CIUDADES DEPORTE MX",
+      "PELOTA VASCA",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "DESMARQUE",
+      "GOLEADA",
+      "SAQUE",
+      "LEON",
+      "MONTERREY",
+      "TIJUANA",
+      "TOLUCA",
+      "PALETA",
+      "RESTO",
+      "SACADOR",
+      "TANTO",
+      "CAPOTE",
+      "PLAZA",
+      "TERCIO",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2871,
+      2966,
+      2499,
+      2390
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "BASQUET MEXICO",
+      "CIUDADES DEPORTE MX",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "BOMBO",
+      "PORRA",
+      "TIFO",
+      "CAPITANES",
+      "HALCONES",
+      "PANTERAS",
+      "TABLERO",
+      "CDMX",
+      "MONTERREY",
+      "PUEBLA",
+      "VERACRUZ",
+      "BMX",
+      "KITESURF",
+      "MOTOCROSS",
+      "SKATE"
+    ]
+  },
+  {
+    "group_ids": [
+      2131,
+      2566,
+      2659,
+      2790
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "BOXEO MEXICANO",
+      "LIGA DEL PACIFICO",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETISMO",
+      "JUDO",
+      "MARCHA",
+      "TIRO",
+      "ASALTO",
+      "CANELO",
+      "CINTURON",
+      "JAB",
+      "MAZATLAN",
+      "MEXICALI",
+      "NOVENAS",
+      "SERIE",
+      "FALTA",
+      "MANO",
+      "PALETA",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2624,
+      2545,
+      2848,
+      2180
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "LIGA DEL PACIFICO",
+      "DEPORTES OLIMPICOS MX",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BLUEDEMON",
+      "HECHICERO",
+      "MILMASCARAS",
+      "PSICOSIS",
+      "GUASAVE",
+      "MAZATLAN",
+      "PITCHEO",
+      "PLAYOFF",
+      "CICLISMO",
+      "ESGRIMA",
+      "MARCHA",
+      "PESAS",
+      "CRUZAZUL",
+      "LEON",
+      "SANTOS",
+      "TOLUCA"
+    ]
+  },
+  {
+    "group_ids": [
+      2262,
+      2496,
+      2798,
+      2120
+    ],
+    "cats": [
+      "LUCHA LIBRE",
+      "ATLETAS MEXICANOS",
+      "AFICION MEXICANA",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARENA",
+      "LLAVE",
+      "LONA",
+      "RUDO",
+      "ESPINOZA",
+      "JULIO",
+      "MEMO",
+      "SOTOMAYOR",
+      "BOMBO",
+      "CANTO",
+      "CLASICO",
+      "LIGUILLA",
+      "RECUPERAR",
+      "RESISTENCIA",
+      "RITMO",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2502,
+      2686,
+      2449,
+      2440
+    ],
+    "cats": [
+      "BASQUET MEXICO",
+      "TERMINOS BEISBOL",
+      "PALABRAS DEPORTIVAS",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLAVADA",
+      "DORADOS",
+      "REBOTE",
+      "TABLERO",
+      "ELEVADO",
+      "ROBO",
+      "ROLA",
+      "STRIKE",
+      "ENTRENADOR",
+      "FUERZA",
+      "SUPLENTE",
+      "VELOCIDAD",
+      "PASE",
+      "PLAZA",
+      "RUEDO",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2791,
+      2496,
+      2728,
+      2360
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "ATLETAS MEXICANOS",
+      "PALABRAS DEPORTIVAS",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPOTE",
+      "PASE",
+      "RUEDO",
+      "TORERO",
+      "ESPINOZA",
+      "JULIO",
+      "MEMO",
+      "SOTOMAYOR",
+      "CALENTAR",
+      "ENTRENADOR",
+      "TACTICA",
+      "VELOCIDAD",
+      "CANCHA",
+      "MANO",
+      "PARTIDO",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2923,
+      2855,
+      2319,
+      2670
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "BASQUET MEXICO",
+      "BEISBOL MEXICANO",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHICHARITO",
+      "OROZCO",
+      "ROMMEL",
+      "SOTOMAYOR",
+      "ABEJAS",
+      "CAPITANES",
+      "MINEROS",
+      "REBOTE",
+      "DIABLOS",
+      "PERICOS",
+      "SULTANES",
+      "TOMATEROS",
+      "CANALONCE",
+      "FOXSPORTS",
+      "RECORD",
+      "TELEVISA"
+    ]
+  },
+  {
+    "group_ids": [
+      2884,
+      2745,
+      2898,
+      2050
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "DEPORTES EXTREMOS",
+      "LUCHA LIBRE",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "JULIO",
+      "LORENA",
+      "PAOLA",
+      "ROMMEL",
+      "KITESURF",
+      "MOTOCROSS",
+      "PARKOUR",
+      "RAPPEL",
+      "APLAUSO",
+      "CASTIGO",
+      "ENMASCARADO",
+      "LLAVE",
+      "BURLADERO",
+      "MULETA",
+      "PLAZA",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2494,
+      2185,
+      2038,
+      2870
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "LUCHA LIBRE",
+      "BASQUET MEXICO",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPOTE",
+      "ESTOCADA",
+      "MULETA",
+      "RUEDO",
+      "ARENA",
+      "LLAVE",
+      "PLANCHA",
+      "TECNICO",
+      "ABEJAS",
+      "CAPITANES",
+      "MINEROS",
+      "TRIPLES",
+      "FOXSPORTS",
+      "RECORD",
+      "TUDN",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2531,
+      2577,
+      2629,
+      2710
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "DEPORTES EXTREMOS",
+      "ATLETAS MEXICANOS",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BURLADERO",
+      "FAENA",
+      "PASE",
+      "TERCIO",
+      "ENDURO",
+      "ESCALADA",
+      "RAFTING",
+      "SURF",
+      "CHICHARITO",
+      "MEMO",
+      "PAOLA",
+      "SOTOMAYOR",
+      "CHIVAS",
+      "PACHUCA",
+      "PUMAS",
+      "RAYADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2964,
+      2045,
+      2149,
+      2790
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "LIGA DEL PACIFICO",
+      "TAUROMAQUIA CULTURA",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESPN",
+      "RADIOFORMULA",
+      "TUDN",
+      "WDEPORTES",
+      "GUASAVE",
+      "MEXICALI",
+      "NAYARIT",
+      "OBREGON",
+      "BANDERILLAS",
+      "CAPOTE",
+      "ESTOCADA",
+      "MULETA",
+      "FALTA",
+      "MANO",
+      "PALETA",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2273,
+      2377,
+      2699,
+      2740
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "LUCHA LIBRE",
+      "TAUROMAQUIA CULTURA",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "BOMBO",
+      "HINCHA",
+      "TIFO",
+      "ARENA",
+      "CAIDA",
+      "PLANCHA",
+      "RUDO",
+      "BANDERILLAS",
+      "CAPOTE",
+      "FAENA",
+      "PLAZA",
+      "IMPARABLE",
+      "JONRON",
+      "PONCHE",
+      "SHORTSTOP"
+    ]
+  },
+  {
+    "group_ids": [
+      2221,
+      2767,
+      2759,
+      2750
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "SELECCION MEXICO",
+      "TERMINOS BEISBOL",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ACEREROS",
+      "ALGODONEROS",
+      "SULTANES",
+      "VENADOS",
+      "AFICION",
+      "AMISTOSO",
+      "DEFENSA",
+      "TRICOLOR",
+      "BOLA",
+      "JONRON",
+      "SHORTSTOP",
+      "STRIKE",
+      "CULIACAN",
+      "MOCHIS",
+      "NOVENAS",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2203,
+      2637,
+      2988,
+      2160
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "PALABRAS DEPORTIVAS",
+      "ESTADIOS MEXICO",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MOCHIS",
+      "NAYARIT",
+      "NOVENAS",
+      "OBREGON",
+      "POTENCIA",
+      "SUPLENTE",
+      "TACTICA",
+      "VELOCIDAD",
+      "CUAUHTEMOC",
+      "NEMESIO",
+      "TERRITORIO",
+      "UNIVERSITARIO",
+      "LEON",
+      "SANTOS",
+      "TIGRES",
+      "TOLUCA"
+    ]
+  },
+  {
+    "group_ids": [
+      2532,
+      2207,
+      2269,
+      2140
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "PELOTA VASCA",
+      "TERMINOS FUTBOL",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CICLISMO",
+      "ESGRIMA",
+      "MARCHA",
+      "TIRO",
+      "CANCHA",
+      "GUANTE",
+      "PALETA",
+      "PARED",
+      "DESMARQUE",
+      "GOLEADA",
+      "REGATE",
+      "SAQUE",
+      "ALINEACION",
+      "CALENTAR",
+      "TACTICA",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2581,
+      2707,
+      2579,
+      2500
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "BASQUET MEXICO",
+      "CLUBES LIGA MX",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAMISETA",
+      "MEDIOCAMPO",
+      "PORTERO",
+      "TRICOLOR",
+      "CLAVADA",
+      "DORADOS",
+      "LIBERTADORES",
+      "PANTERAS",
+      "ATLAS",
+      "LEON",
+      "RAYADOS",
+      "SANTOS",
+      "ESPN",
+      "MEDIOTIEMPO",
+      "RADIOFORMULA",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2084,
+      2486,
+      2619,
+      2430
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "CLUBES LIGA MX",
+      "ESTADIOS MEXICO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALGODONEROS",
+      "NARANJEROS",
+      "SULTANES",
+      "TOMATEROS",
+      "AMERICA",
+      "LEON",
+      "PACHUCA",
+      "PUMAS",
+      "AZTECA",
+      "CORREGIDORA",
+      "JALISCO",
+      "VICTORIA",
+      "AGILIDAD",
+      "POTENCIA",
+      "RITMO",
+      "SUPLENTE"
+    ]
+  },
+  {
+    "group_ids": [
+      2504,
+      2165,
+      2758,
+      2620
+    ],
+    "cats": [
+      "PALABRAS DEPORTIVAS",
+      "LUCHA LIBRE",
+      "TERMINOS FUTBOL",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENTRENADOR",
+      "FUERZA",
+      "RECUPERAR",
+      "RESISTENCIA",
+      "APLAUSO",
+      "LLAVE",
+      "LONA",
+      "PLANCHA",
+      "GOLEADA",
+      "PASE",
+      "PENAL",
+      "REMATE",
+      "CAMISETA",
+      "CONCACAF",
+      "MUNDIAL",
+      "TRICOLOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2792,
+      2417,
+      2388,
+      2730
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "LUCHADORES ICONICOS",
+      "AFICION MEXICANA",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETISMO",
+      "CICLISMO",
+      "MARCHA",
+      "NATACION",
+      "LA_PARKA",
+      "RUSH",
+      "SANTO",
+      "ULTIMOGUERRERO",
+      "CLASICO",
+      "COPA",
+      "DESCENSO",
+      "HINCHA",
+      "CAMISETA",
+      "CAPITAN",
+      "CONCACAF",
+      "DEFENSA"
+    ]
+  },
+  {
+    "group_ids": [
+      2631,
+      2026,
+      2908,
+      2650
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "LUCHA LIBRE",
+      "AFICION MEXICANA",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DOBLETE",
+      "ELEVADO",
+      "JONRON",
+      "TRIPLE",
+      "APLAUSO",
+      "ARENA",
+      "CASTIGO",
+      "ENMASCARADO",
+      "ASCENSO",
+      "CANTO",
+      "TIFO",
+      "TRIBUNA",
+      "RECORD",
+      "TELEVISA",
+      "TUDN",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2721,
+      2686,
+      2238,
+      2310
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "TERMINOS BEISBOL",
+      "ESTADIOS MEXICO",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATARJETA",
+      "BARRIDA",
+      "GOLEADA",
+      "PASE",
+      "ELEVADO",
+      "ROBO",
+      "ROLA",
+      "STRIKE",
+      "CORREGIDORA",
+      "HIDALGO",
+      "TERRITORIO",
+      "UNIVERSITARIO",
+      "LEON",
+      "MONTERREY",
+      "PUEBLA",
+      "TORREON"
+    ]
+  },
+  {
+    "group_ids": [
+      2311,
+      2365,
+      2358,
+      2050
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "TERMINOS BEISBOL",
+      "LUCHADORES ICONICOS",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANALONCE",
+      "FOXSPORTS",
+      "MARCA",
+      "RADIOFORMULA",
+      "CATCHER",
+      "DOBLETE",
+      "ELEVADO",
+      "ROLA",
+      "FENIX",
+      "HECHICERO",
+      "SANTO",
+      "ULTIMOGUERRERO",
+      "BURLADERO",
+      "MULETA",
+      "PLAZA",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2874,
+      2235,
+      2029,
+      2300
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "DEPORTES EXTREMOS",
+      "PELOTA VASCA",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLAS",
+      "PACHUCA",
+      "PUMAS",
+      "RAYADOS",
+      "KITESURF",
+      "MOTOCROSS",
+      "PARAPENTE",
+      "SKATE",
+      "FALTA",
+      "FRONTON",
+      "MANO",
+      "PARED",
+      "ACEREROS",
+      "ALGODONEROS",
+      "NARANJEROS",
+      "PERICOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2942,
+      2326,
+      2848,
+      2750
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "ATLETAS MEXICANOS",
+      "DEPORTES OLIMPICOS MX",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "DESMARQUE",
+      "FUERAJUEGO",
+      "REMATE",
+      "ESPINOZA",
+      "LIMON",
+      "LORENA",
+      "ROMMEL",
+      "CICLISMO",
+      "ESGRIMA",
+      "MARCHA",
+      "PESAS",
+      "CULIACAN",
+      "MOCHIS",
+      "NOVENAS",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2903,
+      2565,
+      2229,
+      2680
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "LUCHADORES ICONICOS",
+      "ATLETAS MEXICANOS",
+      "BOXEO MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANOTAJE",
+      "NATACION",
+      "PESAS",
+      "TAEKWONDO",
+      "BLUEDEMON",
+      "LA_PARKA",
+      "MILMASCARAS",
+      "PENTAGON",
+      "MEMO",
+      "OROZCO",
+      "ROMMEL",
+      "SOTOMAYOR",
+      "CAMPANAZO",
+      "CINTURON",
+      "FINITO",
+      "MARQUEZ"
+    ]
+  },
+  {
+    "group_ids": [
+      2542,
+      2687,
+      2759,
+      2810
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "MEDIOS DEPORTIVOS MX",
+      "TERMINOS BEISBOL",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AKRON",
+      "AZTECA",
+      "OLIMPICO",
+      "UNIVERSITARIO",
+      "ESPN",
+      "IMER",
+      "TELEVISA",
+      "TUDN",
+      "BOLA",
+      "JONRON",
+      "SHORTSTOP",
+      "STRIKE",
+      "FRONTON",
+      "GUANTE",
+      "SACADOR",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2293,
+      2007,
+      2648,
+      2520
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "LUCHADORES ICONICOS",
+      "TERMINOS BEISBOL",
+      "BASQUET MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "DESCENSO",
+      "LIGUILLA",
+      "PORRA",
+      "HECHICERO",
+      "PSICOSIS",
+      "RUSH",
+      "SANTO",
+      "ELEVADO",
+      "IMPARABLE",
+      "SHORTSTOP",
+      "STRIKE",
+      "ABEJAS",
+      "MINEROS",
+      "PANTERAS",
+      "TABLERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2271,
+      2885,
+      2748,
+      2680
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "TERMINOS FUTBOL",
+      "SELECCION MEXICO",
+      "BOXEO MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CDMX",
+      "QUERETARO",
+      "TORREON",
+      "VERACRUZ",
+      "ATARJETA",
+      "BARRIDA",
+      "FUERAJUEGO",
+      "PASE",
+      "AMISTOSO",
+      "CAMISETA",
+      "ELIMINATORIA",
+      "MUNDIAL",
+      "CAMPANAZO",
+      "CINTURON",
+      "FINITO",
+      "MARQUEZ"
+    ]
+  },
+  {
+    "group_ids": [
+      2631,
+      2296,
+      2109,
+      2560
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "PALABRAS DEPORTIVAS",
+      "PELOTA VASCA",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DOBLETE",
+      "ELEVADO",
+      "JONRON",
+      "TRIPLE",
+      "AGILIDAD",
+      "ENTRENADOR",
+      "FUERZA",
+      "POTENCIA",
+      "MANO",
+      "PALETA",
+      "SACADOR",
+      "TANTO",
+      "AMERICA",
+      "CHIVAS",
+      "NECAXA",
+      "RAYADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2854,
+      2316,
+      2309,
+      2490
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "CLUBES LIGA MX",
+      "TERMINOS BEISBOL",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOMBO",
+      "CLASICO",
+      "COPA",
+      "DESCENSO",
+      "ATLAS",
+      "CRUZAZUL",
+      "LEON",
+      "PACHUCA",
+      "BOLA",
+      "DOBLETE",
+      "ROBO",
+      "STRIKE",
+      "MAZATLAN",
+      "MEXICALI",
+      "NAYARIT",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2944,
+      2396,
+      2808,
+      2070
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "LUCHA LIBRE",
+      "LUCHADORES ICONICOS",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MONTERREY",
+      "PUEBLA",
+      "TORREON",
+      "VERACRUZ",
+      "APLAUSO",
+      "ENMASCARADO",
+      "LLAVE",
+      "RUDO",
+      "PENTAGON",
+      "PSICOSIS",
+      "RUSH",
+      "VOLADOR",
+      "BANDERILLAS",
+      "CAPOTE",
+      "PLAZA",
+      "TERCIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2934,
+      2427,
+      2148,
+      2900
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "AFICION MEXICANA",
+      "PELOTA VASCA",
+      "BOXEO MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PERICOS",
+      "SARAPEROS",
+      "SULTANES",
+      "TIGRES",
+      "BANDERA",
+      "BOMBO",
+      "LIGUILLA",
+      "TIFO",
+      "FRONTON",
+      "REBOTE",
+      "RESTO",
+      "TANTO",
+      "CAMPANAZO",
+      "CHAVEZ",
+      "ESQUINA",
+      "MARQUEZ"
+    ]
+  },
+  {
+    "group_ids": [
+      2402,
+      2257,
+      2038,
+      2280
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "CLUBES LIGA MX",
+      "BASQUET MEXICO",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALEJANDRA",
+      "MEMO",
+      "PHELAN",
+      "SOTOMAYOR",
+      "AMERICA",
+      "CHIVAS",
+      "PUMAS",
+      "TOLUCA",
+      "ABEJAS",
+      "CAPITANES",
+      "MINEROS",
+      "TRIPLES",
+      "PERICOS",
+      "SARAPEROS",
+      "TIGRES",
+      "TOMATEROS"
+    ]
+  },
+  {
+    "group_ids": [
+      2511,
+      2295,
+      2298,
+      2550
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "DEPORTES EXTREMOS",
+      "ESTADIOS MEXICO",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MISTICO",
+      "PSICOSIS",
+      "RUSH",
+      "SANTO",
+      "MOTOCROSS",
+      "RAPPEL",
+      "SKATE",
+      "TRAIL",
+      "AKRON",
+      "AZTECA",
+      "BBVA",
+      "HIDALGO",
+      "ESTOCADA",
+      "MULETA",
+      "PASE",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2151,
+      2075,
+      2318,
+      2100
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "CIUDADES DEPORTE MX",
+      "SELECCION MEXICO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "LIMON",
+      "MEMO",
+      "PAOLA",
+      "ROMMEL",
+      "CHIHUAHUA",
+      "QUERETARO",
+      "TIJUANA",
+      "TOLUCA",
+      "CONCACAF",
+      "DEFENSA",
+      "MEDIOCAMPO",
+      "TRICOLOR",
+      "ALINEACION",
+      "ENTRENADOR",
+      "RITMO",
+      "TACTICA"
+    ]
+  },
+  {
+    "group_ids": [
+      2171,
+      2325,
+      2898,
+      2580
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "DEPORTES OLIMPICOS MX",
+      "LUCHA LIBRE",
+      "ESTADIOS MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHICHARITO",
+      "OROZCO",
+      "PHELAN",
+      "SOTOMAYOR",
+      "ARQUERIA",
+      "CLAVADOS",
+      "MARCHA",
+      "TAEKWONDO",
+      "APLAUSO",
+      "CASTIGO",
+      "ENMASCARADO",
+      "LLAVE",
+      "AKRON",
+      "JALISCO",
+      "UNIVERSITARIO",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      2574,
+      2987,
+      2539,
+      2260
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "CLUBES LIGA MX",
+      "BASQUET MEXICO",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESPN",
+      "IMER",
+      "TVAZTECA",
+      "WDEPORTES",
+      "AMERICA",
+      "LEON",
+      "PACHUCA",
+      "RAYADOS",
+      "ABEJAS",
+      "LIBERTADORES",
+      "PANTERAS",
+      "TABLERO",
+      "ALGODONEROS",
+      "PERICOS",
+      "SARAPEROS",
+      "SULTANES"
+    ]
+  },
+  {
+    "group_ids": [
+      2134,
+      2836,
+      2938,
+      2560
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "BASQUET MEXICO",
+      "BOXEO MEXICANO",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLA",
+      "CATCHER",
+      "JONRON",
+      "TRIPLE",
+      "CLAVADA",
+      "LIBERTADORES",
+      "SOLES",
+      "TABLERO",
+      "ESQUINA",
+      "GANCHO",
+      "MARQUEZ",
+      "MORALES",
+      "AMERICA",
+      "CHIVAS",
+      "NECAXA",
+      "RAYADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2764,
+      2377,
+      2259,
+      2900
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "LUCHA LIBRE",
+      "SELECCION MEXICO",
+      "BOXEO MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENDURO",
+      "PARAPENTE",
+      "PARKOUR",
+      "TRAIL",
+      "ARENA",
+      "CAIDA",
+      "PLANCHA",
+      "RUDO",
+      "CAMISETA",
+      "DELANTERO",
+      "MEDIOCAMPO",
+      "TRICOLOR",
+      "CAMPANAZO",
+      "CHAVEZ",
+      "ESQUINA",
+      "MARQUEZ"
+    ]
+  },
+  {
+    "group_ids": [
+      2723,
+      2535,
+      2959,
+      2590
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "TERMINOS BEISBOL",
+      "TAUROMAQUIA CULTURA",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHIHUAHUA",
+      "GUADALAJARA",
+      "MONTERREY",
+      "PUEBLA",
+      "CATCHER",
+      "DOBLETE",
+      "IMPARABLE",
+      "ROLA",
+      "BANDERILLAS",
+      "CAPOTE",
+      "FAENA",
+      "TERCIO",
+      "JULIO",
+      "MEMO",
+      "PAOLA",
+      "ROMMEL"
+    ]
+  },
+  {
+    "group_ids": [
+      2562,
+      2916,
+      2528,
+      2280
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "LIGA DEL PACIFICO",
+      "LUCHA LIBRE",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMISTOSO",
+      "ELIMINATORIA",
+      "MEDIOCAMPO",
+      "TRICOLOR",
+      "CULIACAN",
+      "GUASAVE",
+      "PITCHEO",
+      "SERIE",
+      "CAIDA",
+      "LLAVE",
+      "LONA",
+      "TECNICO",
+      "PERICOS",
+      "SARAPEROS",
+      "TIGRES",
+      "TOMATEROS"
+    ]
+  },
+  {
+    "group_ids": [
+      2432,
+      2925,
+      2678,
+      2330
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "TERMINOS BEISBOL",
+      "LUCHA LIBRE",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AZTECA",
+      "BBVA",
+      "CORREGIDORA",
+      "JALISCO",
+      "CATCHER",
+      "ELEVADO",
+      "JONRON",
+      "SHORTSTOP",
+      "CAIDA",
+      "LLAVE",
+      "RUDO",
+      "TOPE",
+      "CANALONCE",
+      "FOXSPORTS",
+      "TUDN",
+      "TVAZTECA"
+    ]
+  },
+  {
+    "group_ids": [
+      2482,
+      2276,
+      2168,
+      2700
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "PALABRAS DEPORTIVAS",
+      "PELOTA VASCA",
+      "DEPORTES OLIMPICOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCENSO",
+      "HINCHA",
+      "LIGUILLA",
+      "TIFO",
+      "CALENTAR",
+      "ENTRENADOR",
+      "RITMO",
+      "VELOCIDAD",
+      "PALETA",
+      "PARTIDO",
+      "REBOTE",
+      "SACADOR",
+      "ATLETISMO",
+      "CICLISMO",
+      "NATACION",
+      "PESAS"
+    ]
+  },
+  {
+    "group_ids": [
+      2353,
+      2146,
+      2848,
+      2410
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "LUCHADORES ICONICOS",
+      "DEPORTES OLIMPICOS MX",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHIVAS",
+      "LEON",
+      "SANTOS",
+      "TIGRES",
+      "HECHICERO",
+      "MILMASCARAS",
+      "PSICOSIS",
+      "VOLADOR",
+      "CICLISMO",
+      "ESGRIMA",
+      "MARCHA",
+      "PESAS",
+      "ALINEACION",
+      "ENTRENADOR",
+      "RESISTENCIA",
+      "TACTICA"
+    ]
+  },
+  {
+    "group_ids": [
+      2453,
+      2556,
+      2719,
+      2590
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "AFICION MEXICANA",
+      "DEPORTES OLIMPICOS MX",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DIABLOS",
+      "SARAPEROS",
+      "SULTANES",
+      "TIGRES",
+      "ASCENSO",
+      "BANDERA",
+      "BOMBO",
+      "PORRA",
+      "ATLETISMO",
+      "CLAVADOS",
+      "NATACION",
+      "TAEKWONDO",
+      "JULIO",
+      "MEMO",
+      "PAOLA",
+      "ROMMEL"
+    ]
+  },
+  {
+    "group_ids": [
+      2584,
+      2977,
+      2819,
+      2490
+    ],
+    "cats": [
+      "LUCHA LIBRE",
+      "DEPORTES OLIMPICOS MX",
+      "CLUBES LIGA MX",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAIDA",
+      "CASTIGO",
+      "LLAVE",
+      "LONA",
+      "CANOTAJE",
+      "CICLISMO",
+      "JUDO",
+      "PESAS",
+      "CRUZAZUL",
+      "PACHUCA",
+      "PUMAS",
+      "RAYADOS",
+      "MAZATLAN",
+      "MEXICALI",
+      "NAYARIT",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2051,
+      2617,
+      2009,
+      2910
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "PALABRAS DEPORTIVAS",
+      "PELOTA VASCA",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARQUERIA",
+      "CLAVADOS",
+      "JUDO",
+      "MARCHA",
+      "AGILIDAD",
+      "ALINEACION",
+      "POTENCIA",
+      "VELOCIDAD",
+      "CANCHA",
+      "FRONTON",
+      "MANO",
+      "PARED",
+      "ENDURO",
+      "PARKOUR",
+      "RAPPEL",
+      "TRAIL"
+    ]
+  },
+  {
+    "group_ids": [
+      2144,
+      2976,
+      2958,
+      2560
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "TAUROMAQUIA CULTURA",
+      "PELOTA VASCA",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALGODONEROS",
+      "SARAPEROS",
+      "SULTANES",
+      "TIGRES",
+      "FAENA",
+      "MONTERA",
+      "MULETA",
+      "PLAZA",
+      "PALETA",
+      "RESTO",
+      "SACADOR",
+      "TANTO",
+      "AMERICA",
+      "CHIVAS",
+      "NECAXA",
+      "RAYADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2283,
+      2875,
+      2778,
+      2630
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "ESTADIOS MEXICO",
+      "CIUDADES DEPORTE MX",
+      "TERMINOS FUTBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BLUEDEMON",
+      "MISTICO",
+      "RUSH",
+      "ULTIMOGUERRERO",
+      "AKRON",
+      "CUAUHTEMOC",
+      "HIDALGO",
+      "JALISCO",
+      "LEON",
+      "MERIDA",
+      "MONTERREY",
+      "TORREON",
+      "ARBITRO",
+      "ATARJETA",
+      "BARRIDA",
+      "PENAL"
+    ]
+  },
+  {
+    "group_ids": [
+      2374,
+      2277,
+      2159,
+      2510
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "CLUBES LIGA MX",
+      "PALABRAS DEPORTIVAS",
+      "LUCHA LIBRE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMISTOSO",
+      "CAPITAN",
+      "ELIMINATORIA",
+      "PORTERO",
+      "AMERICA",
+      "PACHUCA",
+      "RAYADOS",
+      "TOLUCA",
+      "AGILIDAD",
+      "CALENTAR",
+      "FUERZA",
+      "VELOCIDAD",
+      "LONA",
+      "PLANCHA",
+      "RUDO",
+      "TOPE"
+    ]
+  },
+  {
+    "group_ids": [
+      2484,
+      2165,
+      2658,
+      2640
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "LUCHA LIBRE",
+      "BEISBOL MEXICANO",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENDURO",
+      "MOTOCROSS",
+      "PARKOUR",
+      "RAPPEL",
+      "APLAUSO",
+      "LLAVE",
+      "LONA",
+      "PLANCHA",
+      "NARANJEROS",
+      "SULTANES",
+      "TIGRES",
+      "TOMATEROS",
+      "CAPITAN",
+      "CONCACAF",
+      "ELIMINATORIA",
+      "MEDIOCAMPO"
+    ]
+  },
+  {
+    "group_ids": [
+      2491,
+      2766,
+      2939,
+      3000
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "ESTADIOS MEXICO",
+      "PELOTA VASCA",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FENIX",
+      "MILMASCARAS",
+      "MISTICO",
+      "VOLADOR",
+      "AZTECA",
+      "BBVA",
+      "CUAUHTEMOC",
+      "OLIMPICO",
+      "CANCHA",
+      "MANO",
+      "PALETA",
+      "RESTO",
+      "CDMX",
+      "MONTERREY",
+      "QUERETARO",
+      "TIJUANA"
+    ]
+  },
+  {
+    "group_ids": [
+      2122,
+      2606,
+      2508,
+      2500
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "PELOTA VASCA",
+      "BEISBOL MEXICANO",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBVA",
+      "NEMESIO",
+      "TERRITORIO",
+      "VICTORIA",
+      "CANCHA",
+      "FALTA",
+      "MANO",
+      "PARED",
+      "NARANJEROS",
+      "TOMATEROS",
+      "VENADOS",
+      "YAQUIS",
+      "ESPN",
+      "MEDIOTIEMPO",
+      "RADIOFORMULA",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2434,
+      2327,
+      2629,
+      2950
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "TERMINOS FUTBOL",
+      "ATLETAS MEXICANOS",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "NARANJEROS",
+      "TIGRES",
+      "TOMATEROS",
+      "VENADOS",
+      "DESMARQUE",
+      "FUERAJUEGO",
+      "REGATE",
+      "TIRO",
+      "CHICHARITO",
+      "MEMO",
+      "PAOLA",
+      "SOTOMAYOR",
+      "ATLAS",
+      "CHIVAS",
+      "PUMAS",
+      "SANTOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2811,
+      2587,
+      2389,
+      2460
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "PELOTA VASCA",
+      "BASQUET MEXICO",
+      "DEPORTES OLIMPICOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BANDERILLAS",
+      "BURLADERO",
+      "PLAZA",
+      "TORERO",
+      "CANCHA",
+      "MANO",
+      "PARED",
+      "TANTO",
+      "CAPITANES",
+      "LIBERTADORES",
+      "PANTERAS",
+      "SOLES",
+      "ARQUERIA",
+      "CICLISMO",
+      "JUDO",
+      "TIRO"
+    ]
+  },
+  {
+    "group_ids": [
+      2592,
+      2217,
+      2928,
+      2710
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "DEPORTES EXTREMOS",
+      "AFICION MEXICANA",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLA",
+      "IMPARABLE",
+      "SHORTSTOP",
+      "STRIKE",
+      "BMX",
+      "MOTOCROSS",
+      "PARAPENTE",
+      "SKATE",
+      "DESCENSO",
+      "HINCHA",
+      "TIFO",
+      "TRIBUNA",
+      "CHIVAS",
+      "PACHUCA",
+      "PUMAS",
+      "RAYADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2333,
+      2146,
+      2459,
+      2450
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "LUCHADORES ICONICOS",
+      "TAUROMAQUIA CULTURA",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BMX",
+      "ENDURO",
+      "MOTOCROSS",
+      "SURF",
+      "HECHICERO",
+      "MILMASCARAS",
+      "PSICOSIS",
+      "VOLADOR",
+      "BURLADERO",
+      "ESTOCADA",
+      "MONTERA",
+      "PASE",
+      "ATLAS",
+      "CRUZAZUL",
+      "NECAXA",
+      "TOLUCA"
+    ]
+  },
+  {
+    "group_ids": [
+      2942,
+      2085,
+      2119,
+      2450
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "LIGA DEL PACIFICO",
+      "DEPORTES EXTREMOS",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "DESMARQUE",
+      "FUERAJUEGO",
+      "REMATE",
+      "CULIACAN",
+      "GUASAVE",
+      "MOCHIS",
+      "NAYARIT",
+      "BMX",
+      "ENDURO",
+      "RAFTING",
+      "SURF",
+      "ATLAS",
+      "CRUZAZUL",
+      "NECAXA",
+      "TOLUCA"
+    ]
+  },
+  {
+    "group_ids": [
+      2493,
+      2026,
+      2018,
+      2730
+    ],
+    "cats": [
+      "PELOTA VASCA",
+      "LUCHA LIBRE",
+      "BASQUET MEXICO",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GUANTE",
+      "PALETA",
+      "PARED",
+      "TANTO",
+      "APLAUSO",
+      "ARENA",
+      "CASTIGO",
+      "ENMASCARADO",
+      "PANTERAS",
+      "REBOTE",
+      "TABLERO",
+      "TRIPLES",
+      "CAMISETA",
+      "CAPITAN",
+      "CONCACAF",
+      "DEFENSA"
+    ]
+  },
+  {
+    "group_ids": [
+      2474,
+      2995,
+      2148,
+      2950
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "TAUROMAQUIA CULTURA",
+      "PELOTA VASCA",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PENTAGON",
+      "PSICOSIS",
+      "RUSH",
+      "ULTIMOGUERRERO",
+      "BURLADERO",
+      "FAENA",
+      "RUEDO",
+      "TERCIO",
+      "FRONTON",
+      "REBOTE",
+      "RESTO",
+      "TANTO",
+      "ATLAS",
+      "CHIVAS",
+      "PUMAS",
+      "SANTOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2001,
+      2507,
+      2919,
+      2380
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "SELECCION MEXICO",
+      "BOXEO MEXICANO",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRUZAZUL",
+      "LEON",
+      "PUMAS",
+      "TIGRES",
+      "CAPITAN",
+      "DELANTERO",
+      "MEDIOCAMPO",
+      "MUNDIAL",
+      "ASALTO",
+      "CANELO",
+      "ESQUINA",
+      "GANCHO",
+      "CANCHA",
+      "PALETA",
+      "PARTIDO",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2222,
+      2196,
+      2479,
+      2240
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "AFICION MEXICANA",
+      "TERMINOS BEISBOL",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GUASAVE",
+      "MEXICALI",
+      "PITCHEO",
+      "PLAYOFF",
+      "BOMBO",
+      "CANTO",
+      "COPA",
+      "PORRA",
+      "ELEVADO",
+      "PONCHE",
+      "ROBO",
+      "STRIKE",
+      "ALGODONEROS",
+      "DIABLOS",
+      "TIGRES",
+      "VENADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2662,
+      2465,
+      2298,
+      2710
+    ],
+    "cats": [
+      "BOXEO MEXICANO",
+      "MEDIOS DEPORTIVOS MX",
+      "ESTADIOS MEXICO",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARRERA",
+      "CAMPANAZO",
+      "CANELO",
+      "CHAVEZ",
+      "ESPN",
+      "RADIOFORMULA",
+      "TVAZTECA",
+      "WDEPORTES",
+      "AKRON",
+      "AZTECA",
+      "BBVA",
+      "HIDALGO",
+      "CHIVAS",
+      "PACHUCA",
+      "PUMAS",
+      "RAYADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2644,
+      2415,
+      2569,
+      2770
+    ],
+    "cats": [
+      "BOXEO MEXICANO",
+      "LIGA DEL PACIFICO",
+      "DEPORTES OLIMPICOS MX",
+      "LUCHA LIBRE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASALTO",
+      "BARRERA",
+      "CHAVEZ",
+      "ESQUINA",
+      "HERMOSILLO",
+      "MAZATLAN",
+      "PITCHEO",
+      "SERIE",
+      "CICLISMO",
+      "MARCHA",
+      "TAEKWONDO",
+      "TIRO",
+      "CAIDA",
+      "CASTIGO",
+      "PLANCHA",
+      "RELEVOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2971,
+      2077,
+      2318,
+      2390
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "AFICION MEXICANA",
+      "SELECCION MEXICO",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GUASAVE",
+      "NOVENAS",
+      "OBREGON",
+      "PLAYOFF",
+      "BOMBO",
+      "COPA",
+      "DESCENSO",
+      "TRIBUNA",
+      "CONCACAF",
+      "DEFENSA",
+      "MEDIOCAMPO",
+      "TRICOLOR",
+      "BMX",
+      "KITESURF",
+      "MOTOCROSS",
+      "SKATE"
+    ]
+  },
+  {
+    "group_ids": [
+      2742,
+      2047,
+      2889,
+      2010
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "LUCHADORES ICONICOS",
+      "AFICION MEXICANA",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANALONCE",
+      "MARCA",
+      "MEDIOTIEMPO",
+      "TVAZTECA",
+      "LA_PARKA",
+      "MILMASCARAS",
+      "PENTAGON",
+      "PSICOSIS",
+      "BOMBO",
+      "CANTO",
+      "COPA",
+      "HINCHA",
+      "ESTOCADA",
+      "FAENA",
+      "RUEDO",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2032,
+      2845,
+      2208,
+      2500
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "BOXEO MEXICANO",
+      "TAUROMAQUIA CULTURA",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALEJANDRA",
+      "ESPINOZA",
+      "LIMON",
+      "SOTOMAYOR",
+      "ASALTO",
+      "CAMPANAZO",
+      "FINITO",
+      "JAB",
+      "BURLADERO",
+      "FAENA",
+      "TERCIO",
+      "TORERO",
+      "ESPN",
+      "MEDIOTIEMPO",
+      "RADIOFORMULA",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2503,
+      2026,
+      2138,
+      2780
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "LUCHA LIBRE",
+      "BASQUET MEXICO",
+      "AFICION MEXICANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BMX",
+      "KITESURF",
+      "MOTOCROSS",
+      "RAPPEL",
+      "APLAUSO",
+      "ARENA",
+      "CASTIGO",
+      "ENMASCARADO",
+      "ABEJAS",
+      "LIBERTADORES",
+      "PANTERAS",
+      "TRIPLES",
+      "BANDERA",
+      "BOMBO",
+      "COPA",
+      "DESCENSO"
+    ]
+  },
+  {
+    "group_ids": [
+      2272,
+      2896,
+      2728,
+      2530
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "BEISBOL MEXICANO",
+      "PALABRAS DEPORTIVAS",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANALONCE",
+      "MEDIOTIEMPO",
+      "RECORD",
+      "TELEVISA",
+      "ACEREROS",
+      "NARANJEROS",
+      "TOMATEROS",
+      "YAQUIS",
+      "CALENTAR",
+      "ENTRENADOR",
+      "TACTICA",
+      "VELOCIDAD",
+      "FRONTON",
+      "GUANTE",
+      "PARTIDO",
+      "REBOTE"
+    ]
+  },
+  {
+    "group_ids": [
+      2091,
+      2615,
+      2978,
+      2750
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "BASQUET MEXICO",
+      "ATLETAS MEXICANOS",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARQUERIA",
+      "JUDO",
+      "NATACION",
+      "TAEKWONDO",
+      "ABEJAS",
+      "CAPITANES",
+      "HALCONES",
+      "REBOTE",
+      "CHICHARITO",
+      "ESPINOZA",
+      "LIMON",
+      "SOTOMAYOR",
+      "CULIACAN",
+      "MOCHIS",
+      "NOVENAS",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2853,
+      2527,
+      2379,
+      2390
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "LIGA DEL PACIFICO",
+      "BOXEO MEXICANO",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MARCA",
+      "RADIOFORMULA",
+      "TVAZTECA",
+      "WDEPORTES",
+      "CULIACAN",
+      "GUASAVE",
+      "NOVENAS",
+      "PLAYOFF",
+      "ASALTO",
+      "BARRERA",
+      "ESQUINA",
+      "MARQUEZ",
+      "BMX",
+      "KITESURF",
+      "MOTOCROSS",
+      "SKATE"
+    ]
+  },
+  {
+    "group_ids": [
+      2791,
+      2235,
+      2958,
+      2330
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "DEPORTES EXTREMOS",
+      "PELOTA VASCA",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPOTE",
+      "PASE",
+      "RUEDO",
+      "TORERO",
+      "KITESURF",
+      "MOTOCROSS",
+      "PARAPENTE",
+      "SKATE",
+      "PALETA",
+      "RESTO",
+      "SACADOR",
+      "TANTO",
+      "CANALONCE",
+      "FOXSPORTS",
+      "TUDN",
+      "TVAZTECA"
+    ]
+  },
+  {
+    "group_ids": [
+      2973,
+      2267,
+      2698,
+      2260
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "DEPORTES OLIMPICOS MX",
+      "PELOTA VASCA",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FENIX",
+      "PENTAGON",
+      "RUSH",
+      "ULTIMOGUERRERO",
+      "ATLETISMO",
+      "MARCHA",
+      "NATACION",
+      "TAEKWONDO",
+      "FRONTON",
+      "GUANTE",
+      "REBOTE",
+      "SACADOR",
+      "ALGODONEROS",
+      "PERICOS",
+      "SARAPEROS",
+      "SULTANES"
+    ]
+  },
+  {
+    "group_ids": [
+      2181,
+      2466,
+      2728,
+      2160
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "BASQUET MEXICO",
+      "PALABRAS DEPORTIVAS",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBVA",
+      "JALISCO",
+      "NEMESIO",
+      "UNIVERSITARIO",
+      "ABEJAS",
+      "LIBERTADORES",
+      "MINEROS",
+      "TABLERO",
+      "CALENTAR",
+      "ENTRENADOR",
+      "TACTICA",
+      "VELOCIDAD",
+      "LEON",
+      "SANTOS",
+      "TIGRES",
+      "TOLUCA"
+    ]
+  },
+  {
+    "group_ids": [
+      2501,
+      2627,
+      2779,
+      2950
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "TAUROMAQUIA CULTURA",
+      "MEDIOS DEPORTIVOS MX",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "CLASICO",
+      "TIFO",
+      "TRIBUNA",
+      "BANDERILLAS",
+      "CAPOTE",
+      "FAENA",
+      "TORERO",
+      "ESPN",
+      "FOXSPORTS",
+      "TELEVISA",
+      "TUDN",
+      "ATLAS",
+      "CHIVAS",
+      "PUMAS",
+      "SANTOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2283,
+      2486,
+      2488,
+      2130
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "CLUBES LIGA MX",
+      "SELECCION MEXICO",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BLUEDEMON",
+      "MISTICO",
+      "RUSH",
+      "ULTIMOGUERRERO",
+      "AMERICA",
+      "LEON",
+      "PACHUCA",
+      "PUMAS",
+      "AFICION",
+      "CAMISETA",
+      "CONCACAF",
+      "DELANTERO",
+      "BURLADERO",
+      "CAPOTE",
+      "MONTERA",
+      "MULETA"
+    ]
+  },
+  {
+    "group_ids": [
+      2194,
+      2956,
+      2689,
+      2660
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "LUCHADORES ICONICOS",
+      "DEPORTES EXTREMOS",
+      "LUCHA LIBRE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "LEON",
+      "MERIDA",
+      "MONTERREY",
+      "TOLUCA",
+      "MILMASCARAS",
+      "MISTICO",
+      "RUSH",
+      "SANTO",
+      "PARAPENTE",
+      "PARKOUR",
+      "RAFTING",
+      "SKATE",
+      "APLAUSO",
+      "ENMASCARADO",
+      "RUDO",
+      "TECNICO"
+    ]
+  },
+  {
+    "group_ids": [
+      2602,
+      2745,
+      2368,
+      2430
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "DEPORTES EXTREMOS",
+      "AFICION MEXICANA",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HERMOSILLO",
+      "MEXICALI",
+      "MOCHIS",
+      "OBREGON",
+      "KITESURF",
+      "MOTOCROSS",
+      "PARKOUR",
+      "RAPPEL",
+      "BANDERA",
+      "LIGUILLA",
+      "TIFO",
+      "TRIBUNA",
+      "AGILIDAD",
+      "POTENCIA",
+      "RITMO",
+      "SUPLENTE"
+    ]
+  },
+  {
+    "group_ids": [
+      2991,
+      2957,
+      2648,
+      2850
+    ],
+    "cats": [
+      "LUCHA LIBRE",
+      "BOXEO MEXICANO",
+      "TERMINOS BEISBOL",
+      "TERMINOS FUTBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "APLAUSO",
+      "CAIDA",
+      "LLAVE",
+      "LONA",
+      "CANELO",
+      "CINTURON",
+      "GANCHO",
+      "MARQUEZ",
+      "ELEVADO",
+      "IMPARABLE",
+      "SHORTSTOP",
+      "STRIKE",
+      "ARBITRO",
+      "ATARJETA",
+      "PENAL",
+      "REGATE"
+    ]
+  },
+  {
+    "group_ids": [
+      2601,
+      2096,
+      2339,
+      2780
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "MEDIOS DEPORTIVOS MX",
+      "LIGA DEL PACIFICO",
+      "AFICION MEXICANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ACEREROS",
+      "NARANJEROS",
+      "SULTANES",
+      "VENADOS",
+      "CANALONCE",
+      "ESPN",
+      "MARCA",
+      "RADIOFORMULA",
+      "NAYARIT",
+      "OBREGON",
+      "PITCHEO",
+      "PLAYOFF",
+      "BANDERA",
+      "BOMBO",
+      "COPA",
+      "DESCENSO"
+    ]
+  },
+  {
+    "group_ids": [
+      2873,
+      2105,
+      2488,
+      2790
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "LIGA DEL PACIFICO",
+      "SELECCION MEXICO",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MOTOCROSS",
+      "RAFTING",
+      "SKATE",
+      "SURF",
+      "CULIACAN",
+      "HERMOSILLO",
+      "MAZATLAN",
+      "SERIE",
+      "AFICION",
+      "CAMISETA",
+      "CONCACAF",
+      "DELANTERO",
+      "FALTA",
+      "MANO",
+      "PALETA",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2394,
+      2547,
+      2838,
+      2400
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "LUCHADORES ICONICOS",
+      "CLUBES LIGA MX",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRAVOS",
+      "SARAPEROS",
+      "TIGRES",
+      "TOMATEROS",
+      "FENIX",
+      "MILMASCARAS",
+      "PSICOSIS",
+      "SANTO",
+      "ATLAS",
+      "CHIVAS",
+      "NECAXA",
+      "PACHUCA",
+      "BANDERILLAS",
+      "BURLADERO",
+      "CAPOTE",
+      "FAENA"
+    ]
+  },
+  {
+    "group_ids": [
+      2612,
+      2285,
+      2888,
+      2060
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "PELOTA VASCA",
+      "MEDIOS DEPORTIVOS MX",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHIHUAHUA",
+      "MONTERREY",
+      "TIJUANA",
+      "TORREON",
+      "PALETA",
+      "PARTIDO",
+      "REBOTE",
+      "TANTO",
+      "IMER",
+      "RADIOFORMULA",
+      "TELEVISA",
+      "WDEPORTES",
+      "POTENCIA",
+      "RITMO",
+      "SUPLENTE",
+      "TACTICA"
+    ]
+  },
+  {
+    "group_ids": [
+      2054,
+      2146,
+      2379,
+      2950
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "LUCHADORES ICONICOS",
+      "BOXEO MEXICANO",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELEVADO",
+      "ROBO",
+      "ROLA",
+      "SHORTSTOP",
+      "HECHICERO",
+      "MILMASCARAS",
+      "PSICOSIS",
+      "VOLADOR",
+      "ASALTO",
+      "BARRERA",
+      "ESQUINA",
+      "MARQUEZ",
+      "ATLAS",
+      "CHIVAS",
+      "PUMAS",
+      "SANTOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2841,
+      2107,
+      2178,
+      2950
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "LUCHADORES ICONICOS",
+      "DEPORTES EXTREMOS",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PERICOS",
+      "SARAPEROS",
+      "TOMATEROS",
+      "VENADOS",
+      "MILMASCARAS",
+      "MISTICO",
+      "RUSH",
+      "VOLADOR",
+      "BMX",
+      "ESCALADA",
+      "MOTOCROSS",
+      "RAPPEL",
+      "ATLAS",
+      "CHIVAS",
+      "PUMAS",
+      "SANTOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2481,
+      2677,
+      2809,
+      2520
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "LIGA DEL PACIFICO",
+      "BOXEO MEXICANO",
+      "BASQUET MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESPN",
+      "IMER",
+      "RADIOFORMULA",
+      "WDEPORTES",
+      "CULIACAN",
+      "MEXICALI",
+      "NOVENAS",
+      "PLAYOFF",
+      "CHAVEZ",
+      "CINTURON",
+      "FINITO",
+      "JAB",
+      "ABEJAS",
+      "MINEROS",
+      "PANTERAS",
+      "TABLERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2534,
+      2106,
+      2889,
+      2370
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "LUCHA LIBRE",
+      "AFICION MEXICANA",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FUERAJUEGO",
+      "PASE",
+      "REGATE",
+      "TIRO",
+      "LLAVE",
+      "PLANCHA",
+      "RUDO",
+      "TOPE",
+      "BOMBO",
+      "CANTO",
+      "COPA",
+      "HINCHA",
+      "ENDURO",
+      "MOTOCROSS",
+      "RAPPEL",
+      "SURF"
+    ]
+  },
+  {
+    "group_ids": [
+      2701,
+      2165,
+      2578,
+      2560
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "LUCHA LIBRE",
+      "PALABRAS DEPORTIVAS",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHICHARITO",
+      "ESPINOZA",
+      "LIMON",
+      "PHELAN",
+      "APLAUSO",
+      "LLAVE",
+      "LONA",
+      "PLANCHA",
+      "ALINEACION",
+      "FUERZA",
+      "POTENCIA",
+      "RESISTENCIA",
+      "AMERICA",
+      "CHIVAS",
+      "NECAXA",
+      "RAYADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2173,
+      2185,
+      2738,
+      2090
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "LUCHA LIBRE",
+      "DEPORTES OLIMPICOS MX",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLA",
+      "JONRON",
+      "PONCHE",
+      "TRIPLE",
+      "ARENA",
+      "LLAVE",
+      "PLANCHA",
+      "TECNICO",
+      "ARQUERIA",
+      "CANOTAJE",
+      "CICLISMO",
+      "MARCHA",
+      "BANDERILLAS",
+      "CAPOTE",
+      "PASE",
+      "TERCIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2742,
+      2946,
+      2058,
+      2640
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "AFICION MEXICANA",
+      "BASQUET MEXICO",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANALONCE",
+      "MARCA",
+      "MEDIOTIEMPO",
+      "TVAZTECA",
+      "BANDERA",
+      "CLASICO",
+      "DESCENSO",
+      "PORRA",
+      "CLAVADA",
+      "PANTERAS",
+      "REBOTE",
+      "TABLERO",
+      "CAPITAN",
+      "CONCACAF",
+      "ELIMINATORIA",
+      "MEDIOCAMPO"
+    ]
+  },
+  {
+    "group_ids": [
+      2031,
+      2765,
+      2178,
+      2620
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "PALABRAS DEPORTIVAS",
+      "DEPORTES EXTREMOS",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "JUDO",
+      "NATACION",
+      "PESAS",
+      "TIRO",
+      "CALENTAR",
+      "FUERZA",
+      "POTENCIA",
+      "VELOCIDAD",
+      "BMX",
+      "ESCALADA",
+      "MOTOCROSS",
+      "RAPPEL",
+      "CAMISETA",
+      "CONCACAF",
+      "MUNDIAL",
+      "TRICOLOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2691,
+      2745,
+      2088,
+      2040
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "DEPORTES EXTREMOS",
+      "BOXEO MEXICANO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRUZAZUL",
+      "NECAXA",
+      "PUMAS",
+      "TIGRES",
+      "KITESURF",
+      "MOTOCROSS",
+      "PARKOUR",
+      "RAPPEL",
+      "CAMPANAZO",
+      "CANELO",
+      "JAB",
+      "MARQUEZ",
+      "ALINEACION",
+      "ENTRENADOR",
+      "RESISTENCIA",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2974,
+      2897,
+      2138,
+      2830
+    ],
+    "cats": [
+      "BOXEO MEXICANO",
+      "LIGA DEL PACIFICO",
+      "BASQUET MEXICO",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASALTO",
+      "BARRERA",
+      "FINITO",
+      "MORALES",
+      "MOCHIS",
+      "NAYARIT",
+      "PITCHEO",
+      "SERIE",
+      "ABEJAS",
+      "LIBERTADORES",
+      "PANTERAS",
+      "TRIPLES",
+      "ALEJANDRA",
+      "LORENA",
+      "PHELAN",
+      "ROMMEL"
+    ]
+  },
+  {
+    "group_ids": [
+      2922,
+      2646,
+      2488,
+      2080
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "TAUROMAQUIA CULTURA",
+      "SELECCION MEXICO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANOTAJE",
+      "CLAVADOS",
+      "NATACION",
+      "TIRO",
+      "FAENA",
+      "MULETA",
+      "PLAZA",
+      "TERCIO",
+      "AFICION",
+      "CAMISETA",
+      "CONCACAF",
+      "DELANTERO",
+      "ALINEACION",
+      "RECUPERAR",
+      "RITMO",
+      "TACTICA"
+    ]
+  },
+  {
+    "group_ids": [
+      2221,
+      2577,
+      2168,
+      2550
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "DEPORTES EXTREMOS",
+      "PELOTA VASCA",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ACEREROS",
+      "ALGODONEROS",
+      "SULTANES",
+      "VENADOS",
+      "ENDURO",
+      "ESCALADA",
+      "RAFTING",
+      "SURF",
+      "PALETA",
+      "PARTIDO",
+      "REBOTE",
+      "SACADOR",
+      "ESTOCADA",
+      "MULETA",
+      "PASE",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2732,
+      2577,
+      2379,
+      2350
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "DEPORTES EXTREMOS",
+      "BOXEO MEXICANO",
+      "AFICION MEXICANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CULIACAN",
+      "MEXICALI",
+      "NAYARIT",
+      "PLAYOFF",
+      "ENDURO",
+      "ESCALADA",
+      "RAFTING",
+      "SURF",
+      "ASALTO",
+      "BARRERA",
+      "ESQUINA",
+      "MARQUEZ",
+      "CLASICO",
+      "DESCENSO",
+      "TIFO",
+      "TRIBUNA"
+    ]
+  },
+  {
+    "group_ids": [
+      2691,
+      2356,
+      2708,
+      2100
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "BEISBOL MEXICANO",
+      "DEPORTES EXTREMOS",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRUZAZUL",
+      "NECAXA",
+      "PUMAS",
+      "TIGRES",
+      "ACEREROS",
+      "PERICOS",
+      "SARAPEROS",
+      "TOMATEROS",
+      "BMX",
+      "ESCALADA",
+      "KITESURF",
+      "MOTOCROSS",
+      "ALINEACION",
+      "ENTRENADOR",
+      "RITMO",
+      "TACTICA"
+    ]
+  },
+  {
+    "group_ids": [
+      2781,
+      2997,
+      2159,
+      2670
+    ],
+    "cats": [
+      "BASQUET MEXICO",
+      "ATLETAS MEXICANOS",
+      "PALABRAS DEPORTIVAS",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABEJAS",
+      "CAPITANES",
+      "PANTERAS",
+      "REBOTE",
+      "MEMO",
+      "OROZCO",
+      "PHELAN",
+      "SOTOMAYOR",
+      "AGILIDAD",
+      "CALENTAR",
+      "FUERZA",
+      "VELOCIDAD",
+      "CANALONCE",
+      "FOXSPORTS",
+      "RECORD",
+      "TELEVISA"
+    ]
+  },
+  {
+    "group_ids": [
+      2712,
+      2425,
+      2069,
+      2870
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "CIUDADES DEPORTE MX",
+      "PELOTA VASCA",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMISTOSO",
+      "DEFENSA",
+      "ELIMINATORIA",
+      "MEDIOCAMPO",
+      "CHIHUAHUA",
+      "LEON",
+      "PUEBLA",
+      "VERACRUZ",
+      "CANCHA",
+      "FRONTON",
+      "RESTO",
+      "SACADOR",
+      "FOXSPORTS",
+      "RECORD",
+      "TUDN",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2881,
+      2226,
+      2219,
+      2410
+    ],
+    "cats": [
+      "BOXEO MEXICANO",
+      "PELOTA VASCA",
+      "ESTADIOS MEXICO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHAVEZ",
+      "ESQUINA",
+      "GANCHO",
+      "MORALES",
+      "FALTA",
+      "FRONTON",
+      "PARED",
+      "SACADOR",
+      "AKRON",
+      "CORREGIDORA",
+      "NEMESIO",
+      "OLIMPICO",
+      "ALINEACION",
+      "ENTRENADOR",
+      "RESISTENCIA",
+      "TACTICA"
+    ]
+  },
+  {
+    "group_ids": [
+      2484,
+      2515,
+      2208,
+      2990
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "TERMINOS FUTBOL",
+      "TAUROMAQUIA CULTURA",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENDURO",
+      "MOTOCROSS",
+      "PARKOUR",
+      "RAPPEL",
+      "ATARJETA",
+      "FUERAJUEGO",
+      "REGATE",
+      "SAQUE",
+      "BURLADERO",
+      "FAENA",
+      "TERCIO",
+      "TORERO",
+      "HERMOSILLO",
+      "MAZATLAN",
+      "NAYARIT",
+      "OBREGON"
+    ]
+  },
+  {
+    "group_ids": [
+      2042,
+      2376,
+      2679,
+      2870
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "LIGA DEL PACIFICO",
+      "LUCHADORES ICONICOS",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBVA",
+      "NEMESIO",
+      "OLIMPICO",
+      "TERRITORIO",
+      "CULIACAN",
+      "MEXICALI",
+      "PITCHEO",
+      "PLAYOFF",
+      "BLUEDEMON",
+      "FENIX",
+      "HECHICERO",
+      "RUSH",
+      "FOXSPORTS",
+      "RECORD",
+      "TUDN",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2614,
+      2536,
+      2639,
+      2130
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "CIUDADES DEPORTE MX",
+      "ESTADIOS MEXICO",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "BANDERA",
+      "BOMBO",
+      "CANTO",
+      "CDMX",
+      "GUADALAJARA",
+      "MERIDA",
+      "TIJUANA",
+      "AZTECA",
+      "CUAUHTEMOC",
+      "OLIMPICO",
+      "TERRITORIO",
+      "BURLADERO",
+      "CAPOTE",
+      "MONTERA",
+      "MULETA"
+    ]
+  },
+  {
+    "group_ids": [
+      2622,
+      2735,
+      2388,
+      2430
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "BOXEO MEXICANO",
+      "AFICION MEXICANA",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HERMOSILLO",
+      "NAYARIT",
+      "NOVENAS",
+      "PLAYOFF",
+      "ASALTO",
+      "CANELO",
+      "CHAVEZ",
+      "FINITO",
+      "CLASICO",
+      "COPA",
+      "DESCENSO",
+      "HINCHA",
+      "AGILIDAD",
+      "POTENCIA",
+      "RITMO",
+      "SUPLENTE"
+    ]
+  },
+  {
+    "group_ids": [
+      2891,
+      2285,
+      2749,
+      2230
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "PELOTA VASCA",
+      "BEISBOL MEXICANO",
+      "TERMINOS FUTBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENDURO",
+      "PARKOUR",
+      "RAFTING",
+      "SURF",
+      "PALETA",
+      "PARTIDO",
+      "REBOTE",
+      "TANTO",
+      "ALGODONEROS",
+      "NARANJEROS",
+      "SARAPEROS",
+      "YAQUIS",
+      "ATARJETA",
+      "FUERAJUEGO",
+      "PENAL",
+      "SAQUE"
+    ]
+  },
+  {
+    "group_ids": [
+      2982,
+      2897,
+      2409,
+      2480
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "LIGA DEL PACIFICO",
+      "DEPORTES EXTREMOS",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESPN",
+      "FOXSPORTS",
+      "RADIOFORMULA",
+      "TELEVISA",
+      "MOCHIS",
+      "NAYARIT",
+      "PITCHEO",
+      "SERIE",
+      "ESCALADA",
+      "PARAPENTE",
+      "PARKOUR",
+      "TRAIL",
+      "GUADALAJARA",
+      "PUEBLA",
+      "TOLUCA",
+      "TORREON"
+    ]
+  },
+  {
+    "group_ids": [
+      2383,
+      2026,
+      2779,
+      3000
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "LUCHA LIBRE",
+      "MEDIOS DEPORTIVOS MX",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESPINOZA",
+      "LIMON",
+      "PAOLA",
+      "PHELAN",
+      "APLAUSO",
+      "ARENA",
+      "CASTIGO",
+      "ENMASCARADO",
+      "ESPN",
+      "FOXSPORTS",
+      "TELEVISA",
+      "TUDN",
+      "CDMX",
+      "MONTERREY",
+      "QUERETARO",
+      "TIJUANA"
+    ]
+  },
+  {
+    "group_ids": [
+      2631,
+      2195,
+      2848,
+      2360
+    ],
+    "cats": [
+      "TERMINOS BEISBOL",
+      "MEDIOS DEPORTIVOS MX",
+      "DEPORTES OLIMPICOS MX",
+      "PELOTA VASCA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DOBLETE",
+      "ELEVADO",
+      "JONRON",
+      "TRIPLE",
+      "ESPN",
+      "IMER",
+      "RECORD",
+      "TVAZTECA",
+      "CICLISMO",
+      "ESGRIMA",
+      "MARCHA",
+      "PESAS",
+      "CANCHA",
+      "MANO",
+      "PARTIDO",
+      "TANTO"
+    ]
+  },
+  {
+    "group_ids": [
+      2541,
+      2905,
+      2339,
+      2670
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "TERMINOS FUTBOL",
+      "LIGA DEL PACIFICO",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PACHUCA",
+      "PUMAS",
+      "TIGRES",
+      "TOLUCA",
+      "ATARJETA",
+      "FUERAJUEGO",
+      "REMATE",
+      "TIRO",
+      "NAYARIT",
+      "OBREGON",
+      "PITCHEO",
+      "PLAYOFF",
+      "CANALONCE",
+      "FOXSPORTS",
+      "RECORD",
+      "TELEVISA"
+    ]
+  },
+  {
+    "group_ids": [
+      2702,
+      2625,
+      2459,
+      2350
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "BOXEO MEXICANO",
+      "TAUROMAQUIA CULTURA",
+      "AFICION MEXICANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARRIDA",
+      "PENAL",
+      "REGATE",
+      "TIRO",
+      "CANELO",
+      "CINTURON",
+      "FINITO",
+      "JAB",
+      "BURLADERO",
+      "ESTOCADA",
+      "MONTERA",
+      "PASE",
+      "CLASICO",
+      "DESCENSO",
+      "TIFO",
+      "TRIBUNA"
+    ]
+  },
+  {
+    "group_ids": [
+      2624,
+      2896,
+      2459,
+      2980
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "BEISBOL MEXICANO",
+      "TAUROMAQUIA CULTURA",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BLUEDEMON",
+      "HECHICERO",
+      "MILMASCARAS",
+      "PSICOSIS",
+      "ACEREROS",
+      "NARANJEROS",
+      "TOMATEROS",
+      "YAQUIS",
+      "BURLADERO",
+      "ESTOCADA",
+      "MONTERA",
+      "PASE",
+      "JONRON",
+      "ROBO",
+      "ROLA",
+      "SHORTSTOP"
+    ]
+  },
+  {
+    "group_ids": [
+      2614,
+      2755,
+      2819,
+      2490
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "TAUROMAQUIA CULTURA",
+      "CLUBES LIGA MX",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "BANDERA",
+      "BOMBO",
+      "CANTO",
+      "ESTOCADA",
+      "FAENA",
+      "MONTERA",
+      "MULETA",
+      "CRUZAZUL",
+      "PACHUCA",
+      "PUMAS",
+      "RAYADOS",
+      "MAZATLAN",
+      "MEXICALI",
+      "NAYARIT",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2144,
+      2725,
+      2239,
+      2630
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "AFICION MEXICANA",
+      "SELECCION MEXICO",
+      "TERMINOS FUTBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALGODONEROS",
+      "SARAPEROS",
+      "SULTANES",
+      "TIGRES",
+      "CANTO",
+      "CLASICO",
+      "HINCHA",
+      "TRIBUNA",
+      "CAMISETA",
+      "DELANTERO",
+      "ELIMINATORIA",
+      "TRICOLOR",
+      "ARBITRO",
+      "ATARJETA",
+      "BARRIDA",
+      "PENAL"
+    ]
+  },
+  {
+    "group_ids": [
+      2863,
+      2595,
+      2029,
+      2030
+    ],
+    "cats": [
+      "BOXEO MEXICANO",
+      "BASQUET MEXICO",
+      "PELOTA VASCA",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAMPANAZO",
+      "FINITO",
+      "JAB",
+      "MORALES",
+      "CLAVADA",
+      "DORADOS",
+      "HALCONES",
+      "TABLERO",
+      "FALTA",
+      "FRONTON",
+      "MANO",
+      "PARED",
+      "BURLADERO",
+      "ESTOCADA",
+      "MONTERA",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2394,
+      2087,
+      2118,
+      2830
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "LUCHADORES ICONICOS",
+      "BASQUET MEXICO",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRAVOS",
+      "SARAPEROS",
+      "TIGRES",
+      "TOMATEROS",
+      "MISTICO",
+      "PENTAGON",
+      "ULTIMOGUERRERO",
+      "VOLADOR",
+      "CLAVADA",
+      "LIBERTADORES",
+      "REBOTE",
+      "TRIPLES",
+      "ALEJANDRA",
+      "LORENA",
+      "PHELAN",
+      "ROMMEL"
+    ]
+  },
+  {
+    "group_ids": [
+      2374,
+      2036,
+      2769,
+      2960
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "MEDIOS DEPORTIVOS MX",
+      "LIGA DEL PACIFICO",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMISTOSO",
+      "CAPITAN",
+      "ELIMINATORIA",
+      "PORTERO",
+      "FOXSPORTS",
+      "MARCA",
+      "RECORD",
+      "TELEVISA",
+      "MOCHIS",
+      "NAYARIT",
+      "PITCHEO",
+      "PLAYOFF",
+      "JULIO",
+      "LORENA",
+      "PHELAN",
+      "SOTOMAYOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2003,
+      2237,
+      2268,
+      2030
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "CLUBES LIGA MX",
+      "ATLETAS MEXICANOS",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DELANTERO",
+      "ELIMINATORIA",
+      "PORTERO",
+      "TRICOLOR",
+      "CRUZAZUL",
+      "PUMAS",
+      "RAYADOS",
+      "SANTOS",
+      "CHICHARITO",
+      "LIMON",
+      "MEMO",
+      "OROZCO",
+      "BURLADERO",
+      "ESTOCADA",
+      "MONTERA",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2912,
+      2077,
+      2968,
+      2090
+    ],
+    "cats": [
+      "CLUBES LIGA MX",
+      "AFICION MEXICANA",
+      "PALABRAS DEPORTIVAS",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMERICA",
+      "CRUZAZUL",
+      "LEON",
+      "RAYADOS",
+      "BOMBO",
+      "COPA",
+      "DESCENSO",
+      "TRIBUNA",
+      "CALENTAR",
+      "ENTRENADOR",
+      "RESISTENCIA",
+      "SUPLENTE",
+      "BANDERILLAS",
+      "CAPOTE",
+      "PASE",
+      "TERCIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2392,
+      2787,
+      2018,
+      2560
+    ],
+    "cats": [
+      "ESTADIOS MEXICO",
+      "LUCHA LIBRE",
+      "BASQUET MEXICO",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BBVA",
+      "CUAUHTEMOC",
+      "HIDALGO",
+      "TERRITORIO",
+      "APLAUSO",
+      "RELEVOS",
+      "TECNICO",
+      "TOPE",
+      "PANTERAS",
+      "REBOTE",
+      "TABLERO",
+      "TRIPLES",
+      "AMERICA",
+      "CHIVAS",
+      "NECAXA",
+      "RAYADOS"
+    ]
+  },
+  {
+    "group_ids": [
+      2754,
+      2327,
+      2039,
+      2280
+    ],
+    "cats": [
+      "PELOTA VASCA",
+      "TERMINOS FUTBOL",
+      "DEPORTES EXTREMOS",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FRONTON",
+      "MANO",
+      "PALETA",
+      "RESTO",
+      "DESMARQUE",
+      "FUERAJUEGO",
+      "REGATE",
+      "TIRO",
+      "ESCALADA",
+      "KITESURF",
+      "PARKOUR",
+      "RAPPEL",
+      "PERICOS",
+      "SARAPEROS",
+      "TIGRES",
+      "TOMATEROS"
+    ]
+  },
+  {
+    "group_ids": [
+      2044,
+      2315,
+      2618,
+      2760
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "PALABRAS DEPORTIVAS",
+      "CLUBES LIGA MX",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ACEREROS",
+      "DIABLOS",
+      "PERICOS",
+      "SULTANES",
+      "AGILIDAD",
+      "ENTRENADOR",
+      "POTENCIA",
+      "SUPLENTE",
+      "ATLAS",
+      "CHIVAS",
+      "PACHUCA",
+      "SANTOS",
+      "CHIHUAHUA",
+      "MERIDA",
+      "MONTERREY",
+      "TORREON"
+    ]
+  },
+  {
+    "group_ids": [
+      2743,
+      2295,
+      2218,
+      2220
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "DEPORTES EXTREMOS",
+      "CLUBES LIGA MX",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOMBO",
+      "HINCHA",
+      "LIGUILLA",
+      "TIFO",
+      "MOTOCROSS",
+      "RAPPEL",
+      "SKATE",
+      "TRAIL",
+      "AMERICA",
+      "ATLAS",
+      "NECAXA",
+      "PACHUCA",
+      "CAPITAN",
+      "CONCACAF",
+      "MUNDIAL",
+      "TRICOLOR"
+    ]
+  },
+  {
+    "group_ids": [
+      2023,
+      2937,
+      2869,
+      2350
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "LUCHADORES ICONICOS",
+      "CIUDADES DEPORTE MX",
+      "AFICION MEXICANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AMISTOSO",
+      "MUNDIAL",
+      "PORTERO",
+      "TRICOLOR",
+      "BLUEDEMON",
+      "LA_PARKA",
+      "PSICOSIS",
+      "ULTIMOGUERRERO",
+      "MERIDA",
+      "TIJUANA",
+      "TOLUCA",
+      "TORREON",
+      "CLASICO",
+      "DESCENSO",
+      "TIFO",
+      "TRIBUNA"
+    ]
+  },
+  {
+    "group_ids": [
+      2494,
+      2417,
+      2218,
+      2910
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "LUCHADORES ICONICOS",
+      "CLUBES LIGA MX",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAPOTE",
+      "ESTOCADA",
+      "MULETA",
+      "RUEDO",
+      "LA_PARKA",
+      "RUSH",
+      "SANTO",
+      "ULTIMOGUERRERO",
+      "AMERICA",
+      "ATLAS",
+      "NECAXA",
+      "PACHUCA",
+      "ENDURO",
+      "PARKOUR",
+      "RAPPEL",
+      "TRAIL"
+    ]
+  },
+  {
+    "group_ids": [
+      2664,
+      2307,
+      2429,
+      2780
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "ATLETAS MEXICANOS",
+      "DEPORTES EXTREMOS",
+      "AFICION MEXICANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESTOCADA",
+      "PASE",
+      "RUEDO",
+      "TORERO",
+      "LIMON",
+      "OROZCO",
+      "ROMMEL",
+      "SOTOMAYOR",
+      "KITESURF",
+      "RAPPEL",
+      "SURF",
+      "TRAIL",
+      "BANDERA",
+      "BOMBO",
+      "COPA",
+      "DESCENSO"
+    ]
+  },
+  {
+    "group_ids": [
+      2481,
+      2086,
+      2219,
+      2130
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "LUCHA LIBRE",
+      "ESTADIOS MEXICO",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESPN",
+      "IMER",
+      "RADIOFORMULA",
+      "WDEPORTES",
+      "ARENA",
+      "CAIDA",
+      "CASTIGO",
+      "ENMASCARADO",
+      "AKRON",
+      "CORREGIDORA",
+      "NEMESIO",
+      "OLIMPICO",
+      "BURLADERO",
+      "CAPOTE",
+      "MONTERA",
+      "MULETA"
+    ]
+  },
+  {
+    "group_ids": [
+      2643,
+      2676,
+      2058,
+      2580
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "BEISBOL MEXICANO",
+      "BASQUET MEXICO",
+      "ESTADIOS MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HECHICERO",
+      "LA_PARKA",
+      "PSICOSIS",
+      "SANTO",
+      "BRAVOS",
+      "SULTANES",
+      "TOMATEROS",
+      "VENADOS",
+      "CLAVADA",
+      "PANTERAS",
+      "REBOTE",
+      "TABLERO",
+      "AKRON",
+      "JALISCO",
+      "UNIVERSITARIO",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      2633,
+      2655,
+      2578,
+      2860
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "CLUBES LIGA MX",
+      "PALABRAS DEPORTIVAS",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MARCA",
+      "RADIOFORMULA",
+      "RECORD",
+      "TELEVISA",
+      "CRUZAZUL",
+      "LEON",
+      "PUMAS",
+      "SANTOS",
+      "ALINEACION",
+      "FUERZA",
+      "POTENCIA",
+      "RESISTENCIA",
+      "ACEREROS",
+      "ALGODONEROS",
+      "BRAVOS",
+      "TOMATEROS"
+    ]
+  },
+  {
+    "group_ids": [
+      2752,
+      2675,
+      2888,
+      2820
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "SELECCION MEXICO",
+      "MEDIOS DEPORTIVOS MX",
+      "ESTADIOS MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HECHICERO",
+      "MISTICO",
+      "PSICOSIS",
+      "SANTO",
+      "AFICION",
+      "CAMISETA",
+      "DELANTERO",
+      "MEDIOCAMPO",
+      "IMER",
+      "RADIOFORMULA",
+      "TELEVISA",
+      "WDEPORTES",
+      "AZTECA",
+      "CORREGIDORA",
+      "HIDALGO",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      2891,
+      2215,
+      2258,
+      2310
+    ],
+    "cats": [
+      "DEPORTES EXTREMOS",
+      "AFICION MEXICANA",
+      "ESTADIOS MEXICO",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ENDURO",
+      "PARKOUR",
+      "RAFTING",
+      "SURF",
+      "ASCENSO",
+      "BOMBO",
+      "COPA",
+      "PORRA",
+      "HIDALGO",
+      "JALISCO",
+      "NEMESIO",
+      "TERRITORIO",
+      "LEON",
+      "MONTERREY",
+      "PUEBLA",
+      "TORREON"
+    ]
+  },
+  {
+    "group_ids": [
+      2882,
+      2917,
+      2928,
+      2250
+    ],
+    "cats": [
+      "PELOTA VASCA",
+      "LUCHA LIBRE",
+      "AFICION MEXICANA",
+      "TERMINOS BEISBOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PALETA",
+      "PARED",
+      "REBOTE",
+      "RESTO",
+      "APLAUSO",
+      "CAIDA",
+      "PLANCHA",
+      "TOPE",
+      "DESCENSO",
+      "HINCHA",
+      "TIFO",
+      "TRIBUNA",
+      "BOLA",
+      "DOBLETE",
+      "ROBO",
+      "ROLA"
+    ]
+  },
+  {
+    "group_ids": [
+      2154,
+      2516,
+      2659,
+      2110
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "TERMINOS BEISBOL",
+      "LIGA DEL PACIFICO",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CDMX",
+      "LEON",
+      "TORREON",
+      "VERACRUZ",
+      "CATCHER",
+      "IMPARABLE",
+      "PONCHE",
+      "ROLA",
+      "MAZATLAN",
+      "MEXICALI",
+      "NOVENAS",
+      "SERIE",
+      "CAPOTE",
+      "MONTERA",
+      "PLAZA",
+      "TERCIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2133,
+      2406,
+      2138,
+      2090
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "MEDIOS DEPORTIVOS MX",
+      "BASQUET MEXICO",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "DESMARQUE",
+      "GOLEADA",
+      "SAQUE",
+      "IMER",
+      "MARCA",
+      "RECORD",
+      "TUDN",
+      "ABEJAS",
+      "LIBERTADORES",
+      "PANTERAS",
+      "TRIPLES",
+      "BANDERILLAS",
+      "CAPOTE",
+      "PASE",
+      "TERCIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2421,
+      2707,
+      2638,
+      3000
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "BASQUET MEXICO",
+      "CLUBES LIGA MX",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETISMO",
+      "CLAVADOS",
+      "PESAS",
+      "TIRO",
+      "CLAVADA",
+      "DORADOS",
+      "LIBERTADORES",
+      "PANTERAS",
+      "CHIVAS",
+      "PUMAS",
+      "SANTOS",
+      "TOLUCA",
+      "CDMX",
+      "MONTERREY",
+      "QUERETARO",
+      "TIJUANA"
+    ]
+  },
+  {
+    "group_ids": [
+      2834,
+      2526,
+      2689,
+      2750
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS MX",
+      "BEISBOL MEXICANO",
+      "DEPORTES EXTREMOS",
+      "LIGA DEL PACIFICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANALONCE",
+      "IMER",
+      "RADIOFORMULA",
+      "TUDN",
+      "ACEREROS",
+      "SARAPEROS",
+      "SULTANES",
+      "TOMATEROS",
+      "PARAPENTE",
+      "PARKOUR",
+      "RAFTING",
+      "SKATE",
+      "CULIACAN",
+      "MOCHIS",
+      "NOVENAS",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      2233,
+      2335,
+      2539,
+      2870
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "CLUBES LIGA MX",
+      "BASQUET MEXICO",
+      "MEDIOS DEPORTIVOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOMBO",
+      "COPA",
+      "HINCHA",
+      "PORRA",
+      "AMERICA",
+      "CRUZAZUL",
+      "PUMAS",
+      "TIGRES",
+      "ABEJAS",
+      "LIBERTADORES",
+      "PANTERAS",
+      "TABLERO",
+      "FOXSPORTS",
+      "RECORD",
+      "TUDN",
+      "WDEPORTES"
+    ]
+  },
+  {
+    "group_ids": [
+      2344,
+      2017,
+      2028,
+      2550
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "AFICION MEXICANA",
+      "BOXEO MEXICANO",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETISMO",
+      "CANOTAJE",
+      "MARCHA",
+      "NATACION",
+      "ASCENSO",
+      "BANDERA",
+      "LIGUILLA",
+      "PORRA",
+      "BARRERA",
+      "ESQUINA",
+      "JAB",
+      "MARQUEZ",
+      "ESTOCADA",
+      "MULETA",
+      "PASE",
+      "TORERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2243,
+      2447,
+      2129,
+      2690
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "AFICION MEXICANA",
+      "PELOTA VASCA",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FENIX",
+      "PENTAGON",
+      "SANTO",
+      "ULTIMOGUERRERO",
+      "CANTO",
+      "HINCHA",
+      "PORRA",
+      "TRIBUNA",
+      "GUANTE",
+      "MANO",
+      "REBOTE",
+      "SACADOR",
+      "FUERZA",
+      "RESISTENCIA",
+      "RITMO",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2293,
+      2457,
+      2428,
+      2860
+    ],
+    "cats": [
+      "AFICION MEXICANA",
+      "BOXEO MEXICANO",
+      "BASQUET MEXICO",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "DESCENSO",
+      "LIGUILLA",
+      "PORRA",
+      "BARRERA",
+      "CAMPANAZO",
+      "MARQUEZ",
+      "MORALES",
+      "DORADOS",
+      "HALCONES",
+      "SOLES",
+      "TABLERO",
+      "ACEREROS",
+      "ALGODONEROS",
+      "BRAVOS",
+      "TOMATEROS"
+    ]
+  },
+  {
+    "group_ids": [
+      2602,
+      2585,
+      2998,
+      2730
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "LUCHADORES ICONICOS",
+      "TERMINOS FUTBOL",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HERMOSILLO",
+      "MEXICALI",
+      "MOCHIS",
+      "OBREGON",
+      "BLUEDEMON",
+      "FENIX",
+      "LA_PARKA",
+      "MILMASCARAS",
+      "ARBITRO",
+      "BARRIDA",
+      "REMATE",
+      "TIRO",
+      "CAMISETA",
+      "CAPITAN",
+      "CONCACAF",
+      "DEFENSA"
+    ]
+  },
+  {
+    "group_ids": [
+      2741,
+      2785,
+      2028,
+      2080
+    ],
+    "cats": [
+      "CIUDADES DEPORTE MX",
+      "BEISBOL MEXICANO",
+      "BOXEO MEXICANO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHIHUAHUA",
+      "GUADALAJARA",
+      "LEON",
+      "TORREON",
+      "ALGODONEROS",
+      "BRAVOS",
+      "PERICOS",
+      "SARAPEROS",
+      "BARRERA",
+      "ESQUINA",
+      "JAB",
+      "MARQUEZ",
+      "ALINEACION",
+      "RECUPERAR",
+      "RITMO",
+      "TACTICA"
+    ]
+  },
+  {
+    "group_ids": [
+      2491,
+      2726,
+      2549,
+      2860
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "BASQUET MEXICO",
+      "PELOTA VASCA",
+      "BEISBOL MEXICANO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FENIX",
+      "MILMASCARAS",
+      "MISTICO",
+      "VOLADOR",
+      "ABEJAS",
+      "CAPITANES",
+      "PANTERAS",
+      "TRIPLES",
+      "FALTA",
+      "GUANTE",
+      "MANO",
+      "TANTO",
+      "ACEREROS",
+      "ALGODONEROS",
+      "BRAVOS",
+      "TOMATEROS"
+    ]
+  },
+  {
+    "group_ids": [
+      2004,
+      2047,
+      2908,
+      2110
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "LUCHADORES ICONICOS",
+      "AFICION MEXICANA",
+      "TAUROMAQUIA CULTURA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALGODONEROS",
+      "BRAVOS",
+      "PERICOS",
+      "YAQUIS",
+      "LA_PARKA",
+      "MILMASCARAS",
+      "PENTAGON",
+      "PSICOSIS",
+      "ASCENSO",
+      "CANTO",
+      "TIFO",
+      "TRIBUNA",
+      "CAPOTE",
+      "MONTERA",
+      "PLAZA",
+      "TERCIO"
+    ]
+  },
+  {
+    "group_ids": [
+      2643,
+      2426,
+      2379,
+      2120
+    ],
+    "cats": [
+      "LUCHADORES ICONICOS",
+      "MEDIOS DEPORTIVOS MX",
+      "BOXEO MEXICANO",
+      "PALABRAS DEPORTIVAS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "HECHICERO",
+      "LA_PARKA",
+      "PSICOSIS",
+      "SANTO",
+      "FOXSPORTS",
+      "MEDIOTIEMPO",
+      "RADIOFORMULA",
+      "WDEPORTES",
+      "ASALTO",
+      "BARRERA",
+      "ESQUINA",
+      "MARQUEZ",
+      "RECUPERAR",
+      "RESISTENCIA",
+      "RITMO",
+      "VELOCIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      2552,
+      2676,
+      2548,
+      2800
+    ],
+    "cats": [
+      "TERMINOS FUTBOL",
+      "BEISBOL MEXICANO",
+      "BOXEO MEXICANO",
+      "DEPORTES EXTREMOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "GOLEADA",
+      "PASE",
+      "PENAL",
+      "BRAVOS",
+      "SULTANES",
+      "TOMATEROS",
+      "VENADOS",
+      "ASALTO",
+      "GANCHO",
+      "MARQUEZ",
+      "MORALES",
+      "ENDURO",
+      "PARAPENTE",
+      "SKATE",
+      "TRAIL"
+    ]
+  },
+  {
+    "group_ids": [
+      2461,
+      2176,
+      2589,
+      2310
+    ],
+    "cats": [
+      "ATLETAS MEXICANOS",
+      "AFICION MEXICANA",
+      "DEPORTES OLIMPICOS MX",
+      "CIUDADES DEPORTE MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESPINOZA",
+      "JULIO",
+      "LORENA",
+      "OROZCO",
+      "CLASICO",
+      "HINCHA",
+      "LIGUILLA",
+      "PORRA",
+      "ARQUERIA",
+      "ESGRIMA",
+      "TAEKWONDO",
+      "TIRO",
+      "LEON",
+      "MONTERREY",
+      "PUEBLA",
+      "TORREON"
+    ]
+  },
+  {
+    "group_ids": [
+      2124,
+      2546,
+      2779,
+      2730
+    ],
+    "cats": [
+      "BEISBOL MEXICANO",
+      "LUCHA LIBRE",
+      "MEDIOS DEPORTIVOS MX",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ACEREROS",
+      "PERICOS",
+      "SARAPEROS",
+      "YAQUIS",
+      "APLAUSO",
+      "PLANCHA",
+      "RELEVOS",
+      "TECNICO",
+      "ESPN",
+      "FOXSPORTS",
+      "TELEVISA",
+      "TUDN",
+      "CAMISETA",
+      "CAPITAN",
+      "CONCACAF",
+      "DEFENSA"
+    ]
+  },
+  {
+    "group_ids": [
+      2664,
+      2857,
+      2018,
+      2730
+    ],
+    "cats": [
+      "TAUROMAQUIA CULTURA",
+      "CLUBES LIGA MX",
+      "BASQUET MEXICO",
+      "SELECCION MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESTOCADA",
+      "PASE",
+      "RUEDO",
+      "TORERO",
+      "CHIVAS",
+      "PACHUCA",
+      "RAYADOS",
+      "TOLUCA",
+      "PANTERAS",
+      "REBOTE",
+      "TABLERO",
+      "TRIPLES",
+      "CAMISETA",
+      "CAPITAN",
+      "CONCACAF",
+      "DEFENSA"
+    ]
+  },
+  {
+    "group_ids": [
+      2164,
+      2656,
+      2899,
+      2170
+    ],
+    "cats": [
+      "LIGA DEL PACIFICO",
+      "ESTADIOS MEXICO",
+      "LUCHADORES ICONICOS",
+      "DEPORTES OLIMPICOS MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "NAYARIT",
+      "NOVENAS",
+      "PITCHEO",
+      "PLAYOFF",
+      "BBVA",
+      "CUAUHTEMOC",
+      "HIDALGO",
+      "JALISCO",
+      "LA_PARKA",
+      "MISTICO",
+      "ULTIMOGUERRERO",
+      "VOLADOR",
+      "CICLISMO",
+      "CLAVADOS",
+      "MARCHA",
+      "PESAS"
+    ]
+  },
+  {
+    "group_ids": [
+      2123,
+      2025,
+      2109,
+      2520
+    ],
+    "cats": [
+      "SELECCION MEXICO",
+      "LIGA DEL PACIFICO",
+      "PELOTA VASCA",
+      "BASQUET MEXICO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONCACAF",
+      "DEFENSA",
+      "ELIMINATORIA",
+      "TRICOLOR",
+      "GUASAVE",
+      "MAZATLAN",
+      "PLAYOFF",
+      "SERIE",
+      "MANO",
+      "PALETA",
+      "SACADOR",
+      "TANTO",
+      "ABEJAS",
+      "MINEROS",
+      "PANTERAS",
+      "TABLERO"
+    ]
+  },
+  {
+    "group_ids": [
+      2131,
+      2557,
+      2668,
+      2830
+    ],
+    "cats": [
+      "DEPORTES OLIMPICOS MX",
+      "BASQUET MEXICO",
+      "TERMINOS BEISBOL",
+      "ATLETAS MEXICANOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETISMO",
+      "JUDO",
+      "MARCHA",
+      "TIRO",
+      "ABEJAS",
+      "LIBERTADORES",
+      "MINEROS",
+      "SOLES",
+      "BOLA",
+      "DOBLETE",
+      "SHORTSTOP",
+      "STRIKE",
+      "ALEJANDRA",
+      "LORENA",
+      "PHELAN",
+      "ROMMEL"
+    ]
+  },
+  {
+    "group_ids": [
+      2334,
+      2307,
+      2029,
+      2160
+    ],
+    "cats": [
+      "PALABRAS DEPORTIVAS",
+      "ATLETAS MEXICANOS",
+      "PELOTA VASCA",
+      "CLUBES LIGA MX"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALINEACION",
+      "CALENTAR",
+      "RECUPERAR",
+      "VELOCIDAD",
+      "LIMON",
+      "OROZCO",
+      "ROMMEL",
+      "SOTOMAYOR",
+      "FALTA",
+      "FRONTON",
+      "MANO",
+      "PARED",
+      "LEON",
+      "SANTOS",
+      "TIGRES",
+      "TOLUCA"
+    ]
+  },
+  {
+    "group_ids": [
+      2864,
+      2726,
+      2359,
+      2770
+    ],
+    "cats": [
+      "PELOTA VASCA",
+      "BASQUET MEXICO",
+      "BOXEO MEXICANO",
+      "LUCHA LIBRE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FALTA",
+      "PARED",
+      "PARTIDO",
+      "REBOTE",
+      "ABEJAS",
+      "CAPITANES",
+      "PANTERAS",
+      "TRIPLES",
+      "CANELO",
+      "ESQUINA",
+      "FINITO",
+      "JAB",
+      "CAIDA",
+      "CASTIGO",
+      "PLANCHA",
+      "RELEVOS"
+    ]
+  }
+]

@@ -1,0 +1,9502 @@
+[
+  {
+    "group_ids": [
+      3184,
+      3615,
+      3219,
+      3710
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "DEPORTES VASCOS",
+      "CLUBES LALIGA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALERO",
+      "CONTRAATAQUE",
+      "FALTA",
+      "TIROLIBRE",
+      "AIZKOLARI",
+      "HARRIJALE",
+      "MANOMANO",
+      "PELOTA",
+      "ATLETICO",
+      "OSASUNA",
+      "VALENCIA",
+      "VILLARREAL",
+      "DAZN",
+      "MOVISTAR",
+      "MUNDO",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3911,
+      3315,
+      3498,
+      3380
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "CIUDADES DEPORTE ES",
+      "TERMINOS BASKET",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BASKONIA",
+      "BREOGAN",
+      "OBRADOIRO",
+      "UNICAJA",
+      "MADRID",
+      "PAMPLONA",
+      "SEVILLA",
+      "VIGO",
+      "ALERO",
+      "ASISTENCIA",
+      "BASE",
+      "PRORROGA",
+      "ALCARAZ",
+      "ARCILLA",
+      "DERECHA",
+      "DEUCE"
+    ]
+  },
+  {
+    "group_ids": [
+      3791,
+      3735,
+      3728,
+      3750
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "GIMNASIA Y COMBATE",
+      "ATLETISMO ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "COPADELREY",
+      "DERBI",
+      "FINAL",
+      "IPPON",
+      "JUDO",
+      "LUCHA",
+      "PUNTO",
+      "FONDO",
+      "META",
+      "PERTIGA",
+      "SALTO",
+      "AS",
+      "COPE",
+      "MOVISTAR",
+      "RTVE"
+    ]
+  },
+  {
+    "group_ids": [
+      3053,
+      3906,
+      3699,
+      3800
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "JUEGOS TRADICIONALES",
+      "CLUBES LALIGA",
+      "TERMINOS BASKET"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CENTRO",
+      "FUERAJUEGO",
+      "REMATE",
+      "SAQUE",
+      "BOLOS",
+      "CHAPAS",
+      "PEONZA",
+      "RAYUELA",
+      "ATHLETIC",
+      "OSASUNA",
+      "SEVILLA",
+      "VALENCIA",
+      "BASE",
+      "BLOQUEO",
+      "CONTRAATAQUE",
+      "TRIPLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3953,
+      3887,
+      3239,
+      3950
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "JUEGOS TRADICIONALES",
+      "CLUBES LALIGA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAROLINA",
+      "FERMIN",
+      "GASOL",
+      "INDURAIN",
+      "CHAPAS",
+      "COMBA",
+      "PAÑUELO",
+      "RAYUELA",
+      "MADRID",
+      "OSASUNA",
+      "VALENCIA",
+      "VILLARREAL",
+      "ALONSO",
+      "MARQUEZ",
+      "PARCFERME",
+      "POLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3482,
+      3756,
+      3298,
+      3660
+    ],
+    "cats": [
+      "ATLETISMO ESPANA",
+      "PALABRAS ENTRENAMIENTO",
+      "CLUBES LALIGA",
+      "CIUDADES DEPORTE ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALLE",
+      "MARCHA",
+      "PESO",
+      "SALTO",
+      "ESTIRAR",
+      "PROGRESION",
+      "REPETICION",
+      "RESISTENCIA",
+      "BARCA",
+      "BETIS",
+      "CELTA",
+      "VALENCIA",
+      "BARCELONA",
+      "MADRID",
+      "PAMPLONA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3162,
+      3146,
+      3069,
+      3890
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "MOTOS Y F1",
+      "DEPORTES VASCOS",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARCILLA",
+      "DEUCE",
+      "FELICIANO",
+      "MUGURUZA",
+      "JEREZ",
+      "MOTOGP",
+      "PARRILLA",
+      "POLE",
+      "ESTROPADA",
+      "MANOMANO",
+      "REGATA",
+      "SESTARI",
+      "ATAQUE",
+      "CANTERA",
+      "DEFENSA",
+      "MUNDIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3233,
+      3985,
+      3569,
+      3650
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "BALONCESTO ACB",
+      "CLUBES LALIGA",
+      "TERMINOS BASKET"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABONO",
+      "BUFANDA",
+      "CANTICO",
+      "VICTORIA",
+      "BASKONIA",
+      "CANARIAS",
+      "MURCIA",
+      "VALENCIA_BC",
+      "BETIS",
+      "CELTA",
+      "MADRID",
+      "VILLARREAL",
+      "ALERO",
+      "CANASTA",
+      "FALTA",
+      "TIROLIBRE"
+    ]
+  },
+  {
+    "group_ids": [
+      3282,
+      3906,
+      3678,
+      3190
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "JUEGOS TRADICIONALES",
+      "CIUDADES DEPORTE ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARCA_BASKET",
+      "GRANCA",
+      "OBRADOIRO",
+      "UNICAJA",
+      "BOLOS",
+      "CHAPAS",
+      "PEONZA",
+      "RAYUELA",
+      "GIJON",
+      "MURCIA",
+      "PAMPLONA",
+      "ZARAGOZA",
+      "AS",
+      "DAZN",
+      "SER",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3854,
+      3117,
+      3319,
+      3790
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "CIUDADES DEPORTE ES",
+      "ESTADIOS ESPANA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AFICION",
+      "ATAQUE",
+      "MEDIO",
+      "TIKI_TAKA",
+      "MADRID",
+      "MALAGA",
+      "VALENCIA",
+      "VIGO",
+      "COLISEUM",
+      "RCDE",
+      "SADAR",
+      "SANMAMES",
+      "CORNERS",
+      "FUERAJUEGO",
+      "PARED",
+      "REMATE"
+    ]
+  },
+  {
+    "group_ids": [
+      3114,
+      3567,
+      3488,
+      3890
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "PALABRAS ENTRENAMIENTO",
+      "DEPORTES ACUATICOS",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANTICO",
+      "RIVALIDAD",
+      "TIFO",
+      "VICTORIA",
+      "ESTIRAR",
+      "MOVILIDAD",
+      "RECUPERACION",
+      "SERIE",
+      "REGATA",
+      "SURF",
+      "VELA",
+      "WATERPOLO",
+      "ATAQUE",
+      "CANTERA",
+      "DEFENSA",
+      "MUNDIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3771,
+      3736,
+      3509,
+      3180
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "CIUDADES DEPORTE ES",
+      "GIMNASIA Y COMBATE",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "CONFERENCE",
+      "FINAL",
+      "PLAYOFF",
+      "ALMERIA",
+      "MALAGA",
+      "MURCIA",
+      "VIGO",
+      "IPPON",
+      "JUDO",
+      "KICKBOXING",
+      "PUNTO",
+      "COLISEUM",
+      "RCDE",
+      "SADAR",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3212,
+      3625,
+      3269,
+      3100
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "CLUBES LALIGA",
+      "MEDIOS DEPORTIVOS ES",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "CHAMPIONS",
+      "COPADELREY",
+      "DERBI",
+      "ATLETICO",
+      "CELTA",
+      "GIRONA",
+      "VALENCIA",
+      "AS",
+      "LALIGATV",
+      "RTVE",
+      "SER",
+      "BOLOS",
+      "COMBA",
+      "SOGA",
+      "TANGANA"
+    ]
+  },
+  {
+    "group_ids": [
+      3552,
+      3217,
+      3718,
+      3790
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "PALABRAS ENTRENAMIENTO",
+      "JUEGOS TRADICIONALES",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "CAPITAN",
+      "CONVOCATORIA",
+      "POSESION",
+      "CALENTAR",
+      "DESCANSO",
+      "ESTIRAR",
+      "RUTINA",
+      "CHAPAS",
+      "CHITO",
+      "PAÑUELO",
+      "RANA",
+      "CORNERS",
+      "FUERAJUEGO",
+      "PARED",
+      "REMATE"
+    ]
+  },
+  {
+    "group_ids": [
+      3562,
+      3456,
+      3408,
+      3820
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "SELECCION ESPANA",
+      "TERMINOS FUTBOL ES",
+      "TERMINOS BASKET"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONFERENCE",
+      "COPADELREY",
+      "EUROPA",
+      "JORNADA",
+      "CANTERA",
+      "CONVOCATORIA",
+      "ROJA",
+      "TIKI_TAKA",
+      "ARBITRO",
+      "CENTRO",
+      "FUERAJUEGO",
+      "REMATE",
+      "BASE",
+      "BLOQUEO",
+      "CANASTA",
+      "PRORROGA"
+    ]
+  },
+  {
+    "group_ids": [
+      3571,
+      3875,
+      3878,
+      3270
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "CICLISMO ESPANA",
+      "ATLETISMO ESPANA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "CANTERA",
+      "ROJA",
+      "TIKI_TAKA",
+      "DOMESTICO",
+      "ETAPA",
+      "PUERTO",
+      "SPRINT",
+      "CALLE",
+      "FONDO",
+      "PERTIGA",
+      "PESO",
+      "CORNERS",
+      "FUERAJUEGO",
+      "GOLEADOR",
+      "PARED"
+    ]
+  },
+  {
+    "group_ids": [
+      3501,
+      3417,
+      3958,
+      3270
+    ],
+    "cats": [
+      "DEPORTES VASCOS",
+      "ESTADIOS ESPANA",
+      "GIMNASIA Y COMBATE",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FRONTON",
+      "PALA",
+      "REGATA",
+      "TRAINERA",
+      "BALAIDOS",
+      "BERNABEU",
+      "CERAMICA",
+      "METROPOLITANO",
+      "CATA",
+      "ESGRIMA",
+      "IPPON",
+      "KICKBOXING",
+      "CORNERS",
+      "FUERAJUEGO",
+      "GOLEADOR",
+      "PARED"
+    ]
+  },
+  {
+    "group_ids": [
+      3764,
+      3926,
+      3799,
+      3210
+    ],
+    "cats": [
+      "CICLISMO ESPANA",
+      "ESTADIOS ESPANA",
+      "BALONCESTO ACB",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIDON",
+      "DOMESTICO",
+      "ETAPA",
+      "VUELTA",
+      "MESTALLA",
+      "METROPOLITANO",
+      "SANMAMES",
+      "VILLAMARIN",
+      "BARCA_BASKET",
+      "BREOGAN",
+      "JOVENTUT",
+      "VALENCIA_BC",
+      "COPE",
+      "DAZN",
+      "LALIGATV",
+      "MUNDO"
+    ]
+  },
+  {
+    "group_ids": [
+      3682,
+      3635,
+      3679,
+      3070
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "ATLETAS ESPANOLES",
+      "PALABRAS ENTRENAMIENTO",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BERNABEU",
+      "COLISEUM",
+      "MESTALLA",
+      "METROPOLITANO",
+      "CONTADOR",
+      "FERMIN",
+      "GASOL",
+      "MIREIA",
+      "CALENTAR",
+      "ESTIRAR",
+      "FUERZA",
+      "REPETICION",
+      "META",
+      "PERTIGA",
+      "PESO",
+      "VALLAS"
+    ]
+  },
+  {
+    "group_ids": [
+      3491,
+      3436,
+      3538,
+      3880
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "CLUBES LALIGA",
+      "TERMINOS BASKET",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALENTAR",
+      "POTENCIA",
+      "PROGRESION",
+      "REPETICION",
+      "BARCA",
+      "OSASUNA",
+      "VALENCIA",
+      "VILLARREAL",
+      "ASISTENCIA",
+      "CANASTA",
+      "CONTRAATAQUE",
+      "PIVOT",
+      "DAZN",
+      "LALIGATV",
+      "RTVE",
+      "SER"
+    ]
+  },
+  {
+    "group_ids": [
+      3221,
+      3366,
+      3408,
+      3580
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "ATLETISMO ESPANA",
+      "TERMINOS FUTBOL ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVOCATORIA",
+      "DEFENSA",
+      "MEDIO",
+      "TIKI_TAKA",
+      "CALLE",
+      "META",
+      "PESO",
+      "RELEVOS",
+      "ARBITRO",
+      "CENTRO",
+      "FUERAJUEGO",
+      "REMATE",
+      "AS",
+      "DAZN",
+      "SER",
+      "TELEDEPORTE"
+    ]
+  },
+  {
+    "group_ids": [
+      3242,
+      3267,
+      3288,
+      3670
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "ATLETISMO ESPANA",
+      "ATLETAS ESPANOLES",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAVISCUP",
+      "DERECHA",
+      "FERRER",
+      "MUGURUZA",
+      "DISCO",
+      "FONDO",
+      "MARATON",
+      "PERTIGA",
+      "CALDERON",
+      "FERMIN",
+      "INDURAIN",
+      "YULIMAR",
+      "BOXES",
+      "MOTOGP",
+      "PARCFERME",
+      "SAINZ"
+    ]
+  },
+  {
+    "group_ids": [
+      3531,
+      3236,
+      3188,
+      3770
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "CIUDADES DEPORTE ES",
+      "ATLETISMO ESPANA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCANSO",
+      "POTENCIA",
+      "REPETICION",
+      "RESISTENCIA",
+      "BARCELONA",
+      "GIJON",
+      "MALAGA",
+      "VALENCIA",
+      "FONDO",
+      "MARATON",
+      "PESO",
+      "SALTO",
+      "ARBITRO",
+      "CENTRO",
+      "FUERAJUEGO",
+      "PENALTI"
+    ]
+  },
+  {
+    "group_ids": [
+      3102,
+      3415,
+      3499,
+      3360
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "JUEGOS TRADICIONALES",
+      "CICLISMO ESPANA",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BERNABEU",
+      "COLISEUM",
+      "MONTILIVI",
+      "SANMAMES",
+      "BOLOS",
+      "CHAPAS",
+      "PEONZA",
+      "PETANCA",
+      "CRONO",
+      "DOMESTICO",
+      "ESCALADA",
+      "META",
+      "DERECHA",
+      "FELICIANO",
+      "NADAL",
+      "SERVICIO"
+    ]
+  },
+  {
+    "group_ids": [
+      3191,
+      3197,
+      3158,
+      4000
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "PALABRAS ENTRENAMIENTO",
+      "JUEGOS TRADICIONALES",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PENALTI",
+      "REGATE",
+      "REMATE",
+      "VAR",
+      "DESCANSO",
+      "POTENCIA",
+      "RESISTENCIA",
+      "SERIE",
+      "BOLOS",
+      "PAÑUELO",
+      "PEONZA",
+      "SOGA",
+      "BALAIDOS",
+      "CAMPNOU",
+      "MONTILIVI",
+      "SANMAMES"
+    ]
+  },
+  {
+    "group_ids": [
+      3192,
+      3007,
+      3538,
+      3360
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "CICLISMO ESPANA",
+      "TERMINOS BASKET",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "CLASICO",
+      "JORNADA",
+      "SUPERCOPA",
+      "CRONO",
+      "ESCALADA",
+      "SPRINT",
+      "VUELTA",
+      "ASISTENCIA",
+      "CANASTA",
+      "CONTRAATAQUE",
+      "PIVOT",
+      "DERECHA",
+      "FELICIANO",
+      "NADAL",
+      "SERVICIO"
+    ]
+  },
+  {
+    "group_ids": [
+      3403,
+      3456,
+      3938,
+      3570
+    ],
+    "cats": [
+      "MOTOS Y F1",
+      "SELECCION ESPANA",
+      "DEPORTES ACUATICOS",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "JEREZ",
+      "MARTIN",
+      "MONTMELO",
+      "PARCFERME",
+      "CANTERA",
+      "CONVOCATORIA",
+      "ROJA",
+      "TIKI_TAKA",
+      "CRAWL",
+      "SURF",
+      "WATERPOLO",
+      "WINDSURF",
+      "BALAIDOS",
+      "CAMPNOU",
+      "COLISEUM",
+      "MESTALLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3531,
+      3416,
+      3558,
+      3250
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "CLUBES LALIGA",
+      "ATLETISMO ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCANSO",
+      "POTENCIA",
+      "REPETICION",
+      "RESISTENCIA",
+      "ATLETICO",
+      "BETIS",
+      "REALSOCIEDAD",
+      "VALENCIA",
+      "FONDO",
+      "MARATON",
+      "META",
+      "RELEVOS",
+      "COPE",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "MOVISTAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3874,
+      3507,
+      3958,
+      3880
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "AFICION ESPANOLA",
+      "GIMNASIA Y COMBATE",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARCA_BASKET",
+      "BASKONIA",
+      "REALMADRID",
+      "VALENCIA_BC",
+      "BENGALA",
+      "CANTICO",
+      "CELEBRACION",
+      "PEÑA",
+      "CATA",
+      "ESGRIMA",
+      "IPPON",
+      "KICKBOXING",
+      "DAZN",
+      "LALIGATV",
+      "RTVE",
+      "SER"
+    ]
+  },
+  {
+    "group_ids": [
+      3254,
+      3037,
+      3599,
+      3250
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "GIMNASIA Y COMBATE",
+      "TERMINOS FUTBOL ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRAZA",
+      "KITESURF",
+      "SURF",
+      "TRAVESIA",
+      "CATA",
+      "DOJO",
+      "KARATE",
+      "LUCHA",
+      "FUERAJUEGO",
+      "PARED",
+      "REMATE",
+      "SAQUE",
+      "COPE",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "MOVISTAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3591,
+      3976,
+      3269,
+      3830
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "DEPORTES ACUATICOS",
+      "MEDIOS DEPORTIVOS ES",
+      "GIMNASIA Y COMBATE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BREOGAN",
+      "GRANCA",
+      "MANRESA",
+      "REALMADRID",
+      "BRAZA",
+      "CLAVADOS",
+      "CRAWL",
+      "TRAVESIA",
+      "AS",
+      "LALIGATV",
+      "RTVE",
+      "SER",
+      "CATA",
+      "JUDO",
+      "LUCHA",
+      "TAEKWONDO"
+    ]
+  },
+  {
+    "group_ids": [
+      3214,
+      3666,
+      3859,
+      3980
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "TENIS ESPANOL",
+      "MOTOS Y F1",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLAVADOS",
+      "REGATA",
+      "SURF",
+      "WINDSURF",
+      "ALCARAZ",
+      "DEUCE",
+      "MUGURUZA",
+      "NADAL",
+      "JEREZ",
+      "MIR",
+      "MONTMELO",
+      "MOTOGP",
+      "CALVA",
+      "CHAPAS",
+      "CHITO",
+      "SOGA"
+    ]
+  },
+  {
+    "group_ids": [
+      3871,
+      3805,
+      3179,
+      3010
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "ATLETAS ESPANOLES",
+      "CLUBES LALIGA",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAMPNOU",
+      "CERAMICA",
+      "COLISEUM",
+      "SADAR",
+      "INDURAIN",
+      "MIREIA",
+      "SANDRA",
+      "YULIMAR",
+      "BARCA",
+      "CELTA",
+      "MADRID",
+      "SEVILLA",
+      "CALLE",
+      "JABALINA",
+      "RELEVOS",
+      "VALLAS"
+    ]
+  },
+  {
+    "group_ids": [
+      3323,
+      3475,
+      3528,
+      3290
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "SELECCION ESPANA",
+      "DEPORTES ACUATICOS",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASISTENCIA",
+      "BASE",
+      "BLOQUEO",
+      "PRORROGA",
+      "ATAQUE",
+      "CANTERA",
+      "MUNDIAL",
+      "TIKI_TAKA",
+      "CRAWL",
+      "KITESURF",
+      "REGATA",
+      "WINDSURF",
+      "ARBITRO",
+      "FUERAJUEGO",
+      "PENALTI",
+      "SAQUE"
+    ]
+  },
+  {
+    "group_ids": [
+      3233,
+      3727,
+      3899,
+      3310
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "DEPORTES VASCOS",
+      "MEDIOS DEPORTIVOS ES",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABONO",
+      "BUFANDA",
+      "CANTICO",
+      "VICTORIA",
+      "ESTROPADA",
+      "PALA",
+      "REGATA",
+      "SOKATIRA",
+      "DAZN",
+      "MARCA",
+      "MOVISTAR",
+      "MUNDO",
+      "CORNERS",
+      "FUERAJUEGO",
+      "SAQUE",
+      "VAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3153,
+      3815,
+      3148,
+      3210
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "CLUBES LALIGA",
+      "ATLETISMO ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANTICO",
+      "GRADA",
+      "PEÑA",
+      "RIVALIDAD",
+      "ATLETICO",
+      "CELTA",
+      "OSASUNA",
+      "VALENCIA",
+      "DISCO",
+      "JABALINA",
+      "PERTIGA",
+      "PESO",
+      "COPE",
+      "DAZN",
+      "LALIGATV",
+      "MUNDO"
+    ]
+  },
+  {
+    "group_ids": [
+      3351,
+      3277,
+      3938,
+      3240
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "JUEGOS TRADICIONALES",
+      "DEPORTES ACUATICOS",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABONO",
+      "BUFANDA",
+      "GRADA",
+      "VICTORIA",
+      "CHAPAS",
+      "COMBA",
+      "RANA",
+      "SOGA",
+      "CRAWL",
+      "SURF",
+      "WATERPOLO",
+      "WINDSURF",
+      "CAMPNOU",
+      "MESTALLA",
+      "SADAR",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3513,
+      3825,
+      3949,
+      3100
+    ],
+    "cats": [
+      "CLUBES LALIGA",
+      "MEDIOS DEPORTIVOS ES",
+      "CICLISMO ESPANA",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "ATLETICO",
+      "OSASUNA",
+      "SEVILLA",
+      "COPE",
+      "LALIGATV",
+      "MOVISTAR",
+      "RTVE",
+      "ESCALADA",
+      "PUERTO",
+      "SPRINT",
+      "VUELTA",
+      "BOLOS",
+      "COMBA",
+      "SOGA",
+      "TANGANA"
+    ]
+  },
+  {
+    "group_ids": [
+      3594,
+      3776,
+      3878,
+      3320
+    ],
+    "cats": [
+      "MOTOS Y F1",
+      "PALABRAS ENTRENAMIENTO",
+      "ATLETISMO ESPANA",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MARTIN",
+      "PARCFERME",
+      "PARRILLA",
+      "SAINZ",
+      "CALENTAR",
+      "POTENCIA",
+      "RECUPERACION",
+      "SERIE",
+      "CALLE",
+      "FONDO",
+      "PERTIGA",
+      "PESO",
+      "AFICION",
+      "CONVOCATORIA",
+      "MEDIO",
+      "MUNDIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3173,
+      3016,
+      3338,
+      3750
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "DEPORTES ACUATICOS",
+      "ESTADIOS ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANTICO",
+      "FONDO",
+      "RIVALIDAD",
+      "VICTORIA",
+      "CLAVADOS",
+      "KITESURF",
+      "PIRAGUISMO",
+      "TRAVESIA",
+      "COLISEUM",
+      "MONTILIVI",
+      "SANMAMES",
+      "VILLAMARIN",
+      "AS",
+      "COPE",
+      "MOVISTAR",
+      "RTVE"
+    ]
+  },
+  {
+    "group_ids": [
+      3354,
+      3947,
+      3198,
+      3620
+    ],
+    "cats": [
+      "CIUDADES DEPORTE ES",
+      "BALONCESTO ACB",
+      "JUEGOS TRADICIONALES",
+      "AFICION ESPANOLA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GIJON",
+      "VALENCIA",
+      "VIGO",
+      "ZARAGOZA",
+      "BARCA_BASKET",
+      "BASKONIA",
+      "MANRESA",
+      "REALMADRID",
+      "CALVA",
+      "COMBA",
+      "PAÑUELO",
+      "SOGA",
+      "BUFANDA",
+      "CELEBRACION",
+      "RIVALIDAD",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      3712,
+      3346,
+      3569,
+      3040
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "ATLETISMO ESPANA",
+      "CLUBES LALIGA",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "CLASICO",
+      "DERBI",
+      "EUROPA",
+      "CALLE",
+      "JABALINA",
+      "PERTIGA",
+      "PESO",
+      "BETIS",
+      "CELTA",
+      "MADRID",
+      "VILLARREAL",
+      "BOLOS",
+      "CHAPAS",
+      "CHITO",
+      "PAÑUELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3324,
+      3866,
+      3619,
+      3720
+    ],
+    "cats": [
+      "CICLISMO ESPANA",
+      "DEPORTES ACUATICOS",
+      "COPAS Y TORNEOS",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABANICO",
+      "MALLA",
+      "META",
+      "PELOTON",
+      "CLAVADOS",
+      "KITESURF",
+      "PIRAGUISMO",
+      "REGATA",
+      "ASCENSO",
+      "CONFERENCE",
+      "DERBI",
+      "LIGA",
+      "CAMPNOU",
+      "METROPOLITANO",
+      "SANMAMES",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3741,
+      3277,
+      3608,
+      3330
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "JUEGOS TRADICIONALES",
+      "ESTADIOS ESPANA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "CONVOCATORIA",
+      "EUROCOPA",
+      "TIKI_TAKA",
+      "CHAPAS",
+      "COMBA",
+      "RANA",
+      "SOGA",
+      "BALAIDOS",
+      "MESTALLA",
+      "SADAR",
+      "VILLAMARIN",
+      "FUERAJUEGO",
+      "PARED",
+      "REGATE",
+      "REMATE"
+    ]
+  },
+  {
+    "group_ids": [
+      3894,
+      3316,
+      3338,
+      3710
+    ],
+    "cats": [
+      "CICLISMO ESPANA",
+      "PALABRAS ENTRENAMIENTO",
+      "ESTADIOS ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABANICO",
+      "CRONO",
+      "ETAPA",
+      "SPRINT",
+      "DESCANSO",
+      "ESTIRAR",
+      "MOVILIDAD",
+      "REPETICION",
+      "COLISEUM",
+      "MONTILIVI",
+      "SANMAMES",
+      "VILLAMARIN",
+      "DAZN",
+      "MOVISTAR",
+      "MUNDO",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3831,
+      3355,
+      3199,
+      4000
+    ],
+    "cats": [
+      "CIUDADES DEPORTE ES",
+      "PALABRAS ENTRENAMIENTO",
+      "CLUBES LALIGA",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALMERIA",
+      "BILBAO",
+      "MURCIA",
+      "ZARAGOZA",
+      "POTENCIA",
+      "RECUPERACION",
+      "REPETICION",
+      "RESISTENCIA",
+      "ATLETICO",
+      "GIRONA",
+      "REALSOCIEDAD",
+      "SEVILLA",
+      "BALAIDOS",
+      "CAMPNOU",
+      "MONTILIVI",
+      "SANMAMES"
+    ]
+  },
+  {
+    "group_ids": [
+      3961,
+      3806,
+      3358,
+      3460
+    ],
+    "cats": [
+      "JUEGOS TRADICIONALES",
+      "MEDIOS DEPORTIVOS ES",
+      "ESTADIOS ESPANA",
+      "CICLISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHAPAS",
+      "CHITO",
+      "RAYUELA",
+      "TANGANA",
+      "AS",
+      "DAZN",
+      "MUNDO",
+      "SPORT",
+      "CAMPNOU",
+      "MONTILIVI",
+      "SANMAMES",
+      "VILLAMARIN",
+      "MALLA",
+      "META",
+      "PELOTON",
+      "PUERTO"
+    ]
+  },
+  {
+    "group_ids": [
+      3332,
+      3765,
+      3309,
+      3270
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "MOTOS Y F1",
+      "MEDIOS DEPORTIVOS ES",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BENGALA",
+      "CELEBRACION",
+      "GRADA",
+      "PEÑA",
+      "ALONSO",
+      "MARQUEZ",
+      "PARCFERME",
+      "PARRILLA",
+      "DAZN",
+      "RTVE",
+      "SER",
+      "SPORT",
+      "CORNERS",
+      "FUERAJUEGO",
+      "GOLEADOR",
+      "PARED"
+    ]
+  },
+  {
+    "group_ids": [
+      3614,
+      3355,
+      3508,
+      3140
+    ],
+    "cats": [
+      "MOTOS Y F1",
+      "PALABRAS ENTRENAMIENTO",
+      "DEPORTES ACUATICOS",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALONSO",
+      "BOXES",
+      "MARTIN",
+      "SAINZ",
+      "POTENCIA",
+      "RECUPERACION",
+      "REPETICION",
+      "RESISTENCIA",
+      "BRAZA",
+      "CLAVADOS",
+      "REGATA",
+      "TRAVESIA",
+      "BALAIDOS",
+      "BERNABEU",
+      "MESTALLA",
+      "MONTILIVI"
+    ]
+  },
+  {
+    "group_ids": [
+      3051,
+      3577,
+      3448,
+      3630
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "DEPORTES VASCOS",
+      "AFICION ESPANOLA",
+      "TERMINOS BASKET"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAROLINA",
+      "FERMIN",
+      "RUDY",
+      "RUTH",
+      "HARRIJALE",
+      "PELOTA",
+      "REMO",
+      "SESTARI",
+      "BUFANDA",
+      "CANTICO",
+      "DESPLAZAMIENTO",
+      "VICTORIA",
+      "ASISTENCIA",
+      "BASE",
+      "FALTA",
+      "PIVOT"
+    ]
+  },
+  {
+    "group_ids": [
+      3683,
+      3155,
+      3768,
+      3070
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "GIMNASIA Y COMBATE",
+      "ATLETAS ESPANOLES",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "MUNDIAL",
+      "POSESION",
+      "ROJA",
+      "BOXEO",
+      "ESGRIMA",
+      "IPPON",
+      "JUDO",
+      "BELMONTE",
+      "FERMIN",
+      "RUDY",
+      "SANDRA",
+      "META",
+      "PERTIGA",
+      "PESO",
+      "VALLAS"
+    ]
+  },
+  {
+    "group_ids": [
+      3983,
+      3777,
+      3278,
+      3030
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "JUEGOS TRADICIONALES",
+      "CLUBES LALIGA",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "CONVOCATORIA",
+      "EUROCOPA",
+      "ROJA",
+      "PEONZA",
+      "RANA",
+      "RAYUELA",
+      "SOGA",
+      "ATHLETIC",
+      "GIRONA",
+      "MADRID",
+      "OSASUNA",
+      "CALLE",
+      "MARCHA",
+      "PERTIGA",
+      "RELEVOS"
+    ]
+  },
+  {
+    "group_ids": [
+      3673,
+      3037,
+      3078,
+      3610
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "GIMNASIA Y COMBATE",
+      "CIUDADES DEPORTE ES",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNERS",
+      "DESMARQUE",
+      "FUERAJUEGO",
+      "PARED",
+      "CATA",
+      "DOJO",
+      "KARATE",
+      "LUCHA",
+      "ALMERIA",
+      "MADRID",
+      "MURCIA",
+      "SEVILLA",
+      "ALCARAZ",
+      "FELICIANO",
+      "MUGURUZA",
+      "NADAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3903,
+      3667,
+      3079,
+      3570
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "BALONCESTO ACB",
+      "PALABRAS ENTRENAMIENTO",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLAVADOS",
+      "KITESURF",
+      "SURF",
+      "WINDSURF",
+      "BARCA_BASKET",
+      "GRANCA",
+      "JOVENTUT",
+      "VALENCIA_BC",
+      "MOVILIDAD",
+      "POTENCIA",
+      "RESISTENCIA",
+      "SERIE",
+      "BALAIDOS",
+      "CAMPNOU",
+      "COLISEUM",
+      "MESTALLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3251,
+      3766,
+      3939,
+      3490
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "DEPORTES VASCOS",
+      "GIMNASIA Y COMBATE",
+      "CIUDADES DEPORTE ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "DESMARQUE",
+      "FUERAJUEGO",
+      "REMATE",
+      "HARRIJALE",
+      "PELOTA",
+      "SOKATIRA",
+      "TRAINERA",
+      "CATA",
+      "JUDO",
+      "KARATE",
+      "TAEKWONDO",
+      "ALMERIA",
+      "MADRID",
+      "PAMPLONA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3813,
+      3396,
+      3329,
+      3420
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "CLUBES LALIGA",
+      "MEDIOS DEPORTIVOS ES",
+      "BALONCESTO ACB"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALENTAR",
+      "DESCANSO",
+      "ESTIRAR",
+      "REPETICION",
+      "ATHLETIC",
+      "BARCA",
+      "BETIS",
+      "SEVILLA",
+      "AS",
+      "DAZN",
+      "MARCA",
+      "SER",
+      "BARCA_BASKET",
+      "BREOGAN",
+      "GRANCA",
+      "VALENCIA_BC"
+    ]
+  },
+  {
+    "group_ids": [
+      3872,
+      3337,
+      3148,
+      3820
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "JUEGOS TRADICIONALES",
+      "ATLETISMO ESPANA",
+      "TERMINOS BASKET"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DEFENSA",
+      "MEDIO",
+      "MUNDIAL",
+      "ROJA",
+      "CALVA",
+      "CHITO",
+      "PETANCA",
+      "RAYUELA",
+      "DISCO",
+      "JABALINA",
+      "PERTIGA",
+      "PESO",
+      "BASE",
+      "BLOQUEO",
+      "CANASTA",
+      "PRORROGA"
+    ]
+  },
+  {
+    "group_ids": [
+      3943,
+      3877,
+      3249,
+      3270
+    ],
+    "cats": [
+      "CLUBES LALIGA",
+      "DEPORTES VASCOS",
+      "ATLETAS ESPANOLES",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARCA",
+      "CELTA",
+      "OSASUNA",
+      "VALENCIA",
+      "AIZKOLARI",
+      "FRONTON",
+      "PELOTA",
+      "REMO",
+      "BELMONTE",
+      "GASOL",
+      "INDURAIN",
+      "RUTH",
+      "CORNERS",
+      "FUERAJUEGO",
+      "GOLEADOR",
+      "PARED"
+    ]
+  },
+  {
+    "group_ids": [
+      3102,
+      3045,
+      3938,
+      3230
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "BALONCESTO ACB",
+      "DEPORTES ACUATICOS",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BERNABEU",
+      "COLISEUM",
+      "MONTILIVI",
+      "SANMAMES",
+      "BARCA_BASKET",
+      "GRANCA",
+      "MURCIA",
+      "REALMADRID",
+      "CRAWL",
+      "SURF",
+      "WATERPOLO",
+      "WINDSURF",
+      "COPE",
+      "MARCA",
+      "SER",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3693,
+      3376,
+      3308,
+      3880
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "JUEGOS TRADICIONALES",
+      "ATLETAS ESPANOLES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONFERENCE",
+      "FINAL",
+      "JORNADA",
+      "SUPERCOPA",
+      "CHITO",
+      "RANA",
+      "SOGA",
+      "TANGANA",
+      "CAROLINA",
+      "FERMIN",
+      "MIREIA",
+      "RUTH",
+      "DAZN",
+      "LALIGATV",
+      "RTVE",
+      "SER"
+    ]
+  },
+  {
+    "group_ids": [
+      3762,
+      3466,
+      3888,
+      3010
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "COPAS Y TORNEOS",
+      "CLUBES LALIGA",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "JOVENTUT",
+      "MURCIA",
+      "REALMADRID",
+      "VALENCIA_BC",
+      "CLASICO",
+      "CONFERENCE",
+      "DERBI",
+      "PLAYOFF",
+      "GIRONA",
+      "OSASUNA",
+      "REALSOCIEDAD",
+      "VILLARREAL",
+      "CALLE",
+      "JABALINA",
+      "RELEVOS",
+      "VALLAS"
+    ]
+  },
+  {
+    "group_ids": [
+      3262,
+      3747,
+      3768,
+      3520
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "DEPORTES VASCOS",
+      "ATLETAS ESPANOLES",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANARIAS",
+      "GRANCA",
+      "JOVENTUT",
+      "REALMADRID",
+      "FRONTON",
+      "HARRIJALE",
+      "REGATA",
+      "SESTARI",
+      "BELMONTE",
+      "FERMIN",
+      "RUDY",
+      "SANDRA",
+      "ALONSO",
+      "BOXES",
+      "MARTIN",
+      "MONTMELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3892,
+      3295,
+      3938,
+      3520
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "CIUDADES DEPORTE ES",
+      "DEPORTES ACUATICOS",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BREOGAN",
+      "JOVENTUT",
+      "OBRADOIRO",
+      "VALENCIA_BC",
+      "BARCELONA",
+      "MALAGA",
+      "PAMPLONA",
+      "ZARAGOZA",
+      "CRAWL",
+      "SURF",
+      "WATERPOLO",
+      "WINDSURF",
+      "ALONSO",
+      "BOXES",
+      "MARTIN",
+      "MONTMELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3624,
+      3876,
+      3018,
+      3690
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "MOTOS Y F1",
+      "CIUDADES DEPORTE ES",
+      "ATLETAS ESPANOLES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCANSO",
+      "FUERZA",
+      "MOVILIDAD",
+      "RESISTENCIA",
+      "BOXES",
+      "MOTOGP",
+      "PARCFERME",
+      "POLE",
+      "ALMERIA",
+      "BILBAO",
+      "SEVILLA",
+      "VALENCIA",
+      "CALDERON",
+      "CONTADOR",
+      "FERMIN",
+      "MIREIA"
+    ]
+  },
+  {
+    "group_ids": [
+      3024,
+      3746,
+      3368,
+      3650
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "MOTOS Y F1",
+      "MEDIOS DEPORTIVOS ES",
+      "TERMINOS BASKET"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARANTXA",
+      "ARCILLA",
+      "DAVISCUP",
+      "DEUCE",
+      "ALONSO",
+      "MARTIN",
+      "PARCFERME",
+      "POLE",
+      "DAZN",
+      "MARCA",
+      "RTVE",
+      "SER",
+      "ALERO",
+      "CANASTA",
+      "FALTA",
+      "TIROLIBRE"
+    ]
+  },
+  {
+    "group_ids": [
+      3082,
+      3895,
+      3308,
+      3430
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "MOTOS Y F1",
+      "ATLETAS ESPANOLES",
+      "AFICION ESPANOLA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BALAIDOS",
+      "COLISEUM",
+      "MESTALLA",
+      "SANMAMES",
+      "JEREZ",
+      "MARQUEZ",
+      "MONTMELO",
+      "POLE",
+      "CAROLINA",
+      "FERMIN",
+      "MIREIA",
+      "RUTH",
+      "BENGALA",
+      "CELEBRACION",
+      "PEÑA",
+      "RIVALIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      3634,
+      3805,
+      3299,
+      3470
+    ],
+    "cats": [
+      "ATLETISMO ESPANA",
+      "ATLETAS ESPANOLES",
+      "ESTADIOS ESPANA",
+      "CIUDADES DEPORTE ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALLE",
+      "JABALINA",
+      "MARCHA",
+      "VALLAS",
+      "INDURAIN",
+      "MIREIA",
+      "SANDRA",
+      "YULIMAR",
+      "CAMPNOU",
+      "COLISEUM",
+      "METROPOLITANO",
+      "MONTILIVI",
+      "MADRID",
+      "MALAGA",
+      "PAMPLONA",
+      "VALENCIA"
+    ]
+  },
+  {
+    "group_ids": [
+      3014,
+      3175,
+      3379,
+      3020
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "GIMNASIA Y COMBATE",
+      "SELECCION ESPANA",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLASICO",
+      "DERBI",
+      "EUROPA",
+      "PLAYOFF",
+      "BOXEO",
+      "IPPON",
+      "KARATE",
+      "TAEKWONDO",
+      "CAPITAN",
+      "CONVOCATORIA",
+      "EUROCOPA",
+      "MEDIO",
+      "CHITO",
+      "PAÑUELO",
+      "PETANCA",
+      "RAYUELA"
+    ]
+  },
+  {
+    "group_ids": [
+      3812,
+      3067,
+      3929,
+      3240
+    ],
+    "cats": [
+      "CIUDADES DEPORTE ES",
+      "CICLISMO ESPANA",
+      "BALONCESTO ACB",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARCELONA",
+      "BILBAO",
+      "GIJON",
+      "MALAGA",
+      "BIDON",
+      "DOMESTICO",
+      "MALLA",
+      "PELOTON",
+      "MANRESA",
+      "OBRADOIRO",
+      "UNICAJA",
+      "VALENCIA_BC",
+      "CAMPNOU",
+      "MESTALLA",
+      "SADAR",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3243,
+      3355,
+      3498,
+      3310
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "PALABRAS ENTRENAMIENTO",
+      "TERMINOS BASKET",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BREOGAN",
+      "MANRESA",
+      "UNICAJA",
+      "VALENCIA_BC",
+      "POTENCIA",
+      "RECUPERACION",
+      "REPETICION",
+      "RESISTENCIA",
+      "ALERO",
+      "ASISTENCIA",
+      "BASE",
+      "PRORROGA",
+      "CORNERS",
+      "FUERAJUEGO",
+      "SAQUE",
+      "VAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3983,
+      3066,
+      3639,
+      3490
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "TERMINOS BASKET",
+      "AFICION ESPANOLA",
+      "CIUDADES DEPORTE ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "CONVOCATORIA",
+      "EUROCOPA",
+      "ROJA",
+      "ALERO",
+      "BLOQUEO",
+      "PRORROGA",
+      "TRIPLE",
+      "ABONO",
+      "BUFANDA",
+      "PEÑA",
+      "TIFO",
+      "ALMERIA",
+      "MADRID",
+      "PAMPLONA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3474,
+      3725,
+      3048,
+      3040
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "CICLISMO ESPANA",
+      "MOTOS Y F1",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BERNABEU",
+      "CERAMICA",
+      "MESTALLA",
+      "RCDE",
+      "ABANICO",
+      "BIDON",
+      "ETAPA",
+      "SPRINT",
+      "BOXES",
+      "JEREZ",
+      "MIR",
+      "PARCFERME",
+      "BOLOS",
+      "CHAPAS",
+      "CHITO",
+      "PAÑUELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3792,
+      3927,
+      3478,
+      3350
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "SELECCION ESPANA",
+      "TERMINOS BASKET",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLAVADOS",
+      "KITESURF",
+      "REGATA",
+      "VELA",
+      "AFICION",
+      "DEFENSA",
+      "ROJA",
+      "TIKI_TAKA",
+      "ASISTENCIA",
+      "BASE",
+      "PRORROGA",
+      "TRIPLE",
+      "CHAMPIONS",
+      "FINAL",
+      "JORNADA",
+      "PLAYOFF"
+    ]
+  },
+  {
+    "group_ids": [
+      3371,
+      3167,
+      3309,
+      3350
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "DEPORTES VASCOS",
+      "MEDIOS DEPORTIVOS ES",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CELEBRACION",
+      "FONDO",
+      "TIFO",
+      "VICTORIA",
+      "PALA",
+      "PELOTA",
+      "REGATA",
+      "TRAINERA",
+      "DAZN",
+      "RTVE",
+      "SER",
+      "SPORT",
+      "CHAMPIONS",
+      "FINAL",
+      "JORNADA",
+      "PLAYOFF"
+    ]
+  },
+  {
+    "group_ids": [
+      3453,
+      3325,
+      3208,
+      4000
+    ],
+    "cats": [
+      "JUEGOS TRADICIONALES",
+      "MOTOS Y F1",
+      "ATLETISMO ESPANA",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLOS",
+      "PEONZA",
+      "RAYUELA",
+      "TANGANA",
+      "MARQUEZ",
+      "MARTIN",
+      "MOTOGP",
+      "PARRILLA",
+      "MARCHA",
+      "META",
+      "SALTO",
+      "VALLAS",
+      "BALAIDOS",
+      "CAMPNOU",
+      "MONTILIVI",
+      "SANMAMES"
+    ]
+  },
+  {
+    "group_ids": [
+      3484,
+      3587,
+      3238,
+      3320
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "CLUBES LALIGA",
+      "JUEGOS TRADICIONALES",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAZN",
+      "ELCHIRINGUITO",
+      "SPORT",
+      "TELEDEPORTE",
+      "BETIS",
+      "GIRONA",
+      "OSASUNA",
+      "SEVILLA",
+      "CHAPAS",
+      "PAÑUELO",
+      "PETANCA",
+      "SOGA",
+      "AFICION",
+      "CONVOCATORIA",
+      "MEDIO",
+      "MUNDIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3534,
+      3617,
+      3219,
+      3370
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "MEDIOS DEPORTIVOS ES",
+      "CLUBES LALIGA",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BALAIDOS",
+      "MESTALLA",
+      "RCDE",
+      "SANMAMES",
+      "MARCA",
+      "MOVISTAR",
+      "SER",
+      "TELEDEPORTE",
+      "ATLETICO",
+      "OSASUNA",
+      "VALENCIA",
+      "VILLARREAL",
+      "ASCENSO",
+      "CLASICO",
+      "COPADELREY",
+      "DERBI"
+    ]
+  },
+  {
+    "group_ids": [
+      3472,
+      3915,
+      3519,
+      3600
+    ],
+    "cats": [
+      "JUEGOS TRADICIONALES",
+      "DEPORTES VASCOS",
+      "CICLISMO ESPANA",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLOS",
+      "CHITO",
+      "COMBA",
+      "SOGA",
+      "ESTROPADA",
+      "PALA",
+      "REMO",
+      "SOKATIRA",
+      "BIDON",
+      "MALLA",
+      "PELOTON",
+      "PUERTO",
+      "CLASICO",
+      "COPADELREY",
+      "LIGA",
+      "PLAYOFF"
+    ]
+  },
+  {
+    "group_ids": [
+      3421,
+      3265,
+      3658,
+      3020
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "MOTOS Y F1",
+      "DEPORTES ACUATICOS",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASISTENCIA",
+      "CONTRAATAQUE",
+      "PRORROGA",
+      "REBOTE",
+      "MARQUEZ",
+      "MOTOGP",
+      "PARRILLA",
+      "SAINZ",
+      "BRAZA",
+      "CLAVADOS",
+      "CRAWL",
+      "REGATA",
+      "CHITO",
+      "PAÑUELO",
+      "PETANCA",
+      "RAYUELA"
+    ]
+  },
+  {
+    "group_ids": [
+      3413,
+      3955,
+      3479,
+      3240
+    ],
+    "cats": [
+      "CIUDADES DEPORTE ES",
+      "COPAS Y TORNEOS",
+      "CICLISMO ESPANA",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BILBAO",
+      "MURCIA",
+      "SEVILLA",
+      "ZARAGOZA",
+      "CLASICO",
+      "EUROPA",
+      "FINAL",
+      "SUPERCOPA",
+      "BIDON",
+      "CRONO",
+      "DOMESTICO",
+      "META",
+      "CAMPNOU",
+      "MESTALLA",
+      "SADAR",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3043,
+      3206,
+      3959,
+      3770
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "MOTOS Y F1",
+      "CIUDADES DEPORTE ES",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DEFENSA",
+      "EUROCOPA",
+      "MEDIO",
+      "POSESION",
+      "ALONSO",
+      "JEREZ",
+      "MARTIN",
+      "SAINZ",
+      "BILBAO",
+      "MALAGA",
+      "VALENCIA",
+      "VIGO",
+      "ARBITRO",
+      "CENTRO",
+      "FUERAJUEGO",
+      "PENALTI"
+    ]
+  },
+  {
+    "group_ids": [
+      3962,
+      3336,
+      3309,
+      3980
+    ],
+    "cats": [
+      "CLUBES LALIGA",
+      "PALABRAS ENTRENAMIENTO",
+      "MEDIOS DEPORTIVOS ES",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETICO",
+      "BARCA",
+      "GIRONA",
+      "MADRID",
+      "CALENTAR",
+      "RECUPERACION",
+      "REPETICION",
+      "SERIE",
+      "DAZN",
+      "RTVE",
+      "SER",
+      "SPORT",
+      "CALVA",
+      "CHAPAS",
+      "CHITO",
+      "SOGA"
+    ]
+  },
+  {
+    "group_ids": [
+      3191,
+      3895,
+      3208,
+      3140
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "MOTOS Y F1",
+      "ATLETISMO ESPANA",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "PENALTI",
+      "REGATE",
+      "REMATE",
+      "VAR",
+      "JEREZ",
+      "MARQUEZ",
+      "MONTMELO",
+      "POLE",
+      "MARCHA",
+      "META",
+      "SALTO",
+      "VALLAS",
+      "BALAIDOS",
+      "BERNABEU",
+      "MESTALLA",
+      "MONTILIVI"
+    ]
+  },
+  {
+    "group_ids": [
+      3742,
+      3835,
+      3999,
+      3480
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "ESTADIOS ESPANA",
+      "JUEGOS TRADICIONALES",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARCILLA",
+      "DAVISCUP",
+      "FELICIANO",
+      "NADAL",
+      "BERNABEU",
+      "CERAMICA",
+      "COLISEUM",
+      "SADAR",
+      "CALVA",
+      "COMBA",
+      "PEONZA",
+      "TANGANA",
+      "BOXES",
+      "MARTIN",
+      "MIR",
+      "PARRILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3611,
+      3035,
+      3768,
+      3970
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "AFICION ESPANOLA",
+      "ATLETAS ESPANOLES",
+      "DEPORTES VASCOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BREOGAN",
+      "JOVENTUT",
+      "MANRESA",
+      "MURCIA",
+      "BUFANDA",
+      "FONDO",
+      "PEÑA",
+      "VICTORIA",
+      "BELMONTE",
+      "FERMIN",
+      "RUDY",
+      "SANDRA",
+      "ESTROPADA",
+      "HARRIJALE",
+      "REGATA",
+      "TRAINERA"
+    ]
+  },
+  {
+    "group_ids": [
+      3203,
+      3356,
+      3859,
+      3220
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "JUEGOS TRADICIONALES",
+      "MOTOS Y F1",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARCA_BASKET",
+      "BASKONIA",
+      "BREOGAN",
+      "MANRESA",
+      "BOLOS",
+      "PAÑUELO",
+      "RANA",
+      "RAYUELA",
+      "JEREZ",
+      "MIR",
+      "MONTMELO",
+      "MOTOGP",
+      "BERNABEU",
+      "CERAMICA",
+      "MESTALLA",
+      "METROPOLITANO"
+    ]
+  },
+  {
+    "group_ids": [
+      3891,
+      3315,
+      3588,
+      3440
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "CIUDADES DEPORTE ES",
+      "ESTADIOS ESPANA",
+      "BALONCESTO ACB"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DERECHA",
+      "DEUCE",
+      "FERRER",
+      "SERVICIO",
+      "MADRID",
+      "PAMPLONA",
+      "SEVILLA",
+      "VIGO",
+      "BALAIDOS",
+      "METROPOLITANO",
+      "SANMAMES",
+      "VILLAMARIN",
+      "BARCA_BASKET",
+      "BASKONIA",
+      "CANARIAS",
+      "GRANCA"
+    ]
+  },
+  {
+    "group_ids": [
+      3474,
+      3155,
+      3968,
+      3670
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "GIMNASIA Y COMBATE",
+      "CICLISMO ESPANA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BERNABEU",
+      "CERAMICA",
+      "MESTALLA",
+      "RCDE",
+      "BOXEO",
+      "ESGRIMA",
+      "IPPON",
+      "JUDO",
+      "ABANICO",
+      "BIDON",
+      "ESCALADA",
+      "META",
+      "BOXES",
+      "MOTOGP",
+      "PARCFERME",
+      "SAINZ"
+    ]
+  },
+  {
+    "group_ids": [
+      3424,
+      3817,
+      3169,
+      3230
+    ],
+    "cats": [
+      "DEPORTES VASCOS",
+      "SELECCION ESPANA",
+      "ATLETAS ESPANOLES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESTROPADA",
+      "FRONTON",
+      "REMO",
+      "TRAINERA",
+      "ATAQUE",
+      "CAPITAN",
+      "DEFENSA",
+      "EUROCOPA",
+      "FERMIN",
+      "INDURAIN",
+      "MIREIA",
+      "SANDRA",
+      "COPE",
+      "MARCA",
+      "SER",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3703,
+      3126,
+      3959,
+      3880
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "MOTOS Y F1",
+      "CIUDADES DEPORTE ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GRANCA",
+      "REALMADRID",
+      "UNICAJA",
+      "VALENCIA_BC",
+      "ALONSO",
+      "MARQUEZ",
+      "MARTIN",
+      "PARRILLA",
+      "BILBAO",
+      "MALAGA",
+      "VALENCIA",
+      "VIGO",
+      "DAZN",
+      "LALIGATV",
+      "RTVE",
+      "SER"
+    ]
+  },
+  {
+    "group_ids": [
+      3871,
+      3966,
+      3499,
+      3390
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "BALONCESTO ACB",
+      "CICLISMO ESPANA",
+      "AFICION ESPANOLA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAMPNOU",
+      "CERAMICA",
+      "COLISEUM",
+      "SADAR",
+      "BARCA_BASKET",
+      "BREOGAN",
+      "JOVENTUT",
+      "OBRADOIRO",
+      "CRONO",
+      "DOMESTICO",
+      "ESCALADA",
+      "META",
+      "CELEBRACION",
+      "DESPLAZAMIENTO",
+      "FONDO",
+      "RIVALIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      3222,
+      3415,
+      3989,
+      3830
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "JUEGOS TRADICIONALES",
+      "DEPORTES VASCOS",
+      "GIMNASIA Y COMBATE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALCARAZ",
+      "ARANTXA",
+      "FELICIANO",
+      "MUGURUZA",
+      "BOLOS",
+      "CHAPAS",
+      "PEONZA",
+      "PETANCA",
+      "AIZKOLARI",
+      "HARRIJALE",
+      "MANOMANO",
+      "REGATA",
+      "CATA",
+      "JUDO",
+      "LUCHA",
+      "TAEKWONDO"
+    ]
+  },
+  {
+    "group_ids": [
+      3421,
+      3515,
+      3299,
+      3600
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "SELECCION ESPANA",
+      "ESTADIOS ESPANA",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASISTENCIA",
+      "CONTRAATAQUE",
+      "PRORROGA",
+      "REBOTE",
+      "CAPITAN",
+      "CONVOCATORIA",
+      "MUNDIAL",
+      "POSESION",
+      "CAMPNOU",
+      "COLISEUM",
+      "METROPOLITANO",
+      "MONTILIVI",
+      "CLASICO",
+      "COPADELREY",
+      "LIGA",
+      "PLAYOFF"
+    ]
+  },
+  {
+    "group_ids": [
+      3624,
+      3545,
+      3848,
+      3180
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "COPAS Y TORNEOS",
+      "GIMNASIA Y COMBATE",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCANSO",
+      "FUERZA",
+      "MOVILIDAD",
+      "RESISTENCIA",
+      "CLASICO",
+      "FINAL",
+      "JORNADA",
+      "PLAYOFF",
+      "ESGRIMA",
+      "IPPON",
+      "KICKBOXING",
+      "TAEKWONDO",
+      "COLISEUM",
+      "RCDE",
+      "SADAR",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3502,
+      3686,
+      3449,
+      3440
+    ],
+    "cats": [
+      "ATLETISMO ESPANA",
+      "TERMINOS BASKET",
+      "DEPORTES ACUATICOS",
+      "BALONCESTO ACB"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALLE",
+      "DISCO",
+      "FONDO",
+      "PERTIGA",
+      "ASISTENCIA",
+      "BLOQUEO",
+      "PIVOT",
+      "PRORROGA",
+      "CLAVADOS",
+      "NATACION",
+      "PIRAGUISMO",
+      "SURF",
+      "BARCA_BASKET",
+      "BASKONIA",
+      "CANARIAS",
+      "GRANCA"
+    ]
+  },
+  {
+    "group_ids": [
+      3923,
+      3855,
+      3319,
+      3670
+    ],
+    "cats": [
+      "CIUDADES DEPORTE ES",
+      "TENIS ESPANOL",
+      "ESTADIOS ESPANA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALMERIA",
+      "BARCELONA",
+      "SEVILLA",
+      "VIGO",
+      "ALCARAZ",
+      "DAVISCUP",
+      "DEUCE",
+      "FERRER",
+      "COLISEUM",
+      "RCDE",
+      "SADAR",
+      "SANMAMES",
+      "BOXES",
+      "MOTOGP",
+      "PARCFERME",
+      "SAINZ"
+    ]
+  },
+  {
+    "group_ids": [
+      3884,
+      3745,
+      3898,
+      3050
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "CICLISMO ESPANA",
+      "ATLETAS ESPANOLES",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAWL",
+      "KITESURF",
+      "NATACION",
+      "PIRAGUISMO",
+      "BIDON",
+      "CRONO",
+      "ESCALADA",
+      "PELOTON",
+      "BELMONTE",
+      "FERMIN",
+      "GASOL",
+      "RUTH",
+      "CALLE",
+      "MARATON",
+      "META",
+      "RELEVOS"
+    ]
+  },
+  {
+    "group_ids": [
+      3531,
+      3577,
+      3629,
+      3710
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "DEPORTES VASCOS",
+      "BALONCESTO ACB",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCANSO",
+      "POTENCIA",
+      "REPETICION",
+      "RESISTENCIA",
+      "HARRIJALE",
+      "PELOTA",
+      "REMO",
+      "SESTARI",
+      "BASKONIA",
+      "GRANCA",
+      "JOVENTUT",
+      "VALENCIA_BC",
+      "DAZN",
+      "MOVISTAR",
+      "MUNDO",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3964,
+      3045,
+      3149,
+      3790
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "BALONCESTO ACB",
+      "ATLETAS ESPANOLES",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "CAPITAN",
+      "EUROCOPA",
+      "ROJA",
+      "BARCA_BASKET",
+      "GRANCA",
+      "MURCIA",
+      "REALMADRID",
+      "BELMONTE",
+      "CALDERON",
+      "CAROLINA",
+      "GASOL",
+      "CORNERS",
+      "FUERAJUEGO",
+      "PARED",
+      "REMATE"
+    ]
+  },
+  {
+    "group_ids": [
+      3221,
+      3767,
+      3759,
+      3750
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "ATLETISMO ESPANA",
+      "ESTADIOS ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVOCATORIA",
+      "DEFENSA",
+      "MEDIO",
+      "TIKI_TAKA",
+      "CALLE",
+      "DISCO",
+      "MARCHA",
+      "PESO",
+      "COLISEUM",
+      "METROPOLITANO",
+      "SADAR",
+      "VILLAMARIN",
+      "AS",
+      "COPE",
+      "MOVISTAR",
+      "RTVE"
+    ]
+  },
+  {
+    "group_ids": [
+      3203,
+      3637,
+      3988,
+      3160
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "TERMINOS FUTBOL ES",
+      "MOTOS Y F1",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARCA_BASKET",
+      "BASKONIA",
+      "BREOGAN",
+      "MANRESA",
+      "CENTRO",
+      "DESMARQUE",
+      "PARED",
+      "PENALTI",
+      "BOXES",
+      "MIR",
+      "PARCFERME",
+      "SAINZ",
+      "MONTILIVI",
+      "SADAR",
+      "SANMAMES",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3904,
+      3817,
+      3748,
+      3600
+    ],
+    "cats": [
+      "GIMNASIA Y COMBATE",
+      "SELECCION ESPANA",
+      "ATLETISMO ESPANA",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOXEO",
+      "GRAPPLING",
+      "KARATE",
+      "LUCHA",
+      "ATAQUE",
+      "CAPITAN",
+      "DEFENSA",
+      "EUROCOPA",
+      "DISCO",
+      "PESO",
+      "SALTO",
+      "VALLAS",
+      "CLASICO",
+      "COPADELREY",
+      "LIGA",
+      "PLAYOFF"
+    ]
+  },
+  {
+    "group_ids": [
+      3572,
+      3215,
+      3059,
+      3350
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "GIMNASIA Y COMBATE",
+      "PALABRAS ENTRENAMIENTO",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARANTXA",
+      "ARCILLA",
+      "MUGURUZA",
+      "SERVICIO",
+      "DOJO",
+      "ESGRIMA",
+      "IPPON",
+      "JUDO",
+      "MOVILIDAD",
+      "POTENCIA",
+      "REPETICION",
+      "RUTINA",
+      "CHAMPIONS",
+      "FINAL",
+      "JORNADA",
+      "PLAYOFF"
+    ]
+  },
+  {
+    "group_ids": [
+      3532,
+      3207,
+      3269,
+      3140
+    ],
+    "cats": [
+      "JUEGOS TRADICIONALES",
+      "DEPORTES VASCOS",
+      "MEDIOS DEPORTIVOS ES",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHITO",
+      "PAÑUELO",
+      "RANA",
+      "RAYUELA",
+      "AIZKOLARI",
+      "ESTROPADA",
+      "MANOMANO",
+      "SESTARI",
+      "AS",
+      "LALIGATV",
+      "RTVE",
+      "SER",
+      "BALAIDOS",
+      "BERNABEU",
+      "MESTALLA",
+      "MONTILIVI"
+    ]
+  },
+  {
+    "group_ids": [
+      3581,
+      3707,
+      3579,
+      3500
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "DEPORTES VASCOS",
+      "ATLETAS ESPANOLES",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "DESMARQUE",
+      "PARED",
+      "REGATE",
+      "PALA",
+      "REGATA",
+      "SOKATIRA",
+      "TRAINERA",
+      "BELMONTE",
+      "CALDERON",
+      "CONTADOR",
+      "GASOL",
+      "JEREZ",
+      "MARTIN",
+      "PARCFERME",
+      "POLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3952,
+      3126,
+      3989,
+      3280
+    ],
+    "cats": [
+      "ATLETISMO ESPANA",
+      "MOTOS Y F1",
+      "DEPORTES VASCOS",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DISCO",
+      "FONDO",
+      "MARCHA",
+      "PESO",
+      "ALONSO",
+      "MARQUEZ",
+      "MARTIN",
+      "PARRILLA",
+      "AIZKOLARI",
+      "HARRIJALE",
+      "MANOMANO",
+      "REGATA",
+      "MEDIO",
+      "MUNDIAL",
+      "ROJA",
+      "TIKI_TAKA"
+    ]
+  },
+  {
+    "group_ids": [
+      3242,
+      3907,
+      3619,
+      3200
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "CLUBES LALIGA",
+      "COPAS Y TORNEOS",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAVISCUP",
+      "DERECHA",
+      "FERRER",
+      "MUGURUZA",
+      "BARCA",
+      "GIRONA",
+      "SEVILLA",
+      "VALENCIA",
+      "ASCENSO",
+      "CONFERENCE",
+      "DERBI",
+      "LIGA",
+      "BERNABEU",
+      "CAMPNOU",
+      "CERAMICA",
+      "METROPOLITANO"
+    ]
+  },
+  {
+    "group_ids": [
+      3504,
+      3165,
+      3758,
+      3620
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "CICLISMO ESPANA",
+      "CLUBES LALIGA",
+      "AFICION ESPANOLA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "COPE",
+      "MARCA",
+      "SER",
+      "TELEDEPORTE",
+      "ABANICO",
+      "PELOTON",
+      "PUERTO",
+      "VUELTA",
+      "BARCA",
+      "BETIS",
+      "CELTA",
+      "VILLARREAL",
+      "BUFANDA",
+      "CELEBRACION",
+      "RIVALIDAD",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      3792,
+      3417,
+      3388,
+      3730
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "ESTADIOS ESPANA",
+      "TERMINOS FUTBOL ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLAVADOS",
+      "KITESURF",
+      "REGATA",
+      "VELA",
+      "BALAIDOS",
+      "BERNABEU",
+      "CERAMICA",
+      "METROPOLITANO",
+      "ARBITRO",
+      "CENTRO",
+      "PARED",
+      "SAQUE",
+      "DAZN",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3721,
+      3686,
+      3238,
+      3310
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "TERMINOS BASKET",
+      "JUEGOS TRADICIONALES",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANTERA",
+      "EUROCOPA",
+      "ROJA",
+      "TIKI_TAKA",
+      "ASISTENCIA",
+      "BLOQUEO",
+      "PIVOT",
+      "PRORROGA",
+      "CHAPAS",
+      "PAÑUELO",
+      "PETANCA",
+      "SOGA",
+      "CORNERS",
+      "FUERAJUEGO",
+      "SAQUE",
+      "VAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3311,
+      3365,
+      3358,
+      3050
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "DEPORTES VASCOS",
+      "ESTADIOS ESPANA",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLASICO",
+      "FINAL",
+      "PLAYOFF",
+      "SUPERCOPA",
+      "AIZKOLARI",
+      "ESTROPADA",
+      "PELOTA",
+      "SESTARI",
+      "CAMPNOU",
+      "MONTILIVI",
+      "SANMAMES",
+      "VILLAMARIN",
+      "CALLE",
+      "MARATON",
+      "META",
+      "RELEVOS"
+    ]
+  },
+  {
+    "group_ids": [
+      3971,
+      3845,
+      3108,
+      3850
+    ],
+    "cats": [
+      "ATLETISMO ESPANA",
+      "COPAS Y TORNEOS",
+      "DEPORTES VASCOS",
+      "PALABRAS ENTRENAMIENTO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DISCO",
+      "MARCHA",
+      "PERTIGA",
+      "SALTO",
+      "CLASICO",
+      "CONFERENCE",
+      "EUROPA",
+      "PLAYOFF",
+      "AIZKOLARI",
+      "ESTROPADA",
+      "PELOTA",
+      "REGATA",
+      "CALENTAR",
+      "DESCANSO",
+      "PROGRESION",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      3874,
+      3235,
+      3029,
+      3300
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "GIMNASIA Y COMBATE",
+      "DEPORTES VASCOS",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARCA_BASKET",
+      "BASKONIA",
+      "REALMADRID",
+      "VALENCIA_BC",
+      "BOXEO",
+      "ESGRIMA",
+      "JUDO",
+      "PUNTO",
+      "MANOMANO",
+      "PALA",
+      "REGATA",
+      "SOKATIRA",
+      "CAPITAN",
+      "DEFENSA",
+      "MUNDIAL",
+      "POSESION"
+    ]
+  },
+  {
+    "group_ids": [
+      3942,
+      3326,
+      3848,
+      3750
+    ],
+    "cats": [
+      "JUEGOS TRADICIONALES",
+      "DEPORTES VASCOS",
+      "GIMNASIA Y COMBATE",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLOS",
+      "PETANCA",
+      "RAYUELA",
+      "TANGANA",
+      "ESTROPADA",
+      "FRONTON",
+      "HARRIJALE",
+      "REMO",
+      "ESGRIMA",
+      "IPPON",
+      "KICKBOXING",
+      "TAEKWONDO",
+      "AS",
+      "COPE",
+      "MOVISTAR",
+      "RTVE"
+    ]
+  },
+  {
+    "group_ids": [
+      3903,
+      3565,
+      3229,
+      3680
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "GIMNASIA Y COMBATE",
+      "ATLETAS ESPANOLES",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLAVADOS",
+      "KITESURF",
+      "SURF",
+      "WINDSURF",
+      "BOXEO",
+      "JUDO",
+      "LUCHA",
+      "PUNTO",
+      "CAROLINA",
+      "FERMIN",
+      "INDURAIN",
+      "RUDY",
+      "CALVA",
+      "COMBA",
+      "PEONZA",
+      "RAYUELA"
+    ]
+  },
+  {
+    "group_ids": [
+      3542,
+      3687,
+      3759,
+      3810
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "CICLISMO ESPANA",
+      "ESTADIOS ESPANA",
+      "DEPORTES ACUATICOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BELMONTE",
+      "CALDERON",
+      "INDURAIN",
+      "RUDY",
+      "BIDON",
+      "CRONO",
+      "MALLA",
+      "PUERTO",
+      "COLISEUM",
+      "METROPOLITANO",
+      "SADAR",
+      "VILLAMARIN",
+      "CLAVADOS",
+      "NATACION",
+      "REGATA",
+      "WINDSURF"
+    ]
+  },
+  {
+    "group_ids": [
+      3351,
+      3835,
+      3929,
+      3370
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "ESTADIOS ESPANA",
+      "BALONCESTO ACB",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABONO",
+      "BUFANDA",
+      "GRADA",
+      "VICTORIA",
+      "BERNABEU",
+      "CERAMICA",
+      "COLISEUM",
+      "SADAR",
+      "MANRESA",
+      "OBRADOIRO",
+      "UNICAJA",
+      "VALENCIA_BC",
+      "ASCENSO",
+      "CLASICO",
+      "COPADELREY",
+      "DERBI"
+    ]
+  },
+  {
+    "group_ids": [
+      3104,
+      3426,
+      3979,
+      3240
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "ATLETAS ESPANOLES",
+      "PALABRAS ENTRENAMIENTO",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARANTXA",
+      "FERRER",
+      "MUGURUZA",
+      "NADAL",
+      "BELMONTE",
+      "CONTADOR",
+      "GASOL",
+      "MIREIA",
+      "MOVILIDAD",
+      "RECUPERACION",
+      "RESISTENCIA",
+      "RUTINA",
+      "CAMPNOU",
+      "MESTALLA",
+      "SADAR",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3293,
+      3007,
+      3648,
+      3520
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "CICLISMO ESPANA",
+      "TENIS ESPANOL",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRAZA",
+      "PIRAGUISMO",
+      "REGATA",
+      "VELA",
+      "CRONO",
+      "ESCALADA",
+      "SPRINT",
+      "VUELTA",
+      "ARANTXA",
+      "ARCILLA",
+      "FELICIANO",
+      "REVES",
+      "ALONSO",
+      "BOXES",
+      "MARTIN",
+      "MONTMELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3271,
+      3885,
+      3748,
+      3680
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "GIMNASIA Y COMBATE",
+      "ATLETISMO ESPANA",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "COPADELREY",
+      "FINAL",
+      "PLAYOFF",
+      "SUPERCOPA",
+      "GRAPPLING",
+      "KARATE",
+      "KICKBOXING",
+      "TAEKWONDO",
+      "DISCO",
+      "PESO",
+      "SALTO",
+      "VALLAS",
+      "CALVA",
+      "COMBA",
+      "PEONZA",
+      "RAYUELA"
+    ]
+  },
+  {
+    "group_ids": [
+      3033,
+      3186,
+      3518,
+      3850
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "MOTOS Y F1",
+      "TERMINOS BASKET",
+      "PALABRAS ENTRENAMIENTO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "CENTRO",
+      "REGATE",
+      "REMATE",
+      "BOXES",
+      "MARQUEZ",
+      "PARRILLA",
+      "POLE",
+      "ASISTENCIA",
+      "BLOQUEO",
+      "FALTA",
+      "TIROLIBRE",
+      "CALENTAR",
+      "DESCANSO",
+      "PROGRESION",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      3631,
+      3296,
+      3109,
+      3560
+    ],
+    "cats": [
+      "CICLISMO ESPANA",
+      "PALABRAS ENTRENAMIENTO",
+      "ATLETISMO ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIDON",
+      "ESCALADA",
+      "ETAPA",
+      "MALLA",
+      "CALENTAR",
+      "RECUPERACION",
+      "RESISTENCIA",
+      "RUTINA",
+      "DISCO",
+      "JABALINA",
+      "MARATON",
+      "SALTO",
+      "COPE",
+      "LALIGATV",
+      "RTVE",
+      "TELEDEPORTE"
+    ]
+  },
+  {
+    "group_ids": [
+      3854,
+      3316,
+      3309,
+      3490
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "PALABRAS ENTRENAMIENTO",
+      "MEDIOS DEPORTIVOS ES",
+      "CIUDADES DEPORTE ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AFICION",
+      "ATAQUE",
+      "MEDIO",
+      "TIKI_TAKA",
+      "DESCANSO",
+      "ESTIRAR",
+      "MOVILIDAD",
+      "REPETICION",
+      "DAZN",
+      "RTVE",
+      "SER",
+      "SPORT",
+      "ALMERIA",
+      "MADRID",
+      "PAMPLONA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3944,
+      3396,
+      3808,
+      3070
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "CLUBES LALIGA",
+      "COPAS Y TORNEOS",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BALAIDOS",
+      "METROPOLITANO",
+      "MONTILIVI",
+      "VILLAMARIN",
+      "ATHLETIC",
+      "BARCA",
+      "BETIS",
+      "SEVILLA",
+      "ASCENSO",
+      "CHAMPIONS",
+      "CLASICO",
+      "SUPERCOPA",
+      "META",
+      "PERTIGA",
+      "PESO",
+      "VALLAS"
+    ]
+  },
+  {
+    "group_ids": [
+      3934,
+      3427,
+      3148,
+      3900
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "MEDIOS DEPORTIVOS ES",
+      "ATLETISMO ESPANA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BELMONTE",
+      "CALDERON",
+      "INDURAIN",
+      "RUTH",
+      "COPE",
+      "MOVISTAR",
+      "MUNDO",
+      "SER",
+      "DISCO",
+      "JABALINA",
+      "PERTIGA",
+      "PESO",
+      "DESMARQUE",
+      "PARED",
+      "PENALTI",
+      "VAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3402,
+      3257,
+      3038,
+      3280
+    ],
+    "cats": [
+      "CICLISMO ESPANA",
+      "PALABRAS ENTRENAMIENTO",
+      "CIUDADES DEPORTE ES",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIDON",
+      "ESCALADA",
+      "PELOTON",
+      "SPRINT",
+      "MOVILIDAD",
+      "POTENCIA",
+      "RECUPERACION",
+      "RESISTENCIA",
+      "PAMPLONA",
+      "SEVILLA",
+      "VALENCIA",
+      "ZARAGOZA",
+      "MEDIO",
+      "MUNDIAL",
+      "ROJA",
+      "TIKI_TAKA"
+    ]
+  },
+  {
+    "group_ids": [
+      3151,
+      3075,
+      3318,
+      3100
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "AFICION ESPANOLA",
+      "CLUBES LALIGA",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "CENTRO",
+      "REGATE",
+      "VAR",
+      "BUFANDA",
+      "CANTICO",
+      "CELEBRACION",
+      "VICTORIA",
+      "BARCA",
+      "BETIS",
+      "MADRID",
+      "VILLARREAL",
+      "BOLOS",
+      "COMBA",
+      "SOGA",
+      "TANGANA"
+    ]
+  },
+  {
+    "group_ids": [
+      3811,
+      3986,
+      3338,
+      3420
+    ],
+    "cats": [
+      "GIMNASIA Y COMBATE",
+      "TERMINOS BASKET",
+      "ESTADIOS ESPANA",
+      "BALONCESTO ACB"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CATA",
+      "IPPON",
+      "JUDO",
+      "TAEKWONDO",
+      "ALERO",
+      "ASISTENCIA",
+      "BLOQUEO",
+      "CANASTA",
+      "COLISEUM",
+      "MONTILIVI",
+      "SANMAMES",
+      "VILLAMARIN",
+      "BARCA_BASKET",
+      "BREOGAN",
+      "GRANCA",
+      "VALENCIA_BC"
+    ]
+  },
+  {
+    "group_ids": [
+      3171,
+      3325,
+      3898,
+      3580
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "MOTOS Y F1",
+      "ATLETAS ESPANOLES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNERS",
+      "REGATE",
+      "SAQUE",
+      "VAR",
+      "MARQUEZ",
+      "MARTIN",
+      "MOTOGP",
+      "PARRILLA",
+      "BELMONTE",
+      "FERMIN",
+      "GASOL",
+      "RUTH",
+      "AS",
+      "DAZN",
+      "SER",
+      "TELEDEPORTE"
+    ]
+  },
+  {
+    "group_ids": [
+      3492,
+      3335,
+      3799,
+      3950
+    ],
+    "cats": [
+      "JUEGOS TRADICIONALES",
+      "CIUDADES DEPORTE ES",
+      "BALONCESTO ACB",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLOS",
+      "CHAPAS",
+      "COMBA",
+      "TANGANA",
+      "BARCELONA",
+      "GIJON",
+      "VALENCIA",
+      "ZARAGOZA",
+      "BARCA_BASKET",
+      "BREOGAN",
+      "JOVENTUT",
+      "VALENCIA_BC",
+      "ALONSO",
+      "MARQUEZ",
+      "PARCFERME",
+      "POLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3512,
+      3575,
+      3699,
+      3900
+    ],
+    "cats": [
+      "JUEGOS TRADICIONALES",
+      "CICLISMO ESPANA",
+      "CLUBES LALIGA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLOS",
+      "COMBA",
+      "PEONZA",
+      "TANGANA",
+      "CRONO",
+      "ESCALADA",
+      "ETAPA",
+      "MALLA",
+      "ATHLETIC",
+      "OSASUNA",
+      "SEVILLA",
+      "VALENCIA",
+      "DESMARQUE",
+      "PARED",
+      "PENALTI",
+      "VAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3554,
+      3055,
+      3669,
+      3500
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "AFICION ESPANOLA",
+      "CICLISMO ESPANA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BREOGAN",
+      "JOVENTUT",
+      "REALMADRID",
+      "VALENCIA_BC",
+      "CANTICO",
+      "PEÑA",
+      "TIFO",
+      "VICTORIA",
+      "BIDON",
+      "MALLA",
+      "PELOTON",
+      "SPRINT",
+      "JEREZ",
+      "MARTIN",
+      "PARCFERME",
+      "POLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3574,
+      3987,
+      3539,
+      3260
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "CICLISMO ESPANA",
+      "MOTOS Y F1",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONTRAATAQUE",
+      "PIVOT",
+      "PRORROGA",
+      "TIROLIBRE",
+      "ABANICO",
+      "CRONO",
+      "ESCALADA",
+      "PELOTON",
+      "BOXES",
+      "MONTMELO",
+      "PARRILLA",
+      "SAINZ",
+      "BALAIDOS",
+      "METROPOLITANO",
+      "MONTILIVI",
+      "RCDE"
+    ]
+  },
+  {
+    "group_ids": [
+      3723,
+      3535,
+      3959,
+      3590
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "SELECCION ESPANA",
+      "CIUDADES DEPORTE ES",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BREOGAN",
+      "MURCIA",
+      "UNICAJA",
+      "VALENCIA_BC",
+      "AFICION",
+      "CAPITAN",
+      "CONVOCATORIA",
+      "TIKI_TAKA",
+      "BILBAO",
+      "MALAGA",
+      "VALENCIA",
+      "VIGO",
+      "ARCILLA",
+      "DAVISCUP",
+      "DERECHA",
+      "FELICIANO"
+    ]
+  },
+  {
+    "group_ids": [
+      3562,
+      3916,
+      3528,
+      3280
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "ATLETISMO ESPANA",
+      "DEPORTES ACUATICOS",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONFERENCE",
+      "COPADELREY",
+      "EUROPA",
+      "JORNADA",
+      "MARATON",
+      "META",
+      "RELEVOS",
+      "VALLAS",
+      "CRAWL",
+      "KITESURF",
+      "REGATA",
+      "WINDSURF",
+      "MEDIO",
+      "MUNDIAL",
+      "ROJA",
+      "TIKI_TAKA"
+    ]
+  },
+  {
+    "group_ids": [
+      3281,
+      3635,
+      3659,
+      3090
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "ATLETAS ESPANOLES",
+      "GIMNASIA Y COMBATE",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DEUCE",
+      "FERRER",
+      "NADAL",
+      "SERVICIO",
+      "CONTADOR",
+      "FERMIN",
+      "GASOL",
+      "MIREIA",
+      "BOXEO",
+      "DOJO",
+      "KARATE",
+      "PUNTO",
+      "CALLE",
+      "JABALINA",
+      "META",
+      "SALTO"
+    ]
+  },
+  {
+    "group_ids": [
+      3432,
+      3925,
+      3678,
+      3330
+    ],
+    "cats": [
+      "GIMNASIA Y COMBATE",
+      "JUEGOS TRADICIONALES",
+      "CIUDADES DEPORTE ES",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOXEO",
+      "CATA",
+      "DOJO",
+      "TAEKWONDO",
+      "PAÑUELO",
+      "PEONZA",
+      "PETANCA",
+      "RAYUELA",
+      "GIJON",
+      "MURCIA",
+      "PAMPLONA",
+      "ZARAGOZA",
+      "FUERAJUEGO",
+      "PARED",
+      "REGATE",
+      "REMATE"
+    ]
+  },
+  {
+    "group_ids": [
+      3861,
+      3427,
+      3028,
+      3350
+    ],
+    "cats": [
+      "ATLETISMO ESPANA",
+      "MEDIOS DEPORTIVOS ES",
+      "MOTOS Y F1",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DISCO",
+      "PESO",
+      "RELEVOS",
+      "SALTO",
+      "COPE",
+      "MOVISTAR",
+      "MUNDO",
+      "SER",
+      "BOXES",
+      "MARTIN",
+      "MONTMELO",
+      "POLE",
+      "CHAMPIONS",
+      "FINAL",
+      "JORNADA",
+      "PLAYOFF"
+    ]
+  },
+  {
+    "group_ids": [
+      3382,
+      3495,
+      3299,
+      3750
+    ],
+    "cats": [
+      "CICLISMO ESPANA",
+      "SELECCION ESPANA",
+      "ESTADIOS ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BIDON",
+      "ESCALADA",
+      "ETAPA",
+      "VUELTA",
+      "ATAQUE",
+      "CANTERA",
+      "EUROCOPA",
+      "MEDIO",
+      "CAMPNOU",
+      "COLISEUM",
+      "METROPOLITANO",
+      "MONTILIVI",
+      "AS",
+      "COPE",
+      "MOVISTAR",
+      "RTVE"
+    ]
+  },
+  {
+    "group_ids": [
+      3453,
+      3556,
+      3719,
+      3590
+    ],
+    "cats": [
+      "JUEGOS TRADICIONALES",
+      "CICLISMO ESPANA",
+      "CLUBES LALIGA",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLOS",
+      "PEONZA",
+      "RAYUELA",
+      "TANGANA",
+      "CRONO",
+      "MALLA",
+      "META",
+      "PUERTO",
+      "ATHLETIC",
+      "BARCA",
+      "CELTA",
+      "REALSOCIEDAD",
+      "ARCILLA",
+      "DAVISCUP",
+      "DERECHA",
+      "FELICIANO"
+    ]
+  },
+  {
+    "group_ids": [
+      3584,
+      3977,
+      3819,
+      3490
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "GIMNASIA Y COMBATE",
+      "BALONCESTO ACB",
+      "CIUDADES DEPORTE ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRAZA",
+      "PIRAGUISMO",
+      "TRAVESIA",
+      "VELA",
+      "JUDO",
+      "KICKBOXING",
+      "LUCHA",
+      "TAEKWONDO",
+      "BREOGAN",
+      "GRANCA",
+      "MURCIA",
+      "VALENCIA_BC",
+      "ALMERIA",
+      "MADRID",
+      "PAMPLONA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3051,
+      3617,
+      3009,
+      3910
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "MEDIOS DEPORTIVOS ES",
+      "DEPORTES VASCOS",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAROLINA",
+      "FERMIN",
+      "RUDY",
+      "RUTH",
+      "MARCA",
+      "MOVISTAR",
+      "SER",
+      "TELEDEPORTE",
+      "HARRIJALE",
+      "PALA",
+      "SESTARI",
+      "SOKATIRA",
+      "ARANTXA",
+      "ARCILLA",
+      "DERECHA",
+      "SERVICIO"
+    ]
+  },
+  {
+    "group_ids": [
+      3144,
+      3976,
+      3958,
+      3560
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "DEPORTES ACUATICOS",
+      "GIMNASIA Y COMBATE",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASISTENCIA",
+      "CANASTA",
+      "FALTA",
+      "PIVOT",
+      "BRAZA",
+      "CLAVADOS",
+      "CRAWL",
+      "TRAVESIA",
+      "CATA",
+      "ESGRIMA",
+      "IPPON",
+      "KICKBOXING",
+      "COPE",
+      "LALIGATV",
+      "RTVE",
+      "TELEDEPORTE"
+    ]
+  },
+  {
+    "group_ids": [
+      3491,
+      3766,
+      3939,
+      4000
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "DEPORTES VASCOS",
+      "GIMNASIA Y COMBATE",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALENTAR",
+      "POTENCIA",
+      "PROGRESION",
+      "REPETICION",
+      "HARRIJALE",
+      "PELOTA",
+      "SOKATIRA",
+      "TRAINERA",
+      "CATA",
+      "JUDO",
+      "KARATE",
+      "TAEKWONDO",
+      "BALAIDOS",
+      "CAMPNOU",
+      "MONTILIVI",
+      "SANMAMES"
+    ]
+  },
+  {
+    "group_ids": [
+      3122,
+      3606,
+      3508,
+      3500
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "JUEGOS TRADICIONALES",
+      "DEPORTES ACUATICOS",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVOCATORIA",
+      "MEDIO",
+      "ROJA",
+      "TIKI_TAKA",
+      "CALVA",
+      "CHITO",
+      "RAYUELA",
+      "TANGANA",
+      "BRAZA",
+      "CLAVADOS",
+      "REGATA",
+      "TRAVESIA",
+      "JEREZ",
+      "MARTIN",
+      "PARCFERME",
+      "POLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3702,
+      3575,
+      3308,
+      3740
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "CICLISMO ESPANA",
+      "ATLETAS ESPANOLES",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAVISCUP",
+      "DEUCE",
+      "MUGURUZA",
+      "REVES",
+      "CRONO",
+      "ESCALADA",
+      "ETAPA",
+      "MALLA",
+      "CAROLINA",
+      "FERMIN",
+      "MIREIA",
+      "RUTH",
+      "BERNABEU",
+      "MESTALLA",
+      "METROPOLITANO",
+      "MONTILIVI"
+    ]
+  },
+  {
+    "group_ids": [
+      3483,
+      3817,
+      3778,
+      3330
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "SELECCION ESPANA",
+      "CLUBES LALIGA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAROLINA",
+      "GASOL",
+      "MIREIA",
+      "SANDRA",
+      "ATAQUE",
+      "CAPITAN",
+      "DEFENSA",
+      "EUROCOPA",
+      "BETIS",
+      "CELTA",
+      "MADRID",
+      "REALSOCIEDAD",
+      "FUERAJUEGO",
+      "PARED",
+      "REGATE",
+      "REMATE"
+    ]
+  },
+  {
+    "group_ids": [
+      3434,
+      3327,
+      3629,
+      3950
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "ATLETISMO ESPANA",
+      "BALONCESTO ACB",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCANSO",
+      "MOVILIDAD",
+      "RECUPERACION",
+      "REPETICION",
+      "FONDO",
+      "MARATON",
+      "MARCHA",
+      "VALLAS",
+      "BASKONIA",
+      "GRANCA",
+      "JOVENTUT",
+      "VALENCIA_BC",
+      "ALONSO",
+      "MARQUEZ",
+      "PARCFERME",
+      "POLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3241,
+      3085,
+      3258,
+      3470
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "BALONCESTO ACB",
+      "JUEGOS TRADICIONALES",
+      "CIUDADES DEPORTE ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "DEFENSA",
+      "MEDIO",
+      "ROJA",
+      "BARCA_BASKET",
+      "BREOGAN",
+      "MANRESA",
+      "VALENCIA_BC",
+      "CALVA",
+      "PAÑUELO",
+      "PEONZA",
+      "PETANCA",
+      "MADRID",
+      "MALAGA",
+      "PAMPLONA",
+      "VALENCIA"
+    ]
+  },
+  {
+    "group_ids": [
+      3811,
+      3587,
+      3389,
+      3460
+    ],
+    "cats": [
+      "GIMNASIA Y COMBATE",
+      "CLUBES LALIGA",
+      "COPAS Y TORNEOS",
+      "CICLISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CATA",
+      "IPPON",
+      "JUDO",
+      "TAEKWONDO",
+      "BETIS",
+      "GIRONA",
+      "OSASUNA",
+      "SEVILLA",
+      "ASCENSO",
+      "CONFERENCE",
+      "LIGA",
+      "SUPERCOPA",
+      "MALLA",
+      "META",
+      "PELOTON",
+      "PUERTO"
+    ]
+  },
+  {
+    "group_ids": [
+      3592,
+      3217,
+      3928,
+      3710
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "PALABRAS ENTRENAMIENTO",
+      "TENIS ESPANOL",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALERO",
+      "BASE",
+      "BLOQUEO",
+      "REBOTE",
+      "CALENTAR",
+      "DESCANSO",
+      "ESTIRAR",
+      "RUTINA",
+      "ARANTXA",
+      "ARCILLA",
+      "MUGURUZA",
+      "NADAL",
+      "DAZN",
+      "MOVISTAR",
+      "MUNDO",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3863,
+      3987,
+      3559,
+      3180
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "CICLISMO ESPANA",
+      "ATLETAS ESPANOLES",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ELCHIRINGUITO",
+      "MARCA",
+      "SER",
+      "SPORT",
+      "ABANICO",
+      "CRONO",
+      "ESCALADA",
+      "PELOTON",
+      "CAROLINA",
+      "GASOL",
+      "INDURAIN",
+      "RUDY",
+      "COLISEUM",
+      "RCDE",
+      "SADAR",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3832,
+      3377,
+      3499,
+      4000
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "CLUBES LALIGA",
+      "CICLISMO ESPANA",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCANSO",
+      "POTENCIA",
+      "REPETICION",
+      "RUTINA",
+      "ATLETICO",
+      "BETIS",
+      "MADRID",
+      "VILLARREAL",
+      "CRONO",
+      "DOMESTICO",
+      "ESCALADA",
+      "META",
+      "BALAIDOS",
+      "CAMPNOU",
+      "MONTILIVI",
+      "SANMAMES"
+    ]
+  },
+  {
+    "group_ids": [
+      3333,
+      3146,
+      3459,
+      3450
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "MOTOS Y F1",
+      "TERMINOS BASKET",
+      "GIMNASIA Y COMBATE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAWL",
+      "KITESURF",
+      "PIRAGUISMO",
+      "TRAVESIA",
+      "JEREZ",
+      "MOTOGP",
+      "PARRILLA",
+      "POLE",
+      "ALERO",
+      "ASISTENCIA",
+      "CONTRAATAQUE",
+      "REBOTE",
+      "CATA",
+      "GRAPPLING",
+      "IPPON",
+      "LUCHA"
+    ]
+  },
+  {
+    "group_ids": [
+      3474,
+      3995,
+      3148,
+      3950
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "DEPORTES ACUATICOS",
+      "ATLETISMO ESPANA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BERNABEU",
+      "CERAMICA",
+      "MESTALLA",
+      "RCDE",
+      "CLAVADOS",
+      "CRAWL",
+      "SURF",
+      "VELA",
+      "DISCO",
+      "JABALINA",
+      "PERTIGA",
+      "PESO",
+      "ALONSO",
+      "MARQUEZ",
+      "PARCFERME",
+      "POLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3001,
+      3507,
+      3919,
+      3380
+    ],
+    "cats": [
+      "CLUBES LALIGA",
+      "AFICION ESPANOLA",
+      "COPAS Y TORNEOS",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATLETICO",
+      "GIRONA",
+      "OSASUNA",
+      "REALSOCIEDAD",
+      "BENGALA",
+      "CANTICO",
+      "CELEBRACION",
+      "PEÑA",
+      "CHAMPIONS",
+      "CLASICO",
+      "DERBI",
+      "LIGA",
+      "ALCARAZ",
+      "ARCILLA",
+      "DERECHA",
+      "DEUCE"
+    ]
+  },
+  {
+    "group_ids": [
+      3222,
+      3196,
+      3479,
+      3240
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "CIUDADES DEPORTE ES",
+      "CICLISMO ESPANA",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALCARAZ",
+      "ARANTXA",
+      "FELICIANO",
+      "MUGURUZA",
+      "ALMERIA",
+      "BILBAO",
+      "MALAGA",
+      "MURCIA",
+      "BIDON",
+      "CRONO",
+      "DOMESTICO",
+      "META",
+      "CAMPNOU",
+      "MESTALLA",
+      "SADAR",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3662,
+      3465,
+      3298,
+      3710
+    ],
+    "cats": [
+      "JUEGOS TRADICIONALES",
+      "TERMINOS FUTBOL ES",
+      "CLUBES LALIGA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOLOS",
+      "CHITO",
+      "PEONZA",
+      "TANGANA",
+      "CORNERS",
+      "PENALTI",
+      "REGATE",
+      "REMATE",
+      "BARCA",
+      "BETIS",
+      "CELTA",
+      "VALENCIA",
+      "DAZN",
+      "MOVISTAR",
+      "MUNDO",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3354,
+      3036,
+      3569,
+      3170
+    ],
+    "cats": [
+      "CIUDADES DEPORTE ES",
+      "DEPORTES ACUATICOS",
+      "CLUBES LALIGA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "GIJON",
+      "VALENCIA",
+      "VIGO",
+      "ZARAGOZA",
+      "CRAWL",
+      "NATACION",
+      "REGATA",
+      "TRAVESIA",
+      "BETIS",
+      "CELTA",
+      "MADRID",
+      "VILLARREAL",
+      "AS",
+      "LALIGATV",
+      "SER",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3012,
+      3237,
+      3719,
+      3450
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "PALABRAS ENTRENAMIENTO",
+      "CLUBES LALIGA",
+      "GIMNASIA Y COMBATE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AS",
+      "COPE",
+      "LALIGATV",
+      "MOVISTAR",
+      "ESTIRAR",
+      "FUERZA",
+      "POTENCIA",
+      "REPETICION",
+      "ATHLETIC",
+      "BARCA",
+      "CELTA",
+      "REALSOCIEDAD",
+      "CATA",
+      "GRAPPLING",
+      "IPPON",
+      "LUCHA"
+    ]
+  },
+  {
+    "group_ids": [
+      3971,
+      3077,
+      3318,
+      3390
+    ],
+    "cats": [
+      "ATLETISMO ESPANA",
+      "GIMNASIA Y COMBATE",
+      "CLUBES LALIGA",
+      "AFICION ESPANOLA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DISCO",
+      "MARCHA",
+      "PERTIGA",
+      "SALTO",
+      "BOXEO",
+      "GRAPPLING",
+      "JUDO",
+      "TAEKWONDO",
+      "BARCA",
+      "BETIS",
+      "MADRID",
+      "VILLARREAL",
+      "CELEBRACION",
+      "DESPLAZAMIENTO",
+      "FONDO",
+      "RIVALIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      3742,
+      3047,
+      3889,
+      3010
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "CICLISMO ESPANA",
+      "ESTADIOS ESPANA",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARCILLA",
+      "DAVISCUP",
+      "FELICIANO",
+      "NADAL",
+      "BIDON",
+      "CRONO",
+      "ETAPA",
+      "MALLA",
+      "BALAIDOS",
+      "COLISEUM",
+      "MONTILIVI",
+      "VILLAMARIN",
+      "CALLE",
+      "JABALINA",
+      "RELEVOS",
+      "VALLAS"
+    ]
+  },
+  {
+    "group_ids": [
+      3202,
+      3785,
+      3179,
+      3890
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "MOTOS Y F1",
+      "CLUBES LALIGA",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAVISCUP",
+      "MUGURUZA",
+      "NADAL",
+      "SERVICIO",
+      "BOXES",
+      "MARQUEZ",
+      "MOTOGP",
+      "PARRILLA",
+      "BARCA",
+      "CELTA",
+      "MADRID",
+      "SEVILLA",
+      "ATAQUE",
+      "CANTERA",
+      "DEFENSA",
+      "MUNDIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3032,
+      3845,
+      3208,
+      3500
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "COPAS Y TORNEOS",
+      "ATLETISMO ESPANA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AS",
+      "DAZN",
+      "MARCA",
+      "RTVE",
+      "CLASICO",
+      "CONFERENCE",
+      "EUROPA",
+      "PLAYOFF",
+      "MARCHA",
+      "META",
+      "SALTO",
+      "VALLAS",
+      "JEREZ",
+      "MARTIN",
+      "PARCFERME",
+      "POLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3503,
+      3026,
+      3138,
+      3780
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "TERMINOS BASKET",
+      "JUEGOS TRADICIONALES",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BELMONTE",
+      "CAROLINA",
+      "GASOL",
+      "SANDRA",
+      "ALERO",
+      "CANASTA",
+      "CONTRAATAQUE",
+      "TRIPLE",
+      "BOLOS",
+      "CHITO",
+      "COMBA",
+      "PETANCA",
+      "CANTERA",
+      "EUROCOPA",
+      "MEDIO",
+      "MUNDIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3091,
+      3615,
+      3978,
+      3750
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "DEPORTES VASCOS",
+      "CIUDADES DEPORTE ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BELMONTE",
+      "CAROLINA",
+      "CONTADOR",
+      "GASOL",
+      "AIZKOLARI",
+      "HARRIJALE",
+      "MANOMANO",
+      "PELOTA",
+      "BILBAO",
+      "MALAGA",
+      "PAMPLONA",
+      "SEVILLA",
+      "AS",
+      "COPE",
+      "MOVISTAR",
+      "RTVE"
+    ]
+  },
+  {
+    "group_ids": [
+      3551,
+      3365,
+      3978,
+      3020
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "DEPORTES VASCOS",
+      "CIUDADES DEPORTE ES",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAMPNOU",
+      "METROPOLITANO",
+      "MONTILIVI",
+      "SANMAMES",
+      "AIZKOLARI",
+      "ESTROPADA",
+      "PELOTA",
+      "SESTARI",
+      "BILBAO",
+      "MALAGA",
+      "PAMPLONA",
+      "SEVILLA",
+      "CHITO",
+      "PAÑUELO",
+      "PETANCA",
+      "RAYUELA"
+    ]
+  },
+  {
+    "group_ids": [
+      3722,
+      3306,
+      3738,
+      3960
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "DEPORTES VASCOS",
+      "JUEGOS TRADICIONALES",
+      "PALABRAS ENTRENAMIENTO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARCILLA",
+      "DAVISCUP",
+      "MUGURUZA",
+      "SERVICIO",
+      "ESTROPADA",
+      "FRONTON",
+      "MANOMANO",
+      "SESTARI",
+      "BOLOS",
+      "PAÑUELO",
+      "SOGA",
+      "TANGANA",
+      "ESTIRAR",
+      "PROGRESION",
+      "RECUPERACION",
+      "RUTINA"
+    ]
+  },
+  {
+    "group_ids": [
+      3973,
+      3267,
+      3698,
+      3260
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "ATLETISMO ESPANA",
+      "JUEGOS TRADICIONALES",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAZN",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "MUNDO",
+      "DISCO",
+      "FONDO",
+      "MARATON",
+      "PERTIGA",
+      "BOLOS",
+      "CHAPAS",
+      "SOGA",
+      "TANGANA",
+      "BALAIDOS",
+      "METROPOLITANO",
+      "MONTILIVI",
+      "RCDE"
+    ]
+  },
+  {
+    "group_ids": [
+      3181,
+      3466,
+      3728,
+      3160
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "COPAS Y TORNEOS",
+      "ATLETISMO ESPANA",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CANTERA",
+      "MEDIO",
+      "POSESION",
+      "ROJA",
+      "CLASICO",
+      "CONFERENCE",
+      "DERBI",
+      "PLAYOFF",
+      "FONDO",
+      "META",
+      "PERTIGA",
+      "SALTO",
+      "MONTILIVI",
+      "SADAR",
+      "SANMAMES",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3501,
+      3627,
+      3779,
+      3950
+    ],
+    "cats": [
+      "DEPORTES VASCOS",
+      "SELECCION ESPANA",
+      "ESTADIOS ESPANA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FRONTON",
+      "PALA",
+      "REGATA",
+      "TRAINERA",
+      "CANTERA",
+      "MEDIO",
+      "ROJA",
+      "TIKI_TAKA",
+      "BALAIDOS",
+      "COLISEUM",
+      "MONTILIVI",
+      "RCDE",
+      "ALONSO",
+      "MARQUEZ",
+      "PARCFERME",
+      "POLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3283,
+      3486,
+      3488,
+      3130
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "COPAS Y TORNEOS",
+      "DEPORTES ACUATICOS",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FALTA",
+      "PIVOT",
+      "REBOTE",
+      "TRIPLE",
+      "COPADELREY",
+      "DERBI",
+      "PLAYOFF",
+      "SUPERCOPA",
+      "REGATA",
+      "SURF",
+      "VELA",
+      "WATERPOLO",
+      "AS",
+      "MARCA",
+      "MOVISTAR",
+      "SER"
+    ]
+  },
+  {
+    "group_ids": [
+      3194,
+      3956,
+      3689,
+      3660
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "AFICION ESPANOLA",
+      "ATLETISMO ESPANA",
+      "CIUDADES DEPORTE ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CLAVADOS",
+      "KITESURF",
+      "VELA",
+      "WINDSURF",
+      "BENGALA",
+      "FONDO",
+      "TIFO",
+      "VICTORIA",
+      "DISCO",
+      "JABALINA",
+      "SALTO",
+      "VALLAS",
+      "BARCELONA",
+      "MADRID",
+      "PAMPLONA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3602,
+      3745,
+      3368,
+      3430
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "CICLISMO ESPANA",
+      "MEDIOS DEPORTIVOS ES",
+      "AFICION ESPANOLA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAWL",
+      "NATACION",
+      "SURF",
+      "WATERPOLO",
+      "BIDON",
+      "CRONO",
+      "ESCALADA",
+      "PELOTON",
+      "DAZN",
+      "MARCA",
+      "RTVE",
+      "SER",
+      "BENGALA",
+      "CELEBRACION",
+      "PEÑA",
+      "RIVALIDAD"
+    ]
+  },
+  {
+    "group_ids": [
+      3991,
+      3957,
+      3648,
+      3850
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "DEPORTES ACUATICOS",
+      "TENIS ESPANOL",
+      "PALABRAS ENTRENAMIENTO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAROLINA",
+      "GASOL",
+      "MIREIA",
+      "RUTH",
+      "BRAZA",
+      "KITESURF",
+      "PIRAGUISMO",
+      "TRAVESIA",
+      "ARANTXA",
+      "ARCILLA",
+      "FELICIANO",
+      "REVES",
+      "CALENTAR",
+      "DESCANSO",
+      "PROGRESION",
+      "SERIE"
+    ]
+  },
+  {
+    "group_ids": [
+      3094,
+      3906,
+      3049,
+      3800
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "JUEGOS TRADICIONALES",
+      "DEPORTES VASCOS",
+      "TERMINOS BASKET"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "COPADELREY",
+      "EUROPA",
+      "LIGA",
+      "SUPERCOPA",
+      "BOLOS",
+      "CHAPAS",
+      "PEONZA",
+      "RAYUELA",
+      "ESTROPADA",
+      "HARRIJALE",
+      "PELOTA",
+      "REGATA",
+      "BASE",
+      "BLOQUEO",
+      "CONTRAATAQUE",
+      "TRIPLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3873,
+      3105,
+      3488,
+      3790
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "BALONCESTO ACB",
+      "DEPORTES ACUATICOS",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARANTXA",
+      "DEUCE",
+      "NADAL",
+      "SERVICIO",
+      "CANARIAS",
+      "JOVENTUT",
+      "REALMADRID",
+      "VALENCIA_BC",
+      "REGATA",
+      "SURF",
+      "VELA",
+      "WATERPOLO",
+      "CORNERS",
+      "FUERAJUEGO",
+      "PARED",
+      "REMATE"
+    ]
+  },
+  {
+    "group_ids": [
+      3612,
+      3285,
+      3888,
+      3060
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "MOTOS Y F1",
+      "CLUBES LALIGA",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASISTENCIA",
+      "BASE",
+      "PRORROGA",
+      "REBOTE",
+      "BOXES",
+      "MONTMELO",
+      "MOTOGP",
+      "POLE",
+      "GIRONA",
+      "OSASUNA",
+      "REALSOCIEDAD",
+      "VILLARREAL",
+      "BOLOS",
+      "CHITO",
+      "PAÑUELO",
+      "RAYUELA"
+    ]
+  },
+  {
+    "group_ids": [
+      3501,
+      3765,
+      3299,
+      3040
+    ],
+    "cats": [
+      "DEPORTES VASCOS",
+      "MOTOS Y F1",
+      "ESTADIOS ESPANA",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FRONTON",
+      "PALA",
+      "REGATA",
+      "TRAINERA",
+      "ALONSO",
+      "MARQUEZ",
+      "PARCFERME",
+      "PARRILLA",
+      "CAMPNOU",
+      "COLISEUM",
+      "METROPOLITANO",
+      "MONTILIVI",
+      "BOLOS",
+      "CHAPAS",
+      "CHITO",
+      "PAÑUELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3481,
+      3677,
+      3809,
+      3520
+    ],
+    "cats": [
+      "DEPORTES VASCOS",
+      "GIMNASIA Y COMBATE",
+      "AFICION ESPANOLA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FRONTON",
+      "PALA",
+      "REGATA",
+      "REMO",
+      "BOXEO",
+      "DOJO",
+      "ESGRIMA",
+      "PUNTO",
+      "ABONO",
+      "CELEBRACION",
+      "RIVALIDAD",
+      "TIFO",
+      "ALONSO",
+      "BOXES",
+      "MARTIN",
+      "MONTMELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3701,
+      3165,
+      3578,
+      3560
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "CICLISMO ESPANA",
+      "ATLETISMO ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AFICION",
+      "EUROCOPA",
+      "MUNDIAL",
+      "POSESION",
+      "ABANICO",
+      "PELOTON",
+      "PUERTO",
+      "VUELTA",
+      "CALLE",
+      "DISCO",
+      "JABALINA",
+      "RELEVOS",
+      "COPE",
+      "LALIGATV",
+      "RTVE",
+      "TELEDEPORTE"
+    ]
+  },
+  {
+    "group_ids": [
+      3031,
+      3765,
+      3178,
+      3620
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "MOTOS Y F1",
+      "JUEGOS TRADICIONALES",
+      "AFICION ESPANOLA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAROLINA",
+      "FERMIN",
+      "INDURAIN",
+      "SANDRA",
+      "ALONSO",
+      "MARQUEZ",
+      "PARCFERME",
+      "PARRILLA",
+      "BOLOS",
+      "CALVA",
+      "CHITO",
+      "PEONZA",
+      "BUFANDA",
+      "CELEBRACION",
+      "RIVALIDAD",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      3691,
+      3745,
+      3088,
+      3040
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "CICLISMO ESPANA",
+      "MOTOS Y F1",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MARCA",
+      "MOVISTAR",
+      "RTVE",
+      "TELEDEPORTE",
+      "BIDON",
+      "CRONO",
+      "ESCALADA",
+      "PELOTON",
+      "MARQUEZ",
+      "MARTIN",
+      "MONTMELO",
+      "POLE",
+      "BOLOS",
+      "CHAPAS",
+      "CHITO",
+      "PAÑUELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3974,
+      3897,
+      3138,
+      3830
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "ATLETISMO ESPANA",
+      "JUEGOS TRADICIONALES",
+      "GIMNASIA Y COMBATE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARBITRO",
+      "GOLEADOR",
+      "PENALTI",
+      "VAR",
+      "CALLE",
+      "MARATON",
+      "MARCHA",
+      "SALTO",
+      "BOLOS",
+      "CHITO",
+      "COMBA",
+      "PETANCA",
+      "CATA",
+      "JUDO",
+      "LUCHA",
+      "TAEKWONDO"
+    ]
+  },
+  {
+    "group_ids": [
+      3922,
+      3646,
+      3488,
+      3080
+    ],
+    "cats": [
+      "GIMNASIA Y COMBATE",
+      "ESTADIOS ESPANA",
+      "DEPORTES ACUATICOS",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DOJO",
+      "ESGRIMA",
+      "IPPON",
+      "KARATE",
+      "COLISEUM",
+      "MONTILIVI",
+      "RCDE",
+      "VILLAMARIN",
+      "REGATA",
+      "SURF",
+      "VELA",
+      "WATERPOLO",
+      "CALVA",
+      "CHAPAS",
+      "SOGA",
+      "TANGANA"
+    ]
+  },
+  {
+    "group_ids": [
+      3221,
+      3577,
+      3168,
+      3550
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "DEPORTES VASCOS",
+      "ATLETISMO ESPANA",
+      "CLUBES LALIGA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVOCATORIA",
+      "DEFENSA",
+      "MEDIO",
+      "TIKI_TAKA",
+      "HARRIJALE",
+      "PELOTA",
+      "REMO",
+      "SESTARI",
+      "CALLE",
+      "FONDO",
+      "MARCHA",
+      "META",
+      "BETIS",
+      "CELTA",
+      "OSASUNA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3522,
+      3286,
+      3199,
+      3580
+    ],
+    "cats": [
+      "ATLETISMO ESPANA",
+      "DEPORTES VASCOS",
+      "CLUBES LALIGA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALLE",
+      "JABALINA",
+      "META",
+      "PERTIGA",
+      "AIZKOLARI",
+      "FRONTON",
+      "MANOMANO",
+      "TRAINERA",
+      "ATLETICO",
+      "GIRONA",
+      "REALSOCIEDAD",
+      "SEVILLA",
+      "AS",
+      "DAZN",
+      "SER",
+      "TELEDEPORTE"
+    ]
+  },
+  {
+    "group_ids": [
+      3781,
+      3997,
+      3159,
+      3670
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "CIUDADES DEPORTE ES",
+      "CLUBES LALIGA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ARCILLA",
+      "NADAL",
+      "REVES",
+      "SERVICIO",
+      "ALMERIA",
+      "MURCIA",
+      "PAMPLONA",
+      "VALENCIA",
+      "BARCA",
+      "MADRID",
+      "SEVILLA",
+      "VILLARREAL",
+      "BOXES",
+      "MOTOGP",
+      "PARCFERME",
+      "SAINZ"
+    ]
+  },
+  {
+    "group_ids": [
+      3712,
+      3425,
+      3069,
+      3870
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "ATLETISMO ESPANA",
+      "DEPORTES VASCOS",
+      "CLUBES LALIGA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASCENSO",
+      "CLASICO",
+      "DERBI",
+      "EUROPA",
+      "CALLE",
+      "DISCO",
+      "MARATON",
+      "PERTIGA",
+      "ESTROPADA",
+      "MANOMANO",
+      "REGATA",
+      "SESTARI",
+      "ATHLETIC",
+      "BARCA",
+      "MADRID",
+      "VALENCIA"
+    ]
+  },
+  {
+    "group_ids": [
+      3881,
+      3226,
+      3219,
+      3410
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "MOTOS Y F1",
+      "CLUBES LALIGA",
+      "AFICION ESPANOLA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNERS",
+      "PARED",
+      "REMATE",
+      "SAQUE",
+      "JEREZ",
+      "MONTMELO",
+      "PARCFERME",
+      "SAINZ",
+      "ATLETICO",
+      "OSASUNA",
+      "VALENCIA",
+      "VILLARREAL",
+      "BENGALA",
+      "BUFANDA",
+      "DESPLAZAMIENTO",
+      "PEÑA"
+    ]
+  },
+  {
+    "group_ids": [
+      3483,
+      3937,
+      3098,
+      3730
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "COPAS Y TORNEOS",
+      "CIUDADES DEPORTE ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CAROLINA",
+      "GASOL",
+      "MIREIA",
+      "SANDRA",
+      "ASCENSO",
+      "CHAMPIONS",
+      "CONFERENCE",
+      "JORNADA",
+      "BARCELONA",
+      "BILBAO",
+      "VALENCIA",
+      "ZARAGOZA",
+      "DAZN",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3283,
+      3585,
+      3979,
+      3360
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "CIUDADES DEPORTE ES",
+      "PALABRAS ENTRENAMIENTO",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FALTA",
+      "PIVOT",
+      "REBOTE",
+      "TRIPLE",
+      "GIJON",
+      "SEVILLA",
+      "VALENCIA",
+      "VIGO",
+      "MOVILIDAD",
+      "RECUPERACION",
+      "RESISTENCIA",
+      "RUTINA",
+      "DERECHA",
+      "FELICIANO",
+      "NADAL",
+      "SERVICIO"
+    ]
+  },
+  {
+    "group_ids": [
+      3904,
+      3707,
+      3699,
+      3520
+    ],
+    "cats": [
+      "GIMNASIA Y COMBATE",
+      "DEPORTES VASCOS",
+      "CLUBES LALIGA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOXEO",
+      "GRAPPLING",
+      "KARATE",
+      "LUCHA",
+      "PALA",
+      "REGATA",
+      "SOKATIRA",
+      "TRAINERA",
+      "ATHLETIC",
+      "OSASUNA",
+      "SEVILLA",
+      "VALENCIA",
+      "ALONSO",
+      "BOXES",
+      "MARTIN",
+      "MONTMELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3702,
+      3835,
+      3658,
+      3350
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "ESTADIOS ESPANA",
+      "DEPORTES ACUATICOS",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAVISCUP",
+      "DEUCE",
+      "MUGURUZA",
+      "REVES",
+      "BERNABEU",
+      "CERAMICA",
+      "COLISEUM",
+      "SADAR",
+      "BRAZA",
+      "CLAVADOS",
+      "CRAWL",
+      "REGATA",
+      "CHAMPIONS",
+      "FINAL",
+      "JORNADA",
+      "PLAYOFF"
+    ]
+  },
+  {
+    "group_ids": [
+      3042,
+      3376,
+      3679,
+      3870
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "JUEGOS TRADICIONALES",
+      "PALABRAS ENTRENAMIENTO",
+      "CLUBES LALIGA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BERNABEU",
+      "CAMPNOU",
+      "METROPOLITANO",
+      "MONTILIVI",
+      "CHITO",
+      "RANA",
+      "SOGA",
+      "TANGANA",
+      "CALENTAR",
+      "ESTIRAR",
+      "FUERZA",
+      "REPETICION",
+      "ATHLETIC",
+      "BARCA",
+      "MADRID",
+      "VALENCIA"
+    ]
+  },
+  {
+    "group_ids": [
+      3614,
+      3536,
+      3639,
+      3130
+    ],
+    "cats": [
+      "MOTOS Y F1",
+      "TENIS ESPANOL",
+      "AFICION ESPANOLA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALONSO",
+      "BOXES",
+      "MARTIN",
+      "SAINZ",
+      "ARCILLA",
+      "DERECHA",
+      "FELICIANO",
+      "SERVICIO",
+      "ABONO",
+      "BUFANDA",
+      "PEÑA",
+      "TIFO",
+      "AS",
+      "MARCA",
+      "MOVISTAR",
+      "SER"
+    ]
+  },
+  {
+    "group_ids": [
+      3891,
+      3285,
+      3749,
+      3230
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "MOTOS Y F1",
+      "ATLETAS ESPANOLES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DERECHA",
+      "DEUCE",
+      "FERRER",
+      "SERVICIO",
+      "BOXES",
+      "MONTMELO",
+      "MOTOGP",
+      "POLE",
+      "FERMIN",
+      "MIREIA",
+      "RUDY",
+      "YULIMAR",
+      "COPE",
+      "MARCA",
+      "SER",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3982,
+      3897,
+      3409,
+      3480
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "ATLETISMO ESPANA",
+      "COPAS Y TORNEOS",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BALAIDOS",
+      "CERAMICA",
+      "METROPOLITANO",
+      "RCDE",
+      "CALLE",
+      "MARATON",
+      "MARCHA",
+      "SALTO",
+      "CLASICO",
+      "CONFERENCE",
+      "LIGA",
+      "PLAYOFF",
+      "BOXES",
+      "MARTIN",
+      "MIR",
+      "PARRILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3541,
+      3905,
+      3339,
+      3670
+    ],
+    "cats": [
+      "ATLETISMO ESPANA",
+      "CIUDADES DEPORTE ES",
+      "SELECCION ESPANA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALLE",
+      "FONDO",
+      "META",
+      "RELEVOS",
+      "GIJON",
+      "MADRID",
+      "MURCIA",
+      "ZARAGOZA",
+      "AFICION",
+      "CAPITAN",
+      "MEDIO",
+      "POSESION",
+      "BOXES",
+      "MOTOGP",
+      "PARCFERME",
+      "SAINZ"
+    ]
+  },
+  {
+    "group_ids": [
+      3702,
+      3625,
+      3459,
+      3350
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "CLUBES LALIGA",
+      "TERMINOS BASKET",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAVISCUP",
+      "DEUCE",
+      "MUGURUZA",
+      "REVES",
+      "ATLETICO",
+      "CELTA",
+      "GIRONA",
+      "VALENCIA",
+      "ALERO",
+      "ASISTENCIA",
+      "CONTRAATAQUE",
+      "REBOTE",
+      "CHAMPIONS",
+      "FINAL",
+      "JORNADA",
+      "PLAYOFF"
+    ]
+  },
+  {
+    "group_ids": [
+      3624,
+      3896,
+      3459,
+      3980
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "DEPORTES VASCOS",
+      "TERMINOS BASKET",
+      "JUEGOS TRADICIONALES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCANSO",
+      "FUERZA",
+      "MOVILIDAD",
+      "RESISTENCIA",
+      "ESTROPADA",
+      "FRONTON",
+      "REMO",
+      "SOKATIRA",
+      "ALERO",
+      "ASISTENCIA",
+      "CONTRAATAQUE",
+      "REBOTE",
+      "CALVA",
+      "CHAPAS",
+      "CHITO",
+      "SOGA"
+    ]
+  },
+  {
+    "group_ids": [
+      3374,
+      3036,
+      3769,
+      3960
+    ],
+    "cats": [
+      "CIUDADES DEPORTE ES",
+      "DEPORTES ACUATICOS",
+      "MEDIOS DEPORTIVOS ES",
+      "PALABRAS ENTRENAMIENTO"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BILBAO",
+      "SEVILLA",
+      "VALENCIA",
+      "ZARAGOZA",
+      "CRAWL",
+      "NATACION",
+      "REGATA",
+      "TRAVESIA",
+      "ELCHIRINGUITO",
+      "MOVISTAR",
+      "MUNDO",
+      "TELEDEPORTE",
+      "ESTIRAR",
+      "PROGRESION",
+      "RECUPERACION",
+      "RUTINA"
+    ]
+  },
+  {
+    "group_ids": [
+      3003,
+      3237,
+      3268,
+      3030
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "PALABRAS ENTRENAMIENTO",
+      "ATLETAS ESPANOLES",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "CAPITAN",
+      "MUNDIAL",
+      "TIKI_TAKA",
+      "ESTIRAR",
+      "FUERZA",
+      "POTENCIA",
+      "REPETICION",
+      "FERMIN",
+      "GASOL",
+      "RUDY",
+      "YULIMAR",
+      "CALLE",
+      "MARCHA",
+      "PERTIGA",
+      "RELEVOS"
+    ]
+  },
+  {
+    "group_ids": [
+      3624,
+      3145,
+      3209,
+      3150
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "CICLISMO ESPANA",
+      "ATLETAS ESPANOLES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DESCANSO",
+      "FUERZA",
+      "MOVILIDAD",
+      "RESISTENCIA",
+      "ABANICO",
+      "DOMESTICO",
+      "ESCALADA",
+      "SPRINT",
+      "BELMONTE",
+      "CAROLINA",
+      "RUTH",
+      "SANDRA",
+      "ELCHIRINGUITO",
+      "MARCA",
+      "MUNDO",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3392,
+      3787,
+      3018,
+      3560
+    ],
+    "cats": [
+      "GIMNASIA Y COMBATE",
+      "ATLETISMO ESPANA",
+      "CIUDADES DEPORTE ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CATA",
+      "IPPON",
+      "KARATE",
+      "KICKBOXING",
+      "CALLE",
+      "DISCO",
+      "FONDO",
+      "JABALINA",
+      "ALMERIA",
+      "BILBAO",
+      "SEVILLA",
+      "VALENCIA",
+      "COPE",
+      "LALIGATV",
+      "RTVE",
+      "TELEDEPORTE"
+    ]
+  },
+  {
+    "group_ids": [
+      3754,
+      3327,
+      3039,
+      3280
+    ],
+    "cats": [
+      "GIMNASIA Y COMBATE",
+      "ATLETISMO ESPANA",
+      "PALABRAS ENTRENAMIENTO",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ESGRIMA",
+      "IPPON",
+      "JUDO",
+      "LUCHA",
+      "FONDO",
+      "MARATON",
+      "MARCHA",
+      "VALLAS",
+      "DESCANSO",
+      "FUERZA",
+      "PROGRESION",
+      "REPETICION",
+      "MEDIO",
+      "MUNDIAL",
+      "ROJA",
+      "TIKI_TAKA"
+    ]
+  },
+  {
+    "group_ids": [
+      3761,
+      3266,
+      3888,
+      3370
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "DEPORTES VASCOS",
+      "CLUBES LALIGA",
+      "COPAS Y TORNEOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALCARAZ",
+      "DERECHA",
+      "DEUCE",
+      "FELICIANO",
+      "PELOTA",
+      "REGATA",
+      "SESTARI",
+      "TRAINERA",
+      "GIRONA",
+      "OSASUNA",
+      "REALSOCIEDAD",
+      "VILLARREAL",
+      "ASCENSO",
+      "CLASICO",
+      "COPADELREY",
+      "DERBI"
+    ]
+  },
+  {
+    "group_ids": [
+      3044,
+      3315,
+      3618,
+      3760
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "CIUDADES DEPORTE ES",
+      "TERMINOS FUTBOL ES",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALCARAZ",
+      "ARCILLA",
+      "NADAL",
+      "REVES",
+      "MADRID",
+      "PAMPLONA",
+      "SEVILLA",
+      "VIGO",
+      "ARBITRO",
+      "CORNERS",
+      "GOLEADOR",
+      "REMATE",
+      "AFICION",
+      "CANTERA",
+      "EUROCOPA",
+      "MUNDIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3743,
+      3295,
+      3218,
+      3220
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "CIUDADES DEPORTE ES",
+      "JUEGOS TRADICIONALES",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BREOGAN",
+      "JOVENTUT",
+      "MANRESA",
+      "OBRADOIRO",
+      "BARCELONA",
+      "MALAGA",
+      "PAMPLONA",
+      "ZARAGOZA",
+      "CHITO",
+      "COMBA",
+      "SOGA",
+      "TANGANA",
+      "BERNABEU",
+      "CERAMICA",
+      "MESTALLA",
+      "METROPOLITANO"
+    ]
+  },
+  {
+    "group_ids": [
+      3433,
+      3526,
+      3019,
+      3860
+    ],
+    "cats": [
+      "CIUDADES DEPORTE ES",
+      "COPAS Y TORNEOS",
+      "PALABRAS ENTRENAMIENTO",
+      "DEPORTES VASCOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BARCELONA",
+      "GIJON",
+      "MURCIA",
+      "VIGO",
+      "CONFERENCE",
+      "COPADELREY",
+      "FINAL",
+      "PLAYOFF",
+      "ESTIRAR",
+      "FUERZA",
+      "RECUPERACION",
+      "RESISTENCIA",
+      "AIZKOLARI",
+      "FRONTON",
+      "REGATA",
+      "TRAINERA"
+    ]
+  },
+  {
+    "group_ids": [
+      3664,
+      3307,
+      3429,
+      3780
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "ATLETISMO ESPANA",
+      "COPAS Y TORNEOS",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BERNABEU",
+      "CERAMICA",
+      "METROPOLITANO",
+      "RCDE",
+      "FONDO",
+      "JABALINA",
+      "MARATON",
+      "MARCHA",
+      "ASCENSO",
+      "JORNADA",
+      "LIGA",
+      "SUPERCOPA",
+      "CANTERA",
+      "EUROCOPA",
+      "MEDIO",
+      "MUNDIAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3844,
+      3127,
+      3559,
+      3620
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "DEPORTES VASCOS",
+      "ATLETAS ESPANOLES",
+      "AFICION ESPANOLA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "COPE",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "SPORT",
+      "PALA",
+      "REGATA",
+      "SESTARI",
+      "SOKATIRA",
+      "CAROLINA",
+      "GASOL",
+      "INDURAIN",
+      "RUDY",
+      "BUFANDA",
+      "CELEBRACION",
+      "RIVALIDAD",
+      "VICTORIA"
+    ]
+  },
+  {
+    "group_ids": [
+      3481,
+      3086,
+      3219,
+      3130
+    ],
+    "cats": [
+      "DEPORTES VASCOS",
+      "TERMINOS BASKET",
+      "CLUBES LALIGA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "FRONTON",
+      "PALA",
+      "REGATA",
+      "REMO",
+      "BASE",
+      "CANASTA",
+      "PRORROGA",
+      "REBOTE",
+      "ATLETICO",
+      "OSASUNA",
+      "VALENCIA",
+      "VILLARREAL",
+      "AS",
+      "MARCA",
+      "MOVISTAR",
+      "SER"
+    ]
+  },
+  {
+    "group_ids": [
+      3643,
+      3676,
+      3058,
+      3580
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "DEPORTES ACUATICOS",
+      "CIUDADES DEPORTE ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALENTAR",
+      "DESCANSO",
+      "REPETICION",
+      "SERIE",
+      "CLAVADOS",
+      "CRAWL",
+      "PIRAGUISMO",
+      "VELA",
+      "ALMERIA",
+      "GIJON",
+      "MURCIA",
+      "PAMPLONA",
+      "AS",
+      "DAZN",
+      "SER",
+      "TELEDEPORTE"
+    ]
+  },
+  {
+    "group_ids": [
+      3884,
+      3607,
+      3379,
+      3030
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "CLUBES LALIGA",
+      "SELECCION ESPANA",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAWL",
+      "KITESURF",
+      "NATACION",
+      "PIRAGUISMO",
+      "ATHLETIC",
+      "BARCA",
+      "CELTA",
+      "SEVILLA",
+      "CAPITAN",
+      "CONVOCATORIA",
+      "EUROCOPA",
+      "MEDIO",
+      "CALLE",
+      "MARCHA",
+      "PERTIGA",
+      "RELEVOS"
+    ]
+  },
+  {
+    "group_ids": [
+      3891,
+      3215,
+      3258,
+      3310
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "GIMNASIA Y COMBATE",
+      "JUEGOS TRADICIONALES",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DERECHA",
+      "DEUCE",
+      "FERRER",
+      "SERVICIO",
+      "DOJO",
+      "ESGRIMA",
+      "IPPON",
+      "JUDO",
+      "CALVA",
+      "PAÑUELO",
+      "PEONZA",
+      "PETANCA",
+      "CORNERS",
+      "FUERAJUEGO",
+      "SAQUE",
+      "VAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3301,
+      3877,
+      3808,
+      3300
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "DEPORTES VASCOS",
+      "COPAS Y TORNEOS",
+      "SELECCION ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALCARAZ",
+      "DERECHA",
+      "FERRER",
+      "MUGURUZA",
+      "AIZKOLARI",
+      "FRONTON",
+      "PELOTA",
+      "REMO",
+      "ASCENSO",
+      "CHAMPIONS",
+      "CLASICO",
+      "SUPERCOPA",
+      "CAPITAN",
+      "DEFENSA",
+      "MUNDIAL",
+      "POSESION"
+    ]
+  },
+  {
+    "group_ids": [
+      3882,
+      3917,
+      3928,
+      3250
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "ATLETAS ESPANOLES",
+      "TENIS ESPANOL",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHAMPIONS",
+      "CLASICO",
+      "CONFERENCE",
+      "EUROPA",
+      "CAROLINA",
+      "CONTADOR",
+      "GASOL",
+      "INDURAIN",
+      "ARANTXA",
+      "ARCILLA",
+      "MUGURUZA",
+      "NADAL",
+      "COPE",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "MOVISTAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3154,
+      3516,
+      3659,
+      3110
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "TENIS ESPANOL",
+      "GIMNASIA Y COMBATE",
+      "ATLETAS ESPANOLES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRAZA",
+      "NATACION",
+      "PIRAGUISMO",
+      "SURF",
+      "ALCARAZ",
+      "FELICIANO",
+      "FERRER",
+      "NADAL",
+      "BOXEO",
+      "DOJO",
+      "KARATE",
+      "PUNTO",
+      "BELMONTE",
+      "CALDERON",
+      "CAROLINA",
+      "RUDY"
+    ]
+  },
+  {
+    "group_ids": [
+      3133,
+      3406,
+      3138,
+      3090
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "ATLETAS ESPANOLES",
+      "JUEGOS TRADICIONALES",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BENGALA",
+      "DESPLAZAMIENTO",
+      "GRADA",
+      "VICTORIA",
+      "BELMONTE",
+      "CAROLINA",
+      "RUTH",
+      "YULIMAR",
+      "BOLOS",
+      "CHITO",
+      "COMBA",
+      "PETANCA",
+      "CALLE",
+      "JABALINA",
+      "META",
+      "SALTO"
+    ]
+  },
+  {
+    "group_ids": [
+      3421,
+      3707,
+      3638,
+      4000
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "DEPORTES VASCOS",
+      "COPAS Y TORNEOS",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASISTENCIA",
+      "CONTRAATAQUE",
+      "PRORROGA",
+      "REBOTE",
+      "PALA",
+      "REGATA",
+      "SOKATIRA",
+      "TRAINERA",
+      "ASCENSO",
+      "CLASICO",
+      "CONFERENCE",
+      "EUROPA",
+      "BALAIDOS",
+      "CAMPNOU",
+      "MONTILIVI",
+      "SANMAMES"
+    ]
+  },
+  {
+    "group_ids": [
+      3834,
+      3526,
+      3689,
+      3750
+    ],
+    "cats": [
+      "CLUBES LALIGA",
+      "COPAS Y TORNEOS",
+      "ATLETISMO ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "SEVILLA",
+      "VALENCIA",
+      "VILLARREAL",
+      "CONFERENCE",
+      "COPADELREY",
+      "FINAL",
+      "PLAYOFF",
+      "DISCO",
+      "JABALINA",
+      "SALTO",
+      "VALLAS",
+      "AS",
+      "COPE",
+      "MOVISTAR",
+      "RTVE"
+    ]
+  },
+  {
+    "group_ids": [
+      3213,
+      3466,
+      3018,
+      3570
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "COPAS Y TORNEOS",
+      "CIUDADES DEPORTE ES",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABONO",
+      "CANTICO",
+      "CELEBRACION",
+      "VICTORIA",
+      "CLASICO",
+      "CONFERENCE",
+      "DERBI",
+      "PLAYOFF",
+      "ALMERIA",
+      "BILBAO",
+      "SEVILLA",
+      "VALENCIA",
+      "BALAIDOS",
+      "CAMPNOU",
+      "COLISEUM",
+      "MESTALLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3254,
+      3125,
+      3139,
+      3750
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "TERMINOS BASKET",
+      "CLUBES LALIGA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BRAZA",
+      "KITESURF",
+      "SURF",
+      "TRAVESIA",
+      "FALTA",
+      "PRORROGA",
+      "TIROLIBRE",
+      "TRIPLE",
+      "CELTA",
+      "MADRID",
+      "REALSOCIEDAD",
+      "VILLARREAL",
+      "AS",
+      "COPE",
+      "MOVISTAR",
+      "RTVE"
+    ]
+  },
+  {
+    "group_ids": [
+      3602,
+      3585,
+      3998,
+      3730
+    ],
+    "cats": [
+      "DEPORTES ACUATICOS",
+      "CIUDADES DEPORTE ES",
+      "PALABRAS ENTRENAMIENTO",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CRAWL",
+      "NATACION",
+      "SURF",
+      "WATERPOLO",
+      "GIJON",
+      "SEVILLA",
+      "VALENCIA",
+      "VIGO",
+      "ESTIRAR",
+      "POTENCIA",
+      "RUTINA",
+      "SERIE",
+      "DAZN",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3053,
+      3787,
+      3149,
+      3340
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "ATLETISMO ESPANA",
+      "ATLETAS ESPANOLES",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CENTRO",
+      "FUERAJUEGO",
+      "REMATE",
+      "SAQUE",
+      "CALLE",
+      "DISCO",
+      "FONDO",
+      "JABALINA",
+      "BELMONTE",
+      "CALDERON",
+      "CAROLINA",
+      "GASOL",
+      "DERECHA",
+      "FERRER",
+      "MUGURUZA",
+      "NADAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3004,
+      3047,
+      3908,
+      3110
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "CICLISMO ESPANA",
+      "ESTADIOS ESPANA",
+      "ATLETAS ESPANOLES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALCARAZ",
+      "DEUCE",
+      "FELICIANO",
+      "NADAL",
+      "BIDON",
+      "CRONO",
+      "ETAPA",
+      "MALLA",
+      "MESTALLA",
+      "METROPOLITANO",
+      "RCDE",
+      "SANMAMES",
+      "BELMONTE",
+      "CALDERON",
+      "CAROLINA",
+      "RUDY"
+    ]
+  },
+  {
+    "group_ids": [
+      3643,
+      3426,
+      3379,
+      3120
+    ],
+    "cats": [
+      "PALABRAS ENTRENAMIENTO",
+      "ATLETAS ESPANOLES",
+      "SELECCION ESPANA",
+      "CLUBES LALIGA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CALENTAR",
+      "DESCANSO",
+      "REPETICION",
+      "SERIE",
+      "BELMONTE",
+      "CONTADOR",
+      "GASOL",
+      "MIREIA",
+      "CAPITAN",
+      "CONVOCATORIA",
+      "EUROCOPA",
+      "MEDIO",
+      "BARCA",
+      "MADRID",
+      "OSASUNA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3552,
+      3676,
+      3548,
+      3800
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "DEPORTES ACUATICOS",
+      "CIUDADES DEPORTE ES",
+      "TERMINOS BASKET"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATAQUE",
+      "CAPITAN",
+      "CONVOCATORIA",
+      "POSESION",
+      "CLAVADOS",
+      "CRAWL",
+      "PIRAGUISMO",
+      "VELA",
+      "ALMERIA",
+      "PAMPLONA",
+      "SEVILLA",
+      "ZARAGOZA",
+      "BASE",
+      "BLOQUEO",
+      "CONTRAATAQUE",
+      "TRIPLE"
+    ]
+  },
+  {
+    "group_ids": [
+      3461,
+      3176,
+      3589,
+      3310
+    ],
+    "cats": [
+      "MOTOS Y F1",
+      "CIUDADES DEPORTE ES",
+      "SELECCION ESPANA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "MARQUEZ",
+      "MIR",
+      "MONTMELO",
+      "PARRILLA",
+      "GIJON",
+      "MALAGA",
+      "PAMPLONA",
+      "VIGO",
+      "ATAQUE",
+      "CONVOCATORIA",
+      "MEDIO",
+      "TIKI_TAKA",
+      "CORNERS",
+      "FUERAJUEGO",
+      "SAQUE",
+      "VAR"
+    ]
+  },
+  {
+    "group_ids": [
+      3124,
+      3546,
+      3779,
+      3730
+    ],
+    "cats": [
+      "BALONCESTO ACB",
+      "AFICION ESPANOLA",
+      "ESTADIOS ESPANA",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BASKONIA",
+      "GRANCA",
+      "MURCIA",
+      "OBRADOIRO",
+      "ABONO",
+      "FONDO",
+      "RIVALIDAD",
+      "TIFO",
+      "BALAIDOS",
+      "COLISEUM",
+      "MONTILIVI",
+      "RCDE",
+      "DAZN",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3664,
+      3857,
+      3018,
+      3730
+    ],
+    "cats": [
+      "ESTADIOS ESPANA",
+      "TERMINOS BASKET",
+      "CIUDADES DEPORTE ES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BERNABEU",
+      "CERAMICA",
+      "METROPOLITANO",
+      "RCDE",
+      "BLOQUEO",
+      "CANASTA",
+      "CONTRAATAQUE",
+      "REBOTE",
+      "ALMERIA",
+      "BILBAO",
+      "SEVILLA",
+      "VALENCIA",
+      "DAZN",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3893,
+      3055,
+      3469,
+      3570
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "AFICION ESPANOLA",
+      "GIMNASIA Y COMBATE",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALERO",
+      "BASE",
+      "BLOQUEO",
+      "CONTRAATAQUE",
+      "CANTICO",
+      "PEÑA",
+      "TIFO",
+      "VICTORIA",
+      "CATA",
+      "ESGRIMA",
+      "IPPON",
+      "PUNTO",
+      "BALAIDOS",
+      "CAMPNOU",
+      "COLISEUM",
+      "MESTALLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3123,
+      3025,
+      3109,
+      3520
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "BALONCESTO ACB",
+      "ATLETISMO ESPANA",
+      "MOTOS Y F1"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DERECHA",
+      "FELICIANO",
+      "FERRER",
+      "SERVICIO",
+      "BREOGAN",
+      "GRANCA",
+      "MURCIA",
+      "REALMADRID",
+      "DISCO",
+      "JABALINA",
+      "MARATON",
+      "SALTO",
+      "ALONSO",
+      "BOXES",
+      "MARTIN",
+      "MONTMELO"
+    ]
+  },
+  {
+    "group_ids": [
+      3882,
+      3647,
+      3109,
+      3110
+    ],
+    "cats": [
+      "COPAS Y TORNEOS",
+      "SELECCION ESPANA",
+      "ATLETISMO ESPANA",
+      "ATLETAS ESPANOLES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CHAMPIONS",
+      "CLASICO",
+      "CONFERENCE",
+      "EUROPA",
+      "ATAQUE",
+      "CANTERA",
+      "EUROCOPA",
+      "POSESION",
+      "DISCO",
+      "JABALINA",
+      "MARATON",
+      "SALTO",
+      "BELMONTE",
+      "CALDERON",
+      "CAROLINA",
+      "RUDY"
+    ]
+  },
+  {
+    "group_ids": [
+      3131,
+      3557,
+      3668,
+      3830
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "DEPORTES VASCOS",
+      "TERMINOS BASKET",
+      "GIMNASIA Y COMBATE"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CENTRO",
+      "FUERAJUEGO",
+      "SAQUE",
+      "VAR",
+      "MANOMANO",
+      "PALA",
+      "REMO",
+      "TRAINERA",
+      "BLOQUEO",
+      "FALTA",
+      "PRORROGA",
+      "TRIPLE",
+      "CATA",
+      "JUDO",
+      "LUCHA",
+      "TAEKWONDO"
+    ]
+  },
+  {
+    "group_ids": [
+      3503,
+      3875,
+      3258,
+      3730
+    ],
+    "cats": [
+      "ATLETAS ESPANOLES",
+      "CICLISMO ESPANA",
+      "JUEGOS TRADICIONALES",
+      "MEDIOS DEPORTIVOS ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BELMONTE",
+      "CAROLINA",
+      "GASOL",
+      "SANDRA",
+      "DOMESTICO",
+      "ETAPA",
+      "PUERTO",
+      "SPRINT",
+      "CALVA",
+      "PAÑUELO",
+      "PEONZA",
+      "PETANCA",
+      "DAZN",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "SPORT"
+    ]
+  },
+  {
+    "group_ids": [
+      3334,
+      3307,
+      3029,
+      3160
+    ],
+    "cats": [
+      "GIMNASIA Y COMBATE",
+      "ATLETISMO ESPANA",
+      "DEPORTES VASCOS",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "BOXEO",
+      "ESGRIMA",
+      "IPPON",
+      "KICKBOXING",
+      "FONDO",
+      "JABALINA",
+      "MARATON",
+      "MARCHA",
+      "MANOMANO",
+      "PALA",
+      "REGATA",
+      "SOKATIRA",
+      "MONTILIVI",
+      "SADAR",
+      "SANMAMES",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3672,
+      3675,
+      3149,
+      3840
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "AFICION ESPANOLA",
+      "ATLETAS ESPANOLES",
+      "CICLISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAZN",
+      "LALIGATV",
+      "MUNDO",
+      "SPORT",
+      "BUFANDA",
+      "CANTICO",
+      "GRADA",
+      "VICTORIA",
+      "BELMONTE",
+      "CALDERON",
+      "CAROLINA",
+      "GASOL",
+      "ABANICO",
+      "DOMESTICO",
+      "META",
+      "VUELTA"
+    ]
+  },
+  {
+    "group_ids": [
+      3954,
+      3356,
+      3539,
+      3120
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "JUEGOS TRADICIONALES",
+      "MOTOS Y F1",
+      "CLUBES LALIGA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AS",
+      "COPE",
+      "MUNDO",
+      "SPORT",
+      "BOLOS",
+      "PAÑUELO",
+      "RANA",
+      "RAYUELA",
+      "BOXES",
+      "MONTMELO",
+      "PARRILLA",
+      "SAINZ",
+      "BARCA",
+      "MADRID",
+      "OSASUNA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3521,
+      3057,
+      3138,
+      3570
+    ],
+    "cats": [
+      "DEPORTES VASCOS",
+      "GIMNASIA Y COMBATE",
+      "JUEGOS TRADICIONALES",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "AIZKOLARI",
+      "MANOMANO",
+      "PELOTA",
+      "REMO",
+      "DOJO",
+      "ESGRIMA",
+      "IPPON",
+      "TAEKWONDO",
+      "BOLOS",
+      "CHITO",
+      "COMBA",
+      "PETANCA",
+      "BALAIDOS",
+      "CAMPNOU",
+      "COLISEUM",
+      "MESTALLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3583,
+      3785,
+      3568,
+      3860
+    ],
+    "cats": [
+      "AFICION ESPANOLA",
+      "MOTOS Y F1",
+      "JUEGOS TRADICIONALES",
+      "DEPORTES VASCOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ABONO",
+      "BUFANDA",
+      "DESPLAZAMIENTO",
+      "FONDO",
+      "BOXES",
+      "MARQUEZ",
+      "MOTOGP",
+      "PARRILLA",
+      "PAÑUELO",
+      "RANA",
+      "RAYUELA",
+      "TANGANA",
+      "AIZKOLARI",
+      "FRONTON",
+      "REGATA",
+      "TRAINERA"
+    ]
+  },
+  {
+    "group_ids": [
+      3323,
+      3867,
+      3689,
+      3290
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "GIMNASIA Y COMBATE",
+      "ATLETISMO ESPANA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASISTENCIA",
+      "BASE",
+      "BLOQUEO",
+      "PRORROGA",
+      "JUDO",
+      "KARATE",
+      "LUCHA",
+      "PUNTO",
+      "DISCO",
+      "JABALINA",
+      "SALTO",
+      "VALLAS",
+      "ARBITRO",
+      "FUERAJUEGO",
+      "PENALTI",
+      "SAQUE"
+    ]
+  },
+  {
+    "group_ids": [
+      3973,
+      3017,
+      3959,
+      3860
+    ],
+    "cats": [
+      "MEDIOS DEPORTIVOS ES",
+      "GIMNASIA Y COMBATE",
+      "CIUDADES DEPORTE ES",
+      "DEPORTES VASCOS"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "DAZN",
+      "ELCHIRINGUITO",
+      "LALIGATV",
+      "MUNDO",
+      "BOXEO",
+      "IPPON",
+      "KARATE",
+      "PUNTO",
+      "BILBAO",
+      "MALAGA",
+      "VALENCIA",
+      "VIGO",
+      "AIZKOLARI",
+      "FRONTON",
+      "REGATA",
+      "TRAINERA"
+    ]
+  },
+  {
+    "group_ids": [
+      3211,
+      3685,
+      3989,
+      3340
+    ],
+    "cats": [
+      "TERMINOS FUTBOL ES",
+      "BALONCESTO ACB",
+      "DEPORTES VASCOS",
+      "TENIS ESPANOL"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CORNERS",
+      "FUERAJUEGO",
+      "REGATE",
+      "VAR",
+      "GRANCA",
+      "JOVENTUT",
+      "MURCIA",
+      "VALENCIA_BC",
+      "AIZKOLARI",
+      "HARRIJALE",
+      "MANOMANO",
+      "REGATA",
+      "DERECHA",
+      "FERRER",
+      "MUGURUZA",
+      "NADAL"
+    ]
+  },
+  {
+    "group_ids": [
+      3221,
+      3306,
+      3019,
+      3120
+    ],
+    "cats": [
+      "SELECCION ESPANA",
+      "DEPORTES VASCOS",
+      "PALABRAS ENTRENAMIENTO",
+      "CLUBES LALIGA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "CONVOCATORIA",
+      "DEFENSA",
+      "MEDIO",
+      "TIKI_TAKA",
+      "ESTROPADA",
+      "FRONTON",
+      "MANOMANO",
+      "SESTARI",
+      "ESTIRAR",
+      "FUERZA",
+      "RECUPERACION",
+      "RESISTENCIA",
+      "BARCA",
+      "MADRID",
+      "OSASUNA",
+      "SEVILLA"
+    ]
+  },
+  {
+    "group_ids": [
+      3893,
+      3267,
+      3469,
+      3840
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "ATLETISMO ESPANA",
+      "GIMNASIA Y COMBATE",
+      "CICLISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALERO",
+      "BASE",
+      "BLOQUEO",
+      "CONTRAATAQUE",
+      "DISCO",
+      "FONDO",
+      "MARATON",
+      "PERTIGA",
+      "CATA",
+      "ESGRIMA",
+      "IPPON",
+      "PUNTO",
+      "ABANICO",
+      "DOMESTICO",
+      "META",
+      "VUELTA"
+    ]
+  },
+  {
+    "group_ids": [
+      3744,
+      3886,
+      3358,
+      3050
+    ],
+    "cats": [
+      "TERMINOS BASKET",
+      "PALABRAS ENTRENAMIENTO",
+      "ESTADIOS ESPANA",
+      "ATLETISMO ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ASISTENCIA",
+      "BLOQUEO",
+      "CANASTA",
+      "PIVOT",
+      "DESCANSO",
+      "POTENCIA",
+      "RECUPERACION",
+      "REPETICION",
+      "CAMPNOU",
+      "MONTILIVI",
+      "SANMAMES",
+      "VILLAMARIN",
+      "CALLE",
+      "MARATON",
+      "META",
+      "RELEVOS"
+    ]
+  },
+  {
+    "group_ids": [
+      3021,
+      3415,
+      3639,
+      3160
+    ],
+    "cats": [
+      "CLUBES LALIGA",
+      "JUEGOS TRADICIONALES",
+      "AFICION ESPANOLA",
+      "ESTADIOS ESPANA"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ATHLETIC",
+      "ATLETICO",
+      "CELTA",
+      "VILLARREAL",
+      "BOLOS",
+      "CHAPAS",
+      "PEONZA",
+      "PETANCA",
+      "ABONO",
+      "BUFANDA",
+      "PEÑA",
+      "TIFO",
+      "MONTILIVI",
+      "SADAR",
+      "SANMAMES",
+      "VILLAMARIN"
+    ]
+  },
+  {
+    "group_ids": [
+      3301,
+      3836,
+      3588,
+      3790
+    ],
+    "cats": [
+      "TENIS ESPANOL",
+      "SELECCION ESPANA",
+      "ESTADIOS ESPANA",
+      "TERMINOS FUTBOL ES"
+    ],
+    "difficulties": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "words": [
+      "ALCARAZ",
+      "DERECHA",
+      "FERRER",
+      "MUGURUZA",
+      "AFICION",
+      "CONVOCATORIA",
+      "DEFENSA",
+      "MUNDIAL",
+      "BALAIDOS",
+      "METROPOLITANO",
+      "SANMAMES",
+      "VILLAMARIN",
+      "CORNERS",
+      "FUERAJUEGO",
+      "PARED",
+      "REMATE"
+    ]
+  }
+]

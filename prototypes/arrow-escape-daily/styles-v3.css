@@ -1,0 +1,14 @@
+body{font-family:Arial,sans-serif;background:#0f1220;color:#f2f5ff;margin:0;padding:20px}
+.app{max-width:860px;margin:auto}
+.sub{opacity:.86}
+.panel{background:#1a1f36;border:1px solid #2d355c;padding:12px;border-radius:10px;margin:12px 0}
+.hud{display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:#141a2f;padding:10px;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(5,64px);gap:8px;justify-content:start;margin:14px 0}
+.cell{width:64px;height:64px;background:#222b4b;border:1px solid #3b4777;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;user-select:none}
+.cell.start{background:#1d5e3c}
+.cell.end{background:#6b2e2e}
+.cell.fixed{background:#3f355f;border-color:#8c76c9;cursor:not-allowed}
+.share-card{background:#0d1020;border:1px dashed #4a5ca8;padding:12px;border-radius:8px;white-space:pre-line}
+button,select{background:#4b68ff;color:white;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+select{background:#263a87}
+.hidden{display:none}

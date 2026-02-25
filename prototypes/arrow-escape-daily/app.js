@@ -130,10 +130,11 @@ function finish(win){
   }
 
   const raw = Math.max(0, 1000 - state.moves*25 + state.time*8 + (win?200:0));
-  const mult = streakMultiplier(streak);
-  const score = Math.round(raw * mult);
+  const streakMult = streakMultiplier(streak);
+  const diffMult = state.diff === 'hard' ? 1.35 : state.diff === 'medium' ? 1.15 : 1.0;
+  const score = Math.round(raw * streakMult * diffMult);
   resultTitle.textContent = win ? '✅ Escaped!' : '⏰ Time up';
-  shareCard.textContent = `Arrow Escape Daily v2\nDate: ${today}\nDifficulty: ${state.diff}\nResult: ${win?'WIN':'LOSE'}\nRaw score: ${raw}\nStreak mult: x${mult.toFixed(1)}\nFinal score: ${score}\nMoves: ${state.moves}\nTime left: ${Math.max(0,state.time)}s\nStreak: ${streak}`;
+  shareCard.textContent = `Arrow Escape Daily v2\nDate: ${today}\nDifficulty: ${state.diff}\nResult: ${win?'WIN':'LOSE'}\nRaw score: ${raw}\nStreak mult: x${streakMult.toFixed(1)}\nDifficulty mult: x${diffMult.toFixed(2)}\nFinal score: ${score}\nMoves: ${state.moves}\nTime left: ${Math.max(0,state.time)}s\nStreak: ${streak}`;
   resultEl.classList.remove('hidden');
   draw();
 }

@@ -1,15 +1,20 @@
-# Word-Solitaire Mix (Prototype)
+# Word-Solitaire Mix v2
+
+## Mecánica implementada
+- Mano de 7 letras por ronda.
+- 1 descarte tipo póker por ronda.
+- Construcción de 3 palabras de 5 letras usando solo esas 7 letras.
+- Score base estilo Scrabble simplificado por tipo de letra.
+- Multiplicador por reutilización de letra:
+  - usada en 2 palabras => x1.5
+  - usada en 3 palabras => x2.0
 
 ## Run
-Open `index.html` in a browser.
+Abrir `index.html`.
 
-## Test checklist
-1. Daily seed shown and stable per date.
-2. Draw letters to hand; place on 4 slots.
-3. One-slot-clear constraint applies per turn.
-4. Submitting valid word increases score.
-5. Result card + streak/best persist in localStorage.
-
-## Limitations
-- Small internal 4-letter dictionary for quick concept validation.
-- No backend / async multiplayer.
+## Qué probar
+1. Descarte único funciona (solo 1 vez).
+2. No permite palabras fuera de la mano.
+3. Calcula score base + bonus por reutilización.
+4. Suma total por rondas.
+5. Guarda best/streak en localStorage.

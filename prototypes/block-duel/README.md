@@ -1,15 +1,17 @@
-# Block Duel (Prototype)
+# Block Duel: Reject Reactor (v2)
+
+## Qué cambia
+- No es tap-spam: ahora hay **timing por carril**.
+- Si tocas fuera de timing => **REJECT** con penalización.
+- Combo multiplica score.
+- Overdrive x2 durante 5s (más puntos pero más riesgo por velocidad).
 
 ## Run
-Open `index.html` in a browser.
+Abrir `index.html`.
 
-## Test checklist
-1. Start Run starts 30s timer and scoring.
-2. Daily Challenge uses seeded harder ghost target.
-3. End screen shows WIN/LOSE with screenshot-ready card.
-4. "Copy result" and "Copy challenge text" work.
-5. Streak/recent results persist with localStorage.
-
-## Limitations
-- Async PvP is simulated locally (ghost target), no backend matchmaking.
-- Core is tap-score loop for rapid concept validation.
+## Qué probar
+1. Lane A/B/C solo puntúan en hit-zone.
+2. Tap mal = REJECT y baja score/combo.
+3. Overdrive aumenta riesgo/recompensa.
+4. Win/Lose contra ghost target.
+5. Share result/challenge funcional.

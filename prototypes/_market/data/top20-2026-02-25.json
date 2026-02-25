@@ -9,83 +9,83 @@
       "top20": [
         {
           "appId": "kidultlovin.word.zen",
-          "score": 308
-        },
-        {
-          "appId": "com.karma.thismorningpuzzletime",
-          "score": 164
+          "score": 287
         },
         {
           "appId": "com.fanatee.keep",
-          "score": 163
+          "score": 200
         },
         {
-          "appId": "com.nytimes.crossword",
-          "score": 146
-        },
-        {
-          "appId": "ca.sparkandspiral.daily_logic_puzzles",
-          "score": 137
-        },
-        {
-          "appId": "com.easybrain.jigsaw.puzzles",
-          "score": 132
-        },
-        {
-          "appId": "com.typosaurus.thedailypuzzle",
-          "score": 126
-        },
-        {
-          "appId": "com.weplaydots.twodotsandroid",
-          "score": 126
-        },
-        {
-          "appId": "in.crossy.daily_crossword",
-          "score": 125
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 155
         },
         {
           "appId": "com.tangramgames.gourddoll.wordcrush",
-          "score": 121
+          "score": 141
         },
         {
-          "appId": "com.fun.brain.game",
-          "score": 120
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 140
         },
         {
-          "appId": "com.TechTreeGames.Wordle",
-          "score": 115
+          "appId": "in.crossy.daily_crossword",
+          "score": 139
         },
         {
-          "appId": "com.fiogonia.blockjam",
-          "score": 115
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 135
         },
         {
-          "appId": "com.easybrain.word.puzzle.game",
-          "score": 107
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 127
         },
         {
           "appId": "com.peoplefun.wordcross",
-          "score": 106
+          "score": 123
         },
         {
-          "appId": "com.easybrain.block.puzzle.games",
-          "score": 99
+          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
+          "score": 116
         },
         {
-          "appId": "com.bigcake.android.bpdaily",
-          "score": 98
+          "appId": "com.playvalve.wsjourney",
+          "score": 114
         },
         {
-          "appId": "in.playsimple.wordle",
-          "score": 96
+          "appId": "io.digitalsnacks.wordchallenge",
+          "score": 109
         },
         {
-          "appId": "linkdesks.block.puzzle.classic.puzzlegames",
-          "score": 92
+          "appId": "in.playsimple.wordtrip",
+          "score": 108
+        },
+        {
+          "appId": "com.fugo.wow",
+          "score": 108
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 105
+        },
+        {
+          "appId": "se.maginteractive.wordbrain",
+          "score": 103
+        },
+        {
+          "appId": "com.apollogames.wordle",
+          "score": 89
         },
         {
           "appId": "com.JindoBlu.Antistress",
-          "score": 91
+          "score": 88
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 87
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 87
         }
       ],
       "debug": [
@@ -111,13 +111,13 @@
           "country": "ES",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=ES&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "ES",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=ES&hl=en",
-          "found": 24
+          "found": 30
         },
         {
           "country": "ES",
@@ -135,7 +135,7 @@
           "country": "ES",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=ES&hl=en",
-          "found": 30
+          "found": 13
         },
         {
           "country": "ES",
@@ -159,7 +159,7 @@
           "country": "ES",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=ES&hl=en",
-          "found": 27
+          "found": 10
         }
       ]
     },
@@ -171,83 +171,83 @@
       "top20": [
         {
           "appId": "kidultlovin.word.zen",
-          "score": 324
+          "score": 333
         },
         {
           "appId": "com.fanatee.keep",
-          "score": 190
+          "score": 185
         },
         {
-          "appId": "in.crossy.daily_crossword",
-          "score": 157
-        },
-        {
-          "appId": "ca.sparkandspiral.daily_logic_puzzles",
-          "score": 139
-        },
-        {
-          "appId": "com.weplaydots.twodotsandroid",
-          "score": 137
+          "appId": "com.peoplefun.wordcross",
+          "score": 149
         },
         {
           "appId": "com.tangramgames.gourddoll.wordcrush",
-          "score": 124
+          "score": 145
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 137
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 133
         },
         {
           "appId": "in.playsimple.wordtrip",
           "score": 122
         },
         {
-          "appId": "com.peoplefun.wordcross",
-          "score": 122
-        },
-        {
-          "appId": "com.easybrain.jigsaw.puzzles",
-          "score": 109
-        },
-        {
-          "appId": "com.typosaurus.thedailypuzzle",
-          "score": 93
-        },
-        {
-          "appId": "com.easybrain.art.puzzle",
-          "score": 92
-        },
-        {
-          "appId": "com.karma.thismorningpuzzletime",
-          "score": 91
-        },
-        {
-          "appId": "com.appynation.puzzlepage",
-          "score": 89
+          "appId": "in.crossy.daily_crossword",
+          "score": 116
         },
         {
           "appId": "com.easybrain.crossword.puzzles",
-          "score": 89
+          "score": 116
+        },
+        {
+          "appId": "com.playvalve.wsjourney",
+          "score": 115
+        },
+        {
+          "appId": "com.easybrain.jigsaw.puzzles",
+          "score": 112
+        },
+        {
+          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
+          "score": 98
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 96
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 96
+        },
+        {
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 92
+        },
+        {
+          "appId": "com.wordgame.words.connect",
+          "score": 91
         },
         {
           "appId": "com.JindoBlu.Antistress",
-          "score": 89
+          "score": 90
+        },
+        {
+          "appId": "in.playsimple.wordsearch",
+          "score": 88
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 87
         },
         {
           "appId": "com.apollogames.wordle",
           "score": 87
-        },
-        {
-          "appId": "com.nytimes.crossword",
-          "score": 83
-        },
-        {
-          "appId": "com.vottzapps.wordle",
-          "score": 83
-        },
-        {
-          "appId": "com.eet.kmp.minigames",
-          "score": 82
-        },
-        {
-          "appId": "games.blockheads.sudoku.puzzle.match.bombayplay",
-          "score": 82
         }
       ],
       "debug": [
@@ -279,7 +279,7 @@
           "country": "US",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=US&hl=en",
-          "found": 25
+          "found": 30
         },
         {
           "country": "US",
@@ -297,7 +297,7 @@
           "country": "US",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=US&hl=en",
-          "found": 12
+          "found": 11
         },
         {
           "country": "US",
@@ -321,7 +321,7 @@
           "country": "US",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=US&hl=en",
-          "found": 14
+          "found": 13
         }
       ]
     },
@@ -333,83 +333,83 @@
       "top20": [
         {
           "appId": "kidultlovin.word.zen",
-          "score": 328
+          "score": 319
         },
         {
           "appId": "com.fanatee.keep",
-          "score": 189
+          "score": 249
         },
         {
           "appId": "com.peoplefun.wordcross",
-          "score": 172
+          "score": 176
         },
         {
-          "appId": "com.karma.thismorningpuzzletime",
-          "score": 152
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 160
         },
         {
-          "appId": "ca.sparkandspiral.daily_logic_puzzles",
-          "score": 138
+          "appId": "in.crossy.daily_crossword",
+          "score": 150
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 137
         },
         {
           "appId": "com.weplaydots.twodotsandroid",
           "score": 137
         },
         {
-          "appId": "in.playsimple.wordtrip",
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
           "score": 134
         },
         {
-          "appId": "in.crossy.daily_crossword",
-          "score": 128
-        },
-        {
-          "appId": "com.tangramgames.gourddoll.wordcrush",
-          "score": 125
-        },
-        {
-          "appId": "com.TechTreeGames.Wordle",
-          "score": 110
-        },
-        {
-          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
-          "score": 108
-        },
-        {
-          "appId": "com.wordsalad.app",
-          "score": 103
-        },
-        {
-          "appId": "in.playsimple.wordle",
-          "score": 100
-        },
-        {
-          "appId": "com.appynation.puzzlepage",
-          "score": 97
-        },
-        {
-          "appId": "com.wordgame.words.connect",
-          "score": 93
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 132
         },
         {
           "appId": "com.easybrain.crossword.puzzles",
-          "score": 93
+          "score": 124
         },
         {
-          "appId": "air.eu.fufla.puzzlywords",
-          "score": 90
+          "appId": "com.easybrain.jigsaw.puzzles",
+          "score": 123
         },
         {
-          "appId": "com.JindoBlu.Antistress",
-          "score": 90
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 113
+        },
+        {
+          "appId": "in.playsimple.wordtrip",
+          "score": 113
         },
         {
           "appId": "com.typosaurus.thedailypuzzle",
-          "score": 88
+          "score": 112
+        },
+        {
+          "appId": "com.magicave.mindsetgo",
+          "score": 107
+        },
+        {
+          "appId": "in.playsimple.wordle",
+          "score": 99
+        },
+        {
+          "appId": "air.eu.fufla.puzzlywords",
+          "score": 93
         },
         {
           "appId": "com.fun.brain.game",
           "score": 87
+        },
+        {
+          "appId": "com.JindoBlu.Antistress",
+          "score": 87
+        },
+        {
+          "appId": "com.apollogames.wordle",
+          "score": 86
         }
       ],
       "debug": [
@@ -429,7 +429,7 @@
           "country": "GB",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=GB&hl=en",
-          "found": 13
+          "found": 30
         },
         {
           "country": "GB",
@@ -459,7 +459,7 @@
           "country": "GB",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=GB&hl=en",
-          "found": 12
+          "found": 8
         },
         {
           "country": "GB",
@@ -483,7 +483,7 @@
           "country": "GB",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=GB&hl=en",
-          "found": 8
+          "found": 19
         }
       ]
     },
@@ -495,11 +495,15 @@
       "top20": [
         {
           "appId": "kidultlovin.word.zen",
-          "score": 244
+          "score": 251
         },
         {
           "appId": "com.karma.thismorningpuzzletime",
           "score": 164
+        },
+        {
+          "appId": "com.fiogonia.blockjam",
+          "score": 149
         },
         {
           "appId": "com.fanatee.keep",
@@ -507,11 +511,7 @@
         },
         {
           "appId": "com.typosaurus.thedailypuzzle",
-          "score": 140
-        },
-        {
-          "appId": "com.weplaydots.twodotsandroid",
-          "score": 140
+          "score": 139
         },
         {
           "appId": "com.appynation.puzzlepage",
@@ -519,59 +519,59 @@
         },
         {
           "appId": "ca.sparkandspiral.daily_logic_puzzles",
-          "score": 135
+          "score": 134
         },
         {
-          "appId": "com.easybrain.crossword.puzzles",
-          "score": 121
-        },
-        {
-          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
-          "score": 118
-        },
-        {
-          "appId": "in.crossy.daily_crossword",
-          "score": 115
-        },
-        {
-          "appId": "com.tangramgames.gourddoll.wordcrush",
-          "score": 115
-        },
-        {
-          "appId": "com.bigcake.android.bubbledaily",
-          "score": 113
-        },
-        {
-          "appId": "com.TechTreeGames.Wordle",
-          "score": 109
-        },
-        {
-          "appId": "com.brain.logic.joygame",
-          "score": 106
-        },
-        {
-          "appId": "com.wordsalad.app",
-          "score": 100
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 132
         },
         {
           "appId": "com.easybrain.word.puzzle.game",
-          "score": 99
+          "score": 121
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 119
+        },
+        {
+          "appId": "com.easybrain.crossword.puzzles",
+          "score": 119
+        },
+        {
+          "appId": "in.crossy.daily_crossword",
+          "score": 117
+        },
+        {
+          "appId": "com.bigcake.android.bubbledaily",
+          "score": 114
+        },
+        {
+          "appId": "com.easybrain.jigsaw.puzzles",
+          "score": 114
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 112
+        },
+        {
+          "appId": "com.playvalve.wsjourney",
+          "score": 109
         },
         {
           "appId": "daily.number.match.free.puzzle",
-          "score": 98
+          "score": 106
         },
         {
-          "appId": "com.fugo.wow",
-          "score": 92
+          "appId": "com.easybrain.block.puzzle.games",
+          "score": 105
         },
         {
-          "appId": "com.wordgame.words.connect",
-          "score": 91
+          "appId": "com.brain.logic.joygame",
+          "score": 105
         },
         {
-          "appId": "com.JindoBlu.Antistress",
-          "score": 91
+          "appId": "in.playsimple.wordtrip",
+          "score": 105
         }
       ],
       "debug": [
@@ -621,7 +621,7 @@
           "country": "MX",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=MX&hl=en",
-          "found": 13
+          "found": 30
         },
         {
           "country": "MX",
@@ -633,7 +633,7 @@
           "country": "MX",
           "query": "hypercasual puzzle",
           "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=MX&hl=en",
-          "found": 12
+          "found": 30
         },
         {
           "country": "MX",
@@ -645,7 +645,7 @@
           "country": "MX",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=MX&hl=en",
-          "found": 8
+          "found": 24
         }
       ]
     },
@@ -675,83 +675,83 @@
       "top20": [
         {
           "appId": "kidultlovin.word.zen",
-          "score": 5214
+          "score": 5284
         },
         {
           "appId": "com.fanatee.keep",
-          "score": 3276
+          "score": 3419
         },
         {
           "appId": "com.karma.thismorningpuzzletime",
-          "score": 2958
-        },
-        {
-          "appId": "ca.sparkandspiral.daily_logic_puzzles",
-          "score": 2608
+          "score": 2931
         },
         {
           "appId": "com.tangramgames.gourddoll.wordcrush",
-          "score": 2520
+          "score": 2611
         },
         {
-          "appId": "com.typosaurus.thedailypuzzle",
-          "score": 2361
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 2603
         },
         {
           "appId": "com.weplaydots.twodotsandroid",
-          "score": 2347
+          "score": 2420
         },
         {
           "appId": "com.appynation.puzzlepage",
-          "score": 2255
+          "score": 2227
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 2200
         },
         {
           "appId": "com.wordle.wordlegame.today.word.puzzle.game",
-          "score": 2144
+          "score": 2064
         },
         {
           "appId": "com.TechTreeGames.Wordle",
-          "score": 2022
+          "score": 2049
         },
         {
           "appId": "com.easybrain.crossword.puzzles",
-          "score": 1988
+          "score": 1992
         },
         {
           "appId": "com.bigcake.android.bubbledaily",
-          "score": 1903
+          "score": 1986
         },
         {
           "appId": "in.crossy.daily_crossword",
-          "score": 1878
-        },
-        {
-          "appId": "com.apollogames.wordle",
-          "score": 1867
+          "score": 1958
         },
         {
           "appId": "com.easybrain.jigsaw.puzzles",
-          "score": 1850
+          "score": 1865
         },
         {
-          "appId": "com.fun.brain.game",
-          "score": 1730
+          "appId": "com.apollogames.wordle",
+          "score": 1761
         },
         {
           "appId": "linkdesks.block.puzzle.classic.puzzlegames",
-          "score": 1713
+          "score": 1731
         },
         {
-          "appId": "com.balysv.loop",
-          "score": 1688
+          "appId": "com.fun.brain.game",
+          "score": 1710
         },
         {
           "appId": "com.JindoBlu.Antistress",
-          "score": 1683
+          "score": 1593
         },
         {
-          "appId": "com.crypt.gram.puzz",
-          "score": 1586
+          "appId": "in.playsimple.wordtrip",
+          "score": 1577
+        },
+        {
+          "appId": "daily.number.match.free.puzzle",
+          "score": 1571
         }
       ],
       "debug": [
@@ -771,13 +771,13 @@
           "country": "AR",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=AR&hl=en",
-          "found": 30
+          "found": 14
         },
         {
           "country": "AR",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=AR&hl=en",
-          "found": 23
+          "found": 21
         },
         {
           "country": "AR",
@@ -801,7 +801,7 @@
           "country": "AR",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=AR&hl=en",
-          "found": 9
+          "found": 22
         },
         {
           "country": "AR",
@@ -825,7 +825,7 @@
           "country": "AR",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=AR&hl=en",
-          "found": 14
+          "found": 12
         },
         {
           "country": "BO",
@@ -849,13 +849,13 @@
           "country": "BO",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=BO&hl=en",
-          "found": 8
+          "found": 12
         },
         {
           "country": "BO",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=BO&hl=en",
-          "found": 29
+          "found": 26
         },
         {
           "country": "BO",
@@ -873,7 +873,7 @@
           "country": "BO",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=BO&hl=en",
-          "found": 22
+          "found": 10
         },
         {
           "country": "BO",
@@ -921,13 +921,13 @@
           "country": "BR",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=BR&hl=en",
-          "found": 10
+          "found": 12
         },
         {
           "country": "BR",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=BR&hl=en",
-          "found": 30
+          "found": 11
         },
         {
           "country": "BR",
@@ -969,13 +969,13 @@
           "country": "BR",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=BR&hl=en",
-          "found": 8
+          "found": 12
         },
         {
           "country": "CL",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=CL&hl=en",
-          "found": 30
+          "found": 22
         },
         {
           "country": "CL",
@@ -987,13 +987,13 @@
           "country": "CL",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CL&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "CL",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=CL&hl=en",
-          "found": 14
+          "found": 9
         },
         {
           "country": "CL",
@@ -1011,7 +1011,7 @@
           "country": "CL",
           "query": "riddle word game",
           "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=CL&hl=en",
-          "found": 30
+          "found": 50
         },
         {
           "country": "CL",
@@ -1035,13 +1035,13 @@
           "country": "CL",
           "query": "quick daily game",
           "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=CL&hl=en",
-          "found": 29
+          "found": 30
         },
         {
           "country": "CL",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CL&hl=en",
-          "found": 26
+          "found": 30
         },
         {
           "country": "CO",
@@ -1059,7 +1059,7 @@
           "country": "CO",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CO&hl=en",
-          "found": 26
+          "found": 13
         },
         {
           "country": "CO",
@@ -1089,7 +1089,7 @@
           "country": "CO",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CO&hl=en",
-          "found": 8
+          "found": 30
         },
         {
           "country": "CO",
@@ -1107,19 +1107,19 @@
           "country": "CO",
           "query": "quick daily game",
           "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=CO&hl=en",
-          "found": 30
+          "found": 29
         },
         {
           "country": "CO",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CO&hl=en",
-          "found": 22
+          "found": 8
         },
         {
           "country": "CR",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=CR&hl=en",
-          "found": 30
+          "found": 22
         },
         {
           "country": "CR",
@@ -1161,7 +1161,7 @@
           "country": "CR",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CR&hl=en",
-          "found": 8
+          "found": 30
         },
         {
           "country": "CR",
@@ -1185,7 +1185,7 @@
           "country": "CR",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CR&hl=en",
-          "found": 9
+          "found": 30
         },
         {
           "country": "DO",
@@ -1197,7 +1197,7 @@
           "country": "DO",
           "query": "puzzle challenge",
           "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=DO&hl=en",
-          "found": 20
+          "found": 11
         },
         {
           "country": "DO",
@@ -1251,7 +1251,7 @@
           "country": "DO",
           "query": "quick daily game",
           "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=DO&hl=en",
-          "found": 29
+          "found": 30
         },
         {
           "country": "DO",
@@ -1281,7 +1281,7 @@
           "country": "EC",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=EC&hl=en",
-          "found": 9
+          "found": 11
         },
         {
           "country": "EC",
@@ -1335,7 +1335,7 @@
           "country": "GT",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=GT&hl=en",
-          "found": 24
+          "found": 30
         },
         {
           "country": "GT",
@@ -1347,7 +1347,7 @@
           "country": "GT",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=GT&hl=en",
-          "found": 30
+          "found": 11
         },
         {
           "country": "GT",
@@ -1359,7 +1359,7 @@
           "country": "GT",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=GT&hl=en",
-          "found": 27
+          "found": 29
         },
         {
           "country": "GT",
@@ -1395,7 +1395,7 @@
           "country": "GT",
           "query": "quick daily game",
           "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=GT&hl=en",
-          "found": 30
+          "found": 29
         },
         {
           "country": "GT",
@@ -1425,7 +1425,7 @@
           "country": "HN",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=HN&hl=en",
-          "found": 19
+          "found": 12
         },
         {
           "country": "HN",
@@ -1449,7 +1449,7 @@
           "country": "HN",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=HN&hl=en",
-          "found": 9
+          "found": 12
         },
         {
           "country": "HN",
@@ -1497,7 +1497,7 @@
           "country": "MX",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=MX&hl=en",
-          "found": 11
+          "found": 9
         },
         {
           "country": "MX",
@@ -1521,7 +1521,7 @@
           "country": "MX",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=MX&hl=en",
-          "found": 13
+          "found": 30
         },
         {
           "country": "MX",
@@ -1563,13 +1563,13 @@
           "country": "NI",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=NI&hl=en",
-          "found": 30
+          "found": 10
         },
         {
           "country": "NI",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=NI&hl=en",
-          "found": 12
+          "found": 26
         },
         {
           "country": "NI",
@@ -1617,13 +1617,13 @@
           "country": "NI",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=NI&hl=en",
-          "found": 23
+          "found": 28
         },
         {
           "country": "PA",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PA&hl=en",
-          "found": 23
+          "found": 30
         },
         {
           "country": "PA",
@@ -1641,13 +1641,13 @@
           "country": "PA",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PA&hl=en",
-          "found": 9
+          "found": 21
         },
         {
           "country": "PA",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=PA&hl=en",
-          "found": 22
+          "found": 29
         },
         {
           "country": "PA",
@@ -1665,7 +1665,7 @@
           "country": "PA",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PA&hl=en",
-          "found": 12
+          "found": 10
         },
         {
           "country": "PA",
@@ -1695,7 +1695,7 @@
           "country": "PE",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PE&hl=en",
-          "found": 30
+          "found": 23
         },
         {
           "country": "PE",
@@ -1707,7 +1707,7 @@
           "country": "PE",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PE&hl=en",
-          "found": 10
+          "found": 30
         },
         {
           "country": "PE",
@@ -1719,7 +1719,7 @@
           "country": "PE",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=PE&hl=en",
-          "found": 26
+          "found": 29
         },
         {
           "country": "PE",
@@ -1755,7 +1755,7 @@
           "country": "PE",
           "query": "quick daily game",
           "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=PE&hl=en",
-          "found": 29
+          "found": 30
         },
         {
           "country": "PE",
@@ -1767,7 +1767,7 @@
           "country": "PR",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PR&hl=en",
-          "found": 24
+          "found": 30
         },
         {
           "country": "PR",
@@ -1785,7 +1785,7 @@
           "country": "PR",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PR&hl=en",
-          "found": 21
+          "found": 24
         },
         {
           "country": "PR",
@@ -1809,7 +1809,7 @@
           "country": "PR",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PR&hl=en",
-          "found": 26
+          "found": 14
         },
         {
           "country": "PR",
@@ -1833,7 +1833,7 @@
           "country": "PR",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PR&hl=en",
-          "found": 11
+          "found": 25
         },
         {
           "country": "PY",
@@ -1899,19 +1899,19 @@
           "country": "PY",
           "query": "quick daily game",
           "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=PY&hl=en",
-          "found": 30
+          "found": 29
         },
         {
           "country": "PY",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PY&hl=en",
-          "found": 8
+          "found": 22
         },
         {
           "country": "SV",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=SV&hl=en",
-          "found": 24
+          "found": 30
         },
         {
           "country": "SV",
@@ -1929,7 +1929,7 @@
           "country": "SV",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=SV&hl=en",
-          "found": 19
+          "found": 8
         },
         {
           "country": "SV",
@@ -1977,7 +1977,7 @@
           "country": "SV",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=SV&hl=en",
-          "found": 10
+          "found": 14
         },
         {
           "country": "UY",
@@ -1995,19 +1995,19 @@
           "country": "UY",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=UY&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "UY",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=UY&hl=en",
-          "found": 13
+          "found": 21
         },
         {
           "country": "UY",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=UY&hl=en",
-          "found": 10
+          "found": 29
         },
         {
           "country": "UY",
@@ -2025,7 +2025,7 @@
           "country": "UY",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=UY&hl=en",
-          "found": 27
+          "found": 8
         },
         {
           "country": "UY",
@@ -2049,7 +2049,7 @@
           "country": "UY",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=UY&hl=en",
-          "found": 10
+          "found": 22
         },
         {
           "country": "VE",
@@ -2121,7 +2121,7 @@
           "country": "VE",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=VE&hl=en",
-          "found": 11
+          "found": 8
         }
       ]
     },
@@ -2138,83 +2138,83 @@
       "top20": [
         {
           "appId": "kidultlovin.word.zen",
-          "score": 1879
+          "score": 1943
         },
         {
           "appId": "com.fanatee.keep",
-          "score": 1202
+          "score": 1204
         },
         {
           "appId": "com.peoplefun.wordcross",
-          "score": 989
-        },
-        {
-          "appId": "com.tangramgames.gourddoll.wordcrush",
-          "score": 905
+          "score": 993
         },
         {
           "appId": "in.crossy.daily_crossword",
-          "score": 878
+          "score": 905
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 885
         },
         {
           "appId": "ca.sparkandspiral.daily_logic_puzzles",
-          "score": 820
-        },
-        {
-          "appId": "com.weplaydots.twodotsandroid",
-          "score": 813
+          "score": 815
         },
         {
           "appId": "com.karma.thismorningpuzzletime",
-          "score": 812
+          "score": 777
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 769
         },
         {
           "appId": "in.playsimple.wordtrip",
-          "score": 746
-        },
-        {
-          "appId": "com.appynation.puzzlepage",
-          "score": 683
+          "score": 736
         },
         {
           "appId": "com.easybrain.crossword.puzzles",
-          "score": 658
+          "score": 674
         },
         {
-          "appId": "com.typosaurus.thedailypuzzle",
-          "score": 627
-        },
-        {
-          "appId": "com.nytimes.crossword",
-          "score": 616
+          "appId": "com.appynation.puzzlepage",
+          "score": 646
         },
         {
           "appId": "com.TechTreeGames.Wordle",
-          "score": 591
+          "score": 642
         },
         {
           "appId": "com.wordle.wordlegame.today.word.puzzle.game",
-          "score": 586
+          "score": 636
         },
         {
-          "appId": "com.playvalve.wsjourney",
-          "score": 580
+          "appId": "com.nytimes.crossword",
+          "score": 628
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 563
         },
         {
           "appId": "com.apollogames.wordle",
-          "score": 547
-        },
-        {
-          "appId": "com.bigcake.android.bubbledaily",
-          "score": 544
-        },
-        {
-          "appId": "com.easybrain.jigsaw.puzzles",
-          "score": 540
+          "score": 552
         },
         {
           "appId": "com.JindoBlu.Antistress",
-          "score": 539
+          "score": 542
+        },
+        {
+          "appId": "com.playvalve.wsjourney",
+          "score": 529
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 517
+        },
+        {
+          "appId": "com.bigcake.android.bubbledaily",
+          "score": 507
         }
       ],
       "debug": [
@@ -2234,19 +2234,19 @@
           "country": "US",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=US&hl=en",
-          "found": 30
+          "found": 8
         },
         {
           "country": "US",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=US&hl=en",
-          "found": 14
+          "found": 16
         },
         {
           "country": "US",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=US&hl=en",
-          "found": 29
+          "found": 25
         },
         {
           "country": "US",
@@ -2306,7 +2306,7 @@
           "country": "GB",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=GB&hl=en",
-          "found": 30
+          "found": 13
         },
         {
           "country": "GB",
@@ -2336,7 +2336,7 @@
           "country": "GB",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=GB&hl=en",
-          "found": 12
+          "found": 11
         },
         {
           "country": "GB",
@@ -2360,7 +2360,7 @@
           "country": "GB",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=GB&hl=en",
-          "found": 9
+          "found": 8
         },
         {
           "country": "IE",
@@ -2384,7 +2384,7 @@
           "country": "IE",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=IE&hl=en",
-          "found": 13
+          "found": 14
         },
         {
           "country": "IE",
@@ -2432,7 +2432,7 @@
           "country": "IE",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=IE&hl=en",
-          "found": 10
+          "found": 12
         },
         {
           "country": "CA",
@@ -2450,7 +2450,7 @@
           "country": "CA",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CA&hl=en",
-          "found": 8
+          "found": 14
         },
         {
           "country": "CA",
@@ -2648,7 +2648,7 @@
           "country": "NZ",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=NZ&hl=en",
-          "found": 10
+          "found": 9
         }
       ]
     },
@@ -2676,11 +2676,11 @@
       "top20": [
         {
           "appId": "kidultlovin.word.zen",
-          "score": 5347
+          "score": 5239
         },
         {
           "appId": "com.fanatee.keep",
-          "score": 3217
+          "score": 3210
         },
         {
           "appId": "com.karma.thismorningpuzzletime",
@@ -2688,71 +2688,71 @@
         },
         {
           "appId": "ca.sparkandspiral.daily_logic_puzzles",
-          "score": 2329
+          "score": 2321
         },
         {
           "appId": "com.tangramgames.gourddoll.wordcrush",
-          "score": 2236
-        },
-        {
-          "appId": "in.crossy.daily_crossword",
-          "score": 2049
-        },
-        {
-          "appId": "com.typosaurus.thedailypuzzle",
-          "score": 2018
+          "score": 2296
         },
         {
           "appId": "com.weplaydots.twodotsandroid",
-          "score": 2002
+          "score": 2164
         },
         {
           "appId": "com.appynation.puzzlepage",
-          "score": 1993
+          "score": 1999
         },
         {
-          "appId": "com.TechTreeGames.Wordle",
-          "score": 1891
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 1953
         },
         {
-          "appId": "com.apollogames.wordle",
-          "score": 1807
+          "appId": "in.crossy.daily_crossword",
+          "score": 1902
         },
         {
           "appId": "com.wordle.wordlegame.today.word.puzzle.game",
-          "score": 1791
+          "score": 1860
         },
         {
-          "appId": "com.easybrain.jigsaw.puzzles",
-          "score": 1750
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 1815
         },
         {
           "appId": "com.easybrain.crossword.puzzles",
-          "score": 1727
+          "score": 1742
+        },
+        {
+          "appId": "com.apollogames.wordle",
+          "score": 1673
         },
         {
           "appId": "com.bigcake.android.bubbledaily",
-          "score": 1618
+          "score": 1626
         },
         {
-          "appId": "com.fun.brain.game",
-          "score": 1540
+          "appId": "com.nytimes.crossword",
+          "score": 1569
         },
         {
           "appId": "com.fugo.wow",
-          "score": 1495
-        },
-        {
-          "appId": "com.peoplefun.wordcross",
-          "score": 1486
-        },
-        {
-          "appId": "in.playsimple.wordle",
-          "score": 1482
+          "score": 1561
         },
         {
           "appId": "com.JindoBlu.Antistress",
-          "score": 1477
+          "score": 1524
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 1515
+        },
+        {
+          "appId": "com.easybrain.jigsaw.puzzles",
+          "score": 1502
+        },
+        {
+          "appId": "in.playsimple.wordle",
+          "score": 1455
         }
       ],
       "debug": [
@@ -2772,7 +2772,7 @@
           "country": "ES",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=ES&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "ES",
@@ -2784,7 +2784,7 @@
           "country": "ES",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=ES&hl=en",
-          "found": 24
+          "found": 30
         },
         {
           "country": "ES",
@@ -2802,7 +2802,7 @@
           "country": "ES",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=ES&hl=en",
-          "found": 30
+          "found": 29
         },
         {
           "country": "ES",
@@ -2844,13 +2844,13 @@
           "country": "PT",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PT&hl=en",
-          "found": 11
+          "found": 13
         },
         {
           "country": "PT",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PT&hl=en",
-          "found": 28
+          "found": 11
         },
         {
           "country": "PT",
@@ -2874,7 +2874,7 @@
           "country": "PT",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PT&hl=en",
-          "found": 14
+          "found": 12
         },
         {
           "country": "PT",
@@ -2898,7 +2898,7 @@
           "country": "PT",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PT&hl=en",
-          "found": 13
+          "found": 8
         },
         {
           "country": "FR",
@@ -2922,7 +2922,7 @@
           "country": "FR",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=FR&hl=en",
-          "found": 12
+          "found": 13
         },
         {
           "country": "FR",
@@ -2946,7 +2946,7 @@
           "country": "FR",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=FR&hl=en",
-          "found": 30
+          "found": 24
         },
         {
           "country": "FR",
@@ -2994,7 +2994,7 @@
           "country": "DE",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=DE&hl=en",
-          "found": 12
+          "found": 13
         },
         {
           "country": "DE",
@@ -3042,13 +3042,13 @@
           "country": "DE",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=DE&hl=en",
-          "found": 29
+          "found": 10
         },
         {
           "country": "IT",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=IT&hl=en",
-          "found": 30
+          "found": 24
         },
         {
           "country": "IT",
@@ -3060,13 +3060,13 @@
           "country": "IT",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=IT&hl=en",
-          "found": 8
+          "found": 30
         },
         {
           "country": "IT",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=IT&hl=en",
-          "found": 12
+          "found": 15
         },
         {
           "country": "IT",
@@ -3090,7 +3090,7 @@
           "country": "IT",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=IT&hl=en",
-          "found": 13
+          "found": 14
         },
         {
           "country": "IT",
@@ -3114,7 +3114,7 @@
           "country": "IT",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=IT&hl=en",
-          "found": 12
+          "found": 25
         },
         {
           "country": "NL",
@@ -3144,7 +3144,7 @@
           "country": "NL",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=NL&hl=en",
-          "found": 21
+          "found": 22
         },
         {
           "country": "NL",
@@ -3186,7 +3186,7 @@
           "country": "NL",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=NL&hl=en",
-          "found": 23
+          "found": 22
         },
         {
           "country": "BE",
@@ -3204,7 +3204,7 @@
           "country": "BE",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=BE&hl=en",
-          "found": 11
+          "found": 27
         },
         {
           "country": "BE",
@@ -3282,7 +3282,7 @@
           "country": "CH",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=CH&hl=en",
-          "found": 26
+          "found": 9
         },
         {
           "country": "CH",
@@ -3306,7 +3306,7 @@
           "country": "CH",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CH&hl=en",
-          "found": 11
+          "found": 30
         },
         {
           "country": "CH",
@@ -3330,7 +3330,7 @@
           "country": "CH",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CH&hl=en",
-          "found": 8
+          "found": 20
         },
         {
           "country": "AT",
@@ -3348,7 +3348,7 @@
           "country": "AT",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=AT&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "AT",
@@ -3360,7 +3360,7 @@
           "country": "AT",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=AT&hl=en",
-          "found": 30
+          "found": 11
         },
         {
           "country": "AT",
@@ -3402,7 +3402,7 @@
           "country": "AT",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=AT&hl=en",
-          "found": 23
+          "found": 10
         },
         {
           "country": "SE",
@@ -3426,7 +3426,7 @@
           "country": "SE",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=SE&hl=en",
-          "found": 11
+          "found": 22
         },
         {
           "country": "SE",
@@ -3450,7 +3450,7 @@
           "country": "SE",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=SE&hl=en",
-          "found": 13
+          "found": 12
         },
         {
           "country": "SE",
@@ -3474,7 +3474,7 @@
           "country": "SE",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=SE&hl=en",
-          "found": 8
+          "found": 30
         },
         {
           "country": "NO",
@@ -3498,7 +3498,7 @@
           "country": "NO",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=NO&hl=en",
-          "found": 11
+          "found": 30
         },
         {
           "country": "NO",
@@ -3522,7 +3522,7 @@
           "country": "NO",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=NO&hl=en",
-          "found": 23
+          "found": 10
         },
         {
           "country": "NO",
@@ -3546,7 +3546,7 @@
           "country": "NO",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=NO&hl=en",
-          "found": 9
+          "found": 10
         },
         {
           "country": "DK",
@@ -3570,7 +3570,7 @@
           "country": "DK",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=DK&hl=en",
-          "found": 11
+          "found": 10
         },
         {
           "country": "DK",
@@ -3594,7 +3594,7 @@
           "country": "DK",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=DK&hl=en",
-          "found": 30
+          "found": 11
         },
         {
           "country": "DK",
@@ -3618,7 +3618,7 @@
           "country": "DK",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=DK&hl=en",
-          "found": 11
+          "found": 30
         },
         {
           "country": "FI",
@@ -3636,7 +3636,7 @@
           "country": "FI",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=FI&hl=en",
-          "found": 30
+          "found": 11
         },
         {
           "country": "FI",
@@ -3690,7 +3690,7 @@
           "country": "FI",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=FI&hl=en",
-          "found": 12
+          "found": 8
         },
         {
           "country": "PL",
@@ -3708,7 +3708,7 @@
           "country": "PL",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PL&hl=en",
-          "found": 30
+          "found": 14
         },
         {
           "country": "PL",
@@ -3738,13 +3738,13 @@
           "country": "PL",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PL&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "PL",
           "query": "casual puzzle game",
           "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=PL&hl=en",
-          "found": 0
+          "found": 30
         },
         {
           "country": "PL",
@@ -3762,7 +3762,7 @@
           "country": "PL",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PL&hl=en",
-          "found": 23
+          "found": 24
         },
         {
           "country": "CZ",
@@ -3780,13 +3780,13 @@
           "country": "CZ",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CZ&hl=en",
-          "found": 30
+          "found": 13
         },
         {
           "country": "CZ",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=CZ&hl=en",
-          "found": 8
+          "found": 12
         },
         {
           "country": "CZ",
@@ -3810,7 +3810,7 @@
           "country": "CZ",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CZ&hl=en",
-          "found": 13
+          "found": 28
         },
         {
           "country": "CZ",
@@ -3828,7 +3828,7 @@
           "country": "CZ",
           "query": "quick daily game",
           "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=CZ&hl=en",
-          "found": 29
+          "found": 30
         },
         {
           "country": "CZ",
@@ -3858,7 +3858,7 @@
           "country": "RO",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=RO&hl=en",
-          "found": 10
+          "found": 25
         },
         {
           "country": "RO",
@@ -3882,7 +3882,7 @@
           "country": "RO",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=RO&hl=en",
-          "found": 14
+          "found": 13
         },
         {
           "country": "RO",
@@ -3906,7 +3906,7 @@
           "country": "RO",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=RO&hl=en",
-          "found": 13
+          "found": 11
         },
         {
           "country": "GR",
@@ -3924,7 +3924,7 @@
           "country": "GR",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=GR&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "GR",
@@ -3954,7 +3954,7 @@
           "country": "GR",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=GR&hl=en",
-          "found": 9
+          "found": 29
         },
         {
           "country": "GR",
@@ -4000,83 +4000,83 @@
       "top20": [
         {
           "appId": "kidultlovin.word.zen",
-          "score": 3290
+          "score": 3318
         },
         {
           "appId": "com.fanatee.keep",
-          "score": 1660
+          "score": 1736
         },
         {
           "appId": "com.tangramgames.gourddoll.wordcrush",
-          "score": 1640
-        },
-        {
-          "appId": "ca.sparkandspiral.daily_logic_puzzles",
-          "score": 1499
+          "score": 1689
         },
         {
           "appId": "com.karma.thismorningpuzzletime",
-          "score": 1491
+          "score": 1543
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 1511
         },
         {
           "appId": "com.appynation.puzzlepage",
-          "score": 1279
-        },
-        {
-          "appId": "com.weplaydots.twodotsandroid",
-          "score": 1263
+          "score": 1284
         },
         {
           "appId": "com.wordle.wordlegame.today.word.puzzle.game",
-          "score": 1172
-        },
-        {
-          "appId": "com.TechTreeGames.Wordle",
-          "score": 1129
+          "score": 1225
         },
         {
           "appId": "com.typosaurus.thedailypuzzle",
-          "score": 1128
+          "score": 1216
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 1213
         },
         {
           "appId": "in.crossy.daily_crossword",
-          "score": 1114
+          "score": 1151
         },
         {
-          "appId": "com.peoplefun.wordcross",
-          "score": 1076
-        },
-        {
-          "appId": "com.fun.brain.game",
-          "score": 981
-        },
-        {
-          "appId": "com.bigcake.android.bubbledaily",
-          "score": 960
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 1133
         },
         {
           "appId": "com.fugo.wow",
-          "score": 954
+          "score": 1080
         },
         {
-          "appId": "com.JindoBlu.Antistress",
-          "score": 954
+          "appId": "com.peoplefun.wordcross",
+          "score": 1023
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 1002
         },
         {
           "appId": "com.brain.logic.joygame",
-          "score": 945
+          "score": 980
         },
         {
-          "appId": "com.easybrain.jigsaw.puzzles",
-          "score": 931
+          "appId": "in.playsimple.wordtrip",
+          "score": 974
         },
         {
-          "appId": "com.balysv.loop",
-          "score": 908
+          "appId": "com.bigcake.android.bubbledaily",
+          "score": 973
         },
         {
-          "appId": "com.apollogames.wordle",
-          "score": 905
+          "appId": "com.nytimes.crossword",
+          "score": 933
+        },
+        {
+          "appId": "daily.number.match.free.puzzle",
+          "score": 923
+        },
+        {
+          "appId": "com.playvalve.wsjourney",
+          "score": 917
         }
       ],
       "debug": [
@@ -4090,25 +4090,25 @@
           "country": "JP",
           "query": "puzzle challenge",
           "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=JP&hl=en",
-          "found": 20
+          "found": 30
         },
         {
           "country": "JP",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=JP&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "JP",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=JP&hl=en",
-          "found": 13
+          "found": 23
         },
         {
           "country": "JP",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=JP&hl=en",
-          "found": 29
+          "found": 25
         },
         {
           "country": "JP",
@@ -4150,7 +4150,7 @@
           "country": "JP",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=JP&hl=en",
-          "found": 50
+          "found": 30
         },
         {
           "country": "KR",
@@ -4198,7 +4198,7 @@
           "country": "KR",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=KR&hl=en",
-          "found": 10
+          "found": 30
         },
         {
           "country": "KR",
@@ -4270,7 +4270,7 @@
           "country": "IN",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=IN&hl=en",
-          "found": 14
+          "found": 26
         },
         {
           "country": "IN",
@@ -4318,7 +4318,7 @@
           "country": "ID",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=ID&hl=en",
-          "found": 14
+          "found": 10
         },
         {
           "country": "ID",
@@ -4342,7 +4342,7 @@
           "country": "ID",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=ID&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "ID",
@@ -4384,7 +4384,7 @@
           "country": "TH",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=TH&hl=en",
-          "found": 10
+          "found": 30
         },
         {
           "country": "TH",
@@ -4396,7 +4396,7 @@
           "country": "TH",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=TH&hl=en",
-          "found": 29
+          "found": 50
         },
         {
           "country": "TH",
@@ -4414,7 +4414,7 @@
           "country": "TH",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=TH&hl=en",
-          "found": 26
+          "found": 30
         },
         {
           "country": "TH",
@@ -4426,7 +4426,7 @@
           "country": "TH",
           "query": "hypercasual puzzle",
           "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=TH&hl=en",
-          "found": 10
+          "found": 30
         },
         {
           "country": "TH",
@@ -4438,7 +4438,7 @@
           "country": "TH",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=TH&hl=en",
-          "found": 30
+          "found": 21
         },
         {
           "country": "PH",
@@ -4456,13 +4456,13 @@
           "country": "PH",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PH&hl=en",
-          "found": 30
+          "found": 20
         },
         {
           "country": "PH",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PH&hl=en",
-          "found": 14
+          "found": 11
         },
         {
           "country": "PH",
@@ -4510,13 +4510,13 @@
           "country": "PH",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PH&hl=en",
-          "found": 14
+          "found": 10
         },
         {
           "country": "MY",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=MY&hl=en",
-          "found": 30
+          "found": 14
         },
         {
           "country": "MY",
@@ -4534,13 +4534,13 @@
           "country": "MY",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=MY&hl=en",
-          "found": 9
+          "found": 24
         },
         {
           "country": "MY",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=MY&hl=en",
-          "found": 21
+          "found": 29
         },
         {
           "country": "MY",
@@ -4558,7 +4558,7 @@
           "country": "MY",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=MY&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "MY",
@@ -4582,7 +4582,7 @@
           "country": "MY",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=MY&hl=en",
-          "found": 30
+          "found": 21
         },
         {
           "country": "SG",
@@ -4630,7 +4630,7 @@
           "country": "SG",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=SG&hl=en",
-          "found": 11
+          "found": 50
         },
         {
           "country": "SG",
@@ -4654,7 +4654,7 @@
           "country": "SG",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=SG&hl=en",
-          "found": 30
+          "found": 9
         },
         {
           "country": "VN",
@@ -4678,7 +4678,7 @@
           "country": "VN",
           "query": "brain teaser puzzle",
           "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=VN&hl=en",
-          "found": 8
+          "found": 9
         },
         {
           "country": "VN",
@@ -4732,13 +4732,13 @@
           "country": "TW",
           "query": "daily puzzle game",
           "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=TW&hl=en",
-          "found": 20
+          "found": 30
         },
         {
           "country": "TW",
           "query": "puzzle challenge",
           "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=TW&hl=en",
-          "found": 20
+          "found": 30
         },
         {
           "country": "TW",
@@ -4756,7 +4756,7 @@
           "country": "TW",
           "query": "daily word game",
           "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=TW&hl=en",
-          "found": 22
+          "found": 14
         },
         {
           "country": "TW",
@@ -4774,7 +4774,7 @@
           "country": "TW",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=TW&hl=en",
-          "found": 11
+          "found": 13
         },
         {
           "country": "TW",
@@ -4798,7 +4798,7 @@
           "country": "TW",
           "query": "relaxing puzzle casual",
           "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=TW&hl=en",
-          "found": 12
+          "found": 8
         },
         {
           "country": "HK",
@@ -4816,7 +4816,7 @@
           "country": "HK",
           "query": "logic puzzle daily",
           "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=HK&hl=en",
-          "found": 14
+          "found": 30
         },
         {
           "country": "HK",
@@ -4846,7 +4846,7 @@
           "country": "HK",
           "query": "word puzzle casual",
           "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=HK&hl=en",
-          "found": 28
+          "found": 14
         },
         {
           "country": "HK",

@@ -52,9 +52,12 @@
     .task .t{font-weight:700; margin-bottom:5px; font-size:14px}
     .task .d{font-size:12px; color:var(--muted); white-space:pre-wrap; margin-bottom:8px}
     .task .meta{display:flex; justify-content:space-between; align-items:center; gap:8px}
+    .task .meta-left{display:flex; align-items:center; gap:8px}
     .prio{font-size:11px; font-weight:700; text-transform:uppercase; padding:2px 7px; border-radius:999px; color:#081024}
     .prio.high{background:var(--high)} .prio.medium{background:var(--medium)} .prio.low{background:var(--low)}
     .task .mini{font-size:11px;color:#90a6d5}
+    .delete-btn{background:#1a2546;border:1px solid #3f558f;color:#ffb4b4;border-radius:8px;padding:3px 7px;cursor:pointer;font-size:13px;line-height:1}
+    .delete-btn:hover{background:#2a1733;border-color:#7e3b5d}
 
     .side{background:linear-gradient(180deg,#121d3d,#0e1731); border:1px solid #2a3f70; border-radius:14px; padding:12px; min-height:76vh; display:flex; flex-direction:column; gap:12px}
     .cta{background:linear-gradient(180deg,#7f8fff,#6d7df1); color:white; border:none; border-radius:12px; padding:12px; font-weight:800; cursor:pointer}
@@ -167,9 +170,10 @@ function renderBoard(){
     state[c.id].forEach(t=>{
       const card=document.createElement('article');
       card.className='task'; card.draggable=true; card.dataset.id=t.id; card.dataset.from=c.id;
-      card.innerHTML=`<div class='t'>${esc(t.title)}</div><div class='d'>${esc(t.desc||'')}</div><div class='meta'><span class='prio ${t.priority||'medium'}'>${t.priority||'medium'}</span><span class='mini'>doble click = editar</span></div>`;
+      card.innerHTML=`<div class='t'>${esc(t.title)}</div><div class='d'>${esc(t.desc||'')}</div><div class='meta'><div class='meta-left'><span class='prio ${t.priority||'medium'}'>${t.priority||'medium'}</span><span class='mini'>doble click = editar</span></div><button class='delete-btn' title='Eliminar tarea'>🗑️</button></div>`;
       card.addEventListener('dragstart',onDragStart);
       card.addEventListener('dblclick',()=>editTask(c.id,t.id));
+      card.querySelector('.delete-btn').addEventListener('click',(e)=>{ e.stopPropagation(); deleteTask(c.id,t.id); });
       drop.appendChild(card);
     });
 
@@ -197,6 +201,15 @@ function editTask(col,id){
   const pr=['high','medium','low'].includes((p||'').toLowerCase())?(p||'medium').toLowerCase():(t.priority||'medium');
   state[col][i]={...t,title:title.trim()||t.title,desc:desc.trim(),priority:pr};
   log(`Editada "${state[col][i].title}"`);
+  save(); render();
+}
+
+function deleteTask(col,id){
+  const i=state[col].findIndex(x=>x.id===id); if(i<0) return;
+  const t=state[col][i];
+  if(!confirm(`¿Eliminar tarea "${t.title}"?`)) return;
+  state[col].splice(i,1);
+  log(`Eliminada "${t.title}" de ${col}`);
   save(); render();
 }
 

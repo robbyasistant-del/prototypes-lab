@@ -5,7 +5,7 @@ body{font-family:Arial,sans-serif;background:#0f1220;color:#f2f5ff;margin:0;padd
 .hud{display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:#141a2f;padding:10px;border-radius:10px}
 .grid{display:grid;grid-template-columns:repeat(5,64px);gap:8px;justify-content:start;margin:14px 0}
 .cell{width:64px;height:64px;background:#222b4b;border:1px solid #3b4777;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;user-select:none}
-.cell.start{background:#1d5e3c}
+.cell.start{background:#1d5e3c;font-size:24px;line-height:1;white-space:nowrap}
 .cell.end{background:#6b2e2e}
 .cell.fixed{background:#3f355f;border-color:#8c76c9;cursor:not-allowed}
 .share-card{background:#0d1020;border:1px dashed #4a5ca8;padding:12px;border-radius:8px;white-space:pre-line}

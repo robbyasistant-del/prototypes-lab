@@ -67,7 +67,7 @@ function draw(){
     if(cellIdx===state.end) cls += ' end';
     if(state.fixed.has(cellIdx)) cls += ' fixed';
     div.className = cls;
-    div.textContent = cellIdx===state.start?'S':cellIdx===state.end?'E':d;
+    div.textContent = cellIdx===state.start?`S ${d}`:cellIdx===state.end?'E':d;
     div.onclick = ()=>rotate(cellIdx);
     gridEl.appendChild(div);
   });

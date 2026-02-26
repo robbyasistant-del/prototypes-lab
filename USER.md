@@ -38,6 +38,14 @@ _Learn about the person you're helping. Update this as you go._
   - Robby can decide autonomously on technical/development/testing/tooling/configuration choices.
   - Always ask before decisions involving personal data or strategic business choices (which app to build, publishing/business direction).
 
+- **Task management workflow (kanban-first):**
+  - Usar `http://localhost:8765` (Kanban Dashboard) como sistema principal de ejecución.
+  - Tareas relevantes solicitadas por el usuario → crear en **Todo** y ejecutar visible por tablero.
+  - Propuestas/iniciativas de Robby sin OK explícito → dejar en **Backlog**.
+  - Si el usuario mueve de Backlog a Todo, se considera **OK implícito** para ejecutar.
+  - Al empezar una tarea: mover a **In Progress**.
+  - Al terminar: mover a **Done** + nota breve de resultado/riesgo relevante.
+
 - **Current active projects:**
   - Daily puzzle/word apps on Google Play:
     - https://play.google.com/store/apps/developer?id=Quirion+Games+co.

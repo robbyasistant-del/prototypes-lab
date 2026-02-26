@@ -1,0 +1,4898 @@
+{
+  "date": "2026-02-25",
+  "rankings": {
+    "ES": {
+      "countries": [
+        "ES"
+      ],
+      "queryCount": 12,
+      "top20": [
+        {
+          "appId": "kidultlovin.word.zen",
+          "score": 348
+        },
+        {
+          "appId": "com.fanatee.keep",
+          "score": 232
+        },
+        {
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 158
+        },
+        {
+          "appId": "in.crossy.daily_crossword",
+          "score": 144
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 140
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 139
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 134
+        },
+        {
+          "appId": "io.digitalsnacks.wordchallenge",
+          "score": 132
+        },
+        {
+          "appId": "com.easybrain.crossword.puzzles",
+          "score": 117
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 113
+        },
+        {
+          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
+          "score": 111
+        },
+        {
+          "appId": "com.bigcake.android.bpdaily",
+          "score": 111
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 110
+        },
+        {
+          "appId": "com.peoplefun.wordcross",
+          "score": 108
+        },
+        {
+          "appId": "linkdesks.block.puzzle.classic.puzzlegames",
+          "score": 106
+        },
+        {
+          "appId": "com.wordsalad.app",
+          "score": 106
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 96
+        },
+        {
+          "appId": "com.easybrain.block.puzzle.games",
+          "score": 92
+        },
+        {
+          "appId": "com.JindoBlu.Antistress",
+          "score": 90
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 87
+        }
+      ],
+      "debug": [
+        {
+          "country": "ES",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=ES&hl=en",
+          "found": 20
+        },
+        {
+          "country": "ES",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=ES&hl=en",
+          "found": 14
+        },
+        {
+          "country": "ES",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=ES&hl=en",
+          "found": 12
+        },
+        {
+          "country": "ES",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=ES&hl=en",
+          "found": 9
+        },
+        {
+          "country": "ES",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=ES&hl=en",
+          "found": 27
+        }
+      ]
+    },
+    "US": {
+      "countries": [
+        "US"
+      ],
+      "queryCount": 12,
+      "top20": [
+        {
+          "appId": "kidultlovin.word.zen",
+          "score": 323
+        },
+        {
+          "appId": "com.fanatee.keep",
+          "score": 220
+        },
+        {
+          "appId": "in.crossy.daily_crossword",
+          "score": 164
+        },
+        {
+          "appId": "com.peoplefun.wordcross",
+          "score": 142
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 138
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 137
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 134
+        },
+        {
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 131
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 123
+        },
+        {
+          "appId": "in.playsimple.wordtrip",
+          "score": 121
+        },
+        {
+          "appId": "com.easybrain.jigsaw.puzzles",
+          "score": 120
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 112
+        },
+        {
+          "appId": "com.nytimes.crossword",
+          "score": 107
+        },
+        {
+          "appId": "com.bigcake.android.bubbledaily",
+          "score": 106
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 105
+        },
+        {
+          "appId": "com.block.juggle",
+          "score": 97
+        },
+        {
+          "appId": "com.magicave.mindsetgo",
+          "score": 96
+        },
+        {
+          "appId": "com.easybrain.crossword.puzzles",
+          "score": 93
+        },
+        {
+          "appId": "com.playvalve.wsjourney",
+          "score": 89
+        },
+        {
+          "appId": "com.JindoBlu.Antistress",
+          "score": 89
+        }
+      ],
+      "debug": [
+        {
+          "country": "US",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=US&hl=en",
+          "found": 14
+        },
+        {
+          "country": "US",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=US&hl=en",
+          "found": 25
+        },
+        {
+          "country": "US",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=US&hl=en",
+          "found": 11
+        },
+        {
+          "country": "US",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=US&hl=en",
+          "found": 14
+        }
+      ]
+    },
+    "UK": {
+      "countries": [
+        "GB"
+      ],
+      "queryCount": 12,
+      "top20": [
+        {
+          "appId": "kidultlovin.word.zen",
+          "score": 340
+        },
+        {
+          "appId": "com.fanatee.keep",
+          "score": 236
+        },
+        {
+          "appId": "com.peoplefun.wordcross",
+          "score": 201
+        },
+        {
+          "appId": "in.crossy.daily_crossword",
+          "score": 149
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 148
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 139
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 139
+        },
+        {
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 128
+        },
+        {
+          "appId": "com.easybrain.crossword.puzzles",
+          "score": 124
+        },
+        {
+          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
+          "score": 112
+        },
+        {
+          "appId": "com.nytimes.crossword",
+          "score": 108
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 101
+        },
+        {
+          "appId": "com.wordsalad.app",
+          "score": 94
+        },
+        {
+          "appId": "in.playsimple.wordtrip",
+          "score": 94
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 93
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 90
+        },
+        {
+          "appId": "com.JindoBlu.Antistress",
+          "score": 90
+        },
+        {
+          "appId": "air.eu.fufla.puzzlywords",
+          "score": 89
+        },
+        {
+          "appId": "in.playsimple.wordle",
+          "score": 88
+        },
+        {
+          "appId": "com.apollogames.wordle",
+          "score": 88
+        }
+      ],
+      "debug": [
+        {
+          "country": "GB",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=GB&hl=en",
+          "found": 20
+        },
+        {
+          "country": "GB",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=GB&hl=en",
+          "found": 13
+        },
+        {
+          "country": "GB",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=GB&hl=en",
+          "found": 13
+        },
+        {
+          "country": "GB",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=GB&hl=en",
+          "found": 8
+        },
+        {
+          "country": "GB",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=GB&hl=en",
+          "found": 8
+        }
+      ]
+    },
+    "MX": {
+      "countries": [
+        "MX"
+      ],
+      "queryCount": 12,
+      "top20": [
+        {
+          "appId": "kidultlovin.word.zen",
+          "score": 248
+        },
+        {
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 160
+        },
+        {
+          "appId": "com.fanatee.keep",
+          "score": 148
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 142
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 140
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 137
+        },
+        {
+          "appId": "com.crypt.gram.puzz",
+          "score": 133
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 128
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 122
+        },
+        {
+          "appId": "com.easybrain.crossword.puzzles",
+          "score": 121
+        },
+        {
+          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
+          "score": 118
+        },
+        {
+          "appId": "in.crossy.daily_crossword",
+          "score": 114
+        },
+        {
+          "appId": "com.brain.logic.joygame",
+          "score": 112
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 109
+        },
+        {
+          "appId": "games.blockheads.sudoku.puzzle.match.bombayplay",
+          "score": 108
+        },
+        {
+          "appId": "com.wordsalad.app",
+          "score": 100
+        },
+        {
+          "appId": "daily.number.match.free.puzzle",
+          "score": 94
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 92
+        },
+        {
+          "appId": "com.fugo.wow",
+          "score": 92
+        },
+        {
+          "appId": "com.bigcake.android.bubbledaily",
+          "score": 89
+        }
+      ],
+      "debug": [
+        {
+          "country": "MX",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=MX&hl=en",
+          "found": 20
+        },
+        {
+          "country": "MX",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=MX&hl=en",
+          "found": 9
+        },
+        {
+          "country": "MX",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=MX&hl=en",
+          "found": 29
+        },
+        {
+          "country": "MX",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=MX&hl=en",
+          "found": 13
+        },
+        {
+          "country": "MX",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=MX&hl=en",
+          "found": 8
+        }
+      ]
+    },
+    "LATAM": {
+      "countries": [
+        "AR",
+        "BO",
+        "BR",
+        "CL",
+        "CO",
+        "CR",
+        "DO",
+        "EC",
+        "GT",
+        "HN",
+        "MX",
+        "NI",
+        "PA",
+        "PE",
+        "PR",
+        "PY",
+        "SV",
+        "UY",
+        "VE"
+      ],
+      "queryCount": 228,
+      "top20": [
+        {
+          "appId": "kidultlovin.word.zen",
+          "score": 5252
+        },
+        {
+          "appId": "com.fanatee.keep",
+          "score": 3306
+        },
+        {
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 2816
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 2601
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 2551
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 2373
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 2232
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 2204
+        },
+        {
+          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
+          "score": 2151
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 1997
+        },
+        {
+          "appId": "com.easybrain.crossword.puzzles",
+          "score": 1981
+        },
+        {
+          "appId": "com.easybrain.jigsaw.puzzles",
+          "score": 1972
+        },
+        {
+          "appId": "in.crossy.daily_crossword",
+          "score": 1944
+        },
+        {
+          "appId": "com.bigcake.android.bubbledaily",
+          "score": 1940
+        },
+        {
+          "appId": "com.apollogames.wordle",
+          "score": 1906
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 1751
+        },
+        {
+          "appId": "linkdesks.block.puzzle.classic.puzzlegames",
+          "score": 1689
+        },
+        {
+          "appId": "com.nytimes.crossword",
+          "score": 1686
+        },
+        {
+          "appId": "com.JindoBlu.Antistress",
+          "score": 1645
+        },
+        {
+          "appId": "com.balysv.loop",
+          "score": 1610
+        }
+      ],
+      "debug": [
+        {
+          "country": "AR",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=AR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AR",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=AR&hl=en",
+          "found": 20
+        },
+        {
+          "country": "AR",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=AR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AR",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=AR&hl=en",
+          "found": 21
+        },
+        {
+          "country": "AR",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=AR&hl=en",
+          "found": 29
+        },
+        {
+          "country": "AR",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=AR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AR",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=AR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AR",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=AR&hl=en",
+          "found": 9
+        },
+        {
+          "country": "AR",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=AR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AR",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=AR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AR",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=AR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AR",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=AR&hl=en",
+          "found": 12
+        },
+        {
+          "country": "BO",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=BO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BO",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=BO&hl=en",
+          "found": 20
+        },
+        {
+          "country": "BO",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=BO&hl=en",
+          "found": 9
+        },
+        {
+          "country": "BO",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=BO&hl=en",
+          "found": 8
+        },
+        {
+          "country": "BO",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=BO&hl=en",
+          "found": 26
+        },
+        {
+          "country": "BO",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=BO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BO",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=BO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BO",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=BO&hl=en",
+          "found": 10
+        },
+        {
+          "country": "BO",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=BO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BO",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=BO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BO",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=BO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BO",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=BO&hl=en",
+          "found": 23
+        },
+        {
+          "country": "BR",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=BR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BR",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=BR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BR",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=BR&hl=en",
+          "found": 13
+        },
+        {
+          "country": "BR",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=BR&hl=en",
+          "found": 10
+        },
+        {
+          "country": "BR",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=BR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BR",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=BR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BR",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=BR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BR",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=BR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BR",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=BR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BR",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=BR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BR",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=BR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BR",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=BR&hl=en",
+          "found": 8
+        },
+        {
+          "country": "CL",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=CL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CL",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=CL&hl=en",
+          "found": 20
+        },
+        {
+          "country": "CL",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CL",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=CL&hl=en",
+          "found": 14
+        },
+        {
+          "country": "CL",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=CL&hl=en",
+          "found": 29
+        },
+        {
+          "country": "CL",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=CL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CL",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=CL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CL",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CL&hl=en",
+          "found": 8
+        },
+        {
+          "country": "CL",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=CL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CL",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=CL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CL",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=CL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CL",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CL&hl=en",
+          "found": 26
+        },
+        {
+          "country": "CO",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=CO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CO",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=CO&hl=en",
+          "found": 20
+        },
+        {
+          "country": "CO",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CO",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=CO&hl=en",
+          "found": 21
+        },
+        {
+          "country": "CO",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=CO&hl=en",
+          "found": 29
+        },
+        {
+          "country": "CO",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=CO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CO",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=CO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CO",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CO&hl=en",
+          "found": 8
+        },
+        {
+          "country": "CO",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=CO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CO",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=CO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CO",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=CO&hl=en",
+          "found": 29
+        },
+        {
+          "country": "CO",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CO&hl=en",
+          "found": 8
+        },
+        {
+          "country": "CR",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=CR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CR",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=CR&hl=en",
+          "found": 20
+        },
+        {
+          "country": "CR",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CR",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=CR&hl=en",
+          "found": 8
+        },
+        {
+          "country": "CR",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=CR&hl=en",
+          "found": 25
+        },
+        {
+          "country": "CR",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=CR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CR",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=CR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CR",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CR&hl=en",
+          "found": 23
+        },
+        {
+          "country": "CR",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=CR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CR",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=CR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CR",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=CR&hl=en",
+          "found": 29
+        },
+        {
+          "country": "CR",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DO",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=DO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DO",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=DO&hl=en",
+          "found": 20
+        },
+        {
+          "country": "DO",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=DO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DO",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=DO&hl=en",
+          "found": 9
+        },
+        {
+          "country": "DO",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=DO&hl=en",
+          "found": 29
+        },
+        {
+          "country": "DO",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=DO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DO",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=DO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DO",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=DO&hl=en",
+          "found": 12
+        },
+        {
+          "country": "DO",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=DO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DO",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=DO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DO",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=DO&hl=en",
+          "found": 29
+        },
+        {
+          "country": "DO",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=DO&hl=en",
+          "found": 10
+        },
+        {
+          "country": "EC",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=EC&hl=en",
+          "found": 30
+        },
+        {
+          "country": "EC",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=EC&hl=en",
+          "found": 20
+        },
+        {
+          "country": "EC",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=EC&hl=en",
+          "found": 30
+        },
+        {
+          "country": "EC",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=EC&hl=en",
+          "found": 9
+        },
+        {
+          "country": "EC",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=EC&hl=en",
+          "found": 29
+        },
+        {
+          "country": "EC",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=EC&hl=en",
+          "found": 30
+        },
+        {
+          "country": "EC",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=EC&hl=en",
+          "found": 30
+        },
+        {
+          "country": "EC",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=EC&hl=en",
+          "found": 9
+        },
+        {
+          "country": "EC",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=EC&hl=en",
+          "found": 30
+        },
+        {
+          "country": "EC",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=EC&hl=en",
+          "found": 30
+        },
+        {
+          "country": "EC",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=EC&hl=en",
+          "found": 30
+        },
+        {
+          "country": "EC",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=EC&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GT",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=GT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GT",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=GT&hl=en",
+          "found": 20
+        },
+        {
+          "country": "GT",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=GT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GT",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=GT&hl=en",
+          "found": 9
+        },
+        {
+          "country": "GT",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=GT&hl=en",
+          "found": 29
+        },
+        {
+          "country": "GT",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=GT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GT",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=GT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GT",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=GT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GT",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=GT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GT",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=GT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GT",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=GT&hl=en",
+          "found": 29
+        },
+        {
+          "country": "GT",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=GT&hl=en",
+          "found": 10
+        },
+        {
+          "country": "HN",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=HN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HN",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=HN&hl=en",
+          "found": 20
+        },
+        {
+          "country": "HN",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=HN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HN",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=HN&hl=en",
+          "found": 12
+        },
+        {
+          "country": "HN",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=HN&hl=en",
+          "found": 29
+        },
+        {
+          "country": "HN",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=HN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HN",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=HN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HN",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=HN&hl=en",
+          "found": 9
+        },
+        {
+          "country": "HN",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=HN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HN",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=HN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HN",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=HN&hl=en",
+          "found": 29
+        },
+        {
+          "country": "HN",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=HN&hl=en",
+          "found": 12
+        },
+        {
+          "country": "MX",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=MX&hl=en",
+          "found": 20
+        },
+        {
+          "country": "MX",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=MX&hl=en",
+          "found": 13
+        },
+        {
+          "country": "MX",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=MX&hl=en",
+          "found": 9
+        },
+        {
+          "country": "MX",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=MX&hl=en",
+          "found": 29
+        },
+        {
+          "country": "MX",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=MX&hl=en",
+          "found": 13
+        },
+        {
+          "country": "MX",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=MX&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MX",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=MX&hl=en",
+          "found": 29
+        },
+        {
+          "country": "MX",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=MX&hl=en",
+          "found": 8
+        },
+        {
+          "country": "NI",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=NI&hl=en",
+          "found": 24
+        },
+        {
+          "country": "NI",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=NI&hl=en",
+          "found": 20
+        },
+        {
+          "country": "NI",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=NI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NI",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=NI&hl=en",
+          "found": 26
+        },
+        {
+          "country": "NI",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=NI&hl=en",
+          "found": 29
+        },
+        {
+          "country": "NI",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=NI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NI",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=NI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NI",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=NI&hl=en",
+          "found": 12
+        },
+        {
+          "country": "NI",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=NI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NI",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=NI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NI",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=NI&hl=en",
+          "found": 29
+        },
+        {
+          "country": "NI",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=NI&hl=en",
+          "found": 20
+        },
+        {
+          "country": "PA",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PA&hl=en",
+          "found": 23
+        },
+        {
+          "country": "PA",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=PA&hl=en",
+          "found": 20
+        },
+        {
+          "country": "PA",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PA&hl=en",
+          "found": 14
+        },
+        {
+          "country": "PA",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PA&hl=en",
+          "found": 9
+        },
+        {
+          "country": "PA",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=PA&hl=en",
+          "found": 23
+        },
+        {
+          "country": "PA",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=PA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PA",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=PA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PA",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PA&hl=en",
+          "found": 11
+        },
+        {
+          "country": "PA",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=PA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PA",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=PA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PA",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=PA&hl=en",
+          "found": 29
+        },
+        {
+          "country": "PA",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PE",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PE&hl=en",
+          "found": 23
+        },
+        {
+          "country": "PE",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=PE&hl=en",
+          "found": 20
+        },
+        {
+          "country": "PE",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PE&hl=en",
+          "found": 10
+        },
+        {
+          "country": "PE",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PE&hl=en",
+          "found": 22
+        },
+        {
+          "country": "PE",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=PE&hl=en",
+          "found": 29
+        },
+        {
+          "country": "PE",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=PE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PE",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=PE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PE",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PE",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=PE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PE",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=PE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PE",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=PE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PE",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PE&hl=en",
+          "found": 11
+        },
+        {
+          "country": "PR",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PR",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=PR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PR",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PR&hl=en",
+          "found": 8
+        },
+        {
+          "country": "PR",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PR&hl=en",
+          "found": 21
+        },
+        {
+          "country": "PR",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=PR&hl=en",
+          "found": 11
+        },
+        {
+          "country": "PR",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=PR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PR",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=PR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PR",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PR&hl=en",
+          "found": 26
+        },
+        {
+          "country": "PR",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=PR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PR",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=PR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PR",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=PR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PR",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PR&hl=en",
+          "found": 25
+        },
+        {
+          "country": "PY",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PY&hl=en",
+          "found": 23
+        },
+        {
+          "country": "PY",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=PY&hl=en",
+          "found": 20
+        },
+        {
+          "country": "PY",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PY",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PY&hl=en",
+          "found": 9
+        },
+        {
+          "country": "PY",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=PY&hl=en",
+          "found": 29
+        },
+        {
+          "country": "PY",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=PY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PY",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=PY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PY",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PY&hl=en",
+          "found": 11
+        },
+        {
+          "country": "PY",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=PY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PY",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=PY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PY",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=PY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PY",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PY&hl=en",
+          "found": 22
+        },
+        {
+          "country": "SV",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=SV&hl=en",
+          "found": 24
+        },
+        {
+          "country": "SV",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=SV&hl=en",
+          "found": 20
+        },
+        {
+          "country": "SV",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=SV&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SV",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=SV&hl=en",
+          "found": 8
+        },
+        {
+          "country": "SV",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=SV&hl=en",
+          "found": 29
+        },
+        {
+          "country": "SV",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=SV&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SV",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=SV&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SV",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=SV&hl=en",
+          "found": 8
+        },
+        {
+          "country": "SV",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=SV&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SV",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=SV&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SV",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=SV&hl=en",
+          "found": 29
+        },
+        {
+          "country": "SV",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=SV&hl=en",
+          "found": 10
+        },
+        {
+          "country": "UY",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=UY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "UY",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=UY&hl=en",
+          "found": 20
+        },
+        {
+          "country": "UY",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=UY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "UY",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=UY&hl=en",
+          "found": 23
+        },
+        {
+          "country": "UY",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=UY&hl=en",
+          "found": 29
+        },
+        {
+          "country": "UY",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=UY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "UY",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=UY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "UY",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=UY&hl=en",
+          "found": 8
+        },
+        {
+          "country": "UY",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=UY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "UY",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=UY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "UY",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=UY&hl=en",
+          "found": 29
+        },
+        {
+          "country": "UY",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=UY&hl=en",
+          "found": 10
+        },
+        {
+          "country": "VE",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=VE&hl=en",
+          "found": 26
+        },
+        {
+          "country": "VE",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=VE&hl=en",
+          "found": 20
+        },
+        {
+          "country": "VE",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=VE&hl=en",
+          "found": 10
+        },
+        {
+          "country": "VE",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=VE&hl=en",
+          "found": 12
+        },
+        {
+          "country": "VE",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=VE&hl=en",
+          "found": 11
+        },
+        {
+          "country": "VE",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=VE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VE",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=VE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VE",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=VE&hl=en",
+          "found": 20
+        },
+        {
+          "country": "VE",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=VE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VE",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=VE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VE",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=VE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VE",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=VE&hl=en",
+          "found": 11
+        }
+      ]
+    },
+    "ANGLOSAXON": {
+      "countries": [
+        "US",
+        "GB",
+        "IE",
+        "CA",
+        "AU",
+        "NZ"
+      ],
+      "queryCount": 72,
+      "top20": [
+        {
+          "appId": "kidultlovin.word.zen",
+          "score": 1894
+        },
+        {
+          "appId": "com.fanatee.keep",
+          "score": 1191
+        },
+        {
+          "appId": "com.peoplefun.wordcross",
+          "score": 1066
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 844
+        },
+        {
+          "appId": "in.crossy.daily_crossword",
+          "score": 833
+        },
+        {
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 829
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 819
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 814
+        },
+        {
+          "appId": "in.playsimple.wordtrip",
+          "score": 689
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 673
+        },
+        {
+          "appId": "com.nytimes.crossword",
+          "score": 666
+        },
+        {
+          "appId": "com.easybrain.crossword.puzzles",
+          "score": 649
+        },
+        {
+          "appId": "com.easybrain.jigsaw.puzzles",
+          "score": 602
+        },
+        {
+          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
+          "score": 594
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 590
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 574
+        },
+        {
+          "appId": "com.bigcake.android.bubbledaily",
+          "score": 547
+        },
+        {
+          "appId": "com.apollogames.wordle",
+          "score": 537
+        },
+        {
+          "appId": "com.JindoBlu.Antistress",
+          "score": 537
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 519
+        }
+      ],
+      "debug": [
+        {
+          "country": "US",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=US&hl=en",
+          "found": 8
+        },
+        {
+          "country": "US",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=US&hl=en",
+          "found": 14
+        },
+        {
+          "country": "US",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=US&hl=en",
+          "found": 25
+        },
+        {
+          "country": "US",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=US&hl=en",
+          "found": 12
+        },
+        {
+          "country": "US",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=US&hl=en",
+          "found": 30
+        },
+        {
+          "country": "US",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=US&hl=en",
+          "found": 14
+        },
+        {
+          "country": "GB",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=GB&hl=en",
+          "found": 20
+        },
+        {
+          "country": "GB",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=GB&hl=en",
+          "found": 13
+        },
+        {
+          "country": "GB",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=GB&hl=en",
+          "found": 13
+        },
+        {
+          "country": "GB",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=GB&hl=en",
+          "found": 8
+        },
+        {
+          "country": "GB",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=GB&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GB",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=GB&hl=en",
+          "found": 19
+        },
+        {
+          "country": "IE",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=IE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IE",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=IE&hl=en",
+          "found": 20
+        },
+        {
+          "country": "IE",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=IE&hl=en",
+          "found": 14
+        },
+        {
+          "country": "IE",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=IE&hl=en",
+          "found": 13
+        },
+        {
+          "country": "IE",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=IE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IE",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=IE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IE",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=IE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IE",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=IE&hl=en",
+          "found": 11
+        },
+        {
+          "country": "IE",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=IE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IE",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=IE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IE",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=IE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IE",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=IE&hl=en",
+          "found": 21
+        },
+        {
+          "country": "CA",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=CA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CA",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=CA&hl=en",
+          "found": 20
+        },
+        {
+          "country": "CA",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CA",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=CA&hl=en",
+          "found": 11
+        },
+        {
+          "country": "CA",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=CA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CA",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=CA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CA",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=CA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CA",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CA&hl=en",
+          "found": 14
+        },
+        {
+          "country": "CA",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=CA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CA",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=CA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CA",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=CA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CA",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CA&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AU",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=AU&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AU",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=AU&hl=en",
+          "found": 20
+        },
+        {
+          "country": "AU",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=AU&hl=en",
+          "found": 14
+        },
+        {
+          "country": "AU",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=AU&hl=en",
+          "found": 14
+        },
+        {
+          "country": "AU",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=AU&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AU",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=AU&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AU",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=AU&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AU",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=AU&hl=en",
+          "found": 9
+        },
+        {
+          "country": "AU",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=AU&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AU",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=AU&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AU",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=AU&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AU",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=AU&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NZ",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=NZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NZ",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=NZ&hl=en",
+          "found": 20
+        },
+        {
+          "country": "NZ",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=NZ&hl=en",
+          "found": 14
+        },
+        {
+          "country": "NZ",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=NZ&hl=en",
+          "found": 14
+        },
+        {
+          "country": "NZ",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=NZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NZ",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=NZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NZ",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=NZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NZ",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=NZ&hl=en",
+          "found": 10
+        },
+        {
+          "country": "NZ",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=NZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NZ",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=NZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NZ",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=NZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NZ",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=NZ&hl=en",
+          "found": 10
+        }
+      ]
+    },
+    "EUROPEAN": {
+      "countries": [
+        "ES",
+        "PT",
+        "FR",
+        "DE",
+        "IT",
+        "NL",
+        "BE",
+        "CH",
+        "AT",
+        "SE",
+        "NO",
+        "DK",
+        "FI",
+        "PL",
+        "CZ",
+        "RO",
+        "GR"
+      ],
+      "queryCount": 204,
+      "top20": [
+        {
+          "appId": "kidultlovin.word.zen",
+          "score": 5268
+        },
+        {
+          "appId": "com.fanatee.keep",
+          "score": 3077
+        },
+        {
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 2505
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 2337
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 2198
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 2081
+        },
+        {
+          "appId": "in.crossy.daily_crossword",
+          "score": 1925
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 1890
+        },
+        {
+          "appId": "com.easybrain.crossword.puzzles",
+          "score": 1789
+        },
+        {
+          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
+          "score": 1784
+        },
+        {
+          "appId": "com.apollogames.wordle",
+          "score": 1784
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 1779
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 1760
+        },
+        {
+          "appId": "com.easybrain.jigsaw.puzzles",
+          "score": 1741
+        },
+        {
+          "appId": "com.nytimes.crossword",
+          "score": 1600
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 1533
+        },
+        {
+          "appId": "com.bigcake.android.bubbledaily",
+          "score": 1532
+        },
+        {
+          "appId": "com.fugo.wow",
+          "score": 1501
+        },
+        {
+          "appId": "com.JindoBlu.Antistress",
+          "score": 1477
+        },
+        {
+          "appId": "com.peoplefun.wordcross",
+          "score": 1469
+        }
+      ],
+      "debug": [
+        {
+          "country": "ES",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=ES&hl=en",
+          "found": 20
+        },
+        {
+          "country": "ES",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=ES&hl=en",
+          "found": 14
+        },
+        {
+          "country": "ES",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=ES&hl=en",
+          "found": 12
+        },
+        {
+          "country": "ES",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=ES&hl=en",
+          "found": 9
+        },
+        {
+          "country": "ES",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=ES&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ES",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=ES&hl=en",
+          "found": 10
+        },
+        {
+          "country": "PT",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PT",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=PT&hl=en",
+          "found": 20
+        },
+        {
+          "country": "PT",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PT&hl=en",
+          "found": 13
+        },
+        {
+          "country": "PT",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PT&hl=en",
+          "found": 11
+        },
+        {
+          "country": "PT",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=PT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PT",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=PT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PT",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=PT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PT",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PT&hl=en",
+          "found": 14
+        },
+        {
+          "country": "PT",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=PT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PT",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=PT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PT",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=PT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PT",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PT&hl=en",
+          "found": 13
+        },
+        {
+          "country": "FR",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=FR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FR",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=FR&hl=en",
+          "found": 20
+        },
+        {
+          "country": "FR",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=FR&hl=en",
+          "found": 13
+        },
+        {
+          "country": "FR",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=FR&hl=en",
+          "found": 13
+        },
+        {
+          "country": "FR",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=FR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FR",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=FR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FR",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=FR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FR",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=FR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FR",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=FR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FR",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=FR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FR",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=FR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FR",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=FR&hl=en",
+          "found": 8
+        },
+        {
+          "country": "DE",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=DE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DE",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=DE&hl=en",
+          "found": 20
+        },
+        {
+          "country": "DE",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=DE&hl=en",
+          "found": 13
+        },
+        {
+          "country": "DE",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=DE&hl=en",
+          "found": 13
+        },
+        {
+          "country": "DE",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=DE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DE",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=DE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DE",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=DE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DE",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=DE&hl=en",
+          "found": 12
+        },
+        {
+          "country": "DE",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=DE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DE",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=DE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DE",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=DE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DE",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=DE&hl=en",
+          "found": 10
+        },
+        {
+          "country": "IT",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=IT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IT",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=IT&hl=en",
+          "found": 20
+        },
+        {
+          "country": "IT",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=IT&hl=en",
+          "found": 8
+        },
+        {
+          "country": "IT",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=IT&hl=en",
+          "found": 27
+        },
+        {
+          "country": "IT",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=IT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IT",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=IT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IT",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=IT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IT",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=IT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IT",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=IT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IT",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=IT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IT",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=IT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IT",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=IT&hl=en",
+          "found": 12
+        },
+        {
+          "country": "NL",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=NL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NL",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=NL&hl=en",
+          "found": 20
+        },
+        {
+          "country": "NL",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=NL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NL",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=NL&hl=en",
+          "found": 11
+        },
+        {
+          "country": "NL",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=NL&hl=en",
+          "found": 11
+        },
+        {
+          "country": "NL",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=NL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NL",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=NL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NL",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=NL&hl=en",
+          "found": 13
+        },
+        {
+          "country": "NL",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=NL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NL",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=NL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NL",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=NL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NL",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=NL&hl=en",
+          "found": 22
+        },
+        {
+          "country": "BE",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=BE&hl=en",
+          "found": 25
+        },
+        {
+          "country": "BE",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=BE&hl=en",
+          "found": 20
+        },
+        {
+          "country": "BE",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=BE&hl=en",
+          "found": 27
+        },
+        {
+          "country": "BE",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=BE&hl=en",
+          "found": 12
+        },
+        {
+          "country": "BE",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=BE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BE",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=BE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BE",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=BE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BE",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=BE&hl=en",
+          "found": 27
+        },
+        {
+          "country": "BE",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=BE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BE",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=BE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BE",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=BE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "BE",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=BE&hl=en",
+          "found": 11
+        },
+        {
+          "country": "CH",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=CH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CH",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=CH&hl=en",
+          "found": 20
+        },
+        {
+          "country": "CH",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CH",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=CH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CH",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=CH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CH",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=CH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CH",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=CH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CH",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CH&hl=en",
+          "found": 29
+        },
+        {
+          "country": "CH",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=CH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CH",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=CH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CH",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=CH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CH",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CH&hl=en",
+          "found": 20
+        },
+        {
+          "country": "AT",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=AT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AT",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=AT&hl=en",
+          "found": 20
+        },
+        {
+          "country": "AT",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=AT&hl=en",
+          "found": 14
+        },
+        {
+          "country": "AT",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=AT&hl=en",
+          "found": 22
+        },
+        {
+          "country": "AT",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=AT&hl=en",
+          "found": 11
+        },
+        {
+          "country": "AT",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=AT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AT",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=AT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AT",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=AT&hl=en",
+          "found": 14
+        },
+        {
+          "country": "AT",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=AT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AT",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=AT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AT",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=AT&hl=en",
+          "found": 30
+        },
+        {
+          "country": "AT",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=AT&hl=en",
+          "found": 10
+        },
+        {
+          "country": "SE",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=SE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SE",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=SE&hl=en",
+          "found": 20
+        },
+        {
+          "country": "SE",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=SE&hl=en",
+          "found": 14
+        },
+        {
+          "country": "SE",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=SE&hl=en",
+          "found": 8
+        },
+        {
+          "country": "SE",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=SE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SE",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=SE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SE",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=SE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SE",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=SE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SE",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=SE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SE",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=SE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SE",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=SE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SE",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=SE&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NO",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=NO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NO",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=NO&hl=en",
+          "found": 20
+        },
+        {
+          "country": "NO",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=NO&hl=en",
+          "found": 14
+        },
+        {
+          "country": "NO",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=NO&hl=en",
+          "found": 13
+        },
+        {
+          "country": "NO",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=NO&hl=en",
+          "found": 26
+        },
+        {
+          "country": "NO",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=NO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NO",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=NO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NO",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=NO&hl=en",
+          "found": 23
+        },
+        {
+          "country": "NO",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=NO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NO",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=NO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NO",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=NO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "NO",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=NO&hl=en",
+          "found": 9
+        },
+        {
+          "country": "DK",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=DK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DK",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=DK&hl=en",
+          "found": 20
+        },
+        {
+          "country": "DK",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=DK&hl=en",
+          "found": 13
+        },
+        {
+          "country": "DK",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=DK&hl=en",
+          "found": 10
+        },
+        {
+          "country": "DK",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=DK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DK",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=DK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DK",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=DK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DK",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=DK&hl=en",
+          "found": 11
+        },
+        {
+          "country": "DK",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=DK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DK",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=DK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DK",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=DK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "DK",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=DK&hl=en",
+          "found": 11
+        },
+        {
+          "country": "FI",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=FI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FI",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=FI&hl=en",
+          "found": 20
+        },
+        {
+          "country": "FI",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=FI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FI",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=FI&hl=en",
+          "found": 11
+        },
+        {
+          "country": "FI",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=FI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FI",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=FI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FI",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=FI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FI",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=FI&hl=en",
+          "found": 13
+        },
+        {
+          "country": "FI",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=FI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FI",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=FI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FI",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=FI&hl=en",
+          "found": 30
+        },
+        {
+          "country": "FI",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=FI&hl=en",
+          "found": 12
+        },
+        {
+          "country": "PL",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PL",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=PL&hl=en",
+          "found": 20
+        },
+        {
+          "country": "PL",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PL&hl=en",
+          "found": 14
+        },
+        {
+          "country": "PL",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PL&hl=en",
+          "found": 13
+        },
+        {
+          "country": "PL",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=PL&hl=en",
+          "found": 12
+        },
+        {
+          "country": "PL",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=PL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PL",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=PL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PL",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PL",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=PL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PL",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=PL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PL",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=PL&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PL",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PL&hl=en",
+          "found": 13
+        },
+        {
+          "country": "CZ",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=CZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CZ",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=CZ&hl=en",
+          "found": 20
+        },
+        {
+          "country": "CZ",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=CZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CZ",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=CZ&hl=en",
+          "found": 12
+        },
+        {
+          "country": "CZ",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=CZ&hl=en",
+          "found": 29
+        },
+        {
+          "country": "CZ",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=CZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CZ",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=CZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CZ",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=CZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CZ",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=CZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CZ",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=CZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CZ",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=CZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "CZ",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=CZ&hl=en",
+          "found": 30
+        },
+        {
+          "country": "RO",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=RO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "RO",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=RO&hl=en",
+          "found": 20
+        },
+        {
+          "country": "RO",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=RO&hl=en",
+          "found": 13
+        },
+        {
+          "country": "RO",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=RO&hl=en",
+          "found": 24
+        },
+        {
+          "country": "RO",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=RO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "RO",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=RO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "RO",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=RO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "RO",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=RO&hl=en",
+          "found": 29
+        },
+        {
+          "country": "RO",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=RO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "RO",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=RO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "RO",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=RO&hl=en",
+          "found": 30
+        },
+        {
+          "country": "RO",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=RO&hl=en",
+          "found": 11
+        },
+        {
+          "country": "GR",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=GR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GR",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=GR&hl=en",
+          "found": 20
+        },
+        {
+          "country": "GR",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=GR&hl=en",
+          "found": 14
+        },
+        {
+          "country": "GR",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=GR&hl=en",
+          "found": 11
+        },
+        {
+          "country": "GR",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=GR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GR",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=GR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GR",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=GR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GR",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=GR&hl=en",
+          "found": 29
+        },
+        {
+          "country": "GR",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=GR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GR",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=GR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GR",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=GR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "GR",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=GR&hl=en",
+          "found": 24
+        }
+      ]
+    },
+    "ASIA": {
+      "countries": [
+        "JP",
+        "KR",
+        "IN",
+        "ID",
+        "TH",
+        "PH",
+        "MY",
+        "SG",
+        "VN",
+        "TW",
+        "HK"
+      ],
+      "queryCount": 132,
+      "top20": [
+        {
+          "appId": "kidultlovin.word.zen",
+          "score": 3438
+        },
+        {
+          "appId": "com.fanatee.keep",
+          "score": 1651
+        },
+        {
+          "appId": "com.tangramgames.gourddoll.wordcrush",
+          "score": 1601
+        },
+        {
+          "appId": "ca.sparkandspiral.daily_logic_puzzles",
+          "score": 1508
+        },
+        {
+          "appId": "com.karma.thismorningpuzzletime",
+          "score": 1496
+        },
+        {
+          "appId": "com.weplaydots.twodotsandroid",
+          "score": 1246
+        },
+        {
+          "appId": "com.wordle.wordlegame.today.word.puzzle.game",
+          "score": 1205
+        },
+        {
+          "appId": "com.appynation.puzzlepage",
+          "score": 1204
+        },
+        {
+          "appId": "in.crossy.daily_crossword",
+          "score": 1159
+        },
+        {
+          "appId": "com.fugo.wow",
+          "score": 1117
+        },
+        {
+          "appId": "com.TechTreeGames.Wordle",
+          "score": 1104
+        },
+        {
+          "appId": "com.typosaurus.thedailypuzzle",
+          "score": 1102
+        },
+        {
+          "appId": "com.fun.brain.game",
+          "score": 1007
+        },
+        {
+          "appId": "com.peoplefun.wordcross",
+          "score": 964
+        },
+        {
+          "appId": "com.JindoBlu.Antistress",
+          "score": 952
+        },
+        {
+          "appId": "com.nytimes.crossword",
+          "score": 931
+        },
+        {
+          "appId": "com.wordsalad.app",
+          "score": 923
+        },
+        {
+          "appId": "com.brain.logic.joygame",
+          "score": 921
+        },
+        {
+          "appId": "com.bigcake.android.bubbledaily",
+          "score": 920
+        },
+        {
+          "appId": "com.apollogames.wordle",
+          "score": 898
+        }
+      ],
+      "debug": [
+        {
+          "country": "JP",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=JP&hl=en",
+          "found": 30
+        },
+        {
+          "country": "JP",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=JP&hl=en",
+          "found": 20
+        },
+        {
+          "country": "JP",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=JP&hl=en",
+          "found": 14
+        },
+        {
+          "country": "JP",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=JP&hl=en",
+          "found": 13
+        },
+        {
+          "country": "JP",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=JP&hl=en",
+          "found": 29
+        },
+        {
+          "country": "JP",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=JP&hl=en",
+          "found": 30
+        },
+        {
+          "country": "JP",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=JP&hl=en",
+          "found": 30
+        },
+        {
+          "country": "JP",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=JP&hl=en",
+          "found": 30
+        },
+        {
+          "country": "JP",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=JP&hl=en",
+          "found": 30
+        },
+        {
+          "country": "JP",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=JP&hl=en",
+          "found": 30
+        },
+        {
+          "country": "JP",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=JP&hl=en",
+          "found": 29
+        },
+        {
+          "country": "JP",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=JP&hl=en",
+          "found": 30
+        },
+        {
+          "country": "KR",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=KR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "KR",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=KR&hl=en",
+          "found": 20
+        },
+        {
+          "country": "KR",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=KR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "KR",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=KR&hl=en",
+          "found": 12
+        },
+        {
+          "country": "KR",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=KR&hl=en",
+          "found": 13
+        },
+        {
+          "country": "KR",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=KR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "KR",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=KR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "KR",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=KR&hl=en",
+          "found": 11
+        },
+        {
+          "country": "KR",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=KR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "KR",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=KR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "KR",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=KR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "KR",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=KR&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IN",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=IN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IN",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=IN&hl=en",
+          "found": 20
+        },
+        {
+          "country": "IN",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=IN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IN",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=IN&hl=en",
+          "found": 14
+        },
+        {
+          "country": "IN",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=IN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IN",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=IN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IN",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=IN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IN",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=IN&hl=en",
+          "found": 26
+        },
+        {
+          "country": "IN",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=IN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IN",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=IN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IN",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=IN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "IN",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=IN&hl=en",
+          "found": 9
+        },
+        {
+          "country": "ID",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=ID&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ID",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=ID&hl=en",
+          "found": 20
+        },
+        {
+          "country": "ID",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=ID&hl=en",
+          "found": 8
+        },
+        {
+          "country": "ID",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=ID&hl=en",
+          "found": 10
+        },
+        {
+          "country": "ID",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=ID&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ID",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=ID&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ID",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=ID&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ID",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=ID&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ID",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=ID&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ID",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=ID&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ID",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=ID&hl=en",
+          "found": 30
+        },
+        {
+          "country": "ID",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=ID&hl=en",
+          "found": 12
+        },
+        {
+          "country": "TH",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=TH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TH",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=TH&hl=en",
+          "found": 20
+        },
+        {
+          "country": "TH",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=TH&hl=en",
+          "found": 10
+        },
+        {
+          "country": "TH",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=TH&hl=en",
+          "found": 12
+        },
+        {
+          "country": "TH",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=TH&hl=en",
+          "found": 29
+        },
+        {
+          "country": "TH",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=TH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TH",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=TH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TH",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=TH&hl=en",
+          "found": 26
+        },
+        {
+          "country": "TH",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=TH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TH",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=TH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TH",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=TH&hl=en",
+          "found": 29
+        },
+        {
+          "country": "TH",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=TH&hl=en",
+          "found": 21
+        },
+        {
+          "country": "PH",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=PH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PH",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=PH&hl=en",
+          "found": 20
+        },
+        {
+          "country": "PH",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=PH&hl=en",
+          "found": 20
+        },
+        {
+          "country": "PH",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=PH&hl=en",
+          "found": 14
+        },
+        {
+          "country": "PH",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=PH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PH",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=PH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PH",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=PH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PH",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=PH&hl=en",
+          "found": 11
+        },
+        {
+          "country": "PH",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=PH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PH",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=PH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PH",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=PH&hl=en",
+          "found": 30
+        },
+        {
+          "country": "PH",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=PH&hl=en",
+          "found": 10
+        },
+        {
+          "country": "MY",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=MY&hl=en",
+          "found": 14
+        },
+        {
+          "country": "MY",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=MY&hl=en",
+          "found": 20
+        },
+        {
+          "country": "MY",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=MY&hl=en",
+          "found": 8
+        },
+        {
+          "country": "MY",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=MY&hl=en",
+          "found": 11
+        },
+        {
+          "country": "MY",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=MY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MY",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=MY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MY",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=MY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MY",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=MY&hl=en",
+          "found": 14
+        },
+        {
+          "country": "MY",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=MY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MY",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=MY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MY",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=MY&hl=en",
+          "found": 30
+        },
+        {
+          "country": "MY",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=MY&hl=en",
+          "found": 8
+        },
+        {
+          "country": "SG",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=SG&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SG",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=SG&hl=en",
+          "found": 20
+        },
+        {
+          "country": "SG",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=SG&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SG",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=SG&hl=en",
+          "found": 14
+        },
+        {
+          "country": "SG",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=SG&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SG",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=SG&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SG",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=SG&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SG",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=SG&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SG",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=SG&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SG",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=SG&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SG",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=SG&hl=en",
+          "found": 30
+        },
+        {
+          "country": "SG",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=SG&hl=en",
+          "found": 13
+        },
+        {
+          "country": "VN",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=VN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VN",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=VN&hl=en",
+          "found": 20
+        },
+        {
+          "country": "VN",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=VN&hl=en",
+          "found": 11
+        },
+        {
+          "country": "VN",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=VN&hl=en",
+          "found": 9
+        },
+        {
+          "country": "VN",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=VN&hl=en",
+          "found": 29
+        },
+        {
+          "country": "VN",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=VN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VN",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=VN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VN",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=VN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VN",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=VN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VN",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=VN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "VN",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=VN&hl=en",
+          "found": 29
+        },
+        {
+          "country": "VN",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=VN&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TW",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=TW&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TW",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=TW&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TW",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=TW&hl=en",
+          "found": 11
+        },
+        {
+          "country": "TW",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=TW&hl=en",
+          "found": 12
+        },
+        {
+          "country": "TW",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=TW&hl=en",
+          "found": 22
+        },
+        {
+          "country": "TW",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=TW&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TW",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=TW&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TW",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=TW&hl=en",
+          "found": 9
+        },
+        {
+          "country": "TW",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=TW&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TW",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=TW&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TW",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=TW&hl=en",
+          "found": 30
+        },
+        {
+          "country": "TW",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=TW&hl=en",
+          "found": 12
+        },
+        {
+          "country": "HK",
+          "query": "daily puzzle game",
+          "source": "https://play.google.com/store/search?q=daily%20puzzle%20game&c=apps&gl=HK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HK",
+          "query": "puzzle challenge",
+          "source": "https://play.google.com/store/search?q=puzzle%20challenge&c=apps&gl=HK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HK",
+          "query": "logic puzzle daily",
+          "source": "https://play.google.com/store/search?q=logic%20puzzle%20daily&c=apps&gl=HK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HK",
+          "query": "brain teaser puzzle",
+          "source": "https://play.google.com/store/search?q=brain%20teaser%20puzzle&c=apps&gl=HK&hl=en",
+          "found": 12
+        },
+        {
+          "country": "HK",
+          "query": "daily word game",
+          "source": "https://play.google.com/store/search?q=daily%20word%20game&c=apps&gl=HK&hl=en",
+          "found": 29
+        },
+        {
+          "country": "HK",
+          "query": "crossword puzzle",
+          "source": "https://play.google.com/store/search?q=crossword%20puzzle&c=apps&gl=HK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HK",
+          "query": "riddle word game",
+          "source": "https://play.google.com/store/search?q=riddle%20word%20game&c=apps&gl=HK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HK",
+          "query": "word puzzle casual",
+          "source": "https://play.google.com/store/search?q=word%20puzzle%20casual&c=apps&gl=HK&hl=en",
+          "found": 14
+        },
+        {
+          "country": "HK",
+          "query": "casual puzzle game",
+          "source": "https://play.google.com/store/search?q=casual%20puzzle%20game&c=apps&gl=HK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HK",
+          "query": "hypercasual puzzle",
+          "source": "https://play.google.com/store/search?q=hypercasual%20puzzle&c=apps&gl=HK&hl=en",
+          "found": 30
+        },
+        {
+          "country": "HK",
+          "query": "quick daily game",
+          "source": "https://play.google.com/store/search?q=quick%20daily%20game&c=apps&gl=HK&hl=en",
+          "found": 29
+        },
+        {
+          "country": "HK",
+          "query": "relaxing puzzle casual",
+          "source": "https://play.google.com/store/search?q=relaxing%20puzzle%20casual&c=apps&gl=HK&hl=en",
+          "found": 30
+        }
+      ]
+    }
+  },
+  "queries": {
+    "puzzle": [
+      "daily puzzle game",
+      "puzzle challenge",
+      "logic puzzle daily",
+      "brain teaser puzzle"
+    ],
+    "word": [
+      "daily word game",
+      "crossword puzzle",
+      "riddle word game",
+      "word puzzle casual"
+    ],
+    "casual": [
+      "casual puzzle game",
+      "hypercasual puzzle",
+      "quick daily game",
+      "relaxing puzzle casual"
+    ]
+  }
+}

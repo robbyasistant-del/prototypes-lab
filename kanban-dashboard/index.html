@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robby Kanban</title>
+  <style>
+    :root { --bg:#0b1020; --card:#151d34; --line:#304673; --text:#ecf2ff; --muted:#9fb2d8; --accent:#4da3ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter,Segoe UI,Arial,sans-serif; background:var(--bg); color:var(--text); }
+    header { padding:14px 18px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    h1 { margin:0; font-size:18px; }
+    .sub { color:var(--muted); font-size:13px; }
+    .wrap { padding:14px; display:grid; grid-template-columns: repeat(3,minmax(260px,1fr)); gap:12px; }
+    .col { background:#10182d; border:1px solid var(--line); border-radius:12px; min-height:75vh; display:flex; flex-direction:column; }
+    .col h2 { margin:0; padding:12px; border-bottom:1px solid var(--line); font-size:15px; }
+    .drop { padding:10px; display:flex; flex-direction:column; gap:10px; min-height:140px; flex:1; }
+    .task { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px; cursor:grab; }
+    .task:active { cursor:grabbing; }
+    .task .t { font-weight:600; margin-bottom:5px; }
+    .task .d { color:var(--muted); font-size:12px; white-space:pre-wrap; }
+    .controls { display:flex; gap:8px; padding:10px; border-top:1px solid var(--line); }
+    input, textarea, button { font:inherit; border-radius:8px; border:1px solid var(--line); background:#0f1730; color:var(--text); }
+    input, textarea { width:100%; padding:8px; }
+    textarea { min-height:62px; resize:vertical; }
+    button { padding:8px 10px; cursor:pointer; }
+    .accent { background:var(--accent); color:#061226; border:none; font-weight:700; }
+    .top-buttons { display:flex; gap:8px; }
+    @media (max-width: 960px){ .wrap { grid-template-columns:1fr; } .col{min-height:auto;} }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>📌 Kanban Dashboard</h1>
+      <div class="sub">Backlog · In Progress · Done (persistencia local)</div>
+    </div>
+    <div class="top-buttons">
+      <button id="exportBtn">Export JSON</button>
+      <button id="importBtn">Import JSON</button>
+      <button id="clearBtn">Clear all</button>
+    </div>
+  </header>
+
+  <section class="wrap" id="board"></section>
+
+  <script>
+    const COLUMNS = [
+      { id:'backlog', title:'Backlog' },
+      { id:'inprogress', title:'In Progress' },
+      { id:'done', title:'Done' },
+    ];
+
+    const STORAGE_KEY = 'robby-kanban-v1';
+    let state = loadState();
+
+    function loadState(){
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(raw) return JSON.parse(raw);
+      } catch {}
+      return { backlog: [], inprogress: [], done: [] };
+    }
+
+    function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+    function uid(){ return Math.random().toString(36).slice(2,10); }
+
+    function render(){
+      const board = document.getElementById('board');
+      board.innerHTML = '';
+
+      for(const col of COLUMNS){
+        const el = document.createElement('div');
+        el.className = 'col';
+        el.innerHTML = `<h2>${col.title} (${state[col.id].length})</h2>
+          <div class="drop" data-col="${col.id}"></div>
+          <div class="controls">
+            <div style="width:100%">
+              <input placeholder="Título tarea" data-input-title="${col.id}" />
+              <textarea placeholder="Notas / definición de hecho" data-input-desc="${col.id}"></textarea>
+              <button class="accent" data-add="${col.id}">+ Add task</button>
+            </div>
+          </div>`;
+        board.appendChild(el);
+
+        const drop = el.querySelector('.drop');
+        drop.addEventListener('dragover', e => e.preventDefault());
+        drop.addEventListener('drop', onDrop);
+
+        for(const task of state[col.id]){
+          const t = document.createElement('div');
+          t.className = 'task';
+          t.draggable = true;
+          t.dataset.id = task.id;
+          t.dataset.from = col.id;
+          t.innerHTML = `<div class="t">${escapeHtml(task.title)}</div><div class="d">${escapeHtml(task.desc || '')}</div>`;
+          t.addEventListener('dragstart', onDragStart);
+          t.addEventListener('dblclick', () => editTask(col.id, task.id));
+          drop.appendChild(t);
+        }
+      }
+
+      document.querySelectorAll('[data-add]').forEach(btn => {
+        btn.onclick = () => {
+          const col = btn.dataset.add;
+          const titleEl = document.querySelector(`[data-input-title="${col}"]`);
+          const descEl = document.querySelector(`[data-input-desc="${col}"]`);
+          const title = titleEl.value.trim();
+          if(!title) return;
+          state[col].push({ id: uid(), title, desc: descEl.value.trim() });
+          titleEl.value = ''; descEl.value = '';
+          saveState(); render();
+        };
+      });
+    }
+
+    function escapeHtml(str){
+      return str.replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+    }
+
+    let dragData = null;
+    function onDragStart(e){
+      dragData = { id: e.currentTarget.dataset.id, from: e.currentTarget.dataset.from };
+    }
+
+    function onDrop(e){
+      e.preventDefault();
+      if(!dragData) return;
+      const to = e.currentTarget.dataset.col;
+      const from = dragData.from;
+      if(!state[from]) return;
+      const idx = state[from].findIndex(t => t.id === dragData.id);
+      if(idx === -1) return;
+      const [task] = state[from].splice(idx,1);
+      state[to].push(task);
+      dragData = null;
+      saveState(); render();
+    }
+
+    function editTask(col, id){
+      const i = state[col].findIndex(t => t.id === id);
+      if(i === -1) return;
+      const t = state[col][i];
+      const nt = prompt('Editar título:', t.title);
+      if(nt === null) return;
+      const nd = prompt('Editar notas:', t.desc || '');
+      state[col][i] = { ...t, title: nt.trim() || t.title, desc: (nd ?? t.desc) };
+      saveState(); render();
+    }
+
+    document.getElementById('clearBtn').onclick = () => {
+      if(!confirm('¿Borrar todo el tablero?')) return;
+      state = { backlog: [], inprogress: [], done: [] };
+      saveState(); render();
+    };
+
+    document.getElementById('exportBtn').onclick = () => {
+      const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'kanban-backup.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    };
+
+    document.getElementById('importBtn').onclick = async () => {
+      const inp = document.createElement('input');
+      inp.type = 'file'; inp.accept = 'application/json';
+      inp.onchange = async () => {
+        const f = inp.files[0]; if(!f) return;
+        const txt = await f.text();
+        try {
+          const parsed = JSON.parse(txt);
+          if(parsed.backlog && parsed.inprogress && parsed.done){
+            state = parsed; saveState(); render();
+          } else alert('Formato inválido');
+        } catch { alert('JSON inválido'); }
+      };
+      inp.click();
+    };
+
+    render();
+  </script>
+</body>
+</html>

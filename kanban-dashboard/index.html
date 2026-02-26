@@ -127,8 +127,8 @@
   </div>
 
 <script>
-const STORAGE='robby-kanban-v2';
-const ACTIVITY='robby-kanban-activity-v2';
+const STORAGE='robby-kanban-v3';
+const ACTIVITY='robby-kanban-activity-v3';
 const COLUMNS=[
   {id:'backlog', title:'Backlog', color:'var(--backlog)'},
   {id:'todo', title:'Todo', color:'var(--todo)'},
@@ -252,15 +252,6 @@ document.getElementById('importBtn').onclick=()=>{
   i.onchange=async()=>{const f=i.files[0]; if(!f) return; try{const j=JSON.parse(await f.text()); if(j.state){state=j.state; activity=j.activity||activity; save(); render(); log('Importación completada');} else alert('Formato inválido');}catch{alert('JSON inválido')}};
   i.click();
 };
-
-if(!state.backlog.length && !state.todo.length && !state.inprogress.length && !state.done.length){
-  state.backlog.push({id:id(),title:'Revisar cron diario de prototipos',desc:'Validar output quality-first y report.html completo.',priority:'high'});
-  state.todo.push({id:id(),title:'Definir 3 hooks virales para mañana',desc:'Word+Merge, Block-Solitaire, Tricky60s con ángulo de creatividades.',priority:'medium'});
-  state.inprogress.push({id:id(),title:'Set up pipeline ASO 07:45',desc:'Keywords + trends + acción del día.',priority:'medium'});
-  state.done.push({id:id(),title:'Crear dashboard base local',desc:'Kanban con persistencia local y drag/drop.',priority:'low'});
-  activity.unshift(`[${now()}] Seed inicial creado`);
-  save();
-}
 
 render();
 </script>

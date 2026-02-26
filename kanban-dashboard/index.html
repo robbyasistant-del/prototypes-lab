@@ -3,184 +3,253 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robby Kanban</title>
+  <title>Robby Kanban Dashboard</title>
   <style>
-    :root { --bg:#0b1020; --card:#151d34; --line:#304673; --text:#ecf2ff; --muted:#9fb2d8; --accent:#4da3ff; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:Inter,Segoe UI,Arial,sans-serif; background:var(--bg); color:var(--text); }
-    header { padding:14px 18px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:12px; align-items:center; }
-    h1 { margin:0; font-size:18px; }
-    .sub { color:var(--muted); font-size:13px; }
-    .wrap { padding:14px; display:grid; grid-template-columns: repeat(3,minmax(260px,1fr)); gap:12px; }
-    .col { background:#10182d; border:1px solid var(--line); border-radius:12px; min-height:75vh; display:flex; flex-direction:column; }
-    .col h2 { margin:0; padding:12px; border-bottom:1px solid var(--line); font-size:15px; }
-    .drop { padding:10px; display:flex; flex-direction:column; gap:10px; min-height:140px; flex:1; }
-    .task { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px; cursor:grab; }
-    .task:active { cursor:grabbing; }
-    .task .t { font-weight:600; margin-bottom:5px; }
-    .task .d { color:var(--muted); font-size:12px; white-space:pre-wrap; }
-    .controls { display:flex; gap:8px; padding:10px; border-top:1px solid var(--line); }
-    input, textarea, button { font:inherit; border-radius:8px; border:1px solid var(--line); background:#0f1730; color:var(--text); }
-    input, textarea { width:100%; padding:8px; }
-    textarea { min-height:62px; resize:vertical; }
-    button { padding:8px 10px; cursor:pointer; }
-    .accent { background:var(--accent); color:#061226; border:none; font-weight:700; }
-    .top-buttons { display:flex; gap:8px; }
-    @media (max-width: 960px){ .wrap { grid-template-columns:1fr; } .col{min-height:auto;} }
+    :root{
+      --bg:#0a1022;
+      --panel:#111a35;
+      --panel2:#0f1731;
+      --card:#1a2546;
+      --line:#2c3f72;
+      --text:#edf2ff;
+      --muted:#9db0dc;
+      --accent:#7c8bff;
+      --backlog:#6b7280;
+      --todo:#f59e0b;
+      --inprogress:#3b82f6;
+      --done:#22c55e;
+      --high:#ef4444;
+      --medium:#f59e0b;
+      --low:#22c55e;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 700px at 20% -10%, #18285c 0%, var(--bg) 60%);
+      min-height:100vh;
+    }
+    .top{
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+      padding:14px 18px; border-bottom:1px solid #22345f; background:#0c1430cc; backdrop-filter:blur(6px);
+      position:sticky; top:0; z-index:50;
+    }
+    .title{display:flex; align-items:center; gap:10px; font-weight:700}
+    .title small{display:block; color:var(--muted); font-weight:500}
+    .stats{display:flex; gap:8px; flex-wrap:wrap}
+    .pill{background:#141f40; border:1px solid #2d4171; border-radius:10px; padding:8px 10px; min-width:92px; text-align:center}
+    .pill b{display:block; font-size:17px}
+    .layout{display:grid; grid-template-columns: 1fr 320px; gap:14px; padding:14px;}
+    .board{display:grid; grid-template-columns:repeat(4,minmax(240px,1fr)); gap:12px;}
+    .col{background:linear-gradient(180deg,#111b39,#0e1732); border:1px solid #2a3f70; border-radius:14px; display:flex; flex-direction:column; min-height:76vh}
+    .col-head{padding:10px 12px; border-bottom:1px solid #2a3f70; display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:700; letter-spacing:.4px; text-transform:uppercase}
+    .dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px}
+    .count{background:#22345f;border:1px solid #35518e;border-radius:99px;padding:1px 7px;font-size:12px;color:#d6e2ff}
+    .drop{padding:10px; display:flex; flex-direction:column; gap:9px; flex:1}
+    .task{background:var(--card); border:1px solid #2e4479; border-radius:12px; padding:10px; cursor:grab; box-shadow:0 8px 18px #00000036}
+    .task:active{cursor:grabbing}
+    .task .t{font-weight:700; margin-bottom:5px; font-size:14px}
+    .task .d{font-size:12px; color:var(--muted); white-space:pre-wrap; margin-bottom:8px}
+    .task .meta{display:flex; justify-content:space-between; align-items:center; gap:8px}
+    .prio{font-size:11px; font-weight:700; text-transform:uppercase; padding:2px 7px; border-radius:999px; color:#081024}
+    .prio.high{background:var(--high)} .prio.medium{background:var(--medium)} .prio.low{background:var(--low)}
+    .task .mini{font-size:11px;color:#90a6d5}
+
+    .side{background:linear-gradient(180deg,#121d3d,#0e1731); border:1px solid #2a3f70; border-radius:14px; padding:12px; min-height:76vh; display:flex; flex-direction:column; gap:12px}
+    .cta{background:linear-gradient(180deg,#7f8fff,#6d7df1); color:white; border:none; border-radius:12px; padding:12px; font-weight:800; cursor:pointer}
+    .box{background:#141f42; border:1px solid #2a4277; border-radius:12px; padding:10px}
+    .box h3{margin:0 0 8px; font-size:14px}
+    input,textarea,select,button{font:inherit}
+    input,textarea,select{width:100%; background:#0f1834; border:1px solid #314c86; color:var(--text); border-radius:10px; padding:9px}
+    textarea{min-height:86px; resize:vertical}
+    .row{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+    .btn{background:var(--accent); color:#081229; border:none; border-radius:10px; padding:9px 10px; font-weight:700; cursor:pointer}
+    .ghost{background:#182954;color:#dfe8ff;border:1px solid #36579a}
+    .log{font-size:12px; color:#afc0e8; max-height:220px; overflow:auto; line-height:1.35}
+
+    @media (max-width:1200px){ .layout{grid-template-columns:1fr}.side{min-height:auto}.board{grid-template-columns:repeat(2,minmax(220px,1fr));}}
+    @media (max-width:760px){ .board{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>📌 Kanban Dashboard</h1>
-      <div class="sub">Backlog · In Progress · Done (persistencia local)</div>
+  <div class="top">
+    <div class="title">
+      <span>📋 Robby Dashboard</span>
+      <small>Backlog · Todo · In Progress · Done</small>
     </div>
-    <div class="top-buttons">
-      <button id="exportBtn">Export JSON</button>
-      <button id="importBtn">Import JSON</button>
-      <button id="clearBtn">Clear all</button>
-    </div>
-  </header>
+    <div class="stats" id="stats"></div>
+  </div>
 
-  <section class="wrap" id="board"></section>
+  <div class="layout">
+    <section class="board" id="board"></section>
 
-  <script>
-    const COLUMNS = [
-      { id:'backlog', title:'Backlog' },
-      { id:'inprogress', title:'In Progress' },
-      { id:'done', title:'Done' },
-    ];
+    <aside class="side">
+      <button class="cta" id="runNow">⚡ Ejecutar tareas de "Todo" a "In Progress"</button>
 
-    const STORAGE_KEY = 'robby-kanban-v1';
-    let state = loadState();
+      <div class="box">
+        <h3>Nueva tarea</h3>
+        <input id="newTitle" placeholder="¿Qué hay que hacer?" />
+        <textarea id="newDesc" placeholder="Descripción (opcional)"></textarea>
+        <div class="row" style="margin-top:8px">
+          <select id="newPriority">
+            <option value="medium">Prioridad: Medium</option>
+            <option value="high">Prioridad: High</option>
+            <option value="low">Prioridad: Low</option>
+          </select>
+          <select id="newColumn">
+            <option value="backlog">Backlog</option>
+            <option value="todo" selected>Todo</option>
+            <option value="inprogress">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <button class="btn" id="addBtn" style="margin-top:8px;width:100%">+ Añadir tarea</button>
+      </div>
 
-    function loadState(){
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if(raw) return JSON.parse(raw);
-      } catch {}
-      return { backlog: [], inprogress: [], done: [] };
-    }
+      <div class="box">
+        <h3>Gestión</h3>
+        <div class="row">
+          <button class="ghost" id="exportBtn">Export JSON</button>
+          <button class="ghost" id="importBtn">Import JSON</button>
+        </div>
+        <button class="ghost" id="clearDone" style="margin-top:8px;width:100%">Limpiar Done</button>
+      </div>
 
-    function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+      <div class="box">
+        <h3>Actividad</h3>
+        <div class="log" id="log"></div>
+      </div>
+    </aside>
+  </div>
 
-    function uid(){ return Math.random().toString(36).slice(2,10); }
+<script>
+const STORAGE='robby-kanban-v2';
+const ACTIVITY='robby-kanban-activity-v2';
+const COLUMNS=[
+  {id:'backlog', title:'Backlog', color:'var(--backlog)'},
+  {id:'todo', title:'Todo', color:'var(--todo)'},
+  {id:'inprogress', title:'In Progress', color:'var(--inprogress)'},
+  {id:'done', title:'Done', color:'var(--done)'},
+];
+let state = load(STORAGE,{backlog:[],todo:[],inprogress:[],done:[]});
+let activity = load(ACTIVITY,[]);
 
-    function render(){
-      const board = document.getElementById('board');
-      board.innerHTML = '';
+function load(k,d){try{const x=localStorage.getItem(k); return x?JSON.parse(x):d}catch{return d}}
+function save(){localStorage.setItem(STORAGE,JSON.stringify(state)); localStorage.setItem(ACTIVITY,JSON.stringify(activity.slice(0,120)))}
+function id(){return Math.random().toString(36).slice(2,10)}
+function esc(s=''){return s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function now(){return new Date().toLocaleString('es-ES',{hour12:false})}
 
-      for(const col of COLUMNS){
-        const el = document.createElement('div');
-        el.className = 'col';
-        el.innerHTML = `<h2>${col.title} (${state[col.id].length})</h2>
-          <div class="drop" data-col="${col.id}"></div>
-          <div class="controls">
-            <div style="width:100%">
-              <input placeholder="Título tarea" data-input-title="${col.id}" />
-              <textarea placeholder="Notas / definición de hecho" data-input-desc="${col.id}"></textarea>
-              <button class="accent" data-add="${col.id}">+ Add task</button>
-            </div>
-          </div>`;
-        board.appendChild(el);
+function log(msg){activity.unshift(`[${now()}] ${msg}`); save(); renderLog()}
+function renderLog(){document.getElementById('log').innerHTML = activity.slice(0,30).map(x=>`<div>${esc(x)}</div>`).join('')}
 
-        const drop = el.querySelector('.drop');
-        drop.addEventListener('dragover', e => e.preventDefault());
-        drop.addEventListener('drop', onDrop);
+function renderStats(){
+  const s=document.getElementById('stats');
+  s.innerHTML='';
+  COLUMNS.forEach(c=>{
+    const n=state[c.id].length;
+    const el=document.createElement('div');
+    el.className='pill'; el.innerHTML=`<b>${n}</b><span>${c.title}</span>`;
+    s.appendChild(el);
+  });
+}
 
-        for(const task of state[col.id]){
-          const t = document.createElement('div');
-          t.className = 'task';
-          t.draggable = true;
-          t.dataset.id = task.id;
-          t.dataset.from = col.id;
-          t.innerHTML = `<div class="t">${escapeHtml(task.title)}</div><div class="d">${escapeHtml(task.desc || '')}</div>`;
-          t.addEventListener('dragstart', onDragStart);
-          t.addEventListener('dblclick', () => editTask(col.id, task.id));
-          drop.appendChild(t);
-        }
-      }
+function renderBoard(){
+  const b=document.getElementById('board'); b.innerHTML='';
+  COLUMNS.forEach(c=>{
+    const col=document.createElement('section'); col.className='col';
+    col.innerHTML=`<div class='col-head'><span><i class='dot' style='background:${c.color}'></i>${c.title}</span><span class='count'>${state[c.id].length}</span></div><div class='drop' data-col='${c.id}'></div>`;
+    const drop=col.querySelector('.drop');
+    drop.addEventListener('dragover',e=>e.preventDefault());
+    drop.addEventListener('drop',onDrop);
 
-      document.querySelectorAll('[data-add]').forEach(btn => {
-        btn.onclick = () => {
-          const col = btn.dataset.add;
-          const titleEl = document.querySelector(`[data-input-title="${col}"]`);
-          const descEl = document.querySelector(`[data-input-desc="${col}"]`);
-          const title = titleEl.value.trim();
-          if(!title) return;
-          state[col].push({ id: uid(), title, desc: descEl.value.trim() });
-          titleEl.value = ''; descEl.value = '';
-          saveState(); render();
-        };
-      });
-    }
+    state[c.id].forEach(t=>{
+      const card=document.createElement('article');
+      card.className='task'; card.draggable=true; card.dataset.id=t.id; card.dataset.from=c.id;
+      card.innerHTML=`<div class='t'>${esc(t.title)}</div><div class='d'>${esc(t.desc||'')}</div><div class='meta'><span class='prio ${t.priority||'medium'}'>${t.priority||'medium'}</span><span class='mini'>doble click = editar</span></div>`;
+      card.addEventListener('dragstart',onDragStart);
+      card.addEventListener('dblclick',()=>editTask(c.id,t.id));
+      drop.appendChild(card);
+    });
 
-    function escapeHtml(str){
-      return str.replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
-    }
+    b.appendChild(col);
+  });
+}
 
-    let dragData = null;
-    function onDragStart(e){
-      dragData = { id: e.currentTarget.dataset.id, from: e.currentTarget.dataset.from };
-    }
+let dragged=null;
+function onDragStart(e){dragged={id:e.currentTarget.dataset.id,from:e.currentTarget.dataset.from}}
+function onDrop(e){
+  e.preventDefault(); if(!dragged) return;
+  const to=e.currentTarget.dataset.col, from=dragged.from;
+  const i=state[from].findIndex(x=>x.id===dragged.id); if(i<0) return;
+  const [task]=state[from].splice(i,1); state[to].push(task);
+  log(`Movida "${task.title}" de ${from} → ${to}`);
+  dragged=null; save(); render();
+}
 
-    function onDrop(e){
-      e.preventDefault();
-      if(!dragData) return;
-      const to = e.currentTarget.dataset.col;
-      const from = dragData.from;
-      if(!state[from]) return;
-      const idx = state[from].findIndex(t => t.id === dragData.id);
-      if(idx === -1) return;
-      const [task] = state[from].splice(idx,1);
-      state[to].push(task);
-      dragData = null;
-      saveState(); render();
-    }
+function editTask(col,id){
+  const i=state[col].findIndex(x=>x.id===id); if(i<0) return;
+  const t=state[col][i];
+  const title=prompt('Título',t.title); if(title===null) return;
+  const desc=prompt('Descripción',t.desc||''); if(desc===null) return;
+  const p=prompt('Prioridad (high|medium|low)',t.priority||'medium');
+  const pr=['high','medium','low'].includes((p||'').toLowerCase())?(p||'medium').toLowerCase():(t.priority||'medium');
+  state[col][i]={...t,title:title.trim()||t.title,desc:desc.trim(),priority:pr};
+  log(`Editada "${state[col][i].title}"`);
+  save(); render();
+}
 
-    function editTask(col, id){
-      const i = state[col].findIndex(t => t.id === id);
-      if(i === -1) return;
-      const t = state[col][i];
-      const nt = prompt('Editar título:', t.title);
-      if(nt === null) return;
-      const nd = prompt('Editar notas:', t.desc || '');
-      state[col][i] = { ...t, title: nt.trim() || t.title, desc: (nd ?? t.desc) };
-      saveState(); render();
-    }
+function addTask(){
+  const title=document.getElementById('newTitle').value.trim(); if(!title) return;
+  const desc=document.getElementById('newDesc').value.trim();
+  const priority=document.getElementById('newPriority').value;
+  const col=document.getElementById('newColumn').value;
+  const task={id:id(),title,desc,priority,createdAt:Date.now()};
+  state[col].push(task);
+  document.getElementById('newTitle').value=''; document.getElementById('newDesc').value='';
+  log(`Nueva tarea en ${col}: "${title}"`);
+  save(); render();
+}
 
-    document.getElementById('clearBtn').onclick = () => {
-      if(!confirm('¿Borrar todo el tablero?')) return;
-      state = { backlog: [], inprogress: [], done: [] };
-      saveState(); render();
-    };
+function render(){renderStats(); renderBoard(); renderLog();}
 
-    document.getElementById('exportBtn').onclick = () => {
-      const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'kanban-backup.json';
-      a.click();
-      URL.revokeObjectURL(a.href);
-    };
+// Actions
 
-    document.getElementById('importBtn').onclick = async () => {
-      const inp = document.createElement('input');
-      inp.type = 'file'; inp.accept = 'application/json';
-      inp.onchange = async () => {
-        const f = inp.files[0]; if(!f) return;
-        const txt = await f.text();
-        try {
-          const parsed = JSON.parse(txt);
-          if(parsed.backlog && parsed.inprogress && parsed.done){
-            state = parsed; saveState(); render();
-          } else alert('Formato inválido');
-        } catch { alert('JSON inválido'); }
-      };
-      inp.click();
-    };
+document.getElementById('addBtn').onclick=addTask;
+document.getElementById('runNow').onclick=()=>{
+  if(!state.todo.length){log('No hay tareas en Todo'); return;}
+  const moved=[...state.todo]; state.inprogress.push(...moved); state.todo=[];
+  log(`Ejecución rápida: ${moved.length} tareas de Todo → In Progress`);
+  save(); render();
+};
 
-    render();
-  </script>
+document.getElementById('clearDone').onclick=()=>{
+  const n=state.done.length; state.done=[]; log(`Limpieza Done: ${n} tareas eliminadas`); save(); render();
+};
+
+document.getElementById('exportBtn').onclick=()=>{
+  const blob=new Blob([JSON.stringify({state,activity},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='kanban-dashboard-backup.json'; a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+document.getElementById('importBtn').onclick=()=>{
+  const i=document.createElement('input'); i.type='file'; i.accept='application/json';
+  i.onchange=async()=>{const f=i.files[0]; if(!f) return; try{const j=JSON.parse(await f.text()); if(j.state){state=j.state; activity=j.activity||activity; save(); render(); log('Importación completada');} else alert('Formato inválido');}catch{alert('JSON inválido')}};
+  i.click();
+};
+
+if(!state.backlog.length && !state.todo.length && !state.inprogress.length && !state.done.length){
+  state.backlog.push({id:id(),title:'Revisar cron diario de prototipos',desc:'Validar output quality-first y report.html completo.',priority:'high'});
+  state.todo.push({id:id(),title:'Definir 3 hooks virales para mañana',desc:'Word+Merge, Block-Solitaire, Tricky60s con ángulo de creatividades.',priority:'medium'});
+  state.inprogress.push({id:id(),title:'Set up pipeline ASO 07:45',desc:'Keywords + trends + acción del día.',priority:'medium'});
+  state.done.push({id:id(),title:'Crear dashboard base local',desc:'Kanban con persistencia local y drag/drop.',priority:'low'});
+  activity.unshift(`[${now()}] Seed inicial creado`);
+  save();
+}
+
+render();
+</script>
 </body>
 </html>

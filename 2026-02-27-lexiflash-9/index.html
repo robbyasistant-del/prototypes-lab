@@ -71,7 +71,7 @@ const targetWordEl=document.getElementById('targetWord');
 const buildWordEl=document.getElementById('buildWord');
 const statusEl=document.getElementById('status');
 
-let cells=[]; let order=[]; let expected=1; let timeLeft=60; let timer=null; let phase='idle'; let word=''; let built=[]; let lastTick=0;
+let cells=[]; let expected=1; let timeLeft=60; let timer=null; let phase='idle'; let word=''; let built=[]; let lastTick=0;
 
 function pickWord(){ return WORDS[Math.floor(Math.random()*WORDS.length)] || 'CHOCOLATE'; }
 function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
@@ -81,7 +81,7 @@ function startTimer(){ stopTimer(); lastTick=performance.now(); timer=setInterva
 
 function renderBoard(){
   boardEl.innerHTML='';
-  cells=Array.from({length:9},(_,i)=>({idx:i,show:'',ok:false}));
+  cells=Array.from({length:9},(_,i)=>({idx:i,val:'',show:'',ok:false}));
   cells.forEach(c=>{
     const el=document.createElement('button'); el.className='cell'; el.dataset.idx=c.idx; el.textContent='';
     el.onclick=()=>onCellClick(c.idx);
@@ -112,33 +112,24 @@ function buildRound(){
   targetWordEl.textContent=word;
   const letters=word.split('');
   const shuffled=shuffle(letters);
-  order=Array(10).fill(-1);
-  shuffled.forEach((ch,idx)=>{ cells[idx].show=ch; });
-  for(let n=1;n<=9;n++){
-    const ch=letters[n-1];
-    const idx=shuffled.findIndex((x,i)=>x===ch && !order.includes(i));
-    if(idx>=0) order[n]=idx;
-    else{
-      for(let i=0;i<9;i++){ if(!order.includes(i)){ order[n]=i; break; } }
-    }
-  }
+  shuffled.forEach((ch,idx)=>{ cells[idx].val=ch; cells[idx].show=ch; });
   paint();
 }
 
 function startGame(){
   phase='reveal'; expected=1; nextEl.textContent='1'; timeLeft=60; timeEl.textContent='60.0'; startBtn.disabled=true;
   renderBoard(); resetProgress(); buildRound();
-  setStatus('Memoriza posiciones + palabra durante 3 segundos.');
+  setStatus('Memoriza posiciones + palabra durante 4 segundos.');
   startTimer();
-  setTimeout(()=>{ if(phase!=='reveal') return; phase='play'; for(const c of cells) c.show=''; paint(); targetWordEl.textContent='?????????'; setStatus('¡Ahora reconstruye la palabra letra a letra!'); },3000);
+  setTimeout(()=>{ if(phase!=='reveal') return; phase='play'; for(const c of cells) c.show=''; paint(); targetWordEl.textContent='?????????'; setStatus('¡Ahora reconstruye la palabra letra a letra!'); },4000);
 }
 
 function onCellClick(idx){
   if(phase!=='play' || timeLeft<=0) return;
-  const correctIdx=order[expected];
-  if(idx===correctIdx){
-    const ch=word[expected-1];
-    cells[idx].ok=true; cells[idx].show=ch; built[expected-1]=ch; buildWordEl.textContent=built.join(' '); buildWordEl.classList.add('ok');
+  const chNeeded = word[expected-1];
+  const chosen = cells[idx];
+  if(chosen && !chosen.ok && chosen.val===chNeeded){
+    chosen.ok=true; chosen.show=chNeeded; built[expected-1]=chNeeded; buildWordEl.textContent=built.join(' '); buildWordEl.classList.add('ok');
     expected++; nextEl.textContent=expected<=9?String(expected):'✓'; paint();
     if(expected===10) win();
   }else{

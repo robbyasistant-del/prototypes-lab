@@ -168,6 +168,8 @@ prev_day = days[-2] if len(days) > 1 else None
 
 # hits[day][source][keyword] = count
 hits = defaultdict(lambda: defaultdict(Counter))
+# unmapped tokens for dictionary growth
+unmapped = defaultdict(lambda: defaultdict(Counter))
 # daily_total_hits[day] = total curated keyword hits across all keywords/sources
 # (used for ratio normalization)
 daily_total_hits = Counter()
@@ -191,6 +193,10 @@ for d in days:
                     if mapped:
                         hits[d][src][mapped] += 1
                         daily_total_hits[d] += 1
+                    else:
+                        nt = normalize_token(tok)
+                        if len(nt) >= 4:
+                            unmapped[d][src][nt] += 1
 
 # Build per-keyword metrics for latest day
 rows = []
@@ -285,6 +291,18 @@ def chips(items):
     return "".join(out)
 
 
+def unmapped_chips(day, topn=20):
+    if not day:
+        return "<span class='chip'>—</span>"
+    acc = Counter()
+    for s, _ in SOURCES:
+        acc.update(unmapped[day][s])
+    items = [x for x in acc.most_common(topn) if x[1] >= 2]
+    if not items:
+        return "<span class='chip'>No hay términos no mapeados relevantes</span>"
+    return "".join([f"<span class='chip'>{html.escape(k)} ({v})</span>" for k, v in items])
+
+
 now = datetime.datetime.now().isoformat(timespec="seconds")
 
 out = f"""<!doctype html>
@@ -340,6 +358,11 @@ tr:nth-child(even) {{background: #fbfdff}}
     <div class=\"sub\"><b>Suben</b> {chips(suben)}</div>
     <div class=\"sub\" style=\"margin-top:4px\"><b>Bajan</b> {chips(bajan)}</div>
     <div class=\"sub\" style=\"margin-top:4px\"><b>Ruido</b> {chips(ruido)}</div>
+  </div>
+
+  <div class=\"panel\">
+    <div class=\"sub\"><b>Keywords no mapeadas (para ampliar diccionario)</b></div>
+    <div class=\"sub\" style=\"margin-top:4px\">{unmapped_chips(latest_day, 24)}</div>
   </div>
 
   <table>

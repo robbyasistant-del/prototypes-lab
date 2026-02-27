@@ -77,15 +77,18 @@
     .cron-meta{font-size:12px; color:var(--muted)}
     .cron-list{display:flex; flex-direction:column; gap:10px}
     .cron-card{width:100%; background:#141f42; border:1px solid #2a4277; border-radius:12px; padding:10px}
-    .cron-name{font-weight:700; font-size:13px; margin-bottom:6px}
-    .cron-line{font-size:12px; color:#c8d6fb; margin:3px 0}
+    .cron-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px}
+    .cron-name{font-weight:700; font-size:13px}
+    .cron-grid{display:grid; grid-template-columns:repeat(4,minmax(140px,1fr)); gap:8px; margin-bottom:8px}
+    .cron-line{font-size:12px; color:#c8d6fb; margin:0}
+    .cron-message{font-size:12px; color:#dfe8ff; background:#0f1834; border:1px solid #314c86; border-radius:10px; padding:8px; white-space:pre-wrap; word-break:break-word; max-height:180px; overflow:auto}
     .tag{display:inline-block; border-radius:999px; padding:2px 8px; font-size:11px; font-weight:700}
     .tag.ok{background:#15442a; color:#86efac; border:1px solid #226c43}
     .tag.error{background:#4b1f2d; color:#fca5a5; border:1px solid #7f3551}
     .tag.unknown{background:#25345e; color:#c6d3f8; border:1px solid #3b548f}
 
-    @media (max-width:1200px){ .layout{grid-template-columns:1fr}.side{min-height:auto}.board{grid-template-columns:repeat(2,minmax(220px,1fr));}}
-    @media (max-width:760px){ .board{grid-template-columns:1fr} }
+    @media (max-width:1200px){ .layout{grid-template-columns:1fr}.side{min-height:auto}.board{grid-template-columns:repeat(2,minmax(220px,1fr));}.cron-grid{grid-template-columns:repeat(2,minmax(140px,1fr));}}
+    @media (max-width:760px){ .board{grid-template-columns:1fr}.cron-grid{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
@@ -274,12 +277,20 @@ async function renderCronJobs(){
       const status=j.state?.lastStatus||'unknown';
       const card=document.createElement('article');
       card.className='cron-card';
+      const msg=j.payload?.message||'—';
       card.innerHTML=`
-        <div class='cron-name'>${esc(j.name||j.id||'sin nombre')}</div>
-        <div class='cron-line'>⏱ ${esc(j.schedule?.expr||'—')} · ${esc(j.schedule?.tz||'—')}</div>
-        <div class='cron-line'>Próxima: ${esc(fmtMs(j.state?.nextRunAtMs))}</div>
-        <div class='cron-line'>Última: ${esc(fmtMs(j.state?.lastRunAtMs))}</div>
-        <div class='cron-line'>Estado: <span class='tag ${statusClass(status)}'>${esc(status)}</span></div>
+        <div class='cron-top'>
+          <div class='cron-name'>${esc(j.name||j.id||'sin nombre')}</div>
+          <div class='cron-line'>Estado: <span class='tag ${statusClass(status)}'>${esc(status)}</span></div>
+        </div>
+        <div class='cron-grid'>
+          <div class='cron-line'>⏱ ${esc(j.schedule?.expr||'—')}</div>
+          <div class='cron-line'>🌍 ${esc(j.schedule?.tz||'—')}</div>
+          <div class='cron-line'>Próxima: ${esc(fmtMs(j.state?.nextRunAtMs))}</div>
+          <div class='cron-line'>Última: ${esc(fmtMs(j.state?.lastRunAtMs))}</div>
+        </div>
+        <div class='cron-line' style='margin-bottom:4px'>Message al agente:</div>
+        <div class='cron-message'>${esc(msg)}</div>
       `;
       list.appendChild(card);
     });

@@ -82,6 +82,9 @@
     .cron-grid{display:grid; grid-template-columns:repeat(4,minmax(140px,1fr)); gap:8px; margin-bottom:8px}
     .cron-line{font-size:12px; color:#c8d6fb; margin:0}
     .cron-message{font-size:12px; color:#dfe8ff; background:#0f1834; border:1px solid #314c86; border-radius:10px; padding:8px; white-space:pre-wrap; word-break:break-word; max-height:180px; overflow:auto}
+    .cron-output{margin-top:8px; font-size:12px; color:#cfe0ff}
+    .cron-output a{color:#9ec1ff; text-decoration:none}
+    .cron-output a:hover{text-decoration:underline}
     .tag{display:inline-block; border-radius:999px; padding:2px 8px; font-size:11px; font-weight:700}
     .tag.ok{background:#15442a; color:#86efac; border:1px solid #226c43}
     .tag.error{background:#4b1f2d; color:#fca5a5; border:1px solid #7f3551}
@@ -252,6 +255,18 @@ function addTask(){
 function statusClass(s){if(s==='ok') return 'ok'; if(s==='error') return 'error'; return 'unknown'}
 function fmtMs(ms){if(!ms) return '—'; try{return new Date(ms).toLocaleString('es-ES',{hour12:false})}catch{return '—'}}
 
+function outputTargetForJob(j){
+  const n=(j.name||'').toLowerCase();
+  if(n==='market-intel-crawl-0310') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/data/analysis', href:'file:///C:/Users/robby/.openclaw/workspace/market_intel/data/analysis'};
+  if(n==='aso-growth-intel-0745') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/<YYYY-MM-DD>-aso-growth-brief.md', href:'file:///C:/Users/robby/.openclaw/workspace/market_intel/reports'};
+  if(n==='aso-growth-close-2130') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/<YYYY-MM-DD>-close-summary.md', href:'file:///C:/Users/robby/.openclaw/workspace/market_intel/reports'};
+  if(n==='aso-weekly-strategy-sunday-2100') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/<YYYY-[W]WW>-weekly-strategy.md', href:'file:///C:/Users/robby/.openclaw/workspace/market_intel/reports'};
+  if(n==='daily-game-factory-0801') return {label:'https://robbyasistant-del.github.io/prototypes-lab/', href:'https://robbyasistant-del.github.io/prototypes-lab/'};
+  if(n==='playstore-top20-nightly') return {label:'C:/Users/robby/.openclaw/workspace/prototypes/_market/top20-latest.html', href:'file:///C:/Users/robby/.openclaw/workspace/prototypes/_market/top20-latest.html'};
+  if(n==='x-trends-daily-0800') return {label:'Resumen enviado por mensaje (sin fichero fijo)', href:''};
+  return {label:'(sin ruta definida aún)', href:''};
+}
+
 async function renderCronJobs(){
   const list=document.getElementById('cronList');
   const meta=document.getElementById('cronMeta');
@@ -278,6 +293,10 @@ async function renderCronJobs(){
       const card=document.createElement('article');
       card.className='cron-card';
       const msg=j.payload?.message||'—';
+      const out=outputTargetForJob(j);
+      const outHtml=out.href
+        ? `<a href='${esc(out.href)}' target='_blank' rel='noreferrer'>${esc(out.label)}</a>`
+        : esc(out.label);
       card.innerHTML=`
         <div class='cron-top'>
           <div class='cron-name'>${esc(j.name||j.id||'sin nombre')}</div>
@@ -289,7 +308,8 @@ async function renderCronJobs(){
           <div class='cron-line'>Próxima: ${esc(fmtMs(j.state?.nextRunAtMs))}</div>
           <div class='cron-line'>Última: ${esc(fmtMs(j.state?.lastRunAtMs))}</div>
         </div>
-        <div class='cron-line' style='margin-bottom:4px'>Message al agente:</div>
+        <div class='cron-output'><b>Salida principal:</b> ${outHtml}</div>
+        <div class='cron-line' style='margin:8px 0 4px'>Message al agente:</div>
         <div class='cron-message'>${esc(msg)}</div>
       `;
       list.appendChild(card);

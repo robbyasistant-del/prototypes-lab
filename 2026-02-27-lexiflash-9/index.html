@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LexiFlash 9</title>
+  <style>
+    :root{--bg:#081126;--panel:#0f1c3c;--line:#31518d;--txt:#eef4ff;--muted:#9fb4de;--ok:#22c55e;--bad:#ef4444}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(1000px 650px at 20% -10%,#1d3270 0%,var(--bg) 60%);color:var(--txt);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+    .app{width:min(860px,100%);background:linear-gradient(180deg,#101d3c,#0b1631);border:1px solid #2e487f;border-radius:18px;padding:16px;box-shadow:0 18px 40px #0007}
+    h1{margin:0 0 8px;font-size:28px}
+    .muted{color:var(--muted);font-size:14px}
+    .top{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-bottom:10px}
+    .btn{border:none;border-radius:11px;padding:10px 14px;font-weight:800;cursor:pointer;background:linear-gradient(180deg,#78ceff,#4bafff);color:#08101f}
+    .btn:disabled{opacity:.55;cursor:not-allowed}
+    .hud{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+    .pill{border:1px solid var(--line);background:#14244e;border-radius:10px;padding:8px 12px;font-weight:700}
+    .word{margin:8px 0 10px;padding:10px;border-radius:10px;border:1px solid #355798;background:#12234c;text-align:center}
+    .word .label{font-size:12px;color:var(--muted)}
+    .word .target{font-size:28px;font-weight:900;letter-spacing:2px}
+    .word .build{margin-top:5px;font-size:20px;font-weight:800;color:#9ad7ff}
+    .word .build.ok{color:#95f5b7}
+    .board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .cell{aspect-ratio:1/1;border-radius:12px;border:1px solid #355290;background:linear-gradient(180deg,#162652,#0f1d42);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;color:#dcebff;cursor:pointer;user-select:none;transition:.15s transform,.15s background,.15s border-color}
+    .cell:hover{transform:translateY(-1px)}
+    .cell.reveal{background:linear-gradient(180deg,#20417f,#173565)}
+    .cell.ok{background:linear-gradient(180deg,#1f6c42,#185838);border-color:#2ca763;color:#edfff3;box-shadow:0 0 20px #1ec56b55}
+    .status{margin-top:12px;padding:10px;border-radius:10px;background:#0f1b38;border:1px solid #294472;min-height:44px;display:flex;align-items:center;font-weight:600}
+    .status.win{border-color:#1f7a44;color:#b9ffd0}.status.lose{border-color:#9a3048;color:#ffd1db}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="top">
+      <div>
+        <h1>🧠 LexiFlash 9</h1>
+        <div class="muted">Memoriza la posición de las letras de una palabra de 9 letras y reconstruyela en orden perfecto.</div>
+      </div>
+      <button id="startBtn" class="btn">Start</button>
+    </div>
+
+    <div class="hud">
+      <div class="pill">⏱ Tiempo: <b id="time">60.0</b>s</div>
+      <div class="pill">🎯 Letra: <b id="next">1</b>/9</div>
+      <div class="pill">⚠️ Penalización: <b>-5s</b></div>
+    </div>
+
+    <div class="word">
+      <div class="label">Palabra del día (se muestra en memorización)</div>
+      <div id="targetWord" class="target">?????????</div>
+      <div id="buildWord" class="build">_ _ _ _ _ _ _ _ _</div>
+    </div>
+
+    <section class="board" id="board"></section>
+    <div id="status" class="status">Pulsa Start para comenzar.</div>
+  </main>
+
+<script>
+const WORDS = [
+  'chocolate','sandalias','aeropuerto','aventuras','biblioteca','carretera',
+  'montanias','peliculas','pastelero','jardinero','mercadillo','sorpresas',
+  'escenarioo','camaleonn','escaleras','solitarios'
+].map(w=>w.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()).filter(w=>w.length===9);
+
+const boardEl=document.getElementById('board');
+const startBtn=document.getElementById('startBtn');
+const timeEl=document.getElementById('time');
+const nextEl=document.getElementById('next');
+const targetWordEl=document.getElementById('targetWord');
+const buildWordEl=document.getElementById('buildWord');
+const statusEl=document.getElementById('status');
+
+let cells=[]; let order=[]; let expected=1; let timeLeft=60; let timer=null; let phase='idle'; let word=''; let built=[]; let lastTick=0;
+
+function pickWord(){ return WORDS[Math.floor(Math.random()*WORDS.length)] || 'CHOCOLATE'; }
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function setStatus(t,c=''){statusEl.className='status'+(c?' '+c:''); statusEl.textContent=t;}
+function stopTimer(){clearInterval(timer); timer=null;}
+function startTimer(){ stopTimer(); lastTick=performance.now(); timer=setInterval(()=>{ const now=performance.now(); const dt=(now-lastTick)/1000; lastTick=now; timeLeft=Math.max(0,timeLeft-dt); timeEl.textContent=timeLeft.toFixed(1); if(timeLeft<=0) lose(); },50); }
+
+function renderBoard(){
+  boardEl.innerHTML='';
+  cells=Array.from({length:9},(_,i)=>({idx:i,show:'',ok:false}));
+  cells.forEach(c=>{
+    const el=document.createElement('button'); el.className='cell'; el.dataset.idx=c.idx; el.textContent='';
+    el.onclick=()=>onCellClick(c.idx);
+    boardEl.appendChild(el);
+  });
+}
+
+function paint(){
+  for(const el of boardEl.children){
+    const c=cells[Number(el.dataset.idx)];
+    el.textContent=c.show; el.className='cell';
+    if(phase==='reveal') el.classList.add('reveal');
+    if(c.ok) el.classList.add('ok');
+  }
+}
+
+function resetProgress(){
+  expected=1; nextEl.textContent='1';
+  built=Array(9).fill('_');
+  buildWordEl.textContent=built.join(' ');
+  buildWordEl.classList.remove('ok');
+  for(const c of cells){c.ok=false; c.show='';}
+  paint();
+}
+
+function buildRound(){
+  word=pickWord();
+  targetWordEl.textContent=word;
+  const letters=word.split('');
+  const shuffled=shuffle(letters);
+  order=Array(10).fill(-1);
+  shuffled.forEach((ch,idx)=>{ cells[idx].show=ch; });
+  for(let n=1;n<=9;n++){
+    const ch=letters[n-1];
+    const idx=shuffled.findIndex((x,i)=>x===ch && !order.includes(i));
+    if(idx>=0) order[n]=idx;
+    else{
+      for(let i=0;i<9;i++){ if(!order.includes(i)){ order[n]=i; break; } }
+    }
+  }
+  paint();
+}
+
+function startGame(){
+  phase='reveal'; expected=1; nextEl.textContent='1'; timeLeft=60; timeEl.textContent='60.0'; startBtn.disabled=true;
+  renderBoard(); resetProgress(); buildRound();
+  setStatus('Memoriza posiciones + palabra durante 3 segundos.');
+  startTimer();
+  setTimeout(()=>{ if(phase!=='reveal') return; phase='play'; for(const c of cells) c.show=''; paint(); targetWordEl.textContent='?????????'; setStatus('¡Ahora reconstruye la palabra letra a letra!'); },3000);
+}
+
+function onCellClick(idx){
+  if(phase!=='play' || timeLeft<=0) return;
+  const correctIdx=order[expected];
+  if(idx===correctIdx){
+    const ch=word[expected-1];
+    cells[idx].ok=true; cells[idx].show=ch; built[expected-1]=ch; buildWordEl.textContent=built.join(' '); buildWordEl.classList.add('ok');
+    expected++; nextEl.textContent=expected<=9?String(expected):'✓'; paint();
+    if(expected===10) win();
+  }else{
+    timeLeft=Math.max(0,timeLeft-5); timeEl.textContent=timeLeft.toFixed(1); resetProgress(); setStatus('❌ Fallaste. Se borra la palabra construida y -5s.');
+    if(timeLeft<=0) lose();
+  }
+}
+
+function win(){ phase='win'; stopTimer(); targetWordEl.textContent=word; setStatus(`🏆 WIN: ${word} en ${(60-timeLeft).toFixed(1)}s`, 'win'); startBtn.disabled=false; }
+function lose(){ if(phase==='lose') return; phase='lose'; stopTimer(); targetWordEl.textContent=word; setStatus('⌛ LOSE. Se acabó el tiempo.', 'lose'); startBtn.disabled=false; }
+
+startBtn.onclick=startGame; renderBoard(); resetProgress();
+</script>
+</body>
+</html>

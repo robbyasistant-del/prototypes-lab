@@ -1,10 +1,10 @@
-import collections
 import datetime
 import glob
 import html
 import json
 import os
 import re
+from collections import Counter, defaultdict
 
 root = r"C:/Users/robby/.openclaw/workspace/market_intel"
 raw = root + "/data/raw"
@@ -16,29 +16,96 @@ SOURCES = [
     ("reddit", "title"),
 ]
 
-STOPWORDS = {
-    "with", "from", "that", "this", "game", "games", "daily", "para", "como",
-    "your", "have", "just", "they", "them", "into", "over", "when", "what",
-    "best", "more", "less", "than", "you", "are", "not", "all", "new"
+SOURCE_WEIGHTS = {
+    "appbrain": 0.55,
+    "google_trends": 0.30,
+    "reddit": 0.15,
 }
 
-TOKEN_RE = re.compile(r"[a-záéíóúñ]{4,}", re.I)
+# Curated business-first keyword dictionary
+KEYWORDS = [
+    # CORE gameplay intent
+    ("word puzzle", "core"),
+    ("word search", "core"),
+    ("wordle", "core"),
+    ("crossword", "core"),
+    ("sudoku", "core"),
+    ("solitaire", "core"),
+    ("mahjong", "core"),
+    ("block puzzle", "core"),
+    ("match 3", "core"),
+    ("tile match", "core"),
+    ("brain teaser", "core"),
+    ("daily challenge", "core"),
+    # ADJACENCY growth/retention terms
+    ("streak", "adjacency"),
+    ("leaderboard", "adjacency"),
+    ("multiplayer", "adjacency"),
+    ("duel", "adjacency"),
+    ("versus", "adjacency"),
+    ("pvp", "adjacency"),
+    ("share", "adjacency"),
+    ("referral", "adjacency"),
+    ("reward", "adjacency"),
+    ("coins", "adjacency"),
+    ("offline", "adjacency"),
+    ("no wifi", "adjacency"),
+    ("relax", "adjacency"),
+    ("cozy", "adjacency"),
+    ("speed", "adjacency"),
+    ("timed", "adjacency"),
+    ("hard mode", "adjacency"),
+]
+
+KEYWORD_META = {k: t for k, t in KEYWORDS}
 
 
-def tokenize(text: str):
-    for w in TOKEN_RE.findall((text or "").lower()):
-        if w in STOPWORDS:
-            continue
-        yield w
+def norm_text(s: str) -> str:
+    s = (s or "").lower()
+    s = re.sub(r"\s+", " ", s)
+    return f" {s} "
 
 
-# Days are driven by appbrain presence (same as existing behavior)
+def contains_keyword(text: str, kw: str) -> bool:
+    # Phrase-safe contains with word boundaries around the full keyword
+    pattern = r"(?<![a-z0-9])" + re.escape(kw.lower()) + r"(?![a-z0-9])"
+    return re.search(pattern, text) is not None
+
+
+def fmt_ratio(x: float) -> str:
+    return f"{x * 100:.1f}%"
+
+
+def fmt_delta(today: int, yday: int) -> str:
+    d = today - yday
+    if d > 0:
+        return f"+{d}"
+    return str(d)
+
+
+def signal_label(today: int, yday: int, ratio_today: float) -> str:
+    delta = today - yday
+    pct = ((today - yday) / yday) if yday > 0 else (1.0 if today > 0 else 0.0)
+
+    if delta >= 2 or pct >= 0.25:
+        return "sube"
+    if delta <= -2 or pct <= -0.25:
+        return "baja"
+    if ratio_today < 0.01 and today <= 1:
+        return "ruido"
+    return "ruido"
+
+
+# Discover days by appbrain files (same convention)
 days = sorted({os.path.splitext(os.path.basename(p))[0] for p in glob.glob(raw + "/appbrain/*.jsonl")})
+latest_day = days[-1] if days else None
+prev_day = days[-2] if len(days) > 1 else None
 
-# counts_by_day[day][word] = total occurrences across sources
-counts_by_day = {d: collections.Counter() for d in days}
-# counts_by_source_total[source][word] = cumulative occurrences in that source across all days
-counts_by_source_total = {src: collections.Counter() for src, _ in SOURCES}
+# hits[day][source][keyword] = count
+hits = defaultdict(lambda: defaultdict(Counter))
+# daily_total_hits[day] = total curated keyword hits across all keywords/sources
+# (used for ratio normalization)
+daily_total_hits = Counter()
 
 for d in days:
     for src, field in SOURCES:
@@ -53,65 +120,105 @@ for d in days:
                     o = json.loads(ln)
                 except Exception:
                     continue
-                text = (o.get(field) or o.get("app_name") or o.get("title") or "")
-                for w in tokenize(text):
-                    counts_by_day[d][w] += 1
-                    counts_by_source_total[src][w] += 1
+                text = norm_text(o.get(field) or o.get("app_name") or o.get("title") or "")
+                for kw, _ in KEYWORDS:
+                    if contains_keyword(text, kw):
+                        hits[d][src][kw] += 1
+                        daily_total_hits[d] += 1
 
-# Total across all days/sources
-total_counts = collections.Counter()
-for d in days:
-    total_counts.update(counts_by_day[d])
+# Build per-keyword metrics for latest day
+rows = []
+for kw, segment in KEYWORDS:
+    today_total = sum(hits[latest_day][s].get(kw, 0) for s, _ in SOURCES) if latest_day else 0
+    yday_total = sum(hits[prev_day][s].get(kw, 0) for s, _ in SOURCES) if prev_day else 0
 
-# Top 50 words globally
-top_words = [w for w, _ in total_counts.most_common(50)]
+    by_src_today = {s: (hits[latest_day][s].get(kw, 0) if latest_day else 0) for s, _ in SOURCES}
 
-# Rank maps for trend calc based on latest two days
-latest_day = days[-1] if days else None
-prev_day = days[-2] if len(days) > 1 else None
-latest_rank = {}
-prev_rank = {}
-if latest_day:
-    latest_rank = {w: i + 1 for i, (w, _) in enumerate(counts_by_day[latest_day].most_common())}
-if prev_day:
-    prev_rank = {w: i + 1 for i, (w, _) in enumerate(counts_by_day[prev_day].most_common())}
+    weighted = sum(by_src_today[s] * SOURCE_WEIGHTS[s] for s in by_src_today)
+    ratio_today = (today_total / daily_total_hits[latest_day]) if latest_day and daily_total_hits[latest_day] else 0.0
+
+    rows.append({
+        "keyword": kw,
+        "segment": segment,
+        "today": today_total,
+        "yday": yday_total,
+        "delta": today_total - yday_total,
+        "ratio_today": ratio_today,
+        "appbrain": by_src_today["appbrain"],
+        "google_trends": by_src_today["google_trends"],
+        "reddit": by_src_today["reddit"],
+        "weighted_score": weighted,
+        "signal": signal_label(today_total, yday_total, ratio_today),
+        "per_day": {d: sum(hits[d][s].get(kw, 0) for s, _ in SOURCES) for d in days},
+    })
+
+# top50 requested (dictionary currently <50, so this naturally caps)
+rows = sorted(rows, key=lambda r: (r["weighted_score"], r["today"], r["delta"]), reverse=True)[:50]
+
+# Rank movement vs yesterday (within curated dictionary ranking)
+rank_today = {r["keyword"]: i + 1 for i, r in enumerate(sorted(rows, key=lambda x: (x["today"], x["weighted_score"]), reverse=True))}
+rank_yday_order = sorted(rows, key=lambda x: x["yday"], reverse=True)
+rank_yday = {r["keyword"]: i + 1 for i, r in enumerate(rank_yday_order)}
 
 
-def trend_label(word: str) -> str:
-    if not latest_day:
+def trend_cell(kw: str) -> str:
+    rt = rank_today.get(kw)
+    ry = rank_yday.get(kw)
+    if rt is None or ry is None:
         return "="
-    r_now = latest_rank.get(word)
-    if r_now is None:
-        return "="
-    r_prev = prev_rank.get(word)
-    if r_prev is None:
-        return "↑ new"
-    delta = r_prev - r_now
-    if delta > 0:
-        return f"↑ +{delta}"
-    if delta < 0:
-        return f"↓ {delta}"
+    delta_pos = ry - rt
+    if delta_pos > 0:
+        return f"↑ +{delta_pos}"
+    if delta_pos < 0:
+        return f"↓ {delta_pos}"
     return "="
 
 
+suben = [r for r in rows if r["signal"] == "sube"]
+bajan = [r for r in rows if r["signal"] == "baja"]
+ruido = [r for r in rows if r["signal"] == "ruido"]
+
+suben = sorted(suben, key=lambda r: (r["delta"], r["weighted_score"]), reverse=True)[:8]
+bajan = sorted(bajan, key=lambda r: (r["delta"], -r["weighted_score"]))[:8]
+ruido = sorted(ruido, key=lambda r: (r["today"], r["weighted_score"]))[:8]
+
 header_days = "".join(f"<th>{html.escape(d)}</th>" for d in days)
 
-rows_html = []
-for w in top_words:
-    per_day = "".join(f"<td>{counts_by_day[d].get(w, 0)}</td>" for d in days)
-    rows_html.append(
+trs = []
+for r in rows:
+    trend = trend_cell(r["keyword"])
+    signal_cls = "up" if r["signal"] == "sube" else ("down" if r["signal"] == "baja" else "noise")
+    segment_badge = "core" if r["segment"] == "core" else "adj"
+    day_cells = "".join(f"<td>{r['per_day'].get(d, 0)}</td>" for d in days)
+
+    trs.append(
         "<tr>"
-        f"<td>{html.escape(trend_label(w))}</td>"
-        f"<td><b>{html.escape(w)}</b></td>"
-        f"<td>{total_counts.get(w, 0)}</td>"
-        f"<td>{counts_by_source_total['appbrain'].get(w, 0)}</td>"
-        f"<td>{counts_by_source_total['google_trends'].get(w, 0)}</td>"
-        f"<td>{counts_by_source_total['reddit'].get(w, 0)}</td>"
-        f"{per_day}"
+        f"<td>{html.escape(trend)}</td>"
+        f"<td><b>{html.escape(r['keyword'])}</b> <span class='badge {segment_badge}'>{html.escape(r['segment'])}</span></td>"
+        f"<td>{r['today']}</td>"
+        f"<td>{fmt_ratio(r['ratio_today'])}</td>"
+        f"<td>{fmt_delta(r['today'], r['yday'])}</td>"
+        f"<td>{r['appbrain']}</td>"
+        f"<td>{r['google_trends']}</td>"
+        f"<td>{r['reddit']}</td>"
+        f"<td>{r['weighted_score']:.2f}</td>"
+        f"<td><span class='sig {signal_cls}'>{html.escape(r['signal'])}</span></td>"
+        f"{day_cells}"
         "</tr>"
     )
 
-html_rows = "\n".join(rows_html)
+rows_html = "\n".join(trs)
+
+
+def chips(items):
+    if not items:
+        return "<span class='chip'>—</span>"
+    out = []
+    for r in items:
+        out.append(f"<span class='chip'>{html.escape(r['keyword'])} ({fmt_delta(r['today'], r['yday'])})</span>")
+    return "".join(out)
+
+
 now = datetime.datetime.now().isoformat(timespec="seconds")
 
 out = f"""<!doctype html>
@@ -120,30 +227,75 @@ out = f"""<!doctype html>
 <meta charset=\"utf-8\">
 <title>Market Intel Daily Trend Report</title>
 <style>
-body {{font-family: Arial, sans-serif; margin: 20px}}
-table {{border-collapse: collapse; width: 100%; font-size: 13px}}
-th, td {{border: 1px solid #ddd; padding: 6px; vertical-align: top}}
-th {{background: #f3f3f3; position: sticky; top: 0}}
-tr:nth-child(even) {{background: #fafafa}}
-.note {{color:#444; margin-bottom:10px}}
+body {{font-family: Inter, Arial, sans-serif; margin: 18px; color:#111827; background:#f7f9fc}}
+.panel {{background:#fff; border:1px solid #dbe3f0; border-radius:12px; padding:12px; margin-bottom:12px}}
+.h {{display:flex; justify-content:space-between; align-items:flex-end; gap:10px; margin-bottom:8px}}
+.sub {{color:#4b5563; font-size:12px}}
+.metrics {{display:grid; grid-template-columns:repeat(4,minmax(140px,1fr)); gap:8px}}
+.kpi {{background:#f9fbff; border:1px solid #d8e3fb; border-radius:10px; padding:8px}}
+.kpi b {{font-size:16px}}
+
+table {{border-collapse: collapse; width: 100%; font-size: 12px; background:#fff; border:1px solid #dbe3f0}}
+th, td {{border: 1px solid #e5ebf5; padding: 6px; vertical-align: top}}
+th {{background: #f3f6fb; position: sticky; top: 0; z-index: 1}}
+tr:nth-child(even) {{background: #fbfdff}}
+
+.badge {{font-size:10px; border-radius:999px; padding:1px 6px; margin-left:6px; border:1px solid}}
+.badge.core {{background:#ecfeff; color:#0f766e; border-color:#99f6e4}}
+.badge.adj {{background:#fefce8; color:#a16207; border-color:#fde68a}}
+
+.sig {{font-size:11px; font-weight:700; border-radius:999px; padding:2px 8px}}
+.sig.up {{background:#dcfce7; color:#166534}}
+.sig.down {{background:#fee2e2; color:#991b1b}}
+.sig.noise {{background:#e5e7eb; color:#374151}}
+
+.chip {{display:inline-block; margin:2px; font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid #d6deee; background:#f8fbff}}
+@media (max-width:960px) {{ .metrics {{grid-template-columns:repeat(2,minmax(140px,1fr));}} }}
 </style>
 </head>
 <body>
-<h2>Market Intel Daily Trend Report (Top 50 palabras)</h2>
-<p>Updated: {now}</p>
-<p class=\"note\">Trend = cambio de posición en ranking contra el día previo (usando las dos últimas fechas disponibles).</p>
-<table>
-<thead>
-<tr>
-<th>Trend</th><th>Palabra</th><th>Total</th>
-<th>Total AppBrain</th><th>Total Google Trends</th><th>Total Reddit</th>
-{header_days}
-</tr>
-</thead>
-<tbody>
-{html_rows}
-</tbody>
-</table>
+  <div class=\"panel\">
+    <div class=\"h\">
+      <div>
+        <h2 style=\"margin:0\">Market Intel Daily Trend Report — Business Mode</h2>
+        <div class=\"sub\">Updated: {now} · Diccionario curado (core + adjacency) · Top 50</div>
+      </div>
+      <div class=\"sub\">Último día: {html.escape(str(latest_day or '—'))} · Ayer: {html.escape(str(prev_day or '—'))}</div>
+    </div>
+    <div class=\"metrics\">
+      <div class=\"kpi\"><div class=\"sub\">Keywords monitorizadas</div><b>{len(KEYWORDS)}</b></div>
+      <div class=\"kpi\"><div class=\"sub\">Hits hoy (curated)</div><b>{daily_total_hits.get(latest_day, 0) if latest_day else 0}</b></div>
+      <div class=\"kpi\"><div class=\"sub\">Suben</div><b>{len(suben)}</b></div>
+      <div class=\"kpi\"><div class=\"sub\">Bajan</div><b>{len(bajan)}</b></div>
+    </div>
+  </div>
+
+  <div class=\"panel\">
+    <div class=\"sub\"><b>Suben</b> {chips(suben)}</div>
+    <div class=\"sub\" style=\"margin-top:4px\"><b>Bajan</b> {chips(bajan)}</div>
+    <div class=\"sub\" style=\"margin-top:4px\"><b>Ruido</b> {chips(ruido)}</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Trend</th>
+        <th>Keyword</th>
+        <th>Count</th>
+        <th>Ratio</th>
+        <th>Delta vs ayer</th>
+        <th>Total AppBrain</th>
+        <th>Total Trends</th>
+        <th>Total Reddit</th>
+        <th>Score ponderado</th>
+        <th>Signal</th>
+        {header_days}
+      </tr>
+    </thead>
+    <tbody>
+      {rows_html}
+    </tbody>
+  </table>
 </body>
 </html>"""
 

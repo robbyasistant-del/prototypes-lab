@@ -4,78 +4,102 @@
 <meta charset="utf-8">
 <title>Market Intel Daily Trend Report</title>
 <style>
-body {font-family: Arial, sans-serif; margin: 20px}
-table {border-collapse: collapse; width: 100%; font-size: 13px}
-th, td {border: 1px solid #ddd; padding: 6px; vertical-align: top}
-th {background: #f3f3f3; position: sticky; top: 0}
-tr:nth-child(even) {background: #fafafa}
-.note {color:#444; margin-bottom:10px}
+body {font-family: Inter, Arial, sans-serif; margin: 18px; color:#111827; background:#f7f9fc}
+.panel {background:#fff; border:1px solid #dbe3f0; border-radius:12px; padding:12px; margin-bottom:12px}
+.h {display:flex; justify-content:space-between; align-items:flex-end; gap:10px; margin-bottom:8px}
+.sub {color:#4b5563; font-size:12px}
+.metrics {display:grid; grid-template-columns:repeat(4,minmax(140px,1fr)); gap:8px}
+.kpi {background:#f9fbff; border:1px solid #d8e3fb; border-radius:10px; padding:8px}
+.kpi b {font-size:16px}
+
+table {border-collapse: collapse; width: 100%; font-size: 12px; background:#fff; border:1px solid #dbe3f0}
+th, td {border: 1px solid #e5ebf5; padding: 6px; vertical-align: top}
+th {background: #f3f6fb; position: sticky; top: 0; z-index: 1}
+tr:nth-child(even) {background: #fbfdff}
+
+.badge {font-size:10px; border-radius:999px; padding:1px 6px; margin-left:6px; border:1px solid}
+.badge.core {background:#ecfeff; color:#0f766e; border-color:#99f6e4}
+.badge.adj {background:#fefce8; color:#a16207; border-color:#fde68a}
+
+.sig {font-size:11px; font-weight:700; border-radius:999px; padding:2px 8px}
+.sig.up {background:#dcfce7; color:#166534}
+.sig.down {background:#fee2e2; color:#991b1b}
+.sig.noise {background:#e5e7eb; color:#374151}
+
+.chip {display:inline-block; margin:2px; font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid #d6deee; background:#f8fbff}
+@media (max-width:960px) { .metrics {grid-template-columns:repeat(2,minmax(140px,1fr));} }
 </style>
 </head>
 <body>
-<h2>Market Intel Daily Trend Report (Top 50 palabras)</h2>
-<p>Updated: 2026-02-27T17:00:37</p>
-<p class="note">Trend = cambio de posición en ranking contra el día previo (usando las dos últimas fechas disponibles).</p>
-<table>
-<thead>
-<tr>
-<th>Trend</th><th>Palabra</th><th>Total</th>
-<th>Total AppBrain</th><th>Total Google Trends</th><th>Total Reddit</th>
-<th>2026-02-24</th><th>2026-02-25</th><th>2026-02-26</th><th>2026-02-27</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>=</td><td><b>puzzle</b></td><td>162</td><td>162</td><td>0</td><td>0</td><td>33</td><td>33</td><td>24</td><td>72</td></tr>
-<tr><td>=</td><td><b>solitaire</b></td><td>92</td><td>92</td><td>0</td><td>0</td><td>18</td><td>18</td><td>14</td><td>42</td></tr>
-<tr><td>=</td><td><b>block</b></td><td>84</td><td>84</td><td>0</td><td>0</td><td>18</td><td>18</td><td>12</td><td>36</td></tr>
-<tr><td>↑ +1</td><td><b>music</b></td><td>76</td><td>76</td><td>0</td><td>0</td><td>18</td><td>18</td><td>10</td><td>30</td></tr>
-<tr><td>↓ -2</td><td><b>match</b></td><td>67</td><td>67</td><td>0</td><td>0</td><td>15</td><td>15</td><td>10</td><td>27</td></tr>
-<tr><td>↑ +1</td><td><b>word</b></td><td>58</td><td>58</td><td>0</td><td>0</td><td>9</td><td>9</td><td>10</td><td>30</td></tr>
-<tr><td>↑ +3</td><td><b>merge</b></td><td>51</td><td>51</td><td>0</td><td>0</td><td>12</td><td>12</td><td>6</td><td>21</td></tr>
-<tr><td>↑ +2</td><td><b>piano</b></td><td>48</td><td>48</td><td>0</td><td>0</td><td>12</td><td>12</td><td>6</td><td>18</td></tr>
-<tr><td>↓ -1</td><td><b>card</b></td><td>47</td><td>47</td><td>0</td><td>0</td><td>9</td><td>9</td><td>8</td><td>21</td></tr>
-<tr><td>↑ +2</td><td><b>escape</b></td><td>42</td><td>42</td><td>0</td><td>0</td><td>9</td><td>9</td><td>6</td><td>18</td></tr>
-<tr><td>↑ +2</td><td><b>sort</b></td><td>42</td><td>42</td><td>0</td><td>0</td><td>9</td><td>9</td><td>6</td><td>18</td></tr>
-<tr><td>↑ +3</td><td><b>bingo</b></td><td>42</td><td>42</td><td>0</td><td>0</td><td>9</td><td>9</td><td>6</td><td>18</td></tr>
-<tr><td>↓ -4</td><td><b>mahjong</b></td><td>39</td><td>39</td><td>0</td><td>0</td><td>9</td><td>9</td><td>6</td><td>15</td></tr>
-<tr><td>↓ -2</td><td><b>brain</b></td><td>39</td><td>39</td><td>0</td><td>0</td><td>9</td><td>9</td><td>6</td><td>15</td></tr>
-<tr><td>↑ +17</td><td><b>color</b></td><td>38</td><td>38</td><td>0</td><td>0</td><td>9</td><td>10</td><td>4</td><td>15</td></tr>
-<tr><td>↑ +23</td><td><b>coin</b></td><td>37</td><td>37</td><td>0</td><td>0</td><td>9</td><td>9</td><td>4</td><td>15</td></tr>
-<tr><td>↑ +26</td><td><b>adventure</b></td><td>37</td><td>37</td><td>0</td><td>0</td><td>9</td><td>9</td><td>4</td><td>15</td></tr>
-<tr><td>↓ -2</td><td><b>craft</b></td><td>34</td><td>34</td><td>0</td><td>0</td><td>9</td><td>9</td><td>4</td><td>12</td></tr>
-<tr><td>↑ +9</td><td><b>royal</b></td><td>31</td><td>31</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>15</td></tr>
-<tr><td>↑ +23</td><td><b>mini</b></td><td>31</td><td>31</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>15</td></tr>
-<tr><td>↑ +10</td><td><b>magic</b></td><td>29</td><td>28</td><td>1</td><td>0</td><td>6</td><td>6</td><td>4</td><td>13</td></tr>
-<tr><td>↓ -38</td><td><b>world</b></td><td>29</td><td>25</td><td>4</td><td>0</td><td>7</td><td>6</td><td>7</td><td>9</td></tr>
-<tr><td>↑ +23</td><td><b>master</b></td><td>29</td><td>29</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>13</td></tr>
-<tr><td>↑ +3</td><td><b>blitz</b></td><td>29</td><td>29</td><td>0</td><td>0</td><td>6</td><td>7</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -6</td><td><b>blast</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -6</td><td><b>arrow</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -6</td><td><b>surfers</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -6</td><td><b>tile</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -6</td><td><b>explorer</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -6</td><td><b>crush</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -5</td><td><b>flow</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -4</td><td><b>arrows</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -4</td><td><b>classic</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -4</td><td><b>water</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -4</td><td><b>asmr</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -2</td><td><b>pocket</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -2</td><td><b>find</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -2</td><td><b>spot</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -2</td><td><b>relaxing</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -3</td><td><b>away</b></td><td>28</td><td>28</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -19</td><td><b>clash</b></td><td>25</td><td>25</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>9</td></tr>
-<tr><td>↓ -8</td><td><b>tricky</b></td><td>25</td><td>25</td><td>0</td><td>0</td><td>6</td><td>6</td><td>4</td><td>9</td></tr>
-<tr><td>↑ +47</td><td><b>number</b></td><td>24</td><td>24</td><td>0</td><td>0</td><td>6</td><td>7</td><td>2</td><td>9</td></tr>
-<tr><td>↓ -2</td><td><b>kick</b></td><td>22</td><td>22</td><td>0</td><td>0</td><td>3</td><td>3</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -2</td><td><b>search</b></td><td>22</td><td>22</td><td>0</td><td>0</td><td>3</td><td>3</td><td>4</td><td>12</td></tr>
-<tr><td>↑ +1</td><td><b>party</b></td><td>22</td><td>22</td><td>0</td><td>0</td><td>3</td><td>3</td><td>4</td><td>12</td></tr>
-<tr><td>↓ -6</td><td><b>mobile</b></td><td>22</td><td>22</td><td>0</td><td>0</td><td>3</td><td>3</td><td>4</td><td>12</td></tr>
-<tr><td>↑ +81</td><td><b>hidden</b></td><td>17</td><td>17</td><td>0</td><td>0</td><td>3</td><td>3</td><td>2</td><td>9</td></tr>
-<tr><td>↑ +79</td><td><b>survival</b></td><td>17</td><td>17</td><td>0</td><td>0</td><td>3</td><td>3</td><td>2</td><td>9</td></tr>
-<tr><td>↑ +83</td><td><b>club</b></td><td>17</td><td>17</td><td>0</td><td>0</td><td>3</td><td>3</td><td>2</td><td>9</td></tr>
-</tbody>
-</table>
+  <div class="panel">
+    <div class="h">
+      <div>
+        <h2 style="margin:0">Market Intel Daily Trend Report — Business Mode</h2>
+        <div class="sub">Updated: 2026-02-27T17:04:15 · Diccionario curado (core + adjacency) · Top 50</div>
+      </div>
+      <div class="sub">Último día: 2026-02-27 · Ayer: 2026-02-26</div>
+    </div>
+    <div class="metrics">
+      <div class="kpi"><div class="sub">Keywords monitorizadas</div><b>29</b></div>
+      <div class="kpi"><div class="sub">Hits hoy (curated)</div><b>99</b></div>
+      <div class="kpi"><div class="sub">Suben</div><b>8</b></div>
+      <div class="kpi"><div class="sub">Bajan</div><b>1</b></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="sub"><b>Suben</b> <span class='chip'>solitaire (+28)</span><span class='chip'>mahjong (+9)</span><span class='chip'>word search (+8)</span><span class='chip'>word puzzle (+4)</span><span class='chip'>offline (+4)</span><span class='chip'>no wifi (+4)</span><span class='chip'>relax (+4)</span><span class='chip'>multiplayer (+3)</span></div>
+    <div class="sub" style="margin-top:4px"><b>Bajan</b> <span class='chip'>share (-1)</span></div>
+    <div class="sub" style="margin-top:4px"><b>Ruido</b> <span class='chip'>wordle (0)</span><span class='chip'>crossword (0)</span><span class='chip'>sudoku (0)</span><span class='chip'>block puzzle (0)</span><span class='chip'>match 3 (0)</span><span class='chip'>tile match (0)</span><span class='chip'>brain teaser (0)</span><span class='chip'>daily challenge (0)</span></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Trend</th>
+        <th>Keyword</th>
+        <th>Count</th>
+        <th>Ratio</th>
+        <th>Delta vs ayer</th>
+        <th>Total AppBrain</th>
+        <th>Total Trends</th>
+        <th>Total Reddit</th>
+        <th>Score ponderado</th>
+        <th>Signal</th>
+        <th>2026-02-24</th><th>2026-02-25</th><th>2026-02-26</th><th>2026-02-27</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>=</td><td><b>solitaire</b> <span class='badge core'>core</span></td><td>42</td><td>42.4%</td><td>+28</td><td>42</td><td>0</td><td>0</td><td>23.10</td><td><span class='sig up'>sube</span></td><td>18</td><td>18</td><td>14</td><td>42</td></tr>
+<tr><td>=</td><td><b>mahjong</b> <span class='badge core'>core</span></td><td>15</td><td>15.2%</td><td>+9</td><td>15</td><td>0</td><td>0</td><td>8.25</td><td><span class='sig up'>sube</span></td><td>9</td><td>9</td><td>6</td><td>15</td></tr>
+<tr><td>=</td><td><b>word search</b> <span class='badge core'>core</span></td><td>12</td><td>12.1%</td><td>+8</td><td>12</td><td>0</td><td>0</td><td>6.60</td><td><span class='sig up'>sube</span></td><td>3</td><td>3</td><td>4</td><td>12</td></tr>
+<tr><td>=</td><td><b>word puzzle</b> <span class='badge core'>core</span></td><td>6</td><td>6.1%</td><td>+4</td><td>6</td><td>0</td><td>0</td><td>3.30</td><td><span class='sig up'>sube</span></td><td>0</td><td>0</td><td>2</td><td>6</td></tr>
+<tr><td>=</td><td><b>offline</b> <span class='badge adj'>adjacency</span></td><td>6</td><td>6.1%</td><td>+4</td><td>6</td><td>0</td><td>0</td><td>3.30</td><td><span class='sig up'>sube</span></td><td>4</td><td>3</td><td>2</td><td>6</td></tr>
+<tr><td>=</td><td><b>no wifi</b> <span class='badge adj'>adjacency</span></td><td>6</td><td>6.1%</td><td>+4</td><td>6</td><td>0</td><td>0</td><td>3.30</td><td><span class='sig up'>sube</span></td><td>3</td><td>3</td><td>2</td><td>6</td></tr>
+<tr><td>=</td><td><b>relax</b> <span class='badge adj'>adjacency</span></td><td>6</td><td>6.1%</td><td>+4</td><td>6</td><td>0</td><td>0</td><td>3.30</td><td><span class='sig up'>sube</span></td><td>3</td><td>3</td><td>2</td><td>6</td></tr>
+<tr><td>↑ +1</td><td><b>multiplayer</b> <span class='badge adj'>adjacency</span></td><td>3</td><td>3.0%</td><td>+3</td><td>3</td><td>0</td><td>0</td><td>1.65</td><td><span class='sig up'>sube</span></td><td>0</td><td>0</td><td>0</td><td>3</td></tr>
+<tr><td>↑ +1</td><td><b>pvp</b> <span class='badge adj'>adjacency</span></td><td>3</td><td>3.0%</td><td>+3</td><td>3</td><td>0</td><td>0</td><td>1.65</td><td><span class='sig up'>sube</span></td><td>0</td><td>0</td><td>0</td><td>3</td></tr>
+<tr><td>↑ +1</td><td><b>wordle</b> <span class='badge core'>core</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>crossword</b> <span class='badge core'>core</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>sudoku</b> <span class='badge core'>core</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>block puzzle</b> <span class='badge core'>core</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>match 3</b> <span class='badge core'>core</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>tile match</b> <span class='badge core'>core</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>brain teaser</b> <span class='badge core'>core</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>daily challenge</b> <span class='badge core'>core</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>streak</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>leaderboard</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>duel</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>versus</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>referral</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>reward</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>coins</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>cozy</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>speed</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>timed</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↑ +1</td><td><b>hard mode</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig noise'>ruido</span></td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>↓ -21</td><td><b>share</b> <span class='badge adj'>adjacency</span></td><td>0</td><td>0.0%</td><td>-1</td><td>0</td><td>0</td><td>0</td><td>0.00</td><td><span class='sig down'>baja</span></td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+    </tbody>
+  </table>
 </body>
 </html>

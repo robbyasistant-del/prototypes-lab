@@ -75,8 +75,8 @@
     .cron-head{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px}
     .cron-head h3{margin:0; font-size:14px}
     .cron-meta{font-size:12px; color:var(--muted)}
-    .cron-list{display:flex; gap:10px; overflow:auto; padding-bottom:4px}
-    .cron-card{min-width:280px; max-width:320px; background:#141f42; border:1px solid #2a4277; border-radius:12px; padding:10px; flex:0 0 auto}
+    .cron-list{display:flex; flex-direction:column; gap:10px}
+    .cron-card{width:100%; background:#141f42; border:1px solid #2a4277; border-radius:12px; padding:10px}
     .cron-name{font-weight:700; font-size:13px; margin-bottom:6px}
     .cron-line{font-size:12px; color:#c8d6fb; margin:3px 0}
     .tag{display:inline-block; border-radius:999px; padding:2px 8px; font-size:11px; font-weight:700}
@@ -257,8 +257,15 @@ async function renderCronJobs(){
     const res=await fetch(`cron-jobs.json?t=${Date.now()}`,{cache:'no-store'});
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
     const data=await res.json();
-    const jobs=(data.jobs||[]);
-    meta.textContent=`${jobs.length} jobs · snapshot ${data.generatedAt||'sin fecha'}`;
+    const jobs=(data.jobs||[]).slice().sort((a,b)=>{
+      const [ma,ha]=String(a.schedule?.expr||'').split(' ');
+      const [mb,hb]=String(b.schedule?.expr||'').split(' ');
+      const toNum=v=>Number.isFinite(Number(v))?Number(v):99;
+      const va=toNum(ha)*60+toNum(ma);
+      const vb=toNum(hb)*60+toNum(mb);
+      return va-vb;
+    });
+    meta.textContent=`${jobs.length} jobs · ordenados por hora · snapshot ${data.generatedAt||'sin fecha'}`;
     if(!jobs.length){
       list.innerHTML=`<div class='cron-card'><div class='cron-line'>No hay jobs en el snapshot.</div></div>`;
       return;

@@ -294,9 +294,8 @@ async function renderCronJobs(){
       card.className='cron-card';
       const msg=j.payload?.message||'—';
       const out=outputTargetForJob(j);
-      const outHtml=out.href
-        ? `<a href='${esc(out.href)}' target='_blank' rel='noreferrer'>${esc(out.label)}</a>`
-        : esc(out.label);
+      const href=(out.href && out.href.trim()) ? out.href.trim() : out.label;
+      const outHtml=`<a href='${esc(href)}' target='_blank' rel='noreferrer'>${esc(out.label)}</a>`;
       card.innerHTML=`
         <div class='cron-top'>
           <div class='cron-name'>${esc(j.name||j.id||'sin nombre')}</div>

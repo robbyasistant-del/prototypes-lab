@@ -5,6 +5,7 @@ import json
 import os
 import re
 from collections import Counter, defaultdict
+from difflib import SequenceMatcher
 
 root = r"C:/Users/robby/.openclaw/workspace/market_intel"
 raw = root + "/data/raw"
@@ -22,19 +23,119 @@ SOURCE_WEIGHTS = {
     "reddit": 0.15,
 }
 
-# Curated business-first keyword dictionary (single-word mode for clear counts)
+# Curated dictionary: canonical single-word keywords
 CORE_WORDS = [
-    "word", "wordle", "search", "crossword", "sudoku", "solitaire", "mahjong",
-    "block", "match", "tile", "brain", "puzzle", "challenge",
+    "puzzle", "word", "wordle", "connections", "crossword", "sudoku", "anagram",
+    "scramble", "guess", "quiz", "trivia", "solitaire", "mahjong", "block",
+    "tile", "match", "brain", "logic", "letters", "spelling", "daily", "mini",
+    "search", "riddle", "clues",
 ]
+
 ADJ_WORDS = [
-    "streak", "leaderboard", "multiplayer", "duel", "versus", "pvp", "share",
-    "referral", "reward", "coins", "offline", "relax", "cozy", "speed", "timed",
+    "streak", "leaderboard", "ranking", "challenge", "multiplayer", "duel", "versus",
+    "pvp", "share", "referral", "invite", "reward", "coins", "booster", "offline",
+    "relax", "cozy", "speed", "timed", "score", "levels", "season", "event",
+    "viral", "trend",
 ]
 
 KEYWORDS = [(w, "core") for w in CORE_WORDS] + [(w, "adjacency") for w in ADJ_WORDS]
 KEYWORD_META = {k: t for k, t in KEYWORDS}
-KEYWORD_SET = set(KEYWORD_META.keys())
+
+# Fuzzy/contains alias map so close forms collapse into the same canonical token.
+# Example: "connection", "connect", "connected" -> "connections"
+ALIASES = {
+    "puzzle": ["puzzl"],
+    "word": ["word"],
+    "wordle": ["wordle"],
+    "connections": ["connection", "connect", "nytconnection", "sportsconnection"],
+    "crossword": ["crossword", "crosswords"],
+    "sudoku": ["sudoku"],
+    "anagram": ["anagram"],
+    "scramble": ["scrambl"],
+    "guess": ["guess", "guesser"],
+    "quiz": ["quiz", "quizz"],
+    "trivia": ["trivia"],
+    "solitaire": ["solitair"],
+    "mahjong": ["mahjong"],
+    "block": ["block"],
+    "tile": ["tile", "tiles"],
+    "match": ["match"],
+    "brain": ["brain"],
+    "logic": ["logic", "logical"],
+    "letters": ["letter", "letters"],
+    "spelling": ["spell", "spelling"],
+    "daily": ["daily", "dayli"],
+    "mini": ["mini"],
+    "search": ["search"],
+    "riddle": ["riddle", "riddl"],
+    "clues": ["clue", "clues"],
+
+    "streak": ["streak"],
+    "leaderboard": ["leaderboard", "leader"],
+    "ranking": ["rank", "ranking"],
+    "challenge": ["challenge", "challeng"],
+    "multiplayer": ["multiplayer", "multi"],
+    "duel": ["duel"],
+    "versus": ["versus", "vs"],
+    "pvp": ["pvp"],
+    "share": ["share", "sharing", "shared"],
+    "referral": ["referral", "refer"],
+    "invite": ["invite", "invit"],
+    "reward": ["reward", "rewards"],
+    "coins": ["coin", "coins"],
+    "booster": ["booster", "boost"],
+    "offline": ["offline"],
+    "relax": ["relax", "relaxed"],
+    "cozy": ["cozy", "cosy"],
+    "speed": ["speed", "speedy"],
+    "timed": ["timed", "timer"],
+    "score": ["score", "scoring"],
+    "levels": ["level", "levels"],
+    "season": ["season", "seasonal"],
+    "event": ["event", "events"],
+    "viral": ["viral", "virality"],
+    "trend": ["trend", "trending", "trends"],
+}
+
+TOKEN_RE = re.compile(r"[a-záéíóúñ]{3,}", re.I)
+
+
+def normalize_token(tok: str) -> str:
+    t = (tok or "").lower().strip()
+    # remove common endings for lightweight stemming
+    for suf in ("ing", "ed", "es", "s", "ly"):
+        if len(t) > 5 and t.endswith(suf):
+            t = t[: -len(suf)]
+            break
+    return t
+
+
+def map_token_to_keyword(tok: str):
+    t = normalize_token(tok)
+
+    # 1) direct exact canonical
+    if t in KEYWORD_META:
+        return t
+
+    # 2) alias contains/prefix checks
+    for canonical, aliases in ALIASES.items():
+        for a in aliases:
+            if t == a or t.startswith(a) or a in t:
+                return canonical
+
+    # 3) fuzzy near-match (one-letter-ish differences)
+    best_kw = None
+    best_score = 0.0
+    for kw in KEYWORD_META.keys():
+        sc = SequenceMatcher(None, t, kw).ratio()
+        if sc > best_score:
+            best_score = sc
+            best_kw = kw
+    if best_kw and best_score >= 0.86 and abs(len(t) - len(best_kw)) <= 2:
+        return best_kw
+
+    return None
+
 
 def fmt_ratio(x: float) -> str:
     return f"{x * 100:.1f}%"
@@ -85,9 +186,10 @@ for d in days:
                 except Exception:
                     continue
                 text = (o.get(field) or o.get("app_name") or o.get("title") or "").lower()
-                for tok in re.findall(r"[a-záéíóúñ]{3,}", text):
-                    if tok in KEYWORD_SET:
-                        hits[d][src][tok] += 1
+                for tok in TOKEN_RE.findall(text):
+                    mapped = map_token_to_keyword(tok)
+                    if mapped:
+                        hits[d][src][mapped] += 1
                         daily_total_hits[d] += 1
 
 # Build per-keyword metrics for latest day
@@ -116,7 +218,7 @@ for kw, segment in KEYWORDS:
         "per_day": {d: sum(hits[d][s].get(kw, 0) for s, _ in SOURCES) for d in days},
     })
 
-# top50 requested (dictionary currently <50, so this naturally caps)
+# top50 requested
 rows = sorted(rows, key=lambda r: (r["weighted_score"], r["today"], r["delta"]), reverse=True)[:50]
 
 # Rank movement vs yesterday (within curated dictionary ranking)
@@ -222,7 +324,7 @@ tr:nth-child(even) {{background: #fbfdff}}
     <div class=\"h\">
       <div>
         <h2 style=\"margin:0\">Market Intel Daily Trend Report — Business Mode</h2>
-        <div class=\"sub\">Updated: {now} · Diccionario curado (core + adjacency) · Top 50</div>
+        <div class=\"sub\">Updated: {now} · Diccionario ampliado (core + adjacency) + fuzzy/contains · Top 50</div>
       </div>
       <div class=\"sub\">Último día: {html.escape(str(latest_day or '—'))} · Ayer: {html.escape(str(prev_day or '—'))}</div>
     </div>

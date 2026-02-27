@@ -51,10 +51,10 @@
 
 <script>
 const MODES = {
-  normal:{label:'Normal 3×3',rows:3,cols:3,time:60},
-  master:{label:'Master 3×4',rows:3,cols:4,time:75},
-  genius:{label:'Genius 4×4',rows:4,cols:4,time:95},
-  absurdo:{label:'Absurdo 5×5',rows:5,cols:5,time:130},
+  normal:{label:'Normal 3×3',rows:3,cols:3,time:60,reveal:3},
+  master:{label:'Master 3×4',rows:3,cols:4,time:75,reveal:5},
+  genius:{label:'Genius 4×4',rows:4,cols:4,time:95,reveal:7},
+  absurdo:{label:'Absurdo 5×5',rows:5,cols:5,time:130,reveal:9},
 };
 let modeKey='normal';
 let mode=MODES[modeKey];
@@ -88,7 +88,7 @@ function setupIdleBoard(){
   const total=mode.rows*mode.cols;
   boardEl.style.gridTemplateColumns=`repeat(${mode.cols},1fr)`;
   cellsCountEl.textContent=String(total);
-  subtitleEl.textContent=`Memoriza números 1→${total} en 3s y pulsa en orden perfecto antes de ${mode.time}s.`;
+  subtitleEl.textContent=`Memoriza números 1→${total} en ${mode.reveal}s y pulsa en orden perfecto antes de ${mode.time}s.`;
   timeLeft=mode.time; timeEl.textContent=timeLeft.toFixed(1); nextEl.textContent='1';
   renderBoard(total);
   setStatus(`Modo ${mode.label} listo. Pulsa Start.`);
@@ -129,8 +129,8 @@ function buildRound(){
 function startGame(){
   phase='reveal'; expected=1; nextEl.textContent='1'; timeLeft=mode.time; timeEl.textContent=timeLeft.toFixed(1);
   startBtn.disabled=true; renderBoard(mode.rows*mode.cols); buildRound(); startTimer();
-  setStatus('Memoriza la cuadrícula... 3 segundos');
-  setTimeout(()=>{ if(phase!=='reveal') return; phase='play'; for(const c of cells) c.show=''; paint(); setStatus(`¡Ya! Pulsa del 1 al ${mode.rows*mode.cols} en orden.`); },3000);
+  setStatus(`Memoriza la cuadrícula... ${mode.reveal} segundos`);
+  setTimeout(()=>{ if(phase!=='reveal') return; phase='play'; for(const c of cells) c.show=''; paint(); setStatus(`¡Ya! Pulsa del 1 al ${mode.rows*mode.cols} en orden.`); }, mode.reveal*1000);
 }
 
 function onCellClick(idx){

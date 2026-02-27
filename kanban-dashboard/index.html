@@ -255,10 +255,19 @@ function addTask(){
 function statusClass(s){if(s==='ok') return 'ok'; if(s==='error') return 'error'; return 'unknown'}
 function fmtMs(ms){if(!ms) return '—'; try{return new Date(ms).toLocaleString('es-ES',{hour12:false})}catch{return '—'}}
 
+function madridDateYYYYMMDD(){
+  const parts = new Intl.DateTimeFormat('en-CA', { timeZone:'Europe/Madrid', year:'numeric', month:'2-digit', day:'2-digit' }).formatToParts(new Date());
+  const y = parts.find(p=>p.type==='year')?.value || '0000';
+  const m = parts.find(p=>p.type==='month')?.value || '00';
+  const d = parts.find(p=>p.type==='day')?.value || '00';
+  return `${y}-${m}-${d}`;
+}
+
 function outputTargetForJob(j){
   const n=(j.name||'').toLowerCase();
+  const today = madridDateYYYYMMDD();
   if(n==='market-intel-crawl-0310') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/daily_trend_report.html', href:'http://127.0.0.1:8766/market_intel/reports/daily_trend_report.html'};
-  if(n==='aso-growth-intel-0745') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/<YYYY-MM-DD>-aso-growth-brief.md', href:'http://127.0.0.1:8766/market_intel/reports/'};
+  if(n==='aso-growth-intel-0745') return {label:`C:/Users/robby/.openclaw/workspace/market_intel/reports/${today}-aso-growth-brief.html`, href:`http://127.0.0.1:8766/market_intel/reports/${today}-aso-growth-brief.html`};
   if(n==='aso-growth-close-2130') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/<YYYY-MM-DD>-close-summary.md', href:'http://127.0.0.1:8766/market_intel/reports/'};
   if(n==='aso-weekly-strategy-sunday-2100') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/<YYYY-[W]WW>-weekly-strategy.md', href:'http://127.0.0.1:8766/market_intel/reports/'};
   if(n==='daily-game-factory-0801') return {label:'https://robbyasistant-del.github.io/prototypes-lab/', href:'https://robbyasistant-del.github.io/prototypes-lab/'};

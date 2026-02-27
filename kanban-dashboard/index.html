@@ -257,7 +257,7 @@ function fmtMs(ms){if(!ms) return '—'; try{return new Date(ms).toLocaleString(
 
 function outputTargetForJob(j){
   const n=(j.name||'').toLowerCase();
-  if(n==='market-intel-crawl-0310') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/data/analysis', href:'file:///C:/Users/robby/.openclaw/workspace/market_intel/data/analysis'};
+  if(n==='market-intel-crawl-0310') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/daily_trend_report.html', href:'file:///C:/Users/robby/.openclaw/workspace/market_intel/reports/daily_trend_report.html'};
   if(n==='aso-growth-intel-0745') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/<YYYY-MM-DD>-aso-growth-brief.md', href:'file:///C:/Users/robby/.openclaw/workspace/market_intel/reports'};
   if(n==='aso-growth-close-2130') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/<YYYY-MM-DD>-close-summary.md', href:'file:///C:/Users/robby/.openclaw/workspace/market_intel/reports'};
   if(n==='aso-weekly-strategy-sunday-2100') return {label:'C:/Users/robby/.openclaw/workspace/market_intel/reports/<YYYY-[W]WW>-weekly-strategy.md', href:'file:///C:/Users/robby/.openclaw/workspace/market_intel/reports'};

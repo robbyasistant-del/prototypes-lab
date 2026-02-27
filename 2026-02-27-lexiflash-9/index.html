@@ -119,9 +119,9 @@ function buildRound(){
 function startGame(){
   phase='reveal'; expected=1; nextEl.textContent='1'; timeLeft=60; timeEl.textContent='60.0'; startBtn.disabled=true;
   renderBoard(); resetProgress(); buildRound();
-  setStatus('Memoriza posiciones + palabra durante 4 segundos.');
+  setStatus('Memoriza posiciones + palabra durante 5 segundos.');
   startTimer();
-  setTimeout(()=>{ if(phase!=='reveal') return; phase='play'; for(const c of cells) c.show=''; paint(); targetWordEl.textContent='?????????'; setStatus('¡Ahora reconstruye la palabra letra a letra!'); },4000);
+  setTimeout(()=>{ if(phase!=='reveal') return; phase='play'; for(const c of cells) c.show=''; paint(); targetWordEl.textContent='?????????'; setStatus('¡Ahora reconstruye la palabra letra a letra!'); },5000);
 }
 
 function onCellClick(idx){

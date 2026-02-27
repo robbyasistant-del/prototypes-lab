@@ -15,12 +15,16 @@ SOURCES = [
     ("appbrain", "app_name"),
     ("google_trends", "title"),
     ("reddit", "title"),
+    ("play_store", "app_name"),
+    ("x_trends", "title"),
 ]
 
 SOURCE_WEIGHTS = {
-    "appbrain": 0.55,
-    "google_trends": 0.30,
-    "reddit": 0.15,
+    "appbrain": 0.35,
+    "play_store": 0.25,
+    "google_trends": 0.20,
+    "x_trends": 0.12,
+    "reddit": 0.08,
 }
 
 # Curated dictionary: canonical single-word keywords
@@ -217,7 +221,9 @@ for kw, segment in KEYWORDS:
         "delta": today_total - yday_total,
         "ratio_today": ratio_today,
         "appbrain": by_src_today["appbrain"],
+        "play_store": by_src_today["play_store"],
         "google_trends": by_src_today["google_trends"],
+        "x_trends": by_src_today["x_trends"],
         "reddit": by_src_today["reddit"],
         "weighted_score": weighted,
         "signal": signal_label(today_total, yday_total, ratio_today),
@@ -271,7 +277,9 @@ for r in rows:
         f"<td>{fmt_ratio(r['ratio_today'])}</td>"
         f"<td>{fmt_delta(r['today'], r['yday'])}</td>"
         f"<td>{r['appbrain']}</td>"
+        f"<td>{r['play_store']}</td>"
         f"<td>{r['google_trends']}</td>"
+        f"<td>{r['x_trends']}</td>"
         f"<td>{r['reddit']}</td>"
         f"<td>{r['weighted_score']:.2f}</td>"
         f"<td><span class='sig {signal_cls}'>{html.escape(r['signal'])}</span></td>"
@@ -374,7 +382,9 @@ tr:nth-child(even) {{background: #fbfdff}}
         <th>Ratio</th>
         <th>Delta vs ayer</th>
         <th>Total AppBrain</th>
+        <th>Total Google Play</th>
         <th>Total Trends</th>
+        <th>Total X trends</th>
         <th>Total Reddit</th>
         <th>Score ponderado</th>
         <th>Signal</th>

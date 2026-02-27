@@ -19,6 +19,17 @@ APPBRAIN_URLS = [
     "https://www.appbrain.com/stats/google-play-rankings/top_free/game/spain",
     "https://www.appbrain.com/stats/google-play-rankings/top_free/game/mexico",
 ]
+PLAY_STORE_TOP_URLS = [
+    "https://play.google.com/store/apps/collection/topselling_free?hl=en&gl=us",
+    "https://play.google.com/store/apps/collection/topgrossing?hl=en&gl=us",
+    "https://play.google.com/store/apps/category/GAME_PUZZLE?hl=en&gl=us",
+]
+X_TRENDS24_URLS = [
+    "https://trends24.in/united-states/",
+    "https://trends24.in/united-kingdom/",
+    "https://trends24.in/spain/",
+    "https://trends24.in/mexico/",
+]
 
 
 def _get(url: str, timeout=25) -> str:
@@ -112,8 +123,59 @@ def crawl_appbrain(now_tag: str):
     _write_jsonl(BASE / "raw" / "appbrain" / f"{datetime.now().date()}.jsonl", rows)
 
 
+def crawl_play_store(now_tag: str):
+    rows = []
+    for url in PLAY_STORE_TOP_URLS:
+        try:
+            html = _get(url)
+            for m in re.finditer(r'aria-label="([^"]{2,140})"', html):
+                name = (m.group(1) or "").strip()
+                if not name:
+                    continue
+                rows.append({
+                    "ts": now_tag,
+                    "source": "play_store",
+                    "page": url,
+                    "app_name": name,
+                    "title": name,
+                })
+            time.sleep(0.4)
+        except Exception as e:
+            rows.append({"ts": now_tag, "source": "play_store", "page": url, "error": str(e)})
+    _write_jsonl(BASE / "raw" / "play_store" / f"{datetime.now().date()}.jsonl", rows)
+
+
+def crawl_x_trends(now_tag: str):
+    rows = []
+    for url in X_TRENDS24_URLS:
+        try:
+            html = _get(url)
+            found = set()
+            patterns = [
+                r'href="/hashtag/([^"]+)"',
+                r'>(#[A-Za-z0-9_]{2,80})<',
+                r'"trend-name">([^<]{2,120})<',
+            ]
+            for pat in patterns:
+                for m in re.finditer(pat, html):
+                    raw = (m.group(1) or "").strip()
+                    trend = urllib.parse.unquote_plus(raw).replace("-", " ").strip("# ")
+                    if trend and trend.lower() not in found:
+                        found.add(trend.lower())
+                        rows.append({
+                            "ts": now_tag,
+                            "source": "x_trends",
+                            "page": url,
+                            "title": trend,
+                        })
+            time.sleep(0.4)
+        except Exception as e:
+            rows.append({"ts": now_tag, "source": "x_trends", "page": url, "error": str(e)})
+    _write_jsonl(BASE / "raw" / "x_trends" / f"{datetime.now().date()}.jsonl", rows)
+
+
 def summarize(now_tag: str):
-    src_files = list((BASE / "raw" / "reddit").glob("*.jsonl")) + list((BASE / "raw" / "google_trends").glob("*.jsonl")) + list((BASE / "raw" / "appbrain").glob("*.jsonl"))
+    src_files = list((BASE / "raw" / "reddit").glob("*.jsonl")) + list((BASE / "raw" / "google_trends").glob("*.jsonl")) + list((BASE / "raw" / "appbrain").glob("*.jsonl")) + list((BASE / "raw" / "play_store").glob("*.jsonl")) + list((BASE / "raw" / "x_trends").glob("*.jsonl"))
     terms = {}
     total = 0
     for fp in src_files:
@@ -148,6 +210,8 @@ def main():
     crawl_reddit(now_tag)
     crawl_google_trends(now_tag)
     crawl_appbrain(now_tag)
+    crawl_play_store(now_tag)
+    crawl_x_trends(now_tag)
     out = summarize(now_tag)
     print(str(out))
 

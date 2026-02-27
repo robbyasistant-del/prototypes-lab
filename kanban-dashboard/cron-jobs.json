@@ -1,0 +1,218 @@
+﻿{
+    "generatedAt":  "2026-02-27 16:31:29",
+    "jobs":  [
+                 {
+                     "id":  "2ecd9850-fdd6-4c3d-b155-e0bddb3c3d9b",
+                     "name":  "aso-growth-close-2130",
+                     "enabled":  true,
+                     "createdAtMs":  1772109527106,
+                     "updatedAtMs":  1772137929019,
+                     "schedule":  {
+                                      "kind":  "cron",
+                                      "expr":  "30 21 * * *",
+                                      "tz":  "Europe/Madrid"
+                                  },
+                     "sessionTarget":  "isolated",
+                     "wakeMode":  "now",
+                     "payload":  {
+                                     "kind":  "agentTurn",
+                                     "message":  "Generate end-of-day close summary for Android app/game organic growth. Before starting, set GitHub Project item \u002721:30 close summary + kill/double-down\u0027 to Stage=\u0027In Progress\u0027 in https://github.com/users/robbyasistant-del/projects/1. Deliver concise decision-oriented close with wins/fails/metrics gaps/kill list/double-down/top priorities. Save full markdown to market_intel/reports/\u003cYYYY-MM-DD\u003e-close-summary.md. After finishing: move item to Stage=\u0027Done\u0027, append relevant note with key decisions, and send Telegram completion message to 5049109527 with report path and tomorrow priorities.",
+                                     "timeoutSeconds":  1200
+                                 },
+                     "delivery":  {
+                                      "mode":  "announce",
+                                      "channel":  "telegram",
+                                      "to":  "5049109527",
+                                      "bestEffort":  true
+                                  },
+                     "state":  {
+                                   "nextRunAtMs":  1772224200000,
+                                   "lastRunAtMs":  1772137800029,
+                                   "lastStatus":  "ok",
+                                   "lastDurationMs":  128990,
+                                   "consecutiveErrors":  0
+                               }
+                 },
+                 {
+                     "id":  "8a41ee59-9c77-47d8-a97f-57ae75d6701f",
+                     "name":  "playstore-top20-nightly",
+                     "description":  "Update blended Top20 by country/region from puzzle-word-casual-hypercasual searches and alert on major rank moves",
+                     "enabled":  true,
+                     "createdAtMs":  1772027330982,
+                     "updatedAtMs":  1772139873660,
+                     "schedule":  {
+                                      "kind":  "cron",
+                                      "expr":  "0 22 * * *",
+                                      "tz":  "Europe/Madrid"
+                                  },
+                     "sessionTarget":  "isolated",
+                     "wakeMode":  "now",
+                     "payload":  {
+                                     "kind":  "agentTurn",
+                                     "message":  "Run this workflow exactly:\\n1) Execute: node C:/Users/robby/.openclaw/workspace/prototypes/_market/update-top20.js\\n2) Detect today\u0027s date in Europe/Madrid (YYYY-MM-DD) and read: C:/Users/robby/.openclaw/workspace/prototypes/_market/data/alert-\u003cTODAY\u003e.txt\\n3) If alert text starts with [TOP20 ALERT, send Telegram message to chat 5049109527 with concise rises/drops and path: C:/Users/robby/.openclaw/workspace/prototypes/_market/top20-latest.html\\n4) If alert text starts with [TOP20 OK, do not send user-visible message; return NO_REPLY.\\n5) On errors, send short error alert to chat 5049109527 with failure reason and file path."
+                                 },
+                     "delivery":  {
+                                      "mode":  "none",
+                                      "channel":  "last"
+                                  },
+                     "state":  {
+                                   "nextRunAtMs":  1772226000000,
+                                   "lastRunAtMs":  1772139600020,
+                                   "lastStatus":  "ok",
+                                   "lastDurationMs":  273640,
+                                   "consecutiveErrors":  0
+                               }
+                 },
+                 {
+                     "id":  "9d063cc1-9145-4d2f-a851-715feb9e46f2",
+                     "name":  "market-intel-crawl-0310",
+                     "enabled":  true,
+                     "createdAtMs":  1771969004703,
+                     "updatedAtMs":  1772158305718,
+                     "schedule":  {
+                                      "kind":  "cron",
+                                      "expr":  "10 3 * * *",
+                                      "tz":  "Europe/Madrid"
+                                  },
+                     "sessionTarget":  "isolated",
+                     "wakeMode":  "now",
+                     "payload":  {
+                                     "kind":  "agentTurn",
+                                     "message":  "Run python C:/Users/robby/.openclaw/workspace/market_intel/crawler.py to collect trend data from reddit/google trends/appbrain into market_intel/data. Then send a short status with files updated and record counts, and above all a summary of the analysis of the main increases in trends in daily puzzle and/or word games, as well as a market analysis to understand business trends in this regard."
+                                 },
+                     "delivery":  {
+                                      "mode":  "announce",
+                                      "channel":  "last"
+                                  },
+                     "state":  {
+                                   "nextRunAtMs":  1772244600000,
+                                   "lastRunAtMs":  1772158200025,
+                                   "lastStatus":  "error",
+                                   "lastDurationMs":  105693,
+                                   "consecutiveErrors":  3,
+                                   "lastError":  "cron announce delivery failed"
+                               }
+                 },
+                 {
+                     "id":  "877ae2f8-4ae0-4046-8dd1-b3769bde9e54",
+                     "name":  "aso-growth-intel-0745",
+                     "enabled":  true,
+                     "createdAtMs":  1772109430393,
+                     "updatedAtMs":  1772174807655,
+                     "schedule":  {
+                                      "kind":  "cron",
+                                      "expr":  "45 7 * * *",
+                                      "tz":  "Europe/Madrid"
+                                  },
+                     "sessionTarget":  "isolated",
+                     "wakeMode":  "now",
+                     "payload":  {
+                                     "kind":  "agentTurn",
+                                     "message":  "Run daily market intelligence for Android game/app organic growth. Before starting, set GitHub Project item \u002707:45 ASO/trends intel brief\u0027 to Stage=\u0027In Progress\u0027 in https://github.com/users/robbyasistant-del/projects/1. Collect and synthesize signals from X/Twitter, TikTok web trends, Google Trends/search, Reddit, Play Store/AppBrain if available. Produce concise Spanish+Spanglish brief and write full markdown report to market_intel/reports/\u003cYYYY-MM-DD\u003e-aso-growth-brief.md. After finishing: move item to Stage=\u0027Done\u0027, append relevant note (top signal + action + blocker if any), and send Telegram completion message to 5049109527 with file path and top 3 actions.",
+                                     "timeoutSeconds":  1200
+                                 },
+                     "delivery":  {
+                                      "mode":  "announce",
+                                      "channel":  "telegram",
+                                      "to":  "5049109527",
+                                      "bestEffort":  true
+                                  },
+                     "state":  {
+                                   "nextRunAtMs":  1772261100000,
+                                   "lastRunAtMs":  1772174700025,
+                                   "lastStatus":  "ok",
+                                   "lastDurationMs":  107630,
+                                   "consecutiveErrors":  0
+                               }
+                 },
+                 {
+                     "id":  "85b8679e-c9fe-44bf-a271-37537db3247c",
+                     "name":  "x-trends-daily-0800",
+                     "enabled":  true,
+                     "createdAtMs":  1771918064679,
+                     "updatedAtMs":  1772175636481,
+                     "schedule":  {
+                                      "kind":  "cron",
+                                      "expr":  "0 8 * * *",
+                                      "tz":  "Europe/Madrid"
+                                  },
+                     "sessionTarget":  "isolated",
+                     "wakeMode":  "now",
+                     "payload":  {
+                                     "kind":  "agentTurn",
+                                     "message":  "Use x-trends-monitor. Build daily brief for last 24h focused on puzzle/word/mobile game virality. Priority source: X/Twitter signals. If X API is unavailable, blocked, or credits depleted, immediately switch to fallback sources (Google Trends, Reddit puzzle/word communities, Play Store movement, web social chatter) and still deliver output. Output must be exactly 3 lines max: 1) Top trends ayer 2) Ideas puzzles/juegos virales 3) Accion hoy. Keep concise, concrete, and actionable in Spanish with light Spanglish."
+                                 },
+                     "delivery":  {
+                                      "mode":  "announce",
+                                      "channel":  "last"
+                                  },
+                     "state":  {
+                                   "nextRunAtMs":  1772262000000,
+                                   "lastRunAtMs":  1772175600061,
+                                   "lastStatus":  "error",
+                                   "lastDurationMs":  36420,
+                                   "consecutiveErrors":  3,
+                                   "lastError":  "cron announce delivery failed"
+                               }
+                 },
+                 {
+                     "id":  "126e783b-4e04-4aad-9601-6dce7536c78b",
+                     "name":  "daily-game-factory-0801",
+                     "enabled":  true,
+                     "createdAtMs":  1771968367765,
+                     "updatedAtMs":  1772175895773,
+                     "schedule":  {
+                                      "kind":  "cron",
+                                      "expr":  "0 8 * * *",
+                                      "tz":  "Europe/Madrid"
+                                  },
+                     "sessionTarget":  "isolated",
+                     "wakeMode":  "now",
+                     "payload":  {
+                                     "kind":  "agentTurn",
+                                     "message":  "Every day at 08:00 Europe/Madrid, run a FULL Prototype Factory workflow with QUALITY FIRST (not quick mockups). Before starting, update GitHub Project https://github.com/users/robbyasistant-del/projects/1 item matching title \u0027Daily 08:00 prototype batch (quality-first)\u0027 to Stage=\u0027In Progress\u0027. Build exactly 3 prototypes in separate folders under C:/Users/robby/.openclaw/workspace/prototypes with date prefix. For EACH prototype produce polished index.html and detailed report.html (strategy, SEO/ASO/SEM, loop, rewards, KPIs, experiments, risks). Update cumulative prototypes/index.html, commit+push to robbyasistant-del/prototypes-lab, ensure Pages live. After finishing: move same project item to Stage=\u0027Done\u0027, append a short relevant note in the item body with what was shipped and risks, and send Telegram completion message to 5049109527 with URL + key outcome.",
+                                     "timeoutSeconds":  1800
+                                 },
+                     "delivery":  {
+                                      "mode":  "announce",
+                                      "channel":  "last"
+                                  },
+                     "state":  {
+                                   "nextRunAtMs":  1772262000000,
+                                   "lastRunAtMs":  1772175636481,
+                                   "lastStatus":  "error",
+                                   "lastDurationMs":  259292,
+                                   "consecutiveErrors":  1,
+                                   "lastError":  "cron announce delivery failed"
+                               }
+                 },
+                 {
+                     "id":  "7ba28c2d-cea5-4cfa-886f-3ea577b5c72a",
+                     "name":  "aso-weekly-strategy-sunday-2100",
+                     "enabled":  true,
+                     "createdAtMs":  1772109704376,
+                     "updatedAtMs":  1772109704376,
+                     "schedule":  {
+                                      "kind":  "cron",
+                                      "expr":  "0 21 * * 0",
+                                      "tz":  "Europe/Madrid"
+                                  },
+                     "sessionTarget":  "isolated",
+                     "wakeMode":  "now",
+                     "payload":  {
+                                     "kind":  "agentTurn",
+                                     "message":  "Generate WEEKEND strategic report (weekly rollup) for Android organic growth, using all daily reports from the current week. Source files to scan first: C:/Users/robby/.openclaw/workspace/market_intel/reports/*.md and prototype reports under C:/Users/robby/.openclaw/workspace/prototypes/**/report.html (this week only, Europe/Madrid week). Deliver in Spanish + light Spanglish, executive style, concise but high-signal.\\n\\nOutput sections:\\n1) Weekly Executive Summary (5-8 bullets)\\n2) Trend shifts detected (X/TikTok/Google/Reddit/Store) and confidence level\\n3) What worked vs what failed (evidence-based)\\n4) KPI weekly scoreboard (CTR, CVR/install proxy, D1, D7 if available, avg session, share rate) + data quality gaps\\n5) ASO/SEO strategy update: winning keywords, declining keywords, next-week keyword map\\n6) Prototype portfolio review: keep/iterate/kill matrix with rationale\\n7) Next-week plan (Mon-Sun): top 5 bets, experiments, and expected outcomes\\n8) Risk radar + mitigation\\n9) Clear decisions required from user (max 3)\\n\\nAlso write full long-form report to: C:/Users/robby/.openclaw/workspace/market_intel/reports/\u003cYYYY-[W]WW\u003e-weekly-strategy.md and include that path + prototypes index URL https://robbyasistant-del.github.io/prototypes-lab/ in the Telegram message.",
+                                     "timeoutSeconds":  1800
+                                 },
+                     "delivery":  {
+                                      "mode":  "announce",
+                                      "channel":  "telegram",
+                                      "to":  "5049109527",
+                                      "bestEffort":  true
+                                  },
+                     "state":  {
+                                   "nextRunAtMs":  1772395200000
+                               }
+                 }
+             ]
+}

@@ -22,55 +22,19 @@ SOURCE_WEIGHTS = {
     "reddit": 0.15,
 }
 
-# Curated business-first keyword dictionary
-KEYWORDS = [
-    # CORE gameplay intent
-    ("word puzzle", "core"),
-    ("word search", "core"),
-    ("wordle", "core"),
-    ("crossword", "core"),
-    ("sudoku", "core"),
-    ("solitaire", "core"),
-    ("mahjong", "core"),
-    ("block puzzle", "core"),
-    ("match 3", "core"),
-    ("tile match", "core"),
-    ("brain teaser", "core"),
-    ("daily challenge", "core"),
-    # ADJACENCY growth/retention terms
-    ("streak", "adjacency"),
-    ("leaderboard", "adjacency"),
-    ("multiplayer", "adjacency"),
-    ("duel", "adjacency"),
-    ("versus", "adjacency"),
-    ("pvp", "adjacency"),
-    ("share", "adjacency"),
-    ("referral", "adjacency"),
-    ("reward", "adjacency"),
-    ("coins", "adjacency"),
-    ("offline", "adjacency"),
-    ("no wifi", "adjacency"),
-    ("relax", "adjacency"),
-    ("cozy", "adjacency"),
-    ("speed", "adjacency"),
-    ("timed", "adjacency"),
-    ("hard mode", "adjacency"),
+# Curated business-first keyword dictionary (single-word mode for clear counts)
+CORE_WORDS = [
+    "word", "wordle", "search", "crossword", "sudoku", "solitaire", "mahjong",
+    "block", "match", "tile", "brain", "puzzle", "challenge",
+]
+ADJ_WORDS = [
+    "streak", "leaderboard", "multiplayer", "duel", "versus", "pvp", "share",
+    "referral", "reward", "coins", "offline", "relax", "cozy", "speed", "timed",
 ]
 
+KEYWORDS = [(w, "core") for w in CORE_WORDS] + [(w, "adjacency") for w in ADJ_WORDS]
 KEYWORD_META = {k: t for k, t in KEYWORDS}
-
-
-def norm_text(s: str) -> str:
-    s = (s or "").lower()
-    s = re.sub(r"\s+", " ", s)
-    return f" {s} "
-
-
-def contains_keyword(text: str, kw: str) -> bool:
-    # Phrase-safe contains with word boundaries around the full keyword
-    pattern = r"(?<![a-z0-9])" + re.escape(kw.lower()) + r"(?![a-z0-9])"
-    return re.search(pattern, text) is not None
-
+KEYWORD_SET = set(KEYWORD_META.keys())
 
 def fmt_ratio(x: float) -> str:
     return f"{x * 100:.1f}%"
@@ -120,10 +84,10 @@ for d in days:
                     o = json.loads(ln)
                 except Exception:
                     continue
-                text = norm_text(o.get(field) or o.get("app_name") or o.get("title") or "")
-                for kw, _ in KEYWORDS:
-                    if contains_keyword(text, kw):
-                        hits[d][src][kw] += 1
+                text = (o.get(field) or o.get("app_name") or o.get("title") or "").lower()
+                for tok in re.findall(r"[a-záéíóúñ]{3,}", text):
+                    if tok in KEYWORD_SET:
+                        hits[d][src][tok] += 1
                         daily_total_hits[d] += 1
 
 # Build per-keyword metrics for latest day

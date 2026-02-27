@@ -3,198 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Neon Recall 9</title>
+  <title>Neon Recall</title>
   <style>
-    :root{
-      --bg:#070b1a;--panel:#101933;--line:#2f4b86;--txt:#ecf3ff;--muted:#9ab1dd;
-      --accent:#57b8ff;--ok:#22c55e;--bad:#ef4444;--warn:#f59e0b;
-    }
+    :root{--bg:#070b1a;--panel:#101933;--line:#2f4b86;--txt:#ecf3ff;--muted:#9ab1dd;--ok:#22c55e;--bad:#ef4444}
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(900px 600px at 20% -10%,#1b2f63 0%,var(--bg) 60%);color:var(--txt);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
-    .app{width:min(860px,100%);background:linear-gradient(180deg,#101933,#0b1430);border:1px solid #29406f;border-radius:18px;padding:16px;box-shadow:0 18px 40px #0008}
-    h1{margin:0 0 8px;font-size:26px}
-    .muted{color:var(--muted);font-size:14px}
+    .app{width:min(980px,100%);background:linear-gradient(180deg,#101933,#0b1430);border:1px solid #29406f;border-radius:18px;padding:16px;box-shadow:0 18px 40px #0008}
+    h1{margin:0 0 6px;font-size:26px}.muted{color:var(--muted);font-size:14px}
     .top{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-bottom:12px}
-    .hud{display:flex;gap:10px;flex-wrap:wrap}
-    .pill{border:1px solid var(--line);background:#14224a;border-radius:10px;padding:8px 12px;font-weight:700}
-    .pill b{color:#fff}
+    .hud{display:flex;gap:10px;flex-wrap:wrap}.pill{border:1px solid var(--line);background:#14224a;border-radius:10px;padding:8px 12px;font-weight:700}
     .btn{border:none;border-radius:11px;padding:10px 14px;font-weight:800;cursor:pointer;background:linear-gradient(180deg,#76cbff,#4eaefe);color:#08101f}
     .btn:disabled{opacity:.55;cursor:not-allowed}
-    .board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
-    .cell{aspect-ratio:1/1;border-radius:12px;border:1px solid #33508c;background:linear-gradient(180deg,#16244b,#0f1b3b);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;color:#ddebff;cursor:pointer;user-select:none;transition:.15s transform,.15s box-shadow,.15s background,.15s border-color}
+    .modebar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+    .mode{border:1px solid #3a5b9c;background:#13234a;color:#dce9ff;border-radius:999px;padding:7px 12px;cursor:pointer;font-weight:700}
+    .mode.active{background:#2853a8;color:#fff;border-color:#69a6ff}
+    .board{display:grid;gap:10px;margin-top:8px}
+    .cell{aspect-ratio:1/1;border-radius:12px;border:1px solid #33508c;background:linear-gradient(180deg,#16244b,#0f1b3b);display:flex;align-items:center;justify-content:center;font-size:clamp(20px,3vw,34px);font-weight:900;color:#ddebff;cursor:pointer;user-select:none;transition:.15s transform,.15s box-shadow,.15s background,.15s border-color}
     .cell:hover{transform:translateY(-1px)}
     .cell.reveal{background:linear-gradient(180deg,#21407b,#17315f);box-shadow:0 0 0 2px #68b6ff55 inset}
     .cell.ok{background:linear-gradient(180deg,#1f6c42,#185838);border-color:#2ca763;color:#ecfff2;box-shadow:0 0 20px #1cc46955}
-    .cell.bad{background:linear-gradient(180deg,#6f2633,#581d28);border-color:#b13852;color:#ffe8ee}
     .status{margin-top:12px;padding:10px;border-radius:10px;background:#101b38;border:1px solid #2a4374;min-height:44px;display:flex;align-items:center;font-weight:600}
-    .status.win{border-color:#1f7a44;color:#b9ffd0}
-    .status.lose{border-color:#9a3048;color:#ffd1db}
-    .legend{margin-top:8px;font-size:13px;color:var(--muted)}
+    .status.win{border-color:#1f7a44;color:#b9ffd0}.status.lose{border-color:#9a3048;color:#ffd1db}
   </style>
 </head>
 <body>
   <main class="app">
     <div class="top">
       <div>
-        <h1>⚡ Neon Recall 9</h1>
-        <div class="muted">Memoriza números aleatorios (1→9) en 3s y pulsa casillas en orden perfecto antes de 60s.</div>
+        <h1>⚡ Neon Recall</h1>
+        <div class="muted" id="subtitle">Memoriza números en 3s y pulsa en orden perfecto antes del tiempo límite.</div>
       </div>
       <button id="startBtn" class="btn">Start</button>
     </div>
 
+    <div class="modebar" id="modebar"></div>
+
     <div class="hud">
       <div class="pill">⏱ Tiempo: <b id="time">60.0</b>s</div>
       <div class="pill">🎯 Siguiente: <b id="next">1</b></div>
+      <div class="pill">🧩 Casillas: <b id="cellsCount">9</b></div>
       <div class="pill">⚠️ Penalización: <b>-5s</b></div>
     </div>
 
     <section class="board" id="board"></section>
-    <div id="status" class="status">Pulsa <b style="margin:0 4px">Start</b> para comenzar.</div>
-    <div class="legend">Acierto: casilla verde + número visible. Fallo: se borra progreso y se restan 5s.</div>
+    <div id="status" class="status">Elige modo y pulsa Start.</div>
   </main>
 
 <script>
-const boardEl = document.getElementById('board');
-const startBtn = document.getElementById('startBtn');
-const timeEl = document.getElementById('time');
-const nextEl = document.getElementById('next');
-const statusEl = document.getElementById('status');
+const MODES = {
+  normal:{label:'Normal 3×3',rows:3,cols:3,time:60},
+  master:{label:'Master 3×4',rows:3,cols:4,time:75},
+  genius:{label:'Genius 4×4',rows:4,cols:4,time:95},
+  absurdo:{label:'Absurdo 5×5',rows:5,cols:5,time:130},
+};
+let modeKey='normal';
+let mode=MODES[modeKey];
 
-let cells = [];
-let order = []; // cellIndex for value 1..9
-let expected = 1;
-let timeLeft = 60;
-let timer = null;
-let phase = 'idle'; // idle | reveal | play | win | lose
-let lastTick = 0;
+const boardEl=document.getElementById('board');
+const modebar=document.getElementById('modebar');
+const startBtn=document.getElementById('startBtn');
+const timeEl=document.getElementById('time');
+const nextEl=document.getElementById('next');
+const statusEl=document.getElementById('status');
+const cellsCountEl=document.getElementById('cellsCount');
+const subtitleEl=document.getElementById('subtitle');
 
-function shuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
+let cells=[]; let order=[]; let expected=1; let timeLeft=60; let timer=null; let phase='idle'; let lastTick=0;
+
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function setStatus(t,c=''){statusEl.className='status'+(c?' '+c:'');statusEl.textContent=t;}
+
+function renderModes(){
+  modebar.innerHTML='';
+  for(const [k,m] of Object.entries(MODES)){
+    const b=document.createElement('button');
+    b.className='mode'+(k===modeKey?' active':'');
+    b.textContent=m.label;
+    b.onclick=()=>{ if(phase==='reveal'||phase==='play') return; modeKey=k; mode=m; renderModes(); setupIdleBoard(); };
+    modebar.appendChild(b);
   }
-  return a;
 }
 
-function setStatus(text, cls=''){
-  statusEl.className = 'status' + (cls ? ' ' + cls : '');
-  statusEl.textContent = text;
+function setupIdleBoard(){
+  const total=mode.rows*mode.cols;
+  boardEl.style.gridTemplateColumns=`repeat(${mode.cols},1fr)`;
+  cellsCountEl.textContent=String(total);
+  subtitleEl.textContent=`Memoriza números 1→${total} en 3s y pulsa en orden perfecto antes de ${mode.time}s.`;
+  timeLeft=mode.time; timeEl.textContent=timeLeft.toFixed(1); nextEl.textContent='1';
+  renderBoard(total);
+  setStatus(`Modo ${mode.label} listo. Pulsa Start.`);
 }
 
-function renderBoard(){
-  boardEl.innerHTML = '';
-  cells = Array.from({length:9}, (_,i)=>({idx:i, show:'', ok:false}));
+function renderBoard(total){
+  boardEl.innerHTML='';
+  cells=Array.from({length:total},(_,i)=>({idx:i,show:'',ok:false}));
   cells.forEach(c=>{
-    const div = document.createElement('button');
-    div.className = 'cell';
-    div.dataset.idx = c.idx;
-    div.textContent = '';
-    div.onclick = () => onCellClick(c.idx);
-    boardEl.appendChild(div);
+    const el=document.createElement('button');
+    el.className='cell'; el.dataset.idx=c.idx; el.textContent='';
+    el.onclick=()=>onCellClick(c.idx);
+    boardEl.appendChild(el);
   });
 }
 
 function paint(){
   for(const el of boardEl.children){
-    const i = Number(el.dataset.idx);
-    const c = cells[i];
-    el.textContent = c.show;
-    el.className = 'cell';
+    const c=cells[Number(el.dataset.idx)];
+    el.textContent=c.show; el.className='cell';
     if(phase==='reveal') el.classList.add('reveal');
     if(c.ok) el.classList.add('ok');
   }
 }
 
-function resetProgress(){
-  for(const c of cells){ c.ok=false; c.show=''; }
-  expected = 1;
-  nextEl.textContent = expected;
-  paint();
-}
-
-function startTimer(){
-  clearInterval(timer);
-  lastTick = performance.now();
-  timer = setInterval(()=>{
-    const now = performance.now();
-    const dt = (now-lastTick)/1000;
-    lastTick = now;
-    timeLeft = Math.max(0, timeLeft - dt);
-    timeEl.textContent = timeLeft.toFixed(1);
-    if(timeLeft<=0) lose();
-  }, 50);
-}
-
-function stopTimer(){ clearInterval(timer); timer=null; }
+function resetProgress(){ for(const c of cells){c.ok=false;c.show='';} expected=1; nextEl.textContent='1'; paint(); }
+function startTimer(){ clearInterval(timer); lastTick=performance.now(); timer=setInterval(()=>{ const now=performance.now(); const dt=(now-lastTick)/1000; lastTick=now; timeLeft=Math.max(0,timeLeft-dt); timeEl.textContent=timeLeft.toFixed(1); if(timeLeft<=0) lose(); },50); }
+function stopTimer(){clearInterval(timer);timer=null;}
 
 function buildRound(){
-  const nums = shuffle([1,2,3,4,5,6,7,8,9]);
-  order = Array(10).fill(-1);
-  nums.forEach((n,cellIdx)=>{ order[n] = cellIdx; });
-  nums.forEach((n,cellIdx)=>{ cells[cellIdx].show = String(n); });
+  const total=mode.rows*mode.cols;
+  const nums=shuffle(Array.from({length:total},(_,i)=>i+1));
+  order=Array(total+1).fill(-1);
+  nums.forEach((n,cellIdx)=>{ order[n]=cellIdx; cells[cellIdx].show=String(n); });
   paint();
 }
 
 function startGame(){
-  phase='reveal';
-  timeLeft = 60;
-  timeEl.textContent = '60.0';
-  expected = 1;
-  nextEl.textContent = '1';
-  startBtn.disabled = true;
-  renderBoard();
-  buildRound();
-  setStatus('Memoriza la cuadrícula... 3 segundos', '');
-  startTimer();
-
-  setTimeout(()=>{
-    if(phase!=='reveal') return;
-    phase='play';
-    for(const c of cells){ c.show=''; }
-    paint();
-    setStatus('¡Ya! Pulsa del 1 al 9 en orden.', '');
-  }, 3000);
+  phase='reveal'; expected=1; nextEl.textContent='1'; timeLeft=mode.time; timeEl.textContent=timeLeft.toFixed(1);
+  startBtn.disabled=true; renderBoard(mode.rows*mode.cols); buildRound(); startTimer();
+  setStatus('Memoriza la cuadrícula... 3 segundos');
+  setTimeout(()=>{ if(phase!=='reveal') return; phase='play'; for(const c of cells) c.show=''; paint(); setStatus(`¡Ya! Pulsa del 1 al ${mode.rows*mode.cols} en orden.`); },3000);
 }
 
 function onCellClick(idx){
-  if(phase!=='play') return;
-  if(timeLeft<=0) return;
-
-  const correctIdx = order[expected];
-  if(idx === correctIdx){
-    cells[idx].ok = true;
-    cells[idx].show = String(expected);
-    expected++;
-    nextEl.textContent = expected<=9 ? String(expected) : '✓';
-    paint();
-    if(expected===10) win();
+  if(phase!=='play' || timeLeft<=0) return;
+  const total=mode.rows*mode.cols;
+  const correctIdx=order[expected];
+  if(idx===correctIdx){
+    cells[idx].ok=true; cells[idx].show=String(expected); expected++; nextEl.textContent=expected<=total?String(expected):'✓'; paint();
+    if(expected===total+1) win();
   }else{
-    timeLeft = Math.max(0, timeLeft - 5);
-    timeEl.textContent = timeLeft.toFixed(1);
-    resetProgress();
-    setStatus('❌ Fallaste. Progreso borrado y -5s.', '');
-    if(timeLeft<=0) lose();
+    timeLeft=Math.max(0,timeLeft-5); timeEl.textContent=timeLeft.toFixed(1); resetProgress(); setStatus('❌ Fallaste. Progreso borrado y -5s.'); if(timeLeft<=0) lose();
   }
 }
 
-function win(){
-  phase='win';
-  stopTimer();
-  setStatus(`🏆 WIN en ${(60-timeLeft).toFixed(1)}s. Excelente memoria.`, 'win');
-  startBtn.disabled = false;
-}
+function win(){ phase='win'; stopTimer(); setStatus(`🏆 WIN en ${(mode.time-timeLeft).toFixed(1)}s (${mode.label})`, 'win'); startBtn.disabled=false; }
+function lose(){ if(phase==='lose') return; phase='lose'; stopTimer(); setStatus(`⌛ LOSE en modo ${mode.label}.`, 'lose'); startBtn.disabled=false; }
 
-function lose(){
-  if(phase==='lose') return;
-  phase='lose';
-  stopTimer();
-  setStatus('⌛ LOSE. Se acabó el tiempo.', 'lose');
-  startBtn.disabled = false;
-}
-
-startBtn.onclick = startGame;
-renderBoard();
+startBtn.onclick=startGame;
+renderModes(); setupIdleBoard();
 </script>
 </body>
 </html>

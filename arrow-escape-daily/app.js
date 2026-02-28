@@ -196,7 +196,7 @@ function buildDaily(){
   const rng = rand(hashSeed(`${day}:${state.diff}:v3`));
 
   let built = false;
-  for(let attempt=0; attempt<2000 && !built; attempt++){
+  for(let attempt=0; attempt<400 && !built; attempt++){
     const {start,end} = pickStartEnd(rng);
     const path = buildPath(rng, start, end, TARGET_SOLVE_MOVES);
     if(!path) continue;

@@ -168,6 +168,7 @@ function solveDetails(grid, start, end, fixed){
     used[u]=true;
 
     for(const e of edgesFrom(u)){
+      if(e.to===start) continue; // avoid parent cycles back into start
       const nc = dist[u] + e.w;
       const nf = fixedSeen[u] + (fixed.has(e.to) ? 1 : 0);
       if(nc < dist[e.to] || (nc===dist[e.to] && nf > fixedSeen[e.to])){
@@ -181,7 +182,12 @@ function solveDetails(grid, start, end, fixed){
   if(!Number.isFinite(dist[end])) return {cost:Infinity, path:[], touchesFixed:false};
 
   const path=[];
-  for(let cur=end; cur!==-1; cur=parent[cur]) path.push(cur);
+  const seen = new Set();
+  for(let cur=end; cur!==-1; cur=parent[cur]){
+    if(seen.has(cur)) break; // safety against accidental parent loops
+    seen.add(cur);
+    path.push(cur);
+  }
   path.reverse();
   const touchesFixed = path.some(i => fixed.has(i));
   return {cost:dist[end], path, touchesFixed};

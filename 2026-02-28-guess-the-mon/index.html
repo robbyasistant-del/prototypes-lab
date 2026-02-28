@@ -17,8 +17,9 @@
     .btn.ghost{background:#182954;color:#d7e6ff;border:1px solid #35538f}
     .arena{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
     .silhouette{height:280px;border:1px solid #35508d;border-radius:14px;background:linear-gradient(180deg,#1a2a58,#101b3a);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-    .blob{width:220px;height:220px;background:#05070d;border-radius:50% 40% 52% 41% / 46% 53% 35% 49%;filter:drop-shadow(0 0 20px #000);transform:rotate(var(--rot,0deg)) scale(var(--sc,1));transition:.25s}
-    .blob.reveal{background:linear-gradient(180deg,#ffe08a,#ffc247);box-shadow:0 0 24px #ffda7a77}
+    .sil-svg{width:240px;height:240px;filter:drop-shadow(0 0 20px #000);transform:rotate(var(--rot,0deg)) scale(var(--sc,1));transition:.25s}
+    .sil-path{fill:#05070d;transition:fill .25s ease}
+    .sil-svg.reveal .sil-path{fill:url(#gradReveal)}
     .name{position:absolute;bottom:10px;left:10px;padding:6px 10px;border-radius:999px;background:#0d1738;border:1px solid #2e467f;font-weight:700}
     .q{display:grid;gap:8px}
     .answers{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -55,7 +56,15 @@
 
   <section class="panel arena">
     <div class="silhouette">
-      <div id="blob" class="blob"></div>
+      <svg id="silSvg" class="sil-svg" viewBox="0 0 240 240" aria-label="silueta">
+        <defs>
+          <linearGradient id="gradReveal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffe08a"/>
+            <stop offset="100%" stop-color="#ffc247"/>
+          </linearGradient>
+        </defs>
+        <path id="silPath" class="sil-path" d="M40 170 Q60 95 120 90 Q175 98 195 170 Q165 205 120 206 Q72 205 40 170 Z"/>
+      </svg>
       <div id="nameTag" class="name">¿Quién es este Mon?</div>
     </div>
     <div class="q">
@@ -69,17 +78,30 @@
 </div>
 
 <script>
+const SIL = {
+  pika: 'M42 166 L58 112 L38 76 L74 84 L96 42 L118 82 L146 56 L142 96 L186 104 L166 126 L196 164 Q158 208 120 206 Q78 206 42 166 Z',
+  char: 'M58 174 Q66 126 100 98 Q130 74 152 86 Q170 95 172 118 Q175 136 160 152 Q174 165 174 182 Q166 202 138 204 Q112 205 92 194 Q70 190 58 174 Z',
+  squir: 'M54 164 Q56 122 88 102 Q120 82 152 98 Q178 112 182 144 Q183 170 166 186 Q146 205 114 204 Q86 204 68 188 Q54 176 54 164 Z',
+  bulb: 'M50 170 Q58 124 94 102 Q126 84 150 98 Q182 118 186 154 Q188 174 174 190 Q154 206 116 206 Q82 204 62 188 Q50 178 50 170 Z M96 92 Q116 58 146 60 Q152 86 136 102 Z',
+  eevee: 'M48 170 Q56 130 88 102 Q114 82 140 86 Q166 92 178 116 Q188 138 182 160 Q174 186 148 198 Q120 208 90 200 Q60 190 48 170 Z',
+  luca: 'M56 176 L72 132 L96 90 L120 108 L144 86 L168 124 L182 170 Q154 206 122 206 Q86 206 56 176 Z',
+  geng: 'M44 170 Q52 118 94 94 Q128 76 160 96 Q192 120 196 162 Q188 190 160 200 Q126 210 88 204 Q58 198 44 170 Z',
+  snor: 'M44 170 Q46 126 86 102 Q122 84 156 100 Q190 118 196 162 Q194 188 170 202 Q148 212 120 212 Q84 210 62 194 Q44 184 44 170 Z',
+  gard: 'M64 178 Q76 132 108 104 Q132 82 150 88 Q166 98 170 124 Q174 150 160 172 Q146 194 120 206 Q92 204 76 194 Q64 188 64 178 Z',
+  drag: 'M44 174 Q58 126 96 96 Q130 72 162 90 Q188 108 196 142 Q202 172 184 194 Q162 212 126 212 Q88 210 62 194 Q48 186 44 174 Z'
+};
+
 const DB=[
- {name:'PIKACHU',type:'Electrico',region:'Kanto',evo:'Raichu',shape:{rot:'-8deg',sc:'1.02'}},
- {name:'CHARMANDER',type:'Fuego',region:'Kanto',evo:'Charmeleon',shape:{rot:'16deg',sc:'0.96'}},
- {name:'SQUIRTLE',type:'Agua',region:'Kanto',evo:'Wartortle',shape:{rot:'-16deg',sc:'0.92'}},
- {name:'BULBASAUR',type:'Planta',region:'Kanto',evo:'Ivysaur',shape:{rot:'10deg',sc:'1.06'}},
- {name:'EEVEE',type:'Normal',region:'Kanto',evo:'Vaporeon/Jolteon/Flareon',shape:{rot:'-20deg',sc:'0.9'}},
- {name:'LUCARIO',type:'Lucha/Acero',region:'Sinnoh',evo:'-',shape:{rot:'20deg',sc:'1.0'}},
- {name:'GENGAR',type:'Fantasma/Veneno',region:'Kanto',evo:'-',shape:{rot:'-2deg',sc:'1.08'}},
- {name:'SNORLAX',type:'Normal',region:'Kanto',evo:'-',shape:{rot:'4deg',sc:'1.18'}},
- {name:'GARDEVOIR',type:'Psiquico/Hada',region:'Hoenn',evo:'-',shape:{rot:'-14deg',sc:'1.0'}},
- {name:'DRAGONITE',type:'Dragon/Volador',region:'Kanto',evo:'-',shape:{rot:'12deg',sc:'1.1'}},
+ {name:'PIKACHU',type:'Electrico',region:'Kanto',evo:'Raichu',shape:{rot:'-8deg',sc:'1.02',sil:'pika'}},
+ {name:'CHARMANDER',type:'Fuego',region:'Kanto',evo:'Charmeleon',shape:{rot:'16deg',sc:'0.96',sil:'char'}},
+ {name:'SQUIRTLE',type:'Agua',region:'Kanto',evo:'Wartortle',shape:{rot:'-16deg',sc:'0.92',sil:'squir'}},
+ {name:'BULBASAUR',type:'Planta',region:'Kanto',evo:'Ivysaur',shape:{rot:'10deg',sc:'1.06',sil:'bulb'}},
+ {name:'EEVEE',type:'Normal',region:'Kanto',evo:'Vaporeon/Jolteon/Flareon',shape:{rot:'-20deg',sc:'0.9',sil:'eevee'}},
+ {name:'LUCARIO',type:'Lucha/Acero',region:'Sinnoh',evo:'-',shape:{rot:'20deg',sc:'1.0',sil:'luca'}},
+ {name:'GENGAR',type:'Fantasma/Veneno',region:'Kanto',evo:'-',shape:{rot:'-2deg',sc:'1.08',sil:'geng'}},
+ {name:'SNORLAX',type:'Normal',region:'Kanto',evo:'-',shape:{rot:'4deg',sc:'1.18',sil:'snor'}},
+ {name:'GARDEVOIR',type:'Psiquico/Hada',region:'Hoenn',evo:'-',shape:{rot:'-14deg',sc:'1.0',sil:'gard'}},
+ {name:'DRAGONITE',type:'Dragon/Volador',region:'Kanto',evo:'-',shape:{rot:'12deg',sc:'1.1',sil:'drag'}},
 ];
 
 const startBtn=document.getElementById('startBtn');
@@ -89,7 +111,8 @@ const roundEl=document.getElementById('round');
 const scoreEl=document.getElementById('score');
 const streakEl=document.getElementById('streak');
 const bestEl=document.getElementById('best');
-const blob=document.getElementById('blob');
+const silSvg=document.getElementById('silSvg');
+const silPath=document.getElementById('silPath');
 const nameTag=document.getElementById('nameTag');
 const questionEl=document.getElementById('question');
 const answersEl=document.getElementById('answers');
@@ -138,8 +161,9 @@ function nextRound(){
   current={mon:queue.shift()};
   current.q=buildQuestion(current.mon);
   round++;
-  blob.style.setProperty('--rot',current.mon.shape.rot);blob.style.setProperty('--sc',current.mon.shape.sc);
-  blob.classList.remove('reveal');
+  silSvg.style.setProperty('--rot',current.mon.shape.rot);silSvg.style.setProperty('--sc',current.mon.shape.sc);
+  silPath.setAttribute('d', SIL[current.mon.shape.sil] || SIL.pika);
+  silSvg.classList.remove('reveal');
   nameTag.textContent='¿Quién es este Mon?';
   renderQ();
   updateHUD();
@@ -153,7 +177,7 @@ function answer(opt,btn){
     const speedBonus=Math.max(0,Math.floor(timeLeft/8));
     streak++; score += 10 + speedBonus + Math.min(20, streak*2);
     btn.classList.add('good');
-    blob.classList.add('reveal');
+    silSvg.classList.add('reveal');
     nameTag.textContent=current.mon.name;
     setStatus(`✅ ${current.mon.name}. +${10+speedBonus+Math.min(20, streak*2)} pts`, '');
   }else{

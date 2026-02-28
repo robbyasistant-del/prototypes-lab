@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Orbit Lexicon — Word Ring Puzzle</title>
+<style>
+body{margin:0;background:#0f0f16;color:#f2f5ff;font-family:Inter,Segoe UI,Arial}.wrap{max-width:920px;margin:0 auto;padding:20px}
+.panel{background:#191a29;border:1px solid #34395f;border-radius:14px;padding:14px}.letters{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:14px 0}
+.tile{background:#262a46;border:1px solid #3d4479;border-radius:10px;padding:12px;text-align:center;font-size:24px;font-weight:800;cursor:pointer;user-select:none}
+.tile.sel{outline:2px solid #84e8ff;background:#2a3559}.btn{border:none;background:#84e8ff;color:#002535;font-weight:700;padding:9px 12px;border-radius:10px;cursor:pointer}
+.word{min-height:42px;border:1px dashed #4f5688;border-radius:10px;padding:10px;font-size:24px;letter-spacing:2px}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:12px}.tag{display:inline-block;padding:4px 8px;border:1px solid #4d5ca4;border-radius:999px;font-size:12px}
+</style></head><body><div class="wrap"><h1>Orbit Lexicon</h1><p>Build words from rotating letter rings. Longer words + rare letters multiply score. <span class="tag">Daily board seed</span></p>
+<div class="grid"><div class="panel"><h3>Letter Orbit</h3><div id="letters" class="letters"></div><div class="word" id="current"></div><p><button class="btn" id="submit">Submit Word</button> <button class="btn" id="clear">Clear</button></p></div>
+<div class="panel"><h3>Run</h3><div>Score: <b id="score">0</b></div><div>Time: <b id="time">90</b></div><div>Valid Words: <b id="count">0</b></div><div style="margin-top:10px">Best word: <b id="best">—</b></div><p><button class="btn" id="start">Start</button></p><div id="log">Use 3+ letters per word.</div></div></div></div>
+<script>
+const dict=new Set(['SUN','MOON','STAR','STONE','NOTE','TONE','RING','SING','SIGN','LINES','NOISE','TRAIN','RAIN','GRAIN','BRAIN','BORN','BONE','IRON','LION','ORBIT','TRAIL','TRIAL','RATIO','SOLAR','LUNAR','LEARN','NEAR','EARN','SNORE','SCORE','GLOW','GRAINY']);
+const common='AEIORTNLSGBCDMPU';
+let letters=[],selected=[],score=0,time=90,valid=0,best='';
+const el=id=>document.getElementById(id);
+function seeded(n){let x=n%2147483647;return()=> (x=x*16807%2147483647)/2147483647}
+const rnd=seeded(Math.floor(new Date().setHours(0,0,0,0)/86400000)+77);
+function newBoard(){letters=[]; for(let i=0;i<12;i++) letters.push(common[Math.floor(rnd()*common.length)]); renderLetters();}
+function renderLetters(){const host=el('letters'); host.innerHTML=''; letters.forEach((ch,i)=>{const d=document.createElement('div');d.className='tile';d.textContent=ch; if(selected.includes(i)) d.classList.add('sel'); d.onclick=()=>pick(i); host.appendChild(d);});}
+function pick(i){if(time<=0) return; if(selected.includes(i)) selected=selected.filter(x=>x!==i); else selected.push(i); el('current').textContent=selected.map(i=>letters[i]).join(''); renderLetters();}
+function submit(){const w=selected.map(i=>letters[i]).join(''); if(w.length<3) return log('Need at least 3 letters'); if(dict.has(w)){const rare=(w.match(/[BGMP]/g)||[]).length; const pts=w.length*4 + rare*3; score+=pts; valid++; if(w.length>best.length) best=w; log(`Accepted ${w} +${pts}`);} else {score=Math.max(0,score-4); log(`Unknown word ${w} (-4)`);} selected=[]; rotate(); ui();}
+function rotate(){letters.unshift(letters.pop()); renderLetters();}
+function ui(){el('score').textContent=score;el('time').textContent=time;el('count').textContent=valid;el('best').textContent=best||'—';el('current').textContent=selected.map(i=>letters[i]).join('');}
+function log(t){el('log').textContent=t}
+let timer; function start(){clearInterval(timer); score=0;time=90;valid=0;best='';selected=[];newBoard();ui();log('Run started. Find high-value words.'); timer=setInterval(()=>{time--; if(time%6===0) rotate(); ui(); if(time<=0){clearInterval(timer);log(`Time! Score ${score} · Words ${valid}`)}},1000);}
+el('submit').onclick=submit;el('clear').onclick=()=>{selected=[];renderLetters();ui();};el('start').onclick=start;start();
+</script></body></html>

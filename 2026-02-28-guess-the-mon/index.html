@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Guess the Mon Daily</title>
+  <style>
+    :root{--bg:#0a1022;--panel:#131d3d;--line:#334d88;--txt:#ecf3ff;--muted:#9cb2de;--ok:#22c55e;--bad:#ef4444;--acc:#7dc2ff}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(1100px 700px at 20% -10%,#223a73 0%,var(--bg) 60%);color:var(--txt);padding:18px;min-height:100vh}
+    .wrap{max-width:960px;margin:0 auto;display:grid;gap:12px}
+    .panel{background:linear-gradient(180deg,#121d3d,#0d1733);border:1px solid #2d467f;border-radius:16px;padding:14px;box-shadow:0 12px 30px #0007}
+    h1{margin:0 0 4px}.muted{color:var(--muted)}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+    .hud{display:flex;gap:8px;flex-wrap:wrap}.pill{border:1px solid var(--line);background:#15254e;border-radius:999px;padding:6px 10px;font-weight:700}
+    .btn{border:none;border-radius:10px;padding:10px 13px;font-weight:800;background:linear-gradient(180deg,#8fd5ff,#5cb7ff);color:#05101f;cursor:pointer}
+    .btn.ghost{background:#182954;color:#d7e6ff;border:1px solid #35538f}
+    .arena{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+    .silhouette{height:280px;border:1px solid #35508d;border-radius:14px;background:linear-gradient(180deg,#1a2a58,#101b3a);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .blob{width:220px;height:220px;background:#05070d;border-radius:50% 40% 52% 41% / 46% 53% 35% 49%;filter:drop-shadow(0 0 20px #000);transform:rotate(var(--rot,0deg)) scale(var(--sc,1));transition:.25s}
+    .blob.reveal{background:linear-gradient(180deg,#ffe08a,#ffc247);box-shadow:0 0 24px #ffda7a77}
+    .name{position:absolute;bottom:10px;left:10px;padding:6px 10px;border-radius:999px;background:#0d1738;border:1px solid #2e467f;font-weight:700}
+    .q{display:grid;gap:8px}
+    .answers{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .ans{border:1px solid #3a5797;background:#13244d;color:#e8f1ff;border-radius:10px;padding:10px;cursor:pointer;font-weight:700;text-align:left}
+    .ans:hover{background:#1a3270}
+    .ans.good{background:#1f6b43;border-color:#2ea866}.ans.bad{background:#6a2332;border-color:#b63e59}
+    .status{padding:8px 10px;border-radius:10px;border:1px solid #31508e;background:#122046;min-height:42px;display:flex;align-items:center;font-weight:700}
+    .status.win{border-color:#1f7a44;color:#b9ffd0}.status.lose{border-color:#9a3048;color:#ffd1db}
+    .tiny{font-size:12px;color:#9db4df}
+    @media (max-width:860px){.arena{grid-template-columns:1fr}.silhouette{height:240px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="panel">
+    <div class="top">
+      <div>
+        <h1>🎯 Guess the Mon Daily</h1>
+        <div class="muted">Silueta + trivia speedrun (8 rondas). Responde rápido para multiplicador y streak.</div>
+      </div>
+      <div>
+        <button class="btn" id="startBtn">Start Daily Run</button>
+        <button class="btn ghost" id="shareBtn">Share Card</button>
+      </div>
+    </div>
+    <div class="hud" style="margin-top:8px">
+      <div class="pill">⏱ <span id="time">90</span>s</div>
+      <div class="pill">🏁 Ronda <span id="round">0</span>/8</div>
+      <div class="pill">⭐ Score <span id="score">0</span></div>
+      <div class="pill">🔥 Streak <span id="streak">0</span></div>
+      <div class="pill">🏆 Best <span id="best">0</span></div>
+    </div>
+  </section>
+
+  <section class="panel arena">
+    <div class="silhouette">
+      <div id="blob" class="blob"></div>
+      <div id="nameTag" class="name">¿Quién es este Mon?</div>
+    </div>
+    <div class="q">
+      <div class="tiny">Pregunta actual</div>
+      <h3 id="question" style="margin:0 0 4px">Pulsa Start para comenzar</h3>
+      <div id="answers" class="answers"></div>
+      <div id="status" class="status">Tip: +10 base, +bonus por velocidad, combo por aciertos seguidos.</div>
+      <div class="tiny">Formato pensado para clips: reveal + score + share final.</div>
+    </div>
+  </section>
+</div>
+
+<script>
+const DB=[
+ {name:'PIKACHU',type:'Electrico',region:'Kanto',evo:'Raichu',shape:{rot:'-8deg',sc:'1.02'}},
+ {name:'CHARMANDER',type:'Fuego',region:'Kanto',evo:'Charmeleon',shape:{rot:'16deg',sc:'0.96'}},
+ {name:'SQUIRTLE',type:'Agua',region:'Kanto',evo:'Wartortle',shape:{rot:'-16deg',sc:'0.92'}},
+ {name:'BULBASAUR',type:'Planta',region:'Kanto',evo:'Ivysaur',shape:{rot:'10deg',sc:'1.06'}},
+ {name:'EEVEE',type:'Normal',region:'Kanto',evo:'Vaporeon/Jolteon/Flareon',shape:{rot:'-20deg',sc:'0.9'}},
+ {name:'LUCARIO',type:'Lucha/Acero',region:'Sinnoh',evo:'-',shape:{rot:'20deg',sc:'1.0'}},
+ {name:'GENGAR',type:'Fantasma/Veneno',region:'Kanto',evo:'-',shape:{rot:'-2deg',sc:'1.08'}},
+ {name:'SNORLAX',type:'Normal',region:'Kanto',evo:'-',shape:{rot:'4deg',sc:'1.18'}},
+ {name:'GARDEVOIR',type:'Psiquico/Hada',region:'Hoenn',evo:'-',shape:{rot:'-14deg',sc:'1.0'}},
+ {name:'DRAGONITE',type:'Dragon/Volador',region:'Kanto',evo:'-',shape:{rot:'12deg',sc:'1.1'}},
+];
+
+const startBtn=document.getElementById('startBtn');
+const shareBtn=document.getElementById('shareBtn');
+const timeEl=document.getElementById('time');
+const roundEl=document.getElementById('round');
+const scoreEl=document.getElementById('score');
+const streakEl=document.getElementById('streak');
+const bestEl=document.getElementById('best');
+const blob=document.getElementById('blob');
+const nameTag=document.getElementById('nameTag');
+const questionEl=document.getElementById('question');
+const answersEl=document.getElementById('answers');
+const statusEl=document.getElementById('status');
+
+let timer=null,lastTick=0,timeLeft=90;
+let round=0,score=0,streak=0;
+let queue=[],current=null,phase='idle';
+const ROUNDS=8;
+
+function pickN(arr,n){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,n)}
+function setStatus(t,c=''){statusEl.className='status'+(c?' '+c:'');statusEl.textContent=t}
+function updateHUD(){timeEl.textContent=Math.max(0,timeLeft).toFixed(1);roundEl.textContent=round;scoreEl.textContent=score;streakEl.textContent=streak;bestEl.textContent=localStorage.getItem('gtm_best')||0}
+
+function startTimer(){clearInterval(timer);lastTick=performance.now();timer=setInterval(()=>{const now=performance.now();const dt=(now-lastTick)/1000;lastTick=now;timeLeft=Math.max(0,timeLeft-dt);updateHUD();if(timeLeft<=0) endRun(false)},50)}
+function stopTimer(){clearInterval(timer);timer=null}
+
+function buildQuestion(mon){
+  const mode = Math.random()<0.65?'name':'trivia';
+  if(mode==='name'){
+    const opts=pickN(DB.filter(x=>x.name!==mon.name),3).map(x=>x.name);
+    opts.push(mon.name);
+    return {q:'¿Quién es este Mon?',correct:mon.name,options:pickN(opts,4)};
+  }
+  const f = Math.random()<0.5?'type':'region';
+  const correct=mon[f];
+  const opts=pickN([...new Set(DB.map(x=>x[f]).filter(x=>x!==correct))],3);
+  opts.push(correct);
+  return {q: f==='type' ? `¿Cuál es el tipo de ${mon.name}?` : `¿De qué región es ${mon.name}?`, correct, options:pickN(opts,4)};
+}
+
+function renderQ(){
+  if(!current) return;
+  questionEl.textContent=current.q.q;
+  answersEl.innerHTML='';
+  current.q.options.forEach(opt=>{
+    const b=document.createElement('button');b.className='ans';b.textContent=opt;
+    b.onclick=()=>answer(opt,b);
+    answersEl.appendChild(b);
+  });
+}
+
+function nextRound(){
+  if(round>=ROUNDS){endRun(true);return}
+  if(!queue.length) queue=pickN(DB,ROUNDS);
+  current={mon:queue.shift()};
+  current.q=buildQuestion(current.mon);
+  round++;
+  blob.style.setProperty('--rot',current.mon.shape.rot);blob.style.setProperty('--sc',current.mon.shape.sc);
+  blob.classList.remove('reveal');
+  nameTag.textContent='¿Quién es este Mon?';
+  renderQ();
+  updateHUD();
+}
+
+function answer(opt,btn){
+  if(phase!=='run') return;
+  const good = opt===current.q.correct;
+  [...answersEl.children].forEach(x=>x.disabled=true);
+  if(good){
+    const speedBonus=Math.max(0,Math.floor(timeLeft/8));
+    streak++; score += 10 + speedBonus + Math.min(20, streak*2);
+    btn.classList.add('good');
+    blob.classList.add('reveal');
+    nameTag.textContent=current.mon.name;
+    setStatus(`✅ ${current.mon.name}. +${10+speedBonus+Math.min(20, streak*2)} pts`, '');
+  }else{
+    streak=0; timeLeft=Math.max(0,timeLeft-3);
+    btn.classList.add('bad');
+    const ok=[...answersEl.children].find(x=>x.textContent===current.q.correct); if(ok) ok.classList.add('good');
+    setStatus(`❌ Era: ${current.q.correct}. Penalización -3s`, '');
+  }
+  updateHUD();
+  setTimeout(nextRound,900);
+}
+
+function startRun(){
+  phase='run'; timeLeft=90; round=0; score=0; streak=0; queue=[]; updateHUD();
+  setStatus('Run iniciada. 8 rondas, responde rápido.', '');
+  startTimer();
+  nextRound();
+}
+
+function endRun(completed){
+  if(phase!=='run') return;
+  phase='end'; stopTimer();
+  const best=Number(localStorage.getItem('gtm_best')||0);
+  if(score>best) localStorage.setItem('gtm_best', String(score));
+  updateHUD();
+  setStatus(completed?`🏆 Run completa: ${score} pts`:`⌛ Tiempo agotado: ${score} pts`, completed?'win':'lose');
+  questionEl.textContent='Run terminada. Pulsa Start para otra.';
+  answersEl.innerHTML='';
+  nameTag.textContent='Resultados listos para compartir';
+}
+
+function shareCard(){
+  const txt = `🎯 Guess the Mon Daily\nScore: ${score}\nRondas: ${round}/${ROUNDS}\nStreak: ${streak}\n¿Me superas?`;
+  navigator.clipboard?.writeText(txt);
+  setStatus('📋 Share card copiada al portapapeles.', '');
+}
+
+startBtn.onclick=startRun;
+shareBtn.onclick=shareCard;
+updateHUD();
+</script>
+</body>
+</html>

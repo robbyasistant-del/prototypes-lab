@@ -1,6 +1,6 @@
 const SIZE = 5;
 const DIRS = ['U', 'R', 'D', 'L'];
-const ARROW = { U:'^', R:'>', D:'v', L:'<' };
+const ARROW = { U:'↑', R:'→', D:'↓', L:'←' };
 const VECTORS = { U:[-1,0], R:[0,1], D:[1,0], L:[0,-1] };
 const FIXED_ALWAYS = 3;
 const TARGET_SOLVE_MOVES = 8;

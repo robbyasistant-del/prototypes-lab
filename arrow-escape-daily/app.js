@@ -2,8 +2,8 @@ const SIZE = 5;
 const DIRS = ['U', 'R', 'D', 'L'];
 const ARROW = { U:'↑', R:'→', D:'↓', L:'←' };
 const VECTORS = { U:[-1,0], R:[0,1], D:[1,0], L:[0,-1] };
-const FIXED_BY_DIFF = { easy:0, medium:3, hard:6 };
-const MIN_REQUIRED_MOVES = 8;
+const FIXED_ALWAYS = 3;
+const TARGET_SOLVE_MOVES = 8;
 
 const daySeedEl = document.getElementById('daySeed');
 const timeEl = document.getElementById('time');
@@ -121,15 +121,19 @@ function cwDistance(from, to){
   return (b-a+4)%4;
 }
 
-// Exact lower-bound for this puzzle: min clockwise rotations needed so that
-// following arrows from S reaches E (with non-rotatable constraints respected).
-function minRotationsToSolve(grid, start, end, fixed){
+// Dijkstra over cells minimizing total clockwise rotations. On ties (same cost),
+// prefer paths that traverse more fixed cells.
+function solveDetails(grid, start, end, fixed){
   const N = SIZE*SIZE;
   const dist = Array(N).fill(Infinity);
+  const fixedSeen = Array(N).fill(-1);
   const used = Array(N).fill(false);
-  dist[start] = 0;
+  const parent = Array(N).fill(-1);
 
-  function relaxFrom(i){
+  dist[start] = 0;
+  fixedSeen[start] = fixed.has(start) ? 1 : 0;
+
+  function edgesFrom(i){
     const [r,c] = rc(i);
     const out = [];
 
@@ -143,7 +147,7 @@ function minRotationsToSolve(grid, start, end, fixed){
     }
 
     for(const d of DIRS){
-      const [dr,dc]=VECTORS[d];
+      const [dr,dc] = VECTORS[d];
       const nr=r+dr, nc=c+dc;
       if(!inBounds(nr,nc)) continue;
       out.push({to:idx(nr,nc), w:cwDistance(grid[i], d)});
@@ -152,16 +156,35 @@ function minRotationsToSolve(grid, start, end, fixed){
   }
 
   for(let it=0; it<N; it++){
-    let u=-1, best=Infinity;
-    for(let i=0;i<N;i++) if(!used[i] && dist[i]<best){ best=dist[i]; u=i; }
-    if(u===-1) break;
+    let u=-1, best=Infinity, bestFixed=-1;
+    for(let i=0;i<N;i++){
+      if(used[i]) continue;
+      if(dist[i] < best || (dist[i]===best && fixedSeen[i] > bestFixed)){
+        best = dist[i]; bestFixed = fixedSeen[i]; u=i;
+      }
+    }
+    if(u===-1 || !Number.isFinite(dist[u])) break;
     if(u===end) break;
     used[u]=true;
-    for(const e of relaxFrom(u)){
-      if(dist[u] + e.w < dist[e.to]) dist[e.to] = dist[u] + e.w;
+
+    for(const e of edgesFrom(u)){
+      const nc = dist[u] + e.w;
+      const nf = fixedSeen[u] + (fixed.has(e.to) ? 1 : 0);
+      if(nc < dist[e.to] || (nc===dist[e.to] && nf > fixedSeen[e.to])){
+        dist[e.to] = nc;
+        fixedSeen[e.to] = nf;
+        parent[e.to] = u;
+      }
     }
   }
-  return dist[end];
+
+  if(!Number.isFinite(dist[end])) return {cost:Infinity, path:[], touchesFixed:false};
+
+  const path=[];
+  for(let cur=end; cur!==-1; cur=parent[cur]) path.push(cur);
+  path.reverse();
+  const touchesFixed = path.some(i => fixed.has(i));
+  return {cost:dist[end], path, touchesFixed};
 }
 
 function buildDaily(){
@@ -173,9 +196,9 @@ function buildDaily(){
   const rng = rand(hashSeed(`${day}:${state.diff}:v3`));
 
   let built = false;
-  for(let attempt=0; attempt<120 && !built; attempt++){
+  for(let attempt=0; attempt<2000 && !built; attempt++){
     const {start,end} = pickStartEnd(rng);
-    const path = buildPath(rng, start, end, MIN_REQUIRED_MOVES);
+    const path = buildPath(rng, start, end, TARGET_SOLVE_MOVES);
     if(!path) continue;
 
     // Solution directions
@@ -186,12 +209,11 @@ function buildDaily(){
       solution[path[i]] = d;
     }
 
-    // pick fixed cells outside path/start/end
-    const pathSet = new Set(path);
+    // pick exactly 3 fixed cells (medium-like), outside start/end.
+    // We allow them on/off the seeded path; final validation enforces optimal path touches >=1 fixed.
     const fixed = new Set();
-    const fixedCount = FIXED_BY_DIFF[state.diff] ?? 0;
-    const candidates = Array.from({length: SIZE*SIZE}, (_,i)=>i).filter(i => !pathSet.has(i) && i!==start && i!==end);
-    while(fixed.size < Math.min(fixedCount, candidates.length)){
+    const candidates = Array.from({length: SIZE*SIZE}, (_,i)=>i).filter(i => i!==start && i!==end);
+    while(fixed.size < Math.min(FIXED_ALWAYS, candidates.length)){
       const k = Math.floor(rng()*candidates.length);
       fixed.add(candidates.splice(k,1)[0]);
     }
@@ -205,9 +227,10 @@ function buildDaily(){
       grid[i] = DIRS[(DIRS.indexOf(solution[i])+off)%4];
     }
 
-    // Hard validation: board must require at least MIN_REQUIRED_MOVES to solve.
-    const minSolve = minRotationsToSolve(grid, start, end, fixed);
-    if(!Number.isFinite(minSolve) || minSolve < MIN_REQUIRED_MOVES) continue;
+    // Hard validation: optimal solution must be exactly 8 moves and touch >=1 fixed cell.
+    const solved = solveDetails(grid, start, end, fixed);
+    if(!Number.isFinite(solved.cost) || solved.cost !== TARGET_SOLVE_MOVES) continue;
+    if(!solved.touchesFixed) continue;
 
     // Final safety: start arrow must not point out of board
     const [sr,sc]=rc(start);

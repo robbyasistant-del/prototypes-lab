@@ -1,7 +1,9 @@
 const SIZE = 5;
-const DIRECTIONS = ['↑','→','↓','←'];
-const VECTORS = {'↑':[-1,0],'→':[0,1],'↓':[1,0],'←':[0,-1]};
+const DIRS = ['U', 'R', 'D', 'L'];
+const ARROW = { U:'↑', R:'→', D:'↓', L:'←' };
+const VECTORS = { U:[-1,0], R:[0,1], D:[1,0], L:[0,-1] };
 const FIXED_BY_DIFF = { easy:0, medium:3, hard:6 };
+const MIN_REQUIRED_MOVES = 8;
 
 const daySeedEl = document.getElementById('daySeed');
 const timeEl = document.getElementById('time');
@@ -14,49 +16,199 @@ const resultTitle = document.getElementById('resultTitle');
 const shareCard = document.getElementById('shareCard');
 const diffEl = document.getElementById('difficulty');
 
-let state = {grid:[], moves:0, time:60, timer:null, dayKey:'', solved:false, start:0, end:24, fixed:new Set(), diff:'easy'};
+let state = {
+  grid:[],
+  solution:[],
+  moves:0,
+  time:60,
+  timer:null,
+  dayKey:'',
+  solved:false,
+  start:0,
+  end:24,
+  fixed:new Set(),
+  diff:'easy',
+};
 
-function hashSeed(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
-function rand(seed){return ()=> (seed = (seed * 1664525 + 1013904223) >>> 0) / 2**32;}
-function idx(r,c){return r*SIZE+c;}
-function rc(i){return [Math.floor(i/SIZE), i%SIZE];}
+function hashSeed(str){
+  let h=2166136261;
+  for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); }
+  return h>>>0;
+}
+function rand(seed){ return ()=> (seed = (seed * 1664525 + 1013904223) >>> 0) / 2**32; }
+function idx(r,c){ return r*SIZE+c; }
+function rc(i){ return [Math.floor(i/SIZE), i%SIZE]; }
+function inBounds(r,c){ return r>=0 && c>=0 && r<SIZE && c<SIZE; }
+
+function borderCells(){
+  const out=[];
+  for(let i=0;i<SIZE*SIZE;i++){
+    const [r,c]=rc(i);
+    if(r===0 || c===0 || r===SIZE-1 || c===SIZE-1) out.push(i);
+  }
+  return out;
+}
+
+function neighbors(i){
+  const [r,c]=rc(i);
+  const out=[];
+  for(const d of DIRS){
+    const [dr,dc]=VECTORS[d];
+    const nr=r+dr,nc=c+dc;
+    if(inBounds(nr,nc)) out.push(idx(nr,nc));
+  }
+  return out;
+}
+
+function dirFromTo(a,b){
+  const [ar,ac]=rc(a), [br,bc]=rc(b);
+  if(br===ar-1 && bc===ac) return 'U';
+  if(br===ar+1 && bc===ac) return 'D';
+  if(br===ar && bc===ac+1) return 'R';
+  if(br===ar && bc===ac-1) return 'L';
+  return null;
+}
 
 function pickStartEnd(rng){
-  const vertical = rng() < 0.5;
-  if(vertical){
-    const c = Math.floor(rng()*SIZE);
-    const c2 = Math.floor(rng()*SIZE);
-    return { start: idx(0,c), end: idx(SIZE-1,c2) };
+  const borders = borderCells();
+  for(let tries=0; tries<200; tries++){
+    const s = borders[Math.floor(rng()*borders.length)];
+    const e = borders[Math.floor(rng()*borders.length)];
+    if(s===e) continue;
+    const [sr,sc]=rc(s), [er,ec]=rc(e);
+    const dist = Math.abs(sr-er)+Math.abs(sc-ec);
+    if(dist>=4) return {start:s,end:e};
   }
-  const r = Math.floor(rng()*SIZE);
-  const r2 = Math.floor(rng()*SIZE);
-  return { start: idx(r,0), end: idx(r2,SIZE-1) };
+  return {start:idx(0,0), end:idx(SIZE-1,SIZE-1)};
+}
+
+function buildPath(rng, start, end, minLen){
+  const maxLen = 14;
+  const targetLen = Math.min(maxLen, Math.max(minLen+1, 10 + Math.floor(rng()*3)));
+
+  function dfs(cur, path, used){
+    if(path.length > targetLen) return null;
+    const manhattan = (()=>{ const [r1,c1]=rc(cur), [r2,c2]=rc(end); return Math.abs(r1-r2)+Math.abs(c1-c2); })();
+    const remain = targetLen - path.length;
+    if(manhattan > remain) return null;
+
+    if(cur===end && path.length>=minLen+1){
+      return path;
+    }
+
+    const cand = neighbors(cur).filter(n=>!used.has(n));
+    // Shuffle deterministic
+    for(let i=cand.length-1;i>0;i--){ const j=Math.floor(rng()*(i+1)); [cand[i],cand[j]]=[cand[j],cand[i]]; }
+
+    for(const n of cand){
+      used.add(n);
+      path.push(n);
+      const got = dfs(n, path, used);
+      if(got) return got;
+      path.pop();
+      used.delete(n);
+    }
+    return null;
+  }
+
+  const init=[start];
+  const used=new Set(init);
+  return dfs(start, init, used);
+}
+
+function cwDistance(from, to){
+  const a=DIRS.indexOf(from), b=DIRS.indexOf(to);
+  return (b-a+4)%4;
 }
 
 function buildDaily(){
   const day = new Date().toISOString().slice(0,10);
   state.dayKey = day;
   state.diff = diffEl.value;
-  daySeedEl.textContent = `${day} · ${state.diff}`;
+  daySeedEl.textContent = `${day} • ${state.diff}`;
 
-  const rng = rand(hashSeed(`${day}:${state.diff}`));
-  state.grid = Array.from({length: SIZE*SIZE}, ()=>DIRECTIONS[Math.floor(rng()*4)]);
+  const rng = rand(hashSeed(`${day}:${state.diff}:v3`));
 
-  const pos = pickStartEnd(rng);
-  state.start = pos.start;
-  state.end = pos.end;
+  let built = false;
+  for(let attempt=0; attempt<120 && !built; attempt++){
+    const {start,end} = pickStartEnd(rng);
+    const path = buildPath(rng, start, end, MIN_REQUIRED_MOVES);
+    if(!path) continue;
 
-  const fixedCount = FIXED_BY_DIFF[state.diff] ?? 0;
-  state.fixed = new Set();
-  const candidates = Array.from({length: SIZE*SIZE}, (_,i)=>i).filter(i => i!==state.start && i!==state.end);
-  while(state.fixed.size < Math.min(fixedCount, candidates.length)){
-    const k = Math.floor(rng()*candidates.length);
-    state.fixed.add(candidates.splice(k,1)[0]);
+    // Solution directions
+    const solution = Array.from({length: SIZE*SIZE}, ()=>DIRS[Math.floor(rng()*4)]);
+    for(let i=0;i<path.length-1;i++){
+      const d = dirFromTo(path[i], path[i+1]);
+      if(!d) continue;
+      solution[path[i]] = d;
+    }
+
+    // pick fixed cells outside path/start/end
+    const pathSet = new Set(path);
+    const fixed = new Set();
+    const fixedCount = FIXED_BY_DIFF[state.diff] ?? 0;
+    const candidates = Array.from({length: SIZE*SIZE}, (_,i)=>i).filter(i => !pathSet.has(i) && i!==start && i!==end);
+    while(fixed.size < Math.min(fixedCount, candidates.length)){
+      const k = Math.floor(rng()*candidates.length);
+      fixed.add(candidates.splice(k,1)[0]);
+    }
+
+    // Scramble from solution; enforce minimum required moves on editable path cells.
+    const grid = [...solution];
+    let reqMoves = 0;
+    const editablePath = path.slice(1, -1).filter(i=>!fixed.has(i)); // start/end non-rotatable
+
+    // First randomize all editable cells
+    for(let i=0;i<grid.length;i++){
+      if(i===start || i===end || fixed.has(i)) continue;
+      const off = Math.floor(rng()*4);
+      if(off===0) continue;
+      const from = solution[i];
+      grid[i] = DIRS[(DIRS.indexOf(from)+off)%4];
+      reqMoves += cwDistance(grid[i], solution[i]);
+    }
+
+    // Force minimum required moves using path cells if needed
+    let guard=0;
+    while(reqMoves < MIN_REQUIRED_MOVES && editablePath.length && guard<200){
+      const i = editablePath[Math.floor(rng()*editablePath.length)];
+      const cur = grid[i];
+      const want = solution[i];
+      const curDist = cwDistance(cur, want);
+      if(curDist>=3){ guard++; continue; }
+      // rotate one extra step away from solution
+      grid[i] = DIRS[(DIRS.indexOf(cur)+3)%4];
+      const nextDist = cwDistance(grid[i], want);
+      reqMoves += (nextDist - curDist);
+      guard++;
+    }
+
+    if(reqMoves < MIN_REQUIRED_MOVES) continue;
+
+    // Final safety: start arrow must not point out of board
+    const [sr,sc]=rc(start);
+    const [dr,dc]=VECTORS[grid[start]];
+    if(!inBounds(sr+dr, sc+dc)) continue;
+
+    state.start = start;
+    state.end = end;
+    state.fixed = fixed;
+    state.solution = solution;
+    state.grid = grid;
+    built = true;
+  }
+
+  if(!built){
+    // fallback deterministic basic board
+    state.start = 0; state.end = SIZE*SIZE-1;
+    state.fixed = new Set();
+    state.solution = Array.from({length: SIZE*SIZE}, ()=> 'R');
+    state.grid = [...state.solution];
   }
 }
 
-function currentStreak(){return Number(localStorage.getItem('aes_streak')||0);}
-function streakMultiplier(streak){return 1 + 0.1*streak;}
+function currentStreak(){ return Number(localStorage.getItem('aes_streak')||0); }
+function streakMultiplier(streak){ return 1 + 0.1*streak; }
 
 function draw(){
   gridEl.innerHTML = '';
@@ -67,7 +219,8 @@ function draw(){
     if(cellIdx===state.end) cls += ' end';
     if(state.fixed.has(cellIdx)) cls += ' fixed';
     div.className = cls;
-    div.textContent = cellIdx===state.start?`S\u00A0${d}`:cellIdx===state.end?'E':d;
+    const symbol = ARROW[d] || d;
+    div.textContent = cellIdx===state.start ? `S ${symbol}` : cellIdx===state.end ? 'E' : symbol;
     div.onclick = ()=>rotate(cellIdx);
     gridEl.appendChild(div);
   });
@@ -81,7 +234,7 @@ function draw(){
 function rotate(cellIdx){
   if (cellIdx===state.start || cellIdx===state.end || state.solved || state.fixed.has(cellIdx)) return;
   const cur = state.grid[cellIdx];
-  const next = DIRECTIONS[(DIRECTIONS.indexOf(cur)+1)%4];
+  const next = DIRS[(DIRS.indexOf(cur)+1)%4];
   state.grid[cellIdx] = next;
   state.moves++;
   draw();
@@ -92,13 +245,14 @@ function checkSolved(){
   let [r,c] = rc(state.start);
   const [er,ec] = rc(state.end);
   let steps=0;
-  while(steps<50){
+  while(steps<80){
     if(r===er && c===ec) return true;
     const i = idx(r,c);
     const dir = state.grid[i];
-    const [dr,dc] = VECTORS[dir] || [0,0];
-    r += dr; c += dc; steps++;
-    if(r<0||c<0||r>=SIZE||c>=SIZE) return false;
+    const v = VECTORS[dir];
+    if(!v) return false;
+    r += v[0]; c += v[1]; steps++;
+    if(!inBounds(r,c)) return false;
   }
   return false;
 }
@@ -119,6 +273,7 @@ function finish(win){
   const today = state.dayKey;
   const played = localStorage.getItem('aes_last_day');
   let streak = currentStreak();
+
   if (win && played !== today){
     streak += 1;
     localStorage.setItem('aes_streak', String(streak));
@@ -133,8 +288,9 @@ function finish(win){
   const streakMult = streakMultiplier(streak);
   const diffMult = state.diff === 'hard' ? 1.35 : state.diff === 'medium' ? 1.15 : 1.0;
   const score = Math.round(raw * streakMult * diffMult);
+
   resultTitle.textContent = win ? '✅ Escaped!' : '⏰ Time up';
-  shareCard.textContent = `Arrow Escape Daily v2\nDate: ${today}\nDifficulty: ${state.diff}\nResult: ${win?'WIN':'LOSE'}\nRaw score: ${raw}\nStreak mult: x${streakMult.toFixed(1)}\nDifficulty mult: x${diffMult.toFixed(2)}\nFinal score: ${score}\nMoves: ${state.moves}\nTime left: ${Math.max(0,state.time)}s\nStreak: ${streak}`;
+  shareCard.textContent = `Arrow Escape Daily\nDate: ${today}\nDifficulty: ${state.diff}\nResult: ${win?'WIN':'LOSE'}\nRaw score: ${raw}\nStreak mult: x${streakMult.toFixed(1)}\nDifficulty mult: x${diffMult.toFixed(2)}\nFinal score: ${score}\nMoves: ${state.moves}\nTime left: ${Math.max(0,state.time)}s\nStreak: ${streak}`;
   resultEl.classList.remove('hidden');
   draw();
 }

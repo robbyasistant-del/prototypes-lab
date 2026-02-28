@@ -2,7 +2,7 @@ const SIZE = 5;
 const DIRS = ['U', 'R', 'D', 'L'];
 const ARROW = { U:'↑', R:'→', D:'↓', L:'←' };
 const VECTORS = { U:[-1,0], R:[0,1], D:[1,0], L:[0,-1] };
-const FIXED_ALWAYS = 3;
+const FIXED_BY_DIFF = { easy:3, medium:5, hard:7 };
 const TARGET_SOLVE_MOVES = 8;
 
 const daySeedEl = document.getElementById('daySeed');
@@ -206,10 +206,11 @@ function buildDaily(){
   for(let attempt=0; attempt<maxAttempts && !built; attempt++){
     const {start,end} = pickStartEnd(rng);
 
-    // Exactly 3 fixed cells, excluding S/E.
+    // Fixed cells by difficulty (easy unchanged, medium/hard increased).
     const fixed = new Set();
     const candidates = Array.from({length: SIZE*SIZE}, (_,i)=>i).filter(i => i!==start && i!==end);
-    while(fixed.size < Math.min(FIXED_ALWAYS, candidates.length)){
+    const fixedGoal = FIXED_BY_DIFF[state.diff] ?? FIXED_BY_DIFF.easy;
+    while(fixed.size < Math.min(fixedGoal, candidates.length)){
       const k = Math.floor(rng()*candidates.length);
       fixed.add(candidates.splice(k,1)[0]);
     }
@@ -242,7 +243,8 @@ function buildDaily(){
     const {start,end} = pickStartEnd(rng);
     const fixed = new Set();
     const candidates = Array.from({length: SIZE*SIZE}, (_,i)=>i).filter(i => i!==start && i!==end);
-    while(fixed.size < Math.min(FIXED_ALWAYS, candidates.length)){
+    const fixedGoal = FIXED_BY_DIFF[state.diff] ?? FIXED_BY_DIFF.easy;
+    while(fixed.size < Math.min(fixedGoal, candidates.length)){
       const k = Math.floor(rng()*candidates.length);
       fixed.add(candidates.splice(k,1)[0]);
     }

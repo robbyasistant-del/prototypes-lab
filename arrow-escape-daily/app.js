@@ -1,6 +1,6 @@
 const SIZE = 5;
 const DIRS = ['U', 'R', 'D', 'L'];
-const ARROW = { U:'↑', R:'→', D:'↓', L:'←' };
+const ARROW = { U:'^', R:'>', D:'v', L:'<' };
 const VECTORS = { U:[-1,0], R:[0,1], D:[1,0], L:[0,-1] };
 const FIXED_ALWAYS = 3;
 const TARGET_SOLVE_MOVES = 8;
@@ -196,7 +196,7 @@ function buildDaily(){
   const rng = rand(hashSeed(`${day}:${state.diff}:v3`));
 
   let built = false;
-  const maxAttempts = 12000;
+  const maxAttempts = 1200;
   for(let attempt=0; attempt<maxAttempts && !built; attempt++){
     const {start,end} = pickStartEnd(rng);
 
@@ -232,11 +232,24 @@ function buildDaily(){
   }
 
   if(!built){
-    // fallback deterministic basic board
-    state.start = 0; state.end = SIZE*SIZE-1;
-    state.fixed = new Set();
-    state.solution = Array.from({length: SIZE*SIZE}, ()=> 'R');
-    state.grid = [...state.solution];
+    // resilient fallback: always render playable board immediately
+    const {start,end} = pickStartEnd(rng);
+    const fixed = new Set();
+    const candidates = Array.from({length: SIZE*SIZE}, (_,i)=>i).filter(i => i!==start && i!==end);
+    while(fixed.size < Math.min(FIXED_ALWAYS, candidates.length)){
+      const k = Math.floor(rng()*candidates.length);
+      fixed.add(candidates.splice(k,1)[0]);
+    }
+    const grid = Array.from({length: SIZE*SIZE}, ()=>DIRS[Math.floor(rng()*4)]);
+    const [sr,sc]=rc(start);
+    const validStartDirs = DIRS.filter(d=>{ const [dr,dc]=VECTORS[d]; return inBounds(sr+dr, sc+dc); });
+    grid[start] = validStartDirs[Math.floor(rng()*validStartDirs.length)];
+
+    state.start = start;
+    state.end = end;
+    state.fixed = fixed;
+    state.solution = [];
+    state.grid = grid;
   }
 }
 

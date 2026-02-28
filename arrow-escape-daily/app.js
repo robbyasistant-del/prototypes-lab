@@ -121,6 +121,49 @@ function cwDistance(from, to){
   return (b-a+4)%4;
 }
 
+// Exact lower-bound for this puzzle: min clockwise rotations needed so that
+// following arrows from S reaches E (with non-rotatable constraints respected).
+function minRotationsToSolve(grid, start, end, fixed){
+  const N = SIZE*SIZE;
+  const dist = Array(N).fill(Infinity);
+  const used = Array(N).fill(false);
+  dist[start] = 0;
+
+  function relaxFrom(i){
+    const [r,c] = rc(i);
+    const out = [];
+
+    const nonRot = (i===start || i===end || fixed.has(i));
+    if(nonRot){
+      const d = grid[i];
+      const [dr,dc] = VECTORS[d];
+      const nr=r+dr, nc=c+dc;
+      if(inBounds(nr,nc)) out.push({to:idx(nr,nc), w:0});
+      return out;
+    }
+
+    for(const d of DIRS){
+      const [dr,dc]=VECTORS[d];
+      const nr=r+dr, nc=c+dc;
+      if(!inBounds(nr,nc)) continue;
+      out.push({to:idx(nr,nc), w:cwDistance(grid[i], d)});
+    }
+    return out;
+  }
+
+  for(let it=0; it<N; it++){
+    let u=-1, best=Infinity;
+    for(let i=0;i<N;i++) if(!used[i] && dist[i]<best){ best=dist[i]; u=i; }
+    if(u===-1) break;
+    if(u===end) break;
+    used[u]=true;
+    for(const e of relaxFrom(u)){
+      if(dist[u] + e.w < dist[e.to]) dist[e.to] = dist[u] + e.w;
+    }
+  }
+  return dist[end];
+}
+
 function buildDaily(){
   const day = new Date().toISOString().slice(0,10);
   state.dayKey = day;
@@ -153,37 +196,18 @@ function buildDaily(){
       fixed.add(candidates.splice(k,1)[0]);
     }
 
-    // Scramble from solution; enforce minimum required moves on editable path cells.
+    // Scramble from solution.
     const grid = [...solution];
-    let reqMoves = 0;
-    const editablePath = path.slice(1, -1).filter(i=>!fixed.has(i)); // start/end non-rotatable
-
-    // First randomize all editable cells
     for(let i=0;i<grid.length;i++){
       if(i===start || i===end || fixed.has(i)) continue;
       const off = Math.floor(rng()*4);
       if(off===0) continue;
-      const from = solution[i];
-      grid[i] = DIRS[(DIRS.indexOf(from)+off)%4];
-      reqMoves += cwDistance(grid[i], solution[i]);
+      grid[i] = DIRS[(DIRS.indexOf(solution[i])+off)%4];
     }
 
-    // Force minimum required moves using path cells if needed
-    let guard=0;
-    while(reqMoves < MIN_REQUIRED_MOVES && editablePath.length && guard<200){
-      const i = editablePath[Math.floor(rng()*editablePath.length)];
-      const cur = grid[i];
-      const want = solution[i];
-      const curDist = cwDistance(cur, want);
-      if(curDist>=3){ guard++; continue; }
-      // rotate one extra step away from solution
-      grid[i] = DIRS[(DIRS.indexOf(cur)+3)%4];
-      const nextDist = cwDistance(grid[i], want);
-      reqMoves += (nextDist - curDist);
-      guard++;
-    }
-
-    if(reqMoves < MIN_REQUIRED_MOVES) continue;
+    // Hard validation: board must require at least MIN_REQUIRED_MOVES to solve.
+    const minSolve = minRotationsToSolve(grid, start, end, fixed);
+    if(!Number.isFinite(minSolve) || minSolve < MIN_REQUIRED_MOVES) continue;
 
     // Final safety: start arrow must not point out of board
     const [sr,sc]=rc(start);

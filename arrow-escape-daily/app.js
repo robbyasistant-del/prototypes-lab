@@ -196,21 +196,11 @@ function buildDaily(){
   const rng = rand(hashSeed(`${day}:${state.diff}:v3`));
 
   let built = false;
-  for(let attempt=0; attempt<400 && !built; attempt++){
+  const maxAttempts = 12000;
+  for(let attempt=0; attempt<maxAttempts && !built; attempt++){
     const {start,end} = pickStartEnd(rng);
-    const path = buildPath(rng, start, end, TARGET_SOLVE_MOVES);
-    if(!path) continue;
 
-    // Solution directions
-    const solution = Array.from({length: SIZE*SIZE}, ()=>DIRS[Math.floor(rng()*4)]);
-    for(let i=0;i<path.length-1;i++){
-      const d = dirFromTo(path[i], path[i+1]);
-      if(!d) continue;
-      solution[path[i]] = d;
-    }
-
-    // pick exactly 3 fixed cells (medium-like), outside start/end.
-    // We allow them on/off the seeded path; final validation enforces optimal path touches >=1 fixed.
+    // Exactly 3 fixed cells, excluding S/E.
     const fixed = new Set();
     const candidates = Array.from({length: SIZE*SIZE}, (_,i)=>i).filter(i => i!==start && i!==end);
     while(fixed.size < Math.min(FIXED_ALWAYS, candidates.length)){
@@ -218,29 +208,25 @@ function buildDaily(){
       fixed.add(candidates.splice(k,1)[0]);
     }
 
-    // Scramble from solution.
-    const grid = [...solution];
-    for(let i=0;i<grid.length;i++){
-      if(i===start || i===end || fixed.has(i)) continue;
-      const off = Math.floor(rng()*4);
-      if(off===0) continue;
-      grid[i] = DIRS[(DIRS.indexOf(solution[i])+off)%4];
-    }
+    // Random board
+    const grid = Array.from({length: SIZE*SIZE}, ()=>DIRS[Math.floor(rng()*4)]);
 
-    // Hard validation: optimal solution must be exactly 8 moves and touch >=1 fixed cell.
-    const solved = solveDetails(grid, start, end, fixed);
-    if(!Number.isFinite(solved.cost) || solved.cost !== TARGET_SOLVE_MOVES) continue;
-    if(!solved.touchesFixed) continue;
-
-    // Final safety: start arrow must not point out of board
+    // Border safety: S cannot point outside.
     const [sr,sc]=rc(start);
-    const [dr,dc]=VECTORS[grid[start]];
-    if(!inBounds(sr+dr, sc+dc)) continue;
+    const validStartDirs = DIRS.filter(d=>{ const [dr,dc]=VECTORS[d]; return inBounds(sr+dr, sc+dc); });
+    grid[start] = validStartDirs[Math.floor(rng()*validStartDirs.length)];
+
+    // Fixed cells keep their generated direction (non-rotatable).
+
+    const solved = solveDetails(grid, start, end, fixed);
+    if(!Number.isFinite(solved.cost)) continue;
+    if(solved.cost !== TARGET_SOLVE_MOVES) continue;
+    if(!solved.touchesFixed) continue;
 
     state.start = start;
     state.end = end;
     state.fixed = fixed;
-    state.solution = solution;
+    state.solution = [];
     state.grid = grid;
     built = true;
   }

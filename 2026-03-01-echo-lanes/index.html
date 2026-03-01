@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Echo Lanes — Daily Reflex Runner</title>
+  <meta name="description" content="A tight 60–120s lane-switch runner with daily seeded patterns, combos, and risk-reward echo pickups." />
+  <meta name="theme-color" content="#0b1020" />
+  <style>
+    :root{
+      --bg:#070b16;--panel:#0f1730;--panel2:#121e3c;--ink:#eaf2ff;--muted:#a8b7d8;
+      --a:#5cf3ff;--b:#a38bff;--bad:#ff557a;--good:#3dffb1;--warn:#ffd36c;
+      --border:#283a6b;--shadow:0 18px 60px rgba(0,0,0,.45);
+      --r:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:radial-gradient(1200px 700px at 20% -10%, rgba(92,243,255,.16), transparent 60%),
+      radial-gradient(900px 620px at 90% 0%, rgba(163,139,255,.18), transparent 55%),
+      radial-gradient(1100px 800px at 30% 110%, rgba(61,255,177,.08), transparent 65%),
+      var(--bg);
+      color:var(--ink); font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+      display:flex; align-items:stretch; justify-content:center;
+    }
+    a{color:var(--a)}
+    .wrap{width:min(1100px, 100%); padding:18px 16px 26px; margin:0 auto; display:grid; gap:14px; grid-template-columns: 1.25fr .75fr; align-items:start}
+    @media (max-width: 920px){.wrap{grid-template-columns: 1fr}}
+
+    .top{
+      grid-column:1/-1;
+      display:flex; gap:12px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap;
+    }
+    .brand h1{margin:0; font-size:22px; letter-spacing:.2px}
+    .brand p{margin:4px 0 0; color:var(--muted); font-size:13px}
+    .pillrow{display:flex; gap:8px; flex-wrap:wrap}
+    .pill{border:1px solid var(--border); background:rgba(18,30,60,.72); padding:7px 10px; border-radius:999px; font-size:12px; color:var(--muted)}
+    .pill b{color:var(--ink); font-weight:650}
+
+    .card{background:linear-gradient(180deg, rgba(18,30,60,.86), rgba(12,18,38,.86)); border:1px solid var(--border); border-radius:var(--r); box-shadow:var(--shadow)}
+    .card .hd{padding:12px 12px 10px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(40,58,107,.55)}
+    .card .hd .title{display:flex; gap:10px; align-items:center}
+    .logo{
+      width:34px; height:34px; border-radius:11px; display:grid; place-items:center;
+      background:radial-gradient(circle at 35% 30%, rgba(92,243,255,.35), transparent 55%),
+      radial-gradient(circle at 70% 70%, rgba(163,139,255,.35), transparent 52%),
+      rgba(14,22,46,.95);
+      border:1px solid rgba(92,243,255,.25);
+    }
+    .logo svg{opacity:.95}
+    .card .hd h2{margin:0; font-size:14px}
+    .card .hd .sub{margin:2px 0 0; font-size:12px; color:var(--muted)}
+
+    .main{padding:12px}
+    canvas{width:100%; height:auto; display:block; border-radius:14px; background:linear-gradient(180deg, rgba(6,10,24,.7), rgba(4,7,17,.9)); border:1px solid rgba(40,58,107,.55)}
+
+    .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    button{
+      appearance:none; border:1px solid rgba(92,243,255,.22);
+      background:linear-gradient(180deg, rgba(92,243,255,.16), rgba(92,243,255,.06));
+      color:var(--ink); border-radius:12px; padding:10px 12px; font-weight:650; letter-spacing:.15px;
+      cursor:pointer; transition: transform .05s ease, filter .15s ease, border-color .15s ease;
+    }
+    button:active{transform:translateY(1px)}
+    button.secondary{border-color:rgba(163,139,255,.22); background:linear-gradient(180deg, rgba(163,139,255,.16), rgba(163,139,255,.06))}
+    button.ghost{background:transparent; border-color:rgba(40,58,107,.75); color:var(--muted)}
+    button[disabled]{opacity:.45; cursor:not-allowed}
+    .hint{color:var(--muted); font-size:12px; line-height:1.35}
+
+    .side{padding:12px}
+    .kpi{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    .tile{padding:10px; border-radius:14px; border:1px solid rgba(40,58,107,.55); background:rgba(8,12,26,.45)}
+    .tile .label{color:var(--muted); font-size:12px}
+    .tile .val{font-size:18px; margin-top:4px; font-weight:750}
+    .tile .val small{font-size:12px; color:var(--muted); font-weight:600}
+
+    .list{margin-top:10px; padding:10px; border-radius:14px; border:1px solid rgba(40,58,107,.55); background:rgba(8,12,26,.45)}
+    .list h3{margin:0 0 6px; font-size:13px}
+    .list ul{margin:0; padding-left:18px; color:var(--muted); font-size:12px; line-height:1.5}
+
+    .overlay{position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:16px; background:rgba(0,0,0,.62)}
+    .overlay.show{display:flex}
+    .modal{width:min(720px, 100%); border-radius:18px; border:1px solid rgba(40,58,107,.7); background:linear-gradient(180deg, rgba(18,30,60,.95), rgba(10,14,30,.95)); box-shadow:0 28px 90px rgba(0,0,0,.6)}
+    .modal .mhd{padding:14px 14px 10px; border-bottom:1px solid rgba(40,58,107,.55); display:flex; justify-content:space-between; align-items:flex-start; gap:10px}
+    .modal h3{margin:0; font-size:16px}
+    .modal p{margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.45}
+    .modal .mbd{padding:14px}
+    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+    @media (max-width: 700px){.grid2{grid-template-columns:1fr}}
+    .mini{padding:10px; border-radius:14px; border:1px solid rgba(40,58,107,.55); background:rgba(8,12,26,.45)}
+    .mini b{color:var(--ink)}
+    .mini div{color:var(--muted); font-size:12px; line-height:1.5; margin-top:4px}
+
+    .toast{position:fixed; left:50%; bottom:18px; transform:translateX(-50%); padding:10px 12px; border-radius:999px; border:1px solid rgba(40,58,107,.7); background:rgba(10,14,30,.85); color:var(--muted); font-size:12px; box-shadow:0 12px 40px rgba(0,0,0,.45); display:none}
+    .toast.show{display:block}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <h1>Echo Lanes</h1>
+        <p>Daily-seeded reflex runner. Stay alive, build combo, take <b>Echo</b> risk for score bursts.</p>
+      </div>
+      <div class="pillrow" aria-label="status pills">
+        <div class="pill">Daily seed: <b id="seedLabel">—</b></div>
+        <div class="pill">Mode: <b>Endless</b> (best in 90s)</div>
+        <div class="pill"><a href="./report.html">Report</a></div>
+      </div>
+    </div>
+
+    <section class="card" aria-label="game">
+      <div class="hd">
+        <div class="title">
+          <div class="logo" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M4 12c3.5-6 12.5-6 16 0-3.5 6-12.5 6-16 0Z" stroke="#5cf3ff" stroke-width="1.8"/>
+              <path d="M12 9.2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6Z" stroke="#a38bff" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <div>
+            <h2>Run</h2>
+            <div class="sub">Click / tap lanes · ⬅️➡️ to switch · Space pause</div>
+          </div>
+        </div>
+        <div class="pillrow">
+          <button id="btnHow" class="ghost" type="button">How to play</button>
+          <button id="btnPause" class="secondary" type="button">Pause</button>
+          <button id="btnStart" type="button">Start</button>
+        </div>
+      </div>
+      <div class="main">
+        <canvas id="c" width="960" height="540" aria-label="Echo Lanes canvas"></canvas>
+        <div class="row" style="justify-content:space-between; align-items:center">
+          <div class="hint">
+            <b>Risk-reward:</b> pick up cyan <b>Echo</b> orbs for +score burst and +combo, but they spawn near danger.
+            Missed Echo breaks combo.
+          </div>
+          <div class="row">
+            <button id="btnLeft" class="ghost" type="button">⬅️ Left</button>
+            <button id="btnRight" class="ghost" type="button">Right ➡️</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card" aria-label="stats">
+      <div class="hd">
+        <div>
+          <h2>Session</h2>
+          <div class="sub">Tight loop: survive → combo → cash-out</div>
+        </div>
+        <div class="pill"><span id="stateLabel">Ready</span></div>
+      </div>
+      <div class="side">
+        <div class="kpi">
+          <div class="tile"><div class="label">Score</div><div class="val" id="kScore">0</div></div>
+          <div class="tile"><div class="label">Best (today)</div><div class="val" id="kBest">0</div></div>
+          <div class="tile"><div class="label">Combo</div><div class="val" id="kCombo">x1 <small id="kComboHint"></small></div></div>
+          <div class="tile"><div class="label">Distance</div><div class="val" id="kDist">0 <small>m</small></div></div>
+        </div>
+
+        <div class="list">
+          <h3>Design knobs (prototype)</h3>
+          <ul>
+            <li><b>Daily seed</b> makes patterns fair + shareable.</li>
+            <li><b>Combo</b> grows on Echo pickups, decays on near-misses.</li>
+            <li><b>Cash-out</b>: every 20s you bank a bonus—if alive.</li>
+            <li>Mobile-friendly: lane buttons + tap on canvas.</li>
+          </ul>
+        </div>
+
+        <div class="list">
+          <h3>Shortcuts</h3>
+          <ul>
+            <li><b>R</b> restart · <b>M</b> toggle motion reduction</li>
+            <li>Share best score as a daily challenge (planned)</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="overlay" id="ov">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+      <div class="mhd">
+        <div>
+          <h3 id="howTitle">How to play</h3>
+          <p>Survive the lanes. Echo orbs spike score, but you’ll have to take sharper lines to grab them.</p>
+        </div>
+        <button id="btnCloseHow" class="ghost" type="button">Close</button>
+      </div>
+      <div class="mbd">
+        <div class="grid2">
+          <div class="mini"><b>Controls</b><div>Tap/click a lane to move. Or use ⬅️/➡️. Space pauses. R restarts.</div></div>
+          <div class="mini"><b>Scoring</b><div>Score ticks with distance. Echo pickups add a burst and increase combo multiplier.</div></div>
+          <div class="mini"><b>Risk & combo</b><div>Echo spawns close to hazards. Missing an Echo breaks combo (to prevent safe farming).</div></div>
+          <div class="mini"><b>Fair daily</b><div>Today’s seed locks obstacle timing. Compete on skill, not RNG.</div></div>
+        </div>
+        <div style="margin-top:12px" class="hint">Tip: If you’re late to a lane change, <b>skip the Echo</b> and protect the run—bank bonuses every 20s.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+  (()=>{
+    const $ = (q)=>document.querySelector(q);
+    const c = $('#c');
+    const ctx = c.getContext('2d');
+
+    // Daily seed (YYYY-MM-DD in local time)
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth()+1).padStart(2,'0');
+    const dd = String(today.getDate()).padStart(2,'0');
+    const seedStr = `${yyyy}-${mm}-${dd}`;
+    $('#seedLabel').textContent = seedStr;
+
+    // Tiny PRNG
+    function xmur3(str){ let h=1779033703^str.length; for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353); h=(h<<13)|(h>>>19);} return function(){h=Math.imul(h^(h>>>16),2246822507); h=Math.imul(h^(h>>>13),3266489909); return (h^=h>>>16)>>>0;};}
+    function sfc32(a,b,c,d){return function(){a>>>0;b>>>0;c>>>0;d>>>0; let t=(a+b)|0; a=b^b>>>9; b=c+(c<<3)|0; c=(c<<21|c>>>11); d=d+1|0; t=t+d|0; c=c+t|0; return (t>>>0)/4294967296;};}
+    const seed = xmur3('echo-lanes:'+seedStr);
+    const rand = sfc32(seed(), seed(), seed(), seed());
+
+    const W = c.width, H = c.height;
+    const lanes = [W*0.30, W*0.50, W*0.70];
+    let reduceMotion = false;
+
+    const state = {
+      running:false,
+      paused:false,
+      t:0,
+      speed: 480, // px/s scroll
+      player:{lane:1, x: lanes[1], y: H*0.78, r: 16, vx:0},
+      obstacles:[],
+      echoes:[],
+      dist:0,
+      score:0,
+      combo:1,
+      comboMeter:0, // 0..1
+      bankTimer:0,
+      best: Number(localStorage.getItem('echoLanesBest:'+seedStr) || 0),
+      lastEchoId:0,
+      lastToast:0,
+    };
+
+    function toast(msg){
+      const t = $('#toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toast._to);
+      toast._to = setTimeout(()=>t.classList.remove('show'), 1800);
+    }
+
+    function setUI(){
+      $('#kScore').textContent = Math.floor(state.score).toString();
+      $('#kBest').textContent = Math.floor(state.best).toString();
+      $('#kCombo').innerHTML = `x${state.combo} <small id="kComboHint">${state.combo>=6?'HOT':(state.combo>=3?'building':'')}</small>`;
+      $('#kDist').innerHTML = `${Math.floor(state.dist)} <small>m</small>`;
+      $('#stateLabel').textContent = state.running ? (state.paused?'Paused':'Running') : 'Ready';
+      $('#btnStart').disabled = state.running && !state.paused;
+      $('#btnPause').disabled = !state.running;
+      $('#btnPause').textContent = state.paused ? 'Resume' : 'Pause';
+    }
+
+    function reset(){
+      state.running=false; state.paused=false; state.t=0;
+      state.speed=480;
+      state.player.lane=1; state.player.x=lanes[1]; state.player.vx=0;
+      state.obstacles.length=0; state.echoes.length=0;
+      state.dist=0; state.score=0; state.combo=1; state.comboMeter=0;
+      state.bankTimer=0; state.lastEchoId=0;
+      setUI();
+      draw(0);
+      toast('Ready. Go for a clean 90s run.');
+    }
+
+    function start(){
+      if(state.running && !state.paused) return;
+      if(!state.running){
+        reset();
+        state.running=true;
+        state.paused=false;
+        spawnSchedule();
+        toast('Run started. Grab Echoes for combo!');
+      } else {
+        state.paused=false;
+      }
+      setUI();
+      last = performance.now();
+      requestAnimationFrame(loop);
+    }
+
+    function togglePause(){
+      if(!state.running) return;
+      state.paused = !state.paused;
+      setUI();
+      if(!state.paused){ last = performance.now(); requestAnimationFrame(loop); }
+    }
+
+    function endRun(reason){
+      state.running=false; state.paused=false;
+      if(state.score > state.best){
+        state.best = Math.floor(state.score);
+        localStorage.setItem('echoLanesBest:'+seedStr, String(state.best));
+        toast('New daily best! ' + state.best);
+      } else {
+        toast(reason || 'Run over. Try again.');
+      }
+      setUI();
+    }
+
+    function moveLane(delta){
+      const nl = Math.max(0, Math.min(2, state.player.lane + delta));
+      if(nl===state.player.lane) return;
+      state.player.lane = nl;
+      // spring to lane
+      state.player.vx = 0;
+    }
+
+    // Precomputed spawn schedule for fairness
+    const schedule = [];
+    function spawnSchedule(){
+      schedule.length=0;
+      let t=0;
+      for(let i=0;i<300;i++){
+        t += 0.52 + rand()*0.48; // 0.52..1.0
+        const lane = Math.floor(rand()*3);
+        const kind = (rand()<0.18) ? 'wall' : 'block';
+        schedule.push({t, lane, kind});
+        // echo spawns slightly after obstacles, biased to danger
+        if(rand()<0.55){
+          const eLane = (rand()<0.45) ? lane : Math.floor(rand()*3);
+          const dt = 0.18 + rand()*0.20;
+          schedule.push({t:t+dt, lane:eLane, kind:'echo'});
+        }
+      }
+      schedule.sort((a,b)=>a.t-b.t);
+    }
+
+    function spawnFromSchedule(){
+      while(schedule.length && schedule[0].t <= state.t + 0.2){
+        const s = schedule.shift();
+        if(s.kind==='echo'){
+          const id = ++state.lastEchoId;
+          state.echoes.push({id, lane:s.lane, x: lanes[s.lane], y:-30, r:12, alive:true, missed:false});
+        } else {
+          const w = s.kind==='wall' ? 96 : 60;
+          const h = s.kind==='wall' ? 20 : 46;
+          state.obstacles.push({lane:s.lane, x: lanes[s.lane], y:-40, w, h, kind:s.kind, alive:true});
+        }
+      }
+    }
+
+    function circleRectHit(cx,cy,cr, rx,ry,rw,rh){
+      const x = Math.max(rx, Math.min(cx, rx+rw));
+      const y = Math.max(ry, Math.min(cy, ry+rh));
+      const dx = cx-x, dy = cy-y;
+      return (dx*dx+dy*dy) <= cr*cr;
+    }
+
+    function cashOut(){
+      const bonus = Math.floor(120 * state.combo);
+      state.score += bonus;
+      toast(`Cash-out +${bonus}`);
+    }
+
+    let last = performance.now();
+    function loop(now){
+      if(!state.running || state.paused) return;
+      const dt = Math.min(0.033, (now-last)/1000);
+      last = now;
+      update(dt);
+      draw(now);
+      setUI();
+      requestAnimationFrame(loop);
+    }
+
+    function update(dt){
+      state.t += dt;
+      spawnFromSchedule();
+
+      // Difficulty ramp (gentle)
+      const ramp = 1 + Math.min(0.55, state.t/120*0.55);
+      const spd = state.speed * ramp;
+      state.dist += dt * 6.2 * ramp; // meters-ish
+      state.score += dt * (24 * state.combo); // base distance score
+
+      // Bank bonus every 20s
+      state.bankTimer += dt;
+      if(state.bankTimer >= 20){
+        state.bankTimer -= 20;
+        cashOut();
+      }
+
+      // Player smoothing to lane
+      const targetX = lanes[state.player.lane];
+      const dx = targetX - state.player.x;
+      const k = reduceMotion ? 10 : 18;
+      state.player.x += dx * Math.min(1, dt*k);
+
+      // Move obstacles / echoes
+      for(const o of state.obstacles){ o.y += dt * spd; }
+      for(const e of state.echoes){ e.y += dt * spd; }
+
+      // Near miss (combo decay) when passing close to obstacle in adjacent lane
+      // Very light: if obstacle passes within 16px vertically and not in same lane, decay meter
+      for(const o of state.obstacles){
+        if(!o.alive) continue;
+        if(Math.abs(o.y - state.player.y) < 18 && o.lane !== state.player.lane){
+          state.comboMeter = Math.max(0, state.comboMeter - dt*0.8);
+        }
+      }
+
+      // Collisions
+      for(const o of state.obstacles){
+        if(!o.alive) continue;
+        const rx = o.x - o.w/2, ry = o.y - o.h/2;
+        if(circleRectHit(state.player.x, state.player.y, state.player.r, rx, ry, o.w, o.h)){
+          endRun('Crashed. Protect the lane.');
+          return;
+        }
+      }
+
+      // Echo pickups / misses
+      for(const e of state.echoes){
+        if(!e.alive) continue;
+        const d2 = (e.x - state.player.x)**2 + (e.y - state.player.y)**2;
+        const rr = (e.r + state.player.r - 2);
+        if(d2 <= rr*rr){
+          e.alive=false;
+          const burst = Math.floor(180 + 60*state.combo);
+          state.score += burst;
+          state.comboMeter = Math.min(1, state.comboMeter + 0.42);
+          const newCombo = 1 + Math.floor(state.comboMeter*7); // up to x8
+          if(newCombo>state.combo) toast(`Combo x${newCombo}`);
+          state.combo = newCombo;
+        } else if(e.y > state.player.y + 44 && !e.missed){
+          e.missed=true;
+          // Missing an echo breaks combo to avoid safe farm
+          if(state.combo>1){ toast('Missed Echo — combo reset'); }
+          state.combo = 1; state.comboMeter = 0;
+        }
+      }
+
+      // Cleanup
+      state.obstacles = state.obstacles.filter(o => o.y < H+80);
+      state.echoes = state.echoes.filter(e => e.y < H+80 && e.alive);
+    }
+
+    function draw(now){
+      ctx.clearRect(0,0,W,H);
+      // background grid
+      ctx.save();
+      ctx.globalAlpha = 0.35;
+      ctx.strokeStyle = 'rgba(92,243,255,0.12)';
+      ctx.lineWidth = 1;
+      const grid = 36;
+      for(let x=0;x<=W;x+=grid){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+      for(let y=0;y<=H;y+=grid){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+      ctx.restore();
+
+      // lanes
+      ctx.save();
+      ctx.lineWidth = 3;
+      for(let i=0;i<3;i++){
+        const x = lanes[i];
+        ctx.strokeStyle = i===state.player.lane ? 'rgba(92,243,255,0.5)' : 'rgba(40,58,107,0.55)';
+        ctx.beginPath();
+        ctx.moveTo(x, 30);
+        ctx.lineTo(x, H-30);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // obstacles
+      for(const o of state.obstacles){
+        const x = o.x, y=o.y;
+        ctx.save();
+        const glow = o.kind==='wall' ? 'rgba(255,85,122,0.35)' : 'rgba(255,211,108,0.30)';
+        ctx.shadowColor = glow;
+        ctx.shadowBlur = reduceMotion ? 0 : 18;
+        ctx.fillStyle = o.kind==='wall' ? 'rgba(255,85,122,0.75)' : 'rgba(255,211,108,0.75)';
+        roundRect(ctx, x-o.w/2, y-o.h/2, o.w, o.h, 10);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle='rgba(255,255,255,0.22)'; ctx.lineWidth=1;
+        roundRect(ctx, x-o.w/2, y-o.h/2, o.w, o.h, 10);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // echoes
+      for(const e of state.echoes){
+        ctx.save();
+        ctx.shadowColor='rgba(92,243,255,0.55)';
+        ctx.shadowBlur = reduceMotion ? 0 : 24;
+        const pulse = 0.55 + 0.45*Math.sin((now||0)/140 + e.id);
+        ctx.globalAlpha = 0.85;
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.r*(0.92+0.12*pulse), 0, Math.PI*2);
+        ctx.fillStyle='rgba(92,243,255,0.85)';
+        ctx.fill();
+        ctx.globalAlpha = 0.55;
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.r+7, 0, Math.PI*2);
+        ctx.strokeStyle='rgba(163,139,255,0.6)';
+        ctx.lineWidth=2;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // player
+      ctx.save();
+      ctx.shadowColor='rgba(61,255,177,0.55)';
+      ctx.shadowBlur = reduceMotion ? 0 : 22;
+      ctx.fillStyle='rgba(61,255,177,0.95)';
+      ctx.beginPath();
+      ctx.arc(state.player.x, state.player.y, state.player.r, 0, Math.PI*2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle='rgba(255,255,255,0.25)';
+      ctx.lineWidth=2;
+      ctx.beginPath();
+      ctx.arc(state.player.x, state.player.y, state.player.r, 0, Math.PI*2);
+      ctx.stroke();
+      ctx.restore();
+
+      // HUD
+      ctx.save();
+      ctx.fillStyle='rgba(234,242,255,0.86)';
+      ctx.font='700 16px ui-sans-serif, system-ui, Segoe UI';
+      ctx.fillText('Score ' + Math.floor(state.score), 18, 28);
+      ctx.fillStyle='rgba(168,183,216,0.86)';
+      ctx.font='600 13px ui-sans-serif, system-ui, Segoe UI';
+      ctx.fillText('Combo x' + state.combo + ' · bank in ' + Math.max(0, Math.ceil(20-state.bankTimer)) + 's', 18, 48);
+      // combo bar
+      const bw=220, bh=10;
+      const bx=18, by=58;
+      ctx.fillStyle='rgba(40,58,107,0.6)';
+      roundRect(ctx,bx,by,bw,bh,999); ctx.fill();
+      ctx.fillStyle='rgba(92,243,255,0.8)';
+      roundRect(ctx,bx,by,bw*Math.min(1,state.comboMeter),bh,999); ctx.fill();
+      ctx.restore();
+
+      if(!state.running){
+        ctx.save();
+        ctx.fillStyle='rgba(0,0,0,0.45)';
+        ctx.fillRect(0,0,W,H);
+        ctx.fillStyle='rgba(234,242,255,0.95)';
+        ctx.font='800 32px ui-sans-serif, system-ui, Segoe UI';
+        ctx.textAlign='center';
+        ctx.fillText('Echo Lanes', W/2, H/2 - 12);
+        ctx.fillStyle='rgba(168,183,216,0.92)';
+        ctx.font='600 16px ui-sans-serif, system-ui, Segoe UI';
+        ctx.fillText('Start a run · Grab Echo orbs · Avoid hazards', W/2, H/2 + 18);
+        ctx.restore();
+      }
+      if(state.paused){
+        ctx.save();
+        ctx.fillStyle='rgba(0,0,0,0.45)';
+        ctx.fillRect(0,0,W,H);
+        ctx.fillStyle='rgba(234,242,255,0.95)';
+        ctx.font='800 28px ui-sans-serif, system-ui, Segoe UI';
+        ctx.textAlign='center';
+        ctx.fillText('Paused', W/2, H/2);
+        ctx.restore();
+      }
+    }
+
+    function roundRect(ctx,x,y,w,h,r){
+      r = Math.min(r, w/2, h/2);
+      ctx.beginPath();
+      ctx.moveTo(x+r,y);
+      ctx.arcTo(x+w,y,x+w,y+h,r);
+      ctx.arcTo(x+w,y+h,x,y+h,r);
+      ctx.arcTo(x,y+h,x,y,r);
+      ctx.arcTo(x,y,x+w,y,r);
+      ctx.closePath();
+    }
+
+    // Input
+    c.addEventListener('pointerdown', (e)=>{
+      const rect = c.getBoundingClientRect();
+      const px = (e.clientX-rect.left) * (W/rect.width);
+      // choose nearest lane
+      let bestI=0, bestD=Infinity;
+      for(let i=0;i<3;i++){
+        const d=Math.abs(px-lanes[i]);
+        if(d<bestD){bestD=d; bestI=i;}
+      }
+      state.player.lane = bestI;
+      if(!state.running) start();
+    });
+
+    $('#btnLeft').addEventListener('click', ()=>moveLane(-1));
+    $('#btnRight').addEventListener('click', ()=>moveLane(1));
+    $('#btnStart').addEventListener('click', start);
+    $('#btnPause').addEventListener('click', togglePause);
+
+    window.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowLeft'){ moveLane(-1); e.preventDefault(); }
+      if(e.key==='ArrowRight'){ moveLane(1); e.preventDefault(); }
+      if(e.key===' '){ togglePause(); e.preventDefault(); }
+      if(e.key.toLowerCase()==='r'){ reset(); start(); }
+      if(e.key.toLowerCase()==='m'){ reduceMotion=!reduceMotion; toast('Reduce motion: ' + (reduceMotion?'ON':'OFF')); }
+    }, {passive:false});
+
+    // How-to modal
+    const ov = $('#ov');
+    $('#btnHow').addEventListener('click', ()=>ov.classList.add('show'));
+    $('#btnCloseHow').addEventListener('click', ()=>ov.classList.remove('show'));
+    ov.addEventListener('click', (e)=>{ if(e.target===ov) ov.classList.remove('show'); });
+
+    reset();
+  })();
+  </script>
+</body>
+</html>

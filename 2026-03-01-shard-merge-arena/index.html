@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shard Merge Arena — Tactical 2048+</title>
+  <meta name="description" content="A polished 2048-inspired merge puzzle with arena hazards, streak rewards, and deterministic daily seed." />
+  <meta name="theme-color" content="#0b1020" />
+  <style>
+    :root{
+      --bg:#0b1020;--ink:#ecf2ff;--muted:#a9b8dc;--a:#5cf3ff;--b:#a38bff;
+      --good:#3dffb1;--bad:#ff557a;--warn:#ffd36c;--border:#2a3f74;--shadow:0 18px 60px rgba(0,0,0,.45);
+      --r:16px;
+      --cell:#121b35;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Inter,Arial;background:
+      radial-gradient(900px 640px at 20% -10%, rgba(92,243,255,.14), transparent 60%),
+      radial-gradient(900px 620px at 95% 0%, rgba(163,139,255,.16), transparent 60%),
+      radial-gradient(1100px 760px at 30% 115%, rgba(255,211,108,.08), transparent 65%),
+      var(--bg);
+      color:var(--ink);display:flex;justify-content:center;align-items:stretch}
+    a{color:var(--a)}
+
+    .wrap{width:min(1100px,100%);padding:18px 14px 26px;display:grid;gap:12px;grid-template-columns: 1fr .9fr;align-items:start}
+    @media (max-width: 980px){.wrap{grid-template-columns:1fr}}
+
+    .top{grid-column:1/-1;display:flex;gap:12px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
+    h1{margin:0;font-size:22px}
+    .sub{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.35}
+    .pillrow{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{border:1px solid var(--border);background:rgba(18,27,53,.7);padding:7px 10px;border-radius:999px;color:var(--muted);font-size:12px}
+    .pill b{color:var(--ink)}
+
+    .card{border:1px solid var(--border);background:linear-gradient(180deg, rgba(18,27,53,.9), rgba(10,14,30,.9));border-radius:var(--r);box-shadow:var(--shadow)}
+    .hd{padding:12px;border-bottom:1px solid rgba(42,63,116,.55);display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .hd h2{margin:0;font-size:14px}
+    .hd .mut{color:var(--muted);font-size:12px;margin-top:2px}
+    .bd{padding:12px}
+
+    button{
+      appearance:none;border:1px solid rgba(92,243,255,.22);
+      background:linear-gradient(180deg, rgba(92,243,255,.16), rgba(92,243,255,.06));
+      color:var(--ink);border-radius:12px;padding:9px 11px;font-weight:800;cursor:pointer;
+      transition: transform .05s ease, filter .15s ease, border-color .15s ease;
+      white-space:nowrap;
+    }
+    button:active{transform:translateY(1px)}
+    button.secondary{border-color:rgba(163,139,255,.22);background:linear-gradient(180deg, rgba(163,139,255,.16), rgba(163,139,255,.06))}
+    button.ghost{background:transparent;border-color:rgba(42,63,116,.75);color:var(--muted)}
+    button[disabled]{opacity:.45;cursor:not-allowed}
+
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    @media (max-width: 760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+    .tile{border:1px solid rgba(42,63,116,.6);background:rgba(8,12,26,.35);border-radius:14px;padding:10px}
+    .tile .l{color:var(--muted);font-size:12px}
+    .tile .v{margin-top:4px;font-size:18px;font-weight:900}
+
+    .boardWrap{display:grid;place-items:center}
+    .board{
+      width:min(520px, 92vw);
+      aspect-ratio:1/1;
+      background:rgba(8,12,26,.38);
+      border:1px solid rgba(42,63,116,.7);
+      border-radius:18px;
+      padding:12px;
+      position:relative;
+      touch-action:none;
+    }
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;height:100%}
+    .cell{border-radius:16px;background:rgba(18,27,53,.72);border:1px solid rgba(42,63,116,.55)}
+    .tilePiece{
+      position:absolute;
+      border-radius:16px;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:1000;
+      letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      user-select:none;
+      transition: transform 120ms ease;
+      overflow:hidden;
+    }
+    .tilePiece small{display:block;font-weight:800;font-size:10px;opacity:.85}
+
+    .legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{border:1px solid rgba(42,63,116,.7);background:rgba(8,12,26,.35);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:12px}
+
+    .overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.62)}
+    .overlay.show{display:flex}
+    .modal{width:min(760px,100%);border-radius:18px;border:1px solid rgba(42,63,116,.75);background:linear-gradient(180deg, rgba(18,27,53,.95), rgba(10,14,30,.95));box-shadow:0 28px 90px rgba(0,0,0,.6)}
+    .mhd{padding:14px 14px 10px;border-bottom:1px solid rgba(42,63,116,.55);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .mhd h3{margin:0;font-size:16px}
+    .mhd p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+    .mbd{padding:14px}
+    .mbd ul{margin:8px 0 0;padding-left:18px;color:var(--muted);line-height:1.55}
+
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);padding:10px 12px;border-radius:999px;border:1px solid rgba(42,63,116,.7);background:rgba(10,14,30,.86);color:var(--muted);font-size:12px;box-shadow:0 12px 40px rgba(0,0,0,.45);display:none;max-width:min(760px, calc(100% - 26px));text-align:center}
+    .toast.show{display:block}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Shard Merge Arena</h1>
+        <p class="sub">Merge shards to evolve. Beware <b>Corruption</b> blocks that spread if you stall. Daily seed keeps it fair.</p>
+      </div>
+      <div class="pillrow">
+        <div class="pill">Seed: <b id="seed">—</b></div>
+        <div class="pill">Controls: <b>Swipe / Arrow keys</b></div>
+        <div class="pill"><a href="./report.html">Report</a></div>
+      </div>
+    </div>
+
+    <section class="card" aria-label="board">
+      <div class="hd">
+        <div>
+          <h2>Arena</h2>
+          <div class="mut">Merge like 2048. Every 6 moves, Corruption may appear unless you merged.</div>
+        </div>
+        <div class="pillrow">
+          <button id="btnHow" class="ghost" type="button">How to play</button>
+          <button id="btnUndo" class="secondary" type="button" disabled>Undo</button>
+          <button id="btnNew" type="button">New</button>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="kpis">
+          <div class="tile"><div class="l">Score</div><div class="v" id="kScore">0</div></div>
+          <div class="tile"><div class="l">Best (today)</div><div class="v" id="kBest">0</div></div>
+          <div class="tile"><div class="l">Streak</div><div class="v" id="kStreak">0</div></div>
+          <div class="tile"><div class="l">Moves</div><div class="v" id="kMoves">0</div></div>
+        </div>
+
+        <div class="boardWrap" style="margin-top:12px">
+          <div class="board" id="board" aria-label="Shard Merge board">
+            <div class="grid" aria-hidden="true">
+              <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+              <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+              <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+              <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <span class="chip"><b style="color:var(--good)">Merge</b> increases streak + prevents corruption</span>
+          <span class="chip"><b style="color:var(--warn)">No-merge move</b> advances corruption timer</span>
+          <span class="chip"><b style="color:var(--bad)">Corruption</b> blocks movement and can spread</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card" aria-label="tips">
+      <div class="hd">
+        <div>
+          <h2>Strategy</h2>
+          <div class="mut">This variant rewards clean merge cadence over pure hoarding.</div>
+        </div>
+        <div class="pill" id="state">Ready</div>
+      </div>
+      <div class="bd">
+        <h2 style="margin:0 0 6px;font-size:13px">High-skill heuristics</h2>
+        <ul style="margin:0;padding-left:18px;color:var(--muted);line-height:1.55;font-size:12px">
+          <li>Play for <b>merge streaks</b>: they multiply score and delay corruption.</li>
+          <li>Keep one corner as a “vault” for your highest shard.</li>
+          <li>If corruption appears, prioritize creating space near it to stop spread.</li>
+        </ul>
+
+        <div class="card" style="margin-top:12px;box-shadow:none">
+          <div class="hd"><h2>Goal</h2><div class="pill">Daily</div></div>
+          <div class="bd" style="color:var(--muted);font-size:12px;line-height:1.55">
+            Reach <b>2048</b> or higher, with minimal corruption tiles. Your daily best is stored per seed.
+          </div>
+        </div>
+
+        <div class="pillrow" style="margin-top:12px">
+          <a class="pill" href="../index.html" style="text-decoration:none">Back to catalog</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="overlay" id="ov">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+      <div class="mhd">
+        <div>
+          <h3 id="howTitle">How to play</h3>
+          <p>Swipe (mobile) or use arrow keys. Tiles of the same value merge. Corruption blocks tiles and spreads if you don’t merge often.</p>
+        </div>
+        <button id="btnCloseHow" class="ghost" type="button">Close</button>
+      </div>
+      <div class="mbd">
+        <ul>
+          <li><b>Move</b>: Swipe or arrow keys. All tiles slide and merge once per move.</li>
+          <li><b>Streak</b>: If a move creates at least one merge, your streak increases and your score gets a bonus.</li>
+          <li><b>Corruption</b>: After a few no-merge moves, a corruption tile may spawn. It blocks sliding and can spread to adjacent empty cells.</li>
+          <li><b>Undo</b>: One-step undo to support learning (prototype).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+  (()=>{
+    const $=(q)=>document.querySelector(q);
+    const boardEl=$('#board');
+
+    const today=new Date();
+    const seedStr = today.toISOString().slice(0,10); // stable-ish
+    $('#seed').textContent = seedStr;
+
+    function xmur3(str){ let h=1779033703^str.length; for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353); h=(h<<13)|(h>>>19);} return function(){h=Math.imul(h^(h>>>16),2246822507); h=Math.imul(h^(h>>>13),3266489909); return (h^=h>>>16)>>>0;};}
+    function sfc32(a,b,c,d){return function(){a>>>0;b>>>0;c>>>0;d>>>0; let t=(a+b)|0; a=b^b>>>9; b=c+(c<<3)|0; c=(c<<21|c>>>11); d=d+1|0; t=t+d|0; c=c+t|0; return (t>>>0)/4294967296;};}
+    const seed=xmur3('shard-merge:'+seedStr);
+    const rand=sfc32(seed(),seed(),seed(),seed());
+
+    const N=4;
+    const state={
+      grid:Array.from({length:N},()=>Array(N).fill(null)),
+      score:0,
+      best:Number(localStorage.getItem('shardBest:'+seedStr)||0),
+      moves:0,
+      streak:0,
+      noMergeCounter:0,
+      over:false,
+      undo:null,
+    };
+
+    function toast(msg){
+      const t=$('#toast');
+      t.textContent=msg;
+      t.classList.add('show');
+      clearTimeout(toast._to);
+      toast._to=setTimeout(()=>t.classList.remove('show'),1600);
+    }
+    function ui(){
+      $('#kScore').textContent = Math.floor(state.score);
+      $('#kBest').textContent = Math.floor(state.best);
+      $('#kMoves').textContent = state.moves;
+      $('#kStreak').textContent = state.streak;
+      $('#btnUndo').disabled = !state.undo || state.over;
+      $('#state').textContent = state.over ? 'Game over' : 'Running';
+    }
+
+    function cloneGrid(g){ return g.map(row=>row.map(cell=>cell?{...cell}:null)); }
+
+    function saveUndo(){
+      state.undo = {
+        grid: cloneGrid(state.grid),
+        score: state.score,
+        moves: state.moves,
+        streak: state.streak,
+        noMergeCounter: state.noMergeCounter,
+        over: state.over,
+      };
+    }
+
+    function doUndo(){
+      if(!state.undo) return;
+      const u=state.undo;
+      state.grid = cloneGrid(u.grid);
+      state.score = u.score;
+      state.moves = u.moves;
+      state.streak = u.streak;
+      state.noMergeCounter = u.noMergeCounter;
+      state.over = u.over;
+      state.undo = null;
+      render();
+      toast('Undo');
+      ui();
+    }
+
+    function emptyCells(){
+      const cells=[];
+      for(let r=0;r<N;r++) for(let c=0;c<N;c++) if(!state.grid[r][c]) cells.push([r,c]);
+      return cells;
+    }
+
+    function spawnTile(){
+      const empties=emptyCells();
+      if(!empties.length) return false;
+      const [r,c] = empties[Math.floor(rand()*empties.length)];
+      const v = rand()<0.86 ? 2 : 4;
+      state.grid[r][c] = {type:'shard', v};
+      return true;
+    }
+
+    function spawnCorruption(){
+      const empties=emptyCells();
+      if(!empties.length) return false;
+      const [r,c] = empties[Math.floor(rand()*empties.length)];
+      state.grid[r][c] = {type:'corrupt'};
+      toast('Corruption appeared');
+      return true;
+    }
+
+    function spreadCorruption(){
+      // corruption attempts to spread to a random adjacent empty cell
+      const corrupt=[];
+      for(let r=0;r<N;r++) for(let c=0;c<N;c++) if(state.grid[r][c]?.type==='corrupt') corrupt.push([r,c]);
+      if(!corrupt.length) return;
+      const [r,c] = corrupt[Math.floor(rand()*corrupt.length)];
+      const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
+      const opts=[];
+      for(const [dr,dc] of dirs){
+        const rr=r+dr, cc=c+dc;
+        if(rr>=0&&rr<N&&cc>=0&&cc<N && !state.grid[rr][cc]) opts.push([rr,cc]);
+      }
+      if(opts.length && rand()<0.65){
+        const [rr,cc]=opts[Math.floor(rand()*opts.length)];
+        state.grid[rr][cc]={type:'corrupt'};
+        toast('Corruption spread');
+      }
+    }
+
+    function canMove(){
+      if(emptyCells().length) return true;
+      for(let r=0;r<N;r++) for(let c=0;c<N;c++){
+        const cell=state.grid[r][c];
+        if(!cell || cell.type!=='shard') continue;
+        const v=cell.v;
+        const right = (c+1<N) ? state.grid[r][c+1] : null;
+        const down = (r+1<N) ? state.grid[r+1][c] : null;
+        if(right && right.type==='shard' && right.v===v) return true;
+        if(down && down.type==='shard' && down.v===v) return true;
+      }
+      return false;
+    }
+
+    function slideLine(line){
+      // line is array of cells (null/shard/corrupt). corrupt blocks movement.
+      // Approach: split by corrupt blocks; within each segment, do 2048 merge.
+      const out=[];
+      let merged=false;
+      let i=0;
+      while(i<line.length){
+        if(line[i]?.type==='corrupt'){
+          out.push({type:'corrupt'});
+          i++;
+          continue;
+        }
+        // gather segment until next corrupt
+        const seg=[];
+        while(i<line.length && line[i]?.type!=='corrupt'){ seg.push(line[i]); i++; }
+        const segFiltered = seg.filter(x=>x && x.type==='shard');
+        const segOut=[];
+        for(let k=0;k<segFiltered.length;k++){
+          const cur=segFiltered[k];
+          const nxt=segFiltered[k+1];
+          if(nxt && nxt.v===cur.v){
+            const nv=cur.v*2;
+            segOut.push({type:'shard', v:nv});
+            state.score += nv + Math.floor(nv*0.15*state.streak);
+            state.streak += 1;
+            merged=true;
+            k++;
+          } else {
+            segOut.push({type:'shard', v:cur.v});
+          }
+        }
+        // pad with nulls to original segment length
+        while(segOut.length < seg.length) segOut.push(null);
+        out.push(...segOut);
+      }
+      // pad if needed
+      while(out.length < line.length) out.push(null);
+      return {out, merged};
+    }
+
+    function move(dir){
+      if(state.over) return;
+      saveUndo();
+
+      const before = JSON.stringify(state.grid);
+      let anyMerge=false;
+      let moved=false;
+
+      const g=cloneGrid(state.grid);
+      const applyLine=(get,set)=>{
+        for(let i=0;i<N;i++){
+          const line=get(g,i);
+          const {out, merged} = slideLine(line);
+          if(merged) anyMerge=true;
+          set(g,i,out);
+        }
+      };
+
+      if(dir==='left'){
+        applyLine((gg,r)=>gg[r], (gg,r,out)=>gg[r]=out);
+      }
+      if(dir==='right'){
+        applyLine((gg,r)=>[...gg[r]].reverse(), (gg,r,out)=>gg[r]=[...out].reverse());
+      }
+      if(dir==='up'){
+        applyLine((gg,c)=>Array.from({length:N},(_,r)=>gg[r][c]), (gg,c,out)=>{ for(let r=0;r<N;r++) gg[r][c]=out[r]; });
+      }
+      if(dir==='down'){
+        applyLine((gg,c)=>Array.from({length:N},(_,r)=>gg[r][c]).reverse(), (gg,c,out)=>{ const rev=[...out].reverse(); for(let r=0;r<N;r++) gg[r][c]=rev[r]; });
+      }
+
+      const after = JSON.stringify(g);
+      if(after !== before){
+        moved=true;
+        state.grid=g;
+        state.moves += 1;
+
+        if(anyMerge){
+          state.noMergeCounter = 0;
+          // merge streak is already incremented per merge in slideLine
+          toast('Merged! Streak ' + state.streak);
+        } else {
+          state.noMergeCounter += 1;
+          // streak decays on no-merge
+          state.streak = Math.max(0, Math.floor(state.streak*0.6));
+        }
+
+        // spawn new shard tile
+        spawnTile();
+
+        // corruption rules: every 6 moves without a merge, spawn + maybe spread
+        if(!anyMerge && state.noMergeCounter >= 3 && (state.moves % 2 === 0)){
+          // ramp probability
+          if(rand() < 0.55) spawnCorruption();
+          spreadCorruption();
+        }
+        if(anyMerge && rand()<0.12){
+          // small chance to cleanse: remove one corruption tile when you keep merging
+          cleanseOne();
+        }
+
+        if(!canMove()){
+          state.over=true;
+          const final = Math.floor(state.score);
+          if(final>state.best){ state.best=final; localStorage.setItem('shardBest:'+seedStr, String(final)); toast('New daily best: '+final); }
+          else toast('Game over. Score '+final);
+        }
+        render();
+        ui();
+        return;
+      }
+
+      // if no movement, undo is invalid
+      state.undo=null;
+      ui();
+    }
+
+    function cleanseOne(){
+      const corrupt=[];
+      for(let r=0;r<N;r++) for(let c=0;c<N;c++) if(state.grid[r][c]?.type==='corrupt') corrupt.push([r,c]);
+      if(!corrupt.length) return;
+      const [r,c]=corrupt[Math.floor(rand()*corrupt.length)];
+      state.grid[r][c]=null;
+      toast('Merge surge cleansed corruption');
+    }
+
+    function tileColor(v){
+      // Neon palette based on value
+      const hue = (Math.log2(v)*38) % 360;
+      const bg = `hsla(${hue}, 85%, 58%, 0.28)`;
+      const edge = `hsla(${hue}, 92%, 68%, 0.55)`;
+      const glow = `hsla(${hue}, 92%, 68%, 0.35)`;
+      return {bg, edge, glow};
+    }
+
+    function render(){
+      // remove old tiles
+      [...boardEl.querySelectorAll('.tilePiece')].forEach(n=>n.remove());
+      const rect = boardEl.getBoundingClientRect();
+      const pad = 12;
+      const gap = 10;
+      const size = (rect.width - pad*2 - gap*3) / 4;
+
+      for(let r=0;r<N;r++) for(let c=0;c<N;c++){
+        const cell=state.grid[r][c];
+        if(!cell) continue;
+        const el=document.createElement('div');
+        el.className='tilePiece';
+        el.style.width = `${size}px`;
+        el.style.height = `${size}px`;
+        el.style.left = `${pad + c*(size+gap)}px`;
+        el.style.top  = `${pad + r*(size+gap)}px`;
+
+        if(cell.type==='corrupt'){
+          el.style.background = 'linear-gradient(180deg, rgba(255,85,122,.22), rgba(255,85,122,.08))';
+          el.style.borderColor = 'rgba(255,85,122,.45)';
+          el.style.boxShadow = '0 12px 34px rgba(255,85,122,.12)';
+          el.innerHTML = `<div style="text-align:center"><div style="font-size:22px;font-weight:1000;color:rgba(255,85,122,.92)">✦</div><small style="color:rgba(255,193,205,.85)">corrupt</small></div>`;
+        } else {
+          const {bg, edge, glow} = tileColor(cell.v);
+          el.style.background = `linear-gradient(180deg, ${bg}, rgba(18,27,53,.35))`;
+          el.style.borderColor = edge;
+          el.style.boxShadow = `0 14px 40px ${glow}`;
+          const label = cell.v>=1024 ? cell.v.toString() : cell.v.toString();
+          el.innerHTML = `<div style="text-align:center"><div style="font-size:${cell.v>=1024?26:30}px;line-height:1">${label}</div><small>shard</small></div>`;
+        }
+        boardEl.appendChild(el);
+      }
+    }
+
+    function newGame(){
+      state.grid = Array.from({length:N},()=>Array(N).fill(null));
+      state.score=0; state.moves=0; state.streak=0; state.noMergeCounter=0; state.over=false; state.undo=null;
+      spawnTile(); spawnTile();
+      render();
+      ui();
+      toast('New arena. Merge early to stay clean.');
+    }
+
+    // Input: keys
+    window.addEventListener('keydown', (e)=>{
+      const k=e.key;
+      if(k==='ArrowLeft'){ move('left'); e.preventDefault(); }
+      if(k==='ArrowRight'){ move('right'); e.preventDefault(); }
+      if(k==='ArrowUp'){ move('up'); e.preventDefault(); }
+      if(k==='ArrowDown'){ move('down'); e.preventDefault(); }
+      if(k.toLowerCase()==='u'){ doUndo(); }
+      if(k.toLowerCase()==='r'){ newGame(); }
+    }, {passive:false});
+
+    // Input: touch swipe
+    let sx=0, sy=0, tracking=false;
+    boardEl.addEventListener('pointerdown', (e)=>{
+      tracking=true;
+      sx=e.clientX; sy=e.clientY;
+      boardEl.setPointerCapture(e.pointerId);
+    });
+    boardEl.addEventListener('pointerup', (e)=>{
+      if(!tracking) return;
+      tracking=false;
+      const dx=e.clientX-sx, dy=e.clientY-sy;
+      const ax=Math.abs(dx), ay=Math.abs(dy);
+      if(Math.max(ax,ay) < 20) return;
+      if(ax>ay) move(dx<0?'left':'right');
+      else move(dy<0?'up':'down');
+    });
+
+    // Buttons
+    $('#btnNew').addEventListener('click', newGame);
+    $('#btnUndo').addEventListener('click', doUndo);
+
+    // How modal
+    const ov=$('#ov');
+    $('#btnHow').addEventListener('click', ()=>ov.classList.add('show'));
+    $('#btnCloseHow').addEventListener('click', ()=>ov.classList.remove('show'));
+    ov.addEventListener('click', (e)=>{ if(e.target===ov) ov.classList.remove('show'); });
+
+    // Hook undo into move
+    const oldMove = move;
+    window.__move = move;
+
+    // patch: ensure undo available only if a move changed grid
+    const moveOrig = move;
+    function move2(dir){
+      const beforeUndo = state.undo;
+      moveOrig(dir);
+      // if move happened, undo exists
+      ui();
+    }
+
+    // Override for button actions
+    function moveWrapper(d){ move(d); }
+
+    // Expose
+    // Start
+    newGame();
+
+    // Replace move used by listeners? (we already bound above)
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shard Merge Arena — Prototype Report</title>
+  <meta name="description" content="Strategy + growth + KPIs for Shard Merge Arena (2048+ with hazards)." />
+  <style>
+    :root{--bg:#0b1020;--card:#121b35;--ink:#ecf2ff;--muted:#a9b8dc;--a:#5cf3ff;--b:#a38bff;--good:#3dffb1;--bad:#ff557a;--warn:#ffd36c;--border:#2a3f74}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Inter,Arial;background:radial-gradient(900px 640px at 20% -10%, rgba(92,243,255,.14), transparent 60%),radial-gradient(850px 620px at 95% 0%, rgba(163,139,255,.16), transparent 60%),var(--bg);color:var(--ink)}
+    a{color:var(--a)}
+    .wrap{max-width:980px;margin:0 auto;padding:22px 16px 44px}
+    h1{margin:0 0 6px;font-size:26px}
+    .sub{color:var(--muted);margin:0 0 16px;line-height:1.45}
+    .toplinks{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+    .pill{border:1px solid var(--border);background:rgba(18,27,53,.7);padding:7px 10px;border-radius:999px;color:var(--muted);font-size:12px}
+    .pill b{color:var(--ink)}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .card{border:1px solid var(--border);background:linear-gradient(180deg, rgba(18,27,53,.9), rgba(10,14,30,.9));border-radius:16px;padding:14px}
+    h2{margin:0 0 8px;font-size:16px}
+    h3{margin:14px 0 6px;font-size:14px}
+    p,li{color:var(--muted);line-height:1.55}
+    ul{margin:8px 0 0;padding-left:18px}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width: 820px){.cols{grid-template-columns:1fr}}
+    .k{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+    .k .mini{border:1px solid rgba(42,63,116,.7);border-radius:14px;padding:10px;background:rgba(8,12,26,.35)}
+    .mini b{color:var(--ink)}
+    code{background:rgba(8,12,26,.55);padding:2px 6px;border-radius:8px;border:1px solid rgba(42,63,116,.5);color:#d9e7ff}
+    .callout{border-left:3px solid var(--b);padding:10px 12px;background:rgba(163,139,255,.08);border-radius:12px}
+    .risk{border-left:3px solid var(--bad);padding:10px 12px;background:rgba(255,85,122,.08);border-radius:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Shard Merge Arena — Prototype Report</h1>
+    <p class="sub">A 2048-inspired merge puzzle with a <b>hazard layer</b>: Corruption blocks and can spread if players stall. The design goal is to preserve the familiar merge feel while adding <b>cadence pressure</b> and a stronger daily-competition hook.</p>
+
+    <div class="toplinks">
+      <span class="pill">Prototype date: <b>2026-03-01</b></span>
+      <span class="pill">Genre: <b>Merge puzzle / 2048-like / Daily</b></span>
+      <span class="pill"><a href="./index.html">Play</a></span>
+      <span class="pill"><a href="../index.html">Catalog</a></span>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>1) Product Strategy</h2>
+        <div class="cols">
+          <div>
+            <h3>Target player</h3>
+            <ul>
+              <li>Fans of merge puzzles (2048, Threes-style) who want <b>extra tension</b> and a reason to come back daily.</li>
+              <li>Casual puzzle players who enjoy clean UI and repeatable mastery.</li>
+            </ul>
+
+            <h3>Positioning</h3>
+            <ul>
+              <li><b>2048+</b> with hazards: “merge cadence” matters, not just corner strategy.</li>
+              <li><b>Daily seed</b> makes competitive play fair and shareable.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Why it wins</h3>
+            <ul>
+              <li>Hazard layer creates meaningful decision-making (safe consolidation vs risky streak push).</li>
+              <li>Streak rewards make merges feel explosive and satisfying.</li>
+              <li>Undo (limited) supports learning and reduces frustration.</li>
+            </ul>
+
+            <h3>Expansion paths</h3>
+            <ul>
+              <li>Weekly arena modifiers (fog, ice slide, locked tiles).</li>
+              <li>Power shards (bomb, cleanse, swap) as rare drops or earned rewards.</li>
+              <li>Seasonal cosmetics + board themes.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2) Core Loop, Hazards, Rewards</h2>
+        <div class="callout"><b>Loop:</b> Swipe → merge → grow streak → prevent corruption → chase 2048+ → lose → restart to improve daily best.</div>
+
+        <h3>Systems</h3>
+        <ul>
+          <li><b>Streak bonus:</b> merges increase streak; score bonuses scale with streak to reward consistent cadence.</li>
+          <li><b>No-merge penalty:</b> repeated no-merge moves increase corruption chance and spread.</li>
+          <li><b>Corruption tiles:</b> block sliding and reduce available space; occasional cleanse on merge streak keeps hope alive.</li>
+        </ul>
+
+        <h3>Rewards</h3>
+        <ul>
+          <li><b>Immediate:</b> merge pop (value growth) + streak feedback.</li>
+          <li><b>Session:</b> high score chase; daily best stored per seed.</li>
+          <li><b>Meta (planned):</b> streak-based unlock track, daily/weekly cups, cosmetics.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>3) SEO / ASO / SEM Plan</h2>
+        <div class="cols">
+          <div>
+            <h3>ASO</h3>
+            <ul>
+              <li>Keywords: <code>2048</code>, <code>merge puzzle</code>, <code>number game</code>, <code>daily puzzle</code>, <code>strategy</code></li>
+              <li>Short description: “A tactical 2048+ arena where corruption spreads if you stall.”</li>
+              <li>Creatives: show corruption tiles appearing + a clutch merge cleanse.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>SEO</h3>
+            <ul>
+              <li>Web demo page “Shard Merge Arena Daily” with seed-of-the-day share copy.</li>
+              <li>Articles: “Why hazards make merge games deeper” and “How daily seeds improve fairness”.</li>
+            </ul>
+
+            <h3>SEM</h3>
+            <ul>
+              <li>Paid search: “2048 new game”, “hard 2048”, “daily 2048”.</li>
+              <li>Video ads: 10–12s with “corruption spreads” → “one merge saves it”.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>4) KPIs</h2>
+        <div class="k">
+          <div class="mini"><b>D1 retention</b><div>Target 22–32% (merge is familiar; daily seed + streak meta can lift).</div></div>
+          <div class="mini"><b>Avg. session length</b><div>Target 3–7 minutes (multiple resets per day).</div></div>
+          <div class="mini"><b>Moves per session</b><div>Target 70–160 (balances satisfaction and failure cadence).</div></div>
+          <div class="mini"><b>2048 reach rate</b><div>Target 6–14% (aspirational but achievable with skill).</div></div>
+          <div class="mini"><b>Corruption density</b><div>Median 2–5 tiles at end; >7 indicates too punishing.</div></div>
+          <div class="mini"><b>Undo usage</b><div>Track to tune frustration; high usage suggests unclear rules or over-punishment.</div></div>
+        </div>
+
+        <h3>Instrumentation</h3>
+        <ul>
+          <li>Events: <code>game_start</code>, <code>move</code>(dir), <code>merge</code>(value), <code>streak_change</code>, <code>corruption_spawn</code>, <code>corruption_spread</code>, <code>cleanse</code>, <code>game_over</code>.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>5) Experiments</h2>
+        <h3>Hazard tuning</h3>
+        <ul>
+          <li><b>Spawn rule:</b> corruption after X no-merge moves (X=2/3/4). Optimize for tension without helplessness.</li>
+          <li><b>Spread chance:</b> 40% vs 65% vs 85% per trigger; tune difficulty ramp.</li>
+          <li><b>Cleanse mechanic:</b> cleanse on streak milestone (e.g., every 5 merges) vs RNG.</li>
+        </ul>
+
+        <h3>Retention</h3>
+        <ul>
+          <li><b>Daily mission:</b> “Reach 512 with ≤2 corruption” encourages learning.</li>
+          <li><b>Weekly ladder:</b> sum of daily best scores → compounding engagement.</li>
+        </ul>
+
+        <h3>Monetization</h3>
+        <ul>
+          <li>Cosmetics + optional rewarded “cleanse token” once per run (careful: fairness risk; separate leaderboards if used).</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>6) Risks & Mitigations</h2>
+        <div class="risk">
+          <ul>
+            <li><b>Risk:</b> Hazard feels unfair/random.<br/><b>Mitigation:</b> strict daily seed, visible corruption timer, deterministic cleanse milestones.</li>
+            <li><b>Risk:</b> Too punishing; early churn.<br/><b>Mitigation:</b> tutorial + first games with softer hazard; “casual” mode without spread.</li>
+            <li><b>Risk:</b> Classic 2048 competitors dominate keywords.<br/><b>Mitigation:</b> differentiate in creative: “corruption spreads” + “arena streak” + daily challenge.</li>
+            <li><b>Risk:</b> Accessibility issues with swipe detection.<br/><b>Mitigation:</b> large hit area; arrow key support; optional on-screen arrows.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</body>
+</html>

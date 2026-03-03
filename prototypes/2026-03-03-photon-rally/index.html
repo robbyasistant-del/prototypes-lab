@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Photon Rally — Pulse Lane Drift</title>
+  <meta name="description" content="Balance neon lanes, route photons and stabilize a reactor inside 90-second sprints that reward combo intuition." />
+  <meta name="theme-color" content="#040813" />
+  <style>
+    :root{
+      --bg:#03060f;
+      --card:#11152a;
+      --card-strong:#141a33;
+      --ink:#f0f5ff;
+      --muted:#a9b8dc;
+      --accent:#5cf3ff;
+      --accent2:#a38bff;
+      --border:rgba(92,243,255,.18);
+      --shadow:0 25px 55px rgba(4,6,15,.75);
+      --r:20px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(600px 600px at 20% -20%, rgba(92,243,255,.25), transparent 45%),
+      radial-gradient(400px 400px at 80% -10%, rgba(163,139,255,.25), transparent 40%),var(--bg);font-family:"Space Grotesk","Inter",system-ui,-apple-system,sans-serif;color:var(--ink);}
+    a{color:var(--accent);text-decoration:none}
+    .shell{max-width:1100px;margin:0 auto;padding:28px 24px 60px;display:flex;flex-direction:column;gap:24px}
+    .hero{background:linear-gradient(150deg, rgba(92,243,255,.12), rgba(12,16,34,.9)),var(--card);border:1px solid var(--border);border-radius:24px;padding:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center}
+    .eyebrow{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+    .hero h1{margin:0;font-size:36px;line-height:1.2}
+    .lead{margin:12px 0 14px;color:var(--muted);font-size:16px;line-height:1.6;max-width:520px}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+    button, .ghost{border-radius:999px;font-weight:600;letter-spacing:.02em;border:1px solid transparent;padding:12px 18px;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease}
+    button{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#03060f;box-shadow:0 10px 30px rgba(92,243,255,.4)}
+    button:hover{transform:translateY(-1px)}
+    .ghost{background:transparent;color:var(--ink);border-color:rgba(255,255,255,.25);display:inline-flex;align-items:center;justify-content:center}
+    .hero-card{border-radius:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);padding:18px;display:flex;flex-direction:column;gap:12px}
+    .hero-card strong{font-size:28px;display:block}
+    .hero-card-score{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+    .stat-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:6px;box-shadow:0 20px 45px rgba(0,0,0,.4)}
+    .stat-card .label{text-transform:uppercase;font-size:11px;letter-spacing:1px;color:var(--muted)}
+    .stat-card .value{font-size:26px;font-weight:700}
+    .stat-card .muted{font-size:12px;color:var(--muted)}
+    .lanes{background:var(--card-strong);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:18px}
+    .section-header{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .section-header h2{margin:0;font-size:20px}
+    .section-header p{margin:0;color:var(--muted);font-size:14px}
+    .lane-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .lane-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+    .lane-head{display:flex;justify-content:space-between;align-items:center}
+    .lane-head span{font-size:12px;color:var(--muted)}
+    .lane-copy{font-size:13px;color:var(--muted);line-height:1.5}
+    .lane-level{position:relative;height:10px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}
+    .lane-level::after{content:'';position:absolute;inset:0;width:60%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .feature{background:rgba(255,255,255,.02);border-radius:16px;padding:16px;border:1px solid rgba(255,255,255,.08)}
+    .feature h3{margin:0 0 8px;font-size:16px}
+    .feature p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+    .callout{border-left:3px solid var(--accent);padding-left:12px;color:var(--muted);font-size:13px}
+    .footer{margin-top:10px;font-size:13px;color:var(--muted)}
+    .footer a{margin-left:4px}
+    @media (max-width:960px){.hero{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Prototype 01 · 2026-03-03</p>
+        <h1>Photon Rally</h1>
+        <p class="lead">Pulse lane drift: tap lanes to route photons, trigger boosts, and keep the reactor drift within 90 seconds of combo bliss.</p>
+        <div class="hero-actions">
+          <button type="button" data-action="simulate">Simulate run</button>
+          <a class="ghost" href="report.html">View report</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <strong>Reactor vibe · ±4°C</strong>
+        <span>Three lanes, two combo tiers, one overdrive.</span>
+        <div class="hero-card-score">
+          <span>Daily pulse streak</span>
+          <span>12/14</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="stats-grid" aria-label="Run metrics">
+      <article class="stat-card">
+        <span class="label">Run window</span>
+        <span class="value" data-stat="time">1:30</span>
+        <span class="muted">seconds before throttle</span>
+      </article>
+      <article class="stat-card">
+        <span class="label">Combo multiplier</span>
+        <span class="value" data-stat="combo">1.17x</span>
+        <span class="muted">chain the pulses</span>
+      </article>
+      <article class="stat-card">
+        <span class="label">Energy buffer</span>
+        <span class="value" data-stat="energy">68%</span>
+        <span class="muted">reserve for lane swaps</span>
+      </article>
+      <article class="stat-card">
+        <span class="label">Stability</span>
+        <span class="value" data-stat="stability">97.2%</span>
+        <span class="muted">keep the drift under limit</span>
+      </article>
+    </section>
+
+    <section class="lanes" aria-label="Photon lanes">
+      <div class="section-header">
+        <div>
+          <h2>Lane convergence</h2>
+          <p>Every lane carries different drift: keep boosters balanced to unlock Reactor Samples.</p>
+        </div>
+        <p class="callout">Daily target: 18 combos, 90% lane uptime.</p>
+      </div>
+      <div class="lane-grid">
+        <article class="lane-card">
+          <div class="lane-head">
+            <h3>North Arc</h3>
+            <span>Throughput</span>
+          </div>
+          <p class="lane-copy">Short bursts carry raw photons faster but devour buffer. Use it for early spikes.</p>
+          <div class="lane-level" data-lane="north"></div>
+        </article>
+        <article class="lane-card">
+          <div class="lane-head">
+            <h3>Core Drift</h3>
+            <span>Stability</span>
+          </div>
+          <p class="lane-copy">Gentle pulses keep the reactor calm while still feeding combos to the others.</p>
+          <div class="lane-level" data-lane="core"></div>
+        </article>
+        <article class="lane-card">
+          <div class="lane-head">
+            <h3>South Flow</h3>
+            <span>Boost Control</span>
+          </div>
+          <p class="lane-copy">Stack up boost orbs here to trigger overdrive without sacrificing stability.</p>
+          <div class="lane-level" data-lane="south"></div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <div>
+          <h2>Playbook</h2>
+          <p>Handcrafted loop for 90-second daily sprints.</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <article class="feature">
+          <h3>Lane-hopping taps</h3>
+          <p>Tap combos trigger lane switches that redistribute the drift gauge and reward pulses when timed with the weave.</p>
+        </article>
+        <article class="feature">
+          <h3>Overdrive cues</h3>
+          <p>Collect reactor samples to unlock a pop-up drift that multiplies combos if you protect stability above 92%.</p>
+        </article>
+        <article class="feature">
+          <h3>Daily reactive goals</h3>
+          <p>Every day sets a unique lane order and combo target for brag scores on the index page.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="callout">
+      <strong>Experiment prompt:</strong> try adding a scheduled lane cooldown (1.2× combo reward) versus a continuous lane buffer to see which keeps retention above 35% after the 5th run.
+    </section>
+
+    <p class="footer">Back to <a href="../index.html">prototypes index</a> · Report: <a href="report.html">photon-rally report</a></p>
+  </div>
+
+  <script>
+    (function(){
+      const statNodes = {
+        time: document.querySelector('[data-stat="time"]'),
+        combo: document.querySelector('[data-stat="combo"]'),
+        energy: document.querySelector('[data-stat="energy"]'),
+        stability: document.querySelector('[data-stat="stability"]'),
+      };
+      const laneBars = document.querySelectorAll('[data-lane]');
+      const start = Date.now();
+      const maxTime = 90;
+
+      function formatClock(seconds){
+        const m = Math.floor(seconds/60);
+        const s = Math.floor(seconds%60);
+        return `${m}:${String(s).padStart(2,'0')}`;
+      }
+
+      function update(){
+        const elapsed = (Date.now() - start)/1000;
+        const remaining = Math.max(0, maxTime - elapsed);
+        statNodes.time.textContent = formatClock(remaining);
+        const combo = 1 + Math.abs(Math.sin(elapsed * 1.2)) * 0.35;
+        statNodes.combo.textContent = `${combo.toFixed(2)}x`;
+        const energy = 60 + 18 * Math.abs(Math.cos(elapsed * 0.9));
+        statNodes.energy.textContent = `${energy.toFixed(0)}%`;
+        const stability = 95 + Math.sin(elapsed/3) * 2.3;
+        statNodes.stability.textContent = `${stability.toFixed(1)}%`;
+        laneBars.forEach((bar, idx)=>{
+          const wave = Math.sin(elapsed/2 + idx);
+          const fill = 40 + 45 * (wave + 1) / 2;
+          bar.style.setProperty('--fill', `${Math.min(100, fill)}%`);
+        });
+      }
+
+      update();
+      setInterval(update, 700);
+    })();
+  </script>
+</body>
+</html>

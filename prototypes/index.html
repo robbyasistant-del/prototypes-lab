@@ -1,149 +1,55 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Prototypes Lab Catalog</title>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Prototypes Lab</title>
 <style>
-body{margin:0;font-family:Inter,Segoe UI,Arial;background:#0b1020;color:#ecf2ff;padding:22px}
-.wrap{max-width:1100px;margin:0 auto}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.card{background:#151d34;border:1px solid #304673;border-radius:14px;padding:14px;box-shadow:0 8px 22px #0000004d}
-.badge{display:inline-block;padding:4px 9px;border:1px solid #39558f;border-radius:999px;font-size:12px;background:#192646}
-a{color:#9ed8ff}.muted{opacity:.82}h1,h2,h3{margin:0 0 8px}
-</style></head><body><div class="wrap">
+body{margin:0;font-family:Inter,Segoe UI,Arial;background:#050914;color:#f4f5ff;}
+.wrap{max-width:1200px;margin:0 auto;padding:32px 24px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:24px;}
+.card{background:#0f1630;border:1px solid #1f2a58;border-radius:18px;padding:18px;box-shadow:0 20px 45px rgba(0,0,0,0.45);}
+.card h3{margin:0 0 10px;font-size:20px;}
+.card p{margin:0 0 12px;color:#c4cbf6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.card a{color:#7cf3ff;text-decoration:none;font-weight:600;}
+.header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+.header h1{margin:0;font-size:32px;}
+.header small{color:#9bb1ff;}
+.date{font-size:12px;color:#8b9ed4;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.2em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="header">
 <h1>Prototypes Lab</h1>
-<p class="muted">Daily quality-first game prototypes with playable pages and strategic reports.</p>
-
-<h2 style="margin-top:18px">2026-03-04 Batch</h2>
-<div class="grid">
-  <div class="card">
-    <span class="badge">Word / Rating / Daily</span>
-    <h3>2026-03-04 · Rating Rally</h3>
-    <p>Stack star combos, Wordle-style hints, and a rating belt into a 90-second sprint that rewards five-star streaks.</p>
-    <a href="./2026-03-04-rating-rally/index.html">Play prototype</a> · <a href="./2026-03-04-rating-rally/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Badge / Puzzle / Social</span>
-    <h3>2026-03-04 · Sync Sigil</h3>
-    <p>Daily double-letter grid with Only Green badge share and TikTok-ready glow when you solve in three tries.</p>
-    <a href="./2026-03-04-sync-sigil/index.html">Play prototype</a> · <a href="./2026-03-04-sync-sigil/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Rhythm / Loop / Mini</span>
-    <h3>2026-03-04 · Tide Loop</h3>
-    <p>Rhythmic puzzle that echoes Wordle/Connections vibes, chasing streaks while highlighting trending keywords.</p>
-    <a href="./2026-03-04-tide-loop/index.html">Play prototype</a> · <a href="./2026-03-04-tide-loop/report.html">Read report</a>
-  </div>
+<small>Daily quality-first experiments</small>
 </div>
-
-<h2 style="margin-top:18px">2026-03-01 Batch</h2>
 <div class="grid">
-  <div class="card">
-    <span class="badge">Runner / Reflex / Daily</span>
-    <h3>2026-03-01 · Echo Lanes</h3>
-    <p>Daily-seeded lane runner with risky Echo pickups that boost combo and create real micro-decisions.</p>
-    <a href="./2026-03-01-echo-lanes/index.html">Play prototype</a> · <a href="./2026-03-01-echo-lanes/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Management / Triage / 2-min</span>
-    <h3>2026-03-01 · Courier Rush</h3>
-    <p>2-minute dispatch management: accept/reject, assign scarce couriers, upgrade speed, protect reputation.</p>
-    <a href="./2026-03-01-courier-rush/index.html">Play prototype</a> · <a href="./2026-03-01-courier-rush/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Merge / 2048+ / Hazard</span>
-    <h3>2026-03-01 · Shard Merge Arena</h3>
-    <p>Polished 2048-inspired merge puzzle with corruption hazards, streak bonuses, and daily seed fairness.</p>
-    <a href="./2026-03-01-shard-merge-arena/index.html">Play prototype</a> · <a href="./2026-03-01-shard-merge-arena/report.html">Read report</a>
-  </div>
+<article class="card"><div class="date">2026-03-04</div><h3>Tide Loop</h3><p>The Tide Loop draws from those cues: a rhythmic puzzle that cues trending letters, includes a shareable five-star streak board, and mirrors the Only Green badge mania for social proof.</p><a href="./2026-03-04-tide-loop/index.html">Play prototype</a> · <a href="./2026-03-04-tide-loop/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-04</div><h3>Sync Sigil</h3><p>Wordle #1718/#1719 chatter + Only Green badge gossip drives the tactical puzzle motif. Combined with high interest in ratings (stars/five/rated), the game uses social badges to conquer ASO signals.</p><a href="./2026-03-04-sync-sigil/index.html">Play prototype</a> · <a href="./2026-03-04-sync-sigil/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-04</div><h3>Rating Rally</h3><p>Star-based SEO is hot ("stars", "five", "rated" surges). Wordle/minis keep trending ("mini", "brain", "Wordle-style") plus daily-rating obsession. Rating Rally repackages that into a micro streak loop with shareable badges.</p><a href="./2026-03-04-rating-rally/index.html">Play prototype</a> · <a href="./2026-03-04-rating-rally/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-04</div><h3>Glyph Bloom</h3><p>Daily prototype build.</p><a href="./2026-03-04-glyph-bloom/index.html">Play prototype</a> · <a href="./2026-03-04-glyph-bloom/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-04</div><h3>Drift Relay</h3><p>Daily prototype build.</p><a href="./2026-03-04-drift-relay/index.html">Play prototype</a> · <a href="./2026-03-04-drift-relay/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-04</div><h3>Beacon Loom</h3><p>Daily prototype build.</p><a href="./2026-03-04-beacon-loom/index.html">Play prototype</a> · <a href="./2026-03-04-beacon-loom/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-03</div><h3>Photon Rally</h3><p>Daily prototype build.</p><a href="./2026-03-03-photon-rally/index.html">Play prototype</a> · <a href="./2026-03-03-photon-rally/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-03</div><h3>Muse Grid</h3><p>Daily prototype build.</p><a href="./2026-03-03-muse-grid/index.html">Play prototype</a> · <a href="./2026-03-03-muse-grid/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-03</div><h3>Lumen Echo</h3><p>Daily prototype build.</p><a href="./2026-03-03-lumen-echo/index.html">Play prototype</a> · <a href="./2026-03-03-lumen-echo/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-01</div><h3>Shard Merge Arena</h3><p>Daily prototype build.</p><a href="./2026-03-01-shard-merge-arena/index.html">Play prototype</a> · <a href="./2026-03-01-shard-merge-arena/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-01</div><h3>Echo Lanes</h3><p>Daily prototype build.</p><a href="./2026-03-01-echo-lanes/index.html">Play prototype</a> · <a href="./2026-03-01-echo-lanes/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-03-01</div><h3>Courier Rush</h3><p>Daily prototype build.</p><a href="./2026-03-01-courier-rush/index.html">Play prototype</a> · <a href="./2026-03-01-courier-rush/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-28</div><h3>Pulse Keeper</h3><p>Date: 2026-02-28 · Genre: Skill timing / rhythm survival · Build: Web MVP polished loop</p><a href="./2026-02-28-pulse-keeper/index.html">Play prototype</a> · <a href="./2026-02-28-pulse-keeper/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-28</div><h3>Orbit Lexicon</h3><p>Date: 2026-02-28 · Genre: Word puzzle / timed strategy</p><a href="./2026-02-28-orbit-lexicon/index.html">Play prototype</a> · <a href="./2026-02-28-orbit-lexicon/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-28</div><h3>Guess The Mon</h3><p>Fecha: 2026-02-28 · Categoría: Silhouette Quiz + Trivia Speedrun</p><a href="./2026-02-28-guess-the-mon/index.html">Play prototype</a> · <a href="./2026-02-28-guess-the-mon/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-28</div><h3>Coinflow Cafe</h3><p>Date: 2026-02-28 · Genre: Time-management / economy loop</p><a href="./2026-02-28-coinflow-cafe/index.html">Play prototype</a> · <a href="./2026-02-28-coinflow-cafe/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-27</div><h3>Syllable Sprint</h3><p>Daily prototype build.</p><a href="./2026-02-27-syllable-sprint/index.html">Play prototype</a> · <a href="./2026-02-27-syllable-sprint/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-27</div><h3>Price Pulse</h3><p>Gamifies directional forecasting into a lightweight daily ritual. Targets users who enjoy prediction markets, business trivia, and quick decision loops.</p><a href="./2026-02-27-price-pulse/index.html">Play prototype</a> · <a href="./2026-02-27-price-pulse/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-27</div><h3>Neon Recall 9</h3><p>Fecha: 2026-02-27 · Tipo: Memory / Reflex / Daily skill challenge</p><a href="./2026-02-27-neon-recall-9/index.html">Play prototype</a> · <a href="./2026-02-27-neon-recall-9/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-27</div><h3>Neon Path Memory</h3><p>Positioned as "micro-brain-training" with game feel (neon aesthetic, escalating rounds, lives pressure). Deterministic daily path enables fair leaderboard and influencer challenge format.</p><a href="./2026-02-27-neon-path-memory/index.html">Play prototype</a> · <a href="./2026-02-27-neon-path-memory/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-27</div><h3>Lexiflash 9</h3><p>Fecha: 2026-02-27 · Tipo: Word-memory daily loop</p><a href="./2026-02-27-lexiflash-9/index.html">Play prototype</a> · <a href="./2026-02-27-lexiflash-9/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-26</div><h3>Word Merge</h3><p>Source signals used: local market snapshot _market/data/top20-2026-02-25.json. Strong repeated demand terms across regions: daily word game, crossword, quick daily game. Top recurring IDs include word-first and daily puzzle products, supporting a short-session language concept with social streak framing.</p><a href="./2026-02-26-word-merge/index.html">Play prototype</a> · <a href="./2026-02-26-word-merge/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-26</div><h3>Tricky 60S</h3><p>This concept targets the high-click “brain challenge” lane visible in repeated query terms (brain teaser puzzle / quick daily game) and adds social speedrun energy.</p><a href="./2026-02-26-tricky-60s/index.html">Play prototype</a> · <a href="./2026-02-26-tricky-60s/report.html">Read report</a></article>
+<article class="card"><div class="date">2026-02-26</div><h3>Block Solitaire</h3><p>Market evidence from local ranking snapshot shows block puzzle and casual puzzle terms recurring across regions. This supports a placement-and-clear design with modernized daily mission framing.</p><a href="./2026-02-26-block-solitaire/index.html">Play prototype</a> · <a href="./2026-02-26-block-solitaire/report.html">Read report</a></article>
 </div>
-
-<h2 style="margin-top:18px">2026-02-28 Batch</h2>
-<div class="grid">
-  <div class="card">
-    <span class="badge">Rhythm / Reflex / Daily</span>
-    <h3>2026-02-28 · Pulse Keeper</h3>
-    <p>Neon timing survival where players tap in a precision zone to maintain reactor stability and chase combo highs.</p>
-    <a href="./2026-02-28-pulse-keeper/index.html">Play prototype</a> · <a href="./2026-02-28-pulse-keeper/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Management / Economy / Rush</span>
-    <h3>2026-02-28 · Coinflow Cafe</h3>
-    <p>2-minute cafe rush with queue decisions, missed-order penalties, and strategic upgrade spending for compounding gains.</p>
-    <a href="./2026-02-28-coinflow-cafe/index.html">Play prototype</a> · <a href="./2026-02-28-coinflow-cafe/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Word / Puzzle / Rotation</span>
-    <h3>2026-02-28 · Orbit Lexicon</h3>
-    <p>Timed word-building challenge on a rotating letter ring that rewards long words, rare letters, and rapid adaptation.</p>
-    <a href="./2026-02-28-orbit-lexicon/index.html">Play prototype</a> · <a href="./2026-02-28-orbit-lexicon/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Quiz / Silhouette / Speedrun</span>
-    <h3>2026-02-28 · Guess the Mon Daily</h3>
-    <p>8-round silhouette + trivia rush with score, streak, time pressure, and social share-card output.</p>
-    <a href="./2026-02-28-guess-the-mon/index.html">Play prototype</a> · <a href="./2026-02-28-guess-the-mon/report.html">Read report</a>
-  </div>
-
 </div>
-
-<h2 style="margin-top:18px">2026-02-27 Batch</h2>
-<div class="grid">
-  <div class="card">
-    <span class="badge">Word / Speed / Combo</span>
-    <h3>2026-02-27 · Syllable Sprint Daily</h3>
-    <p>90-second word run using a daily syllable seed, multiplier strategy, and best-score retention.</p>
-    <a href="./2026-02-27-syllable-sprint/index.html">Play prototype</a> · <a href="./2026-02-27-syllable-sprint/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Memory / Pattern / Reflex</span>
-    <h3>2026-02-27 · Neon Path Memory</h3>
-    <p>Replay deterministic daily neon routes across escalating rounds with pressure from limited lives.</p>
-    <a href="./2026-02-27-neon-path-memory/index.html">Play prototype</a> · <a href="./2026-02-27-neon-path-memory/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Prediction / Trivia / Streak</span>
-    <h3>2026-02-27 · Price Pulse Daily</h3>
-    <p>Directional market-guessing loop with instant reveal, streak incentives, and replay tension.</p>
-    <a href="./2026-02-27-price-pulse/index.html">Play prototype</a> · <a href="./2026-02-27-price-pulse/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Memory / Order / Speed</span>
-    <h3>2026-02-27 · Neon Recall 9</h3>
-    <p>3x3 flash-memory challenge: memorize 1-9 in 3s, then tap perfect order under 60s with -5s fail penalty.</p>
-    <a href="./2026-02-27-neon-recall-9/index.html">Play prototype</a> · <a href="./2026-02-27-neon-recall-9/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Word / Memory / Daily</span>
-    <h3>2026-02-27 · LexiFlash 9</h3>
-    <p>Memoriza letras en 3x3 y reconstruye una palabra de 9 letras en orden, con presión de tiempo y penalización.</p>
-    <a href="./2026-02-27-lexiflash-9/index.html">Play prototype</a> · <a href="./2026-02-27-lexiflash-9/report.html">Read report</a>
-  </div>
-</div>
-
-<h2 style="margin-top:18px">2026-02-26 Batch</h2>
-<div class="grid">
-  <div class="card">
-    <span class="badge">Word / Daily / Streak</span>
-    <h3>2026-02-26 · Word Merge Daily</h3>
-    <p>Fast word-chain challenge with combo multipliers, 90s urgency, streak retention, and social score cards.</p>
-    <a href="./2026-02-26-word-merge/index.html">Play prototype</a> · <a href="./2026-02-26-word-merge/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Block / Strategy / Rounds</span>
-    <h3>2026-02-26 · Block Solitaire Rush</h3>
-    <p>Round-based block placement survival with line clears, combo tension, and daily mission structure.</p>
-    <a href="./2026-02-26-block-solitaire/index.html">Play prototype</a> · <a href="./2026-02-26-block-solitaire/report.html">Read report</a>
-  </div>
-  <div class="card">
-    <span class="badge">Quiz / 60s / Social</span>
-    <h3>2026-02-26 · Tricky 60s Daily</h3>
-    <p>Timed trap-question sprint designed for high replay loops and creator-friendly challenge sharing.</p>
-    <a href="./2026-02-26-tricky-60s/index.html">Play prototype</a> · <a href="./2026-02-26-tricky-60s/report.html">Read report</a>
-  </div>
-</div>
-
-<h2 style="margin-top:18px">Previous Concepts</h2>
-<div class="grid">
-  <div class="card"><h3>Arrow Escape Daily</h3><p class="muted">Legacy prototype retained in catalog.</p><a href="./arrow-escape-daily/index.html">Open</a></div>
-  <div class="card"><h3>Block Duel</h3><p class="muted">Legacy prototype retained in catalog.</p><a href="./block-duel/index.html">Open</a></div>
-  <div class="card"><h3>Word Solitaire Mix</h3><p class="muted">Legacy prototype retained in catalog.</p><a href="./word-solitaire-mix/index.html">Open</a></div>
-</div>
-</div></body></html>
+</body>
+</html>

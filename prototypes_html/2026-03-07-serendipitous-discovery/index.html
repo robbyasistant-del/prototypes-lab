@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Serendipitous Discovery Daily</title>
+  <style>
+    :root{
+      --bg:#070d1a; --panel:#101b33; --line:#2d4f8e; --txt:#eef4ff; --muted:#a7bce4;
+      --red:#ff5f73; --yel:#ffd761; --grn:#46d89c; --blu:#5bb6ff; --void:#0b1224;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(1000px 500px at 18% -8%, #244382 0%, var(--bg) 70%);color:var(--txt)}
+    .wrap{max-width:1160px;margin:0 auto;padding:18px}
+    .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+    .pill{border:1px solid #4568ad;border-radius:999px;padding:4px 10px;font-size:12px;color:#d7e6ff}
+    .layout{display:grid;grid-template-columns:1.25fr .75fr;gap:12px;margin-top:12px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+    .k{font-size:12px;color:var(--muted)}
+
+    .board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+    .rotor{background:#0d1630;border:1px solid #355b9e;border-radius:12px;padding:8px}
+    .rotor h4{margin:0 0 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#bed0f6;display:flex;justify-content:space-between}
+    .slots{display:grid;grid-template-rows:repeat(5,52px);gap:6px}
+    .slot{height:52px;border:1px solid #325891;border-radius:10px;background:#132445;display:flex;align-items:center;justify-content:center;position:relative}
+    .token{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#081426;border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 -6px 12px rgba(0,0,0,.2),0 4px 12px rgba(0,0,0,.25)}
+    .t-red{background:linear-gradient(145deg,#b92439,var(--red));}
+    .t-yel{background:linear-gradient(145deg,#b68a1d,var(--yel));color:#3e2e04}
+    .t-grn{background:linear-gradient(145deg,#14895a,var(--grn));}
+    .t-blu{background:linear-gradient(145deg,#1f73cb,var(--blu));}
+    .void{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #1e2f5a, var(--void));border:1px dashed #567fbd}
+
+    .transfer{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:10px;color:#9cc0ff}
+    .jumpFrom{outline:3px solid #fff; box-shadow:0 0 12px #fff inset}
+    .jumpTo{box-shadow:0 0 0 3px #7dd3fc inset, 0 0 18px #7dd3fc}
+
+    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .btn{border:0;border-radius:10px;padding:10px 12px;font-weight:800;cursor:pointer}
+    .btn.main{background:#7dd3fc;color:#071525}
+    .btn.dark{background:#19294e;color:#e8f0ff;border:1px solid #365a9b}
+
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .v{font-size:24px;font-weight:900}
+    .log{min-height:24px}
+    .ok{color:#22c55e}.bad{color:#ef4444}
+    .note{font-size:11px;line-height:1.35;color:#9fb7e0}
+    @media(max-width:930px){.layout{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <h1 style="margin:0">🧲 Serendipitous Discovery Daily</h1>
+      <div class="row">
+        <span class="pill" id="seed"></span>
+        <span class="pill">Mecánica: solo girar rotores</span>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:10px">
+      <p class="k" style="margin:0"><b>Cómo jugar:</b> cada rotor tiene 5 posiciones y solo puedes girar el rotor (no puedes arrastrar piezas). Existe un <b>único hueco</b>. Cuando el hueco cae en la posición magnética (fila central), una ficha adyacente salta automáticamente al hueco. Objetivo: dejar cada rotor con su color dominante (R, Y, G, B) y el hueco en el rotor azul. <b>Win:</b> puzzle ordenado. <b>Lose:</b> >55 movimientos.</p>
+    </div>
+
+    <div class="layout">
+      <section class="card">
+        <div class="row" style="justify-content:space-between">
+          <div class="k">Movimientos <b id="moves">0</b>/55 · Precisión <b id="acc">0%</b></div>
+          <div class="k">Regla especial: fichas azules pueden saltar en dirección inversa.</div>
+        </div>
+
+        <div id="board" class="board"></div>
+
+        <div class="row" style="margin-top:10px">
+          <button id="restart" class="btn main">Reiniciar daily</button>
+          <button id="hint" class="btn dark">Pista (-20)</button>
+          <a class="btn dark" href="./report.html" style="text-decoration:none">Report</a>
+        </div>
+        <p id="log" class="log k"></p>
+      </section>
+
+      <aside class="card">
+        <div class="stats">
+          <div><div class="k">Score</div><div class="v" id="score">600</div></div>
+          <div><div class="k">Pistas</div><div class="v" id="hints">0</div></div>
+          <div><div class="k">Saltos</div><div class="v" id="jumps">0</div></div>
+          <div><div class="k">Estado</div><div class="v" id="state">RUN</div></div>
+        </div>
+        <hr style="border-color:#2a4780;border-width:1px 0 0;margin:12px 0">
+        <p class="note"><b>Recompensas:</b><br>🏅 Perfect Field: win ≤32 movimientos sin pistas<br>🥈 Magnetic Mind: win ≤42 movimientos<br>🧩 Daily Solver: completar puzzle</p>
+        <p class="note">Inspirado en la descripción técnica de Oskar/Mike: salto de fichas al pasar por posiciones magnéticas y polaridad diferente para azules.</p>
+      </aside>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const ROTORS = ['R','Y','G','B'];
+  const TARGET = ['R','Y','G','B'];
+  const TRANSFER_ROW = 2; // center row
+
+  // adjacency in ring order R->Y->G->B->R
+  function nextRotor(i){ return (i+1)%4; }
+  function prevRotor(i){ return (i+3)%4; }
+
+  const state = {
+    board:[[],[],[],[]], // each rotor has 5 entries among R,Y,G,B,VOID
+    moves:0,maxMoves:55,score:600,hints:0,jumps:0,done:false,jumpAnim:null
+  };
+
+  const el = id => document.getElementById(id);
+  el('seed').textContent = 'Seed '+new Date().toISOString().slice(0,10);
+
+  // deterministic seed
+  let s = [...new Date().toISOString().slice(0,10)].reduce((a,c)=>a+c.charCodeAt(0), 11);
+  const rnd = () => (s = (s*1664525 + 1013904223) % 4294967296) / 4294967296;
+
+  function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+
+  function init(){
+    // 5 of each color =20 tokens, plus one VOID replacing one token -> keep 20 slots total (4x5)
+    const pool = shuffle(['R','R','R','R','R','Y','Y','Y','Y','Y','G','G','G','G','G','B','B','B','B','B']);
+    state.board = [pool.slice(0,5), pool.slice(5,10), pool.slice(10,15), pool.slice(15,20)];
+    // create one void by replacing random non-blue for solvability flavor
+    const ri = Math.floor(rnd()*4), rj = Math.floor(rnd()*5);
+    state.board[ri][rj] = 'VOID';
+    state.moves=0;state.score=600;state.hints=0;state.jumps=0;state.done=false;state.jumpAnim=null;
+    if(checkWin()) rotate(0,1,false);
+    render();
+    log('Reto cargado. Gira rotores para provocar saltos magnéticos.', 'k');
+  }
+
+  function rotate(ri,dir,count=true){
+    const arr = state.board[ri];
+    if(dir===1) arr.unshift(arr.pop()); else arr.push(arr.shift());
+    if(count){
+      state.moves++; state.score -= 7;
+      runMagnetJump(ri);
+      if(checkWin()) return finish(true);
+      if(state.moves>state.maxMoves) return finish(false);
+      render();
+    }
+  }
+
+  function runMagnetJump(triggerRotor){
+    // jump only if void sits on transfer row in any rotor; priority trigger rotor then others
+    const order = [triggerRotor, nextRotor(triggerRotor), prevRotor(triggerRotor), (triggerRotor+2)%4];
+    for(const r of order){
+      const c = state.board[r][TRANSFER_ROW];
+      if(c !== 'VOID') continue;
+
+      // source rotor depends on polarity rule:
+      // normal tokens pulled from previous rotor into void
+      // if candidate token is Blue, it can come from next rotor (reverse behavior)
+      const fromPrev = prevRotor(r), fromNext = nextRotor(r);
+      const candPrev = state.board[fromPrev][TRANSFER_ROW];
+      const candNext = state.board[fromNext][TRANSFER_ROW];
+
+      let sourceRotor = null;
+      if(candPrev !== 'VOID' && candPrev !== 'B') sourceRotor = fromPrev;
+      else if(candNext === 'B') sourceRotor = fromNext;
+      else if(candPrev !== 'VOID') sourceRotor = fromPrev;
+      else if(candNext !== 'VOID') sourceRotor = fromNext;
+
+      if(sourceRotor === null) return false;
+
+      const token = state.board[sourceRotor][TRANSFER_ROW];
+      state.board[r][TRANSFER_ROW] = token;
+      state.board[sourceRotor][TRANSFER_ROW] = 'VOID';
+      state.jumps++;
+      state.score -= 2;
+      state.jumpAnim = {from:[sourceRotor,TRANSFER_ROW], to:[r,TRANSFER_ROW]};
+      log(`Salto magnético: ${token} desde ${ROTORS[sourceRotor]} → ${ROTORS[r]}`, 'k');
+      setTimeout(()=>{ state.jumpAnim=null; render(); }, 350);
+      return true;
+    }
+    return false;
+  }
+
+  function accuracy(){
+    let good=0,total=20;
+    for(let i=0;i<4;i++) for(let j=0;j<5;j++){
+      const v=state.board[i][j];
+      if(v==='VOID') continue;
+      if(v===TARGET[i]) good++;
+    }
+    return Math.round((good/19)*100); // 19 tokens + 1 void
+  }
+
+  function checkWin(){
+    // each rotor all same target except one rotor can contain VOID but others must match
+    let voidRotor=-1;
+    for(let i=0;i<4;i++){
+      for(let j=0;j<5;j++){
+        const v=state.board[i][j];
+        if(v==='VOID'){ voidRotor=i; continue; }
+        if(v!==TARGET[i]) return false;
+      }
+    }
+    return voidRotor===3; // require void in blue rotor for clean finish
+  }
+
+  function finish(win){
+    state.done=true;
+    if(!win) state.score = Math.max(0,state.score-60);
+    let badge='🧩 Daily Solver';
+    if(win && state.hints===0 && state.moves<=32) badge='🏅 Perfect Field';
+    else if(win && state.moves<=42) badge='🥈 Magnetic Mind';
+    log((win?'¡Resuelto!':'Game Over')+` · Score ${Math.max(0,state.score)} · ${badge}`, win?'ok':'bad');
+    render();
+  }
+
+  function tokenClass(v){ return v==='R'?'t-red':v==='Y'?'t-yel':v==='G'?'t-grn':v==='B'?'t-blu':''; }
+
+  function render(){
+    const board = el('board'); board.innerHTML='';
+    for(let i=0;i<4;i++){
+      const sec = document.createElement('div'); sec.className='rotor';
+      const h = document.createElement('h4'); h.innerHTML = `${ROTORS[i]} <span>target ${TARGET[i]}</span>`; sec.appendChild(h);
+      const slots = document.createElement('div'); slots.className='slots';
+      for(let j=0;j<5;j++){
+        const sl = document.createElement('div'); sl.className='slot';
+        const v = state.board[i][j];
+        if(v==='VOID') sl.innerHTML = '<div class="void"></div>';
+        else sl.innerHTML = `<div class="token ${tokenClass(v)}">${v}</div>`;
+        if(j===TRANSFER_ROW) sl.innerHTML += '<span class="transfer">MAG</span>';
+
+        if(state.jumpAnim){
+          const [fi,fj]=state.jumpAnim.from, [ti,tj]=state.jumpAnim.to;
+          if(i===fi && j===fj) sl.classList.add('jumpFrom');
+          if(i===ti && j===tj) sl.classList.add('jumpTo');
+        }
+        slots.appendChild(sl);
+      }
+      sec.appendChild(slots);
+
+      const row = document.createElement('div'); row.className='row'; row.style.marginTop='8px';
+      const l = document.createElement('button'); l.className='btn dark'; l.textContent='⟲'; l.onclick=()=>!state.done&&rotate(i,-1,true);
+      const r = document.createElement('button'); r.className='btn dark'; r.textContent='⟳'; r.onclick=()=>!state.done&&rotate(i,1,true);
+      row.append(l,r);
+      sec.appendChild(row);
+
+      board.appendChild(sec);
+    }
+
+    el('moves').textContent=state.moves;
+    el('score').textContent=Math.max(0,state.score);
+    el('hints').textContent=state.hints;
+    el('jumps').textContent=state.jumps;
+    el('acc').textContent=accuracy()+'%';
+    el('state').textContent=state.done?(checkWin()?'WIN':'LOSE'):'RUN';
+  }
+
+  function log(t,cls='k'){ const lg=el('log'); lg.className='log '+cls; lg.textContent=t; }
+
+  el('restart').onclick=init;
+  el('hint').onclick=()=>{
+    if(state.done) return;
+    state.hints++; state.score-=20;
+    // find rotor with worst purity
+    let worst=0, minGood=99;
+    for(let i=0;i<4;i++){
+      const g = state.board[i].filter(v=>v===TARGET[i]).length;
+      if(g<minGood){minGood=g; worst=i;}
+    }
+    log(`Pista: prioriza rotor ${ROTORS[worst]} (target ${TARGET[worst]}). Busca llevar el hueco a su fila MAG.`, 'k');
+    render();
+  };
+
+  init();
+})();
+</script>
+</body>
+</html>

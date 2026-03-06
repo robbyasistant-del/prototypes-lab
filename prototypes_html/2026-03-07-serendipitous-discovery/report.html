@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Serendipitous Discovery Daily · Report</title>
+<style>body{font-family:Inter,Segoe UI,Arial;max-width:920px;margin:24px auto;padding:0 14px;line-height:1.55}h1,h2{color:#1e3a8a}code{background:#eef2ff;padding:2px 6px;border-radius:4px}</style>
+</head><body>
+<h1>Serendipitous Discovery Daily (HTML) — Functional Report</h1>
+<p>Prototipo inspirado en la transcripción del video y en el readme del ZIP (diseño original de Oskar/Mike): puzzle de movimiento secuencial con hueco único y saltos magnéticos no triviales.</p>
+
+<h2>Contenido usado para el diseño</h2>
+<ul>
+  <li><b>Readme técnico:</b> solo girar rotores, salto automático al pasar por posición magnética, polaridad invertida en fichas azules, evitar “deshacer” trivial.</li>
+  <li><b>Transcripción del video:</b> descubrimiento progresivo, sensación “se mueve solo”, bloqueos/sorpresa, estrategia basada en hipótesis.</li>
+</ul>
+
+<h2>Mecánica implementada</h2>
+<ul>
+  <li>4 rotores (R, Y, G, B), 5 slots cada uno, 1 hueco global.</li>
+  <li>Acción única: girar rotor horario/antihorario.</li>
+  <li>Fila magnética (MAG): cuando el hueco cae ahí, una ficha adyacente salta automáticamente.</li>
+  <li>Regla de polaridad: fichas azules pueden saltar en dirección inversa respecto al flujo normal.</li>
+  <li>Condición de victoria: todos los rotores alineados con su color objetivo y hueco en rotor azul.</li>
+  <li>Derrota: superar límite de 55 movimientos.</li>
+</ul>
+
+<h2>Sistema de progreso</h2>
+<ul>
+  <li>Score inicial 600; costes por giro, salto y pista.</li>
+  <li>Métricas en vivo: precisión, movimientos, saltos, estado.</li>
+  <li>Badges: Perfect Field / Magnetic Mind / Daily Solver.</li>
+</ul>
+
+<h2>UX y gráfico</h2>
+<ul>
+  <li>Tema visual colorido sobre panel oscuro (estética puzzle premium).</li>
+  <li>Resaltado de salto magnético (origen/destino) para legibilidad.</li>
+  <li>Capa de instrucciones y feedback textual por evento.</li>
+</ul>
+
+<h2>KPIs objetivo</h2>
+<ul>
+  <li>Completion rate > 40%</li>
+  <li>Session media 3–6 min</li>
+  <li>Retry rate > 25%</li>
+  <li>Hint usage < 35%</li>
+</ul>
+
+<h2>Próxima iteración recomendada</h2>
+<ul>
+  <li>Animación física de trayectorias (Bezier) para el salto.</li>
+  <li>Patrones diarios seeded + leaderboard local.</li>
+  <li>Modo tutorial “descubre reglas” en 90s.</li>
+</ul>
+</body></html>

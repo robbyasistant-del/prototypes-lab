@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>PathMint Grid</title>
+  <style>
+    :root {--a:#10b981;--b:#34d399;}
+    body {margin:0;font-family:Inter,Segoe UI,sans-serif;background:#070b1a;color:#eaf0ff;}
+    .wrap {max-width:920px;margin:0 auto;padding:24px;}
+    .card {background:linear-gradient(180deg,#121a38,#0f1530);border:1px solid #2b3f7b;border-radius:18px;padding:20px;}
+    .pill {display:inline-block;background:rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;color:#b7c6f8;font-size:.82rem;}
+    .board {display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px;}
+    .tile {aspect-ratio:1;border-radius:12px;border:1px solid #30447f;background:#111a3b;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;}
+    .tile.on {background:linear-gradient(145deg,var(--a),var(--b));color:#031022;border-color:transparent;}
+    .actions {margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;}
+    button,a {border:0;border-radius:12px;padding:10px 14px;font-weight:700;text-decoration:none;cursor:pointer;}
+    .primary {background:linear-gradient(145deg,var(--a),var(--b));color:#041326;}
+    .ghost {background:#111a38;color:#dbe6ff;border:1px solid #30447f;}
+    .meta {margin-top:12px;color:#9fb0e4;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <span class="pill">Logic Path + One-Minute Sessions</span>
+      <h1>PathMint Grid</h1>
+      <p>Traza rutas válidas y recoge bonus en micro sesiones.</p>
+      <div class="meta">Objetivo diario: selecciona 6 tiles válidos en menos de 12 movimientos.</div>
+      <div class="board" id="board"></div>
+      <div class="actions">
+        <button class="primary" id="check">Check Combo</button>
+        <button class="ghost" id="reset">Reset</button>
+        <a class="ghost" href="./report.html">Ver report.html</a>
+      </div>
+      <p id="msg" class="meta">Score: 0</p>
+    </div>
+  </div>
+  <script>
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const board = document.getElementById('board');
+    const msg = document.getElementById('msg');
+    let score = 0;
+    function render() {
+      board.innerHTML = '';
+      for (let i=0;i<25;i++) {
+        const el = document.createElement('div');
+        el.className = 'tile';
+        el.textContent = chars[Math.floor(Math.random()*chars.length)];
+        el.onclick = () => el.classList.toggle('on');
+        board.appendChild(el);
+      }
+    }
+    document.getElementById('check').onclick = () => {
+      const picked = [...document.querySelectorAll('.tile.on')].length;
+      score += picked >= 6 ? 12 + picked : picked;
+      msg.textContent = 'Score: ' + score + ' · picked: ' + picked;
+      document.querySelectorAll('.tile.on').forEach(t => t.classList.remove('on'));
+    };
+    document.getElementById('reset').onclick = () => { score = 0; msg.textContent = 'Score: 0'; render(); };
+    render();
+  </script>
+</body>
+</html>

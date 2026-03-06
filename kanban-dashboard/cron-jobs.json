@@ -1,4 +1,4 @@
-﻿{
+{
     "generatedAt":  "2026-02-27 16:31:29",
     "jobs":  [
                  {
@@ -49,7 +49,7 @@
                      "wakeMode":  "now",
                      "payload":  {
                                      "kind":  "agentTurn",
-                                     "message":  "Run this workflow exactly:\\n1) Execute: node C:/Users/robby/.openclaw/workspace/prototypes/_market/update-top20.js\\n2) Detect today\u0027s date in Europe/Madrid (YYYY-MM-DD) and read: C:/Users/robby/.openclaw/workspace/prototypes/_market/data/alert-\u003cTODAY\u003e.txt\\n3) If alert text starts with [TOP20 ALERT, send Telegram message to chat 5049109527 with concise rises/drops and path: C:/Users/robby/.openclaw/workspace/prototypes/_market/top20-latest.html\\n4) If alert text starts with [TOP20 OK, do not send user-visible message; return NO_REPLY.\\n5) On errors, send short error alert to chat 5049109527 with failure reason and file path."
+                                     "message":  "Run this workflow exactly:\\n1) Execute: node C:/Users/robby/.openclaw/workspace/_market/update-top20.js\\n2) Detect today\u0027s date in Europe/Madrid (YYYY-MM-DD) and read: C:/Users/robby/.openclaw/workspace/_market/data/alert-\u003cTODAY\u003e.txt\\n3) If alert text starts with [TOP20 ALERT, send Telegram message to chat 5049109527 with concise rises/drops and path: C:/Users/robby/.openclaw/workspace/_market/top20-latest.html\\n4) If alert text starts with [TOP20 OK, do not send user-visible message; return NO_REPLY.\\n5) On errors, send short error alert to chat 5049109527 with failure reason and file path."
                                  },
                      "delivery":  {
                                       "mode":  "none",
@@ -170,7 +170,7 @@
                      "wakeMode":  "now",
                      "payload":  {
                                      "kind":  "agentTurn",
-                                     "message":  "Every day at 08:00 Europe/Madrid, run a FULL Prototype Factory workflow with QUALITY FIRST (not quick mockups). Before starting, update GitHub Project https://github.com/users/robbyasistant-del/projects/1 item matching title \u0027Daily 08:00 prototype batch (quality-first)\u0027 to Stage=\u0027In Progress\u0027. Build exactly 3 prototypes in separate folders under C:/Users/robby/.openclaw/workspace/prototypes with date prefix. For EACH prototype produce polished index.html and detailed report.html (strategy, SEO/ASO/SEM, loop, rewards, KPIs, experiments, risks). Update cumulative prototypes/index.html, commit+push to robbyasistant-del/prototypes-lab, ensure Pages live. After finishing: move same project item to Stage=\u0027Done\u0027, append a short relevant note in the item body with what was shipped and risks, and send Telegram completion message to 5049109527 with URL + key outcome.",
+                                     "message":  "Every day at 08:00 Europe/Madrid, run a FULL Prototype Factory workflow with QUALITY FIRST (not quick mockups). Before starting, update GitHub Project https://github.com/users/robbyasistant-del/projects/1 item matching title \u0027Daily 08:00 prototype batch (quality-first)\u0027 to Stage=\u0027In Progress\u0027. Build exactly 3 prototypes in separate folders under C:/Users/robby/.openclaw/workspace/prototypes_html with date prefix. For EACH prototype produce polished index.html and detailed report.html (strategy, SEO/ASO/SEM, loop, rewards, KPIs, experiments, risks). Update cumulative prototypes/index.html, commit+push to robbyasistant-del/prototypes-lab, ensure Pages live. After finishing: move same project item to Stage=\u0027Done\u0027, append a short relevant note in the item body with what was shipped and risks, and send Telegram completion message to 5049109527 with URL + key outcome.",
                                      "timeoutSeconds":  1800
                                  },
                      "delivery":  {
@@ -201,7 +201,7 @@
                      "wakeMode":  "now",
                      "payload":  {
                                      "kind":  "agentTurn",
-                                     "message":  "Generate WEEKEND strategic report (weekly rollup) for Android organic growth, using all daily reports from the current week. Source files to scan first: C:/Users/robby/.openclaw/workspace/market_intel/reports/*.md and prototype reports under C:/Users/robby/.openclaw/workspace/prototypes/**/report.html (this week only, Europe/Madrid week). Deliver in Spanish + light Spanglish, executive style, concise but high-signal.\\n\\nOutput sections:\\n1) Weekly Executive Summary (5-8 bullets)\\n2) Trend shifts detected (X/TikTok/Google/Reddit/Store) and confidence level\\n3) What worked vs what failed (evidence-based)\\n4) KPI weekly scoreboard (CTR, CVR/install proxy, D1, D7 if available, avg session, share rate) + data quality gaps\\n5) ASO/SEO strategy update: winning keywords, declining keywords, next-week keyword map\\n6) Prototype portfolio review: keep/iterate/kill matrix with rationale\\n7) Next-week plan (Mon-Sun): top 5 bets, experiments, and expected outcomes\\n8) Risk radar + mitigation\\n9) Clear decisions required from user (max 3)\\n\\nAlso write full long-form report to: C:/Users/robby/.openclaw/workspace/market_intel/reports/\u003cYYYY-[W]WW\u003e-weekly-strategy.md and include that path + prototypes index URL https://robbyasistant-del.github.io/prototypes-lab/ in the Telegram message.",
+                                     "message":  "Generate WEEKEND strategic report (weekly rollup) for Android organic growth, using all daily reports from the current week. Source files to scan first: C:/Users/robby/.openclaw/workspace/market_intel/reports/*.md and prototype reports under C:/Users/robby/.openclaw/workspace/prototypes_html/**/report.html (this week only, Europe/Madrid week). Deliver in Spanish + light Spanglish, executive style, concise but high-signal.\\n\\nOutput sections:\\n1) Weekly Executive Summary (5-8 bullets)\\n2) Trend shifts detected (X/TikTok/Google/Reddit/Store) and confidence level\\n3) What worked vs what failed (evidence-based)\\n4) KPI weekly scoreboard (CTR, CVR/install proxy, D1, D7 if available, avg session, share rate) + data quality gaps\\n5) ASO/SEO strategy update: winning keywords, declining keywords, next-week keyword map\\n6) Prototype portfolio review: keep/iterate/kill matrix with rationale\\n7) Next-week plan (Mon-Sun): top 5 bets, experiments, and expected outcomes\\n8) Risk radar + mitigation\\n9) Clear decisions required from user (max 3)\\n\\nAlso write full long-form report to: C:/Users/robby/.openclaw/workspace/market_intel/reports/\u003cYYYY-[W]WW\u003e-weekly-strategy.md and include that path + prototypes index URL https://robbyasistant-del.github.io/prototypes-lab/ in the Telegram message.",
                                      "timeoutSeconds":  1800
                                  },
                      "delivery":  {
@@ -216,3 +216,5 @@
                  }
              ]
 }
+
+

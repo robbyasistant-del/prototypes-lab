@@ -1,64 +1,68 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>PathMint Grid</title>
-  <style>
-    :root {--a:#10b981;--b:#34d399;}
-    body {margin:0;font-family:Inter,Segoe UI,sans-serif;background:#070b1a;color:#eaf0ff;}
-    .wrap {max-width:920px;margin:0 auto;padding:24px;}
-    .card {background:linear-gradient(180deg,#121a38,#0f1530);border:1px solid #2b3f7b;border-radius:18px;padding:20px;}
-    .pill {display:inline-block;background:rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;color:#b7c6f8;font-size:.82rem;}
-    .board {display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px;}
-    .tile {aspect-ratio:1;border-radius:12px;border:1px solid #30447f;background:#111a3b;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;}
-    .tile.on {background:linear-gradient(145deg,var(--a),var(--b));color:#031022;border-color:transparent;}
-    .actions {margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;}
-    button,a {border:0;border-radius:12px;padding:10px 14px;font-weight:700;text-decoration:none;cursor:pointer;}
-    .primary {background:linear-gradient(145deg,var(--a),var(--b));color:#041326;}
-    .ghost {background:#111a38;color:#dbe6ff;border:1px solid #30447f;}
-    .meta {margin-top:12px;color:#9fb0e4;}
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PathMint Grid · Daily Skill Run</title>
+<style>
+:root{--bg:#071214;--panel:#102428;--line:#2d6d76;--txt:#e9fbff;--muted:#9fd5df;--acc:#34d399;--goal:#facc15;--haz:#ef4444}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(900px 500px at 20% -10%,#0f3f4a 0%,var(--bg) 70%);color:var(--txt)}
+.wrap{max-width:980px;margin:0 auto;padding:20px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}.top{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}
+.board{display:grid;grid-template-columns:repeat(8,42px);gap:6px;justify-content:center;margin-top:10px}.cell{width:42px;height:42px;border-radius:9px;border:1px solid #2b5c65;background:#123138;display:flex;align-items:center;justify-content:center;font-weight:700}
+.player{background:#34d399;color:#052318}.goal{background:#facc15;color:#2d2103}.trap{background:#7f1d1d}.coin{background:#60a5fa;color:#041a35}
+.btn{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer;background:#34d399;color:#062119}
+.controls{display:grid;grid-template-columns:repeat(3,60px);gap:6px;justify-content:center;margin-top:10px}.cbtn{height:40px;border-radius:10px;border:1px solid #2d6d76;background:#14353d;color:#e8fbff;font-weight:800;cursor:pointer}
+.k{font-size:12px;color:var(--muted)} .big{font-size:26px;font-weight:800}
+@media(max-width:840px){.top{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <span class="pill">Logic Path + One-Minute Sessions</span>
-      <h1>PathMint Grid</h1>
-      <p>Traza rutas válidas y recoge bonus en micro sesiones.</p>
-      <div class="meta">Objetivo diario: selecciona 6 tiles válidos en menos de 12 movimientos.</div>
+<div class="wrap">
+  <h1 style="margin:0 0 8px">PathMint Grid</h1>
+  <div class="card" style="margin-bottom:12px"><p class="k" style="margin:0"><b>Cómo jugar:</b> Mueve al jugador hasta la meta evitando trampas. Recoge monedas para puntuar y desbloquear bonus de tiempo. 5 niveles diarios con dificultad creciente. <b>Fin del juego:</b> completas 5 niveles o pierdes 3 vidas.</p></div>
+  <div class="top">
+    <section class="card">
+      <div class="k">Nivel <b id="level">1</b>/5 · Tiempo <b id="time">45</b>s</div>
       <div class="board" id="board"></div>
-      <div class="actions">
-        <button class="primary" id="check">Check Combo</button>
-        <button class="ghost" id="reset">Reset</button>
-        <a class="ghost" href="./report.html">Ver report.html</a>
+      <div class="controls">
+        <div></div><button class="cbtn" id="up">↑</button><div></div>
+        <button class="cbtn" id="left">←</button><button class="cbtn" id="down">↓</button><button class="cbtn" id="right">→</button>
       </div>
-      <p id="msg" class="meta">Score: 0</p>
-    </div>
+      <p id="log" class="k"></p>
+      <button class="btn" id="restart">Reiniciar run</button>
+    </section>
+    <aside class="card">
+      <div class="k">Score</div><div class="big" id="score">0</div>
+      <div class="k">Vidas</div><div class="big" id="lives">3</div>
+      <div class="k">Monedas</div><div class="big" id="coins">0</div>
+      <p class="k">Controles: teclado (flechas/WASD) o botones táctiles.</p>
+      <p class="k">Recompensa: 350+ pts y 10+ monedas = <b>PathMint Champion</b>.</p>
+      <a href="./report.html" class="k">Ver report.html</a>
+    </aside>
   </div>
-  <script>
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const board = document.getElementById('board');
-    const msg = document.getElementById('msg');
-    let score = 0;
-    function render() {
-      board.innerHTML = '';
-      for (let i=0;i<25;i++) {
-        const el = document.createElement('div');
-        el.className = 'tile';
-        el.textContent = chars[Math.floor(Math.random()*chars.length)];
-        el.onclick = () => el.classList.toggle('on');
-        board.appendChild(el);
-      }
-    }
-    document.getElementById('check').onclick = () => {
-      const picked = [...document.querySelectorAll('.tile.on')].length;
-      score += picked >= 6 ? 12 + picked : picked;
-      msg.textContent = 'Score: ' + score + ' · picked: ' + picked;
-      document.querySelectorAll('.tile.on').forEach(t => t.classList.remove('on'));
-    };
-    document.getElementById('reset').onclick = () => { score = 0; msg.textContent = 'Score: 0'; render(); };
-    render();
-  </script>
+</div>
+<script>
+const st={n:8,level:1,max:5,time:45,score:0,lives:3,coins:0,player:[0,0],goal:[7,7],traps:new Set(),coinSet:new Set()};
+let intv=null; const $=id=>document.getElementById(id);
+function posKey(r,c){return `${r},${c}`}
+function makeLevel(){st.player=[0,0]; st.goal=[st.n-1,st.n-1]; st.traps.clear(); st.coinSet.clear(); const trapCount=6+st.level*2; const coinCount=4+st.level;
+ while(st.traps.size<trapCount){const r=Math.floor(Math.random()*st.n),c=Math.floor(Math.random()*st.n); if((r===0&&c===0)||(r===st.n-1&&c===st.n-1))continue; st.traps.add(posKey(r,c));}
+ while(st.coinSet.size<coinCount){const r=Math.floor(Math.random()*st.n),c=Math.floor(Math.random()*st.n); const k=posKey(r,c); if(st.traps.has(k)||(r===0&&c===0)||(r===st.n-1&&c===st.n-1))continue; st.coinSet.add(k);} st.time=50-st.level*3; sync(); draw(); startTimer(); log.textContent='Llega a la meta evitando trampas.';}
+function draw(){board.innerHTML=''; for(let r=0;r<st.n;r++)for(let c=0;c<st.n;c++){const d=document.createElement('div'); d.className='cell'; const k=posKey(r,c); if(r===st.player[0]&&c===st.player[1]){d.classList.add('player'); d.textContent='P';}
+ else if(r===st.goal[0]&&c===st.goal[1]){d.classList.add('goal'); d.textContent='G';}
+ else if(st.traps.has(k)){d.classList.add('trap'); d.textContent='✕';}
+ else if(st.coinSet.has(k)){d.classList.add('coin'); d.textContent='¤';}
+ board.appendChild(d);} }
+function startTimer(){clearInterval(intv); intv=setInterval(()=>{st.time--; time.textContent=st.time; if(st.time<=0){st.lives--; log.textContent='Tiempo agotado (-1 vida)'; if(st.lives<=0)return gameOver(); makeLevel();}},1000);} 
+function move(dr,dc){let [r,c]=st.player; r=Math.max(0,Math.min(st.n-1,r+dr)); c=Math.max(0,Math.min(st.n-1,c+dc)); st.player=[r,c]; const k=posKey(r,c);
+ if(st.traps.has(k)){st.lives--; st.score=Math.max(0,st.score-20); log.textContent='Pisaste trampa (-1 vida)'; if(st.lives<=0)return gameOver(); st.player=[0,0];}
+ if(st.coinSet.has(k)){st.coinSet.delete(k); st.coins++; st.score+=15; st.time+=2; log.textContent='Moneda +15 score +2s';}
+ if(r===st.goal[0]&&c===st.goal[1]){st.score+=60+st.time; if(st.level>=st.max)return gameOver(true); st.level++; log.textContent='Nivel superado'; makeLevel(); return;}
+ sync(); draw(); }
+function sync(){level.textContent=st.level; time.textContent=st.time; score.textContent=st.score; lives.textContent=st.lives; coins.textContent=st.coins;}
+function gameOver(win=false){clearInterval(intv); const badge=(st.score>=350&&st.coins>=10)?'🏅 PathMint Champion':'Sin badge'; log.textContent=(win?'Run completada':'Game Over')+` · Score ${st.score} · ${badge}`; board.querySelectorAll('.cell').forEach(c=>c.style.opacity=.8);} 
+up.onclick=()=>move(-1,0); down.onclick=()=>move(1,0); left.onclick=()=>move(0,-1); right.onclick=()=>move(0,1); restart.onclick=()=>{Object.assign(st,{level:1,score:0,lives:3,coins:0}); makeLevel();};
+window.addEventListener('keydown',e=>{if(['ArrowUp','w','W'].includes(e.key))move(-1,0); if(['ArrowDown','s','S'].includes(e.key))move(1,0); if(['ArrowLeft','a','A'].includes(e.key))move(0,-1); if(['ArrowRight','d','D'].includes(e.key))move(0,1);});
+makeLevel();
+</script>
 </body>
 </html>

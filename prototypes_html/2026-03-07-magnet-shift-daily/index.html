@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Magnet Shift Daily</title>
+  <style>
+    :root{
+      --bg:#050a16;--panel:#101b33;--line:#2e4d88;--txt:#edf4ff;--muted:#9eb5df;
+      --r:#ff5a6a;--g:#40d18c;--b:#58b0ff;--y:#ffd85a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(900px 500px at 20% -10%,#213d78 0%,var(--bg) 70%);color:var(--txt)}
+    .wrap{max-width:1080px;margin:0 auto;padding:18px}
+    .header{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+    .badge{font-size:12px;border:1px solid #4467a9;border-radius:999px;padding:4px 10px;color:#d7e8ff}
+    .layout{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-top:12px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+    .k{color:var(--muted);font-size:12px}
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .v{font-weight:800;font-size:24px}
+    .btn{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+    .btn.main{background:#7dd3fc;color:#031225}.btn.dark{background:#1a2b54;color:#e7f0ff;border:1px solid #345798}
+    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    #board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+    .sector{border:1px solid #355b9e;border-radius:12px;background:#0d1630;padding:8px}
+    .sector h4{margin:0 0 8px;font-size:12px;color:#b9ccf3;text-transform:uppercase;letter-spacing:.12em}
+    .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+    .p{height:52px;border-radius:10px;border:1px solid #2f538f;display:flex;align-items:center;justify-content:center;font-weight:800;position:relative;box-shadow:inset 0 0 14px rgba(0,0,0,.25)}
+    .p.r{background:linear-gradient(145deg,#a72335,var(--r));}
+    .p.g{background:linear-gradient(145deg,#127047,var(--g));}
+    .p.b{background:linear-gradient(145deg,#1666b8,var(--b));}
+    .p.y{background:linear-gradient(145deg,#b18411,var(--y)); color:#3f2a02;}
+    .goal{font-size:10px;position:absolute;bottom:4px;right:6px;opacity:.8}
+    .log{min-height:24px}
+    .ok{color:#22c55e}.bad{color:#ef4444}
+    .hint{font-size:11px;color:#9eb5df;line-height:1.35}
+    @media(max-width:860px){.layout{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1 style="margin:0">🧲 Magnet Shift Daily</h1>
+    <div class="row">
+      <span class="badge" id="seed"></span>
+      <span class="badge">Objetivo: cada sector con su color</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <p class="k" style="margin:0"><b>Cómo jugar:</b> gira sectores para recolocar piezas. Después de cada giro, se activa una <b>atracción magnética</b> (regla oculta parcial) que puede mover piezas automáticamente. Debes ordenar colores por sector objetivo en menos de <b>35 movimientos</b>. <b>Fin de juego:</b> win al completar los 4 sectores; lose al superar moves límite. Bonus por no usar pistas.</p>
+  </div>
+
+  <div class="layout">
+    <section class="card">
+      <div class="row" style="justify-content:space-between">
+        <div class="k">Sectores: N(rojo), E(verde), S(azul), W(amarillo)</div>
+        <div class="k">Moves: <b id="moves">0</b>/35</div>
+      </div>
+      <div id="board"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn main" id="restart">Reiniciar daily</button>
+        <button class="btn dark" id="hint">Pista (-25 pts)</button>
+        <a class="btn dark" href="./report.html" style="text-decoration:none">Ver report</a>
+      </div>
+      <p id="log" class="log k"></p>
+    </section>
+
+    <aside class="card">
+      <div class="stats">
+        <div><div class="k">Score</div><div class="v" id="score">500</div></div>
+        <div><div class="k">Acierto color</div><div class="v" id="acc">0%</div></div>
+        <div><div class="k">Pistas</div><div class="v" id="hints">0</div></div>
+        <div><div class="k">Estado</div><div class="v" id="state">RUN</div></div>
+      </div>
+      <hr style="border-color:#2a4780;border-width:1px 0 0;margin:12px 0">
+      <p class="hint"><b>Regla magnética base:</b> R→B, B→G, G→Y, Y→R. Tras cada giro, si una pieza encuentra slot adyacente compatible, hace un salto automático.</p>
+      <p class="hint"><b>Recompensas:</b><br>🏅 Perfect Magnet: sin pistas y ≤24 moves<br>🥈 Stable Field: sin pistas y ≤30 moves<br>🧩 Daily Solver: completar puzzle</p>
+    </aside>
+  </div>
+</div>
+
+<script>
+(() => {
+  const colors = ['r','g','b','y'];
+  const sectorNames = ['N','E','S','W'];
+  const goal = ['r','g','b','y'];
+  const mapMagnet = {r:'b', b:'g', g:'y', y:'r'};
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('seed').textContent = 'Seed ' + today;
+
+  // seeded rng
+  let s = [...today].reduce((a,c)=>a+c.charCodeAt(0), 0) || 7;
+  const rnd = () => (s = (s*1664525 + 1013904223) % 4294967296) / 4294967296;
+
+  const state = {
+    sectors: [[],[],[],[]],
+    moves:0,
+    maxMoves:35,
+    score:500,
+    hints:0,
+    finished:false
+  };
+
+  const els = {
+    board: document.getElementById('board'),
+    log: document.getElementById('log'),
+    moves: document.getElementById('moves'),
+    score: document.getElementById('score'),
+    hints: document.getElementById('hints'),
+    acc: document.getElementById('acc'),
+    state: document.getElementById('state')
+  };
+
+  function initState(){
+    const pool = [...Array(3).fill('r'),...Array(3).fill('g'),...Array(3).fill('b'),...Array(3).fill('y')];
+    // shuffle pool
+    for(let i=pool.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+    state.sectors = [pool.slice(0,3),pool.slice(3,6),pool.slice(6,9),pool.slice(9,12)];
+    state.moves=0; state.score=500; state.hints=0; state.finished=false;
+    // avoid solved initial
+    if(isSolved()) rotateSector(Math.floor(rnd()*4), 1, false);
+    render();
+    log('Puzzle cargado. Empieza a girar sectores.', 'k');
+  }
+
+  function render(){
+    els.board.innerHTML = '';
+    state.sectors.forEach((arr, i) => {
+      const sec = document.createElement('div'); sec.className='sector';
+      const h = document.createElement('h4'); h.textContent = `${sectorNames[i]} target ${goal[i].toUpperCase()}`;
+      sec.appendChild(h);
+      const slots = document.createElement('div'); slots.className='slots';
+      arr.forEach(c=>{
+        const p = document.createElement('div'); p.className = 'p '+c;
+        p.innerHTML = `<span>${c.toUpperCase()}</span><span class='goal'>${goal[i].toUpperCase()}</span>`;
+        slots.appendChild(p);
+      });
+      sec.appendChild(slots);
+      const controls = document.createElement('div'); controls.className='row'; controls.style.marginTop='8px';
+      const l = document.createElement('button'); l.className='btn dark'; l.textContent='⟲'; l.onclick=()=>turn(i,-1);
+      const r = document.createElement('button'); r.className='btn dark'; r.textContent='⟳'; r.onclick=()=>turn(i,1);
+      controls.appendChild(l); controls.appendChild(r);
+      sec.appendChild(controls);
+      els.board.appendChild(sec);
+    });
+
+    els.moves.textContent = state.moves;
+    els.score.textContent = Math.max(0,state.score);
+    els.hints.textContent = state.hints;
+    els.acc.textContent = accuracy() + '%';
+    els.state.textContent = state.finished ? (isSolved()?'WIN':'LOSE') : 'RUN';
+  }
+
+  function turn(idx, dir){
+    if(state.finished) return;
+    rotateSector(idx, dir, true);
+    if(state.moves >= state.maxMoves && !isSolved()) finish(false, 'Sin movimientos: game over.');
+    if(isSolved()) finish(true, '¡Puzzle resuelto!');
+  }
+
+  function rotateSector(idx, dir, countMove){
+    const arr = state.sectors[idx];
+    if(dir===1){ arr.unshift(arr.pop()); } else { arr.push(arr.shift()); }
+    if(countMove){
+      state.moves++;
+      state.score -= 8;
+      applyMagnetJump(idx);
+      state.score -= 2; // friction cost
+    }
+    render();
+  }
+
+  function applyMagnetJump(idx){
+    // One deterministic jump from current sector to next sector
+    const next = (idx + 1) % 4;
+    const want = goal[next];
+    let fromPos = state.sectors[idx].findIndex(c => mapMagnet[c] === want);
+    if(fromPos === -1) return;
+    // swap with first non-matching in next to increase puzzle dynamics
+    let toPos = state.sectors[next].findIndex(c => c !== want);
+    if(toPos === -1) return;
+    const fromColor = state.sectors[idx][fromPos];
+    const toColor = state.sectors[next][toPos];
+    state.sectors[idx][fromPos] = toColor;
+    state.sectors[next][toPos] = fromColor;
+    log(`Atracción: ${fromColor.toUpperCase()} saltó hacia sector ${sectorNames[next]}.`, 'k');
+  }
+
+  function accuracy(){
+    const total = 12;
+    let ok = 0;
+    state.sectors.forEach((arr,i)=>arr.forEach(c=>{ if(c===goal[i]) ok++; }));
+    return Math.round(ok/total*100);
+  }
+
+  function isSolved(){ return accuracy() === 100; }
+
+  function finish(win, msg){
+    state.finished = true;
+    if(!win) state.score -= 50;
+    let badge = '🧩 Daily Solver';
+    if(win && state.hints===0 && state.moves<=24) badge = '🏅 Perfect Magnet';
+    else if(win && state.hints===0 && state.moves<=30) badge = '🥈 Stable Field';
+    log(`${msg} Badge: ${badge} · Score final: ${Math.max(0,state.score)}`, win?'ok':'bad');
+    render();
+  }
+
+  function log(text, cls){ els.log.className='log '+cls; els.log.textContent=text; }
+
+  document.getElementById('restart').onclick = initState;
+  document.getElementById('hint').onclick = () => {
+    if(state.finished) return;
+    state.hints++;
+    state.score -= 25;
+    // simple actionable hint: most wrong sector
+    let worst=0, min=999;
+    state.sectors.forEach((arr,i)=>{ const good = arr.filter(c=>c===goal[i]).length; if(good<min){min=good; worst=i;} });
+    log(`Pista: gira primero el sector ${sectorNames[worst]} para alinear ${goal[worst].toUpperCase()}.`, 'k');
+    render();
+  };
+
+  initState();
+})();
+</script>
+</body>
+</html>

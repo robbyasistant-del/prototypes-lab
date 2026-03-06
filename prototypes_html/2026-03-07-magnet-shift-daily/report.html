@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Magnet Shift Daily · Report</title>
+<style>body{font-family:Inter,Segoe UI,Arial;max-width:900px;margin:24px auto;padding:0 14px;line-height:1.5}h1,h2{color:#1e3a8a}code{background:#eef2ff;padding:2px 6px;border-radius:4px}</style>
+</head><body>
+<h1>Magnet Shift Daily — Reporte de diseño (2026-03-07)</h1>
+<p>Prototipo diario inspirado en la mecánica “se mueve solo” del video analizado: puzzle de color con atracción magnética y restricciones de movimiento. El objetivo fue entregar una experiencia <b>completamente jugable</b> con instrucciones, score, recompensa, fin de juego y feedback claro.</p>
+
+<h2>Core loop</h2>
+<ul>
+  <li>Tablero de 4 sectores × 3 piezas (12 piezas totales, 4 colores).</li>
+  <li>Acción principal: girar sector en horario/antihorario.</li>
+  <li>Después de cada giro se evalúa una <b>regla de atracción</b> (salto automático entre sectores).</li>
+  <li>Victoria al completar 100% de colores correctos por sector.</li>
+  <li>Derrota al agotar 35 movimientos sin resolver.</li>
+</ul>
+
+<h2>Sistema de juego</h2>
+<ul>
+  <li>Puntuación inicial 500, coste por movimiento, fricción por salto y penalización por pista.</li>
+  <li>Pista activa: sugiere sector más desalineado (coste -25).</li>
+  <li>Precisión mostrada en tiempo real (% de piezas correctas).</li>
+  <li>Badges finales: <code>Perfect Magnet</code>, <code>Stable Field</code>, <code>Daily Solver</code>.</li>
+</ul>
+
+<h2>Feedback UX</h2>
+<ul>
+  <li>Mensajes de log para cada evento (atracción, hint, fin).</li>
+  <li>Color coding por pieza + indicador de color objetivo.</li>
+  <li>Estado RUN/WIN/LOSE y métricas siempre visibles.</li>
+</ul>
+
+<h2>KPI objetivo</h2>
+<ul>
+  <li>Completion rate > 45%</li>
+  <li>Avg session 2–5 min</li>
+  <li>Hint usage < 30%</li>
+  <li>Retry rate > 25%</li>
+</ul>
+
+<h2>Próximas mejoras (v2)</h2>
+<ul>
+  <li>Animaciones de transición por swap magnético con interpolación y partículas.</li>
+  <li>Seed diaria persistida por fecha para ranking social.</li>
+  <li>Modo “vs Ayer” con replay de movimientos óptimos.</li>
+</ul>
+</body></html>

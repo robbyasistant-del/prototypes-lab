@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rune Rally ? Prototype</title>
+<style>
+:root{--bg:#070b18;--card:#121a34;--line:#25305c;--text:#eef2ff;--muted:#9eb0ea;--pri:#8affc1;--acc:#4dd4ac;}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 10%,#162347 0,#070b18 46%);font-family:Inter,Segoe UI,Arial;color:var(--text)}
+.wrap{max-width:980px;margin:0 auto;padding:28px 20px 40px}
+.hero{background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(124,243,255,.14);border:1px solid rgba(124,243,255,.4);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--pri)}
+h1{margin:12px 0 8px;font-size:34px} p{color:var(--muted);line-height:1.5}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:16px} @media(max-width:840px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.board{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+.cell{aspect-ratio:1;border-radius:10px;background:#1b2650;border:1px solid #33407a;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;transition:.15s}
+.cell:hover{transform:translateY(-1px);border-color:var(--pri)} .cell.sel{background:linear-gradient(140deg,var(--acc),var(--pri));color:#041120}
+.btn{appearance:none;border:0;border-radius:12px;padding:10px 14px;background:linear-gradient(90deg,var(--acc),var(--pri));color:#041120;font-weight:700;cursor:pointer}
+.meta{font-size:13px;color:var(--muted)} ul{margin:8px 0 0;padding-left:18px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <span class="badge">Pattern memory ? speed loop</span>
+    <h1>Rune Rally</h1>
+    <p>Memoriza rutas de runas y repl?calas en menos de 90 segundos con dificultad ascendente. Session target: 2?4 min. Daily-first design with one deterministic seed and one optional endless rematch.</p>
+  </section>
+  <section class="grid">
+    <article class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><strong>Daily Board</strong><button class="btn" id="reset">New attempt</button></div>
+      <div class="board" id="board"></div>
+      <p class="meta" id="status">Score 0 ? Combo x1 ? Moves 0</p>
+    </article>
+    <aside class="card">
+      <strong>Loop</strong>
+      <ul>
+        <li>Round goal: hit quality threshold before move cap.</li>
+        <li>1 free retry/day keeps fairness.</li>
+        <li>Share card auto-copies with streak + percentile.</li>
+      </ul>
+      <p class="meta" style="margin-top:12px">Reward hooks: streak badges, weekend mega-seed, and creator packs.</p>
+      <p><a href="./report.html" style="color:var(--pri)">Open full growth report ?</a></p>
+    </aside>
+  </section>
+</div>
+<script>
+const letters = "AENRSTLIOPMDUG";
+let score=0,moves=0,combo=1,selected=[];
+const board=document.getElementById('board');
+const status=document.getElementById('status');
+function rerender(){
+  board.innerHTML='';
+  for(let i=0;i<25;i++){
+    const cell=document.createElement('button');
+    cell.className='cell';
+    cell.textContent=letters[(i*7+11)%letters.length];
+    cell.onclick=()=>tap(cell);
+    board.appendChild(cell);
+  }
+  score=0;moves=0;combo=1;selected=[];paint();
+}
+function tap(cell){
+  if(cell.classList.contains('sel')) return;
+  cell.classList.add('sel'); selected.push(cell.textContent);
+  moves++; score += 8*combo;
+  combo = (moves%4===0)?combo+1:combo;
+  if(selected.length>=5){ score += 24; selected=[]; combo=Math.max(1,combo-1); document.querySelectorAll('.cell.sel').forEach(c=>c.classList.remove('sel')); }
+  paint();
+}
+function paint(){status.textContent=`Score ${score} ? Combo x${combo} ? Moves ${moves}`;}
+document.getElementById('reset').onclick=rerender; rerender();
+</script>
+</body></html>

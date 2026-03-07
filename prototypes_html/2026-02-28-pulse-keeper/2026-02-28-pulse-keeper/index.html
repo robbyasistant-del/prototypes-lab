@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pulse Keeper — Daily Rhythm Defense</title>
+  <style>
+    :root{--bg:#081224;--card:#101f3a;--accent:#5fe4ff;--good:#40d98f;--bad:#ff6b7b;--text:#eaf3ff}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#12284f,#081224 65%);font-family:Inter,Segoe UI,Arial;color:var(--text)}
+    .wrap{max-width:940px;margin:0 auto;padding:20px}.hero{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+    .pill{background:#16305e;border:1px solid #2f5fa1;padding:6px 10px;border-radius:999px;font-size:13px}
+    .board{margin-top:14px;background:var(--card);border:1px solid #2a4877;border-radius:16px;padding:16px;box-shadow:0 14px 35px #0007}
+    .hud{display:grid;grid-template-columns:repeat(4,minmax(100px,1fr));gap:10px}.stat{background:#12284a;border-radius:10px;padding:10px;border:1px solid #274a81}
+    .label{font-size:12px;opacity:.8}.value{font-size:26px;font-weight:700}
+    #lane{height:90px;border:1px solid #2d4f88;border-radius:12px;margin:14px 0;position:relative;overflow:hidden;background:linear-gradient(90deg,#0f2140,#16366a)}
+    .target{position:absolute;left:70%;top:0;bottom:0;width:10px;background:var(--accent);box-shadow:0 0 18px #5fe4ff99}
+    .beat{position:absolute;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 0 16px #fff}
+    .controls{display:flex;gap:10px;flex-wrap:wrap}.btn{border:none;background:#2fe4ff;color:#00303a;font-weight:700;padding:10px 14px;border-radius:10px;cursor:pointer}
+    .btn.alt{background:#234b87;color:#e8f2ff}.log{margin-top:12px;min-height:28px;font-size:14px}
+    .ok{color:var(--good)} .err{color:var(--bad)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>Pulse Keeper</h1>
+      <div class="pill">Daily Seeded Pattern · 90s Survival</div>
+    </div>
+    <p>Hit <b>Space</b> when each pulse crosses the cyan zone. Chain perfect timing to keep your reactor stable.</p>
+    <div class="board">
+      <div class="hud">
+        <div class="stat"><div class="label">Score</div><div id="score" class="value">0</div></div>
+        <div class="stat"><div class="label">Combo</div><div id="combo" class="value">0</div></div>
+        <div class="stat"><div class="label">Stability</div><div id="life" class="value">100</div></div>
+        <div class="stat"><div class="label">Time</div><div id="time" class="value">90</div></div>
+      </div>
+      <div id="lane"><div class="target"></div></div>
+      <div class="controls">
+        <button class="btn" id="start">Start Run</button>
+        <button class="btn alt" id="hit">Hit (Space)</button>
+      </div>
+      <div class="log" id="log">Memorize rhythm. Perfect window is tight but fair.</div>
+    </div>
+  </div>
+<script>
+const lane=document.getElementById('lane'),scoreEl=document.getElementById('score'),comboEl=document.getElementById('combo'),lifeEl=document.getElementById('life'),timeEl=document.getElementById('time'),logEl=document.getElementById('log');
+let score=0,combo=0,life=100,time=90,playing=false,beat=null,pos=0,speed=1.9,tickT,spawnT,clockT;
+function ui(){scoreEl.textContent=score;comboEl.textContent=combo;lifeEl.textContent=Math.max(0,life);timeEl.textContent=time}
+function seeded(n){let x=n%2147483647;return()=> (x=x*48271%2147483647)/2147483647}
+const daySeed=Math.floor(new Date().setHours(0,0,0,0)/86400000);const rnd=seeded(daySeed);
+function spawn(){ if(beat||!playing) return; beat=document.createElement('div'); beat.className='beat'; pos=-24; speed=1.6 + rnd()*2.1 + Math.min(1.4,score/120); beat.style.left=pos+'px'; lane.appendChild(beat); }
+function frame(){ if(!beat) return; pos += speed; beat.style.left=pos+'px'; if(pos>lane.clientWidth){ miss('Missed pulse'); } }
+function hit(){ if(!playing||!beat) return; const center=pos+11, targetX=lane.clientWidth*0.70; const d=Math.abs(center-targetX);
+  if(d<8){ combo++; score += 20 + combo*3; life=Math.min(100, life+2); good('Perfect +' + (20+combo*3)); }
+  else if(d<20){ combo++; score += 12 + combo*2; good('Great +' + (12+combo*2)); }
+  else { combo=0; life-=12; bad('Off-beat -12 stability'); }
+  beat.remove(); beat=null; ui();
+}
+function good(t){logEl.className='log ok';logEl.textContent=t}
+function bad(t){logEl.className='log err';logEl.textContent=t}
+function miss(t){ if(beat){beat.remove();beat=null;} combo=0; life-=15; bad(t+' -15 stability'); ui(); if(life<=0) end('Reactor collapsed.');}
+function start(){ clearInterval(tickT);clearInterval(spawnT);clearInterval(clockT); if(beat){beat.remove();beat=null;} score=0;combo=0;life=100;time=90;playing=true;ui();
+  logEl.className='log';logEl.textContent='Run started. Feel the pattern.';
+  tickT=setInterval(frame,16);
+  spawnT=setInterval(spawn, 820 - Math.floor(rnd()*220));
+  clockT=setInterval(()=>{time--;ui(); if(time<=0) end('Run complete!');},1000);
+}
+function end(msg){playing=false; clearInterval(tickT);clearInterval(spawnT);clearInterval(clockT); if(beat){beat.remove();beat=null;} logEl.className='log';logEl.textContent=msg+' Final score: '+score; }
+document.getElementById('start').onclick=start;document.getElementById('hit').onclick=hit;
+document.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();hit();}});
+ui();
+</script>
+</body></html>

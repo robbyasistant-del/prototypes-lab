@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Syllable Sprint Daily</title>
+  <style>
+    :root{--bg:#081126;--card:#111d3d;--line:#28427a;--txt:#ecf3ff;--acc:#6de5ff;--ok:#8effb6;--bad:#ff8e9e}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(circle at top,#162958,#081126 55%);color:var(--txt)}
+    .wrap{max-width:900px;margin:0 auto;padding:20px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 10px 30px #0007}
+    h1{margin:0 0 6px}.muted{opacity:.82} .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .pill{padding:6px 10px;border:1px solid #3f5ea2;border-radius:999px;font-size:13px;background:#1b2b55}
+    .prompt{font-size:28px;font-weight:800;letter-spacing:.5px;margin:18px 0}
+    input{padding:12px;border-radius:10px;border:1px solid #3f5ea2;background:#0f1b3b;color:#fff;min-width:240px}
+    button{padding:12px 14px;border:0;border-radius:10px;background:linear-gradient(135deg,#43b5ff,#6de5ff);color:#06112d;font-weight:700;cursor:pointer}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .stat{background:#0e1836;border:1px solid #2a447f;border-radius:10px;padding:10px}
+    .feed{margin-top:12px;max-height:220px;overflow:auto;background:#0c1734;border:1px solid #2a447f;border-radius:10px;padding:10px}
+    .good{color:var(--ok)} .bad{color:var(--bad)}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Syllable Sprint Daily</h1>
+      <p class="muted">Build real words that contain the daily syllable. 90 seconds. Multipliers reward streak precision.</p>
+      <div class="row">
+        <span class="pill" id="daily">Daily Seed</span>
+        <span class="pill" id="timer">90s</span>
+        <span class="pill">Mode: Quality prototype</span>
+      </div>
+      <div class="prompt" id="prompt">SYLLABLE: TA</div>
+      <div class="row">
+        <input id="word" placeholder="Type a word..." autocomplete="off" />
+        <button id="submit">Submit</button>
+        <button id="new" style="background:linear-gradient(135deg,#b2c3ff,#dbe4ff)">Reset Run</button>
+      </div>
+      <div class="grid">
+        <div class="stat"><b>Score</b><div id="score">0</div></div>
+        <div class="stat"><b>Combo</b><div id="combo">x1</div></div>
+        <div class="stat"><b>Accepted words</b><div id="accepted">0</div></div>
+        <div class="stat"><b>Best today</b><div id="best">0</div></div>
+      </div>
+      <div class="feed" id="feed"></div>
+    </div>
+  </div>
+<script>
+const pool=["TA","RE","MI","LO","PA","SU","TRI","BRA","NE","CO"];
+const today=new Date().toISOString().slice(0,10);
+const seed=today.split('-').join('');
+const idx=[...seed].reduce((a,c)=>a+Number(c),0)%pool.length;
+let target=pool[idx];
+const dict=["table","target","station","metal","retail","stream","promise","triangle","coastal","sudden","memory","breeze","color","balance","travel","solar","brave","neon","score","sprint","patio","cobalt","trait","sugar","sultan","trick","brain","local","cotton","pasta"];
+let score=0,combo=1,accepted=0,time=90,active=true,used=new Set();
+const $=id=>document.getElementById(id);
+$("prompt").textContent=`SYLLABLE: ${target}`; $("daily").textContent=`Daily Seed ${today}`;
+const bestKey=`syllable-best-${today}`; $("best").textContent=localStorage.getItem(bestKey)||0;
+function log(msg,cls=''){const d=document.createElement('div'); d.className=cls; d.textContent=msg; $("feed").prepend(d)}
+function tick(){if(!active)return; time--; $("timer").textContent=`${time}s`; if(time<=0){active=false; endRun();}}
+const int=setInterval(tick,1000);
+function endRun(){log(`Run finished. Final score ${score}.`,"good"); const best=Math.max(score,Number(localStorage.getItem(bestKey)||0)); localStorage.setItem(bestKey,best); $("best").textContent=best;}
+function submit(){if(!active)return; const w=$("word").value.trim().toLowerCase(); $("word").value=''; if(!w)return;
+ if(used.has(w)){combo=1; $("combo").textContent='x'+combo; return log(`Duplicate: ${w}`,'bad');}
+ if(!w.includes(target.toLowerCase())){combo=1; $("combo").textContent='x'+combo; return log(`Missing ${target}: ${w}`,'bad');}
+ const plausible=dict.includes(w)||w.length>=6;
+ if(!plausible){combo=1; $("combo").textContent='x'+combo; return log(`Rejected: ${w}`,'bad');}
+ used.add(w); accepted++; score += Math.floor((w.length*10)*combo); combo=Math.min(combo+0.25,4);
+ $("score").textContent=score; $("accepted").textContent=accepted; $("combo").textContent='x'+combo.toFixed(2);
+ log(`+${Math.floor((w.length*10)*(combo-0.25))} ${w}`,'good');
+}
+$("submit").onclick=submit; $("word").addEventListener('keydown',e=>{if(e.key==='Enter')submit()});
+$("new").onclick=()=>location.reload();
+log('Tip: mix short safe words with long risky ones for multiplier optimization.');
+</script>
+</body></html>

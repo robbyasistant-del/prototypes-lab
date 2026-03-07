@@ -1,8 +1,8 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Tide Loop · Reflex + Memory Daily</title>
+<title>Tide Loop ┬À Reflex + Memory Daily</title>
 <style>
 :root{--bg:#050a16;--card:#0f1a33;--line:#2b4476;--txt:#eef3ff;--muted:#9fb3dd;--acc:#52e3ff;--ok:#22c55e;--bad:#ef4444}
 body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(1000px 500px at 15% -10%,#1b2e65 0%,var(--bg) 70%);color:var(--txt)}
@@ -18,16 +18,16 @@ body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(1000px
 </head>
 <body>
 <div class="wrap">
-  <h1>🌊 Tide Loop</h1>
-  <p class="p">Daily skill puzzle: observa una secuencia de 4 símbolos y repítela cada vez más larga. Si fallas, pierdes una vida. A partir de nivel 5 sube la velocidad.</p>
+  <h1>­ƒîè Tide Loop</h1>
+  <p class="p">Daily skill puzzle: observa una secuencia de 4 s├¡mbolos y rep├¡tela cada vez m├ís larga. Si fallas, pierdes una vida. A partir de nivel 5 sube la velocidad.</p>
   <div class="grid">
     <section class="card">
       <div class="row"><span class="p" id="seed"></span><span class="p">Vidas: <b id="lives">3</b></span><span class="p">Nivel: <b id="lvl">1</b></span><span class="p">Score: <b id="score">0</b></span></div>
       <div class="pad" id="pad">
-        <button class="k" data-i="0">▲</button>
-        <button class="k" data-i="1">■</button>
-        <button class="k" data-i="2">◆</button>
-        <button class="k" data-i="3">●</button>
+        <button class="k" data-i="0">Ôû▓</button>
+        <button class="k" data-i="1">Ôûá</button>
+        <button class="k" data-i="2">Ôùå</button>
+        <button class="k" data-i="3">ÔùÅ</button>
       </div>
       <div class="row" style="margin-top:10px"><button id="start" class="btn">Empezar Daily Run</button></div>
       <p id="msg" class="p">Pulsa Empezar. Memoriza y repite.</p>
@@ -35,9 +35,9 @@ body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(1000px
     <aside class="card">
       <div class="big" id="rank">Novice</div>
       <ul class="p">
-        <li><b>Addictive:</b> siempre “una más” hasta romper tu récord.</li>
+        <li><b>Addictive:</b> siempre ÔÇ£una m├ísÔÇØ hasta romper tu r├®cord.</li>
         <li><b>Retador:</b> secuencia diaria compartida (misma seed para todos).</li>
-        <li><b>Éxito diario:</b> run de 2-3 minutos, perfecto para hábito.</li>
+        <li><b>├ëxito diario:</b> run de 2-3 minutos, perfecto para h├íbito.</li>
       </ul>
     </aside>
   </div>
@@ -54,7 +54,7 @@ async function showSeq(){lock=true; msg.textContent='Mira la secuencia...';
  for(let i=0;i<l;i++){flash(seq[i], l>=5?260:360); await sleep(l>=5?330:430);} lock=false; msg.textContent='Tu turno';}
 function nextLevel(){l++; lvl.textContent=l; scoreN+=25*l; score.textContent=scoreN; rank.textContent = l>=9?'Master':l>=7?'Expert':l>=5?'Skilled':'Novice';
  seq.push(Math.floor(rnd()*4)); input=[]; idx=0; showSeq();}
-function fail(){livesN--; lives.textContent=livesN; if(livesN<=0){playing=false; msg.textContent='Game Over. Score '+scoreN+'. Reintenta mañana para superar tu marca.'; return;} msg.textContent='Fallaste. Repite nivel.'; input=[]; idx=0; setTimeout(showSeq,500);}
+function fail(){livesN--; lives.textContent=livesN; if(livesN<=0){playing=false; msg.textContent='Game Over. Score '+scoreN+'. Reintenta ma├▒ana para superar tu marca.'; return;} msg.textContent='Fallaste. Repite nivel.'; input=[]; idx=0; setTimeout(showSeq,500);}
 function press(i){if(!playing||lock) return; flash(i,180);
  if(i===seq[idx]){idx++; scoreN+=8; score.textContent=scoreN; if(idx===l) setTimeout(nextLevel,380);} else fail();}
 keys.forEach(k=>k.onclick=()=>press(Number(k.dataset.i)));

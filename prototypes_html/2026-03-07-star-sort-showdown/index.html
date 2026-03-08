@@ -1,76 +1,299 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Star Sort Showdown: Cosmic Classifier</title>
-<style>
-:root{--a:#f472b6;--bg:#0b1020;--card:#121a31;--muted:#9aa7c7}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui;background:radial-gradient(circle at 20% 0,#1b2547,var(--bg));color:#eef2ff;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:16px}
-.wrap{width:min(900px,100%);background:rgba(18,26,49,.95);border:1px solid #2d3a63;border-radius:20px;padding:18px;box-shadow:0 16px 40px #0008}
-h1{margin:0 0 8px;font-size:1.4rem} .sub{color:var(--muted);margin-bottom:10px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.k{background:#0f1730;padding:10px;border-radius:12px;border:1px solid #27345f}
-.q{font-size:1.1rem;background:#0f1730;border:1px solid #334578;border-radius:14px;padding:12px;margin:8px 0 10px;min-height:64px}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opts button{padding:12px;border-radius:12px;border:1px solid #3a4a7f;background:#18254a;color:#eef2ff;cursor:pointer;font-weight:700}
-.opts button:hover{border-color:var(--a);transform:translateY(-1px)}
-.bar{height:10px;background:#1e2a50;border-radius:999px;overflow:hidden;margin-top:10px}.fill{height:100%;background:linear-gradient(90deg,var(--a),#fff);width:100%;transition:width .25s}
-.msg{min-height:28px;margin-top:8px;font-weight:700}.ok{color:#4ade80}.bad{color:#fb7185}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}button.primary{background:linear-gradient(135deg,var(--a),#7dd3fc);color:#081226;border:none;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
-button.ghost{background:#1a2344;border:1px solid #445a96;color:#dbeafe;padding:10px 14px;border-radius:12px;cursor:pointer}
-.small{color:var(--muted);font-size:.9rem;margin-top:8px;white-space:pre-wrap}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Star Sort Showdown — Warp Lane Dispatcher</title>
+  <style>
+    :root{
+      --bg:#060912;
+      --panel:#0d1426;
+      --ink:#eaf2ff;
+      --muted:#98a8c7;
+      --good:#47e7a1;
+      --bad:#ff6b8f;
+      --accent:#77b8ff;
+      --lane:#141f39;
+      --glow:#89d0ff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif;
+      background:radial-gradient(1200px 700px at 30% -10%,#1f2f5a,transparent),var(--bg);
+      color:var(--ink);
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:14px;
+    }
+    .app{
+      width:min(980px,100%);
+      background:linear-gradient(180deg,#101936,#0a1020);
+      border:1px solid #2a3d67;
+      border-radius:18px;
+      padding:14px;
+      box-shadow:0 20px 50px #0008;
+    }
+    h1{margin:0 0 6px;font-size:1.3rem}
+    .sub{color:var(--muted);font-size:.95rem;margin:0 0 10px}
+    .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:8px 0 10px}
+    .card{background:#0b142b;border:1px solid #2a3a64;border-radius:12px;padding:8px}
+    .card .k{font-size:.74rem;color:var(--muted);letter-spacing:.03em}
+    .card .v{font-size:1.05rem;font-weight:800}
+    .rule{
+      display:flex;justify-content:space-between;gap:10px;align-items:center;
+      background:#0b142b;border:1px solid #35508a;border-radius:12px;padding:8px 10px;margin-bottom:8px;
+    }
+    .rule b{color:#b8daff}
+    .arena{
+      position:relative;
+      height:330px;
+      border-radius:14px;
+      border:1px solid #2d3f68;
+      overflow:hidden;
+      background:
+        linear-gradient(90deg,transparent 32.9%,#2a3f68 33%,#2a3f68 33.2%,transparent 33.3%,transparent 66.5%,#2a3f68 66.6%,#2a3f68 66.8%,transparent 66.9%),
+        linear-gradient(180deg,#101a33,#070d1b);
+    }
+    .laneTags{position:absolute;top:6px;left:0;right:0;display:grid;grid-template-columns:repeat(3,1fr);padding:0 10px;font-weight:800;font-size:.9rem;pointer-events:none}
+    .laneTags div{text-align:center;color:#9dc8ff}
+    .catcher{
+      position:absolute;bottom:16px;width:30%;height:16px;border-radius:999px;
+      background:linear-gradient(90deg,#9de2ff,#6eb4ff);box-shadow:0 0 16px #8fd8ff88;
+      transform:translateX(-50%);left:16.66%;transition:left .08s linear;
+      border:1px solid #d8f4ff;
+    }
+    .star{
+      position:absolute;width:58px;height:58px;border-radius:14px;
+      display:grid;place-items:center;font-size:1.35rem;font-weight:900;
+      border:1px solid #b5d9ff66;background:linear-gradient(180deg,#1c2f58,#11203d);
+      box-shadow:0 8px 20px #0007;
+      transform:translateX(-50%);
+    }
+    .footer{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap}
+    button{cursor:pointer;border-radius:10px;padding:10px 12px;font-weight:800;border:1px solid #4768aa;background:#16264c;color:#eaf3ff}
+    button.primary{background:linear-gradient(135deg,#77b8ff,#7affd6);color:#061126;border:none}
+    .hint{color:var(--muted);font-size:.88rem}
+    .feedback{min-height:24px;font-weight:900}
+    .good{color:var(--good)}
+    .bad{color:var(--bad)}
+    .overlay{
+      position:absolute;inset:0;background:#030712d9;display:none;place-items:center;text-align:center;padding:18px;
+    }
+    .overlay.show{display:grid}
+    .panel{background:#0d1630;border:1px solid #395b96;border-radius:14px;padding:16px;max-width:560px}
+    .panel h2{margin:0 0 6px}
+    .panel p{margin:6px 0;color:#d5e6ff}
+    .badge{font-size:1.15rem;font-weight:900;color:#ffe38b}
+    .flash{animation:flash .22s linear}
+    @keyframes flash{from{filter:brightness(2)}to{filter:brightness(1)}}
+    @media(max-width:760px){.stats{grid-template-columns:repeat(3,1fr)}.arena{height:360px}}
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Star Sort Showdown: Cosmic Classifier</h1>
-  <div class="sub">Sort stellar data fast by picking the correct classification rule.</div>
-  <div class="sub"><b>How to play:</b> Answer 12 rounds. You have 3 lives. Build streaks for combo score. Win by surviving all rounds. Game over at 0 lives. Earn the <b>Star Marshal</b> badge at 900+ points.</div>
-  <div class="grid">
-    <div class="k">Round<br><b id="round">1/12</b></div>
-    <div class="k">Score<br><b id="score">0</b></div>
-    <div class="k">Lives<br><b id="lives">3</b></div>
-    <div class="k">Streak<br><b id="streak">0</b></div>
+  <div class="app">
+    <h1>🚀 Star Sort Showdown: Warp Lane Dispatcher</h1>
+    <p class="sub">Novel speed-classification: stars fall in real-time. Move your magnetic catcher (◀ ▶ or A/D) to the correct speed lane before impact.</p>
+
+    <div class="stats">
+      <div class="card"><div class="k">Stars Left</div><div class="v" id="left">25</div></div>
+      <div class="card"><div class="k">Lives</div><div class="v" id="lives">4</div></div>
+      <div class="card"><div class="k">Score</div><div class="v" id="score">0</div></div>
+      <div class="card"><div class="k">Combo</div><div class="v" id="combo">0</div></div>
+      <div class="card"><div class="k">Accuracy</div><div class="v" id="acc">0%</div></div>
+      <div class="card"><div class="k">Rule Shift In</div><div class="v" id="shift">6</div></div>
+    </div>
+
+    <div class="rule">
+      <div>Current rule: <b id="ruleText">Press Start</b></div>
+      <div class="hint">Speeds shown on each star (km/s)</div>
+    </div>
+
+    <div class="arena" id="arena">
+      <div class="laneTags"><div id="lane0">SLOW</div><div id="lane1">CRUISE</div><div id="lane2">HYPER</div></div>
+      <div id="star" class="star" style="left:50%; top:-70px;">★</div>
+      <div id="catcher" class="catcher"></div>
+      <div id="overlay" class="overlay">
+        <div class="panel">
+          <h2 id="endTitle">Ready?</h2>
+          <p id="endText">Sort 25 stars fast. Wrong lane or timeout loses 1 life.</p>
+          <p><b>Scoring:</b> +100 base, +20 per combo level, +speed bonus (harder stars = more points).</p>
+          <p><b>Badge:</b> Earn <span class="badge">🏅 Warp Marshal</span> with WIN + accuracy ≥ 90% + score ≥ 3200.</p>
+          <button class="primary" id="startBtn">Start Mission</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>
+        <div id="feedback" class="feedback">Immediate feedback appears here.</div>
+        <div class="hint">Manual controls: A/D or ◀/▶ to move lanes. Space = quick center snap.</div>
+      </div>
+      <div class="controls">
+        <button id="simBtn">Run 150 sims</button>
+      </div>
+    </div>
   </div>
-  <div class="q" id="question">Press Start</div>
-  <div class="opts" id="opts"></div>
-  <div class="bar"><div id="fill" class="fill"></div></div>
-  <div id="msg" class="msg"></div>
-  <div class="controls">
-    <button class="primary" id="start">Start / Restart</button>
-    <button class="ghost" id="hint">Hint</button>
-    <button class="ghost" id="sim">Run 100 AI sims</button>
-  </div>
-  <div id="meta" class="small"></div>
-</div>
-<script>
-const total=12,maxLives=3,timePer=7;let st;
-function rng(n){return Math.floor(Math.random()*n)}
-const words=['NOVA','ECHO','LUMEN','SIGIL','MAGNET','ORBIT','RALLY','MUSE'];
-const symbols=['▲','◆','●','■'];
-function genQ(type){
-  if(type==='directionWord'){const w=words[rng(words.length)],dirs=['↑','→','↓','←'];const i=rng(4);return {q:'Word '+w+' exits via '+dirs[i]+'. Pick matching corridor.',opts:dirs,a:i,h:'Read the cue: exact direction wins.'}}
-  if(type==='timingBand'){const target=50+rng(40),a=Math.max(0,target-5+rng(11));const opts=[target-12,target-4,target+4,target+12].map(v=>v+' bpm');const ai=opts.findIndex(o=>Math.abs(parseInt(o)-target)<=5);return {q:'Target pulse '+target+' bpm. Choose stable band.',opts,a:ai,h:'Stay within ±5 bpm.'}}
-  if(type==='memoryChain'){const n=3+rng(3),arr=Array.from({length:n},()=>symbols[rng(4)]).join(' '),ix=rng(4),opts=[arr,arr.split(' ').reverse().join(' '),arr+' '+symbols[rng(4)],arr.replace(/▲|◆|●|■/,symbols[rng(4)])];return {q:'Repeat exact chain: '+arr,opts,a:0,h:'Exact order only.'}}
-  if(type==='rulePick'){const a=1+rng(8),b=1+rng(8),sum=a+b,opts=[sum,sum+1,sum-1,sum+2].map(String);return {q:'Inspiration rule: combine '+a+' + '+b+'.',opts,a:0,h:'Simple sum, avoid decoys.'}}
-  if(type==='laneChoice'){const danger=[rng(4),rng(4)],safe=[0,1,2,3].filter(x=>!danger.includes(x));const pick=safe[rng(safe.length)];const opts=['Lane 1','Lane 2','Lane 3','Lane 4'];return {q:'Photons hit lanes '+(danger[0]+1)+' and '+(danger[1]+1)+'. Choose a safe lane.',opts,a:pick,h:'Avoid listed lanes.'}}
-  if(type==='symbolParity'){const n=4+rng(3),vals=Array.from({length:n},()=>1+rng(9)),sum=vals.reduce((x,y)=>x+y,0),want=sum%2?'odd':'even';const opts=['odd','even','prime','chaos'];return {q:'Rune sum '+vals.join('+')+' = ? Keep '+want+' parity.',opts,a:opts.indexOf(want),h:'Check sum parity.'}}
-  if(type==='wordSelect'){const base=words[rng(words.length)],good=base.slice(0,Math.min(5,base.length)),opts=[good,good.split('').sort().join(''),good+'X',good.slice(1)];return {q:'Choose legal lattice token from root '+base+'.',opts,a:0,h:'Original sequence is valid token.'}}
-  if(type==='tradeCall'){const buy=20+rng(80),now=20+rng(80),opts=['Buy','Hold','Sell','Hedge'];let a=1;if(now<buy-5)a=0;else if(now>buy+5)a=2;return {q:'Entry '+buy+', current '+now+'. Best action?',opts,a,h:'Cheap=>Buy, expensive=>Sell, close=>Hold.'}}
-  if(type==='polarity'){const p=-5+rng(11),shift=[-3,-1,1,3],opts=shift.map(s=>(s>0?'+':'')+s),scores=shift.map(s=>Math.abs(p+s));const a=scores.indexOf(Math.min(...scores));return {q:'Core polarity '+p+'. Pick shift toward zero.',opts,a,h:'Minimize absolute value.'}}
-  const temp=2000+rng(5000),mass=1+rng(20),opts=['Dwarf','Main Sequence','Giant','Neutron'];let a=1;if(temp<3000)a=0; if(temp>5500&&mass>12)a=3; if(temp>4500&&mass>8&&a!==3)a=2; return {q:'Star temp '+temp+'K, mass '+mass+'. Class?',opts,a,h:'Hot + massive trends giant/neutron.'}
-}
-function newGame(){st={round:1,score:0,lives:maxLives,streak:0,time:timePer,active:true,q:null};nextQ();tick();render('New run started.');}
-function nextQ(){st.q=genQ('classification');st.time=timePer;drawQ();}
-function drawQ(){question.textContent=st.q.q;opts.innerHTML='';st.q.opts.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>answer(i);opts.appendChild(b)});}
-function answer(i){if(!st.active)return;const ok=i===st.q.a;if(ok){st.streak++;st.score+=90+st.streak*15;msg.className='msg ok';msg.textContent='Perfect sync! +' + (90+st.streak*15);}else{st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Mismatch! Correct: '+st.q.opts[st.q.a];}
-if(st.lives<=0)return end(false,'Core failed. GAME OVER.');if(st.round>=total)return end(true,'All rounds cleared. YOU WIN!');st.round++;nextQ();paint();}
-function end(win,text){st.active=false;question.textContent=text;opts.innerHTML='';const badge=st.score>=900?'🏅 Star Marshal':'🎯 Keep grinding';meta.textContent='Final score '+st.score+' | '+badge;msg.className='msg '+(win?'ok':'bad');msg.textContent=win?'Victory secured.':'Run ended.';paint();}
-function tick(){clearInterval(window.__t);window.__t=setInterval(()=>{if(!st||!st.active)return;st.time-=0.2;if(st.time<=0){st.time=0;st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Too slow!';if(st.lives<=0){end(false,'Timeout collapse. GAME OVER.');return;}st.round++;if(st.round>total){end(true,'YOU WIN by endurance!');return;}nextQ();}paint();},200)}
-function paint(){round.textContent=st.round+'/'+total;score.textContent=st.score;lives.textContent=st.lives;streak.textContent=st.streak;fill.style.width=((st.time/timePer)*100).toFixed(1)+'%';}
-function render(t){msg.className='msg';msg.textContent=t;meta.textContent='';round.textContent='1/12';score.textContent='0';lives.textContent='3';streak.textContent='0';fill.style.width='100%';question.textContent='Press Start';opts.innerHTML='';}
-function aiRun(){let s={score:0,wins:0};for(let r=0;r<100;r++){let lives=maxLives,score=0,streak=0;for(let n=1;n<=total;n++){const q=genQ('classification');const pick=Math.random()<0.72?q.a:rng(q.opts.length);if(pick===q.a){streak++;score+=90+streak*15;}else{streak=0;lives--;if(lives<=0)break;}}if(lives>0)s.wins++;s.score+=score;}return {runs:100,winRate:(s.wins).toFixed(0)+'%',avgScore:Math.round(s.score/100)};}
-start.onclick=newGame;hint.onclick=()=>{if(st&&st.q)meta.textContent='Hint: '+st.q.h};sim.onclick=()=>{const r=aiRun();meta.textContent='AI sims: '+JSON.stringify(r)};
-window.__simulate=aiRun;render('Ready.');
-</script>
+
+  <script>
+    const cfg={total:25,lives:4,fallMs:1400,shiftEvery:6};
+    const laneX=[16.66,50,83.33];
+    const state={running:false,lane:1,score:0,lives:cfg.lives,left:cfg.total,combo:0,correct:0,totalSeen:0,star:null,ruleIdx:0,untilShift:cfg.shiftEvery,lastTs:0};
+
+    const rules=[
+      {name:'Classic Bands', labels:['SLOW < 220','CRUISE 220-439','HYPER ≥ 440'], classify:s=>s<220?0:(s<440?1:2)},
+      {name:'Reverse Flux', labels:['HYPER < 220','CRUISE 220-439','SLOW ≥ 440'], classify:s=>s<220?2:(s<440?1:0)},
+      {name:'Odd-Even Pulse', labels:['ODD speed','MULTIPLE OF 5','EVEN (non-5)'], classify:s=>s%2?0:(s%5===0?1:2)}
+    ];
+
+    const $=id=>document.getElementById(id);
+    const ui={left:$('left'),lives:$('lives'),score:$('score'),combo:$('combo'),acc:$('acc'),shift:$('shift'),ruleText:$('ruleText'),lane0:$('lane0'),lane1:$('lane1'),lane2:$('lane2'),star:$('star'),catcher:$('catcher'),feedback:$('feedback'),overlay:$('overlay'),endTitle:$('endTitle'),endText:$('endText')};
+
+    function reset(){
+      state.running=true;state.lane=1;state.score=0;state.lives=cfg.lives;state.left=cfg.total;state.combo=0;state.correct=0;state.totalSeen=0;state.ruleIdx=0;state.untilShift=cfg.shiftEvery;state.star=null;state.lastTs=performance.now();
+      ui.overlay.classList.remove('show');
+      spawnStar();
+      render();
+      requestAnimationFrame(loop);
+    }
+
+    function laneMove(d){state.lane=Math.max(0,Math.min(2,state.lane+d));ui.catcher.style.left=laneX[state.lane]+'%';}
+
+    function maybeShiftRule(){
+      if(state.untilShift>0) return;
+      state.ruleIdx=(state.ruleIdx+1)%rules.length;
+      state.untilShift=cfg.shiftEvery;
+      flash('⚡ Rule Shift: '+rules[state.ruleIdx].name,'good');
+    }
+
+    function spawnStar(){
+      if(state.left<=0||state.lives<=0){endGame(state.lives>0);return;}
+      maybeShiftRule();
+      const speed=120+Math.floor(Math.random()*460); // 120..579
+      const rule=rules[state.ruleIdx];
+      const correct=rule.classify(speed);
+      state.star={speed,correct,y:-72};
+      state.untilShift--;
+      ui.star.textContent='★ '+speed;
+      ui.star.style.top='-72px';
+      ui.star.style.left=laneX[Math.floor(Math.random()*3)]+'%';
+      renderRule();
+    }
+
+    function renderRule(){
+      const r=rules[state.ruleIdx];
+      ui.ruleText.textContent=r.name;
+      ui.lane0.textContent=r.labels[0];ui.lane1.textContent=r.labels[1];ui.lane2.textContent=r.labels[2];
+    }
+
+    function settle(){
+      if(!state.star)return;
+      state.totalSeen++;
+      state.left--;
+      const ok=state.lane===state.star.correct;
+      if(ok){
+        state.correct++;
+        state.combo++;
+        const speedBonus=Math.floor((state.star.speed-120)/18);
+        const gain=100+state.combo*20+speedBonus;
+        state.score+=gain;
+        flash('✅ Perfect sort +'+gain,'good');
+      }else{
+        state.combo=0;
+        state.lives--;
+        const label=rules[state.ruleIdx].labels[state.star.correct];
+        flash('❌ Wrong lane. Needed: '+label,'bad');
+      }
+      if(state.left<=0||state.lives<=0){endGame(state.lives>0);return;}
+      spawnStar();
+      render();
+    }
+
+    function flash(text,kind){
+      ui.feedback.textContent=text;
+      ui.feedback.className='feedback '+kind;
+      ui.arena.classList.remove('flash');
+      void ui.arena.offsetWidth;
+      ui.arena.classList.add('flash');
+    }
+
+    function endGame(win){
+      state.running=false;
+      const acc=state.totalSeen?Math.round((state.correct/state.totalSeen)*100):0;
+      const badge=(win&&acc>=90&&state.score>=3200)?'🏅 Warp Marshal':'🎖️ Cadet';
+      ui.endTitle.textContent=win?'YOU WIN':'GAME OVER';
+      ui.endText.innerHTML=`Final Score: <b>${state.score}</b><br>Accuracy: <b>${acc}%</b><br>Badge: <span class="badge">${badge}</span>`;
+      ui.overlay.classList.add('show');
+      render();
+    }
+
+    function loop(ts){
+      if(!state.running) return;
+      const dt=ts-state.lastTs; state.lastTs=ts;
+      state.star.y += dt/cfg.fallMs*330;
+      ui.star.style.top=state.star.y+'px';
+      if(state.star.y>=254) settle();
+      render();
+      requestAnimationFrame(loop);
+    }
+
+    function render(){
+      ui.left.textContent=state.left;
+      ui.lives.textContent=state.lives;
+      ui.score.textContent=state.score;
+      ui.combo.textContent=state.combo;
+      ui.shift.textContent=Math.max(0,state.untilShift);
+      const acc=state.totalSeen?Math.round((state.correct/state.totalSeen)*100):0;
+      ui.acc.textContent=acc+'%';
+      ui.catcher.style.left=laneX[state.lane]+'%';
+      if(!state.running&&state.totalSeen===0){renderRule();}
+    }
+
+    // fast simulation model (bot reaction quality)
+    function simulateRuns(runs=150,skill=0.95){
+      const out=[];
+      for(let i=0;i<runs;i++){
+        let score=0,lives=cfg.lives,left=cfg.total,combo=0,correct=0,total=0,ruleIdx=0,until=cfg.shiftEvery;
+        while(left>0&&lives>0){
+          if(until<=0){ruleIdx=(ruleIdx+1)%rules.length;until=cfg.shiftEvery;}
+          const speed=120+Math.floor(Math.random()*460);
+          const ans=rules[ruleIdx].classify(speed);
+          const isCorrect=Math.random()<skill;
+          const pick=isCorrect?ans:Math.floor(Math.random()*3);
+          total++;left--;until--;
+          if(pick===ans){correct++;combo++;score+=100+combo*20+Math.floor((speed-120)/18);}else{combo=0;lives--;}
+        }
+        const win=lives>0&&left===0;
+        const acc=total?correct/total:0;
+        out.push({win,score,acc});
+      }
+      const wins=out.filter(x=>x.win).length;
+      const avgScore=Math.round(out.reduce((a,b)=>a+b.score,0)/runs);
+      const avgAcc=out.reduce((a,b)=>a+b.acc,0)/runs;
+      return {runs,wins,winRate:wins/runs,avgScore,avgAcc,quality:(wins/runs*0.6 + Math.min(1,avgScore/3800)*0.25 + avgAcc*0.15)};
+    }
+
+    window.__simulate=simulateRuns;
+
+    document.addEventListener('keydown',e=>{
+      if(!state.running) return;
+      if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A') laneMove(-1);
+      if(e.key==='ArrowRight'||e.key==='d'||e.key==='D') laneMove(1);
+      if(e.code==='Space'){state.lane=1;ui.catcher.style.left=laneX[1]+'%';}
+    });
+
+    $('startBtn').onclick=reset;
+    $('simBtn').onclick=()=>{
+      const r=simulateRuns(150,0.96);
+      const q=(r.quality*10).toFixed(2);
+      ui.feedback.className='feedback good';
+      ui.feedback.textContent=`Sims ${r.runs}: win ${(r.winRate*100).toFixed(1)}%, avg score ${r.avgScore}, avg acc ${(r.avgAcc*100).toFixed(1)}%, quality ${q}/10`;
+    };
+
+    ui.overlay.classList.add('show');
+    render();
+  </script>
 </body>
 </html>

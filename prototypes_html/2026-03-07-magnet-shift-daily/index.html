@@ -1,76 +1,256 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Magnet Shift Daily: Polarity Clash</title>
-<style>
-:root{--a:#60a5fa;--bg:#0b1020;--card:#121a31;--muted:#9aa7c7}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui;background:radial-gradient(circle at 20% 0,#1b2547,var(--bg));color:#eef2ff;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:16px}
-.wrap{width:min(900px,100%);background:rgba(18,26,49,.95);border:1px solid #2d3a63;border-radius:20px;padding:18px;box-shadow:0 16px 40px #0008}
-h1{margin:0 0 8px;font-size:1.4rem} .sub{color:var(--muted);margin-bottom:10px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.k{background:#0f1730;padding:10px;border-radius:12px;border:1px solid #27345f}
-.q{font-size:1.1rem;background:#0f1730;border:1px solid #334578;border-radius:14px;padding:12px;margin:8px 0 10px;min-height:64px}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opts button{padding:12px;border-radius:12px;border:1px solid #3a4a7f;background:#18254a;color:#eef2ff;cursor:pointer;font-weight:700}
-.opts button:hover{border-color:var(--a);transform:translateY(-1px)}
-.bar{height:10px;background:#1e2a50;border-radius:999px;overflow:hidden;margin-top:10px}.fill{height:100%;background:linear-gradient(90deg,var(--a),#fff);width:100%;transition:width .25s}
-.msg{min-height:28px;margin-top:8px;font-weight:700}.ok{color:#4ade80}.bad{color:#fb7185}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}button.primary{background:linear-gradient(135deg,var(--a),#7dd3fc);color:#081226;border:none;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
-button.ghost{background:#1a2344;border:1px solid #445a96;color:#dbeafe;padding:10px 14px;border-radius:12px;cursor:pointer}
-.small{color:var(--muted);font-size:.9rem;margin-top:8px;white-space:pre-wrap}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Magnet Shift Daily — Rail Pulse</title>
+  <style>
+    :root{
+      --bg:#070b16;--panel:#101936;--line:#25315f;--text:#e8eeff;--muted:#a9b5df;
+      --good:#38d39f;--bad:#ff6b7a;--gold:#ffd166;--accent:#7aa2ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,system-ui;background:radial-gradient(circle at 20% 0,#17234f,var(--bg));color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+    .app{width:min(980px,100%);background:rgba(16,25,54,.95);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 16px 40px #0008}
+    h1{margin:0 0 6px;font-size:1.35rem}
+    .help{color:var(--muted);font-size:.95rem;line-height:1.35}
+    .top{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}
+    .kpi{background:#0b1430;border:1px solid #2c3e78;border-radius:12px;padding:8px}
+    .kpi b{display:block;font-size:1.02rem;margin-top:2px}
+    .main{display:grid;grid-template-columns:1fr 260px;gap:14px;align-items:start}
+    .board{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:#0b1430;border:1px solid #2a3d78;border-radius:12px;padding:6px;aspect-ratio:1/1}
+    .cell{border-radius:8px;border:1px solid #1f2f63;display:flex;align-items:center;justify-content:center;font-weight:800;position:relative;font-size:1.1rem}
+    .floor{background:#13214a}
+    .wall{background:#0a0f20}
+    .rail{background:#1b2d60}
+    .goal{outline:2px solid #8cf2ff;outline-offset:-2px}
+    .player{background:#2355d5}
+    .block{background:#6a7fb6}
+    .poleL::after,.poleR::after{position:absolute;font-size:.7rem;bottom:2px;right:5px;color:#fff9}
+    .poleL::after{content:'◀'} .poleR::after{content:'▶'}
+    .side{display:flex;flex-direction:column;gap:10px}
+    .panel{background:#0b1430;border:1px solid #2a3d78;border-radius:12px;padding:10px}
+    .msg{min-height:24px;font-weight:700}
+    .good{color:var(--good)} .bad{color:var(--bad)} .gold{color:var(--gold)}
+    .bar{height:10px;background:#1a2856;border-radius:999px;overflow:hidden}
+    .fill{height:100%;background:linear-gradient(90deg,#4bd7a4,#d4fff0);transition:width .1s}
+    .controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    button{border:none;border-radius:10px;padding:9px 11px;font-weight:800;cursor:pointer}
+    .primary{background:linear-gradient(135deg,#7aa2ff,#a9c1ff);color:#09122e}
+    .ghost{background:#1a2b5d;border:1px solid #3e56a1;color:#e8eeff}
+    .small{font-size:.88rem;color:var(--muted);white-space:pre-wrap}
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Magnet Shift Daily: Polarity Clash</h1>
-  <div class="sub">Choose shifts that keep polarity stable and prevent overload.</div>
-  <div class="sub"><b>How to play:</b> Answer 12 rounds. You have 3 lives. Build streaks for combo score. Win by surviving all rounds. Game over at 0 lives. Earn the <b>Polarity Pro</b> badge at 900+ points.</div>
-  <div class="grid">
-    <div class="k">Round<br><b id="round">1/12</b></div>
-    <div class="k">Score<br><b id="score">0</b></div>
-    <div class="k">Lives<br><b id="lives">3</b></div>
-    <div class="k">Streak<br><b id="streak">0</b></div>
+<div class="app">
+  <h1>Magnet Shift Daily — Rail Pulse</h1>
+  <div class="help"><b>Instructions:</b> Reach the 🏁 exit by moving the 🔵 core through a shifting rail maze. Magnetic poles flip every beat and slide iron blocks on rail rows. Move with arrow keys/WASD. Hitting a move near the beat gives bonus points; off-beat causes shock damage. <b>WIN:</b> reach exit. <b>GAME OVER:</b> no lives / no charge / turn limit reached.</div>
+
+  <div class="top">
+    <div class="kpi">Score<b id="score">0</b></div>
+    <div class="kpi">Lives<b id="lives">3</b></div>
+    <div class="kpi">Charge<b id="charge">10</b></div>
+    <div class="kpi">Turns Left<b id="turns">40</b></div>
+    <div class="kpi">Combo<b id="combo">0</b></div>
+    <div class="kpi">Pole<b id="pole">LEFT ◀</b></div>
   </div>
-  <div class="q" id="question">Press Start</div>
-  <div class="opts" id="opts"></div>
-  <div class="bar"><div id="fill" class="fill"></div></div>
-  <div id="msg" class="msg"></div>
-  <div class="controls">
-    <button class="primary" id="start">Start / Restart</button>
-    <button class="ghost" id="hint">Hint</button>
-    <button class="ghost" id="sim">Run 100 AI sims</button>
+
+  <div class="main">
+    <div id="board" class="board"></div>
+    <div class="side">
+      <div class="panel">
+        Beat Sync
+        <div class="bar"><div id="beatFill" class="fill"></div></div>
+        <div class="small" id="timingTxt">Hit close to the pulse for +sync bonus.</div>
+      </div>
+      <div class="panel">
+        <div id="msg" class="msg">Press Start.</div>
+        <div id="reward" class="small"></div>
+        <div class="controls">
+          <button id="start" class="primary">Start / Restart</button>
+          <button id="hint" class="ghost">Hint</button>
+          <button id="sim" class="ghost">Run 200 Sims</button>
+        </div>
+      </div>
+      <div class="panel small" id="legend">Tiles: ⬛ wall · ▒ rail · ▓ iron block · 🏁 exit · 🔵 player
+Pole LEFT: blocks shift left on rails.
+Pole RIGHT: blocks shift right on rails.</div>
+    </div>
   </div>
-  <div id="meta" class="small"></div>
 </div>
+
 <script>
-const total=12,maxLives=3,timePer=7;let st;
-function rng(n){return Math.floor(Math.random()*n)}
-const words=['NOVA','ECHO','LUMEN','SIGIL','MAGNET','ORBIT','RALLY','MUSE'];
-const symbols=['▲','◆','●','■'];
-function genQ(type){
-  if(type==='directionWord'){const w=words[rng(words.length)],dirs=['↑','→','↓','←'];const i=rng(4);return {q:'Word '+w+' exits via '+dirs[i]+'. Pick matching corridor.',opts:dirs,a:i,h:'Read the cue: exact direction wins.'}}
-  if(type==='timingBand'){const target=50+rng(40),a=Math.max(0,target-5+rng(11));const opts=[target-12,target-4,target+4,target+12].map(v=>v+' bpm');const ai=opts.findIndex(o=>Math.abs(parseInt(o)-target)<=5);return {q:'Target pulse '+target+' bpm. Choose stable band.',opts,a:ai,h:'Stay within ±5 bpm.'}}
-  if(type==='memoryChain'){const n=3+rng(3),arr=Array.from({length:n},()=>symbols[rng(4)]).join(' '),ix=rng(4),opts=[arr,arr.split(' ').reverse().join(' '),arr+' '+symbols[rng(4)],arr.replace(/▲|◆|●|■/,symbols[rng(4)])];return {q:'Repeat exact chain: '+arr,opts,a:0,h:'Exact order only.'}}
-  if(type==='rulePick'){const a=1+rng(8),b=1+rng(8),sum=a+b,opts=[sum,sum+1,sum-1,sum+2].map(String);return {q:'Inspiration rule: combine '+a+' + '+b+'.',opts,a:0,h:'Simple sum, avoid decoys.'}}
-  if(type==='laneChoice'){const danger=[rng(4),rng(4)],safe=[0,1,2,3].filter(x=>!danger.includes(x));const pick=safe[rng(safe.length)];const opts=['Lane 1','Lane 2','Lane 3','Lane 4'];return {q:'Photons hit lanes '+(danger[0]+1)+' and '+(danger[1]+1)+'. Choose a safe lane.',opts,a:pick,h:'Avoid listed lanes.'}}
-  if(type==='symbolParity'){const n=4+rng(3),vals=Array.from({length:n},()=>1+rng(9)),sum=vals.reduce((x,y)=>x+y,0),want=sum%2?'odd':'even';const opts=['odd','even','prime','chaos'];return {q:'Rune sum '+vals.join('+')+' = ? Keep '+want+' parity.',opts,a:opts.indexOf(want),h:'Check sum parity.'}}
-  if(type==='wordSelect'){const base=words[rng(words.length)],good=base.slice(0,Math.min(5,base.length)),opts=[good,good.split('').sort().join(''),good+'X',good.slice(1)];return {q:'Choose legal lattice token from root '+base+'.',opts,a:0,h:'Original sequence is valid token.'}}
-  if(type==='tradeCall'){const buy=20+rng(80),now=20+rng(80),opts=['Buy','Hold','Sell','Hedge'];let a=1;if(now<buy-5)a=0;else if(now>buy+5)a=2;return {q:'Entry '+buy+', current '+now+'. Best action?',opts,a,h:'Cheap=>Buy, expensive=>Sell, close=>Hold.'}}
-  if(type==='polarity'){const p=-5+rng(11),shift=[-3,-1,1,3],opts=shift.map(s=>(s>0?'+':'')+s),scores=shift.map(s=>Math.abs(p+s));const a=scores.indexOf(Math.min(...scores));return {q:'Core polarity '+p+'. Pick shift toward zero.',opts,a,h:'Minimize absolute value.'}}
-  const temp=2000+rng(5000),mass=1+rng(20),opts=['Dwarf','Main Sequence','Giant','Neutron'];let a=1;if(temp<3000)a=0; if(temp>5500&&mass>12)a=3; if(temp>4500&&mass>8&&a!==3)a=2; return {q:'Star temp '+temp+'K, mass '+mass+'. Class?',opts,a,h:'Hot + massive trends giant/neutron.'}
-}
-function newGame(){st={round:1,score:0,lives:maxLives,streak:0,time:timePer,active:true,q:null};nextQ();tick();render('New run started.');}
-function nextQ(){st.q=genQ('polarity');st.time=timePer;drawQ();}
-function drawQ(){question.textContent=st.q.q;opts.innerHTML='';st.q.opts.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>answer(i);opts.appendChild(b)});}
-function answer(i){if(!st.active)return;const ok=i===st.q.a;if(ok){st.streak++;st.score+=90+st.streak*15;msg.className='msg ok';msg.textContent='Perfect sync! +' + (90+st.streak*15);}else{st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Mismatch! Correct: '+st.q.opts[st.q.a];}
-if(st.lives<=0)return end(false,'Core failed. GAME OVER.');if(st.round>=total)return end(true,'All rounds cleared. YOU WIN!');st.round++;nextQ();paint();}
-function end(win,text){st.active=false;question.textContent=text;opts.innerHTML='';const badge=st.score>=900?'🏅 Polarity Pro':'🎯 Keep grinding';meta.textContent='Final score '+st.score+' | '+badge;msg.className='msg '+(win?'ok':'bad');msg.textContent=win?'Victory secured.':'Run ended.';paint();}
-function tick(){clearInterval(window.__t);window.__t=setInterval(()=>{if(!st||!st.active)return;st.time-=0.2;if(st.time<=0){st.time=0;st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Too slow!';if(st.lives<=0){end(false,'Timeout collapse. GAME OVER.');return;}st.round++;if(st.round>total){end(true,'YOU WIN by endurance!');return;}nextQ();}paint();},200)}
-function paint(){round.textContent=st.round+'/'+total;score.textContent=st.score;lives.textContent=st.lives;streak.textContent=st.streak;fill.style.width=((st.time/timePer)*100).toFixed(1)+'%';}
-function render(t){msg.className='msg';msg.textContent=t;meta.textContent='';round.textContent='1/12';score.textContent='0';lives.textContent='3';streak.textContent='0';fill.style.width='100%';question.textContent='Press Start';opts.innerHTML='';}
-function aiRun(){let s={score:0,wins:0};for(let r=0;r<100;r++){let lives=maxLives,score=0,streak=0;for(let n=1;n<=total;n++){const q=genQ('polarity');const pick=Math.random()<0.72?q.a:rng(q.opts.length);if(pick===q.a){streak++;score+=90+streak*15;}else{streak=0;lives--;if(lives<=0)break;}}if(lives>0)s.wins++;s.score+=score;}return {runs:100,winRate:(s.wins).toFixed(0)+'%',avgScore:Math.round(s.score/100)};}
-start.onclick=newGame;hint.onclick=()=>{if(st&&st.q)meta.textContent='Hint: '+st.q.h};sim.onclick=()=>{const r=aiRun();meta.textContent='AI sims: '+JSON.stringify(r)};
-window.__simulate=aiRun;render('Ready.');
+(() => {
+  const W=7,H=7,MAX_TURNS=40,MAX_LIVES=3,MAX_CHARGE=10;
+  const BEAT_MS=900,SYNC_WINDOW=180;
+  const RAIL_ROWS=[1,3,5];
+  const WALLS=new Set(['1,0','1,2','1,6','2,2','2,4','3,4','4,0','4,2','4,4','5,6']);
+  const GOAL='6,6';
+  const START='0,0';
+  const BLOCK_START=['1,5','3,1','3,5','5,2','5,4'];
+
+  let st=null,beatTimer=null,uiTimer=null;
+  const el=id=>document.getElementById(id);
+
+  function makeState(){
+    return {
+      player:START,
+      blocks:new Set(BLOCK_START),
+      lives:MAX_LIVES,charge:MAX_CHARGE,score:0,combo:0,turns:MAX_TURNS,
+      pole:'L',active:true,lastBeat:performance.now(),msg:'Run started.'
+    };
+  }
+
+  function parse(p){const [x,y]=p.split(',').map(Number);return {x,y};}
+  function key(x,y){return `${x},${y}`;}
+  function inBounds(x,y){return x>=0&&x<H&&y>=0&&y<W;}
+  function isWall(x,y){return WALLS.has(key(x,y));}
+  function isRail(x){return RAIL_ROWS.includes(x);}
+
+  function render(){
+    const board=el('board'); board.innerHTML='';
+    for(let x=0;x<H;x++) for(let y=0;y<W;y++){
+      const c=document.createElement('div');
+      const k=key(x,y);
+      c.className='cell ' + (isWall(x,y)?'wall':(isRail(x)?'rail':'floor'));
+      if(k===GOAL){c.classList.add('goal');c.textContent='🏁';}
+      if(st.blocks.has(k)){c.classList.add('block');c.textContent='▓';}
+      if(k===st.player){c.classList.add('player');c.textContent='🔵';}
+      if(isRail(x)&&y===0)c.classList.add('poleL');
+      if(isRail(x)&&y===6)c.classList.add('poleR');
+      board.appendChild(c);
+    }
+    el('score').textContent=st.score;
+    el('lives').textContent=st.lives;
+    el('charge').textContent=st.charge;
+    el('turns').textContent=st.turns;
+    el('combo').textContent=st.combo;
+    el('pole').textContent=st.pole==='L'?'LEFT ◀':'RIGHT ▶';
+    const m=el('msg');
+    m.textContent=st.msg;
+    m.className='msg ' + (st.msg.includes('WIN')?'good':(st.msg.includes('OVER')||st.msg.includes('shock')||st.msg.includes('crushed'))?'bad':'gold');
+  }
+
+  function setReward(text){el('reward').textContent=text;}
+  function end(win,reason){
+    st.active=false; clearInterval(beatTimer); clearInterval(uiTimer);
+    if(win){
+      st.score += 300 + st.lives*50 + st.charge*10;
+      const tier = st.score>=1200?'🏆 Flux Master':st.score>=900?'🥇 Rail Ace':'🥈 Pulse Rookie';
+      st.msg = `YOU WIN! ${reason}`;
+      setReward(`Reward unlocked: ${tier}`);
+    }else{
+      st.msg = `GAME OVER — ${reason}`;
+      setReward('Reward: +1 retry token (practice run).');
+    }
+    render();
+  }
+
+  function shiftBlocks(){
+    const d = st.pole==='L'?-1:1;
+    const next=new Set();
+    for(const b of st.blocks){
+      const {x,y}=parse(b);
+      if(!isRail(x)){next.add(b);continue;}
+      const ny=y+d;
+      const can = inBounds(x,ny) && !isWall(x,ny) && key(x,ny)!==st.player;
+      next.add(can ? key(x,ny) : b);
+    }
+    st.blocks=next;
+    if(st.blocks.has(st.player)){
+      st.lives--; st.combo=0; st.msg='Rail crushed you! -1 life';
+      if(st.lives<=0) return end(false,'all lives lost');
+      st.player=START;
+    }
+    st.pole = st.pole==='L'?'R':'L';
+  }
+
+  function tryMove(dx,dy){
+    if(!st || !st.active) return;
+    const {x,y}=parse(st.player),nx=x+dx,ny=y+dy;
+    if(!inBounds(nx,ny) || isWall(nx,ny) || st.blocks.has(key(nx,ny))){
+      st.msg='Blocked route.'; render(); return;
+    }
+    st.player=key(nx,ny); st.turns--; if(st.turns<0) st.turns=0;
+
+    const dt=Math.abs(performance.now()-st.lastBeat);
+    const nearBeat=Math.min(dt,BEAT_MS-dt)<=SYNC_WINDOW;
+    if(nearBeat){
+      st.combo++; const gain=35+st.combo*8;
+      st.score+=gain; st.msg=`Perfect sync! +${gain}`;
+    }else{
+      st.combo=0; st.charge--; st.score=Math.max(0,st.score-10);
+      st.msg='Off-beat shock! -1 charge';
+    }
+
+    if(st.player===GOAL) return end(true,'exit reached with stable core');
+    if(st.charge<=0) return end(false,'battery depleted');
+    if(st.turns<=0) return end(false,'turn limit reached');
+    render();
+  }
+
+  function start(){
+    st=makeState(); render(); setReward('');
+    beatTimer && clearInterval(beatTimer); uiTimer && clearInterval(uiTimer);
+    beatTimer=setInterval(()=>{if(!st.active)return;st.lastBeat=performance.now();shiftBlocks();render();},BEAT_MS);
+    uiTimer=setInterval(()=>{if(!st?.active)return;const t=(performance.now()-st.lastBeat)%BEAT_MS;const pct=100-(t/BEAT_MS*100);el('beatFill').style.width=pct.toFixed(1)+'%';},50);
+  }
+
+  function hint(){
+    if(!st){el('reward').textContent='Hint: Start first 🙂';return;}
+    el('reward').textContent='Hint: wait for pulse bar near full, then move. Avoid rail rows right before a pole flip.';
+  }
+
+  // Simulation engine (same rules, no DOM)
+  function simOne(seed=1){
+    let s=seed>>>0; const rnd=()=>((s=(s*1664525+1013904223)>>>0)/4294967296);
+    const gs={player:START,blocks:new Set(BLOCK_START),lives:MAX_LIVES,charge:MAX_CHARGE,score:0,combo:0,turns:MAX_TURNS,pole:'L'};
+    const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
+    function dist(a,b){const A=parse(a),B=parse(b);return Math.abs(A.x-B.x)+Math.abs(A.y-B.y);}
+    function shift(){
+      const d=gs.pole==='L'?-1:1; const next=new Set();
+      for(const b of gs.blocks){const {x,y}=parse(b),ny=y+d; const can=inBounds(x,ny)&&!isWall(x,ny)&&key(x,ny)!==gs.player; next.add(can?key(x,ny):b);} gs.blocks=next;
+      if(gs.blocks.has(gs.player)){gs.lives--; gs.combo=0; gs.player=START;}
+      gs.pole=gs.pole==='L'?'R':'L';
+    }
+    while(gs.turns>0&&gs.lives>0&&gs.charge>0&&gs.player!==GOAL){
+      shift(); if(gs.lives<=0) break;
+      const {x,y}=parse(gs.player);
+      const options=dirs.map(([dx,dy])=>[dx,dy,key(x+dx,y+dy)]).filter(([, ,k])=>{const p=parse(k);return inBounds(p.x,p.y)&&!isWall(p.x,p.y)&&!gs.blocks.has(k);});
+      if(!options.length){gs.charge--; gs.turns--; continue;}
+      options.sort((a,b)=>dist(a[2],GOAL)-dist(b[2],GOAL));
+      const pick = rnd()<0.82 ? options[0] : options[Math.floor(rnd()*options.length)];
+      gs.player=pick[2]; gs.turns--;
+      const nearBeat = rnd()<0.72;
+      if(nearBeat){gs.combo++; gs.score+=35+gs.combo*8;} else {gs.combo=0; gs.charge--; gs.score=Math.max(0,gs.score-10);}      
+    }
+    const win=gs.player===GOAL&&gs.lives>0&&gs.charge>0&&gs.turns>=0;
+    if(win) gs.score += 300 + gs.lives*50 + gs.charge*10;
+    return {win,score:gs.score,lives:gs.lives,charge:gs.charge,turns:gs.turns};
+  }
+
+  function runSims(n=200){
+    let wins=0,total=0; let min=1e9,max=0;
+    for(let i=1;i<=n;i++){const r=simOne(i*97); if(r.win) wins++; total+=r.score; min=Math.min(min,r.score); max=Math.max(max,r.score);}    
+    return {runs:n,winRate:+(wins/n*100).toFixed(1),avgScore:Math.round(total/n),minScore:min,maxScore:max};
+  }
+
+  document.addEventListener('keydown',(e)=>{
+    const k=e.key.toLowerCase();
+    if(k==='arrowup'||k==='w')tryMove(-1,0);
+    if(k==='arrowdown'||k==='s')tryMove(1,0);
+    if(k==='arrowleft'||k==='a')tryMove(0,-1);
+    if(k==='arrowright'||k==='d')tryMove(0,1);
+  });
+
+  el('start').onclick=start;
+  el('hint').onclick=hint;
+  el('sim').onclick=()=>{const r=runSims(200); setReward(`Simulation: ${r.runs} runs | win ${r.winRate}% | avg ${r.avgScore} | min ${r.minScore} | max ${r.maxScore}`);};
+
+  window.__magnetShiftSim=runSims;
+  window.__magnetShiftStart=start;
+  render = render.bind(null);
+})();
 </script>
 </body>
 </html>

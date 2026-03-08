@@ -1,76 +1,363 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Muse Grid: Spark Weave</title>
-<style>
-:root{--a:#a78bfa;--bg:#0b1020;--card:#121a31;--muted:#9aa7c7}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui;background:radial-gradient(circle at 20% 0,#1b2547,var(--bg));color:#eef2ff;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:16px}
-.wrap{width:min(900px,100%);background:rgba(18,26,49,.95);border:1px solid #2d3a63;border-radius:20px;padding:18px;box-shadow:0 16px 40px #0008}
-h1{margin:0 0 8px;font-size:1.4rem} .sub{color:var(--muted);margin-bottom:10px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.k{background:#0f1730;padding:10px;border-radius:12px;border:1px solid #27345f}
-.q{font-size:1.1rem;background:#0f1730;border:1px solid #334578;border-radius:14px;padding:12px;margin:8px 0 10px;min-height:64px}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opts button{padding:12px;border-radius:12px;border:1px solid #3a4a7f;background:#18254a;color:#eef2ff;cursor:pointer;font-weight:700}
-.opts button:hover{border-color:var(--a);transform:translateY(-1px)}
-.bar{height:10px;background:#1e2a50;border-radius:999px;overflow:hidden;margin-top:10px}.fill{height:100%;background:linear-gradient(90deg,var(--a),#fff);width:100%;transition:width .25s}
-.msg{min-height:28px;margin-top:8px;font-weight:700}.ok{color:#4ade80}.bad{color:#fb7185}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}button.primary{background:linear-gradient(135deg,var(--a),#7dd3fc);color:#081226;border:none;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
-button.ghost{background:#1a2344;border:1px solid #445a96;color:#dbeafe;padding:10px 14px;border-radius:12px;cursor:pointer}
-.small{color:var(--muted);font-size:.9rem;margin-top:8px;white-space:pre-wrap}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Muse Grid: Cipher Couriers</title>
+  <style>
+    :root{
+      --bg:#0a1022;--panel:#121b35;--line:#2f4275;--accent:#7dd3fc;--accent2:#c4b5fd;
+      --ok:#4ade80;--bad:#fb7185;--txt:#e8eeff;--muted:#9badcf;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,system-ui;background:radial-gradient(circle at 20% 0,#1a2a57,var(--bg));color:var(--txt);min-height:100vh;padding:16px;display:flex;justify-content:center}
+    .app{width:min(980px,100%);background:rgba(18,27,53,.96);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 16px 40px #0008}
+    h1{margin:0 0 6px;font-size:1.45rem}
+    .sub{color:var(--muted);margin-bottom:8px}
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}
+    .card{background:#0e1730;border:1px solid #2a3d6f;border-radius:12px;padding:10px}
+    .card b{font-size:1.15rem}
+    .reward{color:#fde68a;font-weight:700}
+    .board{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+    .panel{background:#0e1730;border:1px solid #2a3d6f;border-radius:14px;padding:12px}
+    .clues{margin:0;padding-left:18px;line-height:1.45}
+    .clues li{margin-bottom:6px}
+    .q{font-size:1.08rem;padding:10px;border:1px dashed #4460a6;border-radius:12px;background:#0a1430;min-height:62px;margin-bottom:10px}
+    .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .opts button{padding:11px;border-radius:10px;border:1px solid #435f9f;background:#1a2850;color:#f2f6ff;font-weight:700;cursor:pointer}
+    .opts button:hover{border-color:var(--accent);transform:translateY(-1px)}
+    .msg{min-height:26px;margin-top:10px;font-weight:800}
+    .ok{color:var(--ok)} .bad{color:var(--bad)}
+    .bar{height:10px;background:#1c2b53;border-radius:999px;overflow:hidden;margin-top:12px}
+    .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:100%;transition:width .2s linear}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .controls button{padding:10px 14px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
+    .primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#0a1228}
+    .ghost{background:#19284f;color:#e0ebff;border:1px solid #4563a7}
+    .mini{font-size:.92rem;color:var(--muted);margin-top:8px;white-space:pre-wrap}
+    @media (max-width:860px){.board{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}}
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Muse Grid: Spark Weave</h1>
-  <div class="sub">Pick the inspiration tile that best completes each creative rule chain.</div>
-  <div class="sub"><b>How to play:</b> Answer 12 rounds. You have 3 lives. Build streaks for combo score. Win by surviving all rounds. Game over at 0 lives. Earn the <b>Muse Architect</b> badge at 900+ points.</div>
-  <div class="grid">
-    <div class="k">Round<br><b id="round">1/12</b></div>
-    <div class="k">Score<br><b id="score">0</b></div>
-    <div class="k">Lives<br><b id="lives">3</b></div>
-    <div class="k">Streak<br><b id="streak">0</b></div>
+<div class="app">
+  <h1>Muse Grid: Cipher Couriers</h1>
+  <div class="sub"><b>Puzzle Logic Grid</b>: deduce one correct answer from a set of clues. Every case has exactly one valid solution.</div>
+  <div class="sub"><b>Instructions:</b> Clear 8 cases. You have 3 lives. Each case is timed (40s). Correct = points + streak bonus; Wrong/timeout = lose 1 life. <b>Win</b>: solve all 8 before lives hit 0. <b>Lose</b>: 0 lives. Reward unlocks at 1200+ score.</div>
+
+  <div class="stats">
+    <div class="card">Case<br><b id="round">0/8</b></div>
+    <div class="card">Score<br><b id="score">0</b></div>
+    <div class="card">Lives<br><b id="lives">3</b></div>
+    <div class="card">Streak<br><b id="streak">0</b></div>
+    <div class="card">Reward<br><b id="reward" class="reward">—</b></div>
   </div>
-  <div class="q" id="question">Press Start</div>
-  <div class="opts" id="opts"></div>
-  <div class="bar"><div id="fill" class="fill"></div></div>
-  <div id="msg" class="msg"></div>
+
+  <div class="board">
+    <div class="panel">
+      <h3 style="margin:0 0 8px">Clues</h3>
+      <ol id="clues" class="clues"></ol>
+    </div>
+    <div class="panel">
+      <h3 style="margin:0 0 8px">Question</h3>
+      <div id="question" class="q">Press Start.</div>
+      <div id="opts" class="opts"></div>
+      <div id="msg" class="msg"></div>
+      <div class="bar"><div id="fill" class="fill"></div></div>
+      <div id="meta" class="mini"></div>
+    </div>
+  </div>
+
   <div class="controls">
-    <button class="primary" id="start">Start / Restart</button>
-    <button class="ghost" id="hint">Hint</button>
-    <button class="ghost" id="sim">Run 100 AI sims</button>
+    <button id="start" class="primary">Start / Restart</button>
+    <button id="hint" class="ghost">Hint</button>
+    <button id="test" class="ghost">Run 120 QA sims</button>
   </div>
-  <div id="meta" class="small"></div>
 </div>
+
 <script>
-const total=12,maxLives=3,timePer=7;let st;
-function rng(n){return Math.floor(Math.random()*n)}
-const words=['NOVA','ECHO','LUMEN','SIGIL','MAGNET','ORBIT','RALLY','MUSE'];
-const symbols=['▲','◆','●','■'];
-function genQ(type){
-  if(type==='directionWord'){const w=words[rng(words.length)],dirs=['↑','→','↓','←'];const i=rng(4);return {q:'Word '+w+' exits via '+dirs[i]+'. Pick matching corridor.',opts:dirs,a:i,h:'Read the cue: exact direction wins.'}}
-  if(type==='timingBand'){const target=50+rng(40),a=Math.max(0,target-5+rng(11));const opts=[target-12,target-4,target+4,target+12].map(v=>v+' bpm');const ai=opts.findIndex(o=>Math.abs(parseInt(o)-target)<=5);return {q:'Target pulse '+target+' bpm. Choose stable band.',opts,a:ai,h:'Stay within ±5 bpm.'}}
-  if(type==='memoryChain'){const n=3+rng(3),arr=Array.from({length:n},()=>symbols[rng(4)]).join(' '),ix=rng(4),opts=[arr,arr.split(' ').reverse().join(' '),arr+' '+symbols[rng(4)],arr.replace(/▲|◆|●|■/,symbols[rng(4)])];return {q:'Repeat exact chain: '+arr,opts,a:0,h:'Exact order only.'}}
-  if(type==='rulePick'){const a=1+rng(8),b=1+rng(8),sum=a+b,opts=[sum,sum+1,sum-1,sum+2].map(String);return {q:'Inspiration rule: combine '+a+' + '+b+'.',opts,a:0,h:'Simple sum, avoid decoys.'}}
-  if(type==='laneChoice'){const danger=[rng(4),rng(4)],safe=[0,1,2,3].filter(x=>!danger.includes(x));const pick=safe[rng(safe.length)];const opts=['Lane 1','Lane 2','Lane 3','Lane 4'];return {q:'Photons hit lanes '+(danger[0]+1)+' and '+(danger[1]+1)+'. Choose a safe lane.',opts,a:pick,h:'Avoid listed lanes.'}}
-  if(type==='symbolParity'){const n=4+rng(3),vals=Array.from({length:n},()=>1+rng(9)),sum=vals.reduce((x,y)=>x+y,0),want=sum%2?'odd':'even';const opts=['odd','even','prime','chaos'];return {q:'Rune sum '+vals.join('+')+' = ? Keep '+want+' parity.',opts,a:opts.indexOf(want),h:'Check sum parity.'}}
-  if(type==='wordSelect'){const base=words[rng(words.length)],good=base.slice(0,Math.min(5,base.length)),opts=[good,good.split('').sort().join(''),good+'X',good.slice(1)];return {q:'Choose legal lattice token from root '+base+'.',opts,a:0,h:'Original sequence is valid token.'}}
-  if(type==='tradeCall'){const buy=20+rng(80),now=20+rng(80),opts=['Buy','Hold','Sell','Hedge'];let a=1;if(now<buy-5)a=0;else if(now>buy+5)a=2;return {q:'Entry '+buy+', current '+now+'. Best action?',opts,a,h:'Cheap=>Buy, expensive=>Sell, close=>Hold.'}}
-  if(type==='polarity'){const p=-5+rng(11),shift=[-3,-1,1,3],opts=shift.map(s=>(s>0?'+':'')+s),scores=shift.map(s=>Math.abs(p+s));const a=scores.indexOf(Math.min(...scores));return {q:'Core polarity '+p+'. Pick shift toward zero.',opts,a,h:'Minimize absolute value.'}}
-  const temp=2000+rng(5000),mass=1+rng(20),opts=['Dwarf','Main Sequence','Giant','Neutron'];let a=1;if(temp<3000)a=0; if(temp>5500&&mass>12)a=3; if(temp>4500&&mass>8&&a!==3)a=2; return {q:'Star temp '+temp+'K, mass '+mass+'. Class?',opts,a,h:'Hot + massive trends giant/neutron.'}
-}
-function newGame(){st={round:1,score:0,lives:maxLives,streak:0,time:timePer,active:true,q:null};nextQ();tick();render('New run started.');}
-function nextQ(){st.q=genQ('rulePick');st.time=timePer;drawQ();}
-function drawQ(){question.textContent=st.q.q;opts.innerHTML='';st.q.opts.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>answer(i);opts.appendChild(b)});}
-function answer(i){if(!st.active)return;const ok=i===st.q.a;if(ok){st.streak++;st.score+=90+st.streak*15;msg.className='msg ok';msg.textContent='Perfect sync! +' + (90+st.streak*15);}else{st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Mismatch! Correct: '+st.q.opts[st.q.a];}
-if(st.lives<=0)return end(false,'Core failed. GAME OVER.');if(st.round>=total)return end(true,'All rounds cleared. YOU WIN!');st.round++;nextQ();paint();}
-function end(win,text){st.active=false;question.textContent=text;opts.innerHTML='';const badge=st.score>=900?'🏅 Muse Architect':'🎯 Keep grinding';meta.textContent='Final score '+st.score+' | '+badge;msg.className='msg '+(win?'ok':'bad');msg.textContent=win?'Victory secured.':'Run ended.';paint();}
-function tick(){clearInterval(window.__t);window.__t=setInterval(()=>{if(!st||!st.active)return;st.time-=0.2;if(st.time<=0){st.time=0;st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Too slow!';if(st.lives<=0){end(false,'Timeout collapse. GAME OVER.');return;}st.round++;if(st.round>total){end(true,'YOU WIN by endurance!');return;}nextQ();}paint();},200)}
-function paint(){round.textContent=st.round+'/'+total;score.textContent=st.score;lives.textContent=st.lives;streak.textContent=st.streak;fill.style.width=((st.time/timePer)*100).toFixed(1)+'%';}
-function render(t){msg.className='msg';msg.textContent=t;meta.textContent='';round.textContent='1/12';score.textContent='0';lives.textContent='3';streak.textContent='0';fill.style.width='100%';question.textContent='Press Start';opts.innerHTML='';}
-function aiRun(){let s={score:0,wins:0};for(let r=0;r<100;r++){let lives=maxLives,score=0,streak=0;for(let n=1;n<=total;n++){const q=genQ('rulePick');const pick=Math.random()<0.72?q.a:rng(q.opts.length);if(pick===q.a){streak++;score+=90+streak*15;}else{streak=0;lives--;if(lives<=0)break;}}if(lives>0)s.wins++;s.score+=score;}return {runs:100,winRate:(s.wins).toFixed(0)+'%',avgScore:Math.round(s.score/100)};}
-start.onclick=newGame;hint.onclick=()=>{if(st&&st.q)meta.textContent='Hint: '+st.q.h};sim.onclick=()=>{const r=aiRun();meta.textContent='AI sims: '+JSON.stringify(r)};
-window.__simulate=aiRun;render('Ready.');
+(() => {
+  const TOTAL_CASES = 8;
+  const START_LIVES = 3;
+  const ROUND_TIME = 40;
+
+  const DET = ['Iris','Noor','Pax','Sol'];
+  const ART = ['Amber Key','Glass Feather','Iron Coin','Velvet Map'];
+  const ROOM = ['Atrium','Belfry','Crypt','Docks'];
+
+  const $ = id => document.getElementById(id);
+  const ui = {
+    round: $('round'), score:$('score'), lives:$('lives'), streak:$('streak'), reward:$('reward'),
+    clues:$('clues'), question:$('question'), opts:$('opts'), msg:$('msg'), fill:$('fill'), meta:$('meta')
+  };
+
+  let st = null;
+  let timer = null;
+
+  const rng = n => Math.floor(Math.random()*n);
+  const shuffle = arr => { const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=rng(i+1); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+  const perms = (arr) => {
+    if(arr.length===1) return [arr];
+    const out=[];
+    arr.forEach((v,i)=>{
+      const rest=[...arr.slice(0,i),...arr.slice(i+1)];
+      perms(rest).forEach(p=>out.push([v,...p]));
+    });
+    return out;
+  };
+
+  const allPermIdx = perms([0,1,2,3]);
+  const allCandidates = [];
+  for(const aP of allPermIdx){
+    for(const rP of allPermIdx){
+      allCandidates.push({aP,rP});
+    }
+  }
+
+  function arRoomOfArtifact(cand, artIdx){
+    const d = cand.aP.indexOf(artIdx);
+    return cand.rP[d];
+  }
+
+  function checkClue(cand, clue){
+    switch(clue.t){
+      case 'DA': return cand.aP[clue.d]===clue.a;
+      case 'DR': return cand.rP[clue.d]===clue.r;
+      case 'AR': return arRoomOfArtifact(cand, clue.a)===clue.r;
+      case 'nDA': return cand.aP[clue.d]!==clue.a;
+      case 'nDR': return cand.rP[clue.d]!==clue.r;
+      case 'nAR': return arRoomOfArtifact(cand, clue.a)!==clue.r;
+      default: return true;
+    }
+  }
+
+  function clueText(c){
+    if(c.t==='DA') return `${DET[c.d]} carried the ${ART[c.a]}.`;
+    if(c.t==='DR') return `${DET[c.d]} went to the ${ROOM[c.r]}.`;
+    if(c.t==='AR') return `The ${ART[c.a]} was found in the ${ROOM[c.r]}.`;
+    if(c.t==='nDA') return `${DET[c.d]} did NOT carry the ${ART[c.a]}.`;
+    if(c.t==='nDR') return `${DET[c.d]} did NOT go to the ${ROOM[c.r]}.`;
+    return `The ${ART[c.a]} was NOT in the ${ROOM[c.r]}.`;
+  }
+
+  function buildTruthPool(sol){
+    const pool=[];
+    for(let d=0;d<4;d++){
+      pool.push({t:'DA',d,a:sol.aP[d]});
+      pool.push({t:'DR',d,r:sol.rP[d]});
+      for(let a=0;a<4;a++) if(a!==sol.aP[d]) pool.push({t:'nDA',d,a});
+      for(let r=0;r<4;r++) if(r!==sol.rP[d]) pool.push({t:'nDR',d,r});
+    }
+    for(let a=0;a<4;a++){
+      const r = arRoomOfArtifact(sol,a);
+      pool.push({t:'AR',a,r});
+      for(let rr=0;rr<4;rr++) if(rr!==r) pool.push({t:'nAR',a,r:rr});
+    }
+    return shuffle(pool);
+  }
+
+  function solve(clues){
+    return allCandidates.filter(c=>clues.every(cl=>checkClue(c,cl)));
+  }
+
+  function generateCase(){
+    for(let attempt=0;attempt<120;attempt++){
+      const sol = {aP:shuffle([0,1,2,3]), rP:shuffle([0,1,2,3])};
+      const pool = buildTruthPool(sol);
+      const clues=[];
+      let sols = allCandidates;
+
+      while(clues.length<9 && sols.length>1){
+        const next = pool.find(c => !clues.some(x => JSON.stringify(x)===JSON.stringify(c)));
+        if(!next) break;
+        clues.push(next);
+        sols = solve(clues);
+      }
+
+      if(sols.length!==1 || clues.length<5) continue;
+
+      const qType = rng(3);
+      let question, options, answer;
+
+      if(qType===0){
+        const a = rng(4);
+        question = `Who carried the ${ART[a]}?`;
+        answer = DET[sol.aP.indexOf(a)];
+        options = shuffle([...DET]);
+      } else if(qType===1){
+        const d = rng(4);
+        question = `Where did ${DET[d]} go?`;
+        answer = ROOM[sol.rP[d]];
+        options = shuffle([...ROOM]);
+      } else {
+        const r = rng(4);
+        const d = sol.rP.indexOf(r);
+        question = `Which artifact was in the ${ROOM[r]}?`;
+        answer = ART[sol.aP[d]];
+        options = shuffle([...ART]);
+      }
+
+      if(!options.includes(answer)) options[0]=answer;
+
+      const hint = `Cross-link negatives first, then lock one guaranteed match and propagate.`;
+      return {sol, clues, question, options, answer, hint};
+    }
+    throw new Error('Generator failed to produce unique case.');
+  }
+
+  function rewardFor(score){
+    if(score>=1500) return '👑 Grand Logician';
+    if(score>=1200) return '🏆 Grid Virtuoso';
+    if(score>=900) return '🥈 Sharp Sleuth';
+    return '🎯 Apprentice';
+  }
+
+  function setMsg(text, ok=null){
+    ui.msg.textContent = text;
+    ui.msg.className = 'msg' + (ok===null ? '' : ok ? ' ok':' bad');
+  }
+
+  function paint(){
+    if(!st) return;
+    ui.round.textContent = `${st.round}/${TOTAL_CASES}`;
+    ui.score.textContent = st.score;
+    ui.lives.textContent = st.lives;
+    ui.streak.textContent = st.streak;
+    ui.reward.textContent = rewardFor(st.score);
+    ui.fill.style.width = `${Math.max(0,(st.timeLeft/ROUND_TIME)*100)}%`;
+  }
+
+  function drawCase(){
+    ui.clues.innerHTML = '';
+    st.current.clues.forEach((c,i)=>{
+      const li=document.createElement('li');
+      li.textContent = clueText(c);
+      ui.clues.appendChild(li);
+    });
+    ui.question.textContent = st.current.question;
+    ui.opts.innerHTML='';
+    st.current.options.forEach(opt=>{
+      const b=document.createElement('button');
+      b.textContent=opt;
+      b.onclick=()=>submitAnswer(opt);
+      ui.opts.appendChild(b);
+    });
+    ui.meta.textContent = '';
+    paint();
+  }
+
+  function nextCase(){
+    if(st.round>TOTAL_CASES){
+      finish(true,'All 8 cases solved. YOU WIN.');
+      return;
+    }
+    st.current = generateCase();
+    st.timeLeft = ROUND_TIME;
+    drawCase();
+  }
+
+  function submitAnswer(opt){
+    if(!st.active) return;
+    const correct = opt===st.current.answer;
+    if(correct){
+      st.streak++;
+      const gain = 120 + st.streak*18 + Math.floor(st.timeLeft*2);
+      st.score += gain;
+      setMsg(`Correct! +${gain}. Answer confirmed: ${st.current.answer}.`, true);
+    } else {
+      st.streak = 0;
+      st.lives--;
+      st.score = Math.max(0, st.score-20);
+      setMsg(`Wrong. Correct answer: ${st.current.answer}. -1 life.`, false);
+    }
+
+    if(st.lives<=0){ finish(false,'No lives left. YOU LOSE.'); return; }
+    if(st.round>=TOTAL_CASES){ finish(true,'All 8 cases solved. YOU WIN.'); return; }
+
+    st.round++;
+    nextCase();
+  }
+
+  function finish(win, headline){
+    st.active=false;
+    clearInterval(timer);
+    ui.opts.innerHTML='';
+    ui.question.textContent=headline;
+    const reward = rewardFor(st.score);
+    ui.meta.textContent = `Final score: ${st.score}\nReward: ${reward}\n${win?'Victory condition met.':'Lose condition triggered.'}`;
+    setMsg(win?'Casebook closed with clean logic.':'Casebook collapsed. Try again.', win);
+    paint();
+  }
+
+  function startGame(){
+    clearInterval(timer);
+    st = {round:1,score:0,lives:START_LIVES,streak:0,timeLeft:ROUND_TIME,active:true,current:null};
+    setMsg('Game started. Read clues, then lock the only valid answer.');
+    nextCase();
+    timer = setInterval(()=>{
+      if(!st?.active) return;
+      st.timeLeft -= 0.2;
+      if(st.timeLeft<=0){
+        st.timeLeft=0;
+        st.lives--;
+        st.streak=0;
+        setMsg('Timeout. -1 life and next case.', false);
+        if(st.lives<=0){ finish(false,'Timer bled out. YOU LOSE.'); return; }
+        if(st.round>=TOTAL_CASES){ finish(true,'All 8 cases solved. YOU WIN.'); return; }
+        st.round++;
+        nextCase();
+      }
+      paint();
+    },200);
+  }
+
+  function runQualityTests(runs=120){
+    let pass=0, uniq=0;
+    for(let i=0;i<runs;i++){
+      try{
+        const c = generateCase();
+        const sols = solve(c.clues);
+        const unique = sols.length===1;
+        if(unique) uniq++;
+
+        const answerIncluded = c.options.includes(c.answer);
+        const clueCountOk = c.clues.length>=5 && c.clues.length<=9;
+        const resolvedBySolver = (()=>{
+          const s=sols[0];
+          if(c.question.startsWith('Who carried')){
+            const art = ART.findIndex(a=>c.question.includes(a));
+            return DET[s.aP.indexOf(art)]===c.answer;
+          }
+          if(c.question.startsWith('Where did')){
+            const d = DET.findIndex(dn=>c.question.includes(dn));
+            return ROOM[s.rP[d]]===c.answer;
+          }
+          const rr = ROOM.findIndex(rn=>c.question.includes(rn));
+          const d = s.rP.indexOf(rr);
+          return ART[s.aP[d]]===c.answer;
+        })();
+
+        if(unique && answerIncluded && clueCountOk && resolvedBySolver) pass++;
+      } catch {}
+    }
+    const quality = +(pass/runs*10).toFixed(2);
+    return {runs, passed:pass, uniqueCases:uniq, passRate:+(pass/runs*100).toFixed(1), qualityScore10:quality};
+  }
+
+  $('start').onclick = startGame;
+  $('hint').onclick = ()=>{
+    if(!st?.current){ ui.meta.textContent='Hint available after Start.'; return; }
+    ui.meta.textContent = 'Hint: ' + st.current.hint;
+  };
+  $('test').onclick = ()=>{
+    const r = runQualityTests(120);
+    ui.meta.textContent = `QA sims: ${JSON.stringify(r)}`;
+  };
+
+  window.__runQualityTests = runQualityTests;
+  window.__startMuseGrid = startGame;
+  setMsg('Ready.');
+  paint();
+})();
 </script>
 </body>
 </html>

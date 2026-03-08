@@ -1,216 +1,76 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Photon Rally — Pulse Lane Drift</title>
-  <meta name="description" content="Balance neon lanes, route photons and stabilize a reactor inside 90-second sprints that reward combo intuition." />
-  <meta name="theme-color" content="#040813" />
-  <style>
-    :root{
-      --bg:#03060f;
-      --card:#11152a;
-      --card-strong:#141a33;
-      --ink:#f0f5ff;
-      --muted:#a9b8dc;
-      --accent:#5cf3ff;
-      --accent2:#a38bff;
-      --border:rgba(92,243,255,.18);
-      --shadow:0 25px 55px rgba(4,6,15,.75);
-      --r:20px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;background:radial-gradient(600px 600px at 20% -20%, rgba(92,243,255,.25), transparent 45%),
-      radial-gradient(400px 400px at 80% -10%, rgba(163,139,255,.25), transparent 40%),var(--bg);font-family:"Space Grotesk","Inter",system-ui,-apple-system,sans-serif;color:var(--ink);}
-    a{color:var(--accent);text-decoration:none}
-    .shell{max-width:1100px;margin:0 auto;padding:28px 24px 60px;display:flex;flex-direction:column;gap:24px}
-    .hero{background:linear-gradient(150deg, rgba(92,243,255,.12), rgba(12,16,34,.9)),var(--card);border:1px solid var(--border);border-radius:24px;padding:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center}
-    .eyebrow{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
-    .hero h1{margin:0;font-size:36px;line-height:1.2}
-    .lead{margin:12px 0 14px;color:var(--muted);font-size:16px;line-height:1.6;max-width:520px}
-    .hero-actions{display:flex;gap:10px;flex-wrap:wrap}
-    button, .ghost{border-radius:999px;font-weight:600;letter-spacing:.02em;border:1px solid transparent;padding:12px 18px;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease}
-    button{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#03060f;box-shadow:0 10px 30px rgba(92,243,255,.4)}
-    button:hover{transform:translateY(-1px)}
-    .ghost{background:transparent;color:var(--ink);border-color:rgba(255,255,255,.25);display:inline-flex;align-items:center;justify-content:center}
-    .hero-card{border-radius:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);padding:18px;display:flex;flex-direction:column;gap:12px}
-    .hero-card strong{font-size:28px;display:block}
-    .hero-card-score{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
-    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-    .stat-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:6px;box-shadow:0 20px 45px rgba(0,0,0,.4)}
-    .stat-card .label{text-transform:uppercase;font-size:11px;letter-spacing:1px;color:var(--muted)}
-    .stat-card .value{font-size:26px;font-weight:700}
-    .stat-card .muted{font-size:12px;color:var(--muted)}
-    .lanes{background:var(--card-strong);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:18px}
-    .section-header{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .section-header h2{margin:0;font-size:20px}
-    .section-header p{margin:0;color:var(--muted);font-size:14px}
-    .lane-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-    .lane-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
-    .lane-head{display:flex;justify-content:space-between;align-items:center}
-    .lane-head span{font-size:12px;color:var(--muted)}
-    .lane-copy{font-size:13px;color:var(--muted);line-height:1.5}
-    .lane-level{position:relative;height:10px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}
-    .lane-level::after{content:'';position:absolute;inset:0;width:60%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
-    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-    .feature{background:rgba(255,255,255,.02);border-radius:16px;padding:16px;border:1px solid rgba(255,255,255,.08)}
-    .feature h3{margin:0 0 8px;font-size:16px}
-    .feature p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
-    .callout{border-left:3px solid var(--accent);padding-left:12px;color:var(--muted);font-size:13px}
-    .footer{margin-top:10px;font-size:13px;color:var(--muted)}
-    .footer a{margin-left:4px}
-    @media (max-width:960px){.hero{grid-template-columns:1fr}}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Photon Rally: Lane Logic</title>
+<style>
+:root{--a:#22d3ee;--bg:#0b1020;--card:#121a31;--muted:#9aa7c7}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui;background:radial-gradient(circle at 20% 0,#1b2547,var(--bg));color:#eef2ff;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:16px}
+.wrap{width:min(900px,100%);background:rgba(18,26,49,.95);border:1px solid #2d3a63;border-radius:20px;padding:18px;box-shadow:0 16px 40px #0008}
+h1{margin:0 0 8px;font-size:1.4rem} .sub{color:var(--muted);margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.k{background:#0f1730;padding:10px;border-radius:12px;border:1px solid #27345f}
+.q{font-size:1.1rem;background:#0f1730;border:1px solid #334578;border-radius:14px;padding:12px;margin:8px 0 10px;min-height:64px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opts button{padding:12px;border-radius:12px;border:1px solid #3a4a7f;background:#18254a;color:#eef2ff;cursor:pointer;font-weight:700}
+.opts button:hover{border-color:var(--a);transform:translateY(-1px)}
+.bar{height:10px;background:#1e2a50;border-radius:999px;overflow:hidden;margin-top:10px}.fill{height:100%;background:linear-gradient(90deg,var(--a),#fff);width:100%;transition:width .25s}
+.msg{min-height:28px;margin-top:8px;font-weight:700}.ok{color:#4ade80}.bad{color:#fb7185}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}button.primary{background:linear-gradient(135deg,var(--a),#7dd3fc);color:#081226;border:none;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
+button.ghost{background:#1a2344;border:1px solid #445a96;color:#dbeafe;padding:10px 14px;border-radius:12px;cursor:pointer}
+.small{color:var(--muted);font-size:.9rem;margin-top:8px;white-space:pre-wrap}
+</style>
 </head>
 <body>
-  <div class="shell">
-    <header class="hero">
-      <div>
-        <p class="eyebrow">Prototype 01 · 2026-03-03</p>
-        <h1>Photon Rally</h1>
-        <p class="lead">Pulse lane drift: tap lanes to route photons, trigger boosts, and keep the reactor drift within 90 seconds of combo bliss.</p>
-        <div class="hero-actions">
-          <button type="button" data-action="simulate">Simulate run</button>
-          <a class="ghost" href="report.html">View report</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <strong>Reactor vibe · ±4°C</strong>
-        <span>Three lanes, two combo tiers, one overdrive.</span>
-        <div class="hero-card-score">
-          <span>Daily pulse streak</span>
-          <span>12/14</span>
-        </div>
-      </div>
-    </header>
-
-    <section class="stats-grid" aria-label="Run metrics">
-      <article class="stat-card">
-        <span class="label">Run window</span>
-        <span class="value" data-stat="time">1:30</span>
-        <span class="muted">seconds before throttle</span>
-      </article>
-      <article class="stat-card">
-        <span class="label">Combo multiplier</span>
-        <span class="value" data-stat="combo">1.17x</span>
-        <span class="muted">chain the pulses</span>
-      </article>
-      <article class="stat-card">
-        <span class="label">Energy buffer</span>
-        <span class="value" data-stat="energy">68%</span>
-        <span class="muted">reserve for lane swaps</span>
-      </article>
-      <article class="stat-card">
-        <span class="label">Stability</span>
-        <span class="value" data-stat="stability">97.2%</span>
-        <span class="muted">keep the drift under limit</span>
-      </article>
-    </section>
-
-    <section class="lanes" aria-label="Photon lanes">
-      <div class="section-header">
-        <div>
-          <h2>Lane convergence</h2>
-          <p>Every lane carries different drift: keep boosters balanced to unlock Reactor Samples.</p>
-        </div>
-        <p class="callout">Daily target: 18 combos, 90% lane uptime.</p>
-      </div>
-      <div class="lane-grid">
-        <article class="lane-card">
-          <div class="lane-head">
-            <h3>North Arc</h3>
-            <span>Throughput</span>
-          </div>
-          <p class="lane-copy">Short bursts carry raw photons faster but devour buffer. Use it for early spikes.</p>
-          <div class="lane-level" data-lane="north"></div>
-        </article>
-        <article class="lane-card">
-          <div class="lane-head">
-            <h3>Core Drift</h3>
-            <span>Stability</span>
-          </div>
-          <p class="lane-copy">Gentle pulses keep the reactor calm while still feeding combos to the others.</p>
-          <div class="lane-level" data-lane="core"></div>
-        </article>
-        <article class="lane-card">
-          <div class="lane-head">
-            <h3>South Flow</h3>
-            <span>Boost Control</span>
-          </div>
-          <p class="lane-copy">Stack up boost orbs here to trigger overdrive without sacrificing stability.</p>
-          <div class="lane-level" data-lane="south"></div>
-        </article>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-header">
-        <div>
-          <h2>Playbook</h2>
-          <p>Handcrafted loop for 90-second daily sprints.</p>
-        </div>
-      </div>
-      <div class="feature-grid">
-        <article class="feature">
-          <h3>Lane-hopping taps</h3>
-          <p>Tap combos trigger lane switches that redistribute the drift gauge and reward pulses when timed with the weave.</p>
-        </article>
-        <article class="feature">
-          <h3>Overdrive cues</h3>
-          <p>Collect reactor samples to unlock a pop-up drift that multiplies combos if you protect stability above 92%.</p>
-        </article>
-        <article class="feature">
-          <h3>Daily reactive goals</h3>
-          <p>Every day sets a unique lane order and combo target for brag scores on the index page.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="callout">
-      <strong>Experiment prompt:</strong> try adding a scheduled lane cooldown (1.2× combo reward) versus a continuous lane buffer to see which keeps retention above 35% after the 5th run.
-    </section>
-
-    <p class="footer">Back to <a href="../index.html">prototypes index</a> · Report: <a href="report.html">photon-rally report</a></p>
+<div class="wrap">
+  <h1>Photon Rally: Lane Logic</h1>
+  <div class="sub">Choose the safest lane based on incoming photon vectors and speed clues.</div>
+  <div class="sub"><b>How to play:</b> Answer 12 rounds. You have 3 lives. Build streaks for combo score. Win by surviving all rounds. Game over at 0 lives. Earn the <b>Rally Ace</b> badge at 900+ points.</div>
+  <div class="grid">
+    <div class="k">Round<br><b id="round">1/12</b></div>
+    <div class="k">Score<br><b id="score">0</b></div>
+    <div class="k">Lives<br><b id="lives">3</b></div>
+    <div class="k">Streak<br><b id="streak">0</b></div>
   </div>
-
-  <script>
-    (function(){
-      const statNodes = {
-        time: document.querySelector('[data-stat="time"]'),
-        combo: document.querySelector('[data-stat="combo"]'),
-        energy: document.querySelector('[data-stat="energy"]'),
-        stability: document.querySelector('[data-stat="stability"]'),
-      };
-      const laneBars = document.querySelectorAll('[data-lane]');
-      const start = Date.now();
-      const maxTime = 90;
-
-      function formatClock(seconds){
-        const m = Math.floor(seconds/60);
-        const s = Math.floor(seconds%60);
-        return `${m}:${String(s).padStart(2,'0')}`;
-      }
-
-      function update(){
-        const elapsed = (Date.now() - start)/1000;
-        const remaining = Math.max(0, maxTime - elapsed);
-        statNodes.time.textContent = formatClock(remaining);
-        const combo = 1 + Math.abs(Math.sin(elapsed * 1.2)) * 0.35;
-        statNodes.combo.textContent = `${combo.toFixed(2)}x`;
-        const energy = 60 + 18 * Math.abs(Math.cos(elapsed * 0.9));
-        statNodes.energy.textContent = `${energy.toFixed(0)}%`;
-        const stability = 95 + Math.sin(elapsed/3) * 2.3;
-        statNodes.stability.textContent = `${stability.toFixed(1)}%`;
-        laneBars.forEach((bar, idx)=>{
-          const wave = Math.sin(elapsed/2 + idx);
-          const fill = 40 + 45 * (wave + 1) / 2;
-          bar.style.setProperty('--fill', `${Math.min(100, fill)}%`);
-        });
-      }
-
-      update();
-      setInterval(update, 700);
-    })();
-  </script>
+  <div class="q" id="question">Press Start</div>
+  <div class="opts" id="opts"></div>
+  <div class="bar"><div id="fill" class="fill"></div></div>
+  <div id="msg" class="msg"></div>
+  <div class="controls">
+    <button class="primary" id="start">Start / Restart</button>
+    <button class="ghost" id="hint">Hint</button>
+    <button class="ghost" id="sim">Run 100 AI sims</button>
+  </div>
+  <div id="meta" class="small"></div>
+</div>
+<script>
+const total=12,maxLives=3,timePer=7;let st;
+function rng(n){return Math.floor(Math.random()*n)}
+const words=['NOVA','ECHO','LUMEN','SIGIL','MAGNET','ORBIT','RALLY','MUSE'];
+const symbols=['▲','◆','●','■'];
+function genQ(type){
+  if(type==='directionWord'){const w=words[rng(words.length)],dirs=['↑','→','↓','←'];const i=rng(4);return {q:'Word '+w+' exits via '+dirs[i]+'. Pick matching corridor.',opts:dirs,a:i,h:'Read the cue: exact direction wins.'}}
+  if(type==='timingBand'){const target=50+rng(40),a=Math.max(0,target-5+rng(11));const opts=[target-12,target-4,target+4,target+12].map(v=>v+' bpm');const ai=opts.findIndex(o=>Math.abs(parseInt(o)-target)<=5);return {q:'Target pulse '+target+' bpm. Choose stable band.',opts,a:ai,h:'Stay within ±5 bpm.'}}
+  if(type==='memoryChain'){const n=3+rng(3),arr=Array.from({length:n},()=>symbols[rng(4)]).join(' '),ix=rng(4),opts=[arr,arr.split(' ').reverse().join(' '),arr+' '+symbols[rng(4)],arr.replace(/▲|◆|●|■/,symbols[rng(4)])];return {q:'Repeat exact chain: '+arr,opts,a:0,h:'Exact order only.'}}
+  if(type==='rulePick'){const a=1+rng(8),b=1+rng(8),sum=a+b,opts=[sum,sum+1,sum-1,sum+2].map(String);return {q:'Inspiration rule: combine '+a+' + '+b+'.',opts,a:0,h:'Simple sum, avoid decoys.'}}
+  if(type==='laneChoice'){const danger=[rng(4),rng(4)],safe=[0,1,2,3].filter(x=>!danger.includes(x));const pick=safe[rng(safe.length)];const opts=['Lane 1','Lane 2','Lane 3','Lane 4'];return {q:'Photons hit lanes '+(danger[0]+1)+' and '+(danger[1]+1)+'. Choose a safe lane.',opts,a:pick,h:'Avoid listed lanes.'}}
+  if(type==='symbolParity'){const n=4+rng(3),vals=Array.from({length:n},()=>1+rng(9)),sum=vals.reduce((x,y)=>x+y,0),want=sum%2?'odd':'even';const opts=['odd','even','prime','chaos'];return {q:'Rune sum '+vals.join('+')+' = ? Keep '+want+' parity.',opts,a:opts.indexOf(want),h:'Check sum parity.'}}
+  if(type==='wordSelect'){const base=words[rng(words.length)],good=base.slice(0,Math.min(5,base.length)),opts=[good,good.split('').sort().join(''),good+'X',good.slice(1)];return {q:'Choose legal lattice token from root '+base+'.',opts,a:0,h:'Original sequence is valid token.'}}
+  if(type==='tradeCall'){const buy=20+rng(80),now=20+rng(80),opts=['Buy','Hold','Sell','Hedge'];let a=1;if(now<buy-5)a=0;else if(now>buy+5)a=2;return {q:'Entry '+buy+', current '+now+'. Best action?',opts,a,h:'Cheap=>Buy, expensive=>Sell, close=>Hold.'}}
+  if(type==='polarity'){const p=-5+rng(11),shift=[-3,-1,1,3],opts=shift.map(s=>(s>0?'+':'')+s),scores=shift.map(s=>Math.abs(p+s));const a=scores.indexOf(Math.min(...scores));return {q:'Core polarity '+p+'. Pick shift toward zero.',opts,a,h:'Minimize absolute value.'}}
+  const temp=2000+rng(5000),mass=1+rng(20),opts=['Dwarf','Main Sequence','Giant','Neutron'];let a=1;if(temp<3000)a=0; if(temp>5500&&mass>12)a=3; if(temp>4500&&mass>8&&a!==3)a=2; return {q:'Star temp '+temp+'K, mass '+mass+'. Class?',opts,a,h:'Hot + massive trends giant/neutron.'}
+}
+function newGame(){st={round:1,score:0,lives:maxLives,streak:0,time:timePer,active:true,q:null};nextQ();tick();render('New run started.');}
+function nextQ(){st.q=genQ('laneChoice');st.time=timePer;drawQ();}
+function drawQ(){question.textContent=st.q.q;opts.innerHTML='';st.q.opts.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>answer(i);opts.appendChild(b)});}
+function answer(i){if(!st.active)return;const ok=i===st.q.a;if(ok){st.streak++;st.score+=90+st.streak*15;msg.className='msg ok';msg.textContent='Perfect sync! +' + (90+st.streak*15);}else{st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Mismatch! Correct: '+st.q.opts[st.q.a];}
+if(st.lives<=0)return end(false,'Core failed. GAME OVER.');if(st.round>=total)return end(true,'All rounds cleared. YOU WIN!');st.round++;nextQ();paint();}
+function end(win,text){st.active=false;question.textContent=text;opts.innerHTML='';const badge=st.score>=900?'🏅 Rally Ace':'🎯 Keep grinding';meta.textContent='Final score '+st.score+' | '+badge;msg.className='msg '+(win?'ok':'bad');msg.textContent=win?'Victory secured.':'Run ended.';paint();}
+function tick(){clearInterval(window.__t);window.__t=setInterval(()=>{if(!st||!st.active)return;st.time-=0.2;if(st.time<=0){st.time=0;st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Too slow!';if(st.lives<=0){end(false,'Timeout collapse. GAME OVER.');return;}st.round++;if(st.round>total){end(true,'YOU WIN by endurance!');return;}nextQ();}paint();},200)}
+function paint(){round.textContent=st.round+'/'+total;score.textContent=st.score;lives.textContent=st.lives;streak.textContent=st.streak;fill.style.width=((st.time/timePer)*100).toFixed(1)+'%';}
+function render(t){msg.className='msg';msg.textContent=t;meta.textContent='';round.textContent='1/12';score.textContent='0';lives.textContent='3';streak.textContent='0';fill.style.width='100%';question.textContent='Press Start';opts.innerHTML='';}
+function aiRun(){let s={score:0,wins:0};for(let r=0;r<100;r++){let lives=maxLives,score=0,streak=0;for(let n=1;n<=total;n++){const q=genQ('laneChoice');const pick=Math.random()<0.72?q.a:rng(q.opts.length);if(pick===q.a){streak++;score+=90+streak*15;}else{streak=0;lives--;if(lives<=0)break;}}if(lives>0)s.wins++;s.score+=score;}return {runs:100,winRate:(s.wins).toFixed(0)+'%',avgScore:Math.round(s.score/100)};}
+start.onclick=newGame;hint.onclick=()=>{if(st&&st.q)meta.textContent='Hint: '+st.q.h};sim.onclick=()=>{const r=aiRun();meta.textContent='AI sims: '+JSON.stringify(r)};
+window.__simulate=aiRun;render('Ready.');
+</script>
 </body>
 </html>

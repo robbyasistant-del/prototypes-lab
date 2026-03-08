@@ -1,68 +1,76 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Sync Sigil · Double Letter Challenge</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sync Sigil: Rune Alignment</title>
 <style>
-:root{--bg:#050812;--card:#111a2d;--line:#2f4b7c;--txt:#f0f4ff;--muted:#9eb3db;--ok:#22c55e;--bad:#ef4444;--warn:#f59e0b}
-body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(900px 500px at 20% -10%,#1a2d62 0%,var(--bg) 70%);color:var(--txt)}
-.wrap{max-width:900px;margin:0 auto;padding:20px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
-.grid{display:grid;grid-template-columns:1fr 320px;gap:12px}.word{display:flex;gap:8px;justify-content:center;margin:14px 0}
-.slot{width:46px;height:54px;border:1px solid #3b5c98;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;background:#0d1530}
-.k{font-size:12px;color:#9db1de}.btn{background:#7c8bff;border:none;color:#0b1230;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer}
-input{width:100%;padding:10px;border-radius:10px;border:1px solid #385695;background:#0d1732;color:#fff}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tag{border:1px solid #3a578f;border-radius:999px;padding:4px 10px;font-size:12px}
-.log{min-height:42px}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
-@media (max-width:780px){.grid{grid-template-columns:1fr}}
+:root{--a:#34d399;--bg:#0b1020;--card:#121a31;--muted:#9aa7c7}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui;background:radial-gradient(circle at 20% 0,#1b2547,var(--bg));color:#eef2ff;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:16px}
+.wrap{width:min(900px,100%);background:rgba(18,26,49,.95);border:1px solid #2d3a63;border-radius:20px;padding:18px;box-shadow:0 16px 40px #0008}
+h1{margin:0 0 8px;font-size:1.4rem} .sub{color:var(--muted);margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.k{background:#0f1730;padding:10px;border-radius:12px;border:1px solid #27345f}
+.q{font-size:1.1rem;background:#0f1730;border:1px solid #334578;border-radius:14px;padding:12px;margin:8px 0 10px;min-height:64px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opts button{padding:12px;border-radius:12px;border:1px solid #3a4a7f;background:#18254a;color:#eef2ff;cursor:pointer;font-weight:700}
+.opts button:hover{border-color:var(--a);transform:translateY(-1px)}
+.bar{height:10px;background:#1e2a50;border-radius:999px;overflow:hidden;margin-top:10px}.fill{height:100%;background:linear-gradient(90deg,var(--a),#fff);width:100%;transition:width .25s}
+.msg{min-height:28px;margin-top:8px;font-weight:700}.ok{color:#4ade80}.bad{color:#fb7185}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}button.primary{background:linear-gradient(135deg,var(--a),#7dd3fc);color:#081226;border:none;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
+button.ghost{background:#1a2344;border:1px solid #445a96;color:#dbeafe;padding:10px 14px;border-radius:12px;cursor:pointer}
+.small{color:var(--muted);font-size:.9rem;margin-top:8px;white-space:pre-wrap}
 </style>
 </head>
 <body>
 <div class="wrap">
-<h1>🟩 Sync Sigil</h1>
-<p class="k">Objetivo diario: adivina la palabra de 5 letras con <b>doble consonante</b> en 6 intentos. Si lo logras en ≤3 intentos: <b>Only Green Badge</b>.</p>
-<div class="grid">
-<section class="card">
-  <div class="row"><span class="tag" id="seed"></span><span class="tag">6 intentos</span><span class="tag">Doble letra obligatoria</span></div>
-  <div class="word" id="board"></div>
-  <input id="guess" maxlength="5" placeholder="Escribe palabra (5 letras)"/>
-  <div class="row" style="margin-top:10px"><button class="btn" id="send">Probar</button><button class="btn" id="new" style="background:#1c2a52;color:#dbe6ff;border:1px solid #385695">Reiniciar daily</button></div>
-  <p id="msg" class="log k"></p>
-</section>
-<aside class="card">
-  <p class="k">Feedback:</p>
-  <ul>
-    <li>🟩 letra y posición correctas</li>
-    <li>🟨 letra existe en otra posición</li>
-    <li>⬛ no está en la palabra</li>
-  </ul>
-  <p class="k">Retador y adictivo: misma palabra para todos hoy, ideal para compartir resultado en emojis.</p>
-  <p id="badge" class="warn">Badge: pendiente</p>
-</aside>
-</div>
+  <h1>Sync Sigil: Rune Alignment</h1>
+  <div class="sub">Align runes by selecting the symbol that keeps harmonic balance.</div>
+  <div class="sub"><b>How to play:</b> Answer 12 rounds. You have 3 lives. Build streaks for combo score. Win by surviving all rounds. Game over at 0 lives. Earn the <b>Sigil Sage</b> badge at 900+ points.</div>
+  <div class="grid">
+    <div class="k">Round<br><b id="round">1/12</b></div>
+    <div class="k">Score<br><b id="score">0</b></div>
+    <div class="k">Lives<br><b id="lives">3</b></div>
+    <div class="k">Streak<br><b id="streak">0</b></div>
+  </div>
+  <div class="q" id="question">Press Start</div>
+  <div class="opts" id="opts"></div>
+  <div class="bar"><div id="fill" class="fill"></div></div>
+  <div id="msg" class="msg"></div>
+  <div class="controls">
+    <button class="primary" id="start">Start / Restart</button>
+    <button class="ghost" id="hint">Hint</button>
+    <button class="ghost" id="sim">Run 100 AI sims</button>
+  </div>
+  <div id="meta" class="small"></div>
 </div>
 <script>
-const dictionary=['linen','sassy','letter','civic','bunny','puppy','array','chess','belle','adder'];
-const today=new Date().toISOString().slice(0,10); const s=[...today].reduce((a,c)=>a+c.charCodeAt(0),0);
-const target=dictionary[s%dictionary.length]; seed.textContent='Seed '+today;
-let turn=0, done=false; const board=[];
-function renderRow(state){const row=document.createElement('div'); row.className='word';
-state.forEach(c=>{const d=document.createElement('div'); d.className='slot'; d.textContent=c.l; d.style.background=c.bg; row.appendChild(d);});
-boardEl.appendChild(row);
+const total=12,maxLives=3,timePer=7;let st;
+function rng(n){return Math.floor(Math.random()*n)}
+const words=['NOVA','ECHO','LUMEN','SIGIL','MAGNET','ORBIT','RALLY','MUSE'];
+const symbols=['▲','◆','●','■'];
+function genQ(type){
+  if(type==='directionWord'){const w=words[rng(words.length)],dirs=['↑','→','↓','←'];const i=rng(4);return {q:'Word '+w+' exits via '+dirs[i]+'. Pick matching corridor.',opts:dirs,a:i,h:'Read the cue: exact direction wins.'}}
+  if(type==='timingBand'){const target=50+rng(40),a=Math.max(0,target-5+rng(11));const opts=[target-12,target-4,target+4,target+12].map(v=>v+' bpm');const ai=opts.findIndex(o=>Math.abs(parseInt(o)-target)<=5);return {q:'Target pulse '+target+' bpm. Choose stable band.',opts,a:ai,h:'Stay within ±5 bpm.'}}
+  if(type==='memoryChain'){const n=3+rng(3),arr=Array.from({length:n},()=>symbols[rng(4)]).join(' '),ix=rng(4),opts=[arr,arr.split(' ').reverse().join(' '),arr+' '+symbols[rng(4)],arr.replace(/▲|◆|●|■/,symbols[rng(4)])];return {q:'Repeat exact chain: '+arr,opts,a:0,h:'Exact order only.'}}
+  if(type==='rulePick'){const a=1+rng(8),b=1+rng(8),sum=a+b,opts=[sum,sum+1,sum-1,sum+2].map(String);return {q:'Inspiration rule: combine '+a+' + '+b+'.',opts,a:0,h:'Simple sum, avoid decoys.'}}
+  if(type==='laneChoice'){const danger=[rng(4),rng(4)],safe=[0,1,2,3].filter(x=>!danger.includes(x));const pick=safe[rng(safe.length)];const opts=['Lane 1','Lane 2','Lane 3','Lane 4'];return {q:'Photons hit lanes '+(danger[0]+1)+' and '+(danger[1]+1)+'. Choose a safe lane.',opts,a:pick,h:'Avoid listed lanes.'}}
+  if(type==='symbolParity'){const n=4+rng(3),vals=Array.from({length:n},()=>1+rng(9)),sum=vals.reduce((x,y)=>x+y,0),want=sum%2?'odd':'even';const opts=['odd','even','prime','chaos'];return {q:'Rune sum '+vals.join('+')+' = ? Keep '+want+' parity.',opts,a:opts.indexOf(want),h:'Check sum parity.'}}
+  if(type==='wordSelect'){const base=words[rng(words.length)],good=base.slice(0,Math.min(5,base.length)),opts=[good,good.split('').sort().join(''),good+'X',good.slice(1)];return {q:'Choose legal lattice token from root '+base+'.',opts,a:0,h:'Original sequence is valid token.'}}
+  if(type==='tradeCall'){const buy=20+rng(80),now=20+rng(80),opts=['Buy','Hold','Sell','Hedge'];let a=1;if(now<buy-5)a=0;else if(now>buy+5)a=2;return {q:'Entry '+buy+', current '+now+'. Best action?',opts,a,h:'Cheap=>Buy, expensive=>Sell, close=>Hold.'}}
+  if(type==='polarity'){const p=-5+rng(11),shift=[-3,-1,1,3],opts=shift.map(s=>(s>0?'+':'')+s),scores=shift.map(s=>Math.abs(p+s));const a=scores.indexOf(Math.min(...scores));return {q:'Core polarity '+p+'. Pick shift toward zero.',opts,a,h:'Minimize absolute value.'}}
+  const temp=2000+rng(5000),mass=1+rng(20),opts=['Dwarf','Main Sequence','Giant','Neutron'];let a=1;if(temp<3000)a=0; if(temp>5500&&mass>12)a=3; if(temp>4500&&mass>8&&a!==3)a=2; return {q:'Star temp '+temp+'K, mass '+mass+'. Class?',opts,a,h:'Hot + massive trends giant/neutron.'}
 }
-function scoreGuess(g,t){const res=[...g].map(l=>({l,bg:'#1a223c'})); const used=Array(t.length).fill(false);
-for(let i=0;i<t.length;i++) if(g[i]===t[i]){res[i].bg='#1f8f4e'; used[i]=true;}
-for(let i=0;i<t.length;i++) if(res[i].bg!=='#1f8f4e') for(let j=0;j<t.length;j++) if(!used[j]&&g[i]===t[j]){res[i].bg='#a97417'; used[j]=true; break;}
-return res;
-}
-function hasDouble(str){for(let i=1;i<str.length;i++) if(str[i]===str[i-1]) return true; return false;}
-function submit(){if(done) return; const g=guess.value.trim().toLowerCase(); if(g.length!==5){msg.className='warn';msg.textContent='Escribe 5 letras.';return;}
-if(!hasDouble(g)){msg.className='warn';msg.textContent='Debe incluir doble letra (ej: NN/SS/TT).';return;}
-turn++; const r=scoreGuess(g,target); renderRow(r);
-if(g===target){done=true; msg.className='ok'; msg.textContent=`¡Correcto en ${turn} intentos!`; badge.textContent = turn<=3?'Badge: ONLY GREEN desbloqueado 🟩':'Badge: completado sin Only Green'; return;}
-if(turn>=6){done=true; msg.className='bad'; msg.textContent='Game over. Palabra: '+target.toUpperCase(); badge.textContent='Badge: no desbloqueado'; return;}
-msg.className='k'; msg.textContent=`Intento ${turn}/6`; guess.value=''; guess.focus();}
-const boardEl=document.getElementById('board');
-send.onclick=submit; new.onclick=()=>location.reload(); guess.addEventListener('keydown',e=>{if(e.key==='Enter')submit();});
+function newGame(){st={round:1,score:0,lives:maxLives,streak:0,time:timePer,active:true,q:null};nextQ();tick();render('New run started.');}
+function nextQ(){st.q=genQ('symbolParity');st.time=timePer;drawQ();}
+function drawQ(){question.textContent=st.q.q;opts.innerHTML='';st.q.opts.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>answer(i);opts.appendChild(b)});}
+function answer(i){if(!st.active)return;const ok=i===st.q.a;if(ok){st.streak++;st.score+=90+st.streak*15;msg.className='msg ok';msg.textContent='Perfect sync! +' + (90+st.streak*15);}else{st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Mismatch! Correct: '+st.q.opts[st.q.a];}
+if(st.lives<=0)return end(false,'Core failed. GAME OVER.');if(st.round>=total)return end(true,'All rounds cleared. YOU WIN!');st.round++;nextQ();paint();}
+function end(win,text){st.active=false;question.textContent=text;opts.innerHTML='';const badge=st.score>=900?'🏅 Sigil Sage':'🎯 Keep grinding';meta.textContent='Final score '+st.score+' | '+badge;msg.className='msg '+(win?'ok':'bad');msg.textContent=win?'Victory secured.':'Run ended.';paint();}
+function tick(){clearInterval(window.__t);window.__t=setInterval(()=>{if(!st||!st.active)return;st.time-=0.2;if(st.time<=0){st.time=0;st.streak=0;st.lives--;msg.className='msg bad';msg.textContent='Too slow!';if(st.lives<=0){end(false,'Timeout collapse. GAME OVER.');return;}st.round++;if(st.round>total){end(true,'YOU WIN by endurance!');return;}nextQ();}paint();},200)}
+function paint(){round.textContent=st.round+'/'+total;score.textContent=st.score;lives.textContent=st.lives;streak.textContent=st.streak;fill.style.width=((st.time/timePer)*100).toFixed(1)+'%';}
+function render(t){msg.className='msg';msg.textContent=t;meta.textContent='';round.textContent='1/12';score.textContent='0';lives.textContent='3';streak.textContent='0';fill.style.width='100%';question.textContent='Press Start';opts.innerHTML='';}
+function aiRun(){let s={score:0,wins:0};for(let r=0;r<100;r++){let lives=maxLives,score=0,streak=0;for(let n=1;n<=total;n++){const q=genQ('symbolParity');const pick=Math.random()<0.72?q.a:rng(q.opts.length);if(pick===q.a){streak++;score+=90+streak*15;}else{streak=0;lives--;if(lives<=0)break;}}if(lives>0)s.wins++;s.score+=score;}return {runs:100,winRate:(s.wins).toFixed(0)+'%',avgScore:Math.round(s.score/100)};}
+start.onclick=newGame;hint.onclick=()=>{if(st&&st.q)meta.textContent='Hint: '+st.q.h};sim.onclick=()=>{const r=aiRun();meta.textContent='AI sims: '+JSON.stringify(r)};
+window.__simulate=aiRun;render('Ready.');
 </script>
 </body>
 </html>

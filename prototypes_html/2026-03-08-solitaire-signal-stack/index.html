@@ -1,31 +1,41 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Solitaire Signal Stack</title><style>
-:root{--bg:#081417;--panel:#11252b;--line:#2f5963;--ink:#e8fcff;--good:#70f0bf;--bad:#ff8f9a;--acc:#7bc8ff}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial;background:#081417;color:var(--ink)}.wrap{max-width:980px;margin:0 auto;padding:18px}.panel{background:#11252b;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.pile{min-height:178px;border:2px dashed #3e6d79;border-radius:12px;padding:8px;background:#0d1d21}.card{border-radius:10px;padding:8px 10px;margin-bottom:8px;font-weight:800;cursor:pointer;border:1px solid #4d8fa0;background:#17343c}
-.card.red{background:#3f2330;border-color:#aa6278}.card.blue{background:#1d3148;border-color:#5f90ce}.card.green{background:#1f3d35;border-color:#58b59a}.card.gold{background:#4a4120;border-color:#d1b56f;color:#fff6d7}
-.selected{outline:3px solid #ffe28d}.hud{display:grid;grid-template-columns:repeat(6,minmax(70px,1fr));gap:8px}.kpi{background:#153038;border:1px solid #3e6d79;border-radius:10px;padding:8px;text-align:center}
-button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:linear-gradient(145deg,#8ed2ff,#62b3f1);color:#052034}.ghost{background:#173038;color:#d8f5ff;border:1px solid #3f7582}</style></head><body><div class="wrap"><div class="panel"><h1>🃏 Solitaire Signal Stack</h1><p><b>How to play:</b> Build ascending stacks in each pile. You can move top cards only. A move is valid if next card has +1 number and different color family (warm vs cool). Clear all 4 piles before 65s to WIN. 3 invalid moves = game over.</p>
-<div class="hud"><div class="kpi">Score<br><b id="score">0</b></div><div class="kpi">Moves<br><b id="moves">0</b></div><div class="kpi">Invalid<br><b id="invalid">0/3</b></div><div class="kpi">Time<br><b id="time">65</b>s</div><div class="kpi">Cleared<br><b id="cleared">0/4</b></div><div class="kpi">Goal<br><b>1→6</b></div></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" id="start">Start Deal</button><button class="ghost" id="reset">Reset</button><a class="ghost" style="text-decoration:none" href="./report.html">Open report</a></div><p id="feedback">Tap Start Deal.</p></div>
-<div class="panel"><div class="grid" id="board"></div></div><div class="panel"><p id="result">No run completed yet.</p></div></div>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Solitaire Signal Stack</title>
+<style>
+:root{--bg:#081417;--panel:#11252b;--line:#2f5963;--ink:#e8fcff;--good:#70f0bf;--bad:#ff8f9a}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial;background:#081417;color:var(--ink)}.wrap{max-width:1040px;margin:0 auto;padding:18px}.panel{background:#11252b;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.pile,.foundation{min-height:190px;border-radius:12px;padding:8px}.pile{border:2px dashed #3e6d79;background:#0d1d21}.foundation{border:2px solid #5e8d99;background:#102a31}
+.card{border-radius:10px;padding:8px 10px;margin-bottom:8px;font-weight:800;cursor:pointer;border:1px solid #4d8fa0;background:#17343c}.red{background:#3f2330;border-color:#aa6278}.blue{background:#1d3148;border-color:#5f90ce}.green{background:#1f3d35;border-color:#58b59a}.gold{background:#4a4120;border-color:#d1b56f;color:#fff6d7}.selected{outline:3px solid #ffe28d}
+.hud{display:grid;grid-template-columns:repeat(6,minmax(70px,1fr));gap:8px}.kpi{background:#153038;border:1px solid #3e6d79;border-radius:10px;padding:8px;text-align:center}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:linear-gradient(145deg,#8ed2ff,#62b3f1);color:#052034}.ghost{background:#173038;color:#d8f5ff;border:1px solid #3f7582}
+</style></head><body><div class="wrap"><div class="panel"><h1>🃏 Solitaire Signal Stack</h1>
+<p><b>Cómo jugar:</b> Mueve carta superior de cualquier columna a una Foundation. Regla flexible: en foundation vacía entra cualquier carta; después puedes poner igual o mayor número (stack estable). Si respetas alternancia warm/cool obtienes bonus de score. Vacía las 4 columnas antes de 100s. 8 errores = game over.</p>
+<div class="hud"><div class="kpi">Score<br><b id="score">0</b></div><div class="kpi">Moves<br><b id="moves">0</b></div><div class="kpi">Invalid<br><b id="invalid">0/4</b></div><div class="kpi">Time<br><b id="time">90</b>s</div><div class="kpi">Cleared<br><b id="cleared">0/4</b></div><div class="kpi">Foundations<br><b id="fprog">0/12</b></div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" id="start">Start Deal</button><button class="ghost" id="hint">Hint</button><button class="ghost" id="reset">Reset</button><a class="ghost" style="text-decoration:none" href="./report.html">Open report</a></div><p id="feedback">Pulsa Start Deal.</p></div>
+<div class="panel"><h3>Columns</h3><div class="grid" id="cols"></div><h3 style="margin-top:10px">Foundations</h3><div class="grid" id="founds"></div></div><div class="panel"><p id="result">Sin run.</p></div></div>
 <script>
-const colors=['red','blue','green','gold'];const warm=['red','gold'];let G={live:false,score:0,moves:0,invalid:0,time:65,piles:[[],[],[],[]],sel:null,t:null};
-const $=id=>document.getElementById(id);
-function randCard(n){const c=colors[Math.floor(Math.random()*colors.length)];return {n,c,id:Math.random().toString(36).slice(2,7)}}
-function family(c){return warm.includes(c)?'warm':'cool'}
-function validMove(card,target){if(!target)return card.n===1;return card.n===target.n+1 && family(card.c)!==family(target.c)}
-function setup(){G.piles=[[],[],[],[]];for(let p=0;p<4;p++){for(let i=0;i<6;i++)G.piles[p].push(randCard(i+1));G.piles[p].sort(()=>Math.random()-.5);}render();}
-function render(){ $('score').textContent=G.score; $('moves').textContent=G.moves; $('invalid').textContent=G.invalid+'/3'; $('time').textContent=G.time; $('cleared').textContent=G.piles.filter(p=>p.length===0).length+'/4';
- const b=$('board');b.innerHTML='';G.piles.forEach((pile,pi)=>{const d=document.createElement('div');d.className='pile';d.dataset.p=pi;const top=pile[pile.length-1];if(top){const c=document.createElement('div');c.className='card '+top.c+(G.sel&&G.sel.p===pi?' selected':'');c.textContent=`${top.c.toUpperCase()}-${top.n}`;c.onclick=()=>choosePile(pi);d.appendChild(c);}else{d.innerHTML+='<div style="opacity:.6">Empty pile</div>';d.onclick=()=>choosePile(pi);}pile.slice(0,-1).forEach(()=>{const ph=document.createElement('div');ph.className='card';ph.style.opacity=.25;ph.textContent='covered';d.appendChild(ph)});b.appendChild(d);});}
-function choosePile(pi){if(!G.live)return;const pile=G.piles[pi];if(!G.sel){if(!pile.length)return;G.sel={p:pi,card:pile[pile.length-1]};msg('Card selected. Choose destination pile.',true);return render();}
- if(G.sel.p===pi){G.sel=null;msg('Selection cleared.',true);return render();}
- const from=G.piles[G.sel.p],to=G.piles[pi],card=from[from.length-1],target=to[to.length-1];
- if(validMove(card,target)){to.push(from.pop());G.moves++;G.score+=18+(to.length*2);G.sel=null;msg('Valid stack move!',true);}else{G.invalid++;G.score=Math.max(0,G.score-10);G.sel=null;msg('Invalid rule match.',false);if(G.invalid>=3)return end(false,'Too many invalid moves.');}
- if(G.piles.every(p=>p.length===0))return end(true,'All waves cleared.');render();}
-function tick(){if(!G.live)return;G.time--;if(G.time<=0){if(G.piles.every(p=>p.length===0)) return end(true,'Cleared on final second!');return end(false,'Timer expired.');}render();}
-function badge(){return G.score>=420?'Signal Grandmaster':G.score>=300?'Stack Tactician':G.score>=180?'Pattern Scout':'Deck Rookie'}
-function msg(t,ok){const f=$('feedback');f.textContent=t;f.style.color=ok?'#70f0bf':'#ff9aa5';}
-function end(win,why){G.live=false;clearInterval(G.t);$('result').textContent=`${win?'🏆 WIN':'💥 GAME OVER'} — ${why} Final score ${G.score}. Reward badge: ${badge()}`;msg(win?'Run cleared!':'Run failed, retry?',win)}
-function start(){G={live:true,score:0,moves:0,invalid:0,time:65,piles:[[],[],[],[]],sel:null,t:null};setup();G.t=setInterval(tick,1000);$('result').textContent='Run active...';msg('Build ascending alternating-family stacks.',true)}
-$('start').onclick=start;$('reset').onclick=()=>{if(G.t)clearInterval(G.t);G.live=false;setup();$('result').textContent='Reset done.';msg('Ready for new deal.',true)};setup();
+const COLORS=['red','blue','green','gold'];const WARM=new Set(['red','gold']);const fam=c=>WARM.has(c)?'warm':'cool';const $=i=>document.getElementById(i);
+let G={live:false,score:0,moves:0,invalid:0,time:100,cols:[[],[],[],[]],f:[[],[],[],[]],sel:null,t:null};
+function makeDeck(){
+  // 3 cartas por columna, siempre resolubles en alguna foundation
+  const deck=[];
+  for(let n=1;n<=3;n++)for(let k=0;k<4;k++){const c=COLORS[(n+k)%4];deck.push({n,c,id:Math.random().toString(36).slice(2,8)})}
+  return deck.sort(()=>Math.random()-.5)
+}
+function setup(){const d=makeDeck();G.cols=[[],[],[],[]];for(let i=0;i<12;i++)G.cols[i%4].push(d[i]);G.f=[[],[],[],[]];G.sel=null;render()}
+function valid(card,target){if(!target)return true;return card.n>=target.n}
+function msg(t,ok){const f=$("feedback");f.textContent=t;f.style.color=ok?'#70f0bf':'#ff9aa5'}
+function render(){
+  $('score').textContent=G.score;$('moves').textContent=G.moves;$('invalid').textContent=G.invalid+'/8';$('time').textContent=G.time;$('cleared').textContent=G.cols.filter(c=>c.length===0).length+'/4';$('fprog').textContent=G.f.reduce((a,b)=>a+b.length,0)+'/12';
+  $('cols').innerHTML='';G.cols.forEach((col,ci)=>{const d=document.createElement('div');d.className='pile';d.innerHTML=`<b>Col ${ci+1}</b>`;const top=col[col.length-1];if(top){const c=document.createElement('div');c.className='card '+top.c+(G.sel&&G.sel.c===ci?' selected':'');c.textContent=`${top.c.toUpperCase()}-${top.n}`;c.onclick=()=>{if(!G.live)return;G.sel={c:ci,card:top};render();msg('Seleccionada. Elige foundation.',true)};d.appendChild(c);}else d.innerHTML+='<div style="opacity:.6">Vacía</div>';col.slice(0,-1).forEach(()=>{const p=document.createElement('div');p.className='card';p.style.opacity=.22;p.textContent='covered';d.appendChild(p)});$('cols').appendChild(d)});
+  $('founds').innerHTML='';G.f.forEach((fo,fi)=>{const d=document.createElement('div');d.className='foundation';d.innerHTML=`<b>Foundation ${fi+1}</b>`;const top=fo[fo.length-1];d.innerHTML+=top?`<div class='card ${top.c}'>TOP ${top.c.toUpperCase()}-${top.n}</div>`:'<div style="opacity:.6">Start with any 1</div>';
+  d.onclick=()=>moveToFoundation(fi);$('founds').appendChild(d)});
+}
+function moveToFoundation(fi){if(!G.live||!G.sel)return;const from=G.cols[G.sel.c],card=from[from.length-1],to=G.f[fi],top=to[to.length-1];
+ if(valid(card,top)){to.push(from.pop());G.moves++;const bonus=(top && fam(card.c)!==fam(top.c))?6:0;G.score+=24+to.length*3+bonus;msg(bonus?('Valid move ✔ + alternancia bonus'):('Valid move ✔'),true);G.sel=null;}
+ else{G.invalid++;G.score=Math.max(0,G.score-8);G.sel=null;msg('Invalid move',false);if(G.invalid>=8)return end(false,'Demasiados errores')}
+ if(G.cols.every(c=>c.length===0))return end(true,'Todas las columnas vacías');
+ render();}
+function hint(){if(!G.live)return;for(let ci=0;ci<4;ci++){const col=G.cols[ci];if(!col.length)continue;const card=col[col.length-1];for(let fi=0;fi<4;fi++){const top=G.f[fi][G.f[fi].length-1];if(valid(card,top)){msg(`Hint: Col ${ci+1} → Foundation ${fi+1}`,true);return}}}msg('Sin jugada válida ahora',false)}
+function end(win,why){G.live=false;clearInterval(G.t);$('result').textContent=`${win?'🏆 WIN':'💥 GAME OVER'} — ${why}. Score ${G.score}`;msg(win?'Run clear!':'Retry',win)}
+function start(){G={live:true,score:0,moves:0,invalid:0,time:100,cols:[[],[],[],[]],f:[[],[],[],[]],sel:null,t:null};setup();$('result').textContent='Run activo';msg('Mueve columnas a foundations',true);G.t=setInterval(()=>{if(!G.live)return;G.time--;if(G.time<=0)return end(false,'Tiempo agotado');$('time').textContent=G.time},1000)}
+$('start').onclick=start;$('hint').onclick=hint;$('reset').onclick=()=>{clearInterval(G.t);G.live=false;setup();$('result').textContent='Reset';msg('Ready',true)};setup();
 </script></body></html>

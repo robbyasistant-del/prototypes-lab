@@ -1,0 +1,33 @@
+
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Neon Ring Rescue</title>
+<style>
+:root{--bg:#070b18;--panel:#131d3d;--line:#35569a;--ink:#ecf2ff;--ok:#57e3a1;--bad:#ff808e;--acc:#73b7ff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(circle at 20% 0%,#1a2d64,#070b18 60%);color:var(--ink)}
+.wrap{max-width:920px;margin:0 auto;padding:16px}.panel{background:rgba(19,29,61,.92);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.cell{aspect-ratio:1;border-radius:10px;border:1px solid #395ca6;background:#142652;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;cursor:pointer}
+.cell.player{outline:3px solid #ffe07b}.cell.goal{box-shadow:0 0 0 2px #57e3a1 inset}.cell.trap{background:#4a1f45}.cell.coin{background:#1e4d46}
+.hud{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.k{background:#112049;border:1px solid #33539b;border-radius:10px;padding:8px;text-align:center}
+button,a{border:0;border-radius:10px;padding:10px 12px;font-weight:800;text-decoration:none;cursor:pointer}.p{background:linear-gradient(140deg,#77bcff,#5b8cff);color:#06112f}.g{background:#101d40;color:#dfe9ff;border:1px solid #4968b3}
+</style></head><body><div class="wrap">
+<div class="panel"><h1>Neon Ring Rescue</h1><p><b>C?mo jugar:</b> Llega al portal (??) en 6 rondas recogiendo al menos 2 fichas (?) por ronda. Usa teclas o toques. Trampas (?) quitan vida. <b>Win:</b> superar ronda 6. <b>Game over:</b> 0 vidas o sin tiempo.</p>
+<div class="hud"><div class="k">Ronda<br><b id="round">1/6</b></div><div class="k">Score<br><b id="score">0</b></div><div class="k">Vidas<br><b id="lives">3</b></div><div class="k">Monedas<br><b id="coins">0</b></div><div class="k">Tiempo<br><b id="time">75</b>s</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button id="start" class="p">Start Run</button><button id="reset" class="g">Reset</button><a class="g" href="./report.html">Open report</a></div>
+<p id="fb">Pulsa Start Run.</p></div>
+<div class="panel"><div id="board" class="grid"></div></div><div class="panel"><p id="result">Sin run.</p><p><small>Controles: flechas/WASD o tap en celdas adyacentes.</small></p></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);let S;
+function setup(){S={live:false,round:1,score:0,lives:3,time:75,coinsNeed:2,coins:0,size:5,pos:0,goal:24,traps:new Set(),coinsPos:new Set(),timer:null};build();render();}
+function rnd(max){return Math.floor(Math.random()*max)}
+function build(){S.pos=0;S.goal=24;S.coins=0;S.traps.clear();S.coinsPos.clear();while(S.traps.size<3+S.round){let v=rnd(25);if(v!==0&&v!==24)S.traps.add(v)}while(S.coinsPos.size<3){let v=rnd(25);if(v!==0&&v!==24&&!S.traps.has(v))S.coinsPos.add(v)}}
+function hud(){$('round').textContent=`${S.round}/6`;$('score').textContent=S.score;$('lives').textContent=S.lives;$('coins').textContent=`${S.coins}/${S.coinsNeed}`;$('time').textContent=S.time}
+function render(){hud();const b=$('board');b.innerHTML='';for(let i=0;i<25;i++){const c=document.createElement('button');c.className='cell';let t='';if(i===S.goal){c.classList.add('goal');t='??'}if(S.traps.has(i)) {c.classList.add('trap');t='?'}if(S.coinsPos.has(i)){c.classList.add('coin');t='?'}if(i===S.pos){c.classList.add('player');t='??'}c.textContent=t;c.onclick=()=>tap(i);b.appendChild(c)}}
+function neigh(a,b){const ar=Math.floor(a/5),ac=a%5,br=Math.floor(b/5),bc=b%5;return Math.abs(ar-br)+Math.abs(ac-bc)===1}
+function msg(t,ok=true){$('fb').textContent=t;$('fb').style.color=ok?'#73f0b8':'#ff9aa6'}
+function step(next){if(!S.live||!neigh(S.pos,next))return;S.pos=next;S.score+=2;if(S.coinsPos.has(next)){S.coinsPos.delete(next);S.coins++;S.score+=20;msg('Nice pickup +20',true)}if(S.traps.has(next)){S.lives--;S.score=Math.max(0,S.score-12);msg('Trap hit -1 vida',false)}if(S.lives<=0)return end(false,'Sin vidas');if(next===S.goal){if(S.coins>=S.coinsNeed){S.score+=35+S.time;S.round++;if(S.round>6)return end(true,'Rescate completado');build();msg('Round clear + bonus',true)}else{msg('Necesitas 2 monedas para activar portal',false)}}render();}
+function tap(i){step(i)}
+window.addEventListener('keydown',e=>{if(!S.live)return;const map={ArrowUp:-5,ArrowDown:5,ArrowLeft:-1,ArrowRight:1,w:-5,s:5,a:-1,d:1};const d=map[e.key];if(d===undefined)return;const n=S.pos+d;if(n<0||n>24)return;if((d===-1&&S.pos%5===0)||(d===1&&S.pos%5===4))return;step(n)})
+function start(){setup();S.live=true;clearInterval(S.timer);S.timer=setInterval(()=>{if(!S.live)return;S.time--;if(S.time<=0)end(false,'Tiempo agotado');hud()},1000);$('result').textContent='Run activo';msg('Recolecta 2 fichas y escapa por el portal',true)}
+function end(win,why){S.live=false;clearInterval(S.timer);$('result').textContent=`${win?'?? WIN':'?? GAME OVER'} ? ${why}. Score ${S.score}. Badge: ${S.score>260?'Platinum':'Silver'}`;msg(win?'Excelente run':'Intenta otra run',win)}
+$('start').onclick=start;$('reset').onclick=()=>{clearInterval(S.timer);setup();$('result').textContent='Reset';msg('Listo para nueva run',true)};setup();
+</script></body></html>

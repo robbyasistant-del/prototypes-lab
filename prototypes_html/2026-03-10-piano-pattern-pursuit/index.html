@@ -1,0 +1,20 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Piano Pattern Pursuit</title><style>
+body{margin:0;font-family:Inter,Segoe UI,sans-serif;background:#061318;color:#ebfffb}.wrap{max-width:900px;margin:0 auto;padding:20px}.panel{background:#0d2027;border:1px solid #21515f;border-radius:16px;padding:16px}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.k{height:90px;border-radius:12px;background:#12313b;border:1px solid #2d6f80;cursor:pointer;color:#d4fbff;font-weight:700}
+.k.on{background:linear-gradient(145deg,#34d399,#22d3ee);color:#01222a}.row{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#11303a;border:1px solid #2d6f80;border-radius:999px;padding:6px 10px;font-size:12px}
+button{background:linear-gradient(145deg,#34d399,#22d3ee);border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+</style></head><body><div class="wrap"><div class="panel"><h1>Piano Pattern Pursuit</h1><p>Instrucciones: mira la secuencia, luego rep?tela tocando las 4 teclas (A,S,D,F). 7 niveles, 3 vidas. Cada acierto suma score y da monedas para badge.</p>
+<div class="row"><div class="pill" id="level">Nivel: 1/7</div><div class="pill" id="lives">Vidas: 3</div><div class="pill" id="score">Score: 0</div><div class="pill" id="coins">Monedas: 0</div><div class="pill" id="badge">Badge: -</div></div>
+<div class="keys" id="keys"></div><p id="feed">Pulsa Start para comenzar.</p><div style="display:flex;gap:8px"><button id="start">Start / Restart</button><a href="./report.html" class="pill" style="text-decoration:none">Ver report</a></div></div></div>
+<script>
+const labels=['A','S','D','F'];const ks=document.getElementById('keys');labels.forEach((l,i)=>{const b=document.createElement('button');b.className='k';b.textContent=l;b.dataset.i=i;ks.appendChild(b)});
+let level=1,lives=3,score=0,coins=0,seq=[],input=[],accept=false,done=false;
+const lvl=document.getElementById('level'),liv=document.getElementById('lives'),sc=document.getElementById('score'),co=document.getElementById('coins'),ba=document.getElementById('badge'),feed=document.getElementById('feed');
+function badge(){return coins>=120?'Maestro Nova':coins>=80?'Rhythm Pilot':coins>=40?'Pulse Learner':'Warmup'}
+function ui(){lvl.textContent=`Nivel: ${Math.min(level,7)}/7`;liv.textContent=`Vidas: ${lives}`;sc.textContent=`Score: ${score}`;co.textContent=`Monedas: ${coins}`;ba.textContent='Badge: '+badge()}
+function flash(i,t=320){return new Promise(r=>{const k=document.querySelector(`.k[data-i="${i}"]`);k.classList.add('on');setTimeout(()=>{k.classList.remove('on');r()},t)})}
+async function playSeq(){accept=false;feed.textContent='Memoriza...';for(const i of seq){await flash(i,260);await new Promise(r=>setTimeout(r,120))}accept=true;input=[];feed.textContent='Tu turno: repite la secuencia';}
+function nextLevel(){if(level>7){done=true;accept=false;feed.innerHTML=`<b>WIN</b> Score ${score}. Badge ${badge()}`;return;}seq=Array.from({length:level+2},()=>Math.floor(Math.random()*4));playSeq();ui()}
+ks.addEventListener('click',async(e)=>{const k=e.target.closest('.k');if(!k||!accept||done)return;const i=Number(k.dataset.i);await flash(i,120);input.push(i);const pos=input.length-1;if(input[pos]!==seq[pos]){lives--;score=Math.max(0,score-8);feed.textContent='? Nota incorrecta';if(lives<=0){done=true;accept=false;feed.innerHTML=`<b>GAME OVER</b> Score ${score}. Badge ${badge()}`;ui();return;}playSeq();ui();return;}if(input.length===seq.length){score+=14+level*4;coins+=8+level*2;feed.textContent='? Perfect chain';level++;setTimeout(nextLevel,500);}ui();});
+document.getElementById('start').onclick=()=>{level=1;lives=3;score=0;coins=0;done=false;ui();nextLevel()};ui();
+</script></body></html>

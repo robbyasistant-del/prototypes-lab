@@ -1,0 +1,23 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wordlane Escape Run</title><style>
+body{margin:0;font-family:Inter,Segoe UI,sans-serif;background:#1a090d;color:#ffeef2}.wrap{max-width:960px;margin:0 auto;padding:20px}.panel{background:#2a0f16;border:1px solid #6f2b3f;border-radius:16px;padding:16px}
+.lane{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.tile{width:58px;height:58px;border-radius:12px;border:1px solid #894156;background:#3a1522;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;cursor:pointer}
+.tile.sel{outline:2px solid #f59e0b}.row{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#3a1522;border:1px solid #7c3651;border-radius:999px;padding:6px 10px;font-size:12px}
+button{background:linear-gradient(145deg,#f59e0b,#f43f5e);border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;color:#20040d}
+</style></head><body><div class="wrap"><div class="panel"><h1>Wordlane Escape Run</h1><p>Instrucciones: forma palabras v?lidas (3-5 letras) tocando letras en orden. Tienes 60s y 3 bloqueos. Cada palabra limpia un bloqueo; si llegas a 8 palabras ganas.</p>
+<div class="row"><div class="pill" id="time">Tiempo: 60</div><div class="pill" id="score">Score: 0</div><div class="pill" id="locks">Bloqueos: 3</div><div class="pill" id="words">Palabras: 0/8</div><div class="pill" id="badge">Badge: -</div></div>
+<div class="lane" id="lane"></div><div class="row"><button id="submit">Enviar palabra</button><button id="clear">Limpiar</button><button id="restart">Reiniciar</button><a href="./report.html" class="pill" style="text-decoration:none">Ver report</a></div><p id="current">Actual: -</p><p id="feed">Pulsa Reiniciar para jugar.</p></div></div>
+<script>
+const dict=new Set(['SOL','MAR','LUNA','RUNA','CARTA','RUTA','MUSA','RISO','ROSA','SOMA','LISO','MORA','MURAL','RUMA','LORO','RAMA','SALA','SILO','MILO','SURI','LIRA','RIAL','MISO','RIMA','RUMOR','MURAL','MURAL']);
+const letters='AALMRSUOIRTNL';
+let selected=[],score=0,locks=3,time=60,words=0,done=false,timer=null;
+const lane=document.getElementById('lane'),cur=document.getElementById('current'),feed=document.getElementById('feed');
+const t=document.getElementById('time'),s=document.getElementById('score'),l=document.getElementById('locks'),w=document.getElementById('words'),b=document.getElementById('badge');
+function badge(){return score>=220?'Escape Legend':score>=150?'Lane Hacker':score>=90?'Word Runner':'Starter'}
+function ui(){t.textContent='Tiempo: '+time;s.textContent='Score: '+score;l.textContent='Bloqueos: '+locks;w.textContent=`Palabras: ${words}/8`;b.textContent='Badge: '+badge();cur.textContent='Actual: '+(selected.join('')||'-')}
+function gen(){lane.innerHTML='';for(let i=0;i<10;i++){const ch=letters[Math.floor(Math.random()*letters.length)];const d=document.createElement('div');d.className='tile';d.textContent=ch;d.onclick=()=>{if(done)return;d.classList.toggle('sel');if(d.classList.contains('sel'))selected.push(ch);else{const ix=selected.indexOf(ch);if(ix>=0)selected.splice(ix,1);}ui()};lane.appendChild(d)}}
+function end(win){done=true;clearInterval(timer);feed.innerHTML=`<b>${win?'WIN':'GAME OVER'}</b> Score ${score}. Badge ${badge()}`}
+document.getElementById('submit').onclick=()=>{if(done)return;const word=selected.join('');if(word.length<3){feed.textContent='Min 3 letras';return;}if(dict.has(word)){score+=18+word.length*3;words++;locks=Math.max(0,locks-1);feed.textContent='? '+word+' v?lida';if(words>=8){end(true);ui();return;}}else{score=Math.max(0,score-10);locks++;feed.textContent='? '+word+' no v?lida';if(locks>=6){end(false);ui();return;}}selected=[];document.querySelectorAll('.tile').forEach(x=>x.classList.remove('sel'));gen();ui();};
+document.getElementById('clear').onclick=()=>{selected=[];document.querySelectorAll('.tile').forEach(x=>x.classList.remove('sel'));ui()};
+document.getElementById('restart').onclick=()=>{selected=[];score=0;locks=3;time=60;words=0;done=false;gen();ui();feed.textContent='Run iniciada';clearInterval(timer);timer=setInterval(()=>{if(done)return;time--;ui();if(time<=0)end(words>=8)},1000)};
+ui();
+</script></body></html>

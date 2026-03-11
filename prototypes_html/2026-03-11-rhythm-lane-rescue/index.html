@@ -1,0 +1,22 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rhythm Lane Rescue</title><style>
+body{margin:0;font-family:Inter,Segoe UI,sans-serif;background:#07101f;color:#e9f1ff}.wrap{max-width:980px;margin:0 auto;padding:20px}
+.panel{background:#111d35;border:1px solid #2e4576;border-radius:16px;padding:16px}h1{margin:.1em 0}p{line-height:1.45}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.pill{background:#18284a;border:1px solid #33518b;border-radius:999px;padding:6px 10px;font-size:12px}
+button{background:linear-gradient(145deg,#60a5fa,#22d3ee);border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+button.alt{background:#1a2a4c;color:#dbeafe;border:1px solid #365089}a{color:#9bd4ff;text-decoration:none}
+.grid{display:grid;gap:10px}.center{text-align:center}.big{font-size:28px;font-weight:800}
+input,select{background:#0f1a30;color:#eaf2ff;border:1px solid #355084;border-radius:8px;padding:8px}
+</style></head><body><div class="wrap"><div class="panel"><h1>Rhythm Lane Rescue</h1><p><b>Instrucciones:</b> Memoriza una mini secuencia de flechas y repítela con teclado (↑ ↓ ← →). 6 rondas, 3 vidas. Ideal sesiones de 90s.</p>
+<div class="row"><div class="pill" id="round">Ronda 1/6</div><div class="pill" id="lives">Vidas: 3</div><div class="pill" id="combo">Combo: 0</div><div class="pill" id="score">Score: 0</div><div class="pill" id="medal">Medal: Bronze Beat</div></div>
+<div class="center big" id="show">-</div><div class="center" id="prompt">Pulsa Start para iniciar patrón.</div>
+<div class="row"><button id="start">Start / Restart</button><button class="alt" id="replay">Replay Pattern</button></div><p id="feed">Feedback en tiempo real aquí.</p>
+<div class="row"><a class="pill" href="./report.html">Ver report detallado</a></div></div></div><script>const dirs=['↑','↓','←','→'];let round=1,lives=3,combo=0,score=0,seq=[],pos=0,accept=false,done=false;
+const $=id=>document.getElementById(id);
+function medal(){return score>=180?'Platinum Pulse':score>=100?'Gold Beat':'Bronze Beat'}
+function ui(){ $('round').textContent=`Ronda ${Math.min(round,6)}/6`; $('lives').textContent=`Vidas: ${lives}`; $('combo').textContent=`Combo: ${combo}`; $('score').textContent=`Score: ${score}`; $('medal').textContent='Medal: '+medal();}
+function gen(){seq=Array.from({length:round+1},()=>Math.floor(Math.random()*4)); pos=0;}
+async function show(){accept=false; $('show').textContent=''; for(const i of seq){$('show').textContent=dirs[i]; await new Promise(r=>setTimeout(r,420)); $('show').textContent='·'; await new Promise(r=>setTimeout(r,180));} $('show').textContent='?'; accept=true; $('prompt').textContent='Tu turno: usa flechas';}
+function over(win){done=true;accept=false; $('feed').innerHTML= win?`<b>WIN</b> carriles salvados. Score ${score}. Medal ${medal()}`:`<b>GAME OVER</b> sin vidas. Score ${score}. Medal ${medal()}`;}
+$('start').onclick=()=>{round=1;lives=3;combo=0;score=0;done=false;gen();ui();show();$('feed').textContent='Repite el patrón.';}
+$('replay').onclick=()=>{ if(!done&&seq.length)show(); };
+document.addEventListener('keydown',(e)=>{if(!accept||done)return; const map={'ArrowUp':0,'ArrowDown':1,'ArrowLeft':2,'ArrowRight':3}; if(!(e.key in map))return; const hit=map[e.key]; if(hit===seq[pos]){pos++;combo++;score+=8+Math.min(combo,6); $('feed').textContent='Nice hit'; if(pos===seq.length){round++; if(round>6){ui(); over(true); return;} gen(); setTimeout(show,350);} } else {lives--;combo=0;score=Math.max(0,score-10); $('feed').textContent='Miss!'; if(lives<=0){ui(); over(false); return;} pos=0; setTimeout(show,300);} ui();}); ui();</script></body></html>

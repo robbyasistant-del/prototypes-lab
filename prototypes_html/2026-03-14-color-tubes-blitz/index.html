@@ -1,0 +1,39 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Color Tubes Blitz</title>
+<style>
+:root{--bg:#06141a;--panel:#102831;--line:#2d6172;--txt:#e7fbff;--pri:#0891b2;--acc:#84cc16}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#163b4a,var(--bg));color:var(--txt);font-family:Inter,Segoe UI,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:20px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px}
+.tubes{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px}.tube{height:230px;border:2px solid #3e8398;border-radius:12px;padding:6px;display:flex;flex-direction:column-reverse;gap:5px;background:#0d1f26;cursor:pointer}
+.cell{height:24px;border-radius:7px}.empty{border:1px dashed #305f6d;background:transparent}.sel{outline:3px solid #fef08a}
+.row{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:linear-gradient(130deg,var(--pri),var(--acc));color:#03221b}.ghost{background:#0f2430;color:#e2f8ff;border:1px solid #40798d}
+</style></head><body><div class="wrap"><div class="card">
+<span>Sort Puzzle · Daily Sprint</span><h1>Color Tubes Blitz</h1>
+<p>Goal: deja cada tubo con un solo color (o vacío). Toca un tubo origen y luego destino. Max 55 movimientos. Immediate feedback en cada move.</p>
+<div class="row"><span>Moves: <b id="moves">0</b>/55</span><span>Score: <b id="score">0</b></span><span>Badge: <b id="badge">-</b></span></div>
+<div class="tubes" id="tubes"></div>
+<div class="row" style="margin-top:10px"><button class="btn primary" onclick="resetGame()">New Puzzle</button><a class="btn ghost" href="./report.html">Ver report</a></div>
+<p id="msg">Tip: solo puedes mover al mismo color o a tubo vacío.</p><div id="end"></div>
+</div></div>
+<script>
+const COLORS=['#38bdf8','#f97316','#a78bfa','#22c55e'];
+let state=[],selected=-1,moves=0,score=120,ended=false;
+function seed(){return [
+ [0,1,2,3],
+ [3,2,1,0],
+ [1,3,0,2],
+ [2,0,3,1],
+ [],[]
+];}
+function paint(idx){return idx===undefined?'transparent':COLORS[idx];}
+function render(){const root=document.getElementById('tubes');root.innerHTML='';state.forEach((tube,i)=>{const t=document.createElement('div');t.className='tube'+(selected===i?' sel':'');
+for(let s=0;s<4;s++){const c=document.createElement('div');if(s<tube.length){c.className='cell';c.style.background=paint(tube[s]);}else{c.className='cell empty';}t.appendChild(c);}t.onclick=()=>choose(i);root.appendChild(t);});
+document.getElementById('moves').textContent=moves;document.getElementById('score').textContent=Math.max(0,score);document.getElementById('badge').textContent=score>=95?'Tube Master 🏆':score>=70?'Color Captain 🥈':score>=45?'Sorting Scout 🥉':'-';}
+function canPour(from,to){if(from===to) return false; if(state[from].length===0||state[to].length===4) return false; const top=state[from][state[from].length-1]; const topTo=state[to][state[to].length-1]; return topTo===undefined || topTo===top;}
+function choose(i){if(ended)return; if(selected===-1){selected=i;render();return;} if(!canPour(selected,i)){document.getElementById('msg').textContent='Invalid move ❌';selected=-1;render();return;}
+const val=state[selected].pop();state[i].push(val);moves++;score-=2;document.getElementById('msg').textContent='Nice move ✅';selected=-1;check();render();}
+function solved(){return state.every(t=>t.length===0 || (t.length===4 && t.every(v=>v===t[0])));}
+function check(){if(solved()){ended=true;score+=20;document.getElementById('end').innerHTML=`<div class='card' style='margin-top:12px'><h2>YOU WIN</h2><p>Puzzle solved in <b>${moves}</b> moves. Badge: <b>${score>=95?'Tube Master 🏆':score>=70?'Color Captain 🥈':'Sorting Scout 🥉'}</b></p></div>`;return;}
+if(moves>=55){ended=true;document.getElementById('end').innerHTML=`<div class='card' style='margin-top:12px'><h2>GAME OVER</h2><p>Out of moves. Try a cleaner route.</p></div>`;}}
+function resetGame(){state=seed();selected=-1;moves=0;score=120;ended=false;document.getElementById('end').innerHTML='';document.getElementById('msg').textContent='Fresh puzzle loaded.';render();}
+resetGame();
+</script></body></html>

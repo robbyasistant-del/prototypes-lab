@@ -13,13 +13,13 @@
 
     #settings-btn,#stats-btn{position:absolute;top:max(22px,env(safe-area-inset-top,0px)+22px);z-index:5;width:48px;height:48px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease,opacity .2s}
     #settings-btn{right:max(60px,env(safe-area-inset-right,0px)+52px,calc(50% - 260px))}
-    #theme-btn{position:absolute;top:max(22px,env(safe-area-inset-top,0px)+22px);right:max(12px,env(safe-area-inset-right,0px)+4px,calc(50% - 300px));z-index:100;width:48px;height:48px;background:rgba(255,0,0,0.3);border:2px solid red;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    #theme-btn{position:fixed !important;top:22px !important;right:12px !important;z-index:99999 !important;width:48px !important;height:48px !important;background:rgba(255,0,0,0.5) !important;border:3px solid red !important;cursor:pointer !important;display:flex !important;align-items:center !important;justify-content:center !important}
     #theme-btn:active{transform:scale(.88)}
     #theme-btn svg{width:26px;height:26px;fill:#475569 !important;transition:fill .35s ease,transform .3s ease}
     #theme-btn:hover svg{fill:#475569}
     body.theme-dark #theme-btn svg{fill:#94a3b8}
     body.theme-dark #theme-btn:hover svg{fill:#cbd5e1}
-    #version-footer{position:fixed !important;bottom:16px !important;left:50% !important;transform:translateX(-50%) !important;padding:6px 14px !important;background:rgba(255,255,255,0.95) !important;border:2px solid #f43f5e !important;border-radius:12px !important;font-size:11px !important;font-weight:700 !important;color:#0f172a !important;pointer-events:none !important;z-index:99999 !important}
+    #version-footer{position:fixed;top:calc(100vh - 40px) !important;left:50% !important;transform:translateX(-50%) !important;padding:6px 14px !important;background:rgba(255,255,255,0.95) !important;border:2px solid #f43f5e !important;border-radius:12px !important;font-size:11px !important;font-weight:700 !important;color:#0f172a !important;pointer-events:none !important;z-index:99999 !important}
         body.theme-dark #version-footer{background:rgba(30,41,59,0.6);color:#cbd5e1}
     #stats-btn{left:max(12px,env(safe-area-inset-left,0px)+4px,calc(50% - 300px))}
     #settings-btn:active,#stats-btn:active{transform:scale(.88)}

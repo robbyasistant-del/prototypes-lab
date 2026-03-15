@@ -219,7 +219,7 @@ function setCamTarget(){ const c=platforms[player.idx],n=platforms[player.idx+1]
 let audioCtx, ambNode;
 function initAudio(){if(!audioCtx){try{audioCtx=new (window.AudioContext||window.webkitAudioContext)()}catch(_){}} if(audioCtx&&audioCtx.state==='suspended') audioCtx.resume(); updateAmbience();}
 function tone(f,t,d,v,del=0,type='sine'){if(!settings.sound||!audioCtx)return;const st=audioCtx.currentTime+del,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(f,st);if(t) o.frequency.exponentialRampToValueAtTime(t,st+d*.8);g.gain.setValueAtTime(v*settings.volume,st);g.gain.exponentialRampToValueAtTime(.001,st+d);o.connect(g);g.connect(audioCtx.destination);o.start(st);o.stop(st+d+.02)}
-function sfxJump(){if(settings.vibration&&navigator.vibrate)navigator.vibrate(10); tone(260,900,.16,.27,0,'sawtooth'); tone(520,240,.19,.18,.03,'triangle');}
+function sfxJump(){if(settings.vibration&&navigator.vibrate)navigator.vibrate(6);tone(180,220,.12,.15,0,'sine');tone(360,320,.14,.1,.02,'sine');}
 function sfxLand(dist){const p=clamp(1-dist/(170*S),.55,1.3); tone(180*p,80*p,.11,.28,0,'triangle');}
 function sfxPerfect(){[660,880,1100].forEach((n,i)=>tone(n,null,.24,.24-i*.05,i*.06,'sine'))}
 function sfxWin(){[523,659,784,1047].forEach((n,i)=>{tone(n,null,.55,.25,i*.11,'triangle');tone(n*2,null,.45,.12,i*.11,'sine')})}

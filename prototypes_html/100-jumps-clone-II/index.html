@@ -122,6 +122,7 @@
 <div id="version-footer">100 Jumps II - v<span id="version-hash">--</span></div>
 
 <script>
+document.addEventListener('DOMContentLoaded',()=>{
 const THEME_PRESETS = {
   light:{bg:'#edf2f8',platform:'#9aa8bd',score:'#23304d',dim:'#94a3b8',perfect:'#24c78b',life:'#ff5b78',char:'#6366f1',pupil:'#312e81'},
   dark:{bg:'#111827',platform:'#4b5563',score:'#e2e8f0',dim:'#64748b',perfect:'#34d399',life:'#fb7185',char:'#7c83ff',pupil:'#dbeafe'},
@@ -211,6 +212,7 @@ requestAnimationFrame(loop);
 document.addEventListener('keyup',e=>{if(e.code==='Space')up(e);});
 
 function sfxJump(){}function sfxLand(){}function sfxPerfect(){}function sfxLose(){}function addFloatText(text,x,y,color='#fff',size=14){}function updateFloatTexts(dt){}function drawFloatTexts(){}function spawnDust(x,y){}function spawnConfetti(x,y){}function drawParticles(){}function updateParticles(dt){}
+});
 </script>
 </body>
 </html>

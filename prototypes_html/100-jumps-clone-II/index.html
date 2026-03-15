@@ -661,6 +661,7 @@ let wowTimer;
 let wowEdgeDir;
 let nearMissShake;
 let inputBuffer;
+let jumpRotation = 0; // Rotación 360º durante el salto
 
 function getY(p) { return p.y; }
 
@@ -842,6 +843,7 @@ function resize() {
 }
 
 function init() {
+    jumpRotation = 0; // Reset rotación al iniciar
     resize();
     state = 'idle';
     power = 0; streak = 0; lives = 0;
@@ -921,7 +923,10 @@ function update(dt) {
         return;
     }
 
-    if (state === 'charging') { power = Math.min(1, power + dt / PHYSICS.chargeTime); }
+    if (state === 'charging') { 
+        power = Math.min(1, power + dt / PHYSICS.chargeTime); 
+        jumpRotation = 0; // Reset rotación al cargar
+    }
 
     if (wowTimer > 0) wowTimer = Math.max(0, wowTimer - dt);
     if (nearMissShake > 0) nearMissShake = Math.max(0, nearMissShake - dt);
@@ -932,6 +937,11 @@ function update(dt) {
         player.vy += PHYSICS.gravity * S * dt;
         player.x += player.vx * dt;
         player.y += player.vy * dt;
+        
+        // ROTACIÓN 360º: Completa una vuelta completa durante el salto
+        // La rotación es proporcional al tiempo de salto
+        jumpRotation += dt * 360; // 360 grados por segundo = 1 vuelta/segundo
+        if (jumpRotation >= 360) jumpRotation = 360; // Limitar a 360º máximo
 
         const cw = THEME.character.width * S;
         const ch = THEME.character.height * S;
@@ -1013,6 +1023,7 @@ function update(dt) {
 }
 
 function onLand(plat, targetIdx) {
+    jumpRotation = 0; // Reset rotación al aterrizar
     const ch = THEME.character.height * S;
     const cw = THEME.character.width * S;
     const jumpsUsed = targetIdx - player.platIdx;
@@ -1096,6 +1107,7 @@ function onLand(plat, targetIdx) {
 }
 
 function respawn() {
+    jumpRotation = 0; // Reset rotación al respawnear
     const p = platforms[player.platIdx];
     const cw = THEME.character.width * S;
     const ch = THEME.character.height * S;
@@ -1178,6 +1190,11 @@ function drawCharacter() {
         const decay = 1 - t;
         const angle = Math.sin(t * Math.PI * 8) * decay * 0.18;
         ctx.rotate(angle);
+    }
+    
+    // ROTACIÓN 360º durante el salto
+    if ((state === 'jumping' || state === 'falling') && typeof jumpRotation === 'number') {
+        ctx.rotate(jumpRotation * Math.PI / 180);
     }
 
     // COLOR PROGRESIVO: más morado según la carga
@@ -1452,6 +1469,7 @@ function clearSavedState() {
 }
 
 function restart() {
+    jumpRotation = 0; // Reset rotación al reiniciar
     clearSavedState();
     init();
     lastTS = 0;

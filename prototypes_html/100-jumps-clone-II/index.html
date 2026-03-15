@@ -258,12 +258,8 @@ function update(dt){
   if(state==='jumping'||state==='falling'){
     player.air += dt;
     player.vy += 2200*S*dt; player.x += player.vx*dt; player.y += player.vy*dt;
-    // Rotacion fija de 720 grados (2 vueltas) por salto, proporcional al tiempo de salto
-    if (!player.jumpStartTime) player.jumpStartTime = performance.now();
-    const jumpElapsed = (performance.now() - player.jumpStartTime) / 1000;
-    const jumpDuration = 0.8; // Duracion tipica del salto en segundos
-    const progress = Math.min(jumpElapsed / jumpDuration, 1);
-    jumpRot = progress * 720; // 0 a 720 grados
+    // Rotacion continua a velocidad x1 (420 deg/s)
+    jumpRot += dt*420;
     spawnTrail();
     const cw=27*S,ch=27*S,b=player.y+ch,pb=b-player.vy*dt,cx=player.x+cw/2;
     if(player.vy>0){
@@ -296,7 +292,6 @@ function update(dt){
 
 function onLand(plat,idx,cx){
   const old=player.idx; player.idx=idx; player.vx=player.vy=0; player.y=plat.y-27*S; state='idle'; jumpRot=0; bounce=1;
-  player.jumpStartTime = null; // Reset tiempo de salto
   const pc=plat.x+plat.w/2,dist=Math.abs(cx-pc),perfect=dist<=plat.w*.11;
   score.cleared += (idx-old); if(targetJumps()!==Infinity) score.remaining=Math.max(0,targetJumps()-score.cleared);
   if(score.cleared===1) unlock('first');
@@ -306,9 +301,14 @@ function onLand(plat,idx,cx){
   sfxLand(dist);
   if(perfect){
     streak++; spawnPerfect(cx,plat.y); sfxPerfect(); 
-    // Texto "Perfect!" flotante en verde
-    addFloatText('Perfect!', cx, plat.y - 40*S, '#22c55e', 22);
+    // Texto "Perfect!" flotante en verde (mas pequeno)
+    addFloatText('Perfect!', cx, plat.y - 40*S, '#22c55e', 16);
     if(streak>=3) unlock('triplePerfect');
+    // Cada 3 perfectos consecutivos = vida extra
+    if(streak % 3 === 0) {
+      lives++;
+      addFloatText('+1 LIFE', cx, plat.y - 60*S, '#ff5b78', 14);
+    }
   }
   else {streak=0; spawnDust(cx,plat.y+2*S);}
 
@@ -342,7 +342,7 @@ function drawBg(){
 }
 function drawPlat(p){const x=p.x-cam.x,y=p.y,w=p.w,h=8*S;if(x+w<-30||x>W+30)return; const a=ease(p.appear); ctx.globalAlpha=a;ctx.fillStyle=THEME_PRESETS[theme].platform;rr(ctx,x,y,w,h,4*S);ctx.fill();ctx.globalAlpha=1}
 function drawPlayer(){const t=THEME_PRESETS[theme],cw=27*S,ch=27*S,x=player.x-cam.x,y=player.y + Math.sin((1-bounce)*Math.PI)*2.2*S*bounce;ctx.save();ctx.translate(x+cw/2,y+ch);let sx=1,sy=1;if(state==='charging'){sx=1+power*.45;sy=1-power*.4}else if(state==='jumping'||state==='falling'){sx=player.vy<0?.88:1.08;sy=player.vy<0?1.14:.92}ctx.scale(sx,sy);if(state==='jumping'||state==='falling')ctx.rotate(jumpRot*Math.PI/180);ctx.fillStyle=t.char;rr(ctx,-cw/2,-ch,cw,ch,5.4*S);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-cw*.18,-ch*.58,3.8*S,0,Math.PI*2);ctx.arc(cw*.18,-ch*.58,3.8*S,0,Math.PI*2);ctx.fill();ctx.fillStyle=t.pupil;ctx.beginPath();ctx.arc(-cw*.16+1.2*S,-ch*.56,1.9*S,0,Math.PI*2);ctx.arc(cw*.2+1.2*S,-ch*.56,1.9*S,0,Math.PI*2);ctx.fill();ctx.strokeStyle=t.pupil;ctx.lineWidth=1.4*S;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(-cw*.14,-ch*.25);ctx.quadraticCurveTo(0,-ch*.18+(streak>0?2*S:0),cw*.14,-ch*.25);ctx.stroke();ctx.restore()}
-function drawHUD(){const t=THEME_PRESETS[theme];ctx.textAlign='center';ctx.textBaseline='top';ctx.font=`900 ${38*S}px system-ui`;const top=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat')||'0')+26*S;const val=mode==='zen'?score.cleared:(modeCfg().target===Infinity?score.cleared:score.remaining);ctx.fillStyle=t.score;ctx.fillText(val,W/2,top);ctx.font=`700 ${11*S}px system-ui`;ctx.fillStyle=t.dim;ctx.fillText(mode==='zen'?'jumps chilled':'jumps '+(mode==='time'?'remaining':'remaining'),W/2,top+41*S);const sec=((performance.now()-firstTs)/1000).toFixed(1);ctx.fillText(`${MODES[mode].name} · ${sec}s`,W/2,top+56*S);if(streak>0){ctx.fillStyle=t.perfect;ctx.fillText(`Perfect x${streak}`,W/2,top+71*S)}}
+function drawHUD(){const t=THEME_PRESETS[theme];ctx.textAlign='center';ctx.textBaseline='top';ctx.font=`900 ${38*S}px system-ui`;const top=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat')||'0')+26*S;const val=mode==='zen'?score.cleared:(modeCfg().target===Infinity?score.cleared:score.remaining);ctx.fillStyle=t.score;ctx.fillText(val,W/2,top);ctx.font=`700 ${11*S}px system-ui`;ctx.fillStyle=t.dim;ctx.fillText(mode==='zen'?'jumps chilled':'jumps '+(mode==='time'?'remaining':'remaining'),W/2,top+41*S);if(streak>0){ctx.fillStyle=t.perfect;ctx.fillText(`Perfect x${streak}`,W/2,top+56*S)}}
 function drawParticles(){for(const p of particles){const a=1-p.age/p.life;ctx.globalAlpha=a;if(p.type==='trail'||p.type==='spark'||p.type==='dust'||p.type==='appear'){ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.world?(p.x-cam.x):p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}else{ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.size,p.size*1.6)}}ctx.globalAlpha=1}
 
 function render(){drawBg();for(let i=Math.max(0,player.idx-2);i<platforms.length;i++){if(platforms[i].x-cam.x>W+120*S)break;drawPlat(platforms[i]);}drawParticles();drawPlayer();drawFloatTexts();drawHUD();}

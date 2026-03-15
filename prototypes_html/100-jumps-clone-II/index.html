@@ -220,7 +220,7 @@ async function copyShare(){try{await navigator.clipboard.writeText(shareText());
 function twitterShare(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText()),'_blank')}
 
 function spawn(type,x,y,cnt,col){for(let i=0;i<cnt;i++)particles.push({type,x,y,vx:rand(-150,150)*S,vy:rand(-240,10)*S,life:rand(.35,1.2),age:0,size:rand(2,6)*S,c:col||'#fff'})}
-function spawnTrail(){const cx=player.x+13*S-cam.x,cy=player.y+27*S; particles.push({type:'trail',x:cx,y:cy,vx:rand(-20,20)*S,vy:rand(15,70)*S,life:.25,age:0,size:rand(2,4)*S,c:THEME_PRESETS[theme].perfect})}
+function spawnTrail(){const cx=player.x+13*S-cam.x,cy=player.y+27*S;particles.push({type:'trail',x:cx,y:cy,vx:rand(-20,20)*S,vy:rand(15,70)*S,life:.25,age:0,size:rand(2,4)*S,c:THEME_PRESETS[theme].char})}
 function spawnPerfect(x,y){spawn('spark',x-cam.x,y,20,THEME_PRESETS[theme].perfect)}
 function spawnDust(x,y){spawn('dust',x-cam.x,y,14,'rgba(148,163,184,.85)')}
 function spawnConfetti(x,y){for(let i=0;i<90;i++)particles.push({type:'conf',x:x-cam.x,y,vx:rand(-220,220)*S,vy:rand(-320,-80)*S,life:rand(.8,1.8),age:0,size:rand(2,6)*S,c:['#f43f5e','#22d3ee','#eab308','#a855f7','#34d399'][Math.floor(Math.random()*5)]})}

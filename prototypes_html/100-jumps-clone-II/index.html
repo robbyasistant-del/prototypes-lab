@@ -181,7 +181,7 @@ function reset(){
   const y=H*.62;
   platforms=[{x:26*S,y,w:110*S,appear:1}];
   for(let i=1;i<12;i++) platforms.push(gen(platforms[i-1],i));
-  player={x:platforms[0].x+platforms[0].w*.35-13*S,y:y-27*S,vx:0,vy:0,idx:0,air:0};
+  player={x:platforms[0].x+platforms[0].w*.35-13*S,y:y-27*S,vx:0,vy:0,idx:0,air:0,jumpStartTime:null};
   cam={x:0,v:0,target:0};
   score={remaining:targetJumps(),cleared:0};
   state='idle';power=0;streak=0;lives=0;particles=[];runEnd=false;firstTs=performance.now();failCount=0;jumpRot=0;bounce=0;
@@ -250,14 +250,20 @@ function drawFloatTexts(){
 }
 
 function down(e){e.preventDefault();initAudio(); if(ui.modal.classList.contains('show')||ui.settingsOverlay.classList.contains('show')||ui.statsOverlay.classList.contains('show')) return; if(state==='idle'){state='charging';power=0}else if(state==='jumping'||state==='falling'){}}
-function up(e){e.preventDefault(); if(state!=='charging')return; sfxJump();const p=Math.max(.07,power); player.vx=(230+380*p)*S; player.vy=-(250+820*p)*S; state='jumping'; power=0; player.air=0; if(settings.vibration&&navigator.vibrate)navigator.vibrate(8)}
+function up(e){e.preventDefault(); if(state!=='charging')return; sfxJump();const p=Math.max(.07,power); player.vx=(230+380*p)*S; player.vy=-(250+820*p)*S; state='jumping'; power=0; player.air=0; player.jumpStartTime=performance.now(); if(settings.vibration&&navigator.vibrate)navigator.vibrate(8)}
 
 function update(dt){
   if(dt>.1)dt=.1;
   if(state==='charging') power=Math.min(1,power+dt/1.1);
   if(state==='jumping'||state==='falling'){
     player.air += dt;
-    player.vy += 2200*S*dt; player.x += player.vx*dt; player.y += player.vy*dt; jumpRot += dt*840;
+    player.vy += 2200*S*dt; player.x += player.vx*dt; player.y += player.vy*dt;
+    // Rotacion fija de 720 grados (2 vueltas) por salto, proporcional al tiempo de salto
+    if (!player.jumpStartTime) player.jumpStartTime = performance.now();
+    const jumpElapsed = (performance.now() - player.jumpStartTime) / 1000;
+    const jumpDuration = 0.8; // Duracion tipica del salto en segundos
+    const progress = Math.min(jumpElapsed / jumpDuration, 1);
+    jumpRot = progress * 720; // 0 a 720 grados
     spawnTrail();
     const cw=27*S,ch=27*S,b=player.y+ch,pb=b-player.vy*dt,cx=player.x+cw/2;
     if(player.vy>0){
@@ -290,6 +296,7 @@ function update(dt){
 
 function onLand(plat,idx,cx){
   const old=player.idx; player.idx=idx; player.vx=player.vy=0; player.y=plat.y-27*S; state='idle'; jumpRot=0; bounce=1;
+  player.jumpStartTime = null; // Reset tiempo de salto
   const pc=plat.x+plat.w/2,dist=Math.abs(cx-pc),perfect=dist<=plat.w*.11;
   score.cleared += (idx-old); if(targetJumps()!==Infinity) score.remaining=Math.max(0,targetJumps()-score.cleared);
   if(score.cleared===1) unlock('first');

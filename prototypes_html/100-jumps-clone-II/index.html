@@ -226,6 +226,29 @@ function spawnDust(x,y){spawn('dust',x-cam.x,y,14,'rgba(148,163,184,.85)')}
 function spawnConfetti(x,y){for(let i=0;i<90;i++)particles.push({type:'conf',x:x-cam.x,y,vx:rand(-220,220)*S,vy:rand(-320,-80)*S,life:rand(.8,1.8),age:0,size:rand(2,6)*S,c:['#f43f5e','#22d3ee','#eab308','#a855f7','#34d399'][Math.floor(Math.random()*5)]})}
 function spawnPlatformFx(p){for(let i=0;i<8;i++)particles.push({type:'appear',x:p.x+rand(0,p.w),y:p.y,vx:rand(-20,20)*S,vy:rand(-40,0)*S,life:.45,age:0,size:rand(1,3)*S,c:THEME_PRESETS[theme].dim,world:true})}
 
+// Texto flotante "Perfect!"
+let floatTexts=[];
+function addFloatText(text,x,y,color,size){
+  floatTexts.push({text,x,y,color,size,age:0,life:1.5,vx:0,vy:-30*S});
+}
+function drawFloatTexts(){
+  for(let i=floatTexts.length-1;i>=0;i--){
+    const f=floatTexts[i];
+    f.age+=0.016;
+    f.x+=f.vx*0.016;
+    f.y+=f.vy*0.016;
+    if(f.age>=f.life){floatTexts.splice(i,1);continue;}
+    const a=1-f.age/f.life;
+    ctx.save();
+    ctx.globalAlpha=a;
+    ctx.fillStyle=f.color;
+    ctx.font=`800 ${f.size*S}px system-ui`;
+    ctx.textAlign='center';
+    ctx.fillText(f.text,f.x-cam.x,f.y);
+    ctx.restore();
+  }
+}
+
 function down(e){e.preventDefault();initAudio(); if(ui.modal.classList.contains('show')||ui.settingsOverlay.classList.contains('show')||ui.statsOverlay.classList.contains('show')) return; if(state==='idle'){state='charging';power=0}else if(state==='jumping'||state==='falling'){}}
 function up(e){e.preventDefault(); if(state!=='charging')return; sfxJump();const p=Math.max(.07,power); player.vx=(230+380*p)*S; player.vy=-(250+820*p)*S; state='jumping'; power=0; player.air=0; if(settings.vibration&&navigator.vibrate)navigator.vibrate(8)}
 
@@ -274,7 +297,12 @@ function onLand(plat,idx,cx){
   if(Math.min(cx-plat.x,plat.x+plat.w-cx)<plat.w*.08){unlock('closeCall');}
 
   sfxLand(dist);
-  if(perfect){streak++; spawnPerfect(cx,plat.y); sfxPerfect(); if(streak>=3) unlock('triplePerfect');}
+  if(perfect){
+    streak++; spawnPerfect(cx,plat.y); sfxPerfect(); 
+    // Texto "Perfect!" flotante en verde
+    addFloatText('Perfect!', cx, plat.y - 40*S, '#22c55e', 22);
+    if(streak>=3) unlock('triplePerfect');
+  }
   else {streak=0; spawnDust(cx,plat.y+2*S);}
 
   if(modeCfg().target!==Infinity && score.cleared>=modeCfg().target){endRun(true);}
@@ -310,7 +338,7 @@ function drawPlayer(){const t=THEME_PRESETS[theme],cw=27*S,ch=27*S,x=player.x-ca
 function drawHUD(){const t=THEME_PRESETS[theme];ctx.textAlign='center';ctx.textBaseline='top';ctx.font=`900 ${38*S}px system-ui`;const top=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat')||'0')+26*S;const val=mode==='zen'?score.cleared:(modeCfg().target===Infinity?score.cleared:score.remaining);ctx.fillStyle=t.score;ctx.fillText(val,W/2,top);ctx.font=`700 ${11*S}px system-ui`;ctx.fillStyle=t.dim;ctx.fillText(mode==='zen'?'jumps chilled':'jumps '+(mode==='time'?'remaining':'remaining'),W/2,top+41*S);const sec=((performance.now()-firstTs)/1000).toFixed(1);ctx.fillText(`${MODES[mode].name} · ${sec}s`,W/2,top+56*S);if(streak>0){ctx.fillStyle=t.perfect;ctx.fillText(`Perfect x${streak}`,W/2,top+71*S)}}
 function drawParticles(){for(const p of particles){const a=1-p.age/p.life;ctx.globalAlpha=a;if(p.type==='trail'||p.type==='spark'||p.type==='dust'||p.type==='appear'){ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.world?(p.x-cam.x):p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}else{ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.size,p.size*1.6)}}ctx.globalAlpha=1}
 
-function render(){drawBg();for(let i=Math.max(0,player.idx-2);i<platforms.length;i++){if(platforms[i].x-cam.x>W+120*S)break;drawPlat(platforms[i]);}drawParticles();drawPlayer();drawHUD();}
+function render(){drawBg();for(let i=Math.max(0,player.idx-2);i<platforms.length;i++){if(platforms[i].x-cam.x>W+120*S)break;drawPlat(platforms[i]);}drawParticles();drawPlayer();drawFloatTexts();drawHUD();}
 
 function rr(c,x,y,w,h,r){r=Math.min(r,w/2,h/2);c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);c.lineTo(x+r,y+h);c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath()}
 

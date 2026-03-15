@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>100 Jumps - Streak Rush</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: none; }
+        body {
+            background: #0a0a0f;
+            overflow: hidden;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            user-select: none;
+        }
+        #gameCanvas {
+            display: block;
+            background: linear-gradient(180deg, #0f0f1a 0%, #050508 100%);
+        }
+        .ui-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ui-layer.interactive { pointer-events: auto; }
+        .hud {
+            position: absolute;
+            top: 15px; left: 15px; right: 15px;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+        .streak-display {
+            position: absolute;
+            top: 60px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px currentColor;
+            transition: transform 0.2s;
+        }
+        .streak-display.x1 { color: #9ca3af; }
+        .streak-display.x2 { color: #60a5fa; }
+        .streak-display.x3 { color: #34d399; }
+        .streak-display.x4 { color: #fbbf24; }
+        .streak-display.x5 { color: #f97316; }
+        .streak-display.x6 { color: #ef4444; }
+        .streak-display.x7 { color: #ec4899; }
+        .streak-display.x8 { color: #a855f7; }
+        .streak-display.x9 { color: #06b6d4; }
+        .streak-display.x10 { color: #fbbf24; animation: rainbow 1s infinite; }
+        @keyframes rainbow {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(30deg); }
+        }
+        .powerups {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        .powerup-btn {
+            width: 60px; height: 60px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .powerup-btn:hover:not(:disabled) {
+            transform: scale(1.1);
+            border-color: currentColor;
+        }
+        .powerup-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .powerup-btn.aim { color: #60a5fa; }
+        .powerup-btn.shield { color: #34d399; }
+        .powerup-btn.double { color: #fbbf24; }
+        .powerup-count {
+            position: absolute;
+            bottom: -5px; right: -5px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.75rem;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .world-indicator {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 15px;
+            text-align: right;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+        .world-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+        }
+        .charge-bar {
+            position: absolute;
+            bottom: 100px;
+            width: 200px; height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .charge-bar.active { opacity: 1; }
+        .charge-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #22c55e, #eab308, #ef4444);
+            border-radius: 5px;
+            transition: width 0.05s linear;
+        }
+        .start-screen, .game-over, .victory-screen {
+            background: rgba(10,10,15,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .start-screen h1, .game-over h1, .victory-screen h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .game-over h1 { background: linear-gradient(135deg, #ef4444, #f97316); }
+        .victory-screen h1 { background: linear-gradient(135deg, #22c55e, #3b82f6); }
+        .btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: 700;
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .leaderboard {
+            margin: 20px 0;
+            text-align: left;
+            color: white;
+        }
+        .leaderboard h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #fbbf24;
+        }
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.05);
+            margin: 5px 0;
+            border-radius: 8px;
+        }
+        .hidden { display: none !important; }
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .share-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .share-btn.twitter { background: #1da1f2; color: white; }
+        .share-btn.copy { background: rgba(255,255,255,0.2); color: white; }
+        .notification {
+            position: absolute;
+            top: 40%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fbbf24;
+            text-shadow: 0 0 20px currentColor;
+            animation: floatUp 2s forwards;
+            pointer-events: none;
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-100px) scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    
+    <div class="ui-layer" id="gameUI">
+        <div class="hud">
+            <div>SCORE: <span id="scoreDisplay">0</span></div>
+            <div>JUMP: <span id="jumpDisplay">0</span>/100</div>
+        </div>
+        
+        <div class="streak-display x1" id="streakDisplay">STREAK x1</div>
+        
+        <div class="world-indicator">
+            <div class="world-name" id="worldName">Azure Heights</div>
+            <div>World <span id="worldNum">1</span>/10</div>
+        </div>
+        
+        <div class="charge-bar" id="chargeBar">
+            <div class="charge-fill" id="chargeFill"></div>
+        </div>
+        
+        <div class="powerups">
+            <button class="powerup-btn aim" id="btnAim" onclick="game.usePowerUp('aim')" disabled>
+                🎯<span class="powerup-count" id="countAim">0</span>
+            </button>
+            <button class="powerup-btn shield" id="btnShield" onclick="game.usePowerUp('shield')" disabled>
+                🛡️<span class="powerup-count" id="countShield">0</span>
+            </button>
+            <button class="powerup-btn double" id="btnDouble" onclick="game.usePowerUp('double')" disabled>
+                ⭐<span class="powerup-count" id="countDouble">0</span>
+            </button>
+        </div>
+    </div>
+    
+    <div class="ui-layer interactive" id="startScreen">
+        <div class="start-screen">
+            <h1>🔥 STREAK RUSH</h1>
+            <p style="color: #9ca3af; margin-bottom: 20px;">Build streaks. Use power-ups. Reach 100.</p>
+            <div class="leaderboard" id="startLeaderboard"></div>
+            <button class="btn" onclick="game.start()">PLAY NOW</button>
+        </div>
+    </div>
+    
+    <div class="ui-layer interactive hidden" id="gameOverScreen">
+        <div class="game-over">
+            <h1>GAME OVER</h1>
+            <p style="color: white; font-size: 1.3rem;">Score: <span id="finalScore">0</span></p>
+            <p style="color: #fbbf24;">Max Streak: x<span id="finalStreak">1</span></p>
+            <p style="color: #60a5fa;">Jumps: <span id="finalJumps">0</span>/100</p>
+            <div class="share-buttons">
+                <button class="share-btn twitter" onclick="game.shareTwitter()">Share on X</button>
+                <button class="share-btn copy" onclick="game.copyResult()">Copy</button>
+            </div>
+            <button class="btn" onclick="game.restart()">TRY AGAIN</button>
+        </div>
+    </div>
+    
+    <div class="ui-layer interactive hidden" id="victoryScreen">
+        <div class="victory-screen">
+            <h1>🏆 VICTORY!</h1>
+            <p style="color: white; font-size: 1.5rem;">You conquered all 100 jumps!</p>
+            <p style="color: #fbbf24; font-size: 1.3rem;">Final Score: <span id="victoryScore">0</span></p>
+            <div class="share-buttons">
+                <button class="share-btn twitter" onclick="game.shareTwitter()">Share on X</button>
+                <button class="share-btn copy" onclick="game.copyResult()">Copy</button>
+            </div>
+            <button class="btn" onclick="game.restart()">PLAY AGAIN</button>
+        </div>
+    </div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+// Worlds configuration
+const worlds = [
+    { name: "Azure Heights", primary: "#3b82f6", bg: "#0f172a", particle: "#60a5fa" },
+    { name: "Emerald Peaks", primary: "#10b981", bg: "#064e3b", particle: "#34d399" },
+    { name: "Golden Cliffs", primary: "#f59e0b", bg: "#78350f", particle: "#fbbf24" },
+    { name: "Crimson Canyon", primary: "#ef4444", bg: "#7f1d1d", particle: "#f87171" },
+    { name: "Amethyst Sky", primary: "#8b5cf6", bg: "#4c1d95", particle: "#a78bfa" },
+    { name: "Cyan Depths", primary: "#06b6d4", bg: "#164e63", particle: "#22d3ee" },
+    { name: "Rose Gardens", primary: "#ec4899", bg: "#831843", particle: "#f472b6" },
+    { name: "Lime Terrace", primary: "#84cc16", bg: "#3f6212", particle: "#a3e635" },
+    { name: "Solar Spire", primary: "#f97316", bg: "#9a3412", particle: "#fb923c" },
+    { name: "Cosmic Summit", primary: "#fbbf24", bg: "#1e1b4b", particle: "#ffffff" }
+];
+
+class Game {
+    constructor() {
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        
+        this.reset();
+        this.setupInput();
+        this.loadLeaderboard();
+        this.updateStartLeaderboard();
+        
+        requestAnimationFrame(() => this.loop());
+    }
+    
+    resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    reset() {
+        this.state = 'start';
+        this.player = { x: 100, y: canvas.height - 200, vx: 0, vy: 0, radius: 15, grounded: true };
+        this.platforms = [];
+        this.particles = [];
+        this.camera = { x: 0, y: 0 };
+        
+        this.jumpCount = 0;
+        this.score = 0;
+        this.streak = 1;
+        this.maxStreak = 1;
+        this.perfectCount = 0;
+        
+        this.charge = 0;
+        this.charging = false;
+        this.maxCharge = 60;
+        
+        this.powerUps = { aim: 1, shield: 1, double: 0 };
+        this.activePowerUp = null;
+        this.powerUpTimer = 0;
+        
+        this.currentWorld = 0;
+        this.worldTransition = 0;
+        
+        this.aimLine = null;
+        this.showAim = false;
+        
+        this.notifications = [];
+        
+        this.generateInitialPlatforms();
+    }
+    
+    generateInitialPlatforms() {
+        this.platforms = [];
+        // Starting platform
+        this.platforms.push({
+            x: 50, y: canvas.height - 150,
+            width: 150, height: 20,
+            perfect: true, landed: true
+        });
+        // Generate next platforms
+        for (let i = 1; i < 8; i++) {
+            this.addPlatform(i);
+        }
+    }
+    
+    addPlatform(index) {
+        const last = this.platforms[this.platforms.length - 1];
+        const distance = 120 + Math.random() * 100 + (index * 2);
+        const heightVariation = (Math.random() - 0.5) * 150;
+        
+        this.platforms.push({
+            x: last.x + distance,
+            y: Math.max(200, Math.min(canvas.height - 100, last.y + heightVariation)),
+            width: 100 - Math.min(40, index * 0.5),
+            height: 20,
+            perfect: false, landed: false
+        });
+    }
+    
+    setupInput() {
+        this.keys = {};
+        
+        const startCharge = (e) => {
+            if (e.target.tagName === 'BUTTON') return;
+            if (this.state !== 'playing') return;
+            if (!this.player.grounded) return;
+            this.charging = true;
+            this.charge = 0;
+        };
+        
+        const endCharge = () => {
+            if (!this.charging) return;
+            this.charging = false;
+            this.jump();
+        };
+        
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') startCharge(e);
+        });
+        window.addEventListener('keyup', (e) => {
+            if (e.code === 'Space') endCharge();
+        });
+        
+        canvas.addEventListener('mousedown', startCharge);
+        canvas.addEventListener('mouseup', endCharge);
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startCharge(e); });
+        canvas.addEventListener('touchend', (e) => { e.preventDefault(); endCharge(); });
+    }
+    
+    start() {
+        document.getElementById('startScreen').classList.add('hidden');
+        document.getElementById('gameUI').classList.remove('hidden');
+        this.state = 'playing';
+        this.reset();
+    }
+    
+    jump() {
+        const power = 0.15 + (this.charge / this.maxCharge) * 0.25;
+        const angle = Math.PI / 4;
+        
+        this.player.vx = Math.cos(angle) * power * 25;
+        this.player.vy = -Math.sin(angle) * power * 25;
+        this.player.grounded = false;
+        
+        this.createParticles(this.player.x, this.player.y, 10, worlds[this.currentWorld].particle);
+        
+        if (this.activePowerUp === 'double') {
+            this.activePowerUp = null;
+        }
+    }
+    
+    update() {
+        if (this.state !== 'playing') return;
+        
+        // Charging
+        if (this.charging) {
+            this.charge = Math.min(this.charge + 1, this.maxCharge);
+            document.getElementById('chargeBar').classList.add('active');
+            document.getElementById('chargeFill').style.width = (this.charge / this.maxCharge * 100) + '%';
+        } else {
+            document.getElementById('chargeBar').classList.remove('active');
+        }
+        
+        // Physics
+        this.player.vy += 0.5; // Gravity
+        this.player.x += this.player.vx;
+        this.player.y += this.player.vy;
+        this.player.vx *= 0.995; // Air resistance
+        
+        // Platform collisions
+        for (let platform of this.platforms) {
+            if (this.player.vy > 0 && // Falling
+                this.player.x > platform.x && 
+                this.player.x < platform.x + platform.width &&
+                this.player.y + this.player.radius > platform.y &&
+                this.player.y + this.player.radius < platform.y + platform.height + 20) {
+                
+                this.landOnPlatform(platform);
+                break;
+            }
+        }
+        
+        // Check death
+        if (this.player.y > canvas.height + 100) {
+            if (this.powerUps.shield > 0 && this.streak > 1) {
+                this.powerUps.shield--;
+                this.addNotification('🛡️ SHIELD SAVED!');
+                this.player.y = canvas.height / 2;
+                this.player.vy = -10;
+            } else {
+                this.gameOver();
+            }
+        }
+        
+        // Camera follow
+        this.camera.x = this.player.x - canvas.width * 0.3;
+        
+        // Generate platforms ahead
+        const lastPlatform = this.platforms[this.platforms.length - 1];
+        if (lastPlatform.x - this.camera.x < canvas.width * 1.5) {
+            this.addPlatform(this.platforms.length);
+        }
+        
+        // Remove old platforms
+        this.platforms = this.platforms.filter(p => p.x > this.camera.x - 200);
+        
+        // World progression
+        const newWorld = Math.floor(this.jumpCount / 10);
+        if (newWorld !== this.currentWorld && newWorld < worlds.length) {
+            this.currentWorld = newWorld;
+            this.addNotification(`🌍 ${worlds[this.currentWorld].name}!`);
+        }
+        
+        // Particles
+        this.particles = this.particles.filter(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.2;
+            p.life--;
+            return p.life > 0;
+        });
+        
+        // Notifications
+        this.notifications = this.notifications.filter(n => {
+            n.life--;
+            return n.life > 0;
+        });
+        
+        this.updateUI();
+    }
+    
+    landOnPlatform(platform) {
+        if (platform.landed) return;
+        
+        this.player.y = platform.y - this.player.radius;
+        this.player.vy = 0;
+        this.player.vx = 0;
+        this.player.grounded = true;
+        platform.landed = true;
+        
+        this.jumpCount++;
+        
+        // Check perfect landing (center 30%)
+        const center = platform.x + platform.width / 2;
+        const isPerfect = Math.abs(this.player.x - center) < platform.width * 0.15;
+        
+        if (isPerfect || this.activePowerUp === 'double') {
+            this.streak = Math.min(this.streak + 1, 10);
+            this.perfectCount++;
+            this.score += 100 * this.streak;
+            this.createParticles(this.player.x, this.player.y, 20, '#fbbf24');
+            this.addNotification(`PERFECT! x${this.streak} 🔥`);
+            
+            // Power-up rewards
+            if (this.perfectCount % 5 === 0) {
+                this.powerUps.shield++;
+                this.addNotification('+1 🛡️ Shield!');
+            }
+            if (this.perfectCount % 10 === 0) {
+                this.powerUps.double++;
+                this.addNotification('+1 ⭐ Double!');
+            }
+        } else {
+            this.streak = 1;
+            this.score += 50;
+            this.addNotification('GOOD');
+        }
+        
+        this.maxStreak = Math.max(this.maxStreak, this.streak);
+        
+        if (this.jumpCount >= 100) {
+            this.victory();
+        }
+    }
+    
+    usePowerUp(type) {
+        if (this.powerUps[type] <= 0) return;
+        this.powerUps[type]--;
+        this.activePowerUp = type;
+        
+        if (type === 'aim') {
+            this.showAim = true;
+            this.addNotification('🎯 AIM ACTIVATED');
+            setTimeout(() => { this.showAim = false; }, 5000);
+        } else if (type === 'shield') {
+            this.addNotification('🛡️ SHIELD READY');
+        } else if (type === 'double') {
+            this.addNotification('⭐ DOUBLE PERFECT!');
+        }
+        
+        this.updateUI();
+    }
+    
+    createParticles(x, y, count, color) {
+        for (let i = 0; i < count; i++) {
+            this.particles.push({
+                x: x, y: y,
+                vx: (Math.random() - 0.5) * 10,
+                vy: (Math.random() - 0.5) * 10,
+                life: 30 + Math.random() * 20,
+                color: color,
+                size: 2 + Math.random() * 4
+            });
+        }
+    }
+    
+    addNotification(text) {
+        this.notifications.push({ text, life: 60 });
+    }
+    
+    draw() {
+        // Clear
+        const world = worlds[this.currentWorld];
+        ctx.fillStyle = world.bg;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.save();
+        ctx.translate(-this.camera.x, 0);
+        
+        // Draw platforms
+        for (let platform of this.platforms) {
+            // Perfect zone indicator
+            const center = platform.x + platform.width / 2;
+            ctx.fillStyle = 'rgba(251, 191, 36, 0.3)';
+            ctx.fillRect(center - platform.width * 0.15, platform.y - 2, platform.width * 0.3, 4);
+            
+            // Platform
+            ctx.fillStyle = platform.landed ? world.primary : '#64748b';
+            ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+            
+            // Glow effect
+            ctx.shadowColor = world.primary;
+            ctx.shadowBlur = 10;
+            ctx.fillRect(platform.x, platform.y, platform.width, 4);
+            ctx.shadowBlur = 0;
+        }
+        
+        // Draw aim line
+        if (this.showAim && this.charging) {
+            const power = 0.15 + (this.charge / this.maxCharge) * 0.25;
+            ctx.strokeStyle = 'rgba(96, 165, 250, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(this.player.x, this.player.y);
+            let simX = this.player.x;
+            let simY = this.player.y;
+            let simVx = Math.cos(Math.PI / 4) * power * 25;
+            let simVy = -Math.sin(Math.PI / 4) * power * 25;
+            for (let i = 0; i < 30; i++) {
+                simVy += 0.5;
+                simX += simVx;
+                simY += simVy;
+                ctx.lineTo(simX, simY);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+        
+        // Draw player with trail
+        if (this.streak >= 5) {
+            ctx.strokeStyle = worlds[this.currentWorld].particle;
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(this.player.x, this.player.y, this.player.radius + 5, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        
+        ctx.fillStyle = this.activePowerUp === 'double' ? '#fbbf24' : '#ffffff';
+        ctx.shadowColor = world.primary;
+        ctx.shadowBlur = 20;
+        ctx.beginPath();
+        ctx.arc(this.player.x, this.player.y, this.player.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        
+        // Draw particles
+        for (let p of this.particles) {
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.life / 50;
+            ctx.fillRect(p.x, p.y, p.size, p.size);
+        }
+        ctx.globalAlpha = 1;
+        
+        ctx.restore();
+        
+        // Draw notifications
+        ctx.font = 'bold 24px sans-serif';
+        ctx.textAlign = 'center';
+        for (let i = 0; i < this.notifications.length; i++) {
+            const n = this.notifications[i];
+            ctx.fillStyle = '#fbbf24';
+            ctx.fillText(n.text, canvas.width / 2, canvas.height / 2 - i * 30);
+        }
+    }
+    
+    updateUI() {
+        document.getElementById('scoreDisplay').textContent = this.score.toLocaleString();
+        document.getElementById('jumpDisplay').textContent = this.jumpCount;
+        
+        const streakEl = document.getElementById('streakDisplay');
+        streakEl.textContent = `STREAK x${this.streak}`;
+        streakEl.className = `streak-display x${this.streak}`;
+        
+        document.getElementById('worldName').textContent = worlds[this.currentWorld].name;
+        document.getElementById('worldNum').textContent = this.currentWorld + 1;
+        
+        document.getElementById('countAim').textContent = this.powerUps.aim;
+        document.getElementById('countShield').textContent = this.powerUps.shield;
+        document.getElementById('countDouble').textContent = this.powerUps.double;
+        
+        document.getElementById('btnAim').disabled = this.powerUps.aim <= 0;
+        document.getElementById('btnShield').disabled = this.powerUps.shield <= 0;
+        document.getElementById('btnDouble').disabled = this.powerUps.double <= 0;
+    }
+    
+    gameOver() {
+        this.state = 'gameover';
+        document.getElementById('gameOverScreen').classList.remove('hidden');
+        document.getElementById('finalScore').textContent = this.score.toLocaleString();
+        document.getElementById('finalStreak').textContent = this.maxStreak;
+        document.getElementById('finalJumps').textContent = this.jumpCount;
+        this.saveScore();
+    }
+    
+    victory() {
+        this.state = 'victory';
+        document.getElementById('victoryScreen').classList.remove('hidden');
+        document.getElementById('victoryScore').textContent = this.score.toLocaleString();
+        this.saveScore();
+    }
+    
+    restart() {
+        document.getElementById('gameOverScreen').classList.add('hidden');
+        document.getElementById('victoryScreen').classList.add('hidden');
+        this.start();
+    }
+    
+    saveScore() {
+        const scores = JSON.parse(localStorage.getItem('streakRushScores') || '[]');
+        scores.push({
+            score: this.score,
+            streak: this.maxStreak,
+            jumps: this.jumpCount,
+            date: new Date().toLocaleDateString()
+        });
+        scores.sort((a, b) => b.score - a.score);
+        localStorage.setItem('streakRushScores', JSON.stringify(scores.slice(0, 10)));
+    }
+    
+    loadLeaderboard() {
+        return JSON.parse(localStorage.getItem('streakRushScores') || '[]');
+    }
+    
+    updateStartLeaderboard() {
+        const scores = this.loadLeaderboard();
+        const container = document.getElementById('startLeaderboard');
+        if (scores.length === 0) {
+            container.innerHTML = '<p style="color: #64748b;">No scores yet. Be the first!</p>';
+            return;
+        }
+        let html = '<h3>🏆 TOP SCORES</h3>';
+        scores.slice(0, 5).forEach((s, i) => {
+            html += `<div class="leaderboard-entry">
+                <span>#${i+1} ${s.date}</span>
+                <span style="color: #fbbf24;">${s.score.toLocaleString()}</span>
+            </div>`;
+        });
+        container.innerHTML = html;
+    }
+    
+    shareTwitter() {
+        const text = `🔥 STREAK RUSH\nScore: ${this.score.toLocaleString()}\nMax Streak: x${this.maxStreak}\nJumps: ${this.jumpCount}/100\n\nCan you beat me?`;
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+    }
+    
+    copyResult() {
+        const text = `🔥 STREAK RUSH\nScore: ${this.score.toLocaleString()}\nMax Streak: x${this.maxStreak}\nJumps: ${this.jumpCount}/100`;
+        navigator.clipboard.writeText(text);
+        alert('Copied to clipboard!');
+    }
+    
+    loop() {
+        this.update();
+        this.draw();
+        requestAnimationFrame(() => this.loop());
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

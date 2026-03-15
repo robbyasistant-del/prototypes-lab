@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbit Weaver - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #050508 0%, #0a0a1a 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #64c8ff, #a855f7, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h2 {
+            color: #64c8ff;
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h3 {
+            color: #fff;
+            font-size: 18px;
+            margin: 20px 0 10px;
+        }
+        p { margin-bottom: 12px; }
+        .highlight {
+            background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(168,85,247,0.2));
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .tag {
+            display: inline-block;
+            background: rgba(100,200,255,0.2);
+            color: #64c8ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 3px;
+        }
+        .tag.purple { background: rgba(168,85,247,0.2); color: #a855f7; }
+        .tag.pink { background: rgba(244,114,182,0.2); color: #f472b6; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .metric-card {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .metric-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: #64c8ff;
+        }
+        .metric-label {
+            font-size: 13px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .risk-high { color: #ff4757; font-weight: 600; }
+        .risk-medium { color: #feca57; font-weight: 600; }
+        .risk-low { color: #2ed573; font-weight: 600; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            color: #64c8ff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .play-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #64c8ff, #a855f7);
+            color: #000;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        .play-btn:hover { transform: scale(1.05); }
+        .visual-box {
+            background: rgba(100,200,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(100,200,255,0.2);
+        }
+        .mechanic-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .flow-step {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .flow-arrow {
+            font-size: 24px;
+            color: #64c8ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🪐 ORBIT WEAVER</h1>
+        <p class="subtitle">Strategic Analysis & Market Positioning Report · March 15, 2026</p>
+        
+        <div class="section">
+            <h2>🎯 Concept Overview</h2>
+            <p>A <span class="highlight">physics-based orbital puzzle game</span> where players slingshot their ship between planets using gravitational forces. The goal is to collect all stars with limited shots, requiring precision planning and mastery of orbital mechanics.</p>
+            
+            <div style="margin-top: 20px;">
+                <span class="tag">Physics Puzzle</span>
+                <span class="tag purple">Precision</span>
+                <span class="tag pink">Space Theme</span>
+                <span class="tag">Level-based</span>
+                <span class="tag purple">3-Star System</span>
+            </div>
+            
+            <div class="mechanic-flow">
+                <div class="flow-step">🎯 Aim</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">🚀 Launch</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">🪐 Orbit</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">⭐ Collect</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎮 Core Loop Analysis</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Session Flow (5-15 min)</h3>
+                    <ul>
+                        <li><strong>0-5s:</strong> Level loads, see planets + stars</li>
+                        <li><strong>5-30s:</strong> Analyze gravity fields, plan trajectory</li>
+                        <li><strong>30-60s:</strong> First attempt, learn physics</li>
+                        <li><strong>1-5min:</strong> Iterate, refine, perfect solution</li>
+                        <li><strong>Complete:</strong> Star rating, unlock next level</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Retention Hooks</h3>
+                    <ul>
+                        <li><strong>3-Star Challenge:</strong> Perfectionist replay driver</li>
+                        <li><strong>Progressive Difficulty:</strong> 9 levels, each unique</li>
+                        <li><strong>Level Unlock:</strong> Gated progression creates goals</li>
+                        <li><strong>"Aha!" Moments:</strong> Satisfying solution discovery</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Target KPIs</h2>
+            <div class="grid-2">
+                <div class="metric-card">
+                    <div class="metric-value">10min</div>
+                    <div class="metric-label">Avg Session</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2-3x</div>
+                    <div class="metric-label">Sessions Per Day</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">40%</div>
+                    <div class="metric-label">D1 Retention Goal</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">4.6★</div>
+                    <div class="metric-label">Store Rating Target</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔍 SEO/ASO Strategy</h2>
+            
+            <h3>Primary Keywords</h3>
+            <p>
+                <span class="tag">physics puzzle</span>
+                <span class="tag purple">space game</span>
+                <span class="tag pink">gravity game</span>
+                <span class="tag">orbital mechanics</span>
+                <span class="tag purple">precision game</span>
+                <span class="tag pink">brain puzzle</span>
+            </p>
+            
+            <h3>Long-tail Opportunities</h3>
+            <ul>
+                <li>"slingshot gravity puzzle"</li>
+                <li>"space physics game"</li>
+                <li>"orbital trajectory game"</li>
+                <li>"planet gravity puzzle"</li>
+                <li>"interstellar puzzle game"</li>
+            </ul>
+            
+            <h3>App Title Variants</h3>
+            <table>
+                <tr><th>Variant</th><th>Priority</th><th>Rationale</th></tr>
+                <tr><td>Orbit Weaver</td><td>A</td><td>Poetic, unique, memorable</td></tr>
+                <tr><td>Gravity Slingshot</td><td>B</td><td>Descriptive mechanic focus</td></tr>
+                <tr><td>Orbital Puzzle</td><td>C</td><td>Category-first approach</td></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>📱 Viral & Organic Strategy</h2>
+            
+            <h3>UGC Creative Concepts</h3>
+            <ul>
+                <li><strong>"Impossible Shot":</strong> Insane multi-planet trajectories</li>
+                <li><strong>"Perfect 3 Stars":</strong> Satisfying optimal solutions</li>
+                <li><strong>"After 47 Attempts":</strong> Relatable struggle content</li>
+                <li><strong>"Space ASMR":</strong> Visual + sound design showcase</li>
+            </ul>
+            
+            <h3>Target Communities</h3>
+            <ul>
+                <li>r/physicsgifs - Perfect demographic fit</li>
+                <li>r/space - Aesthetic appreciation</li>
+                <li>r/puzzlegames - Core audience</li>
+                <li>r/IndieGaming - Early adopters</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Risk Assessment</h2>
+            
+            <table>
+                <tr><th>Risk</th><th>Level</th><th>Mitigation</th></tr>
+                <tr>
+                    <td>Physics complexity may frustrate casual players</td>
+                    <td class="risk-high">High</td>
+                    <td>Visual trajectory preview; forgiving first levels</td>
+                </tr>
+                <tr>
+                    <td>Finite content (9 levels prototype)</td>
+                    <td class="risk-medium">Medium</td>
+                    <td>Level editor; community levels; daily challenges</td>
+                </tr>
+                <tr>
+                    <td>Niche appeal vs mass market</td>
+                    <td class="risk-medium">Medium</td>
+                    <td>Strong ASO on puzzle keywords; precision marketing</td>
+                </tr>
+                <tr>
+                    <td>Performance on low-end devices</td>
+                    <td class="risk-low">Low>
+                    <td>2D canvas; particle count limits; quality settings</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Next Steps</h2>
+            <ol>
+                <li><strong>Content Expansion:</strong> 50+ levels with themed worlds</li>
+                <li><strong>Social Features:</strong> Ghost replays, level sharing</li>
+                <li><strong>Monetization:</strong> Hint packs, cosmetic trails, level editor unlock</li>
+                <li><strong>ASO:</strong> Emphasize "satisfying physics" in creatives</li>
+                <li><strong>Influencer:</strong> Target puzzle YouTubers (think Trace, BPS)</li>
+            </ol>
+            
+            <a href="./index.html" class="play-btn">▶ PLAY PROTOTYPE</a>
+        </div>
+    </div>
+</body>
+</html>

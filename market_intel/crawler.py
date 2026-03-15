@@ -5,6 +5,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+from html import escape
 from pathlib import Path
 
 BASE = Path(r"C:\Users\robby\.openclaw\workspace\market_intel\data")
@@ -30,6 +31,16 @@ X_TRENDS24_URLS = [
     "https://trends24.in/spain/",
     "https://trends24.in/mexico/",
 ]
+
+STOPWORDS = {
+    "with", "from", "that", "this", "game", "games", "puzzle", "daily", "para", "como",
+    "your", "have", "just", "about", "into", "will", "what", "when", "where", "they", "them",
+}
+PUZZLE_WORD_SIGNALS = {
+    "wordle", "words", "crossword", "crosswords", "scrabble", "spelling", "anagram", "anagrams",
+    "sudoku", "cryptic", "letters", "vocabulary", "guess", "trivia", "brain", "logic", "tiles",
+    "riddle", "riddles", "nyt", "mini", "connections",
+}
 
 
 def _get(url: str, timeout=25) -> str:
@@ -85,7 +96,6 @@ def crawl_google_trends(now_tag: str):
             root = ET.fromstring(raw)
             for item in root.findall(".//item"):
                 title = (item.findtext("title") or "").strip()
-                traffic = (item.findtext("ht:approx_traffic", default="") if False else "")
                 link = (item.findtext("link") or "").strip()
                 rows.append({
                     "ts": now_tag,
@@ -93,7 +103,7 @@ def crawl_google_trends(now_tag: str):
                     "geo": geo,
                     "title": title,
                     "link": link,
-                    "traffic": traffic,
+                    "traffic": "",
                 })
         except Exception as e:
             rows.append({"ts": now_tag, "source": "google_trends", "geo": geo, "error": str(e)})
@@ -105,7 +115,6 @@ def crawl_appbrain(now_tag: str):
     for url in APPBRAIN_URLS:
         try:
             html = _get(url)
-            # very lightweight extraction: app links + nearby text blocks
             for m in re.finditer(r'href="(/app/[^"]+)"[^>]*>([^<]{2,120})<', html):
                 rel, name = m.group(1), m.group(2).strip()
                 if not name:
@@ -174,8 +183,20 @@ def crawl_x_trends(now_tag: str):
     _write_jsonl(BASE / "raw" / "x_trends" / f"{datetime.now().date()}.jsonl", rows)
 
 
+def _extract_terms_from_row(row):
+    txt = " ".join(str(row.get(k, "")) for k in ["title", "app_name"]).lower()
+    words = re.findall(r"[a-záéíóúñ]{4,}", txt)
+    return [w for w in words if w not in STOPWORDS]
+
+
 def summarize(now_tag: str):
-    src_files = list((BASE / "raw" / "reddit").glob("*.jsonl")) + list((BASE / "raw" / "google_trends").glob("*.jsonl")) + list((BASE / "raw" / "appbrain").glob("*.jsonl")) + list((BASE / "raw" / "play_store").glob("*.jsonl")) + list((BASE / "raw" / "x_trends").glob("*.jsonl"))
+    src_files = (
+        list((BASE / "raw" / "reddit").glob("*.jsonl"))
+        + list((BASE / "raw" / "google_trends").glob("*.jsonl"))
+        + list((BASE / "raw" / "appbrain").glob("*.jsonl"))
+        + list((BASE / "raw" / "play_store").glob("*.jsonl"))
+        + list((BASE / "raw" / "x_trends").glob("*.jsonl"))
+    )
     terms = {}
     total = 0
     for fp in src_files:
@@ -184,11 +205,7 @@ def summarize(now_tag: str):
                 row = json.loads(line)
             except Exception:
                 continue
-            txt = " ".join(str(row.get(k, "")) for k in ["title", "app_name"]).lower()
-            words = re.findall(r"[a-záéíóúñ]{4,}", txt)
-            for w in words:
-                if w in {"with", "from", "that", "this", "game", "games", "puzzle", "daily", "para", "como"}:
-                    continue
+            for w in _extract_terms_from_row(row):
                 terms[w] = terms.get(w, 0) + 1
             total += 1
 
@@ -202,6 +219,128 @@ def summarize(now_tag: str):
     out_path = BASE / "analysis" / f"{datetime.now().date()}_summary.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+    return out_path, out
+
+
+def _load_daily_summaries():
+    data = []
+    for fp in sorted((BASE / "analysis").glob("*_summary.json")):
+        try:
+            obj = json.loads(fp.read_text(encoding="utf-8", errors="ignore"))
+            date = fp.name.split("_summary.json")[0]
+            terms = {k: int(v) for k, v in obj.get("top_terms", [])}
+            data.append({
+                "date": date,
+                "records_scanned": int(obj.get("records_scanned", 0)),
+                "terms": terms,
+            })
+        except Exception:
+            continue
+    return data
+
+
+def _top_risers(today_terms, prev_terms, limit=5):
+    deltas = []
+    for term, count in today_terms.items():
+        prev = prev_terms.get(term, 0)
+        delta = count - prev
+        if delta > 0:
+            deltas.append((term, delta, count))
+    deltas.sort(key=lambda x: (x[1], x[2]), reverse=True)
+    return deltas[:limit]
+
+
+def _puzzle_signal_line(today_terms, prev_terms):
+    items = []
+    for term in PUZZLE_WORD_SIGNALS:
+        if term in today_terms:
+            delta = today_terms.get(term, 0) - prev_terms.get(term, 0)
+            items.append((term, today_terms.get(term, 0), delta))
+    items.sort(key=lambda x: (x[2], x[1]), reverse=True)
+    return items[:6]
+
+
+def _market_takeaway(risers, puzzle_items):
+    if not risers:
+        return "Momentum appears stable vs prior day; no meaningful positive term acceleration detected."
+    strong_puzzle = [p for p in puzzle_items if p[2] > 0]
+    if strong_puzzle:
+        return (
+            "Puzzle/word intent is rising. Consider ASO around daily challenge loops, streak retention, and social sharing hooks; "
+            "short-session repeatability remains a core monetization driver."
+        )
+    return (
+        "Growth is broad but not puzzle-specific. Monitor adjacent casual genres and cross-promote word/puzzle titles via events "
+        "or limited-time modes to capture spillover demand."
+    )
+
+
+def update_html_report():
+    days = _load_daily_summaries()
+    if not days:
+        return None
+
+    rows_html = []
+    for i, day in enumerate(days):
+        prev_terms = days[i - 1]["terms"] if i > 0 else {}
+        risers = _top_risers(day["terms"], prev_terms)
+        puzzle_items = _puzzle_signal_line(day["terms"], prev_terms)
+
+        risers_text = ", ".join(f"{t} (+{d})" for t, d, _ in risers) if risers else "—"
+        puzzle_text = ", ".join(
+            f"{t} ({c}, {'+' if d >= 0 else ''}{d})" for t, c, d in puzzle_items
+        ) if puzzle_items else "No direct word/puzzle signal in top terms"
+        takeaway = _market_takeaway(risers, puzzle_items)
+
+        rows_html.append(
+            "<tr>"
+            f"<td>{escape(day['date'])}</td>"
+            f"<td>{day['records_scanned']}</td>"
+            f"<td>{escape(risers_text)}</td>"
+            f"<td>{escape(puzzle_text)}</td>"
+            f"<td>{escape(takeaway)}</td>"
+            "</tr>"
+        )
+
+    html = f"""<!doctype html>
+<html lang=\"en\">
+<head>
+  <meta charset=\"utf-8\" />
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
+  <title>Market Intel Trend Report</title>
+  <style>
+    body {{ font-family: Arial, sans-serif; margin: 20px; color: #1f2937; }}
+    h1 {{ margin: 0 0 8px 0; }}
+    .meta {{ color: #6b7280; margin-bottom: 16px; }}
+    table {{ border-collapse: collapse; width: 100%; }}
+    th, td {{ border: 1px solid #d1d5db; padding: 8px; text-align: left; vertical-align: top; }}
+    th {{ background: #f3f4f6; position: sticky; top: 0; }}
+    tr:nth-child(even) {{ background: #fafafa; }}
+  </style>
+</head>
+<body>
+  <h1>Daily Puzzle / Word Games Trend Report</h1>
+  <div class=\"meta\">Auto-updated on each crawler run. Data sources: Reddit, Google Trends, AppBrain, Play Store, Trends24.</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Records scanned</th>
+        <th>Main increases (term deltas)</th>
+        <th>Puzzle/word signals</th>
+        <th>Market analysis takeaway</th>
+      </tr>
+    </thead>
+    <tbody>
+      {''.join(rows_html)}
+    </tbody>
+  </table>
+</body>
+</html>
+"""
+
+    out_path = BASE / "analysis" / "trend_report.html"
+    out_path.write_text(html, encoding="utf-8")
     return out_path
 
 
@@ -212,8 +351,11 @@ def main():
     crawl_appbrain(now_tag)
     crawl_play_store(now_tag)
     crawl_x_trends(now_tag)
-    out = summarize(now_tag)
-    print(str(out))
+    summary_path, _ = summarize(now_tag)
+    report_path = update_html_report()
+    print(str(summary_path))
+    if report_path:
+        print(str(report_path))
 
 
 if __name__ == "__main__":

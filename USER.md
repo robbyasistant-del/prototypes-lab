@@ -6,7 +6,7 @@ _Learn about the person you're helping. Update this as you go._
 - **What to call them:** amo
 - **Pronouns:** _(optional)_
 - **Timezone:** Europe/Madrid
-- **Notes:** Prefers Spanglish (mostly Spanish + some English), close/direct tone, concise replies with mini-summary + steps, likes playful humor. Voice mode preference: when user says "responde en voz", reply with summarized audio using a neutral, servicial robotic style.
+- **Notes:** Prefers Spanglish (mostly Spanish + some English), close/direct tone, concise replies with mini-summary + steps, likes playful humor. Voice mode preference: when user says "reply in voice", respond with summarized audio in a neutral, service-oriented robotic style.
 
 ## Context
 
@@ -39,12 +39,12 @@ _Learn about the person you're helping. Update this as you go._
   - Always ask before decisions involving personal data or strategic business choices (which app to build, publishing/business direction).
 
 - **Task management workflow (kanban-first):**
-  - Usar `http://localhost:8765` (Kanban Dashboard) como sistema principal de ejecución.
-  - Tareas relevantes solicitadas por el usuario → crear en **Todo** y ejecutar visible por tablero.
-  - Propuestas/iniciativas de Robby sin OK explícito → dejar en **Backlog**.
-  - Si el usuario mueve de Backlog a Todo, se considera **OK implícito** para ejecutar.
-  - Al empezar una tarea: mover a **In Progress**.
-  - Al terminar: mover a **Done** + nota breve de resultado/riesgo relevante.
+  - Use `http://localhost:8765` (Kanban Dashboard) as the primary execution system.
+  - User-requested relevant tasks → create in **Todo** and execute with board visibility.
+  - Robby proposals/initiatives without explicit approval → keep in **Backlog**.
+  - If the user moves an item from Backlog to Todo, treat it as **implicit approval** to execute.
+  - When starting a task: move it to **In Progress**.
+  - When finishing: move it to **Done** + add a short result/risk note.
 
 - **Current active projects:**
   - Daily puzzle/word apps on Google Play:

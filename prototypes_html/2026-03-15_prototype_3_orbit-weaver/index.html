@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Orbit Weaver</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: none; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #050508;
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 100vh;
+            max-height: 850px;
+            background: radial-gradient(ellipse at center, #0a0a1a 0%, #050508 100%);
+            overflow: hidden;
+        }
+        #canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+        .hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .level-badge {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(100,200,255,0.3);
+        }
+        .level-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #64c8ff;
+        }
+        .level-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .shots-badge {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,200,100,0.3);
+            text-align: center;
+        }
+        .shots-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffc864;
+        }
+        .shots-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .stars-display {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .star { font-size: 14px; opacity: 0.3; }
+        .star.earned { opacity: 1; }
+        .screen {
+            position: absolute;
+            inset: 0;
+            background: rgba(5,5,8,0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto;
+            z-index: 100;
+            padding: 30px;
+            text-align: center;
+        }
+        .screen.hidden { display: none; }
+        .logo {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #64c8ff, #a855f7, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+        .tagline {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 40px;
+        }
+        .instruction-visual {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .orbit-demo {
+            position: absolute;
+            border: 2px dashed rgba(100,200,255,0.3);
+            border-radius: 50%;
+            animation: rotate 8s linear infinite;
+        }
+        .orbit-demo:nth-child(1) {
+            width: 180px;
+            height: 180px;
+            top: 10px;
+            left: 10px;
+        }
+        .orbit-demo:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 40px;
+            left: 40px;
+            animation-direction: reverse;
+            animation-duration: 5s;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .planet-demo {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #64c8ff, #3b82f6);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 30px rgba(100,200,255,0.5);
+        }
+        .instruction-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #ccc;
+            max-width: 320px;
+            margin-bottom: 30px;
+        }
+        .instruction-text strong {
+            color: #64c8ff;
+        }
+        .btn {
+            background: linear-gradient(135deg, #64c8ff, #a855f7);
+            border: none;
+            padding: 18px 50px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(100,200,255,0.3); }
+        .btn:active { transform: scale(0.98); }
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .level-btn {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .level-btn:hover { background: rgba(255,255,255,0.15); }
+        .level-btn.locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .level-btn.completed {
+            border-color: #2ed573;
+            background: rgba(46,213,115,0.1);
+        }
+        .level-btn-number {
+            font-size: 24px;
+            font-weight: 800;
+        }
+        .level-btn-stars {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .result-card {
+            background: linear-gradient(135deg, rgba(100,200,255,0.2), rgba(168,85,247,0.1));
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 25px;
+            border: 2px solid rgba(100,200,255,0.3);
+            animation: cardIn 0.5s ease;
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .result-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        .result-title.perfect { color: #ffd700; }
+        .result-title.good { color: #64c8ff; }
+        .result-title.ok { color: #888; }
+        .big-stars {
+            font-size: 48px;
+            margin: 15px 0;
+            letter-spacing: 10px;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        .hint-box {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #888;
+            animation: fadePulse 2s ease-in-out infinite;
+        }
+        @keyframes fadePulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .trajectory-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+        }
+        .power-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #64c8ff, #a855f7);
+            border-radius: 2px;
+            transition: width 0.1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="canvas"></canvas>
+        <div id="ui">
+            <div class="hud" id="hud" style="display: none;">
+                <div class="level-badge">
+                    <div class="level-label">Level</div>
+                    <div class="level-value" id="levelDisplay">1</div>
+                </div>
+                <div class="shots-badge">
+                    <div class="shots-label">Shots Left</div>
+                    <div class="shots-value" id="shotsDisplay">3</div>
+                    <div class="stars-display" id="starsDisplay">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hint-box" id="hintBox" style="display: none;">
+                Drag to aim · Release to launch
+            </div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen">
+            <div class="logo">ORBIT WEAVER</div>
+            <div class="tagline">Master gravity. Thread the cosmos.</div>
+            
+            <div class="instruction-visual">
+                <div class="orbit-demo"></div>
+                <div class="orbit-demo"></div>
+                <div class="planet-demo"></div>
+            </div>
+            
+            <div class="instruction-text">
+                🚀 <strong>Launch your ship</strong> from orbit to orbit<br>
+                🪐 <strong>Use gravity</strong> to slingshot around planets<br>
+                ⭐ <strong>Collect all stars</strong> with limited shots<br>
+                🎯 <strong>Precision matters</strong> — plan your trajectory
+            </div>
+            
+            <button class="btn" onclick="game.showLevelSelect()">Play Now</button>
+        </div>
+
+        <!-- Level Select -->
+        <div id="levelSelectScreen" class="screen hidden">
+            <div class="logo" style="font-size: 32px;">Select Level</div>
+            <div class="levels-grid" id="levelsGrid">
+                <!-- Generated by JS -->
+            </div>
+            
+            <button class="btn" onclick="game.showStart()" style="padding: 12px 30px; font-size: 14px;">← Back</button>
+        </div>
+
+        <!-- Level Complete -->
+        <div id="levelCompleteScreen" class="screen hidden">
+            <div class="result-card">
+                <div class="result-title" id="resultTitle">LEVEL COMPLETE!</div>
+                <div class="big-stars" id="resultStars">⭐⭐⭐</div>
+                
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-value" id="resultShots">2</div>
+                        <div class="stat-label">Shots Used</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="resultStarsCount">3</div>
+                        <div class="stat-label">Stars</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <button class="btn" onclick="game.retryLevel()" style="padding: 15px 30px; font-size: 14px;">🔄 Retry</button>
+                <button class="btn" onclick="game.nextLevel()">Next Level →</button>
+            </div>
+        </div>
+
+        <!-- Game Over -->
+        <div id="gameOverScreen" class="screen hidden">
+            <div class="logo" style="font-size: 36px; background: linear-gradient(135deg, #ff4757, #ff6b7a);">OUT OF SHOTS</div>
+            <div class="tagline" style="margin: 20px 0;">The stars remain uncollected...</div>
+            
+            <div style="display: flex; gap: 15px;">
+                <button class="btn" onclick="game.retryLevel()" style="padding: 15px 30px; font-size: 14px;">🔄 Try Again</button>
+                <button class="btn" onclick="game.showLevelSelect()" style="padding: 15px 30px; font-size: 14px;">Level Select</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Level designs
+        const levels = [
+            {
+                planets: [
+                    { x: 0.5, y: 0.5, r: 40, mass: 1000 }
+                ],
+                start: { x: 0.15, y: 0.5 },
+                stars: [
+                    { x: 0.85, y: 0.5 }
+                ],
+                maxShots: 3
+            },
+            {
+                planets: [
+                    { x: 0.5, y: 0.4, r: 35, mass: 800 },
+                    { x: 0.5, y: 0.7, r: 30, mass: 600 }
+                ],
+                start: { x: 0.1, y: 0.3 },
+                stars: [
+                    { x: 0.9, y: 0.3 },
+                    { x: 0.9, y: 0.7 }
+                ],
+                maxShots: 3
+            },
+            {
+                planets: [
+                    { x: 0.3, y: 0.5, r: 40, mass: 1000 },
+                    { x: 0.7, y: 0.3, r: 35, mass: 800 },
+                    { x: 0.7, y: 0.7, r: 35, mass: 800 }
+                ],
+                start: { x: 0.1, y: 0.5 },
+                stars: [
+                    { x: 0.5, y: 0.2 },
+                    { x: 0.9, y: 0.5 },
+                    { x: 0.5, y: 0.8 }
+                ],
+                maxShots: 4
+            },
+            {
+                planets: [
+                    { x: 0.25, y: 0.25, r: 30, mass: 600 },
+                    { x: 0.75, y: 0.25, r: 30, mass: 600 },
+                    { x: 0.25, y: 0.75, r: 30, mass: 600 },
+                    { x: 0.75, y: 0.75, r: 30, mass: 600 }
+                ],
+                start: { x: 0.5, y: 0.5 },
+                stars: [
+                    { x: 0.5, y: 0.15 },
+                    { x: 0.85, y: 0.5 },
+                    { x: 0.5, y: 0.85 },
+                    { x: 0.15, y: 0.5 }
+                ],
+                maxShots: 5
+            },
+            {
+                planets: [
+                    { x: 0.5, y: 0.5, r: 50, mass: 1500 },
+                    { x: 0.2, y: 0.3, r: 25, mass: 400 },
+                    { x: 0.8, y: 0.3, r: 25, mass: 400 },
+                    { x: 0.2, y: 0.7, r: 25, mass: 400 },
+                    { x: 0.8, y: 0.7, r: 25, mass: 400 }
+                ],
+                start: { x: 0.5, y: 0.15 },
+                stars: [
+                    { x: 0.2, y: 0.5 },
+                    { x: 0.8, y: 0.5 },
+                    { x: 0.5, y: 0.85 }
+                ],
+                maxShots: 4
+            },
+            {
+                planets: [
+                    { x: 0.3, y: 0.4, r: 35, mass: 800 },
+                    { x: 0.7, y: 0.6, r: 35, mass: 800 },
+                    { x: 0.5, y: 0.2, r: 25, mass: 400 },
+                    { x: 0.5, y: 0.8, r: 25, mass: 400 }
+                ],
+                start: { x: 0.1, y: 0.8 },
+                stars: [
+                    { x: 0.5, y: 0.5 },
+                    { x: 0.9, y: 0.2 },
+                    { x: 0.9, y: 0.8 }
+                ],
+                maxShots: 4
+            },
+            {
+                planets: [
+                    { x: 0.2, y: 0.2, r: 30, mass: 600 },
+                    { x: 0.8, y: 0.2, r: 30, mass: 600 },
+                    { x: 0.5, y: 0.5, r: 40, mass: 1000 },
+                    { x: 0.2, y: 0.8, r: 30, mass: 600 },
+                    { x: 0.8, y: 0.8, r: 30, mass: 600 }
+                ],
+                start: { x: 0.5, y: 0.15 },
+                stars: [
+                    { x: 0.35, y: 0.35 },
+                    { x: 0.65, y: 0.35 },
+                    { x: 0.35, y: 0.65 },
+                    { x: 0.65, y: 0.65 }
+                ],
+                maxShots: 5
+            },
+            {
+                planets: [
+                    { x: 0.15, y: 0.5, r: 35, mass: 700 },
+                    { x: 0.85, y: 0.5, r: 35, mass: 700 },
+                    { x: 0.35, y: 0.3, r: 25, mass: 400 },
+                    { x: 0.65, y: 0.3, r: 25, mass: 400 },
+                    { x: 0.5, y: 0.7, r: 45, mass: 1200 }
+                ],
+                start: { x: 0.5, y: 0.15 },
+                stars: [
+                    { x: 0.25, y: 0.5 },
+                    { x: 0.5, y: 0.35 },
+                    { x: 0.75, y: 0.5 },
+                    { x: 0.5, y: 0.85 }
+                ],
+                maxShots: 5
+            },
+            {
+                planets: [
+                    { x: 0.5, y: 0.3, r: 40, mass: 900 },
+                    { x: 0.3, y: 0.6, r: 35, mass: 700 },
+                    { x: 0.7, y: 0.6, r: 35, mass: 700 },
+                    { x: 0.15, y: 0.25, r: 20, mass: 300 },
+                    { x: 0.85, y: 0.25, r: 20, mass: 300 },
+                    { x: 0.5, y: 0.75, r: 25, mass: 400 }
+                ],
+                start: { x: 0.5, y: 0.5 },
+                stars: [
+                    { x: 0.15, y: 0.75 },
+                    { x: 0.85, y: 0.75 },
+                    { x: 0.3, y: 0.35 },
+                    { x: 0.7, y: 0.35 }
+                ],
+                maxShots: 5
+            }
+        ];
+
+        const game = {
+            state: 'start',
+            currentLevel: 0,
+            shots: 3,
+            stars: [],
+            starsCollected: 0,
+            levelProgress: JSON.parse(localStorage.getItem('orbitWeaverProgress') || '[]'),
+            
+            // Entities
+            planets: [],
+            projectile: null,
+            particles: [],
+            
+            // Input
+            isAiming: false,
+            aimStart: null,
+            aimCurrent: null,
+            
+            init() {
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                
+                // Input handlers
+                canvas.addEventListener('pointerdown', (e) => this.onPointerDown(e));
+                canvas.addEventListener('pointermove', (e) => this.onPointerMove(e));
+                canvas.addEventListener('pointerup', (e) => this.onPointerUp(e));
+                
+                this.loop();
+            },
+            
+            resize() {
+                const container = document.getElementById('gameContainer');
+                canvas.width = container.clientWidth * 2;
+                canvas.height = container.clientHeight * 2;
+                ctx.scale(2, 2);
+                canvas.style.width = container.clientWidth + 'px';
+                canvas.style.height = container.clientHeight + 'px';
+            },
+            
+            showStart() {
+                this.hideAllScreens();
+                document.getElementById('startScreen').classList.remove('hidden');
+            },
+            
+            showLevelSelect() {
+                this.hideAllScreens();
+                document.getElementById('levelSelectScreen').classList.remove('hidden');
+                this.renderLevelSelect();
+            },
+            
+            hideAllScreens() {
+                document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            },
+            
+            renderLevelSelect() {
+                const grid = document.getElementById('levelsGrid');
+                grid.innerHTML = levels.map((lvl, i) => {
+                    const progress = this.levelProgress[i] || { unlocked: i === 0, stars: 0 };
+                    if (!progress.unlocked && i > 0) {
+                        const prev = this.levelProgress[i-1];
+                        if (prev && prev.stars > 0) progress.unlocked = true;
+                    }
+                    
+                    const stars = '⭐'.repeat(progress.stars) + '○'.repeat(3 - progress.stars);
+                    const locked = !progress.unlocked;
+                    const completed = progress.stars > 0;
+                    
+                    return `
+                        <div class="level-btn ${locked ? 'locked' : ''} ${completed ? 'completed' : ''}" 
+                             onclick="${locked ? '' : `game.loadLevel(${i})`}">
+                            <div class="level-btn-number">${locked ? '🔒' : i + 1}</div>
+                            <div class="level-btn-stars">${locked ? '' : stars}</div>
+                        </div>
+                    `;
+                }).join('');
+            },
+            
+            loadLevel(n) {
+                this.currentLevel = n;
+                this.hideAllScreens();
+                document.getElementById('hud').style.display = 'flex';
+                document.getElementById('hintBox').style.display = 'block';
+                
+                const lvl = levels[n];
+                this.shots = lvl.maxShots;
+                this.starsCollected = 0;
+                
+                // Scale level data to canvas
+                this.planets = lvl.planets.map(p => ({
+                    x: p.x * canvas.width / 2,
+                    y: p.y * canvas.height / 2,
+                    r: p.r,
+                    mass: p.mass
+                }));
+                
+                this.projectile = {
+                    x: lvl.start.x * canvas.width / 2,
+                    y: lvl.start.y * canvas.height / 2,
+                    vx: 0,
+                    vy: 0,
+                    r: 8,
+                    active: false,
+                    trail: []
+                };
+                
+                this.stars = lvl.stars.map(s => ({
+                    x: s.x * canvas.width / 2,
+                    y: s.y * canvas.height / 2,
+                    r: 12,
+                    collected: false,
+                    pulse: 0
+                }));
+                
+                this.particles = [];
+                this.updateUI();
+                this.state = 'playing';
+            },
+            
+            onPointerDown(e) {
+                if (this.state !== 'playing' || this.projectile.active) return;
+                
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX - rect.left) * 2;
+                const y = (e.clientY - rect.top) * 2;
+                
+                // Check if clicking near projectile
+                const dx = x - this.projectile.x;
+                const dy = y - this.projectile.y;
+                if (Math.sqrt(dx*dx + dy*dy) < 60) {
+                    this.isAiming = true;
+                    this.aimStart = { x: this.projectile.x, y: this.projectile.y };
+                    this.aimCurrent = { x, y };
+                }
+            },
+            
+            onPointerMove(e) {
+                if (!this.isAiming) return;
+                
+                const rect = canvas.getBoundingClientRect();
+                this.aimCurrent = {
+                    x: (e.clientX - rect.left) * 2,
+                    y: (e.clientY - rect.top) * 2
+                };
+            },
+            
+            onPointerUp(e) {
+                if (!this.isAiming) return;
+                
+                const dx = this.aimStart.x - this.aimCurrent.x;
+                const dy = this.aimStart.y - this.aimCurrent.y;
+                const power = Math.min(Math.sqrt(dx*dx + dy*dy) * 0.15, 15);
+                
+                if (power > 1) {
+                    this.projectile.vx = dx * 0.15;
+                    this.projectile.vy = dy * 0.15;
+                    this.projectile.active = true;
+                    this.shots--;
+                    this.updateUI();
+                    document.getElementById('hintBox').style.display = 'none';
+                }
+                
+                this.isAiming = false;
+            },
+            
+            update() {
+                if (this.state !== 'playing') return;
+                
+                // Update projectile
+                if (this.projectile.active) {
+                    // Apply gravity from planets
+                    this.planets.forEach(p => {
+                        const dx = p.x - this.projectile.x;
+                        const dy = p.y - this.projectile.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        
+                        if (dist < p.r + this.projectile.r) {
+                            // Collision with planet - stop
+                            this.createExplosion(this.projectile.x, this.projectile.y, '#ff6b6b', 15);
+                            this.resetProjectile();
+                            return;
+                        }
+                        
+                        if (dist > 10) {
+                            const force = p.mass / (dist * dist);
+                            this.projectile.vx += (dx / dist) * force * 0.5;
+                            this.projectile.vy += (dy / dist) * force * 0.5;
+                        }
+                    });
+                    
+                    // Update position
+                    this.projectile.x += this.projectile.vx;
+                    this.projectile.y += this.projectile.vy;
+                    
+                    // Trail
+                    this.projectile.trail.push({ x: this.projectile.x, y: this.projectile.y });
+                    if (this.projectile.trail.length > 50) this.projectile.trail.shift();
+                    
+                    // Check star collection
+                    this.stars.forEach(s => {
+                        if (!s.collected) {
+                            const dx = s.x - this.projectile.x;
+                            const dy = s.y - this.projectile.y;
+                            if (Math.sqrt(dx*dx + dy*dy) < s.r + this.projectile.r + 10) {
+                                s.collected = true;
+                                this.starsCollected++;
+                                this.createExplosion(s.x, s.y, '#ffd700', 20);
+                                this.updateUI();
+                                
+                                // Check win condition
+                                if (this.starsCollected === this.stars.length) {
+                                    setTimeout(() => this.levelComplete(), 500);
+                                }
+                            }
+                        }
+                    });
+                    
+                    // Check bounds
+                    if (this.projectile.x < -50 || this.projectile.x > canvas.width/2 + 50 ||
+                        this.projectile.y < -50 || this.projectile.y > canvas.height/2 + 50) {
+                        this.resetProjectile();
+                    }
+                }
+                
+                // Check game over
+                if (this.shots === 0 && !this.projectile.active) {
+                    setTimeout(() => this.gameOver(), 500);
+                }
+                
+                // Update stars animation
+                this.stars.forEach(s => {
+                    s.pulse += 0.05;
+                });
+                
+                // Update particles
+                this.particles = this.particles.filter(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life -= 0.02;
+                    p.vx *= 0.98;
+                    p.vy *= 0.98;
+                    return p.life > 0;
+                });
+            },
+            
+            resetProjectile() {
+                this.projectile.active = false;
+                this.projectile.vx = 0;
+                this.projectile.vy = 0;
+                this.projectile.trail = [];
+                
+                const lvl = levels[this.currentLevel];
+                this.projectile.x = lvl.start.x * canvas.width / 2;
+                this.projectile.y = lvl.start.y * canvas.height / 2;
+            },
+            
+            createExplosion(x, y, color, count) {
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2 * i) / count;
+                    this.particles.push({
+                        x, y,
+                        vx: Math.cos(angle) * (2 + Math.random() * 4),
+                        vy: Math.sin(angle) * (2 + Math.random() * 4),
+                        life: 1,
+                        color,
+                        size: 2 + Math.random() * 4
+                    });
+                }
+            },
+            
+            draw() {
+                // Clear
+                ctx.fillStyle = 'rgba(5, 5, 8, 0.3)';
+                ctx.fillRect(0, 0, canvas.width/2, canvas.height/2);
+                
+                // Draw stars background
+                ctx.fillStyle = '#fff';
+                for (let i = 0; i < 50; i++) {
+                    const x = ((i * 137.5) % (canvas.width/2));
+                    const y = ((i * 293.1) % (canvas.height/2));
+                    const size = (i % 3) * 0.5 + 0.5;
+                    const alpha = 0.3 + (i % 5) * 0.1;
+                    ctx.globalAlpha = alpha;
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.globalAlpha = 1;
+                
+                // Draw target stars
+                this.stars.forEach(s => {
+                    if (!s.collected) {
+                        const pulse = Math.sin(s.pulse) * 3;
+                        
+                        // Glow
+                        ctx.shadowColor = '#ffd700';
+                        ctx.shadowBlur = 20;
+                        
+                        // Star
+                        ctx.fillStyle = '#ffd700';
+                        ctx.beginPath();
+                        for (let i = 0; i < 5; i++) {
+                            const angle = (i * 4 * Math.PI / 5) - Math.PI / 2;
+                            const r = s.r + pulse;
+                            const x = s.x + Math.cos(angle) * r;
+                            const y = s.y + Math.sin(angle) * r;
+                            if (i === 0) ctx.moveTo(x, y);
+                            else ctx.lineTo(x, y);
+                        }
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        
+                        // Ring
+                        ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, s.r + 10 + pulse * 0.5, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                });
+                
+                // Draw planets
+                this.planets.forEach(p => {
+                    // Gradient
+                    const grad = ctx.createRadialGradient(
+                        p.x - p.r/3, p.y - p.r/3, 0,
+                        p.x, p.y, p.r
+                    );
+                    grad.addColorStop(0, '#64c8ff');
+                    grad.addColorStop(0.5, '#3b82f6');
+                    grad.addColorStop(1, '#1e40af');
+                    
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Glow
+                    ctx.shadowColor = '#64c8ff';
+                    ctx.shadowBlur = 20;
+                    ctx.strokeStyle = 'rgba(100, 200, 255, 0.5)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                    
+                    // Atmosphere ring
+                    ctx.strokeStyle = 'rgba(100, 200, 255, 0.2)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r + 8, 0, Math.PI * 2);
+                    ctx.stroke();
+                });
+                
+                // Draw aim line
+                if (this.isAiming && this.aimStart && this.aimCurrent) {
+                    const dx = this.aimStart.x - this.aimCurrent.x;
+                    const dy = this.aimStart.y - this.aimCurrent.y;
+                    
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    ctx.beginPath();
+                    ctx.moveTo(this.aimStart.x, this.aimStart.y);
+                    ctx.lineTo(this.aimStart.x + dx * 2, this.aimStart.y + dy * 2);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
+                    // Power indicator
+                    const power = Math.min(Math.sqrt(dx*dx + dy*dy) * 0.15, 15);
+                    ctx.fillStyle = `hsl(${120 - power * 8}, 100%, 50%)`;
+                    ctx.fillRect(this.aimStart.x - 20, this.aimStart.y + 20, power * 3, 4);
+                }
+                
+                // Draw projectile trail
+                if (this.projectile.trail.length > 1) {
+                    ctx.strokeStyle = 'rgba(100, 200, 255, 0.5)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    this.projectile.trail.forEach((t, i) => {
+                        if (i === 0) ctx.moveTo(t.x, t.y);
+                        else ctx.lineTo(t.x, t.y);
+                    });
+                    ctx.stroke();
+                }
+                
+                // Draw projectile
+                ctx.fillStyle = '#fff';
+                ctx.shadowColor = '#64c8ff';
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.arc(this.projectile.x, this.projectile.y, this.projectile.r, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                // Draw particles
+                this.particles.forEach(p => {
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                ctx.globalAlpha = 1;
+            },
+            
+            updateUI() {
+                document.getElementById('levelDisplay').textContent = this.currentLevel + 1;
+                document.getElementById('shotsDisplay').textContent = this.shots;
+                
+                const totalStars = this.stars.length;
+                const starsEl = document.getElementById('starsDisplay');
+                const earned = Math.ceil((this.starsCollected / totalStars) * 3);
+                starsEl.innerHTML = Array(3).fill(0).map((_, i) => 
+                    `<span class="star ${i < earned ? 'earned' : ''}">⭐</span>`
+                ).join('');
+            },
+            
+            levelComplete() {
+                this.state = 'complete';
+                
+                // Save progress
+                const stars = Math.ceil((this.starsCollected / this.stars.length) * 3);
+                if (!this.levelProgress[this.currentLevel] || 
+                    this.levelProgress[this.currentLevel].stars < stars) {
+                    this.levelProgress[this.currentLevel] = { 
+                        unlocked: true, 
+                        stars 
+                    };
+                    if (this.currentLevel + 1 < levels.length) {
+                        this.levelProgress[this.currentLevel + 1] = { 
+                            unlocked: true, 
+                            stars: 0 
+                        };
+                    }
+                    localStorage.setItem('orbitWeaverProgress', JSON.stringify(this.levelProgress));
+                }
+                
+                // Show results
+                document.getElementById('hud').style.display = 'none';
+                document.getElementById('levelCompleteScreen').classList.remove('hidden');
+                
+                const shotsUsed = levels[this.currentLevel].maxShots - this.shots;
+                const title = stars === 3 ? 'PERFECT!' : stars === 2 ? 'GREAT JOB!' : 'LEVEL COMPLETE!';
+                document.getElementById('resultTitle').textContent = title;
+                document.getElementById('resultTitle').className = 'result-title ' + (stars === 3 ? 'perfect' : stars === 2 ? 'good' : 'ok');
+                document.getElementById('resultStars').textContent = '⭐'.repeat(stars);
+                document.getElementById('resultShots').textContent = shotsUsed;
+                document.getElementById('resultStarsCount').textContent = this.starsCollected;
+            },
+            
+            gameOver() {
+                this.state = 'gameover';
+                document.getElementById('hud').style.display = 'none';
+                document.getElementById('gameOverScreen').classList.remove('hidden');
+            },
+            
+            nextLevel() {
+                if (this.currentLevel + 1 < levels.length) {
+                    this.loadLevel(this.currentLevel + 1);
+                } else {
+                    this.showLevelSelect();
+                }
+            },
+            
+            retryLevel() {
+                this.loadLevel(this.currentLevel);
+            },
+            
+            loop() {
+                this.update();
+                this.draw();
+                requestAnimationFrame(() => this.loop());
+            }
+        };
+
+        game.init();
+    </script>
+</body>
+</html>

@@ -13,7 +13,7 @@ Before doing anything else:
 1. Read `SOUL.md` — this is who you are
 2. Read `USER.md` — this is who you're helping
 3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+4. Read `MEMORY.md` — this is most relevant permanents rules
 
 Don't ask permission. Just do it.
 
@@ -44,6 +44,19 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
+
+## Retrieval Protocol
+Before doing non-trivial work:
+1. memory_search for the project/topic/user preference
+2. memory_get the referenced file chunk if needed
+3. Then proceed with the task
+
+## Memory Protocol
+- Before answering questions about past work: search memory first
+- Before starting any new task: check memory/today's date for active context
+- When you learn something important: write it to the appropriate file immediately
+- When corrected on a mistake: add the correction as a rule to MEMORY.md
+- When a session is ending or context is large: summarize to memory/YYYY-MM-DD.md
 
 ## Safety
 
@@ -115,7 +128,22 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 ## Tools
 
+- For browser automation tasks, default to Camoufox CLI unless explicitly asking OpenClaw browser tool.
+
+
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
+
+## Subagents
+
+When delegating to subagents, follow `PLAYBOOK_SUBAGENTS.md`.
+
+Mandatory rules:
+- Do not assume automatic conversational-context inheritance from parent to child.
+- Always include a clear task contract (objective, constraints, quality gates, DONE criteria, delivery paths).
+- For large tasks, create an internal sprint plan and execute by checkpoints.
+- **Never declare DONE without verifying real deliverables and test evidence.**
+- For nested subagents, explicitly forward critical rules and minimum context.
+- The main agent must validate final results before reporting to the user.
 
 **🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.
 
@@ -207,6 +235,49 @@ Think of it like a human reviewing their journal and updating their mental model
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
+## Root Hygiene Rule (Workspace)
+
+- Keep `/workspace` root clean.
+- Scripts (`.ps1`, `.py`, `.cmd`, `.sh`) go under `/scripts`.
+- One-off/debug artifacts go under `/scripts/debug`.
+- Only keep high-signal root files (e.g., `AGENTS.md`, `SOUL.md`, `USER.md`, `TOOLS.md`, `HEARTBEAT.md`, primary `index.html`).
+
+## Quality Gate for Large Tasks (User-Mandated)
+
+When the user asks for a large/complex task, do **not** jump straight to final output.
+
+1. Create an internal **Sprint Plan** first (break into small sub-tasks with checkpoints).
+2. Execute in increments and verify each checkpoint before moving on.
+3. Before reporting completion, run a **final quality validation** against the user’s explicit objective and constraints.
+4. Never claim completion from sub-agent output alone without independent verification of real artifacts/results.
+5. If quality is below target, continue iterating (test -> improve -> retest) until it meets the requested standard.
+
+Trigger for this rule:
+- User strongly corrected poor-quality outcome after delegated large task; explicit instruction to prioritize decomposition + verification before reporting.
+
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
+
+## Mandatory Activity Logging Gate (PostgreSQL)
+
+Before sending any final user-facing completion reply, the agent **must log** the task result to local PostgreSQL table `agent_logs`.
+
+Connection target:
+- `PGHOST=127.0.0.1`
+- `PGPORT=5432`
+- `PGDATABASE=postgres`
+- `PGUSER=postgres`
+- Table: `agent_logs`
+
+Required log fields:
+- `agent_name`
+- `task_description`
+- `model_used`
+- `status` (`completed` or `failed`)
+- `created_at` (auto)
+
+Hard gate rule:
+- No final completion response is allowed unless the log write succeeds.
+- Failed tasks must also be logged with `status='failed'`.
+- If logging fails, report the logging failure explicitly and keep task status as not fully complete.

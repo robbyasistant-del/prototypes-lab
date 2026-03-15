@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Crowd Wisdom Daily</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        #gameContainer {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .date-badge {
+            display: inline-block;
+            background: rgba(233,69,96,0.2);
+            color: #e94560;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        .question-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        .question-number {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .question-text {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #fff;
+        }
+        .answers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .answer-slot {
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 16px 12px;
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .answer-slot.hidden-answer {
+            border-color: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.2);
+        }
+        .answer-slot.revealed {
+            background: linear-gradient(135deg, rgba(46,213,115,0.2), rgba(46,213,115,0.1));
+            border-color: #2ed573;
+            animation: revealPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .answer-slot.wrong {
+            background: linear-gradient(135deg, rgba(255,71,87,0.2), rgba(255,71,87,0.1));
+            border-color: #ff4757;
+            animation: shake 0.5s;
+        }
+        @keyframes revealPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+        .slot-number {
+            position: absolute;
+            top: 8px;
+            left: 12px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            font-weight: 700;
+        }
+        .answer-text {
+            font-weight: 700;
+            font-size: 15px;
+            text-align: center;
+        }
+        .answer-points {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .hidden-text {
+            color: rgba(255,255,255,0.2);
+            font-size: 20px;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        #answerInput {
+            flex: 1;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 16px 20px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        #answerInput:focus {
+            border-color: #e94560;
+            background: rgba(255,255,255,0.15);
+        }
+        #answerInput::placeholder { color: rgba(255,255,255,0.4); }
+        .btn {
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            border: none;
+            padding: 16px 28px;
+            border-radius: 16px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .btn:active { transform: scale(0.95); }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #e94560;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .strikes {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .strike {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        .strike.active {
+            background: #ff4757;
+            animation: strikeIn 0.3s;
+        }
+        @keyframes strikeIn {
+            0% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+        .feedback {
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            animation: fadeIn 0.3s;
+            display: none;
+        }
+        .feedback.show { display: block; }
+        .feedback.success {
+            background: rgba(46,213,115,0.2);
+            color: #2ed573;
+        }
+        .feedback.error {
+            background: rgba(255,71,87,0.2);
+            color: #ff4757;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .screen {
+            text-align: center;
+        }
+        .screen.hidden { display: none; }
+        .big-logo {
+            font-size: 36px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #e94560, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .how-to-play {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .how-to-play h3 {
+            margin-bottom: 15px;
+            color: #e94560;
+        }
+        .how-to-play ul {
+            padding-left: 20px;
+        }
+        .how-to-play li {
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+        .results-card {
+            background: linear-gradient(135deg, rgba(233,69,96,0.2), rgba(255,107,107,0.1));
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(233,69,96,0.3);
+        }
+        .final-score {
+            font-size: 64px;
+            font-weight: 900;
+            color: #fff;
+            margin: 10px 0;
+        }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ff9f1c);
+            color: #000;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 16px;
+            margin: 10px 0;
+            animation: badgePop 0.5s 0.3s both;
+        }
+        @keyframes badgePop {
+            0% { transform: scale(0) rotate(-10deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        .share-preview {
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+            text-align: left;
+        }
+        .answers-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .summary-item {
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+        .summary-item.found {
+            background: rgba(46,213,115,0.2);
+            color: #2ed573;
+        }
+        .summary-item.missed {
+            background: rgba(255,255,255,0.1);
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen">
+            <div class="big-logo">🎯 CROWD WISDOM</div>
+            <div class="subtitle">Daily Top Answers Game</div>
+            
+            <div class="how-to-play">
+                <h3>🎮 How to Play</h3>
+                <ul>
+                    <li>We asked 100 people each question</li>
+                    <li>Your goal: Guess the TOP answers</li>
+                    <li>More popular answers = more points</li>
+                    <li>3 strikes and you're out!</li>
+                    <li>New questions every day</li>
+                </ul>
+            </div>
+            
+            <button class="btn" onclick="game.start()" style="width: 100%; padding: 20px; font-size: 20px;">
+                ▶ Start Daily Challenge
+            </button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen hidden">
+            <div class="header">
+                <div class="logo">🎯 CROWD WISDOM</div>
+                <div class="date-badge" id="dateDisplay">Daily Challenge</div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value" id="scoreDisplay">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="foundDisplay">0/6</div>
+                    <div class="stat-label">Found</div>
+                </div>
+            </div>
+            
+            <div class="strikes" id="strikesDisplay">
+                <div class="strike">❌</div>
+                <div class="strike">❌</div>
+                <div class="strike">❌</div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-number">Question <span id="qNumber">1</span> of 3</div>
+                <div class="question-text" id="questionText">Loading...</div>
+            </div>
+            
+            <div class="answers-grid" id="answersGrid">
+                <!-- Generated by JS -->
+            </div>
+            
+            <div class="feedback" id="feedback"></div>
+            
+            <div class="input-area">
+                <input type="text" id="answerInput" placeholder="Type your answer..." autocomplete="off">
+                <button class="btn" onclick="game.submitAnswer()">GO</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen hidden">
+            <div class="big-logo" style="font-size: 28px;">🎉 Challenge Complete!</div>
+            
+            <div class="results-card">
+                <div class="stat-label">FINAL SCORE</div>
+                <div class="final-score" id="finalScore">0</div>
+                <div id="finalBadge"></div>
+            </div>
+            
+            <div class="how-to-play">
+                <h3>📊 Your Performance</h3>
+                <div style="display: flex; justify-content: space-around; margin: 15px 0;">
+                    <div class="stat">
+                        <div class="stat-value" id="finalFound">0</div>
+                        <div class="stat-label">Answers Found</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="finalStrikes">0</div>
+                        <div class="stat-label">Strikes</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="share-preview">
+                <div style="font-weight: 700; margin-bottom: 10px;">🎯 Crowd Wisdom Daily</div>
+                <div id="shareText">I scored 0 points! Can you beat me?</div>
+            </div>
+            
+            <button class="btn" onclick="game.restart()" style="width: 100%;">
+                🔄 Play Again
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Daily questions database (rotates daily)
+        const questionDB = [
+            {
+                question: "Name a fruit people eat for breakfast",
+                answers: [
+                    { text: "Banana", points: 32 },
+                    { text: "Apple", points: 24 },
+                    { text: "Orange", points: 18 },
+                    { text: "Strawberry", points: 12 },
+                    { text: "Grapes", points: 8 },
+                    { text: "Blueberry", points: 6 }
+                ]
+            },
+            {
+                question: "Name something you do before going to bed",
+                answers: [
+                    { text: "Brush Teeth", points: 45 },
+                    { text: "Check Phone", points: 22 },
+                    { text: "Read", points: 15 },
+                    { text: "Shower", points: 10 },
+                    { text: "Set Alarm", points: 5 },
+                    { text: "Drink Water", points: 3 }
+                ]
+            },
+            {
+                question: "Name a popular pizza topping",
+                answers: [
+                    { text: "Pepperoni", points: 38 },
+                    { text: "Cheese", points: 25 },
+                    { text: "Mushrooms", points: 15 },
+                    { text: "Sausage", points: 10 },
+                    { text: "Onions", points: 7 },
+                    { text: "Olives", points: 5 }
+                ]
+            },
+            {
+                question: "Name a place people go on vacation",
+                answers: [
+                    { text: "Beach", points: 35 },
+                    { text: "Mountains", points: 20 },
+                    { text: "Theme Park", points: 18 },
+                    { text: "City", points: 15 },
+                    { text: "Cruise", points: 8 },
+                    { text: "Camping", points: 4 }
+                ]
+            },
+            {
+                question: "Name something people lose often",
+                answers: [
+                    { text: "Keys", points: 40 },
+                    { text: "Phone", points: 25 },
+                    { text: "Wallet", points: 18 },
+                    { text: "Glasses", points: 10 },
+                    { text: "Remote", points: 5 },
+                    { text: "Socks", points: 2 }
+                ]
+            }
+        ];
+
+        const game = {
+            state: 'start',
+            currentQ: 0,
+            score: 0,
+            strikes: 0,
+            foundAnswers: [],
+            questions: [],
+            
+            init() {
+                // Select daily questions based on date
+                this.selectDailyQuestions();
+                
+                // Input handling
+                document.getElementById('answerInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.submitAnswer();
+                });
+                
+                // Set date display
+                const today = new Date().toLocaleDateString('en-US', { 
+                    month: 'short', day: 'numeric', year: 'numeric' 
+                });
+                document.getElementById('dateDisplay').textContent = today;
+            },
+            
+            selectDailyQuestions() {
+                // Use date as seed for "daily" rotation
+                const date = new Date();
+                const seed = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
+                
+                // Simple shuffle based on seed
+                const shuffled = [...questionDB].sort((a, b) => {
+                    const rand = Math.sin(seed + a.question.length) * 10000;
+                    return rand - Math.floor(rand) - 0.5;
+                });
+                
+                this.questions = shuffled.slice(0, 3);
+            },
+            
+            start() {
+                document.getElementById('startScreen').classList.add('hidden');
+                document.getElementById('resultsScreen').classList.add('hidden');
+                document.getElementById('gameScreen').classList.remove('hidden');
+                
+                this.currentQ = 0;
+                this.score = 0;
+                this.strikes = 0;
+                this.loadQuestion();
+            },
+            
+            loadQuestion() {
+                const q = this.questions[this.currentQ];
+                this.foundAnswers = [];
+                
+                document.getElementById('qNumber').textContent = this.currentQ + 1;
+                document.getElementById('questionText').textContent = q.question;
+                document.getElementById('answerInput').value = '';
+                document.getElementById('answerInput').focus();
+                
+                this.renderAnswers();
+                this.updateUI();
+                this.updateProgress();
+            },
+            
+            renderAnswers() {
+                const grid = document.getElementById('answersGrid');
+                const q = this.questions[this.currentQ];
+                
+                grid.innerHTML = q.answers.map((ans, i) => {
+                    const found = this.foundAnswers.find(f => f.text === ans.text);
+                    if (found) {
+                        return `
+                            <div class="answer-slot revealed">
+                                <span class="slot-number">#${i+1}</span>
+                                <div class="answer-text">${ans.text}</div>
+                                <div class="answer-points">${ans.points} pts</div>
+                            </div>
+                        `;
+                    }
+                    return `
+                        <div class="answer-slot hidden-answer" id="slot-${i}">
+                            <span class="slot-number">#${i+1}</span>
+                            <div class="hidden-text">?</div>
+                        </div>
+                    `;
+                }).join('');
+            },
+            
+            submitAnswer() {
+                const input = document.getElementById('answerInput');
+                const guess = input.value.trim().toLowerCase();
+                
+                if (!guess) return;
+                
+                const q = this.questions[this.currentQ];
+                const match = q.answers.find(a => 
+                    a.text.toLowerCase() === guess ||
+                    a.text.toLowerCase().includes(guess) ||
+                    guess.includes(a.text.toLowerCase())
+                );
+                
+                if (match && !this.foundAnswers.find(f => f.text === match.text)) {
+                    // Correct!
+                    this.foundAnswers.push(match);
+                    this.score += match.points;
+                    this.showFeedback(`✓ ${match.text}: ${match.points} points!`, 'success');
+                    this.renderAnswers();
+                    
+                    // Check if all found
+                    if (this.foundAnswers.length === q.answers.length) {
+                        setTimeout(() => this.nextQuestion(), 1500);
+                    }
+                } else if (this.foundAnswers.find(f => f.text.toLowerCase() === guess)) {
+                    this.showFeedback('Already found!', 'error');
+                } else {
+                    // Wrong!
+                    this.strikes++;
+                    this.showFeedback('❌ Not in top answers!', 'error');
+                    this.updateStrikes();
+                    
+                    if (this.strikes >= 3) {
+                        setTimeout(() => this.nextQuestion(), 1000);
+                    }
+                }
+                
+                input.value = '';
+                input.focus();
+                this.updateUI();
+            },
+            
+            showFeedback(text, type) {
+                const fb = document.getElementById('feedback');
+                fb.textContent = text;
+                fb.className = `feedback ${type} show`;
+                setTimeout(() => fb.classList.remove('show'), 2000);
+            },
+            
+            updateStrikes() {
+                const strikes = document.querySelectorAll('.strike');
+                strikes.forEach((s, i) => {
+                    s.classList.toggle('active', i < this.strikes);
+                });
+            },
+            
+            nextQuestion() {
+                this.currentQ++;
+                if (this.currentQ >= this.questions.length) {
+                    this.showResults();
+                } else {
+                    this.strikes = 0;
+                    this.updateStrikes();
+                    this.loadQuestion();
+                }
+            },
+            
+            updateUI() {
+                document.getElementById('scoreDisplay').textContent = this.score;
+                const totalAnswers = this.questions[this.currentQ]?.answers.length || 6;
+                document.getElementById('foundDisplay').textContent = 
+                    `${this.foundAnswers.length}/${totalAnswers}`;
+            },
+            
+            updateProgress() {
+                const pct = ((this.currentQ) / this.questions.length) * 100;
+                document.getElementById('progressBar').style.width = pct + '%';
+            },
+            
+            showResults() {
+                document.getElementById('gameScreen').classList.add('hidden');
+                document.getElementById('resultsScreen').classList.remove('hidden');
+                
+                document.getElementById('finalScore').textContent = this.score;
+                
+                // Calculate badge
+                const badge = document.getElementById('finalBadge');
+                let badgeText = '';
+                if (this.score >= 250) badgeText = '🏆 WISDOM MASTER';
+                else if (this.score >= 180) badgeText = '⭐ EXPERT GUESSER';
+                else if (this.score >= 120) badgeText = '🔥 SOLID PLAYER';
+                else if (this.score >= 60) badgeText = '👍 GOOD TRY';
+                else badgeText = '💪 KEEP PRACTICING';
+                
+                badge.innerHTML = `<div class="badge">${badgeText}</div>`;
+                
+                // Stats
+                const totalAnswers = this.questions.reduce((acc, q) => acc + q.answers.length, 0);
+                const foundAnswers = Math.floor(this.score / 20); // rough estimate
+                document.getElementById('finalFound').textContent = foundAnswers;
+                document.getElementById('finalStrikes').textContent = this.strikes;
+                
+                // Share text
+                document.getElementById('shareText').textContent = 
+                    `I scored ${this.score} points in today's Crowd Wisdom! ${badgeText} 🎯 Can you beat me?`;
+            },
+            
+            restart() {
+                this.start();
+            }
+        };
+
+        game.init();
+    </script>
+</body>
+</html>

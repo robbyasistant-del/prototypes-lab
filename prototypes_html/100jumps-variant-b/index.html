@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>100 Jumps - Moving Madness</title>
+    <!-- 
+    ============================================
+    VARIANTE B: MOVING MADNESS
+    ============================================
+    
+    Variación de mecánica:
+    - Base de "charge to jump" mantenida
+    - Plataformas con MOVIMIENTO:
+      * Horizontales (van de lado a lado)
+      * Verticales (suben/bajan)
+      * Rotativas (circular alrededor de un punto)
+      * Desaparecen tras X segundos
+    - Viento que afecta la trayectoria del salto
+    - Obstáculos aéreos que hay que esquivar
+    
+    Inspirado en:
+    - Icy Tower (pisos que se mueven hacia abajo)
+    - Doodle Jump (monstruos y obstáculos)
+    - Getting Over It (dificultad precisa)
+    
+    Objetivo: Aumentar la tensión y habilidad requerida
+    ============================================
+    -->
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: none; }
+        :root { 
+            --sat: env(safe-area-inset-top, 0px);
+            --primary: #6366f1;
+            --danger: #ef4444;
+            --bg: #EDF2F8;
+            --surface: rgba(255, 255, 255, 0.75);
+            --text: #0f172a;
+        }
+        html, body {
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            touch-action: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        #wrap { position: fixed; inset: 0; overflow: hidden; }
+        canvas { display: block; width: 100%; height: 100%; }
+        
+        #ui { position: absolute; inset: 0; pointer-events: none; }
+        
+        #score-display {
+            position: absolute;
+            top: calc(20px + var(--sat));
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 12px 24px;
+            box-shadow: 0 28px 60px rgba(15, 23, 42, 0.22);
+            text-align: center;
+        }
+        #score-display .label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--primary); }
+        #score-display .value { font-size: 28px; font-weight: 800; color: var(--text); }
+        
+        /* Wind indicator */
+        #wind-indicator {
+            position: absolute;
+            top: calc(90px + var(--sat));
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #wind-indicator.active { opacity: 1; }
+        #wind-indicator .arrow { font-size: 16px; }
+        
+        /* Danger meter */
+        #danger-meter {
+            position: absolute;
+            top: calc(140px + var(--sat));
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        #danger-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #22c55e, #eab308, var(--danger));
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        
+        /* Lives */
+        #lives {
+            position: absolute;
+            top: calc(20px + var(--sat));
+            right: 20px;
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 18px;
+        }
+        
+        /* Modal */
+        #modal {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            transition: opacity 0.3s;
+        }
+        #modal.show { opacity: 1; pointer-events: auto; }
+        .card {
+            background: var(--surface);
+            backdrop-filter: blur(24px);
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 36px 28px;
+            text-align: center;
+            max-width: 340px;
+            width: 85%;
+            box-shadow: 0 28px 60px rgba(15, 23, 42, 0.22);
+        }
+        .card h2 { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+        .card p { color: #64748b; margin-bottom: 24px; line-height: 1.5; }
+        .card .warning { color: var(--danger); font-weight: 600; font-size: 13px; margin-bottom: 16px; }
+        .btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
+        .btn-main { background: var(--primary); color: #fff; }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <canvas id="gc"></canvas>
+        <div id="ui">
+            <div id="score-display">
+                <div class="label">Platform</div>
+                <div class="value" id="score">0</div>
+            </div>
+            
+            <div id="lives">❤️❤️❤️</div>
+            
+            <div id="wind-indicator">
+                <span class="arrow">💨</span>
+                <span id="wind-text">Viento fuerte</span>
+            </div>
+            
+            <div id="danger-meter">
+                <div id="danger-fill"></div>
+            </div>
+        </div>
+        <div id="modal">
+            <div class="card">
+                <h2>Moving Madness</h2>
+                <p>¡Plataformas en movimiento, viento cambiante y obstáculos!</p>
+                <div class="warning">⚠️ Precisión extrema requerida</div>
+                
+                <button class="btn btn-main" id="btn-start">Jugar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    /* VARIANTE B: MOVING MADNESS - TO IMPLEMENT
+     * 
+     * Features:
+     * - Base: charge-to-jump (como original)
+     * - Plataformas dinámicas:
+     *   * Movimiento horizontal oscilante
+     *   * Movimiento vertical (suben/bajan)
+     *   * Plataformas temporales (desaparecen)
+     *   * Rotativas (movimiento circular)
+     * - Sistema de viento:
+     *   * Afecta la trayectoria del jugador
+     *   * Cambia dirección cada X plataformas
+     *   * Visual indicator en UI
+     * - Vidas: 3 fallos permitidos (vs 1 en original)
+     * - Obstáculos: pájaros/nubes que hay que evitar en el aire
+     * - Danger meter: aumenta con la altura (más difícil = más peligro)
+     */
+    
+    const canvas = document.getElementById('gc');
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+        canvas.width = canvas.parentElement.clientWidth * window.devicePixelRatio;
+        canvas.height = canvas.parentElement.clientHeight * window.devicePixelRatio;
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    
+    document.getElementById('btn-start').addEventListener('click', () => {
+        document.getElementById('modal').classList.remove('show');
+    });
+    document.getElementById('modal').classList.add('show');
+    
+    // TODO: Implement Moving Madness variant
+    </script>
+</body>
+</html>

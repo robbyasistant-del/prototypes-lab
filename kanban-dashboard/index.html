@@ -356,6 +356,22 @@ document.getElementById('importBtn').onclick=()=>{
   i.click();
 };
 
+const autoKanbanTasks=[
+  {title:'Definir mecánica doble-letra y badge shareable',desc:'Detallar qué dispara el badge “Only Green” / doble consonante, assets sociales y mensaje, para que el diario tenga gancho viral.',priority:'high'},
+  {title:'Prototipar pantalla de recompensa',desc:'Diseñar pantalla reward con badge + stats + llamada a share, lista para tomar assets de TikTok.',priority:'medium'},
+  {title:'Armar mini test deck para el próximo playtest',desc:'Estructurar preguntas, datos de control y métricas a observar tras lanzar la mecánica doble-letra y el badge social.',priority:'medium'}
+];
+function ensureAutoKanbanTasks(){
+  autoKanbanTasks.forEach(task=>{
+    if(!state.todo.some(t=>t.title===task.title)){
+      const newTask={...task,id:id(),createdAt:Date.now()};
+      state.todo.unshift(newTask);
+      log(`Tarea auto agregada a Todo: "${task.title}"`);
+    }
+  });
+  save();
+}
+ensureAutoKanbanTasks();
 render();
 renderCronJobs();
 </script>

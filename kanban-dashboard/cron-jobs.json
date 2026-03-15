@@ -1,4 +1,4 @@
-{
+﻿{
     "generatedAt":  "2026-02-27 16:31:29",
     "jobs":  [
                  {
@@ -170,7 +170,7 @@
                      "wakeMode":  "now",
                      "payload":  {
                                      "kind":  "agentTurn",
-                                     "message":  "Every day at 08:00 Europe/Madrid, run a FULL Prototype Factory workflow with QUALITY FIRST (not quick mockups). Before starting, update GitHub Project https://github.com/users/robbyasistant-del/projects/1 item matching title \u0027Daily 08:00 prototype batch (quality-first)\u0027 to Stage=\u0027In Progress\u0027. Build exactly 3 prototypes in separate folders under C:/Users/robby/.openclaw/workspace/prototypes_html with date prefix. For EACH prototype produce polished index.html and detailed report.html (strategy, SEO/ASO/SEM, loop, rewards, KPIs, experiments, risks). Update cumulative prototypes/index.html, commit+push to robbyasistant-del/prototypes-lab, ensure Pages live. After finishing: move same project item to Stage=\u0027Done\u0027, append a short relevant note in the item body with what was shipped and risks, and send Telegram completion message to 5049109527 with URL + key outcome.",
+                                     "message":  "Every day at 08:00 Europe/Madrid, run a FULL Prototype Factory workflow with QUALITY FIRST (not quick mockups). Before starting, update GitHub Project https://github.com/users/robbyasistant-del/projects/1 item matching title \u0027Daily 08:00 prototype batch (quality-first)\u0027 to Stage=\u0027In Progress\u0027. Build exactly 3 prototypes in separate folders under C:/Users/robby/.openclaw/workspace/prototypes_html with date prefix. For EACH prototype produce polished index.html and detailed report.html (strategy, SEO/ASO/SEM, loop, rewards, KPIs, experiments, risks). Update cumulative prototypes_html/index.html, commit+push to robbyasistant-del/prototypes-lab, ensure Pages live. After finishing: move same project item to Stage=\u0027Done\u0027, append a short relevant note in the item body with what was shipped and risks, and send Telegram completion message to 5049109527 with URL + key outcome.",
                                      "timeoutSeconds":  1800
                                  },
                      "delivery":  {
@@ -216,5 +216,8 @@
                  }
              ]
 }
+
+
+
 
 

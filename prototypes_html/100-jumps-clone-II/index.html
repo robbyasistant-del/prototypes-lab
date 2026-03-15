@@ -938,10 +938,9 @@ function update(dt) {
         player.x += player.vx * dt;
         player.y += player.vy * dt;
         
-        // ROTACIÓN 360º: Completa una vuelta completa durante el salto
-        // La rotación es proporcional al tiempo de salto
-        jumpRotation += dt * 360; // 360 grados por segundo = 1 vuelta/segundo
-        if (jumpRotation >= 360) jumpRotation = 360; // Limitar a 360º máximo
+        // ROTACIÓN 360º: Acumula rotación continuamente (múltiples vueltas permitidas)
+        jumpRotation += dt * 360; // 360 grados por segundo
+        // Usar módulo para mantener el valor entre 0-360 al dibujar
 
         const cw = THEME.character.width * S;
         const ch = THEME.character.height * S;
@@ -1194,7 +1193,7 @@ function drawCharacter() {
     
     // ROTACIÓN 360º durante el salto
     if ((state === 'jumping' || state === 'falling') && typeof jumpRotation === 'number') {
-        ctx.rotate(jumpRotation * Math.PI / 180);
+        ctx.rotate((jumpRotation % 360) * Math.PI / 180);
     }
 
     // COLOR PROGRESIVO: más morado según la carga

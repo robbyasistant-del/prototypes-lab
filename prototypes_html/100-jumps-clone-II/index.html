@@ -202,7 +202,9 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light');mode=settings.mode||'classic';syncUI();
 document.getElementById('version-hash').textContent='2026.03.15-2';
-setTimeout(()=>{reset();requestAnimationFrame(loop);},50);
+window.addEventListener('resize',resize);
+resize();
+requestAnimationFrame(loop);
 
 ['mousedown','touchstart'].forEach(ev=>canvas.addEventListener(ev,down,{passive:false}));
 ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev=>canvas.addEventListener(ev,up,{passive:false}));

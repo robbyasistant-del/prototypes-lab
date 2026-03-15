@@ -179,7 +179,7 @@ function targetJumps(){return modeCfg().target}
 function reset(){
   dprResize();
   const y=H*.62;
-  platforms=[{x:26*S,y,w:110*S,appear:1}];
+  platforms=[{x:26*S,y,w:110*S,appear:1}]; /* Primera plataforma visible */
   for(let i=1;i<12;i++) platforms.push(gen(platforms[i-1],i));
   player={x:platforms[0].x+platforms[0].w*.35-13*S,y:y-27*S,vx:0,vy:0,idx:0,air:0,jumpStartTime:null};
   cam={x:0,v:0,target:0};
@@ -195,7 +195,7 @@ function difficulty(i){
 }
 function gen(prev,i){
   const d=difficulty(i),dy=rand(d.dy[0],d.dy[1])*S,g=rand(d.gap[0],d.gap[1])*S,w=clamp(rand(d.w[0],d.w[1])*S,26*S,120*S);
-  const p={x:prev.x+prev.w+g,y:clamp(prev.y+dy,H*.35,H*.74),w,appear:0};
+  const p={x:prev.x+prev.w+g,y:clamp(prev.y+dy,H*.35,H*.74),w,appear:0}; /* Invisible inicialmente */
   spawnPlatformFx(p);
   return p;
 }
@@ -345,7 +345,7 @@ function drawPlayer(){const t=THEME_PRESETS[theme],cw=27*S,ch=27*S,x=player.x-ca
 function drawHUD(){const t=THEME_PRESETS[theme];ctx.textAlign='center';ctx.textBaseline='top';ctx.font=`900 ${38*S}px system-ui`;const top=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat')||'0')+26*S;const val=mode==='zen'?score.cleared:(modeCfg().target===Infinity?score.cleared:score.remaining);ctx.fillStyle=t.score;ctx.fillText(val,W/2,top);ctx.font=`700 ${11*S}px system-ui`;ctx.fillStyle=t.dim;ctx.fillText(mode==='zen'?'jumps chilled':'jumps '+(mode==='time'?'remaining':'remaining'),W/2,top+41*S);if(streak>0){ctx.fillStyle=t.perfect;ctx.fillText(`Perfect x${streak}`,W/2,top+56*S)}}
 function drawParticles(){for(const p of particles){const a=1-p.age/p.life;ctx.globalAlpha=a;if(p.type==='trail'||p.type==='spark'||p.type==='dust'||p.type==='appear'){ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.world?(p.x-cam.x):p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}else{ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.size,p.size*1.6)}}ctx.globalAlpha=1}
 
-function render(){drawBg();for(let i=Math.max(0,player.idx-2);i<platforms.length;i++){if(platforms[i].x-cam.x>W+120*S)break;drawPlat(platforms[i]);}drawParticles();drawPlayer();drawFloatTexts();drawHUD();}
+function render(){drawBg();/* Solo dibujar plataforma actual y la siguiente */const curIdx=player.idx;const nextIdx=curIdx+1;if(platforms[curIdx])drawPlat(platforms[curIdx]);if(platforms[nextIdx]){/* Animacion de aparicion para la siguiente */if(platforms[nextIdx].appear<1)platforms[nextIdx].appear=Math.min(1,platforms[nextIdx].appear+0.016*4);drawPlat(platforms[nextIdx]);}drawParticles();drawPlayer();drawFloatTexts();drawHUD();}
 
 function rr(c,x,y,w,h,r){r=Math.min(r,w/2,h/2);c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);c.lineTo(x+r,y+h);c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath()}
 

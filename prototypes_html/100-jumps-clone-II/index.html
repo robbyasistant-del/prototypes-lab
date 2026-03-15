@@ -388,7 +388,7 @@ const themeBtn=document.getElementById('theme-btn');
 const themeIcon=document.getElementById('theme-icon');
 let isDarkTheme=false;
 try{isDarkTheme=localStorage.getItem('100j2_darktheme')==='true';}catch(_){}
-function updateThemeIcon(){themeIcon.textContent=isDarkTheme?'🌙':'☀️';document.body.classList.toggle('theme-dark',isDarkTheme);}
+function updateThemeIcon(){themeIcon.textContent=isDarkTheme?'🌙':'☀️';themeIcon.style.display='inline-block';themeIcon.style.opacity='1';document.body.classList.toggle('theme-dark',isDarkTheme);}
 function toggleTheme(){isDarkTheme=!isDarkTheme;try{localStorage.setItem('100j2_darktheme',isDarkTheme);}catch(_){}updateThemeIcon();}
 sh(themeBtn,toggleTheme);
 updateThemeIcon();

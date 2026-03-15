@@ -259,7 +259,7 @@ function update(dt){
     player.air += dt;
     player.vy += 2200*S*dt; player.x += player.vx*dt; player.y += player.vy*dt;
     // Rotacion continua a velocidad x1 (420 deg/s)
-    jumpRot += dt*420;
+    jumpRot += dt*840;
     spawnTrail();
     const cw=27*S,ch=27*S,b=player.y+ch,pb=b-player.vy*dt,cx=player.x+cw/2;
     if(player.vy>0){

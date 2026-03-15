@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>100 Jumps - Clone Exacto</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+        html, body { width: 100%; height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        body { background: #d4d4d4; transition: background 0.3s; }
+        body.dark { background: #2d2d2d; }
+        #game-container { width: 100%; height: 100%; display: flex; flex-direction: column; }
+        #header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(0,0,0,0.05); }
+        #jump-counter { font-size: 28px; font-weight: 800; color: #4CAF50; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        body.dark #jump-counter { color: #81C784; }
+        .btn-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        body.dark .btn-icon { background: rgba(60,60,60,0.9); }
+        .btn-icon:active { transform: scale(0.95); }
+        #charge-indicator { position: absolute; top: 70px; left: 50%; transform: translateX(-50%); display: none; flex-direction: column; align-items: center; background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(5px); z-index: 10; }
+        #charge-bar-container { width: 100px; height: 8px; background: rgba(255,255,255,0.3); border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
+        #charge-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #4CAF50, #FFC107, #FF5722); border-radius: 4px; transition: width 0.05s linear; }
+        #charge-text { color: white; font-size: 14px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        canvas { flex: 1; width: 100%; display: block; touch-action: none; }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(5px); }
+        .dialog { background: white; padding: 32px; border-radius: 20px; text-align: center; max-width: 320px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); animation: appear 0.3s ease; }
+        body.dark .dialog { background: #3d3d3d; color: white; }
+        @keyframes appear { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .dialog h2 { font-size: 32px; margin-bottom: 16px; }
+        .dialog p { font-size: 16px; color: #666; margin-bottom: 12px; line-height: 1.5; }
+        body.dark .dialog p { color: #ccc; }
+        button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 16px 32px; font-size: 18px; font-weight: bold; border-radius: 30px; cursor: pointer; margin-top: 16px; transition: all 0.2s; box-shadow: 0 4px 15px rgba(102,126,234,0.4); }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
+        button:active { transform: translateY(0); }
+        #footer { display: flex; justify-content: center; gap: 16px; padding: 12px; background: rgba(0,0,0,0.05); }
+        body.dark #footer { background: rgba(255,255,255,0.05); }
+        #puyo-face { font-size: 80px; margin-bottom: 16px; animation: bounce 0.5s ease infinite alternate; }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="header">
+            <div class="btn-icon" id="btn-stats">📊</div>
+            <div id="jump-counter">0 / 100</div>
+            <div class="btn-icon" id="btn-settings">⚙️</div>
+        </div>
+        
+        <div id="charge-indicator">
+            <div id="charge-bar-container"><div id="charge-bar"></div></div>
+            <span id="charge-text">0%</span>
+        </div>
+        
+        <canvas id="game-canvas"></canvas>
+        
+        <div id="instructions" class="overlay">
+            <div class="dialog">
+                <h2>100 JUMPS</h2>
+                <p>Hold to charge your jump</p>
+                <p>Release to jump!</p>
+                <p>Land on platforms to continue</p>
+                <button id="btn-start">TAP TO START</button>
+            </div>
+        </div>
+        
+        <div id="game-over" class="overlay" style="display: none;">
+            <div class="dialog">
+                <div id="puyo-face">😵</div>
+                <h2>GAME OVER</h2>
+                <p id="final-score">You reached: 0 / 100</p>
+                <p id="best-score">Best: 0</p>
+                <button id="btn-retry">RETRY</button>
+            </div>
+        </div>
+        
+        <div id="footer">
+            <div class="btn-icon" id="btn-theme">🌙</div>
+            <div class="btn-icon" id="btn-help">❓</div>
+            <div class="btn-icon" id="btn-sound">🔊</div>
+        </div>
+    </div>
+
+    <script>
+        const CONSTANTS = { GRAVITY: 1500, MIN_JUMP_FORCE: 300, MAX_JUMP_FORCE: 1200, MAX_CHARGE_TIME: 1000, TARGET_JUMPS: 100, PUYO_RADIUS: 20, PLATFORM_HEIGHT: 15, GROUND_Y_RATIO: 0.7 };
+        const game = { canvas: null, ctx: null, width: 0, height: 0, puyoX: 0, puyoY: 0, velocityX: 0, velocityY: 0, rotation: 0, isCharging: false, chargeStartTime: 0, chargeLevel: 0, currentJump: 0, bestJumps: parseInt(localStorage.getItem('bestJumps') || '0'), isJumping: false, gameOver: false, gameWon: false, started: false, currentPlatform: null, nextPlatform: null, platformY: 0, particles: [], soundEnabled: localStorage.getItem('soundEnabled') !== 'false', darkTheme: localStorage.getItem('darkTheme') === 'true', audioContext: null };
+
+        class Platform {
+            constructor(x, y, width) { this.x = x; this.y = y; this.width = width; this.height = CONSTANTS.PLATFORM_HEIGHT; this.targetY = y; this.currentY = y - 100; this.animationProgress = 0; }
+            update(deltaTime) { if (this.animationProgress < 1) { this.animationProgress += deltaTime * 3; if (this.animationProgress > 1) this.animationProgress = 1; const t = this.animationProgress; const ease = 1 - Math.pow(1 - t, 3); this.currentY = this.y - 100 * (1 - ease); } else { this.currentY = this.y; } }
+            draw(ctx) { ctx.fillStyle = game.darkTheme ? '#5a5a5a' : '#8b7355'; ctx.fillRect(this.x, this.currentY, this.width, this.height); ctx.fillStyle = game.darkTheme ? '#6a6a6a' : '#a08060'; ctx.fillRect(this.x, this.currentY, this.width, 4); const centerX = this.x + this.width / 2; const perfectWidth = this.width * 0.1; ctx.fillStyle = 'rgba(100, 255, 100, 0.3)'; ctx.fillRect(centerX - perfectWidth / 2, this.currentY, perfectWidth, 3); }
+            getCenterX() { return this.x + this.width / 2; }
+        }
+
+        class Particle {
+            constructor(x, y, type) { this.x = x; this.y = y; this.type = type; this.life = 1.0; this.vx = (Math.random() - 0.5) * 200; this.vy = (Math.random() - 0.5) * 200; this.size = Math.random() * 4 + 2; this.color = type === 'dust' ? `rgba(180,170,150,${Math.random()*0.5+0.3})` : type === 'perfect' ? `rgba(255,215,0,${Math.random()*0.5+0.5})` : `rgba(255,255,200,${Math.random()*0.8+0.2})`; }
+            update(deltaTime) { this.x += this.vx * deltaTime; this.y += this.vy * deltaTime; this.vy += 100 * deltaTime; this.life -= deltaTime * 1.5; this.size *= 0.98; }
+            draw(ctx) { ctx.globalAlpha = Math.max(0, this.life); ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; }
+        }
+
+        function initAudio() { if (!game.audioContext) game.audioContext = new (window.AudioContext || window.webkitAudioContext)(); }
+        function playSound(type) { if (!game.soundEnabled || !game.audioContext) return; const osc = game.audioContext.createOscillator(); const gain = game.audioContext.createGain(); osc.connect(gain); gain.connect(game.audioContext.destination); const now = game.audioContext.currentTime; switch(type) { case 'charge': osc.frequency.setValueAtTime(200, now); osc.frequency.exponentialRampToValueAtTime(400, now + 0.1); gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1); osc.start(now); osc.stop(now + 0.1); break; case 'jump': osc.frequency.setValueAtTime(300, now); osc.frequency.exponentialRampToValueAtTime(100, now + 0.2); gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2); osc.start(now); osc.stop(now + 0.2); break; case 'land': osc.frequency.setValueAtTime(150, now); osc.frequency.exponentialRampToValueAtTime(80, now + 0.1); gain.gain.setValueAtTime(0.15, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1); osc.start(now); osc.stop(now + 0.1); break; case 'perfect': [440, 554, 659, 880].forEach((freq, i) => { const o = game.audioContext.createOscillator(); const g = game.audioContext.createGain(); o.connect(g); g.connect(game.audioContext.destination); o.frequency.value = freq; g.gain.setValueAtTime(0.1, now + i * 0.05); g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.05 + 0.3); o.start(now + i * 0.05); o.stop(now + i * 0.05 + 0.3); }); break; case 'gameover': osc.frequency.setValueAtTime(200, now); osc.frequency.exponentialRampToValueAtTime(50, now + 0.5); gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); break; } }
+
+        function drawPuyo(ctx, x, y, rotation, chargeLevel) {
+            ctx.save(); ctx.translate(x, y); ctx.rotate(rotation * Math.PI / 180); const squish = 1 - chargeLevel * 0.2; ctx.scale(1 / squish, squish);
+            ctx.fillStyle = '#6b5ce7'; ctx.beginPath(); ctx.arc(0, 0, CONSTANTS.PUYO_RADIUS, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.beginPath(); ctx.arc(2, 2, CONSTANTS.PUYO_RADIUS, 0, Math.PI * 2); ctx.fill();
+            const eyeOffset = 6, eyeY = -3;
+            ctx.fillStyle = 'white'; ctx.beginPath(); ctx.ellipse(-eyeOffset, eyeY, 5, 7, 0, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.ellipse(eyeOffset, eyeY, 5, 7, 0, 0, Math.PI * 2); ctx.fill();
+            const pupilOffset = game.velocityX * 0.01; ctx.fillStyle = '#333'; ctx.beginPath(); ctx.arc(-eyeOffset + pupilOffset, eyeY + 1, 2.5, 0, Math.PI * 2); ctx.arc(eyeOffset + pupilOffset, eyeY + 1, 2.5, 0, Math.PI * 2); ctx.fill();
+            if (game.gameOver) { ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-eyeOffset - 3, eyeY - 3); ctx.lineTo(-eyeOffset + 3, eyeY + 3); ctx.moveTo(-eyeOffset + 3, eyeY - 3); ctx.lineTo(-eyeOffset - 3, eyeY + 3); ctx.moveTo(eyeOffset - 3, eyeY - 3); ctx.lineTo(eyeOffset + 3, eyeY + 3); ctx.moveTo(eyeOffset + 3, eyeY - 3); ctx.lineTo(eyeOffset - 3, eyeY + 3); ctx.stroke(); }
+            ctx.restore();
+        }
+
+        function drawTrajectoryPreview(ctx) { if (!game.isCharging || !game.nextPlatform) return; const force = CONSTANTS.MIN_JUMP_FORCE + (CONSTANTS.MAX_JUMP_FORCE - CONSTANTS.MIN_JUMP_FORCE) * game.chargeLevel; const dx = game.nextPlatform.getCenterX() - game.puyoX; const angle = Math.atan2(-Math.abs(dx) * 0.3, Math.abs(dx)); const vx = (dx > 0 ? 1 : -1) * force * Math.cos(angle); const vy = -force * Math.sin(angle + 0.3); ctx.strokeStyle = `rgba(255,255,100,${0.3 + game.chargeLevel * 0.4})`; ctx.lineWidth = 3; ctx.setLineDash([5, 5]); ctx.beginPath(); let simX = game.puyoX, simY = game.puyoY, simVx = vx, simVy = vy; ctx.moveTo(simX, simY); for (let i = 0; i < 30; i++) { simVy += CONSTANTS.GRAVITY * 0.016; simX += simVx * 0.016; simY += simVy * 0.016; ctx.lineTo(simX, simY); } ctx.stroke(); ctx.setLineDash([]); }
+
+        function drawProgressBar(ctx) { const barWidth = 10, barHeight = game.height * 0.5, barX = game.width - 30, barY = (game.height - barHeight) / 2; ctx.fillStyle = 'rgba(128,128,128,0.3)'; ctx.fillRect(barX, barY, barWidth, barHeight); const progress = game.currentJump / CONSTANTS.TARGET_JUMPS, progressHeight = barHeight * progress; let color = '#4CAF50'; if (game.currentJump > 50) color = '#FFC107'; if (game.currentJump > 80) color = '#FF5722'; ctx.fillStyle = color; ctx.fillRect(barX, barY + barHeight - progressHeight, barWidth, progressHeight); }
+
+        function drawBackground(ctx) { ctx.fillStyle = game.darkTheme ? '#2d2d2d' : '#d4d4d4'; ctx.fillRect(0, 0, game.width, game.height); ctx.fillStyle = game.darkTheme ? '#1a1a1a' : '#b0b0b0'; ctx.fillRect(0, game.platformY + CONSTANTS.PLATFORM_HEIGHT, game.width, game.height); }
+
+        function getPlatformWidth(level) { if (level < 10) return 160 + Math.random() * 40; if (level < 30) return 130 + Math.random() * 40; if (level < 60) return 100 + Math.random() * 30; if (level < 90) return 80 + Math.random() * 20; return 60 + Math.random() * 15; }
+        function getPlatformDistance(level) { const baseDist = game.width * 0.32; if (level < 10) return baseDist * (0.5 + Math.random() * 0.2); if (level < 30) return baseDist * (0.7 + Math.random() * 0.3); if (level < 60) return baseDist * (0.9 + Math.random() * 0.4); if (level < 90) return baseDist * (1.1 + Math.random() * 0.5); return baseDist * (1.3 + Math.random() * 0.6); }
+
+        function spawnPlatform() { const width = getPlatformWidth(game.currentJump); const distance = getPlatformDistance(game.currentJump); let x = game.currentPlatform.x + distance; if (x + width > game.width - 20) x = 30 + Math.random() * (game.width * 0.3); game.nextPlatform = new Platform(x, game.platformY, width); }
+
+        function emitParticles(x, y, type, count = 8) { for (let i = 0; i < count; i++) game.particles.push(new Particle(x, y, type)); }
+
+        function checkLanding() { if (game.velocityY < 0) return; const puyoBottom = game.puyoY + CONSTANTS.PUYO_RADIUS; const platformTop = game.nextPlatform.currentY; if (puyoBottom >= platformTop && puyoBottom <= platformTop + 20) { const centerX = game.nextPlatform.getCenterX(); const dist = Math.abs(game.puyoX - centerX); const threshold = game.nextPlatform.width * 0.1; if (game.puyoX >= game.nextPlatform.x && game.puyoX <= game.nextPlatform.x + game.nextPlatform.width) { game.isJumping = false; game.velocityX = 0; game.velocityY = 0; game.puyoY = platformTop - CONSTANTS.PUYO_RADIUS; game.rotation = 0; if (dist < threshold) { emitParticles(game.puyoX, game.puyoY, 'perfect', 12); playSound('perfect'); } else { emitParticles(game.puyoX, game.puyoY, 'dust', 6); playSound('land'); } game.currentJump++; game.currentPlatform = game.nextPlatform; spawnPlatform(); if (game.currentJump >= CONSTANTS.TARGET_JUMPS) { game.gameWon = true; document.getElementById('victory').style.display = 'flex'; playSound('perfect'); } updateUI(); } } }
+
+        function startCharging() { if (game.isJumping || game.gameOver || game.gameWon || !game.started) return; game.isCharging = true; game.chargeStartTime = performance.now(); game.chargeLevel = 0; document.getElementById('charge-indicator').style.display = 'flex'; initAudio(); }
+        function releaseJump() { if (!game.isCharging || game.isJumping) return; game.isCharging = false; document.getElementById('charge-indicator').style.display = 'none'; const force = CONSTANTS.MIN_JUMP_FORCE + (CONSTANTS.MAX_JUMP_FORCE - CONSTANTS.MIN_JUMP_FORCE) * game.chargeLevel; const dx = game.nextPlatform.getCenterX() - game.puyoX; const angle = Math.atan2(-Math.abs(dx) * 0.3, Math.abs(dx)); game.velocityX = (dx > 0 ? 1 : -1) * force * Math.cos(angle); game.velocityY = -force * Math.sin(angle + 0.3); game.isJumping = true; emitParticles(game.puyoX, game.puyoY + CONSTANTS.PUYO_RADIUS, 'dust', 5); playSound('jump'); }
+
+        function update(deltaTime) { if (game.gameOver || game.gameWon || !game.started) return; if (game.isCharging) { const elapsed = performance.now() - game.chargeStartTime; game.chargeLevel = Math.min(1.0, elapsed / CONSTANTS.MAX_CHARGE_TIME); document.getElementById('charge-bar').style.width = (game.chargeLevel * 100) + '%'; document.getElementById('charge-text').textContent = Math.floor(game.chargeLevel * 100) + '%'; if (Math.floor(elapsed / 100) % 2 === 0) playSound('charge'); } if (game.isJumping) { game.velocityY += CONSTANTS.GRAVITY * deltaTime; game.puyoX += game.velocityX * deltaTime; game.puyoY += game.velocityY * deltaTime; game.rotation += 360 * deltaTime * (0.5 + game.chargeLevel * 0.5); if (game.rotation >= 360) game.rotation -= 360; checkLanding(); if (game.puyoY > game.height + 50) gameOver(); } if (game.currentPlatform) game.currentPlatform.update(deltaTime); if (game.nextPlatform) game.nextPlatform.update(deltaTime); game.particles = game.particles.filter(p => { p.update(deltaTime); return p.life > 0; }); }
+
+        function draw() { drawBackground(game.ctx); drawTrajectoryPreview(game.ctx); if (game.currentPlatform) game.currentPlatform.draw(game.ctx); if (game.nextPlatform) game.nextPlatform.draw(game.ctx); game.particles.forEach(p => p.draw(game.ctx)); drawPuyo(game.ctx, game.puyoX, game.puyoY, game.rotation, game.chargeLevel); drawProgressBar(game.ctx); }
+
+        let lastTime = performance.now();
+        function gameLoop() { const now = performance.now(); const deltaTime = Math.min((now - lastTime) / 1000, 0.05); lastTime = now; update(deltaTime); draw(); requestAnimationFrame(gameLoop); }
+
+        function updateUI() { document.getElementById('jump-counter').textContent = game.currentJump + ' / ' + CONSTANTS.TARGET_JUMPS; const counter = document.getElementById('jump-counter'); if (game.currentJump < 50) counter.style.color = '#4CAF50'; else if (game.currentJump < 80) counter.style.color = '#FFC107'; else counter.style.color = '#FF5722'; }
+
+        function startGame() { document.getElementById('instructions').style.display = 'none'; game.started = true; game.currentJump = 0; game.gameOver = false; game.gameWon = false; game.isJumping = false; game.isCharging = false; game.particles = []; const startWidth = getPlatformWidth(0); game.currentPlatform = new Platform(game.width * 0.25, game.platformY, startWidth); game.puyoX = game.currentPlatform.getCenterX(); game.puyoY = game.platformY - CONSTANTS.PUYO_RADIUS; spawnPlatform(); updateUI(); initAudio(); }
+
+        function gameOver() { game.gameOver = true; playSound('gameover'); if (game.currentJump > game.bestJumps) { game.bestJumps = game.currentJump; localStorage.setItem('bestJumps', game.bestJumps.toString()); } document.getElementById('final-score').textContent = 'You reached: ' + game.currentJump + ' / ' + CONSTANTS.TARGET_JUMPS; document.getElementById('best-score').textContent = 'Best: ' + game.bestJumps; document.getElementById('game-over').style.display = 'flex'; }
+        function restart() { document.getElementById('game-over').style.display = 'none'; startGame(); }
+        function toggleTheme() { game.darkTheme = !game.darkTheme; document.body.classList.toggle('dark', game.darkTheme); localStorage.setItem('darkTheme', game.darkTheme.toString()); }
+        function toggleSound() { game.soundEnabled = !game.soundEnabled; localStorage.setItem('soundEnabled', game.soundEnabled.toString()); document.getElementById('btn-sound').textContent = game.soundEnabled ? '🔊' : '🔇'; }
+
+        function init() {
+            game.canvas = document.getElementById('game-canvas'); game.ctx = game.canvas.getContext('2d');
+            function resize() { const container = document.getElementById('game-container'); const header = document.getElementById('header'); const footer = document.getElementById('footer'); const availableHeight = container.clientHeight - header.clientHeight - footer.clientHeight; game.canvas.width = container.clientWidth; game.canvas.height = availableHeight; game.width = game.canvas.width; game.height = game.canvas.height; game.platformY = game.height * CONSTANTS.GROUND_Y_RATIO; }
+            resize(); window.addEventListener('resize', resize);
+            if (game.darkTheme) document.body.classList.add('dark');
+            game.canvas.addEventListener('mousedown', startCharging); game.canvas.addEventListener('mouseup', releaseJump); game.canvas.addEventListener('mouseleave', () => { if (game.isCharging) releaseJump(); });
+            game.canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startCharging(); }); game.canvas.addEventListener('touchend', (e) => { e.preventDefault(); releaseJump(); });
+            document.getElementById('btn-start').addEventListener('click', startGame); document.getElementById('btn-retry').addEventListener('click', restart); document.getElementById('btn-theme').addEventListener('click', toggleTheme); document.getElementById('btn-sound').addEventListener('click', toggleSound); document.getElementById('btn-help').addEventListener('click', () => { document.getElementById('instructions').style.display = 'flex'; }); document.getElementById('btn-stats').addEventListener('click', () => { alert('Best: ' + game.bestJumps + ' jumps'); }); document.getElementById('btn-settings').addEventListener('click', () => { toggleTheme(); });
+            document.getElementById('btn-sound').textContent = game.soundEnabled ? '🔊' : '🔇';
+            gameLoop();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

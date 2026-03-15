@@ -146,30 +146,6 @@
         .mute-btn:hover {
             background: rgba(255,255,255,0.2);
         }
-        /* Charge bar */
-        .charge-bar-container {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        .charge-bar-container.visible {
-            opacity: 1;
-        }
-        .charge-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #24c78b 0%, #fbbf24 50%, #ef4444 100%);
-            border-radius: 4px;
-            transition: width 0.05s linear;
-        }
     </style>
 </head>
 <body>
@@ -188,10 +164,6 @@
     <div class="instructions" id="instructions">
         <h2>HOLD to Charge • RELEASE to Jump</h2>
         <p>Land in the CENTER for PERFECT (+1 life every 3)</p>
-    </div>
-    
-    <div class="charge-bar-container" id="chargeBarContainer">
-        <div class="charge-bar" id="chargeBar"></div>
     </div>
     
     <div class="ui-overlay interactive hidden" id="gameOverScreen">
@@ -391,21 +363,9 @@
             IDLE: 'idle',
             CHARGING: 'charging',
             JUMPING: 'jumping',
+            PANNING: 'panning',
             GAME_OVER: 'game_over',
             WIN: 'win'
-        };
-
-        // Constants for physics
-        const CONSTANTS = {
-            GRAVITY: 0.4,
-            MIN_JUMP_POWER: 7,
-            MAX_JUMP_POWER: 16,
-            MAX_CHARGE_TIME: 800, // ms to reach max power
-            ANGLE: -Math.PI / 4, // 45 degrees upward
-            PLATFORM_HEIGHT: 15,
-            PLAYER_SIZE: 30,
-            PERFECT_ZONE_RATIO: 0.2, // 20% of platform width
-            VIEW_AHEAD: 3 // platforms to render ahead
         };
 
         class Game {
@@ -423,7 +383,7 @@
                 this.bestJumps = parseInt(localStorage.getItem('bestJumps') || '0');
                 this.muted = false;
                 
-                this.camera = { x: 0, y: 0 };
+                this.camera = { x: 0, y: 0, targetX: 0 };
                 this.platforms = [];
                 this.particles = [];
                 this.floatingTexts = [];
@@ -431,20 +391,19 @@
                 this.player = {
                     x: 0, y: 0,
                     vx: 0, vy: 0,
-                    width: CONSTANTS.PLAYER_SIZE, 
-                    height: CONSTANTS.PLAYER_SIZE,
+                    width: 30, height: 30,
+                    charge: 0,
                     onGround: false,
                     scaleX: 1, scaleY: 1
                 };
                 
                 this.charging = false;
                 this.chargeStartTime = 0;
-                this.chargeRatio = 0;
-                this.currentPlatformIndex = 0;
-                this.highestGeneratedIndex = 0;
+                this.currentPlatform = 0;
                 
                 this.setupInputs();
-                this.initGame();
+                this.generatePlatforms();
+                this.resetPlayer();
                 this.loop();
             }
             
@@ -457,65 +416,35 @@
                 this.ctx.scale(this.dpr, this.dpr);
             }
             
-            initGame() {
+            generatePlatforms() {
                 this.platforms = [];
-                this.currentPlatformIndex = 0;
-                this.highestGeneratedIndex = 0;
+                let x = 100;
+                let y = this.canvas.height / this.dpr - 150;
                 
-                // Create starting platform
-                const startY = this.canvas.height / this.dpr - 200;
-                this.platforms.push({
-                    x: 50,
-                    y: startY,
-                    width: 120,
-                    height: CONSTANTS.PLATFORM_HEIGHT
-                });
+                // Starting platform
+                this.platforms.push({ x: 50, y: y, width: 120, height: 15 });
                 
-                // Generate first few platforms
-                this.generatePlatformsAhead(5);
-                this.resetPlayer();
-            }
-            
-            generatePlatformsAhead(count) {
-                let lastPlat = this.platforms[this.platforms.length - 1];
-                
-                for (let i = 0; i < count; i++) {
-                    const jumpNum = this.platforms.length;
-                    const tier = this.getTier(jumpNum);
-                    
-                    // Random gap and width based on tier
+                for (let i = 1; i <= 100; i++) {
+                    const tier = this.getTier(i);
                     const gap = tier.minGap + Math.random() * (tier.maxGap - tier.minGap);
                     const width = tier.minWidth + Math.random() * (tier.maxWidth - tier.minWidth);
+                    const yOffset = (Math.random() - 0.5) * 120;
                     
-                    // Y variation (height difference between platforms)
-                    const maxYOffset = Math.min(120, jumpNum * 2); // increases with difficulty
-                    const yOffset = (Math.random() - 0.5) * maxYOffset * 2;
+                    x += gap;
+                    y = Math.max(100, Math.min(this.canvas.height / this.dpr - 100, y + yOffset));
                     
-                    let newY = lastPlat.y + yOffset;
-                    // Keep within reasonable bounds
-                    newY = Math.max(150, Math.min(this.canvas.height / this.dpr - 150, newY));
-                    
-                    const newPlat = {
-                        x: lastPlat.x + lastPlat.width + gap,
-                        y: newY,
-                        width: width,
-                        height: CONSTANTS.PLATFORM_HEIGHT
-                    };
-                    
-                    this.platforms.push(newPlat);
-                    lastPlat = newPlat;
+                    this.platforms.push({ x, y, width, height: 15 });
                 }
-                
-                this.highestGeneratedIndex = this.platforms.length - 1;
             }
             
             getTier(jumpNum) {
-                if (jumpNum <= 5) return { minGap: 80, maxGap: 130, minWidth: 100, maxWidth: 130 };
-                if (jumpNum <= 15) return { minGap: 100, maxGap: 170, minWidth: 80, maxWidth: 110 };
-                if (jumpNum <= 35) return { minGap: 120, maxGap: 200, minWidth: 65, maxWidth: 95 };
-                if (jumpNum <= 60) return { minGap: 140, maxGap: 240, minWidth: 50, maxWidth: 80 };
-                if (jumpNum <= 85) return { minGap: 160, maxGap: 280, minWidth: 40, maxWidth: 65 };
-                return { minGap: 180, maxGap: 320, minWidth: 35, maxWidth: 55 };
+                if (jumpNum <= 5) return { minGap: 60, maxGap: 100, minWidth: 100, maxWidth: 120 };
+                if (jumpNum <= 10) return { minGap: 80, maxGap: 140, minWidth: 85, maxWidth: 110 };
+                if (jumpNum <= 25) return { minGap: 90, maxGap: 170, minWidth: 72, maxWidth: 105 };
+                if (jumpNum <= 45) return { minGap: 100, maxGap: 200, minWidth: 58, maxWidth: 95 };
+                if (jumpNum <= 70) return { minGap: 120, maxGap: 250, minWidth: 46, maxWidth: 80 };
+                if (jumpNum <= 90) return { minGap: 140, maxGap: 280, minWidth: 40, maxWidth: 70 };
+                return { minGap: 250, maxGap: 350, minWidth: 26, maxWidth: 40 };
             }
             
             resetPlayer() {
@@ -524,23 +453,19 @@
                 this.player.y = start.y - this.player.height;
                 this.player.vx = 0;
                 this.player.vy = 0;
+                this.player.charge = 0;
                 this.player.onGround = true;
-                this.player.scaleX = 1;
-                this.player.scaleY = 1;
-                this.currentPlatformIndex = 0;
+                this.currentPlatform = 0;
             }
             
             setupInputs() {
+                // Mouse/Touch
                 const startCharge = (e) => {
                     if (this.state !== STATE.IDLE || !this.player.onGround) return;
                     e.preventDefault();
                     this.charging = true;
                     this.chargeStartTime = Date.now();
-                    this.chargeRatio = 0;
                     this.state = STATE.CHARGING;
-                    
-                    document.getElementById('chargeBarContainer').classList.add('visible');
-                    
                     if (this.audio.ctx.state === 'suspended') {
                         this.audio.ctx.resume();
                     }
@@ -550,7 +475,6 @@
                     if (!this.charging || this.state !== STATE.CHARGING) return;
                     e.preventDefault();
                     this.charging = false;
-                    document.getElementById('chargeBarContainer').classList.remove('visible');
                     this.jump();
                 };
                 
@@ -559,6 +483,7 @@
                 this.canvas.addEventListener('touchstart', startCharge, { passive: false });
                 this.canvas.addEventListener('touchend', endCharge, { passive: false });
                 
+                // Keyboard
                 window.addEventListener('keydown', (e) => {
                     if (e.repeat) return;
                     if (e.code === 'Space' || e.key === ' ') {
@@ -572,37 +497,36 @@
                     }
                 });
                 
-                window.addEventListener('resize', () => {
-                    this.resize();
-                    // Adjust player if off screen after resize
-                    if (this.player.y > this.canvas.height / this.dpr - 100) {
-                        const plat = this.platforms[this.currentPlatformIndex];
-                        this.player.y = plat.y - this.player.height;
-                    }
-                });
+                window.addEventListener('resize', () => this.resize());
             }
             
             jump() {
-                const chargeTime = Date.now() - this.chargeStartTime;
-                // Charge ratio from 0 to 1
-                const rawRatio = Math.min(chargeTime / CONSTANTS.MAX_CHARGE_TIME, 1);
+                const chargeTime = Math.min(Date.now() - this.chargeStartTime, 1000);
+                const power = Math.min(chargeTime / 1000, 1);
                 
-                // Ensure minimum jump (even for very short presses)
-                this.chargeRatio = Math.max(0.15, rawRatio);
+                if (power < 0.1) {
+                    this.state = STATE.IDLE;
+                    return;
+                }
                 
                 this.audio.playJump();
                 
-                // Calculate jump velocity based on charge
-                const jumpPower = CONSTANTS.MIN_JUMP_POWER + 
-                    this.chargeRatio * (CONSTANTS.MAX_JUMP_POWER - CONSTANTS.MIN_JUMP_POWER);
+                const nextPlat = this.platforms[this.currentPlatform + 1];
+                const currentPlat = this.platforms[this.currentPlatform];
+                const distance = nextPlat.x - currentPlat.x;
                 
-                // Parabolic jump physics - power determines distance
-                this.player.vx = Math.cos(CONSTANTS.ANGLE) * jumpPower;
-                this.player.vy = Math.sin(CONSTANTS.ANGLE) * jumpPower;
+                // Calculate jump velocity for parabola
+                const angle = -Math.PI / 4; // 45 degrees
+                const minPower = 8;
+                const maxPower = 18;
+                const jumpPower = minPower + power * (maxPower - minPower);
+                
+                this.player.vx = Math.cos(angle) * jumpPower * (1 + distance / 300);
+                this.player.vy = Math.sin(angle) * jumpPower;
                 this.player.onGround = false;
                 this.state = STATE.JUMPING;
                 
-                // Squash effect on jump
+                // Squash effect
                 this.player.scaleX = 0.7;
                 this.player.scaleY = 1.3;
             }
@@ -620,53 +544,41 @@
                     return t.life > 0;
                 });
                 
-                // Update charge bar if charging
-                if (this.state === STATE.CHARGING) {
-                    const chargeTime = Date.now() - this.chargeStartTime;
-                    const ratio = Math.min(chargeTime / CONSTANTS.MAX_CHARGE_TIME, 1);
-                    document.getElementById('chargeBar').style.width = (ratio * 100) + '%';
-                    
-                    // Squash animation while charging
-                    this.player.scaleX = 1 + ratio * 0.4;
-                    this.player.scaleY = 1 - ratio * 0.3;
-                }
-                
-                // Player physics when jumping
+                // Player physics
                 if (this.state === STATE.JUMPING) {
-                    // Apply gravity
-                    this.player.vy += CONSTANTS.GRAVITY;
-                    
-                    // Update position
+                    this.player.vy += 0.5; // Gravity
                     this.player.x += this.player.vx;
                     this.player.y += this.player.vy;
                     
-                    // Stretch effect based on velocity
-                    const stretch = Math.min(Math.abs(this.player.vy) * 0.03, 0.3);
-                    this.player.scaleX = 0.9 - stretch;
-                    this.player.scaleY = 1.1 + stretch;
+                    // Stretch effect while jumping
+                    this.player.scaleX = 0.8 + Math.abs(this.player.vy) * 0.02;
+                    this.player.scaleY = 1.2 - Math.abs(this.player.vy) * 0.02;
                     
-                    // Check for landing
+                    // Check landing
                     this.checkLanding();
                     
-                    // Check for fall (game over)
+                    // Check fall
                     if (this.player.y > this.canvas.height / this.dpr + 100) {
                         this.gameOver();
                     }
                 }
                 
-                // Smooth return to normal scale
-                if (this.state !== STATE.CHARGING) {
-                    this.player.scaleX += (1 - this.player.scaleX) * 0.15;
-                    this.player.scaleY += (1 - this.player.scaleY) * 0.15;
+                // Charging animation
+                if (this.state === STATE.CHARGING) {
+                    const chargeTime = Date.now() - this.chargeStartTime;
+                    const chargeRatio = Math.min(chargeTime / 1000, 1);
+                    this.player.scaleX = 1 + chargeRatio * 0.5;
+                    this.player.scaleY = 1 - chargeRatio * 0.5;
                 }
                 
-                // Camera follow player
+                // Camera follow
                 const targetCamX = this.player.x - this.canvas.width / this.dpr / 3;
                 this.camera.x += (targetCamX - this.camera.x) * 0.1;
                 this.camera.x = Math.max(0, this.camera.x);
                 
-                // Generate more platforms if needed
-                this.managePlatformGeneration();
+                // Return to idle scale
+                this.player.scaleX += (1 - this.player.scaleX) * 0.15;
+                this.player.scaleY += (1 - this.player.scaleY) * 0.15;
                 
                 // Update HUD
                 document.getElementById('jumpCount').textContent = this.jumps;
@@ -674,102 +586,75 @@
                 document.getElementById('streakCount').textContent = this.perfectStreak;
             }
             
-            managePlatformGeneration() {
-                const visibleAhead = this.currentPlatformIndex + CONSTANTS.VIEW_AHEAD * 2;
-                if (visibleAhead >= this.highestGeneratedIndex && this.platforms.length < 105) {
-                    this.generatePlatformsAhead(3);
-                }
-            }
-            
             checkLanding() {
-                // Only check when falling down
-                if (this.player.vy < 0) return;
+                if (this.player.vy < 0) return; // Only land when falling
                 
-                const playerCenterX = this.player.x + this.player.width / 2;
-                const playerBottomY = this.player.y + this.player.height;
+                const nextPlat = this.platforms[this.currentPlatform + 1];
+                if (!nextPlat) return;
                 
-                // Check against the next few platforms
-                for (let i = this.currentPlatformIndex; i < Math.min(this.platforms.length, this.currentPlatformIndex + 3); i++) {
-                    const plat = this.platforms[i];
+                const px = this.player.x + this.player.width / 2;
+                const py = this.player.y + this.player.height;
+                
+                if (px >= nextPlat.x && px <= nextPlat.x + nextPlat.width &&
+                    py >= nextPlat.y && py <= nextPlat.y + nextPlat.height + 10 &&
+                    this.player.vy > 0) {
                     
-                    // Check horizontal overlap
-                    if (playerCenterX >= plat.x && playerCenterX <= plat.x + plat.width) {
-                        // Check vertical landing (player falling onto platform)
-                        if (playerBottomY >= plat.y && 
-                            playerBottomY <= plat.y + plat.height + 15 &&
-                            this.player.vy > 0) {
-                            
-                            this.land(plat, i);
-                            return;
-                        }
-                    }
+                    this.land(nextPlat);
                 }
             }
             
-            land(platform, platformIndex) {
-                // Snap to platform top
+            land(platform) {
                 this.player.y = platform.y - this.player.height;
                 this.player.vx = 0;
                 this.player.vy = 0;
                 this.player.onGround = true;
+                this.currentPlatform++;
+                this.jumps++;
                 
-                // Only count jump if landing on a new platform
-                if (platformIndex > this.currentPlatformIndex) {
-                    this.currentPlatformIndex = platformIndex;
-                    this.jumps++;
+                // Check perfect landing (center 20%)
+                const centerX = platform.x + platform.width / 2;
+                const perfectZone = platform.width * 0.2;
+                const isPerfect = Math.abs(this.player.x + this.player.width / 2 - centerX) < perfectZone / 2;
+                
+                if (isPerfect) {
+                    this.perfectStreak++;
+                    this.audio.playPerfect();
+                    this.spawnParticles(this.player.x + this.player.width / 2, this.player.y + this.player.height, '#24c78b', 1.5);
+                    this.floatingTexts.push(new FloatingText(
+                        this.player.x + this.player.width / 2 - this.camera.x,
+                        this.player.y - 30,
+                        'PERFECT!',
+                        '#24c78b'
+                    ));
                     
-                    // Check landing quality
-                    const playerCenterX = this.player.x + this.player.width / 2;
-                    const platformCenterX = platform.x + platform.width / 2;
-                    const perfectZoneHalfWidth = (platform.width * CONSTANTS.PERFECT_ZONE_RATIO) / 2;
-                    
-                    const isPerfect = Math.abs(playerCenterX - platformCenterX) <= perfectZoneHalfWidth;
-                    
-                    if (isPerfect) {
-                        this.perfectStreak++;
-                        this.audio.playPerfect();
-                        this.spawnParticles(playerCenterX, this.player.y + this.player.height, '#24c78b', 1.5);
-                        this.floatingTexts.push(new FloatingText(
-                            playerCenterX - this.camera.x,
-                            this.player.y - 30,
-                            'PERFECT!',
-                            '#24c78b'
-                        ));
-                        
-                        // Life gain every 3 perfects
-                        if (this.perfectStreak >= 3) {
-                            this.lives++;
-                            this.perfectStreak = 0;
-                            this.audio.playLifeGain();
-                            this.floatingTexts.push(new FloatingText(
-                                playerCenterX - this.camera.x,
-                                this.player.y - 60,
-                                '+1 LIFE!',
-                                '#ff5b78'
-                            ));
-                        }
-                    } else {
+                    if (this.perfectStreak >= 3) {
+                        this.lives++;
                         this.perfectStreak = 0;
-                        this.audio.playLand();
-                        this.spawnParticles(playerCenterX, this.player.y + this.player.height, '#9aa8bd');
+                        this.audio.playLifeGain();
+                        this.floatingTexts.push(new FloatingText(
+                            this.player.x + this.player.width / 2 - this.camera.x,
+                            this.player.y - 60,
+                            '+1 LIFE!',
+                            '#ff5b78'
+                        ));
                     }
-                    
-                    // Check win condition
-                    if (this.jumps >= 100) {
-                        this.win();
-                        return;
-                    }
+                } else {
+                    this.perfectStreak = 0;
+                    this.audio.playLand();
+                    this.spawnParticles(this.player.x + this.player.width / 2, this.player.y + this.player.height, '#9aa8bd');
                 }
                 
-                // Bounce effect on landing
-                this.player.scaleX = 1.15;
-                this.player.scaleY = 0.85;
+                // Check win
+                if (this.jumps >= 100) {
+                    this.win();
+                    return;
+                }
                 
                 this.state = STATE.IDLE;
             }
             
             spawnParticles(x, y, color, speed = 1) {
-                for (let i = 0; i < 12; i++) {
+                for (let i = 0; i < 15; i++) {
                     this.particles.push(new Particle(x, y, color, speed));
                 }
             }
@@ -787,7 +672,6 @@
                 document.getElementById('bestJumps').textContent = this.bestJumps;
                 document.getElementById('gameOverScreen').classList.remove('hidden');
                 document.getElementById('hud').classList.add('hidden');
-                document.getElementById('chargeBarContainer').classList.remove('visible');
             }
             
             win() {
@@ -796,7 +680,6 @@
                 document.getElementById('attemptsCount').textContent = this.attempts;
                 document.getElementById('winScreen').classList.remove('hidden');
                 document.getElementById('hud').classList.add('hidden');
-                document.getElementById('chargeBarContainer').classList.remove('visible');
             }
             
             restart() {
@@ -808,24 +691,19 @@
                 this.charging = false;
                 this.particles = [];
                 this.floatingTexts = [];
-                this.chargeRatio = 0;
                 
+                this.generatePlatforms();
+                this.resetPlayer();
                 this.camera.x = 0;
-                this.initGame();
                 
                 document.getElementById('gameOverScreen').classList.add('hidden');
                 document.getElementById('winScreen').classList.add('hidden');
                 document.getElementById('hud').classList.remove('hidden');
-                document.getElementById('chargeBarContainer').classList.remove('visible');
-                document.getElementById('chargeBar').style.width = '0%';
-                
-                // Reset instructions animation
-                const instr = document.getElementById('instructions');
-                instr.style.animation = 'none';
-                instr.style.opacity = '1';
+                document.getElementById('instructions').style.animation = 'none';
+                document.getElementById('instructions').style.opacity = '1';
                 setTimeout(() => {
-                    instr.style.animation = 'fadeOut 3s forwards';
-                    instr.style.animationDelay = '3s';
+                    document.getElementById('instructions').style.animation = 'fadeOut 3s forwards';
+                    document.getElementById('instructions').style.animationDelay = '3s';
                 }, 10);
             }
             
@@ -836,7 +714,7 @@
             }
             
             draw() {
-                // Clear background
+                // Clear
                 this.ctx.fillStyle = '#0f0f1a';
                 this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                 
@@ -850,102 +728,73 @@
                 this.ctx.save();
                 this.ctx.translate(-this.camera.x, 0);
                 
-                // Draw only visible platforms (optimization)
-                const visibleStart = Math.max(0, this.currentPlatformIndex - 1);
-                const visibleEnd = Math.min(this.platforms.length, this.currentPlatformIndex + CONSTANTS.VIEW_AHEAD + 2);
-                
-                for (let i = visibleStart; i < visibleEnd; i++) {
-                    const plat = this.platforms[i];
-                    
-                    // Skip if off-screen
-                    if (plat.x - this.camera.x > this.canvas.width / this.dpr) continue;
-                    if (plat.x + plat.width - this.camera.x < 0) continue;
+                // Draw platforms
+                this.platforms.forEach((plat, i) => {
+                    if (plat.x - this.camera.x > this.canvas.width / this.dpr) return;
+                    if (plat.x + plat.width - this.camera.x < 0) return;
                     
                     // Platform body
                     this.ctx.fillStyle = '#3a3a5a';
                     this.ctx.fillRect(plat.x, plat.y, plat.width, plat.height);
                     
-                    // Perfect zone (center 20%)
-                    const perfectWidth = plat.width * CONSTANTS.PERFECT_ZONE_RATIO;
-                    const perfectX = plat.x + (plat.width - perfectWidth) / 2;
-                    
-                    // Highlight perfect zone on next platform
-                    if (i === this.currentPlatformIndex + 1) {
-                        this.ctx.fillStyle = 'rgba(36, 199, 139, 0.4)';
-                    } else if (i === this.currentPlatformIndex) {
-                        this.ctx.fillStyle = 'rgba(36, 199, 139, 0.2)';
-                    } else {
-                        this.ctx.fillStyle = 'rgba(36, 199, 139, 0.1)';
-                    }
+                    // Perfect zone indicator
+                    const perfectWidth = plat.width * 0.2;
+                    const perfectX = plat.x + plat.width / 2 - perfectWidth / 2;
+                    this.ctx.fillStyle = i === this.currentPlatform + 1 ? 'rgba(36, 199, 139, 0.3)' : 'rgba(36, 199, 139, 0.15)';
                     this.ctx.fillRect(perfectX, plat.y, perfectWidth, plat.height);
                     
-                    // Platform top highlight
-                    this.ctx.fillStyle = '#5a5a7a';
-                    this.ctx.fillRect(plat.x, plat.y, plat.width, 2);
-                }
+                    // Platform highlight
+                    this.ctx.fillStyle = '#4a4a6a';
+                    this.ctx.fillRect(plat.x, plat.y, plat.width, 3);
+                });
                 
                 // Draw player
                 this.ctx.save();
-                this.ctx.translate(
-                    this.player.x + this.player.width / 2, 
-                    this.player.y + this.player.height / 2
-                );
+                this.ctx.translate(this.player.x + this.player.width / 2, this.player.y + this.player.height / 2);
                 this.ctx.scale(this.player.scaleX, this.player.scaleY);
                 
                 // Player body
                 this.ctx.fillStyle = '#6366f1';
-                this.roundRect(-this.player.width / 2, -this.player.height / 2, 
-                    this.player.width, this.player.height, 6);
+                this.roundRect(-this.player.width / 2, -this.player.height / 2, this.player.width, this.player.height, 6);
                 this.ctx.fill();
                 
-                // Eyes
+                // Eyes (googly)
                 this.ctx.fillStyle = 'white';
                 this.ctx.beginPath();
                 this.ctx.arc(-6, -2, 5, 0, Math.PI * 2);
                 this.ctx.arc(6, -2, 5, 0, Math.PI * 2);
                 this.ctx.fill();
                 
-                // Pupils (look in direction of movement)
                 this.ctx.fillStyle = 'black';
-                const lookDir = this.player.vx >= 0 ? 1 : -1;
+                const lookDir = this.player.vx > 0 ? 1 : -1;
                 this.ctx.beginPath();
                 this.ctx.arc(-6 + lookDir * 2, -2, 2.5, 0, Math.PI * 2);
                 this.ctx.arc(6 + lookDir * 2, -2, 2.5, 0, Math.PI * 2);
                 this.ctx.fill();
                 
-                // Charging indicator arc
+                // Charge indicator
                 if (this.state === STATE.CHARGING) {
-                    const chargeTime = Date.now() - this.chargeStartTime;
-                    const ratio = Math.min(chargeTime / CONSTANTS.MAX_CHARGE_TIME, 1);
-                    
-                    this.ctx.strokeStyle = ratio < 0.5 ? '#24c78b' : ratio < 0.8 ? '#fbbf24' : '#ef4444';
-                    this.ctx.lineWidth = 4;
+                    const chargeTime = Math.min(Date.now() - this.chargeStartTime, 1000);
+                    const chargeRatio = chargeTime / 1000;
+                    this.ctx.strokeStyle = `hsl(${120 - chargeRatio * 120}, 100%, 50%)`;
+                    this.ctx.lineWidth = 3;
                     this.ctx.beginPath();
-                    this.ctx.arc(0, 0, 28, -Math.PI / 2, -Math.PI / 2 + ratio * Math.PI * 2);
+                    this.ctx.arc(0, 0, 25, -Math.PI / 2, -Math.PI / 2 + chargeRatio * Math.PI * 2);
                     this.ctx.stroke();
                 }
                 
-                this.ctx.restore(); // End player transform
-                this.ctx.restore(); // End camera transform
-                
-                // Draw particles (world space, but handle camera)
-                this.ctx.save();
-                this.ctx.translate(-this.camera.x, 0);
-                this.particles.forEach(p => p.draw(this.ctx));
                 this.ctx.restore();
                 
-                // Draw floating texts (screen space)
-                this.floatingTexts.forEach(t => {
-                    const screenX = t.x; // Already in screen coords
-                    const screenY = t.y;
-                    this.ctx.save();
-                    this.ctx.globalAlpha = Math.max(0, t.life);
-                    this.ctx.fillStyle = t.color;
-                    this.ctx.font = 'bold 24px sans-serif';
-                    this.ctx.textAlign = 'center';
-                    this.ctx.fillText(t.text, screenX, screenY);
-                    this.ctx.restore();
-                });
+                this.ctx.restore();
+                
+                // Draw particles
+                this.particles.forEach(p => p.draw(this.ctx));
+                
+                // Draw floating texts (adjust for camera)
+                this.ctx.save();
+                this.ctx.translate(-this.camera.x, 0);
+                this.floatingTexts.forEach(t => t.draw(this.ctx));
+                this.ctx.restore();
             }
             
             roundRect(x, y, w, h, r) {

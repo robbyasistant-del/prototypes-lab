@@ -70,12 +70,6 @@
             opacity: 0;
             animation: breathePulse 4s ease-in-out infinite, fadeInGuide 2s 1s forwards;
         }
-        .breathing-guide.charging {
-            animation: none;
-            border-color: rgba(100, 200, 255, 0.6);
-            transform: scale(1);
-            transition: transform 0.1s linear;
-        }
         @keyframes breathePulse {
             0%, 100% { transform: scale(1); opacity: 0.3; border-color: rgba(100, 200, 255, 0.3); }
             50% { transform: scale(1.3); opacity: 0.6; border-color: rgba(100, 200, 255, 0.6); }
@@ -168,20 +162,6 @@
         .hidden {
             display: none !important;
         }
-        .zen-notification {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.7);
-            font-size: 1rem;
-            letter-spacing: 0.1em;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-        .zen-notification.show {
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
@@ -200,8 +180,6 @@
     <div class="breathing-guide" id="breathingGuide"></div>
     
     <div class="zen-message" id="zenMessage"></div>
-    
-    <div class="zen-notification" id="zenNotification">Breathe... Release... Flow...</div>
     
     <div class="controls-hint">Hold to breathe • Release to flow</div>
     
@@ -224,7 +202,8 @@
             }
             
             setupDrone() {
-                const frequencies = [110, 164.81, 196, 246.94];
+                // Create ambient drone
+                const frequencies = [110, 164.81, 196, 246.94]; // A2, E3, G3, B3
                 frequencies.forEach((freq, i) => {
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
@@ -244,6 +223,7 @@
                 this.gainNodes.forEach((gain, i) => {
                     gain.gain.setTargetAtTime(0.03 + i * 0.01, this.ctx.currentTime, 2);
                 });
+                // Slowly modulate frequencies
                 this.droneInterval = setInterval(() => {
                     if (!this.musicEnabled) return;
                     this.oscillators.forEach(osc => {
@@ -381,7 +361,8 @@
         const STATE = {
             IDLE: 'idle',
             CHARGING: 'charging',
-            JUMPING: 'jumping'
+            JUMPING: 'jumping',
+            ZEN: 'zen'
         };
 
         const ZEN_MESSAGES = [
@@ -396,19 +377,6 @@
             "Gentle journey",
             "Stillness moves"
         ];
-
-        // Physics constants (same as clone for consistent feel)
-        const CONSTANTS = {
-            GRAVITY: 0.35, // Slightly lower for more zen feel
-            MIN_JUMP_POWER: 6.5,
-            MAX_JUMP_POWER: 14,
-            MAX_CHARGE_TIME: 900, // Slightly slower charge for zen
-            ANGLE: -Math.PI / 4,
-            PLATFORM_HEIGHT: 12,
-            PLAYER_SIZE: 28,
-            PERFECT_ZONE_RATIO: 0.25, // 25% for zen (more forgiving)
-            VIEW_AHEAD: 3
-        };
 
         class Game {
             constructor() {
@@ -429,8 +397,8 @@
                 this.player = {
                     x: 0, y: 0,
                     vx: 0, vy: 0,
-                    width: CONSTANTS.PLAYER_SIZE,
-                    height: CONSTANTS.PLAYER_SIZE,
+                    width: 30, height: 30,
+                    charge: 0,
                     onGround: false,
                     scaleX: 1, scaleY: 1,
                     breathPhase: 0
@@ -438,9 +406,8 @@
                 
                 this.charging = false;
                 this.chargeStartTime = 0;
-                this.chargeRatio = 0;
-                this.currentPlatformIndex = 0;
-                this.highestGeneratedIndex = 0;
+                this.currentPlatform = 0;
+                this.platformSeed = Date.now();
                 
                 // Create ambient orbs
                 for (let i = 0; i < 5; i++) {
@@ -448,7 +415,8 @@
                 }
                 
                 this.setupInputs();
-                this.initGame();
+                this.generatePlatforms();
+                this.resetPlayer();
                 this.audio.startDrone();
                 this.loop();
             }
@@ -462,53 +430,24 @@
                 this.ctx.scale(this.dpr, this.dpr);
             }
             
-            initGame() {
+            generatePlatforms() {
                 this.platforms = [];
-                this.currentPlatformIndex = 0;
-                this.highestGeneratedIndex = 0;
-                this.score = 0;
-                this.combo = 0;
+                let x = 100;
+                let y = this.canvas.height / this.dpr - 150;
                 
-                // Starting platform
-                const startY = this.canvas.height / this.dpr - 200;
-                this.platforms.push({
-                    x: 50,
-                    y: startY,
-                    width: 130,
-                    height: CONSTANTS.PLATFORM_HEIGHT
-                });
+                this.platforms.push({ x: 50, y: y, width: 120, height: 12 });
                 
-                // Generate initial platforms (gentler for zen)
-                this.generatePlatformsAhead(5);
-                this.resetPlayer();
-            }
-            
-            generatePlatformsAhead(count) {
-                let lastPlat = this.platforms[this.platforms.length - 1];
-                
-                for (let i = 0; i < count; i++) {
-                    const jumpNum = this.platforms.length;
+                // Zen mode: gentler progression
+                for (let i = 1; i <= 1000; i++) {
+                    const gap = 80 + Math.random() * 60;
+                    const width = 70 - Math.min(30, i * 0.02);
+                    const yOffset = (Math.random() - 0.5) * 80;
                     
-                    // Zen mode: gentler, more consistent spacing
-                    const gap = 90 + Math.random() * 70;
-                    const width = Math.max(60, 90 - jumpNum * 0.03);
-                    const yOffset = (Math.random() - 0.5) * 60; // Less vertical variation
+                    x += gap;
+                    y = Math.max(120, Math.min(this.canvas.height / this.dpr - 120, y + yOffset));
                     
-                    let newY = lastPlat.y + yOffset;
-                    newY = Math.max(150, Math.min(this.canvas.height / this.dpr - 150, newY));
-                    
-                    const newPlat = {
-                        x: lastPlat.x + lastPlat.width + gap,
-                        y: newY,
-                        width: width,
-                        height: CONSTANTS.PLATFORM_HEIGHT
-                    };
-                    
-                    this.platforms.push(newPlat);
-                    lastPlat = newPlat;
+                    this.platforms.push({ x, y, width, height: 12 });
                 }
-                
-                this.highestGeneratedIndex = this.platforms.length - 1;
             }
             
             resetPlayer() {
@@ -517,34 +456,25 @@
                 this.player.y = start.y - this.player.height;
                 this.player.vx = 0;
                 this.player.vy = 0;
-                this.player.onGround = true;
-                this.player.scaleX = 1;
-                this.player.scaleY = 1;
-                this.currentPlatformIndex = 0;
+                this.currentPlatform = 0;
             }
             
             setupInputs() {
                 const startCharge = (e) => {
-                    if (this.state !== STATE.IDLE || !this.player.onGround) return;
+                    if (this.state !== STATE.IDLE) return;
                     e.preventDefault();
                     this.charging = true;
                     this.chargeStartTime = Date.now();
-                    this.chargeRatio = 0;
                     this.state = STATE.CHARGING;
-                    
-                    document.getElementById('breathingGuide').classList.add('charging');
-                    
                     if (this.audio.ctx.state === 'suspended') {
                         this.audio.ctx.resume();
                     }
                 };
                 
                 const endCharge = (e) => {
-                    if (!this.charging || this.state !== STATE.CHARGING) return;
+                    if (!this.charging) return;
                     e.preventDefault();
                     this.charging = false;
-                    document.getElementById('breathingGuide').classList.remove('charging');
-                    document.getElementById('breathingGuide').style.transform = '';
                     this.jump();
                 };
                 
@@ -562,30 +492,28 @@
                     if (e.code === 'Space') endCharge(e);
                 });
                 
-                window.addEventListener('resize', () => {
-                    this.resize();
-                    if (this.player.y > this.canvas.height / this.dpr - 100) {
-                        const plat = this.platforms[this.currentPlatformIndex];
-                        this.player.y = plat.y - this.player.height;
-                    }
-                });
+                window.addEventListener('resize', () => this.resize());
             }
             
             jump() {
-                const chargeTime = Date.now() - this.chargeStartTime;
-                const rawRatio = Math.min(chargeTime / CONSTANTS.MAX_CHARGE_TIME, 1);
+                const chargeTime = Math.min(Date.now() - this.chargeStartTime, 1000);
+                const power = Math.min(chargeTime / 1000, 1);
                 
-                // Minimum jump for zen mode (very gentle)
-                this.chargeRatio = Math.max(0.12, rawRatio);
+                if (power < 0.1) {
+                    this.state = STATE.IDLE;
+                    return;
+                }
                 
                 this.audio.playSoftJump();
                 
-                const jumpPower = CONSTANTS.MIN_JUMP_POWER + 
-                    this.chargeRatio * (CONSTANTS.MAX_JUMP_POWER - CONSTANTS.MIN_JUMP_POWER);
+                const nextPlat = this.platforms[this.currentPlatform + 1];
+                const distance = nextPlat.x - this.platforms[this.currentPlatform].x;
                 
-                this.player.vx = Math.cos(CONSTANTS.ANGLE) * jumpPower;
-                this.player.vy = Math.sin(CONSTANTS.ANGLE) * jumpPower;
-                this.player.onGround = false;
+                const angle = -Math.PI / 4;
+                const jumpPower = 7 + power * 10;
+                
+                this.player.vx = Math.cos(angle) * jumpPower * (1 + distance / 400);
+                this.player.vy = Math.sin(angle) * jumpPower;
                 this.state = STATE.JUMPING;
                 
                 this.player.scaleX = 0.75;
@@ -603,46 +531,32 @@
                 });
                 
                 // Slowly shift ambient hue
-                this.ambientHue += 0.08;
-                
-                // Update charge visualization
-                if (this.state === STATE.CHARGING) {
-                    const chargeTime = Date.now() - this.chargeStartTime;
-                    const ratio = Math.min(chargeTime / CONSTANTS.MAX_CHARGE_TIME, 1);
-                    
-                    // Scale breathing guide with charge
-                    const scale = 1 + ratio * 0.5;
-                    document.getElementById('breathingGuide').style.transform = `scale(${scale})`;
-                    
-                    // Breathing animation
-                    this.player.breathPhase += 0.05;
-                    const breath = Math.sin(this.player.breathPhase) * 0.08 + 1;
-                    this.player.scaleX = breath + ratio * 0.25;
-                    this.player.scaleY = breath - ratio * 0.2;
-                }
+                this.ambientHue += 0.1;
                 
                 // Player physics
                 if (this.state === STATE.JUMPING) {
-                    this.player.vy += CONSTANTS.GRAVITY;
+                    this.player.vy += 0.4;
                     this.player.x += this.player.vx;
                     this.player.y += this.player.vy;
                     
-                    const stretch = Math.min(Math.abs(this.player.vy) * 0.025, 0.25);
-                    this.player.scaleX = 0.9 - stretch;
-                    this.player.scaleY = 1.1 + stretch;
+                    this.player.scaleX += (0.85 - this.player.scaleX) * 0.1;
+                    this.player.scaleY += (1.15 - this.player.scaleY) * 0.1;
                     
                     this.checkLanding();
                     
-                    // In Zen mode, soft reset if fell
+                    // In Zen mode, reset if fell
                     if (this.player.y > this.canvas.height / this.dpr + 50) {
-                        this.softReset();
+                        this.resetToLastPlatform();
                     }
                 }
                 
-                // Smooth return to normal
-                if (this.state === STATE.IDLE) {
-                    this.player.scaleX += (1 - this.player.scaleX) * 0.1;
-                    this.player.scaleY += (1 - this.player.scaleY) * 0.1;
+                // Breathing animation
+                if (this.state === STATE.CHARGING) {
+                    this.player.breathPhase += 0.05;
+                    const breath = Math.sin(this.player.breathPhase) * 0.1 + 1;
+                    const chargeRatio = Math.min((Date.now() - this.chargeStartTime) / 1000, 1);
+                    this.player.scaleX = breath + chargeRatio * 0.3;
+                    this.player.scaleY = breath - chargeRatio * 0.3;
                 }
                 
                 // Smooth camera
@@ -650,82 +564,63 @@
                 this.camera.x += (targetCamX - this.camera.x) * 0.08;
                 this.camera.x = Math.max(0, this.camera.x);
                 
-                // Generate more platforms if needed
-                this.managePlatformGeneration();
-                
-                // Update score
-                document.getElementById('scoreNumber').textContent = this.score;
-            }
-            
-            managePlatformGeneration() {
-                const visibleAhead = this.currentPlatformIndex + CONSTANTS.VIEW_AHEAD * 2;
-                if (visibleAhead >= this.highestGeneratedIndex) {
-                    this.generatePlatformsAhead(3);
+                // Return to normal scale
+                if (this.state === STATE.IDLE) {
+                    this.player.scaleX += (1 - this.player.scaleX) * 0.1;
+                    this.player.scaleY += (1 - this.player.scaleY) * 0.1;
                 }
+                
+                // Update score display
+                document.getElementById('scoreNumber').textContent = this.score;
             }
             
             checkLanding() {
                 if (this.player.vy < 0) return;
                 
-                const playerCenterX = this.player.x + this.player.width / 2;
-                const playerBottomY = this.player.y + this.player.height;
+                const nextPlat = this.platforms[this.currentPlatform + 1];
+                if (!nextPlat) return;
                 
-                for (let i = this.currentPlatformIndex; i < Math.min(this.platforms.length, this.currentPlatformIndex + 3); i++) {
-                    const plat = this.platforms[i];
+                const px = this.player.x + this.player.width / 2;
+                const py = this.player.y + this.player.height;
+                
+                if (px >= nextPlat.x && px <= nextPlat.x + nextPlat.width &&
+                    py >= nextPlat.y && py <= nextPlat.y + nextPlat.height + 10) {
                     
-                    if (playerCenterX >= plat.x && playerCenterX <= plat.x + plat.width) {
-                        if (playerBottomY >= plat.y && 
-                            playerBottomY <= plat.y + plat.height + 10 &&
-                            this.player.vy > 0) {
-                            
-                            this.land(plat, i);
-                            return;
-                        }
-                    }
+                    this.softLand(nextPlat);
                 }
             }
             
-            land(platform, platformIndex) {
+            softLand(platform) {
                 this.player.y = platform.y - this.player.height;
                 this.player.vx = 0;
                 this.player.vy = 0;
-                this.player.onGround = true;
+                this.currentPlatform++;
+                this.score++;
+                this.combo++;
                 
-                if (platformIndex > this.currentPlatformIndex) {
-                    this.currentPlatformIndex = platformIndex;
-                    this.score++;
-                    this.combo++;
+                const centerX = platform.x + platform.width / 2;
+                const perfectZone = platform.width * 0.25;
+                const isGood = Math.abs(this.player.x + this.player.width / 2 - centerX) < perfectZone / 2;
+                
+                if (isGood) {
+                    this.audio.playChime();
+                    this.spawnZenParticles(this.player.x + this.player.width / 2, this.player.y + this.player.height, this.ambientHue);
                     
-                    // Check landing quality (25% zone for zen)
-                    const playerCenterX = this.player.x + this.player.width / 2;
-                    const platformCenterX = platform.x + platform.width / 2;
-                    const perfectZoneHalfWidth = (platform.width * CONSTANTS.PERFECT_ZONE_RATIO) / 2;
-                    
-                    const isPerfect = Math.abs(playerCenterX - platformCenterX) <= perfectZoneHalfWidth;
-                    
-                    if (isPerfect) {
-                        this.audio.playChime();
-                        this.spawnZenParticles(playerCenterX, this.player.y + this.player.height, this.ambientHue);
-                        
-                        if (this.combo % 10 === 0) {
-                            this.showZenMessage();
-                        }
-                    } else {
-                        this.audio.playSoftLand();
-                        this.combo = 0;
+                    if (this.combo % 10 === 0) {
+                        this.showZenMessage();
                     }
+                } else {
+                    this.audio.playSoftLand();
+                    this.combo = 0;
                 }
                 
-                // Gentle bounce
+                this.state = STATE.IDLE;
                 this.player.scaleX = 1.1;
                 this.player.scaleY = 0.9;
-                
-                this.state = STATE.IDLE;
             }
             
-            softReset() {
-                // Zen reset - no penalty, just return to last platform
-                const plat = this.platforms[this.currentPlatformIndex];
+            resetToLastPlatform() {
+                const plat = this.platforms[this.currentPlatform];
                 this.player.x = plat.x + plat.width / 2 - this.player.width / 2;
                 this.player.y = plat.y - this.player.height;
                 this.player.vx = 0;
@@ -733,18 +628,12 @@
                 this.state = STATE.IDLE;
                 this.combo = 0;
                 
-                // Gentle notification
-                const notif = document.getElementById('zenNotification');
-                notif.textContent = "Breathe... Try again...";
-                notif.classList.add('show');
-                setTimeout(() => notif.classList.remove('show'), 2000);
-                
-                this.spawnZenParticles(this.player.x + this.player.width / 2, 
-                    this.player.y + this.player.height + 50, 0);
+                // Gentle feedback
+                this.spawnZenParticles(this.player.x + this.player.width / 2, this.player.y + this.player.height + 50, 0);
             }
             
             spawnZenParticles(x, y, hue) {
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 8; i++) {
                     this.particles.push(new ZenParticle(x, y, hue));
                 }
             }
@@ -774,7 +663,7 @@
             
             draw() {
                 // Dynamic gradient background
-                const hue = (this.ambientHue % 60) + 200;
+                const hue = (this.ambientHue % 60) + 200; // 200-260 range (blue to purple)
                 const grad = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
                 grad.addColorStop(0, `hsl(${hue}, 40%, 8%)`);
                 grad.addColorStop(1, `hsl(${hue + 20}, 30%, 5%)`);
@@ -787,83 +676,59 @@
                 this.ctx.save();
                 this.ctx.translate(-this.camera.x, 0);
                 
-                // Draw only visible platforms
-                const visibleStart = Math.max(0, this.currentPlatformIndex - 1);
-                const visibleEnd = Math.min(this.platforms.length, this.currentPlatformIndex + CONSTANTS.VIEW_AHEAD + 2);
-                
-                for (let i = visibleStart; i < visibleEnd; i++) {
-                    const plat = this.platforms[i];
-                    
-                    if (plat.x - this.camera.x > this.canvas.width / this.dpr) continue;
-                    if (plat.x + plat.width - this.camera.x < 0) continue;
+                // Draw platforms with soft glow
+                this.platforms.forEach((plat, i) => {
+                    if (plat.x - this.camera.x > this.canvas.width / this.dpr) return;
+                    if (plat.x + plat.width - this.camera.x < 0) return;
                     
                     // Soft glow
                     const glowGrad = this.ctx.createRadialGradient(
                         plat.x + plat.width / 2, plat.y + plat.height / 2, 0,
                         plat.x + plat.width / 2, plat.y + plat.height / 2, plat.width
                     );
-                    glowGrad.addColorStop(0, `hsla(${this.ambientHue}, 50%, 50%, 0.08)`);
+                    glowGrad.addColorStop(0, `hsla(${this.ambientHue}, 50%, 50%, 0.1)`);
                     glowGrad.addColorStop(1, 'transparent');
                     this.ctx.fillStyle = glowGrad;
                     this.ctx.fillRect(plat.x - 20, plat.y - 20, plat.width + 40, plat.height + 40);
                     
                     // Platform
-                    this.ctx.fillStyle = `hsla(${this.ambientHue}, 30%, 40%, 0.5)`;
+                    this.ctx.fillStyle = `hsla(${this.ambientHue}, 30%, 35%, 0.6)`;
                     this.ctx.fillRect(plat.x, plat.y, plat.width, plat.height);
                     
-                    // Center highlight (perfect zone indicator)
-                    const centerW = plat.width * CONSTANTS.PERFECT_ZONE_RATIO;
-                    if (i === this.currentPlatformIndex + 1) {
-                        this.ctx.fillStyle = `hsla(${this.ambientHue}, 60%, 70%, 0.25)`;
-                    } else {
-                        this.ctx.fillStyle = `hsla(${this.ambientHue}, 50%, 60%, 0.15)`;
-                    }
+                    // Center highlight
+                    this.ctx.fillStyle = `hsla(${this.ambientHue}, 50%, 60%, 0.3)`;
+                    const centerW = plat.width * 0.25;
                     this.ctx.fillRect(plat.x + plat.width / 2 - centerW / 2, plat.y, centerW, plat.height);
-                }
+                });
                 
                 // Draw player
                 this.ctx.save();
-                this.ctx.translate(
-                    this.player.x + this.player.width / 2,
-                    this.player.y + this.player.height / 2
-                );
+                this.ctx.translate(this.player.x + this.player.width / 2, this.player.y + this.player.height / 2);
                 this.ctx.scale(this.player.scaleX, this.player.scaleY);
                 
                 // Soft glow
-                const playerGlow = this.ctx.createRadialGradient(0, 0, 0, 0, 0, 25);
-                playerGlow.addColorStop(0, `hsla(${this.ambientHue}, 70%, 70%, 0.4)`);
+                const playerGlow = this.ctx.createRadialGradient(0, 0, 0, 0, 0, 30);
+                playerGlow.addColorStop(0, `hsla(${this.ambientHue}, 70%, 70%, 0.5)`);
                 playerGlow.addColorStop(1, 'transparent');
                 this.ctx.fillStyle = playerGlow;
                 this.ctx.beginPath();
-                this.ctx.arc(0, 0, 25, 0, Math.PI * 2);
+                this.ctx.arc(0, 0, 30, 0, Math.PI * 2);
                 this.ctx.fill();
                 
                 // Player body
-                this.ctx.fillStyle = `hsl(${this.ambientHue}, 60%, 70%)`;
+                this.ctx.fillStyle = `hsl(${this.ambientHue}, 60%, 65%)`;
                 this.ctx.beginPath();
-                this.ctx.arc(0, 0, 11, 0, Math.PI * 2);
+                this.ctx.arc(0, 0, 12, 0, Math.PI * 2);
                 this.ctx.fill();
                 
                 // Inner light
-                this.ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                this.ctx.fillStyle = 'rgba(255,255,255,0.6)';
                 this.ctx.beginPath();
                 this.ctx.arc(-3, -3, 4, 0, Math.PI * 2);
                 this.ctx.fill();
                 
-                // Charging arc for zen
-                if (this.state === STATE.CHARGING) {
-                    const chargeTime = Date.now() - this.chargeStartTime;
-                    const ratio = Math.min(chargeTime / CONSTANTS.MAX_CHARGE_TIME, 1);
-                    
-                    this.ctx.strokeStyle = `hsla(${this.ambientHue}, 80%, 70%, 0.8)`;
-                    this.ctx.lineWidth = 2;
-                    this.ctx.beginPath();
-                    this.ctx.arc(0, 0, 20, -Math.PI / 2, -Math.PI / 2 + ratio * Math.PI * 2);
-                    this.ctx.stroke();
-                }
-                
-                this.ctx.restore(); // End player
-                this.ctx.restore(); // End camera
+                this.ctx.restore();
+                this.ctx.restore();
                 
                 // Draw particles
                 this.particles.forEach(p => p.draw(this.ctx));

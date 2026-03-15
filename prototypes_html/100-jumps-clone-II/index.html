@@ -339,7 +339,9 @@ ui.modeSel.addEventListener('change',()=>{mode=ui.modeSel.value;settings.mode=mo
 sh(document.getElementById('share-copy'),copyShare);
 sh(document.getElementById('share-x'),twitterShare);
 
-applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI(); reset(); requestAnimationFrame(loop);
+applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI(); 
+// Delay reset to ensure canvas is ready
+setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>
 </body>
 </html>

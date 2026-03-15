@@ -19,6 +19,8 @@
     #theme-btn:hover svg{fill:#475569}
     body.theme-dark #theme-btn svg{fill:#94a3b8}
     body.theme-dark #theme-btn:hover svg{fill:#cbd5e1}
+    #version-footer{position:absolute;bottom:max(8px,env(safe-area-inset-bottom,0px)+4px);left:0;right:0;text-align:center;font-size:11px;font-weight:500;color:#94a3b8;pointer-events:none;z-index:3}
+    body.theme-dark #version-footer{color:#64748b}
     #stats-btn{left:max(12px,env(safe-area-inset-left,0px)+4px,calc(50% - 300px))}
     #settings-btn:active,#stats-btn:active{transform:scale(.88)}
     #settings-btn svg,#stats-btn svg{width:32px;height:32px;fill:#94a3b8;transition:fill .35s ease}
@@ -114,6 +116,7 @@
     <button class="btn btn-main" id="mb"></button>
     <button class="btn btn-soft" id="mb-share" style="display:none">Share Result</button>
   </div></div>
+  <div id="version-footer">100 Jumps II · v<span id="version-hash">--></span></div>
 </div>
 
 <script>
@@ -404,7 +407,9 @@ function toggleTheme(){isDarkTheme=!isDarkTheme;try{localStorage.setItem('100j2_
 sh(themeBtn,toggleTheme);
 updateThemeIcon();
 
-applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI(); 
+applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
+/* Mostrar version (commit hash) */
+document.getElementById('version-hash').textContent='5bb99a3';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

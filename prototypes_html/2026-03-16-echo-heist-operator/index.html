@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Echo Heist Operator</title><style>
+body{margin:0;background:radial-gradient(circle at 50% 0,#11343a,#060c13 60%);color:#e8f6ff;font-family:Inter,Segoe UI}.w{max-width:900px;margin:0 auto;padding:16px}.inst{background:#122833;border-left:4px solid #57f8d2;padding:10px;border-radius:10px}.hud{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.box{background:#10222e;border:1px solid #2d556d;padding:8px 12px;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:520px}.pad{aspect-ratio:1;border-radius:14px;background:#1a2f42;border:1px solid #3d6788;display:grid;place-items:center;font-size:30px;cursor:pointer;transition:.12s}.pad.flash{transform:scale(1.04);filter:brightness(1.5)}
+.badges{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}.badge{padding:6px 9px;border-radius:99px;background:#1f3b4f;border:1px solid #4f8bb1;font-size:12px}#overlay{position:fixed;inset:0;background:#000a;display:none;place-items:center}.panel{background:#102231;border:1px solid #4c87aa;border-radius:14px;padding:22px;text-align:center}
+</style></head><body><div class="w"><h1>?? Echo Heist Operator</h1><div class="inst"><b>How to play:</b> Watch the command sequence, then repeat on pads. Every 3 rounds adds a jam glitch (reversed input). Reach round 12 to WIN. 3 mistakes = GAME OVER.</div>
+<div class="hud"><div class="box">Round: <b id="round">1</b></div><div class="box">Score: <b id="score">0</b></div><div class="box">Lives: <b id="lives">3</b></div><div class="box">Mode: <b id="mode">Normal</b></div></div>
+<div class="grid" id="grid"></div><div class="badges" id="badges"></div><button onclick="restart()" style="margin-top:12px;padding:9px 14px;border-radius:10px;border:0;background:#1c94ff;color:#fff;font-weight:700">Restart</button></div>
+<div id="overlay"><div class="panel"><h2 id="tt"></h2><p id="msg"></p><button onclick="restart()" style="padding:8px 11px;border-radius:10px;border:0;background:#1c94ff;color:#fff">Retry</button></div></div>
+<script>
+const icons=['??','??','??','??','A','B','X','Y']; const colors=['#4cc9f0','#4895ef','#4361ee','#3a0ca3','#f72585','#b5179e','#7209b7','#560bad'];
+let seq,inputIdx,round,score,lives,showing,alive,badges,reverse=false;
+const g=document.getElementById('grid');const pads=[];for(let i=0;i<8;i++){const d=document.createElement('div');d.className='pad';d.style.background=colors[i]+'44';d.textContent=icons[i];d.onclick=()=>press(i);g.appendChild(d);pads.push(d)}
+function flash(i){pads[i].classList.add('flash');setTimeout(()=>pads[i].classList.remove('flash'),180)}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+async function showSeq(){showing=true;for(const n of seq){flash(n);await sleep(420)}showing=false;inputIdx=0}
+function expected(){if(!reverse)return seq[inputIdx];return seq[seq.length-1-inputIdx]}
+function badge(t){if(badges.has(t))return;badges.add(t);const b=document.createElement('div');b.className='badge';b.textContent='?? '+t;document.getElementById('badges').appendChild(b)}
+async function nextRound(){if(round>=12)return end(true,'Vault cracked. Elite operator score '+score);round++;if(round%3===0){reverse=!reverse;document.getElementById('mode').textContent=reverse?'Jammed Reverse':'Normal';popup(reverse?'JAM! Reverse input':'Signal restored')}seq.push(Math.floor(Math.random()*8));document.getElementById('round').textContent=round;await showSeq()}
+function popup(t){const p=document.createElement('div');p.textContent=t;p.style.cssText='position:fixed;right:20px;bottom:20px;background:#57f8d2;color:#04212a;padding:8px 11px;border-radius:8px;font-weight:700';document.body.appendChild(p);setTimeout(()=>p.remove(),900)}
+function press(i){if(!alive||showing)return;flash(i);if(i===expected()){score+=20+(reverse?15:0);inputIdx++;if(score>=200)badge('Signal Runner');if(round>=8)badge('Deep Vault');if(inputIdx>=seq.length)nextRound()}else{lives--;score=Math.max(0,score-25);inputIdx=0;popup('Wrong code'); if(lives<=0)return end(false,'Security locked you out. Score '+score)}draw()}
+function draw(){document.getElementById('score').textContent=score;document.getElementById('lives').textContent=lives}
+function end(win,msg){alive=false;document.getElementById('tt').textContent=win?'YOU WIN':'GAME OVER';document.getElementById('msg').textContent=msg;document.getElementById('overlay').style.display='grid'}
+function restart(){seq=[];inputIdx=0;round=0;score=0;lives=3;showing=false;alive=true;badges=new Set();reverse=false;document.getElementById('badges').innerHTML='';document.getElementById('mode').textContent='Normal';document.getElementById('overlay').style.display='none';draw();nextRound()}
+restart();
+</script></body></html>

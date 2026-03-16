@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Merge Orbit Smith</title><style>
+body{margin:0;font-family:Inter,Segoe UI;background:radial-gradient(circle at top,#32144d,#0a0f23 55%);color:#f2f3ff} .w{max-width:1000px;margin:0 auto;padding:16px}
+.info{background:#1a2450;border:1px solid #4a5eb1;border-radius:12px;padding:10px;margin-bottom:10px}.hud{display:flex;gap:10px;flex-wrap:wrap}.k{background:#121a3a;border:1px solid #36498d;padding:8px 12px;border-radius:10px}
+#b{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:460px}.cell{aspect-ratio:1;border-radius:12px;border:1px solid #31406e;background:#0e1736;display:grid;place-items:center;font-weight:700;font-size:24px;cursor:pointer;transition:.15s}.cell:hover{transform:translateY(-2px)}
+.pieces{display:flex;gap:8px;margin:8px 0}.piece{width:60px;height:60px;border-radius:12px;border:1px solid #4b63ad;display:grid;place-items:center;cursor:grab;font-size:26px;font-weight:800}.badge{display:inline-block;padding:6px 10px;margin:4px;border-radius:999px;background:#25366b;border:1px solid #5f82d3;font-size:12px}
+#overlay{position:fixed;inset:0;background:#000a;display:none;place-items:center}.panel{background:#151f44;border:1px solid #5875bf;padding:20px;border-radius:14px;text-align:center}
+</style></head><body><div class="w"><h1>Merge Orbit Smith</h1><div class="info"><b>How to play:</b> Click a core (bottom) then click a tile to place it. Match 3+ same level in orthogonal cluster to merge. Craft level 7 relic to WIN. Board full + no moves = GAME OVER.</div>
+<div class="hud"><div class="k">Score: <b id="score">0</b></div><div class="k">Energy: <b id="energy">20</b></div><div class="k">Best Combo: <b id="combo">0</b></div><div class="k">Mission: Build level 7</div></div>
+<div class="pieces" id="pieces"></div><div id="b"></div><div id="badges"></div><button onclick="restart()" style="margin-top:10px;padding:9px 14px;border-radius:10px;border:0;background:#2a8bff;color:#fff;font-weight:700">Restart</button></div>
+<div id="overlay"><div class="panel"><h2 id="title"></h2><p id="txt"></p><button onclick="restart()" style="padding:9px 12px;border:0;border-radius:10px;background:#2a8bff;color:#fff">Play again</button></div></div>
+<script>
+const icons=['','1','2','3','4','5','6','7'];let board,bank,selected,score,energy,bestCombo,badges,alive;
+const bEl=document.getElementById('b'); for(let i=0;i<25;i++){const d=document.createElement('div');d.className='cell';d.onclick=()=>place(i);bEl.appendChild(d)}
+function rnd(){return 1+Math.floor(Math.random()*Math.min(4,2+Math.floor(score/300)))}
+function refill(){bank=[rnd(),rnd(),rnd()];selected=null;drawBank()}
+function drawBank(){const p=document.getElementById('pieces');p.innerHTML='';bank.forEach((v,i)=>{const d=document.createElement('div');d.className='piece';d.style.background='hsl('+(220+v*20)+',70%,28%)';d.textContent=icons[v]+' '+v; if(i===selected)d.style.outline='3px solid #8fe6ff'; d.onclick=()=>{selected=i;drawBank()};p.appendChild(d)})}
+function neigh(i){const r=Math.floor(i/5),c=i%5,a=[]; if(r>0)a.push(i-5); if(r<4)a.push(i+5); if(c>0)a.push(i-1); if(c<4)a.push(i+1); return a}
+function cluster(i,v,seen=new Set()){if(seen.has(i)||board[i]!==v)return seen;seen.add(i);for(const n of neigh(i))cluster(n,v,seen);return seen}
+function casc(start){let combo=0,changed=true; while(changed){changed=false; for(let i=0;i<25;i++){if(board[i]<=0)continue;const cl=[...cluster(i,board[i])]; if(cl.length>=3){changed=true; combo++; const lvl=board[i]+1; cl.forEach(k=>board[k]=0); board[i]=Math.min(7,lvl); score+=cl.length*35*combo; if(lvl>=7)return combo;}}} return combo}
+function place(i){if(!alive||selected==null||board[i]!==0)return; board[i]=bank[selected]; bank.splice(selected,1); if(!bank.length) refill(); else selected=null; const combo=casc(i); if(combo){bestCombo=Math.max(bestCombo,combo); popup('+'+(combo*100),'#7bffb3'); if(score>400&&!badges.has('Alchemist'))badge('Alchemist'); if(bestCombo>=3&&!badges.has('Chain'))badge('Chain Reactor')} energy--; draw(); check()}
+function popup(t,c){const el=document.createElement('div');el.textContent=t;el.style.cssText='position:fixed;left:20px;bottom:20px;padding:8px 10px;background:'+c+';color:#111;border-radius:8px;font-weight:700';document.body.appendChild(el);setTimeout(()=>el.remove(),700)}
+function badge(n){badges.add(n);const d=document.createElement('span');d.className='badge';d.textContent='Badge: '+n;document.getElementById('badges').appendChild(d)}
+function check(){if(board.includes(7))return end(true,'You forged the relic crown! Score '+score);const full=!board.includes(0);if(energy<=0||full)return end(false,'Forge overheated. Score '+score)}
+function draw(){[...bEl.children].forEach((d,i)=>{const v=board[i];d.textContent=v?icons[v]+'-'+v:'';d.style.background=v?`hsl(${220+v*20},70%,${22+v*5}%)`:'#0e1736';d.style.boxShadow=v?'0 8px 20px #0007 inset':''});document.getElementById('score').textContent=score;document.getElementById('energy').textContent=energy;document.getElementById('combo').textContent=bestCombo;drawBank()}
+function end(win,msg){alive=false;document.getElementById('title').textContent=win?'YOU WIN':'GAME OVER';document.getElementById('txt').textContent=msg;document.getElementById('overlay').style.display='grid'}
+function restart(){board=Array(25).fill(0);score=0;energy=20;bestCombo=0;badges=new Set();document.getElementById('badges').innerHTML='';alive=true;refill();draw();document.getElementById('overlay').style.display='none'}
+restart();
+</script></body></html>

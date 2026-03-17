@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Signal Samurai: Arrow Dojo</title><style>
+body{margin:0;font-family:Inter,Segoe UI;background:#080d1c;color:#f1f5ff;background-image:radial-gradient(circle at 80% 10%,#3b1f72 0,#080d1c 45%)}.app{max-width:900px;margin:auto;padding:16px}
+.top{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.p{background:#121c3f;border:1px solid #364b95;border-radius:12px;padding:10px}.big{font-size:1.15rem;font-weight:800}.arena{margin-top:12px;background:linear-gradient(#121938,#0a112a);border:1px solid #334e9f;border-radius:14px;padding:14px;text-align:center}
+#enemy{font-size:4rem;filter:drop-shadow(0 0 12px #7aa2ff)}#msg{min-height:24px;font-weight:700}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.btn{padding:14px;border:none;border-radius:10px;font-size:1.5rem;background:linear-gradient(180deg,#2d428f,#1e2f68);color:#fff;cursor:pointer}.btn:active{transform:scale(.96)}
+#timeline{height:14px;background:#1a2a62;border-radius:999px;overflow:hidden;margin-top:12px}#timeline span{display:block;height:100%;background:linear-gradient(90deg,#4ef0c3,#ffd166);width:100%}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}.b{background:#1c2c58;padding:6px 10px;border-radius:999px;border:1px solid #4e6ab3;font-size:.8rem}
+.overlay{position:fixed;inset:0;background:#020611da;display:none;place-items:center}.modal{background:#0f1840;border:1px solid #3f59ac;padding:20px;border-radius:14px;text-align:center}
+</style></head><body><div class='app'><h1>?? Signal Samurai: Arrow Dojo</h1><p>Parry enemy arrows with matching direction keys (WASD or buttons). Survive 15 waves to WIN. 5 misses = GAME OVER.</p>
+<div class='top'><div class='p'><div>Score</div><div class='big' id='score'>0</div></div><div class='p'><div>Wave</div><div class='big' id='wave'>1/15</div></div><div class='p'><div>Misses</div><div class='big' id='miss'>0/5</div></div><div class='p'><div>Streak</div><div class='big' id='streak'>0</div></div><div class='p'><div>Rank</div><div class='big' id='rank'>Novice</div></div></div>
+<div class='arena'><div id='enemy'>??</div><div id='msg'>Focus...</div><div id='timeline'><span id='bar'></span></div><div class='controls'><button class='btn' onclick="input('?')">??</button><button class='btn' onclick="input('?')">??</button><button class='btn' onclick="input('?')">??</button><button class='btn' onclick="input('?')">??</button></div><div class='badges' id='badges'><div class='b'>Badge goals: 5 streak / 10 streak / flawless win</div></div></div></div>
+<div class='overlay' id='ov'><div class='modal'><h2 id='et'></h2><p id='ed'></p><button class='btn' style='font-size:1rem' onclick='start()'>Retry</button></div></div>
+<script>
+const dirs=['?','?','?','?']; let s={}; let tickI;
+function rank(st){if(st>=10)return'Mythic Ronin';if(st>=5)return'Blade Dancer';return'Novice'}
+function nextWave(){s.current=dirs[Math.floor(Math.random()*4)];s.window=Math.max(900,1900-s.wave*55);s.left=s.window;document.getElementById('enemy').textContent=s.current;document.getElementById('msg').textContent='Parry now!'}
+function draw(){score.textContent=s.score;wave.textContent=`${s.wave}/15`;miss.textContent=`${s.miss}/5`;streak.textContent=s.streak;rank.textContent=rank(s.best);bar.style.width=(s.left/s.window*100)+'%';let b=[];if(s.best>=5)b.push('? Flow Initiate');if(s.best>=10)b.push('?? Blade Dancer');if(s.miss===0&&s.wave>14)b.push('?? Perfect Shogun');badges.innerHTML=(b.map(x=>`<div class='b'>${x}</div>`).join('')||"<div class='b'>No badges yet</div>")}
+function punish(t){s.miss++;s.streak=0;s.score=Math.max(0,s.score-40);document.getElementById('msg').textContent=t;if(s.miss>=5)return end(false);s.wave++; if(s.wave>15) return end(true); nextWave();draw();}
+function input(d){if(s.over)return; if(d===s.current){let bonus=Math.ceil((s.left/s.window)*100);s.score+=60+bonus+s.streak*6;s.streak++;s.best=Math.max(s.best,s.streak);document.getElementById('msg').textContent='Perfect parry!';s.wave++; if(s.wave>15)return end(true); nextWave();}
+else punish('Wrong direction!') ; draw();}
+function loop(){s.left-=40;if(s.left<=0)punish('Too slow!');draw()}
+function end(win){s.over=true;clearInterval(tickI);et.textContent=win?'YOU WIN ??':'GAME OVER';ed.innerHTML=`Score <b>${s.score}</b><br>Best streak <b>${s.best}</b><br>Rank <b>${rank(s.best)}</b>`;ov.style.display='grid'}
+function start(){s={score:0,wave:1,miss:0,streak:0,best:0,over:false};ov.style.display='none';nextWave();draw();clearInterval(tickI);tickI=setInterval(loop,40)}
+addEventListener('keydown',e=>{const map={w:'?',a:'?',s:'?',d:'?',ArrowUp:'?',ArrowLeft:'?',ArrowDown:'?',ArrowRight:'?'};if(map[e.key])input(map[e.key])});
+start();
+</script></body></html>

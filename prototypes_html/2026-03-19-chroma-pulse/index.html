@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CHROMA PULSE - Synesthetic Rhythm Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: none;
+        }
+        
+        body {
+            background: #0a0a0f;
+            overflow: hidden;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: white;
+        }
+        
+        #gameCanvas {
+            display: block;
+            cursor: crosshair;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .score-display {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 48px;
+            font-weight: 900;
+            text-shadow: 0 0 30px currentColor;
+            transition: transform 0.1s;
+        }
+        
+        .score-display.pulse {
+            transform: translateX(-50%) scale(1.2);
+        }
+        
+        .combo-display {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .combo-display.active {
+            opacity: 1;
+            transform: translateX(-50%) scale(1.1);
+        }
+        
+        .health-bar {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0044, #ff8800, #88ff00);
+            transition: width 0.3s ease-out;
+            border-radius: 5px;
+        }
+        
+        .color-indicator {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.7;
+        }
+        
+        #startScreen, #gameOverScreen, #winScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto;
+            z-index: 100;
+        }
+        
+        #gameOverScreen, #winScreen {
+            display: none;
+        }
+        
+        h1 {
+            font-size: clamp(36px, 8vw, 72px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff0066, #ff00ff, #6600ff, #0066ff, #00ff66, #ffcc00);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+            text-align: center;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .tagline {
+            font-size: 18px;
+            opacity: 0.8;
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        
+        .instructions {
+            background: rgba(255,255,255,0.05);
+            padding: 25px 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            max-width: 500px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .instructions h3 {
+            margin-bottom: 15px;
+            color: #ff00ff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .instructions p {
+            margin: 8px 0;
+            font-size: 15px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        .btn {
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #ff0066, #6600ff);
+            color: white;
+            box-shadow: 0 10px 40px rgba(255, 0, 102, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 0, 102, 0.6);
+        }
+        
+        .final-score {
+            font-size: 72px;
+            font-weight: 900;
+            margin: 20px 0;
+            text-shadow: 0 0 50px currentColor;
+        }
+        
+        .badges {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .badge {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid;
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+        
+        .badge.earned {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px currentColor;
+        }
+        
+        .badge.rhythm-master { color: #ff00ff; border-color: #ff00ff; }
+        .badge.combo-king { color: #00ff88; border-color: #00ff88; }
+        .badge.perfectionist { color: #ffcc00; border-color: #ffcc00; }
+        .badge.survivor { color: #ff4444; border-color: #ff4444; }
+        
+        .stats {
+            display: flex;
+            gap: 40px;
+            margin: 20px 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .feedback-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: 900;
+            text-transform: uppercase;
+            pointer-events: none;
+            opacity: 0;
+            text-shadow: 0 0 40px currentColor;
+        }
+        
+        .feedback-text.show {
+            animation: feedbackPop 0.6s ease-out;
+        }
+        
+        @keyframes feedbackPop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            30% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1) translateY(-50px); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    
+    <div id="ui">
+        <div class="score-display" id="score">0</div>
+        <div class="combo-display" id="combo">COMBO x0</div>
+        <div class="color-indicator">MATCH THE COLORS</div>
+        <div class="health-bar">
+            <div class="health-fill" id="healthFill" style="width: 100%"></div>
+        </div>
+        <div class="feedback-text" id="feedback"></div>
+    </div>
+    
+    <div id="startScreen">
+        <h1>CHROMA PULSE</h1>
+        <div class="tagline">Feel the rhythm. Match the colors. Survive the pulse.</div>
+        <div class="instructions">
+            <h3>How to Play</h3>
+            <p>🎯 <strong>Click or Tap</strong> the screen to pulse</p>
+            <p>🌈 <strong>Hit rings</strong> that match your orb's color</p>
+            <p>⚡ <strong>Build combos</strong> for massive scores</p>
+            <p>💀 <strong>Wrong colors</strong> drain your health</p>
+            <p>🏆 <strong>Reach 10,000 points</strong> to win!</p>
+        </div>
+        <button class="btn" onclick="startGame()">START PULSING</button>
+    </div>
+    
+    <div id="gameOverScreen">
+        <h1 style="color: #ff4444; -webkit-text-fill-color: #ff4444;">PULSE FADED</h1>
+        <div class="final-score" id="finalScore">0</div>
+        <div class="badges">
+            <div class="badge rhythm-master" id="badge1">Rhythm Master</div>
+            <div class="badge combo-king" id="badge2">Combo King</div>
+            <div class="badge perfectionist" id="badge3">Perfectionist</div>
+            <div class="badge survivor" id="badge4">Survivor</div>
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-value" id="statAccuracy">0%</span>
+                Accuracy
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="statMaxCombo">0</span>
+                Max Combo
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="statTime">0s</span>
+                Time
+            </div>
+        </div>
+        <button class="btn" onclick="resetGame()">TRY AGAIN</button>
+    </div>
+    
+    <div id="winScreen">
+        <h1 style="color: #00ff88; -webkit-text-fill-color: #00ff88;">CHROMA MASTER!</h1>
+        <div class="tagline">You've mastered the pulse. Legendary!</div>
+        <div class="final-score" id="winScore">0</div>
+        <div class="badges">
+            <div class="badge rhythm-master earned" id="winBadge1">Rhythm Master</div>
+            <div class="badge combo-king earned" id="winBadge2">Combo King</div>
+            <div class="badge perfectionist earned" id="winBadge3">Perfectionist</div>
+            <div class="badge survivor earned" id="winBadge4">Survivor</div>
+        </div>
+        <button class="btn" onclick="resetGame()">PLAY AGAIN</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Game state
+        let gameState = 'start';
+        let score = 0;
+        let health = 100;
+        let combo = 0;
+        let maxCombo = 0;
+        let hits = 0;
+        let misses = 0;
+        let startTime = 0;
+        let gameTime = 0;
+        
+        // Colors
+        const colors = [
+            { name: 'RED', hex: '#ff0066', hue: 340 },
+            { name: 'BLUE', hex: '#0066ff', hue: 210 },
+            { name: 'GREEN', hex: '#00ff88', hue: 150 },
+            { name: 'YELLOW', hex: '#ffcc00', hue: 45 },
+            { name: 'PURPLE', hex: '#9900ff', hue: 270 },
+            { name: 'CYAN', hex: '#00ffff', hue: 180 }
+        ];
+        
+        let currentColorIndex = 0;
+        let targetColorIndex = 0;
+        let colorTransition = 0;
+        
+        // Game objects
+        let rings = [];
+        let particles = [];
+        let pulseEffects = [];
+        let bgWaves = [];
+        
+        // Beat system
+        let beatTime = 0;
+        let beatInterval = 500;
+        let lastBeat = 0;
+        
+        // Resize canvas
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+        
+        // Classes
+        class Ring {
+            constructor() {
+                this.radius = Math.max(canvas.width, canvas.height) * 0.6;
+                this.colorIndex = Math.floor(Math.random() * colors.length);
+                this.speed = 3 + Math.random() * 2 + (score / 2000);
+                this.thickness = 8;
+                this.hit = false;
+                this.missed = false;
+                this.pulseScale = 1;
+                this.angle = Math.random() * Math.PI * 2;
+            }
+            
+            update() {
+                this.radius -= this.speed;
+                this.pulseScale = 1 + Math.sin(Date.now() * 0.005 + this.angle) * 0.05;
+                
+                // Check if ring reached center (miss)
+                if (this.radius < 60 && !this.hit && !this.missed) {
+                    this.missed = true;
+                    combo = 0;
+                    health -= 15;
+                    updateUI();
+                    showFeedback('MISS', '#ff4444');
+                    misses++;
+                    createExplosion(canvas.width/2, canvas.height/2, '#ff4444', 20);
+                    
+                    if (health <= 0) {
+                        endGame();
+                    }
+                }
+            }
+            
+            draw() {
+                const color = colors[this.colorIndex];
+                const alpha = Math.min(1, this.radius / 200);
+                
+                ctx.beginPath();
+                ctx.arc(canvas.width/2, canvas.height/2, this.radius * this.pulseScale, 0, Math.PI * 2);
+                ctx.strokeStyle = color.hex + Math.floor(alpha * 255).toString(16).padStart(2, '0');
+                ctx.lineWidth = this.thickness * this.pulseScale;
+                ctx.shadowBlur = 30;
+                ctx.shadowColor = color.hex;
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+                
+                // Inner glow
+                ctx.beginPath();
+                ctx.arc(canvas.width/2, canvas.height/2, this.radius * this.pulseScale - 5, 0, Math.PI * 2);
+                ctx.strokeStyle = color.hex + '40';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
+        }
+        
+        class Particle {
+            constructor(x, y, color, speed = 1) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 10 * speed;
+                this.vy = (Math.random() - 0.5) * 10 * speed;
+                this.life = 1;
+                this.decay = 0.01 + Math.random() * 0.02;
+                this.color = color;
+                this.size = 3 + Math.random() * 5;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vx *= 0.98;
+                this.vy *= 0.98;
+                this.life -= this.decay;
+                this.size *= 0.98;
+            }
+            
+            draw() {
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        class PulseEffect {
+            constructor() {
+                this.radius = 50;
+                this.maxRadius = 100;
+                this.life = 1;
+            }
+            
+            update() {
+                this.radius += 8;
+                this.life -= 0.05;
+            }
+            
+            draw() {
+                ctx.globalAlpha = this.life;
+                ctx.beginPath();
+                ctx.arc(canvas.width/2, canvas.height/2, this.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = colors[currentColorIndex].hex;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        class BgWave {
+            constructor() {
+                this.offset = Math.random() * Math.PI * 2;
+                this.speed = 0.01 + Math.random() * 0.02;
+                this.amplitude = 50 + Math.random() * 100;
+                this.frequency = 0.002 + Math.random() * 0.003;
+                this.color = colors[Math.floor(Math.random() * colors.length)].hex;
+            }
+            
+            update() {
+                this.offset += this.speed;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.strokeStyle = this.color + '10';
+                ctx.lineWidth = 2;
+                for (let x = 0; x < canvas.width; x += 5) {
+                    const y = canvas.height/2 + Math.sin(x * this.frequency + this.offset) * this.amplitude;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+        }
+        
+        // Functions
+        function createExplosion(x, y, color, count = 30) {
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+        
+        function showFeedback(text, color) {
+            const el = document.getElementById('feedback');
+            el.textContent = text;
+            el.style.color = color;
+            el.classList.remove('show');
+            void el.offsetWidth;
+            el.classList.add('show');
+        }
+        
+        function spawnRing() {
+            rings.push(new Ring());
+        }
+        
+        function pulse() {
+            if (gameState !== 'playing') return;
+            
+            pulseEffects.push(new PulseEffect());
+            
+            // Check for hits
+            let hitSomething = false;
+            for (let i = rings.length - 1; i >= 0; i--) {
+                const ring = rings[i];
+                if (ring.hit || ring.missed) continue;
+                
+                // Hit window: ring between 40 and 120 radius
+                if (ring.radius > 40 && ring.radius < 140) {
+                    if (ring.colorIndex === currentColorIndex) {
+                        // Perfect hit!
+                        ring.hit = true;
+                        rings.splice(i, 1);
+                        
+                        const points = 100 * (1 + combo * 0.1);
+                        score += Math.floor(points);
+                        combo++;
+                        if (combo > maxCombo) maxCombo = combo;
+                        hits++;
+                        
+                        showFeedback(combo > 5 ? 'PERFECT! x' + combo : 'PERFECT!', '#00ff88');
+                        createExplosion(canvas.width/2, canvas.height/2, colors[currentColorIndex].hex, 40);
+                        
+                        // Change color after successful hit
+                        targetColorIndex = Math.floor(Math.random() * colors.length);
+                        
+                        hitSomething = true;
+                        
+                        // Check win condition
+                        if (score >= 10000) {
+                            winGame();
+                        }
+                    } else {
+                        // Wrong color!
+                        combo = 0;
+                        health -= 10;
+                        misses++;
+                        showFeedback('WRONG!', '#ff4444');
+                        createExplosion(canvas.width/2, canvas.height/2, '#ff4444', 15);
+                        
+                        if (health <= 0) {
+                            endGame();
+                        }
+                    }
+                    break;
+                }
+            }
+            
+            if (!hitSomething) {
+                // Missed pulse (no ring in range)
+                combo = 0;
+                showFeedback('TIMING!', '#ffaa00');
+            }
+            
+            updateUI();
+        }
+        
+        function updateUI() {
+            document.getElementById('score').textContent = score.toLocaleString();
+            document.getElementById('healthFill').style.width = Math.max(0, health) + '%';
+            
+            const comboEl = document.getElementById('combo');
+            if (combo > 1) {
+                comboEl.textContent = 'COMBO x' + combo;
+                comboEl.classList.add('active');
+            } else {
+                comboEl.classList.remove('active');
+            }
+            
+            // Score pulse animation
+            const scoreEl = document.getElementById('score');
+            scoreEl.style.color = colors[currentColorIndex].hex;
+            scoreEl.classList.add('pulse');
+            setTimeout(() => scoreEl.classList.remove('pulse'), 100);
+        }
+        
+        function drawPlayerOrb() {
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const color = colors[currentColorIndex];
+            
+            // Color transition
+            if (targetColorIndex !== currentColorIndex) {
+                colorTransition += 0.1;
+                if (colorTransition >= 1) {
+                    currentColorIndex = targetColorIndex;
+                    colorTransition = 0;
+                }
+            }
+            
+            // Pulse to beat
+            const beat = Math.sin(Date.now() * 0.008) * 0.1 + 1;
+            const radius = 50 * beat;
+            
+            // Outer glow
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 2);
+            gradient.addColorStop(0, color.hex);
+            gradient.addColorStop(0.5, color.hex + '80');
+            gradient.addColorStop(1, 'transparent');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius * 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Main orb
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.fillStyle = color.hex;
+            ctx.shadowBlur = 50;
+            ctx.shadowColor = color.hex;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            // Inner highlight
+            ctx.beginPath();
+            ctx.arc(cx - radius * 0.3, cy - radius * 0.3, radius * 0.3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.fill();
+            
+            // Color name
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(color.name, cx, cy + radius + 25);
+        }
+        
+        function drawBackground() {
+            // Clear with fade
+            ctx.fillStyle = 'rgba(10, 10, 15, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw waves
+            bgWaves.forEach(wave => {
+                wave.update();
+                wave.draw();
+            });
+        }
+        
+        function gameLoop() {
+            if (gameState === 'playing') {
+                drawBackground();
+                
+                // Spawn rings to beat
+                const now = Date.now();
+                if (now - lastBeat > beatInterval) {
+                    lastBeat = now;
+                    spawnRing();
+                    
+                    // Speed up as score increases
+                    beatInterval = Math.max(300, 500 - score / 50);
+                }
+                
+                // Update and draw rings
+                rings = rings.filter(ring => {
+                    ring.update();
+                    ring.draw();
+                    return ring.radius > 30 && !ring.hit;
+                });
+                
+                // Draw player
+                drawPlayerOrb();
+                
+                // Update and draw particles
+                particles = particles.filter(p => {
+                    p.update();
+                    p.draw();
+                    return p.life > 0;
+                });
+                
+                // Update and draw pulse effects
+                pulseEffects = pulseEffects.filter(p => {
+                    p.update();
+                    p.draw();
+                    return p.life > 0;
+                });
+                
+                gameTime = Date.now() - startTime;
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        function startGame() {
+            gameState = 'playing';
+            score = 0;
+            health = 100;
+            combo = 0;
+            maxCombo = 0;
+            hits = 0;
+            misses = 0;
+            rings = [];
+            particles = [];
+            pulseEffects = [];
+            beatInterval = 500;
+            lastBeat = Date.now();
+            startTime = Date.now();
+            gameTime = 0;
+            currentColorIndex = 0;
+            targetColorIndex = 0;
+            
+            // Create background waves
+            bgWaves = [];
+            for (let i = 0; i < 5; i++) {
+                bgWaves.push(new BgWave());
+            }
+            
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('gameOverScreen').style.display = 'none';
+            document.getElementById('winScreen').style.display = 'none';
+            
+            updateUI();
+        }
+        
+        function endGame() {
+            gameState = 'gameover';
+            document.getElementById('finalScore').textContent = score.toLocaleString();
+            document.getElementById('finalScore').style.color = colors[currentColorIndex].hex;
+            
+            const accuracy = hits + misses > 0 ? Math.round(hits / (hits + misses) * 100) : 0;
+            document.getElementById('statAccuracy').textContent = accuracy + '%';
+            document.getElementById('statMaxCombo').textContent = maxCombo;
+            document.getElementById('statTime').textContent = Math.floor(gameTime / 1000) + 's';
+            
+            // Award badges
+            if (score >= 5000) document.getElementById('badge1').classList.add('earned');
+            if (maxCombo >= 10) document.getElementById('badge2').classList.add('earned');
+            if (accuracy >= 80) document.getElementById('badge3').classList.add('earned');
+            if (gameTime >= 60000) document.getElementById('badge4').classList.add('earned');
+            
+            document.getElementById('gameOverScreen').style.display = 'flex';
+        }
+        
+        function winGame() {
+            gameState = 'win';
+            document.getElementById('winScore').textContent = score.toLocaleString();
+            document.getElementById('winScreen').style.display = 'flex';
+        }
+        
+        function resetGame() {
+            document.getElementById('badge1').classList.remove('earned');
+            document.getElementById('badge2').classList.remove('earned');
+            document.getElementById('badge3').classList.remove('earned');
+            document.getElementById('badge4').classList.remove('earned');
+            startGame();
+        }
+        
+        // Input handlers
+        canvas.addEventListener('click', pulse);
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            pulse();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (gameState === 'playing') {
+                    pulse();
+                } else if (gameState === 'start') {
+                    startGame();
+                } else if (gameState === 'gameover' || gameState === 'win') {
+                    resetGame();
+                }
+            }
+        });
+        
+        // Start game loop
+        gameLoop();
+    </script>
+</body>
+</html>

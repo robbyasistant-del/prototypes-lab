@@ -214,7 +214,7 @@ function reset(){
   player={x:platforms[0].x+platforms[0].w*.35-13*S,y:y-27*S,vx:0,vy:0,idx:0,air:0,jumpStartTime:null};
   cam={x:0,v:0,target:0};
   score={remaining:targetJumps(),cleared:0};
-  state='idle';power=0;streak=0;lives=0;particles=[];runEnd=false;firstTs=performance.now();failCount=0;jumpRot=0;bounce=0;timeLeft=mode==='time'?60:60;
+  state='idle';power=0;streak=0;lives=0;particles=[];runEnd=false;firstTs=performance.now();failCount=0;jumpRot=0;bounce=0;timeLeft=mode==='time'?100:60;
   stats.all.attempts++; save();
 }
 
@@ -451,7 +451,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-16';
+document.getElementById('version-hash').textContent='2026.03.20-17';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

@@ -6,7 +6,7 @@
 <title>Catálogo de Prototipos</title>
 <style>
 body{font-family:Inter,Segoe UI,Arial;background:#0b1020;color:#ecf2ff;margin:0;padding:22px}
-h1{margin:0 0 6px}.muted{color:#9db0d9}.top{margin-bottom:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:18px}.card{background:#131c36;border:1px solid #314774;border-radius:14px;padding:14px}.card:hover{border-color:#5d7cc0;transform:translateY(-2px)}.head{display:flex;gap:12px;align-items:center}.emo{font-size:28px}.date{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8fa4d5}.card h3{margin:4px 0 0;font-size:18px}.card p{color:#c7d3f1;font-size:14px;line-height:1.4;min-height:40px;margin:10px 0}a{color:#8bc3ff;text-decoration:none;font-weight:600}.links{font-size:14px}.rating{margin:10px 0 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.star{background:none;border:none;cursor:pointer;color:#5b6b91;font-size:20px;line-height:1;padding:0}.star.active{color:#ffd166}.rlabel{font-size:11px;color:#9db0d9}.jumps{box-shadow:inset 0 0 0 1px rgba(255,209,102,.35)}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.search{padding:10px 12px;border-radius:10px;border:1px solid #314774;background:#131c36;color:#ecf2ff;min-width:260px}.pill{font-size:12px;color:#9db0d9;background:#131c36;border:1px solid #314774;border-radius:999px;padding:8px 12px}
+h1{margin:0 0 6px}.muted{color:#9db0d9}.top{margin-bottom:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:18px}.card{background:#131c36;border:1px solid #314774;border-radius:14px;padding:14px;position:relative}.card:hover{border-color:#5d7cc0;transform:translateY(-2px)}.card.rated{box-shadow:0 0 0 1px rgba(255,209,102,.4),0 0 20px rgba(255,209,102,.08)}.rated-badge{position:absolute;top:10px;right:10px;font-size:11px;color:#ffd166;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.35);border-radius:999px;padding:4px 8px;display:none}.card.rated .rated-badge{display:block}.head{display:flex;gap:12px;align-items:center}.emo{font-size:28px}.date{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8fa4d5}.card h3{margin:4px 0 0;font-size:18px}.card p{color:#c7d3f1;font-size:14px;line-height:1.4;min-height:40px;margin:10px 0}a{color:#8bc3ff;text-decoration:none;font-weight:600}.links{font-size:14px}.rating{margin:10px 0 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.star{background:none;border:none;cursor:pointer;color:#5b6b91;font-size:20px;line-height:1;padding:0}.star.active{color:#ffd166}.rlabel{font-size:11px;color:#9db0d9}.jumps{box-shadow:inset 0 0 0 1px rgba(255,209,102,.35)}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.search,.select{padding:10px 12px;border-radius:10px;border:1px solid #314774;background:#131c36;color:#ecf2ff;min-width:220px}.pill{font-size:12px;color:#9db0d9;background:#131c36;border:1px solid #314774;border-radius:999px;padding:8px 12px}
 </style>
 </head>
 <body>
@@ -15,6 +15,38 @@ h1{margin:0 0 6px}.muted{color:#9db0d9}.top{margin-bottom:18px}.grid{display:gri
   <p class='muted'>Listado completo en fichas de <strong>prototypes_html/</strong>. Incluye todos los prototipos desarrollados desde el 25 de febrero y la serie 100 Jumps. Las puntuaciones usan la clave anterior para conservar tus valoraciones.</p>
   <div class='toolbar'>
     <input id='search' class='search' placeholder='Buscar prototipo...'>
+    <select id='dateFilter' class='select'>
+      <option value='all'>Todas las fechas</option>
+      <option value='100 Jumps Series'>100 Jumps Series</option>
+      <option value='2026-03-19'>2026-03-19</option>
+      <option value='2026-03-18'>2026-03-18</option>
+      <option value='2026-03-17'>2026-03-17</option>
+      <option value='2026-03-16'>2026-03-16</option>
+      <option value='2026-03-14'>2026-03-14</option>
+      <option value='2026-03-13'>2026-03-13</option>
+      <option value='2026-03-12'>2026-03-12</option>
+      <option value='2026-03-11'>2026-03-11</option>
+      <option value='2026-03-10'>2026-03-10</option>
+      <option value='2026-03-09'>2026-03-09</option>
+      <option value='2026-03-08'>2026-03-08</option>
+      <option value='2026-03-07'>2026-03-07</option>
+      <option value='2026-03-06'>2026-03-06</option>
+      <option value='2026-03-05'>2026-03-05</option>
+      <option value='2026-03-04'>2026-03-04</option>
+      <option value='2026-03-03'>2026-03-03</option>
+      <option value='2026-03-01'>2026-03-01</option>
+      <option value='2026-02-28'>2026-02-28</option>
+      <option value='2026-02-27'>2026-02-27</option>
+      <option value='2026-02-26'>2026-02-26</option>
+      <option value='2026-02-25'>2026-02-25</option>
+    </select>
+    <select id='sortBy' class='select'>
+      <option value='date-desc'>Orden: fecha desc</option>
+      <option value='date-asc'>Orden: fecha asc</option>
+      <option value='rating-desc'>Orden: mejor valorados</option>
+      <option value='rating-asc'>Orden: peor valorados</option>
+      <option value='name-asc'>Orden: nombre A-Z</option>
+    </select>
     <span class='pill'>Total: 75</span>
     <span class='pill'>Ratings preservados: prototypeRatingsV1</span>
   </div>
@@ -475,33 +507,77 @@ h1{margin:0 0 6px}.muted{color:#9db0d9}.top{margin-bottom:18px}.grid{display:gri
 (() => {
   const KEY = 'prototypeRatingsV1';
   const ratings = JSON.parse(localStorage.getItem(KEY) || '{}');
-  function paint(card){
-    const key = card.dataset.key;
+  const grid = document.getElementById('grid');
+  const cards = Array.from(document.querySelectorAll('#grid .card'));
+
+  cards.forEach(card => {
+    const badge = document.createElement('div');
+    badge.className = 'rated-badge';
+    badge.textContent = '★ Rated';
+    card.appendChild(badge);
+  });
+
+  function getDate(card){ return card.querySelector('.date')?.textContent.trim() || ''; }
+  function getName(card){ return card.querySelector('h3')?.textContent.trim() || ''; }
+  function getRating(card){ const r = card.querySelector('.rating'); return Number(ratings[r.dataset.key] || 0); }
+
+  function paint(ratingEl){
+    const key = ratingEl.dataset.key;
     const v = Number(ratings[key] || 0);
-    card.querySelectorAll('.star').forEach(st => {
+    ratingEl.querySelectorAll('.star').forEach(st => {
       const sv = Number(st.dataset.v);
       st.classList.toggle('active', sv <= v);
     });
+    const card = ratingEl.closest('.card');
+    card.classList.toggle('rated', v > 0);
+    const badge = card.querySelector('.rated-badge');
+    if (badge) badge.textContent = v > 0 ? ('★ ' + v + '/4') : '★ Rated';
   }
-  document.querySelectorAll('.rating').forEach(card => {
-    paint(card);
-    card.querySelectorAll('.star').forEach(st => {
+
+  document.querySelectorAll('.rating').forEach(ratingEl => {
+    paint(ratingEl);
+    ratingEl.querySelectorAll('.star').forEach(st => {
       st.addEventListener('click', () => {
-        const key = card.dataset.key;
+        const key = ratingEl.dataset.key;
         ratings[key] = Number(st.dataset.v);
         localStorage.setItem(KEY, JSON.stringify(ratings));
-        paint(card);
+        paint(ratingEl);
+        applyFilters();
       });
     });
   });
+
   const search = document.getElementById('search');
-  search.addEventListener('input', () => {
+  const dateFilter = document.getElementById('dateFilter');
+  const sortBy = document.getElementById('sortBy');
+
+  function applyFilters(){
     const q = search.value.toLowerCase().trim();
-    document.querySelectorAll('#grid .card').forEach(c => {
+    const dateVal = dateFilter.value;
+    cards.forEach(c => {
       const txt = c.innerText.toLowerCase();
-      c.style.display = txt.includes(q) ? '' : 'none';
+      const matchesSearch = txt.includes(q);
+      const matchesDate = dateVal === 'all' || getDate(c) === dateVal;
+      c.style.display = (matchesSearch && matchesDate) ? '' : 'none';
     });
-  });
+    const visible = cards.filter(c => c.style.display !== 'none');
+    visible.sort((a,b) => {
+      switch(sortBy.value){
+        case 'date-asc': return getDate(a).localeCompare(getDate(b));
+        case 'rating-desc': return getRating(b) - getRating(a) || getDate(b).localeCompare(getDate(a));
+        case 'rating-asc': return getRating(a) - getRating(b) || getDate(b).localeCompare(getDate(a));
+        case 'name-asc': return getName(a).localeCompare(getName(b));
+        case 'date-desc':
+        default: return getDate(b).localeCompare(getDate(a));
+      }
+    });
+    visible.forEach(c => grid.appendChild(c));
+  }
+
+  search.addEventListener('input', applyFilters);
+  dateFilter.addEventListener('change', applyFilters);
+  sortBy.addEventListener('change', applyFilters);
+  applyFilters();
 })();
 </script>
 </body>

@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prototypes Lab - HTML Game Factory</title>
+    <title>Prototypes Lab - Complete Catalog</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -20,13 +16,13 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
         
         h1 {
@@ -50,205 +46,24 @@
             font-size: 18px;
             color: #888;
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0 auto 20px;
             line-height: 1.6;
-        }
-        
-        .date-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.1);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin-top: 20px;
-            color: #aaa;
-        }
-        
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-        
-        .game-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .game-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255,255,255,0.2);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-        
-        .game-preview {
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 64px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .game-card:nth-child(1) .game-preview {
-            background: linear-gradient(135deg, rgba(255,0,102,0.3), rgba(102,0,255,0.3));
-        }
-        
-        .game-card:nth-child(2) .game-preview {
-            background: linear-gradient(135deg, rgba(0,170,255,0.3), rgba(0,255,170,0.3));
-        }
-        
-        .game-card:nth-child(3) .game-preview {
-            background: linear-gradient(135deg, rgba(255,0,170,0.3), rgba(170,0,255,0.3));
-        }
-        
-        .game-preview::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='rgba(255,255,255,0.03)' fill-rule='nonzero'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.5;
-        }
-        
-        .game-content {
-            padding: 25px;
-        }
-        
-        .game-tag {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-        
-        .game-card:nth-child(1) .game-tag {
-            background: rgba(255,0,102,0.2);
-            color: #ff0066;
-        }
-        
-        .game-card:nth-child(2) .game-tag {
-            background: rgba(0,255,170,0.2);
-            color: #00ffaa;
-        }
-        
-        .game-card:nth-child(3) .game-tag {
-            background: rgba(255,0,170,0.2);
-            color: #ff00aa;
-        }
-        
-        .game-title {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-        
-        .game-desc {
-            font-size: 14px;
-            color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        
-        .game-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .feature {
-            font-size: 12px;
-            color: #888;
-            background: rgba(255,255,255,0.05);
-            padding: 4px 10px;
-            border-radius: 8px;
-        }
-        
-        .game-links {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn {
-            flex: 1;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.3s;
-            cursor: pointer;
-            border: none;
-        }
-        
-        .btn-primary {
-            color: white;
-        }
-        
-        .game-card:nth-child(1) .btn-primary {
-            background: linear-gradient(135deg, #ff0066, #6600ff);
-        }
-        
-        .game-card:nth-child(2) .btn-primary {
-            background: linear-gradient(135deg, #00aaff, #00ffaa);
-            color: #050508;
-        }
-        
-        .game-card:nth-child(3) .btn-primary {
-            background: linear-gradient(135deg, #ff00aa, #aa00ff);
-        }
-        
-        .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: #aaa;
-        }
-        
-        .btn:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #666;
-            font-size: 14px;
-        }
-        
-        footer a {
-            color: #888;
-            text-decoration: none;
-        }
-        
-        footer a:hover {
-            color: #fff;
         }
         
         .stats-bar {
             display: flex;
             justify-content: center;
             gap: 40px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             flex-wrap: wrap;
         }
         
         .stat {
             text-align: center;
+            background: rgba(255,255,255,0.05);
+            padding: 20px 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .stat-value {
@@ -267,13 +82,170 @@
             margin-top: 5px;
         }
         
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        
+        .section-icon {
+            font-size: 32px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+        }
+        
+        .section-count {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .game-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        
+        .game-header {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(168,85,247,0.2));
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .game-emoji {
+            font-size: 36px;
+        }
+        
+        .game-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .game-info .date {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .game-content {
+            padding: 15px 20px;
+        }
+        
+        .game-desc {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .game-links {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #aaa;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        
+        /* Special styling for 100 Jumps series */
+        .jumps-card .game-header {
+            background: linear-gradient(135deg, rgba(255,0,102,0.2), rgba(255,170,0,0.2));
+        }
+        
+        /* Date grouping */
+        .date-group {
+            margin-bottom: 40px;
+        }
+        
+        .date-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .date-header::before {
+            content: '📅';
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #666;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+        
         @media (max-width: 768px) {
             .games-grid {
                 grid-template-columns: 1fr;
             }
             
             .stats-bar {
-                gap: 20px;
+                gap: 15px;
+            }
+            
+            .stat {
+                padding: 15px 20px;
             }
         }
     </style>
@@ -283,96 +255,488 @@
         <header>
             <h1>🎮 PROTOTYPES LAB</h1>
             <p class="subtitle">
-                A collection of bold, original HTML game prototypes exploring unique mechanics & engaging gameplay experiences.
+                Complete catalog of HTML game prototypes. From quick experiments to polished experiences.
             </p>
-            <div class="date-badge">📅 March 19, 2026 Batch</div>
         </header>
         
         <div class="stats-bar">
             <div class="stat">
-                <div class="stat-value">3</div>
-                <div class="stat-label">Games</div>
+                <div class="stat-value">70+</div>
+                <div class="stat-label">Total Games</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">7</div>
+                <div class="stat-label">100 Jumps Series</div>
             </div>
             <div class="stat">
                 <div class="stat-value">100%</div>
                 <div class="stat-label">Playable</div>
             </div>
-            <div class="stat">
-                <div class="stat-value">∞</div>
-                <div class="stat-label">Replayability</div>
+        </div>
+        
+        <!-- 100 JUMPS SERIES -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">🏆</span>
+                <h2 class="section-title">100 Jumps Series</h2>
+                <span class="section-count">7 games</span>
+            </div>
+            <div class="games-grid">
+                <div class="game-card jumps-card">
+                    <div class="game-header">
+                        <span class="game-emoji">🎮</span>
+                        <div class="game-info">
+                            <h3>100 Jumps - Clone Exacto II</h3>
+                            <span class="date">Enhanced Version</span>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-desc">The definitive version with extra lives, perfect streaks, particle effects, and multiple game modes.</p>
+                        <div class="game-links">
+                            <a href="100-jumps-clone-II/index.html" class="btn btn-primary">▶ PLAY</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card jumps-card">
+                    <div class="game-header">
+                        <span class="game-emoji">🎯</span>
+                        <div class="game-info">
+                            <h3>100 Jumps - Clone Exacto</h3>
+                            <span class="date">Original Enhanced</span>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-desc">The original enhanced clone with achievements, stats tracking, and theme switching.</p>
+                        <div class="game-links">
+                            <a href="100-jumps-series/index.html" class="btn btn-primary">▶ PLAY</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card jumps-card">
+                    <div class="game-header">
+                        <span class="game-emoji">⚔️</span>
+                        <div class="game-info">
+                            <h3>100 Jumps Battle</h3>
+                            <span class="date">VS Mode</span>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-desc">Competitive multiplayer variant of the 100 Jumps formula.</p>
+                        <div class="game-links">
+                            <a href="100jumps-battle/index.html" class="btn btn-primary">▶ PLAY</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card jumps-card">
+                    <div class="game-header">
+                        <span class="game-emoji">🧘</span>
+                        <div class="game-info">
+                            <h3>100 Jumps Zen</h3>
+                            <span class="date">Relax Mode</span>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-desc">No-fail endless mode for practicing and relaxing.</p>
+                        <div class="game-links">
+                            <a href="100jumps-zen/index.html" class="btn btn-primary">▶ PLAY</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card jumps-card">
+                    <div class="game-header">
+                        <span class="game-emoji">🧬</span>
+                        <div class="game-info">
+                            <h3>100 Jumps Variant A</h3>
+                            <span class="date">Experimental</span>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-desc">First experimental variant with modified physics.</p>
+                        <div class="game-links">
+                            <a href="100jumps-variant-a/index.html" class="btn btn-primary">▶ PLAY</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card jumps-card">
+                    <div class="game-header">
+                        <span class="game-emoji">🔬</span>
+                        <div class="game-info">
+                            <h3>100 Jumps Variant B</h3>
+                            <span class="date">Experimental</span>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-desc">Second experimental variant with different platform patterns.</p>
+                        <div class="game-links">
+                            <a href="100jumps-variant-b/index.html" class="btn btn-primary">▶ PLAY</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card jumps-card">
+                    <div class="game-header">
+                        <span class="game-emoji">🎲</span>
+                        <div class="game-info">
+                            <h3>100 Jumps Clone</h3>
+                            <span class="date">First Version</span>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <p class="game-desc">The original first clone attempt - pure and simple.</p>
+                        <div class="game-links">
+                            <a href="100jumps-clone/index.html" class="btn btn-primary">▶ PLAY</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="games-grid">
-            <!-- CHROMA PULSE -->
-            <div class="game-card">
-                <div class="game-preview">🌈</div>
-                <div class="game-content">
-                    <span class="game-tag">Rhythm Action</span>
-                    <h2 class="game-title">CHROMA PULSE</h2>
-                    <p class="game-desc">A synesthetic rhythm game where you match colors to the beat. Pulse your orb to hit matching rings and build massive combos in this 360-degree arcade experience.</p>
-                    <div class="game-features">
-                        <span class="feature">🎵 Rhythm-based</span>
-                        <span class="feature">🌈 Color matching</span>
-                        <span class="feature">⚡ Combo system</span>
-                        <span class="feature">🏆 Badge unlocks</span>
+        <!-- MARCH 2026 -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">🌸</span>
+                <h2 class="section-title">March 2026</h2>
+                <span class="section-count">Latest prototypes</span>
+            </div>
+            
+            <div class="date-group">
+                <div class="date-header">March 19, 2026 - Friday Batch</div>
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🌈</span>
+                            <div class="game-info">
+                                <h3>Chroma Pulse</h3>
+                                <span class="date">Rhythm Action</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Synesthetic rhythm game with color matching to the beat.</p>
+                            <div class="game-links">
+                                <a href="2026-03-19-chroma-pulse/index.html" class="btn btn-primary">▶ PLAY</a>
+                                <a href="2026-03-19-chroma-pulse/report.html" class="btn btn-secondary">📊</a>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="game-links">
-                        <a href="2026-03-19-chroma-pulse/index.html" class="btn btn-primary">▶ PLAY NOW</a>
-                        <a href="2026-03-19-chroma-pulse/report.html" class="btn btn-secondary">📊 Report</a>
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🌌</span>
+                            <div class="game-info">
+                                <h3>Gravity Weaver</h3>
+                                <span class="date">Physics Puzzle</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Draw gravity fields to guide particles through obstacles.</p>
+                            <div class="game-links">
+                                <a href="2026-03-19-gravity-weaver/index.html" class="btn btn-primary">▶ PLAY</a>
+                                <a href="2026-03-19-gravity-weaver/report.html" class="btn btn-secondary">📊</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🏎️</span>
+                            <div class="game-info">
+                                <h3>Echo Drift</h3>
+                                <span class="date">Time-Loop Racing</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Race against your ghost recordings through 3 laps of chaos.</p>
+                            <div class="game-links">
+                                <a href="2026-03-19-echo-drift/index.html" class="btn btn-primary">▶ PLAY</a>
+                                <a href="2026-03-19-echo-drift/report.html" class="btn btn-secondary">📊</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- GRAVITY WEAVER -->
-            <div class="game-card">
-                <div class="game-preview">🌌</div>
-                <div class="game-content">
-                    <span class="game-tag">Physics Puzzle</span>
-                    <h2 class="game-title">GRAVITY WEAVER</h2>
-                    <p class="game-desc">Draw gravitational fields to guide particles through obstacle courses. Master physics manipulation in this unique spatial puzzle game with emergent solutions.</p>
-                    <div class="game-features">
-                        <span class="feature">✏️ Draw mechanics</span>
-                        <span class="feature">🔬 Physics sim</span>
-                        <span class="feature">⭐ Star ratings</span>
-                        <span class="feature">🧠 8 levels</span>
+            <div class="date-group">
+                <div class="date-header">March 18, 2026 - Thursday Batch</div>
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">⏱️</span>
+                            <div class="game-info">
+                                <h3>Chrono Echo Chase</h3>
+                                <span class="date">Time Manipulation</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Navigate platforms while avoiding echoes of your past movements.</p>
+                            <div class="game-links">
+                                <a href="2026-03-18-chrono-echo-chase/index.html" class="btn btn-primary">▶ PLAY</a>
+                                <a href="2026-03-18-chrono-echo-chase/report.html" class="btn btn-secondary">📊</a>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="game-links">
-                        <a href="2026-03-19-gravity-weaver/index.html" class="btn btn-primary">▶ PLAY NOW</a>
-                        <a href="2026-03-19-gravity-weaver/report.html" class="btn btn-secondary">📊 Report</a>
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🧩</span>
+                            <div class="game-info">
+                                <h3>Entropy Weaver</h3>
+                                <span class="date">Decay Management</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Manipulate entropy states to solve spatial puzzles.</p>
+                            <div class="game-links">
+                                <a href="2026-03-18-entropy-weaver/index.html" class="btn btn-primary">▶ PLAY</a>
+                                <a href="2026-03-18-entropy-weaver/report.html" class="btn btn-secondary">📊</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">☯️</span>
+                            <div class="game-info">
+                                <h3>Symbiosis Split</h3>
+                                <span class="date">Dual Control</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Control two characters with mirrored movements to solve puzzles.</p>
+                            <div class="game-links">
+                                <a href="2026-03-18-symbiosis-split/index.html" class="btn btn-primary">▶ PLAY</a>
+                                <a href="2026-03-18-symbiosis-split/report.html" class="btn btn-secondary">📊</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- ECHO DRIFT -->
-            <div class="game-card">
-                <div class="game-preview">🏎️</div>
-                <div class="game-content">
-                    <span class="game-tag">Time-Loop Racing</span>
-                    <h2 class="game-title">ECHO DRIFT</h2>
-                    <p class="game-desc">Race against your own ghost recordings through 3 laps of escalating chaos. Avoid the paradox - one collision with your past and it's game over!</p>
-                    <div class="game-features">
-                        <span class="feature">👻 Ghost racing</span>
-                        <span class="feature">⏱️ Time attack</span>
-                        <span class="feature">💨 Drift mechanics</span>
-                        <span class="feature">💀 Permadeath</span>
+            <div class="date-group">
+                <div class="date-header">March 17, 2026 - Wednesday Batch</div>
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🚂</span>
+                            <div class="game-info">
+                                <h3>Dreamline Conductor</h3>
+                                <span class="date">Rail Management</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Switch tracks to guide multiple trains safely to destinations.</p>
+                            <div class="game-links">
+                                <a href="2026-03-17-dreamline-conductor/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="game-links">
-                        <a href="2026-03-19-echo-drift/index.html" class="btn btn-primary">▶ PLAY NOW</a>
-                        <a href="2026-03-19-echo-drift/report.html" class="btn btn-secondary">📊 Report</a>
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🍳</span>
+                            <div class="game-info">
+                                <h3>Quantum Kitchen Rush</h3>
+                                <span class="date">Cooking Sim</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Quantum-entangled cooking with time-manipulation mechanics.</p>
+                            <div class="game-links">
+                                <a href="2026-03-17-quantum-kitchen-rush/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">⚔️</span>
+                            <div class="game-info">
+                                <h3>Signal Samurai</h3>
+                                <span class="date">Pattern Combat</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Slice through signals with precision timing.</p>
+                            <div class="game-links">
+                                <a href="2026-03-17-signal-samurai/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="date-group">
+                <div class="date-header">March 16, 2026 - Tuesday Batch</div>
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🕵️</span>
+                            <div class="game-info">
+                                <h3>Echo Heist Operator</h3>
+                                <span class="date">Stealth Strategy</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Plan and execute heists using echo-location mechanics.</p>
+                            <div class="game-links">
+                                <a href="2026-03-16-echo-heist-operator/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🌌</span>
+                            <div class="game-info">
+                                <h3>Merge Orbit Smith</h3>
+                                <span class="date">Orbital Puzzle</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Merge celestial bodies in orbital patterns.</p>
+                            <div class="game-links">
+                                <a href="2026-03-16-merge-orbit-smith/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🚀</span>
+                            <div class="game-info">
+                                <h3>Starlink Raiders</h3>
+                                <span class="date">Space Defense</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Defend satellite networks from cosmic threats.</p>
+                            <div class="game-links">
+                                <a href="2026-03-16-starlink-raiders/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FEBRUARY 2026 -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">❄️</span>
+                <h2 class="section-title">February 2026</h2>
+                <span class="section-count">Early prototypes</span>
+            </div>
+            
+            <div class="date-group">
+                <div class="date-header">February 25-28, 2026</div>
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🏹</span>
+                            <div class="game-info">
+                                <h3>Arrow Escape Daily</h3>
+                                <span class="date">Daily Puzzle</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Navigate through arrow-filled mazes.</p>
+                            <div class="game-links">
+                                <a href="2026-02-25-arrow-escape-daily/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">⚔️</span>
+                            <div class="game-info">
+                                <h3>Block Duel</h3>
+                                <span class="date">VS Puzzle</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Competitive block-clearing duel.</p>
+                            <div class="game-links">
+                                <a href="2026-02-25-block-duel/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🎴</span>
+                            <div class="game-info">
+                                <h3>Word Solitaire Mix</h3>
+                                <span class="date">Card Word Game</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Combine cards to form words.</p>
+                            <div class="game-links">
+                                <a href="2026-02-25-word-solitaire-mix/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🧱</span>
+                            <div class="game-info">
+                                <h3>Block Solitaire</h3>
+                                <span class="date">Solo Puzzle</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Strategic block placement game.</p>
+                            <div class="game-links">
+                                <a href="2026-02-26-block-solitaire/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">⏱️</span>
+                            <div class="game-info">
+                                <h3>Tricky 60s</h3>
+                                <span class="date">Speed Challenge</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Complete tasks within 60 seconds.</p>
+                            <div class="game-links">
+                                <a href="2026-02-26-tricky-60s/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-emoji">🔗</span>
+                            <div class="game-info">
+                                <h3>Word Merge</h3>
+                                <span class="date">Word Builder</span>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <p class="game-desc">Merge letter tiles to create words.</p>
+                            <div class="game-links">
+                                <a href="2026-02-26-word-merge/index.html" class="btn btn-primary">▶ PLAY</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
         <footer>
-            <p>Built with 💜 by the Prototypes Lab Team</p>
-            <p style="margin-top: 10px;">
-                <a href="https://github.com/robbyasistant-del/prototypes-lab" target="_blank">GitHub Repository</a> | 
-                <a href="https://robbyasistant-del.github.io/prototypes-lab/">Live Site</a>
+            <p>🎮 Prototypes Lab - HTML Game Factory</p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                <a href="https://github.com/robbyasistant-del/prototypes-lab" target="_blank" style="color: #888;">GitHub Repository</a>
             </p>
         </footer>
     </div>

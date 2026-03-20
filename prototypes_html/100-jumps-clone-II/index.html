@@ -6,6 +6,7 @@
   <title>100 Jumps - Clone Exacto II</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;touch-action:none}
+    #settings-overlay, #settings-overlay *, #stats-overlay, #stats-overlay *{touch-action:pan-y}
     :root{--sat:env(safe-area-inset-top,0px)}
     html,body{width:100%;height:100%;overflow:hidden;font-family:'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;transition:background .55s ease,color .35s ease;background:#edf2f8}
     #wrap{position:fixed;inset:0;overflow:hidden}
@@ -181,6 +182,8 @@ const ui = {
  themeSel:document.getElementById('theme-select'),modeSel:document.getElementById('mode-select'),
  runJumps:document.getElementById('run-jumps'),runTime:document.getElementById('run-time'),achGrid:document.getElementById('ach-grid'),lb:document.getElementById('lb-list')
 };
+ui.settingsOverlay.querySelector('.card').addEventListener('touchmove', e=>e.stopPropagation(), {passive:true});
+ui.statsOverlay.querySelector('.card').addEventListener('touchmove', e=>e.stopPropagation(), {passive:true});
 
 Object.keys(THEME_PRESETS).forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=k[0].toUpperCase()+k.slice(1);ui.themeSel.appendChild(o);});
 Object.keys(MODES).forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=MODES[k].name;ui.modeSel.appendChild(o);});
@@ -424,7 +427,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-7';
+document.getElementById('version-hash').textContent='2026.03.20-8';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

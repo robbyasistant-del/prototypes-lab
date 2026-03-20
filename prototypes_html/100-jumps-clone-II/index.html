@@ -123,6 +123,8 @@
   </div></div>
 </div>
 <div id="version-footer">100 Jumps II - v<span id="version-hash">--</span></div>
+<button id="settings-float" aria-label="Settings" style="position:fixed;top:max(22px,env(safe-area-inset-top,0px)+22px);right:16px;z-index:999999;width:58px;height:58px;background:#6366f1;color:#fff;border:3px solid #fff;border-radius:18px;box-shadow:0 12px 28px rgba(15,23,42,.28);font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;">&#9881;</button>
+<button id="stats-float" aria-label="Stats" style="position:fixed;top:max(22px,env(safe-area-inset-top,0px)+22px);left:16px;z-index:999999;width:58px;height:58px;background:#6366f1;color:#fff;border:3px solid #fff;border-radius:18px;box-shadow:0 12px 28px rgba(15,23,42,.28);font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;">&#127942;</button>
 
 <script>
 const THEME_PRESETS = {
@@ -385,8 +387,10 @@ function syncUI(){ui.togSound.classList.toggle('on',settings.sound);ui.togVib.cl
 function renderStats(){ui.runJumps.textContent=score.cleared;ui.runTime.textContent=((performance.now()-firstTs)/1000).toFixed(1)+'s';ui.achGrid.innerHTML='';ACH.forEach(a=>{const d=document.createElement('div');d.className='ach'+(stats.ach[a.id]?'':' lock');d.title=a.desc;d.innerHTML=`<i>${a.icon}</i><b>${a.name}</b>`;ui.achGrid.appendChild(d)});const lb=stats.leaderboard[mode]||[];ui.lb.innerHTML=lb.length?lb.map((r,i)=>`<div class="row"><span>#${i+1} ${new Date(r.t).toLocaleDateString()}</span><span>${r.j} jumps · ${r.time.toFixed(1)}s</span></div>`).join(''):'<div class="row"><span>No scores yet</span><span>Play now!</span></div>'}
 
 sh(document.getElementById('settings-btn'),()=>{syncUI();ui.settingsOverlay.classList.add('show')});
+sh(document.getElementById('settings-float'),()=>{syncUI();ui.settingsOverlay.classList.add('show')});
 sh(document.getElementById('settings-done'),()=>{ui.settingsOverlay.classList.remove('show')});
 sh(document.getElementById('stats-btn'),()=>{renderStats();ui.statsOverlay.classList.add('show')});
+sh(document.getElementById('stats-float'),()=>{renderStats();ui.statsOverlay.classList.add('show')});
 sh(document.getElementById('stats-done'),()=>ui.statsOverlay.classList.remove('show'));
 sh(ui.togSound,()=>{settings.sound=!settings.sound;syncUI();updateAmbience();save()});
 sh(ui.togVib,()=>{settings.vibration=!settings.vibration;syncUI();save()});

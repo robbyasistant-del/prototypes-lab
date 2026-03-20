@@ -148,7 +148,7 @@ const MODES = {
   classic:{name:'Classic',target:100,noFail:false,diff:1,timeAttack:false},
   zen:{name:'Zen',target:Infinity,noFail:true,diff:.88,timeAttack:false},
   time:{name:'Time Attack',target:100,noFail:false,diff:1.05,timeAttack:true},
-  hardcore:{name:'Hardcore',target:50,noFail:false,diff:1.35,timeAttack:false}
+  hardcore:{name:'Hardcore',target:100,noFail:false,diff:1.35,timeAttack:false}
 };
 const ACH = [
   {id:'first',name:'First Steps',icon:'👟',desc:'Land your first jump'},
@@ -357,7 +357,7 @@ function onLand(plat,idx,cx){
   sfxLand(dist);
   if(perfect){
     streak++; spawnPerfect(cx,plat.y); sfxPerfect(); 
-    if(mode==='time'){timeLeft += 5; addFloatText('+5s', cx, plat.y - 58*S, '#22c55e', 15);}
+    if(mode==='time'){const bonus=streak; timeLeft += bonus; addFloatText(`+${bonus}s`, cx, plat.y - 58*S, '#22c55e', 15);}
     // Texto "Perfect!" flotante en verde (mas pequeno)
     addFloatText('Perfect!', cx, plat.y - 40*S, '#22c55e', 16);
     if(streak>=3) unlock('triplePerfect');
@@ -451,7 +451,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-15';
+document.getElementById('version-hash').textContent='2026.03.20-16';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

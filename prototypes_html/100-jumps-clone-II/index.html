@@ -292,8 +292,14 @@ function update(dt){
     spawnTrail();
     const cw=27*S,ch=27*S,b=player.y+ch,pb=b-player.vy*dt,cx=player.x+cw/2;
     if(player.vy>0){
+      const tol=Math.max(Math.abs(player.vy*dt),8*S);
+      const cp=platforms[player.idx];
+      if(cp && cx>=cp.x&&cx<=cp.x+cp.w && pb<=cp.y+2*S && b>=cp.y-2*S && b<=cp.y+tol){
+        player.vx=0; player.vy=0; player.y=cp.y-27*S; state='idle'; jumpRot=0; bounce=1;
+        return;
+      }
       const ni=player.idx+1,np=platforms[ni];
-      if(np){const tol=Math.max(Math.abs(player.vy*dt),8*S); if(cx>=np.x&&cx<=np.x+np.w && pb<=np.y+2*S && b>=np.y-2*S && b<=np.y+tol){onLand(np,ni,cx); return;}}
+      if(np && cx>=np.x&&cx<=np.x+np.w && pb<=np.y+2*S && b>=np.y-2*S && b<=np.y+tol){onLand(np,ni,cx); return;}
     }
     if(b>H+90*S){
       if(modeCfg().noFail){const cp=platforms[player.idx]; player.x=cp.x+cp.w*.35-13*S; player.y=cp.y-27*S; player.vx=player.vy=0; state='idle'; spawnDust(player.x+13*S,player.y+27*S);}
@@ -427,7 +433,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-8';
+document.getElementById('version-hash').textContent='2026.03.20-9';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

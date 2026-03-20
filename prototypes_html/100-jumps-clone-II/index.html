@@ -112,6 +112,7 @@
     </div>
     <button class="btn btn-soft" id="share-copy">Copy Score</button>
     <button class="btn btn-soft" id="share-x">Share on Twitter</button>
+    <button class="btn btn-soft" id="stats-close">Close</button>
     <button class="btn btn-main" id="stats-done" style="margin-top:18px">Done</button>
   </div></div>
 
@@ -123,8 +124,8 @@
   </div></div>
 </div>
 <div id="version-footer">100 Jumps II - v<span id="version-hash">--</span></div>
-<button id="settings-float" aria-label="Settings" style="position:fixed;top:max(22px,env(safe-area-inset-top,0px)+22px);right:16px;z-index:999999;width:58px;height:58px;background:#6366f1;color:#fff;border:3px solid #fff;border-radius:18px;box-shadow:0 12px 28px rgba(15,23,42,.28);font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;">&#9881;</button>
-<button id="stats-float" aria-label="Stats" style="position:fixed;top:max(22px,env(safe-area-inset-top,0px)+22px);left:16px;z-index:999999;width:58px;height:58px;background:#6366f1;color:#fff;border:3px solid #fff;border-radius:18px;box-shadow:0 12px 28px rgba(15,23,42,.28);font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;">&#127942;</button>
+<button id="settings-float" aria-label="Settings" style="position:fixed;top:max(22px,env(safe-area-inset-top,0px)+22px);right:16px;z-index:999999;width:48px;height:48px;background:transparent;color:#94a3b8;border:none;border-radius:14px;font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;">&#9881;</button>
+<button id="stats-float" aria-label="Stats" style="position:fixed;top:max(22px,env(safe-area-inset-top,0px)+22px);left:16px;z-index:999999;width:48px;height:48px;background:transparent;color:#94a3b8;border:none;border-radius:14px;font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;">&#127942;</button>
 
 <script>
 const THEME_PRESETS = {
@@ -391,6 +392,7 @@ sh(document.getElementById('settings-float'),()=>{syncUI();ui.settingsOverlay.cl
 sh(document.getElementById('settings-done'),()=>{ui.settingsOverlay.classList.remove('show')});
 sh(document.getElementById('stats-btn'),()=>{renderStats();ui.statsOverlay.classList.add('show')});
 sh(document.getElementById('stats-float'),()=>{renderStats();ui.statsOverlay.classList.add('show')});
+sh(document.getElementById('stats-close'),()=>ui.statsOverlay.classList.remove('show'));
 sh(document.getElementById('stats-done'),()=>ui.statsOverlay.classList.remove('show'));
 sh(ui.togSound,()=>{settings.sound=!settings.sound;syncUI();updateAmbience();save()});
 sh(ui.togVib,()=>{settings.vibration=!settings.vibration;syncUI();save()});

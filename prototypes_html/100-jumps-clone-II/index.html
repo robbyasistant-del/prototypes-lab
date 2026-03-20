@@ -170,7 +170,7 @@ let W=0,H=0,S=1;
 let state='idle', player, platforms, cam, score, power=0, streak=0, lives=0, particles=[];
 let mode='classic', theme='light', failCount=0, firstTs=0, lastTs=0, runEnd=false, jumpRot=0, bounce=0;
 
-let settings = {sound:true,vibration:true,volume:.8,ambience:false,particles:true,theme:'light',mode:'classic'};
+let settings = {sound:true,vibration:true,volume:.8,ambience:false,particles:false,theme:'light',mode:'classic'};
 let stats = {ach:{},leaderboard:{classic:[],zen:[],time:[],hardcore:[]},themesUsed:{},all:{attempts:0,wins:0}};
 try{Object.assign(settings,JSON.parse(localStorage.getItem('100j2_settings')||'{}'));Object.assign(stats,JSON.parse(localStorage.getItem('100j2_stats')||'{}'));}catch(_){ }
 mode=settings.mode; theme=settings.theme;
@@ -435,7 +435,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-10';
+document.getElementById('version-hash').textContent='2026.03.20-11';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

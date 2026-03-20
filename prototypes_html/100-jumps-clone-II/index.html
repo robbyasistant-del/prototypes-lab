@@ -63,8 +63,11 @@
 
     .leaderboard{padding:12px 0}
     .row{display:flex;justify-content:space-between;font-size:12px;color:#475569;padding:3px 0;font-variant-numeric:tabular-nums}
-    .popup-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border:none;background:rgba(99,102,241,.10);color:#64748b;border-radius:999px;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
-    .popup-close:hover{background:rgba(99,102,241,.16)}
+    .popup-actions-top{display:flex;justify-content:flex-end;margin:-4px 0 10px}
+    .popup-close{width:44px;height:44px;border:none;background:rgba(99,102,241,.14);color:#475569;border-radius:999px;font-size:24px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:800}
+    .popup-close:hover{background:rgba(99,102,241,.22)}
+    .stats-actions-bottom{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.96) 24%);padding-top:12px;margin-top:10px}
+    body.theme-dark .stats-actions-bottom{background:linear-gradient(180deg,rgba(30,41,59,0),rgba(30,41,59,.96) 24%)}
 
     body.theme-dark{background:#111827}
     body.theme-dark .card{background:#1e293b;color:#f1f5f9;border-color:#334155}
@@ -99,8 +102,8 @@
   </div></div>
 
   <div id="stats-overlay"><div class="card stats-scroll">
-    <button class="popup-close" id="stats-close-top" aria-label="Close">×</button>
-    <h2 style="margin-bottom:20px">Stats</h2>
+    <div class="popup-actions-top"><button class="popup-close" id="stats-close-top" aria-label="Close">×</button></div>
+    <h2 style="margin-bottom:20px;text-align:center">Stats</h2>
     <div class="stats-section">
       <div class="stats-section-title">Current Run</div>
       <div class="stats-grid"><div class="stat-item"><div class="stat-value" id="run-jumps">0</div><div class="stat-label">Jumps</div></div><div class="stat-item"><div class="stat-value" id="run-time">0.0s</div><div class="stat-label">Time</div></div></div>
@@ -113,10 +116,12 @@
       <div class="stats-section-title">Leaderboard</div>
       <div class="leaderboard" id="lb-list"></div>
     </div>
-    <button class="btn btn-soft" id="share-copy">Copy Score</button>
-    <button class="btn btn-soft" id="share-x">Share on Twitter</button>
-    <button class="btn btn-soft" id="stats-close">Close</button>
-    <button class="btn btn-main" id="stats-done" style="margin-top:18px">Done</button>
+    <div class="stats-actions-bottom">
+      <button class="btn btn-soft" id="share-copy">Copy Score</button>
+      <button class="btn btn-soft" id="share-x">Share on Twitter</button>
+      <button class="btn btn-soft" id="stats-close">Close</button>
+      <button class="btn btn-main" id="stats-done" style="margin-top:10px">Done</button>
+    </div>
   </div></div>
 
   <div id="modal"><div class="card">
@@ -424,7 +429,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-2';
+document.getElementById('version-hash').textContent='2026.03.20-3';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

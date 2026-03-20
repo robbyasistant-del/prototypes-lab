@@ -11,20 +11,16 @@
     #wrap{position:fixed;inset:0;overflow:hidden}
     canvas{display:block;width:100%;height:100%}
 
-    #settings-btn,#stats-btn{position:absolute;top:max(22px,env(safe-area-inset-top,0px)+22px);z-index:5;width:48px;height:48px;background:rgba(255,255,255,.55);border:none;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease,opacity .2s,background .2s ease}
-    #settings-btn:hover,#stats-btn:hover{background:rgba(255,255,255,.78)}
-    #settings-btn{right:max(60px,env(safe-area-inset-right,0px)+52px,calc(50% - 260px))}
-    #theme-btn{position:absolute;top:max(22px,env(safe-area-inset-top,0px)+22px);right:max(12px,env(safe-area-inset-right,0px)+4px,calc(50% - 300px));z-index:6;width:48px;height:48px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease,opacity .2s}
-    #theme-btn:active{transform:scale(.88)}
-    #theme-btn svg{width:26px;height:26px;fill:#475569;transition:fill .35s ease,transform .3s ease}
-    #theme-btn:hover svg{fill:#334155}
-    body.theme-dark #theme-btn svg{fill:#cbd5e1}
-    body.theme-dark #theme-btn:hover svg{fill:#e2e8f0}
+    #settings-btn,#stats-btn{position:absolute;top:max(22px,env(safe-area-inset-top,0px)+22px);z-index:30;width:48px;height:48px;background:rgba(255,255,255,.92);border:1px solid rgba(99,102,241,.18);border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(15,23,42,.12);transition:transform .15s ease,background .2s ease}
+    #settings-btn:hover,#stats-btn:hover{background:#fff}
+    #settings-btn{right:max(12px,env(safe-area-inset-right,0px)+4px,calc(50% - 300px))}
+    #theme-btn{display:none}
     #version-footer{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);padding:3px 10px;background:rgba(255,255,255,.72);border-radius:10px;font-size:11px;font-weight:600;color:#475569;pointer-events:none;z-index:50}
     body.theme-dark #version-footer{background:rgba(15,23,42,.72);color:#cbd5e1}
     #stats-btn{left:max(12px,env(safe-area-inset-left,0px)+4px,calc(50% - 300px))}
     #settings-btn:active,#stats-btn:active{transform:scale(.88)}
-    #settings-btn svg,#stats-btn svg{width:32px;height:32px;fill:#64748b;transition:fill .35s ease}
+    #settings-btn .icon,#stats-btn .icon{font-size:24px;line-height:1;display:block}
+    body.theme-dark #settings-btn,body.theme-dark #stats-btn{background:rgba(15,23,42,.86);border-color:rgba(148,163,184,.2)}
 
     #modal,#settings-overlay,#stats-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:20;opacity:0;pointer-events:none;transition:opacity .28s ease}
     #modal.show,#settings-overlay.show,#stats-overlay.show{opacity:1;pointer-events:auto}
@@ -82,12 +78,12 @@
 <body>
 <div id="wrap">
   <canvas id="gc"></canvas>
-  <button id="settings-btn" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54A.48.48 0 0 0 13.92 2h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.74 8.87a.49.49 0 0 0 .12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"></path></svg></button>
+  <button id="settings-btn" aria-label="Settings"><span class="icon">⚙️</span></button>
   <button id="theme-btn" aria-label="Toggle Theme" title="Toggle Light/Dark">
     <svg id="icon-sun" viewBox="0 0 24 24" style="display:block" fill="#475569"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000 1.41.996.996 0 001.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06z"/></svg>
     <svg id="icon-moon" viewBox="0 0 24 24" style="display:none" fill="#475569"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
   </button>
-  <button id="stats-btn" aria-label="Stats"><svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"></path></svg></button>
+  <button id="stats-btn" aria-label="Stats"><span class="icon">🏆</span></button>
 
   <div id="settings-overlay"><div class="card">
     <h2>Settings</h2>

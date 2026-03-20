@@ -95,6 +95,7 @@
     <div class="toggle-row"><span class="toggle-label">Sounds</span><button class="toggle on" id="tog-sound"></button></div>
     <div class="slider-row" id="vol-row"><span class="toggle-label">Volume</span><input class="vol-slider" type="range" id="vol-slider" min="0" max="100" value="80" /></div>
     <div class="toggle-row"><span class="toggle-label">Ambience</span><button class="toggle" id="tog-amb"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Particles</span><button class="toggle on" id="tog-particles"></button></div>
     <div class="toggle-row"><span class="toggle-label">Vibration</span><button class="toggle on" id="tog-vib"></button></div>
     <div class="select-row"><span class="toggle-label">Theme</span><select id="theme-select"></select></div>
     <div class="select-row"><span class="toggle-label">Mode</span><select id="mode-select"></select></div>
@@ -169,7 +170,7 @@ let W=0,H=0,S=1;
 let state='idle', player, platforms, cam, score, power=0, streak=0, lives=0, particles=[];
 let mode='classic', theme='light', failCount=0, firstTs=0, lastTs=0, runEnd=false, jumpRot=0, bounce=0;
 
-let settings = {sound:true,vibration:true,volume:.8,ambience:false,theme:'light',mode:'classic'};
+let settings = {sound:true,vibration:true,volume:.8,ambience:false,particles:true,theme:'light',mode:'classic'};
 let stats = {ach:{},leaderboard:{classic:[],zen:[],time:[],hardcore:[]},themesUsed:{},all:{attempts:0,wins:0}};
 try{Object.assign(settings,JSON.parse(localStorage.getItem('100j2_settings')||'{}'));Object.assign(stats,JSON.parse(localStorage.getItem('100j2_stats')||'{}'));}catch(_){ }
 mode=settings.mode; theme=settings.theme;
@@ -178,7 +179,7 @@ function save(){localStorage.setItem('100j2_settings',JSON.stringify(settings));
 const ui = {
  modal:document.getElementById('modal'),mt:document.getElementById('mt'),ms:document.getElementById('ms'),mb:document.getElementById('mb'),mbShare:document.getElementById('mb-share'),
  settingsOverlay:document.getElementById('settings-overlay'),statsOverlay:document.getElementById('stats-overlay'),
- togSound:document.getElementById('tog-sound'),togVib:document.getElementById('tog-vib'),togAmb:document.getElementById('tog-amb'),vol:document.getElementById('vol-slider'),volRow:document.getElementById('vol-row'),
+ togSound:document.getElementById('tog-sound'),togVib:document.getElementById('tog-vib'),togAmb:document.getElementById('tog-amb'),togParticles:document.getElementById('tog-particles'),vol:document.getElementById('vol-slider'),volRow:document.getElementById('vol-row'),
  themeSel:document.getElementById('theme-select'),modeSel:document.getElementById('mode-select'),
  runJumps:document.getElementById('run-jumps'),runTime:document.getElementById('run-time'),achGrid:document.getElementById('ach-grid'),lb:document.getElementById('lb-list')
 };
@@ -249,11 +250,11 @@ async function copyShare(){try{await navigator.clipboard.writeText(shareText());
 function twitterShare(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText()),'_blank')}
 
 function spawn(type,x,y,cnt,col){for(let i=0;i<cnt;i++)particles.push({type,x,y,vx:rand(-150,150)*S,vy:rand(-240,10)*S,life:rand(.35,1.2),age:0,size:rand(2,6)*S,c:col||'#fff'})}
-function spawnTrail(){const cx=player.x+13*S-cam.x,cy=player.y+27*S;particles.push({type:'trail',x:cx,y:cy,vx:rand(-20,20)*S,vy:rand(15,70)*S,life:.25,age:0,size:rand(2,4)*S,c:THEME_PRESETS[theme].char})}
-function spawnPerfect(x,y){spawn('spark',x-cam.x,y,20,THEME_PRESETS[theme].perfect)}
-function spawnDust(x,y){spawn('dust',x-cam.x,y,14,'rgba(148,163,184,.85)')}
-function spawnConfetti(x,y){for(let i=0;i<90;i++)particles.push({type:'conf',x:x-cam.x,y,vx:rand(-220,220)*S,vy:rand(-320,-80)*S,life:rand(.8,1.8),age:0,size:rand(2,6)*S,c:['#f43f5e','#22d3ee','#eab308','#a855f7','#34d399'][Math.floor(Math.random()*5)]})}
-function spawnPlatformFx(p){for(let i=0;i<8;i++)particles.push({type:'appear',x:p.x+rand(0,p.w),y:p.y,vx:rand(-20,20)*S,vy:rand(-40,0)*S,life:.45,age:0,size:rand(1,3)*S,c:THEME_PRESETS[theme].dim,world:true})}
+function spawnTrail(){if(!settings.particles)return;const cx=player.x+13*S-cam.x,cy=player.y+27*S;particles.push({type:'trail',x:cx,y:cy,vx:rand(-20,20)*S,vy:rand(15,70)*S,life:.25,age:0,size:rand(2,4)*S,c:THEME_PRESETS[theme].char})}
+function spawnPerfect(x,y){if(!settings.particles)return;spawn('spark',x-cam.x,y,20,THEME_PRESETS[theme].perfect)}
+function spawnDust(x,y){if(!settings.particles)return;spawn('dust',x-cam.x,y,14,'rgba(148,163,184,.85)')}
+function spawnConfetti(x,y){if(!settings.particles)return;for(let i=0;i<90;i++)particles.push({type:'conf',x:x-cam.x,y,vx:rand(-220,220)*S,vy:rand(-320,-80)*S,life:rand(.8,1.8),age:0,size:rand(2,6)*S,c:['#f43f5e','#22d3ee','#eab308','#a855f7','#34d399'][Math.floor(Math.random()*5)]})}
+function spawnPlatformFx(p){if(!settings.particles)return;for(let i=0;i<8;i++)particles.push({type:'appear',x:p.x+rand(0,p.w),y:p.y,vx:rand(-20,20)*S,vy:rand(-40,0)*S,life:.45,age:0,size:rand(1,3)*S,c:THEME_PRESETS[theme].dim,world:true})}
 
 // Texto flotante "Perfect!"
 let floatTexts=[];
@@ -398,7 +399,7 @@ document.addEventListener('keydown',e=>{if(e.repeat)return; if(e.key==='Escape')
 document.addEventListener('keyup',up);
 
 function sh(el,fn){el.addEventListener('click',e=>{e.stopPropagation();fn(e)});el.addEventListener('touchend',e=>{e.preventDefault();e.stopPropagation();fn(e)},{passive:false})}
-function syncUI(){ui.togSound.classList.toggle('on',settings.sound);ui.togVib.classList.toggle('on',settings.vibration);ui.togAmb.classList.toggle('on',settings.ambience);ui.vol.value=Math.round(settings.volume*100);ui.volRow.style.display=settings.sound?'flex':'none';ui.themeSel.value=settings.theme;ui.modeSel.value=settings.mode;}
+function syncUI(){ui.togSound.classList.toggle('on',settings.sound);ui.togVib.classList.toggle('on',settings.vibration);ui.togAmb.classList.toggle('on',settings.ambience);ui.togParticles.classList.toggle('on',settings.particles);ui.vol.value=Math.round(settings.volume*100);ui.volRow.style.display=settings.sound?'flex':'none';ui.themeSel.value=settings.theme;ui.modeSel.value=settings.mode;}
 function renderStats(){ui.runJumps.textContent=score.cleared;ui.runTime.textContent=((performance.now()-firstTs)/1000).toFixed(1)+'s';ui.achGrid.innerHTML='';ACH.forEach(a=>{const d=document.createElement('div');d.className='ach'+(stats.ach[a.id]?'':' lock');d.title=a.desc;d.innerHTML=`<i>${a.icon}</i><b>${a.name}</b>`;ui.achGrid.appendChild(d)});const lb=stats.leaderboard[mode]||[];ui.lb.innerHTML=lb.length?lb.map((r,i)=>`<div class="row"><span>#${i+1} ${new Date(r.t).toLocaleDateString()}</span><span>${r.j} jumps · ${r.time.toFixed(1)}s</span></div>`).join(''):'<div class="row"><span>No scores yet</span><span>Play now!</span></div>'}
 
 sh(document.getElementById('settings-btn'),()=>{syncUI();ui.settingsOverlay.classList.add('show')});
@@ -410,6 +411,7 @@ sh(document.getElementById('stats-done'),()=>ui.statsOverlay.classList.remove('s
 sh(ui.togSound,()=>{settings.sound=!settings.sound;syncUI();updateAmbience();save()});
 sh(ui.togVib,()=>{settings.vibration=!settings.vibration;syncUI();save()});
 sh(ui.togAmb,()=>{settings.ambience=!settings.ambience;syncUI();initAudio();save()});
+sh(ui.togParticles,()=>{settings.particles=!settings.particles;if(!settings.particles)particles=[];syncUI();save()});
 ui.vol.addEventListener('input',()=>{settings.volume=parseInt(ui.vol.value,10)/100;save();updateAmbience();initAudio();tone(520,null,.08,.2)});
 ui.themeSel.addEventListener('change',()=>{applyTheme(ui.themeSel.value);save()});
 ui.modeSel.addEventListener('change',()=>{mode=ui.modeSel.value;settings.mode=mode;save();reset()});
@@ -433,7 +435,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-9';
+document.getElementById('version-hash').textContent='2026.03.20-10';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

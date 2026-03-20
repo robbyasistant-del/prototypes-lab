@@ -303,14 +303,12 @@ function update(dt){
       if(np && cx>=np.x&&cx<=np.x+np.w && pb<=np.y+2*S && b>=np.y-2*S && b<=np.y+tol){onLand(np,ni,cx); return;}
     }
     if(b>H+90*S){
-      if(modeCfg().noFail){const cp=platforms[player.idx]; player.x=cp.x+cp.w*.35-13*S; player.y=cp.y-27*S; player.vx=player.vy=0; state='idle'; spawnDust(player.x+13*S,player.y+27*S);}
-      else if(lives>0){
-        lives--; failCount++; sfxLose(); streak=0; // Reset Perfects al caer
-        // Texto "-1 LIFE" en rojo
-        addFloatText('-1 LIFE', player.x+13*S, player.y-40*S, '#ff5b78', 18);
-        const cp=platforms[player.idx]; player.x=cp.x+cp.w*.35-13*S; player.y=cp.y-27*S; player.vx=player.vy=0; state='idle';
-      }
-      else {endRun(false);}
+      streak=0;
+      lives=0;
+      failCount++;
+      sfxLose();
+      endRun(false);
+      return;
     }
   }
 
@@ -435,7 +433,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-10';
+document.getElementById('version-hash').textContent='2026.03.20-11';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

@@ -140,7 +140,7 @@ const THEME_PRESETS = {
   light:{bg:'#edf2f8',platform:'#9aa8bd',score:'#23304d',dim:'#94a3b8',perfect:'#24c78b',life:'#ff5b78',char:'#6366f1',pupil:'#312e81'},
   dark:{bg:'#111827',platform:'#4b5563',score:'#e2e8f0',dim:'#64748b',perfect:'#34d399',life:'#fb7185',char:'#7c83ff',pupil:'#000000'},
   neon:{bg:'#05040a',platform:'#6d28d9',score:'#22d3ee',dim:'#a855f7',perfect:'#10f0a0',life:'#ff4d9d',char:'#00e5ff',pupil:'#ff4dff'},
-  sunset:{bg:'linear-gradient(180deg,#ff8a5b 0%,#ff4f8b 100%)',platform:'#d9b26f',score:'#fff7ed',dim:'#ffe4e6',perfect:'#fde047',life:'#7f1d1d',char:'#f97316',pupil:'#7c2d12'},
+  sunset:{bg:'linear-gradient(180deg,#ff8a5b 0%,#ff4f8b 100%)',platform:'#fde047',score:'#fff7ed',dim:'#ffe4e6',perfect:'#fde047',life:'#7f1d1d',char:'#fff1cf',pupil:'#7c2d12'},
   forest:{bg:'#1f3a2b',platform:'#6f4e37',score:'#ecfccb',dim:'#bbf7d0',perfect:'#86efac',life:'#fca5a5',char:'#22c55e',pupil:'#14532d'},
   ocean:{bg:'#0c4a6e',platform:'#0891b2',score:'#e0f2fe',dim:'#7dd3fc',perfect:'#67e8f9',life:'#fda4af',char:'#38bdf8',pupil:'#0f172a'},
   cyberpunk:{bg:'#2a1042',platform:'#d946ef',score:'#fde047',dim:'#f0abfc',perfect:'#22d3ee',life:'#fb7185',char:'#e879f9',pupil:'#000000'}
@@ -429,7 +429,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-4';
+document.getElementById('version-hash').textContent='2026.03.20-5';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

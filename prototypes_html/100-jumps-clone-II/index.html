@@ -147,7 +147,7 @@ const THEME_PRESETS = {
 };
 const MODES = {
   classic:{name:'Classic',target:100,noFail:false,diff:1,timeAttack:false},
-  zen:{name:'Zen',target:Infinity,noFail:true,diff:.88,timeAttack:false},
+  zen:{name:'Infinite',target:Infinity,noFail:true,diff:.88,timeAttack:false},
   time:{name:'Time Attack',target:100,noFail:false,diff:1.05,timeAttack:true},
   hardcore:{name:'Hardcore',target:100,noFail:false,diff:1.35,timeAttack:false}
 };
@@ -456,7 +456,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.20-22';
+document.getElementById('version-hash').textContent='2026.03.20-23';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

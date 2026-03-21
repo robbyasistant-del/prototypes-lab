@@ -399,21 +399,24 @@ function drawBg(){
   ctx.fillRect(0,0,W,H);
   if(theme==='sunset'){
     const sunX=W*.78,sunY=H*.24,sunR=42*S;
-    const sg=ctx.createRadialGradient(sunX,sunY,sunR*.18,sunX,sunY,sunR*1.7);
-    sg.addColorStop(0,'rgba(255,248,196,.98)');
-    sg.addColorStop(.45,'rgba(255,203,112,.92)');
-    sg.addColorStop(.75,'rgba(255,140,91,.48)');
-    sg.addColorStop(1,'rgba(255,140,91,0)');
+    const sg=ctx.createRadialGradient(sunX,sunY,sunR*.15,sunX,sunY,sunR*1.9);
+    sg.addColorStop(0,'rgba(255,241,186,.98)');
+    sg.addColorStop(.35,'rgba(255,188,92,.95)');
+    sg.addColorStop(.68,'rgba(255,128,58,.52)');
+    sg.addColorStop(1,'rgba(255,128,58,0)');
     ctx.fillStyle=sg;
     ctx.beginPath();
-    ctx.arc(sunX,sunY,sunR*1.7,0,Math.PI*2);
+    ctx.arc(sunX,sunY,sunR*1.9,0,Math.PI*2);
     ctx.fill();
-    ctx.fillStyle='#ffd27a';
+    ctx.fillStyle='#ff9f43';
     ctx.beginPath();
     ctx.arc(sunX,sunY,sunR,0,Math.PI*2);
     ctx.fill();
-    ctx.fillStyle='rgba(255,239,196,.18)';
-    ctx.fillRect(0,H*.72,W,H*.28);
+    const haze=ctx.createLinearGradient(0,H*.45,0,H);
+    haze.addColorStop(0,'rgba(255,181,102,0)');
+    haze.addColorStop(1,'rgba(255,214,160,.18)');
+    ctx.fillStyle=haze;
+    ctx.fillRect(0,0,W,H);
   }
   if(theme==='candy'){
     ctx.fillStyle='rgba(255,255,255,.55)';
@@ -532,7 +535,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.21-7';
+document.getElementById('version-hash').textContent='2026.03.21-8';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

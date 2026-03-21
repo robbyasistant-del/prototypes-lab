@@ -255,7 +255,7 @@ function twitterShare(){window.open('https://twitter.com/intent/tweet?text='+enc
 function spawn(type,x,y,cnt,col){for(let i=0;i<cnt;i++)particles.push({type,x,y,vx:rand(-150,150)*S,vy:rand(-240,10)*S,life:rand(.35,1.2),age:0,size:rand(2,6)*S,c:col||'#fff'})}
 function spawnTrail(){if(!settings.particles)return;const cx=player.x+13*S-cam.x,cy=player.y+27*S;particles.push({type:'trail',x:cx,y:cy,vx:rand(-20,20)*S,vy:rand(15,70)*S,life:.25,age:0,size:rand(2,4)*S,c:THEME_PRESETS[theme].char})}
 function spawnPerfect(x,y){if(!settings.particles)return;spawn('spark',x-cam.x,y,20,THEME_PRESETS[theme].perfect)}
-function spawnDust(x,y,color){if(!settings.particles)return;for(let i=0;i<12;i++)particles.push({type:'dust',x:x-cam.x,y,vx:rand(-90,90)*S,vy:rand(-120,-20)*S,life:rand(.22,.55),age:0,size:rand(2,6)*S,c:color||THEME_PRESETS[theme].platform})}
+function spawnDust(x,y,color){if(!settings.particles)return;spawn('dust',x-cam.x,y,14,color||THEME_PRESETS[theme].platform)}
 function spawnConfetti(x,y){if(!settings.particles)return;for(let i=0;i<90;i++)particles.push({type:'conf',x:x-cam.x,y,vx:rand(-220,220)*S,vy:rand(-320,-80)*S,life:rand(.8,1.8),age:0,size:rand(2,6)*S,c:['#f43f5e','#22d3ee','#eab308','#a855f7','#34d399'][Math.floor(Math.random()*5)]})}
 function spawnPlatformFx(p){if(!settings.particles)return;for(let i=0;i<8;i++)particles.push({type:'appear',x:p.x+rand(0,p.w),y:p.y,vx:rand(-20,20)*S,vy:rand(-40,0)*S,life:.45,age:0,size:rand(1,3)*S,c:THEME_PRESETS[theme].dim,world:true})}
 
@@ -456,7 +456,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.21-1';
+document.getElementById('version-hash').textContent='2026.03.21-2';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

@@ -77,6 +77,9 @@
     body.theme-dark .toggle-row+.toggle-row,body.theme-dark .select-row,body.theme-dark .slider-row,body.theme-dark .leaderboard{border-top-color:#334155}
     body.theme-dark .stat{background:#0f172a}
     body.theme-dark .stat .v{color:#f1f5f9}
+    body.theme-dark .ach,body.theme-dark .trophy-item{background:#0f172a;border-color:#334155}
+    body.theme-dark .ach i,body.theme-dark .trophy-item i{color:#f8fafc;text-shadow:0 1px 0 rgba(15,23,42,.35)}
+    body.theme-dark .ach b,body.theme-dark .trophy-item b{color:#e2e8f0}
     body.theme-dark #settings-btn,body.theme-dark #stats-btn{background:rgba(15,23,42,.42)}
     body.theme-dark #settings-btn:hover,body.theme-dark #stats-btn:hover{background:rgba(15,23,42,.62)}
     body.theme-dark #settings-btn svg,body.theme-dark #stats-btn svg{fill:#cbd5e1}
@@ -658,7 +661,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.22-9';
+document.getElementById('version-hash').textContent='2026.03.22-10';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

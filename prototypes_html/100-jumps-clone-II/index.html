@@ -254,11 +254,13 @@ function updateAmbience(){if(!audioCtx)return; if(settings.ambience&&settings.so
 
 function unlock(id){if(stats.ach[id])return;stats.ach[id]=Date.now();save();}
 function addLeaderboard(win){const arr=stats.leaderboard[mode]||[];arr.push({t:Date.now(),j:score.cleared,time:((performance.now()-firstTs)/1000),a:stats.all.attempts,win});arr.sort((a,b)=> (b.j-a.j) || (a.time-b.time));stats.leaderboard[mode]=arr.slice(0,10);save();}
-function shareText(){const t=((performance.now()-firstTs)/1000).toFixed(1);return `I scored ${score.cleared} jumps in 100 Jumps II (${MODES[mode].name}) in ${t}s. 🎮 #100Jumps #100JumpsChallenge #100JumpsEndless`}
-function leaderboardText(){const lb=stats.leaderboard[mode]||[]; const title=`100 Jumps II - ${MODES[mode].name} Leaderboard`; const tags='🎮 #100Jumps #100JumpsChallenge #100JumpsEndless'; if(!lb.length)return `${title}
+function shareText(){const t=((performance.now()-firstTs)/1000).toFixed(1);return `I scored ${score.cleared} jumps in 100 Jumps II (${MODES[mode].name}) in ${t}s.\n\nLet me recommend you this game: https://bit.ly/100jumps\n\n🎮 #100Jumps #100JumpsChallenge #100JumpsEndless`}
+function leaderboardText(){const lb=stats.leaderboard[mode]||[]; const title=`100 Jumps II - ${MODES[mode].name} Leaderboard`; const cta='Let me recommend you this game: https://bit.ly/100jumps'; const tags='🎮 #100Jumps #100JumpsChallenge #100JumpsEndless'; if(!lb.length)return `${title}
 No scores yet.
 
-${tags}`; return [title,...lb.map((r,i)=>`#${i+1} ${r.j} jumps - ${r.time.toFixed(1)}s - ${new Date(r.t).toLocaleDateString()}`),'',tags].join('\n')}
+${cta}
+
+${tags}`; return [title,...lb.map((r,i)=>`#${i+1} ${r.j} jumps - ${r.time.toFixed(1)}s - ${new Date(r.t).toLocaleDateString()}`),'',cta,'',tags].join('\n')}
 let copyToastTimer=0;
 function showCopyToast(){const el=document.getElementById('copy-toast'); if(!el)return; el.classList.add('show'); clearTimeout(copyToastTimer); copyToastTimer=setTimeout(()=>el.classList.remove('show'),1100)}
 async function copyShare(){try{await navigator.clipboard.writeText(shareText());showCopyToast();}catch(_){}}
@@ -656,12 +658,13 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.22-8';
+document.getElementById('version-hash').textContent='2026.03.22-9';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>
 </body>
 </html>
+
 
 
 

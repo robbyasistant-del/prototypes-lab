@@ -151,7 +151,7 @@ const THEME_PRESETS = {
 };
 const MODES = {
   classic:{name:'Classic',target:100,noFail:false,diff:1,timeAttack:false},
-  zen:{name:'Infinite',target:Infinity,noFail:true,diff:.88,timeAttack:false},
+  zen:{name:'Endless',target:Infinity,noFail:true,diff:.88,timeAttack:false},
   time:{name:'Time Attack',target:100,noFail:false,diff:1.05,timeAttack:true},
   hardcore:{name:'Hardcore',target:100,noFail:false,diff:1.35,timeAttack:false}
 };
@@ -320,7 +320,7 @@ function update(dt){
       if(np && cx>=np.x&&cx<=np.x+np.w && pb<=np.y+2*S && b>=np.y-2*S && b<=np.y+tol){onLand(np,ni,cx); return;}
     }
     if(b>H+90*S){
-      if(modeCfg().noFail){const cp=platforms[player.idx]; player.x=cp.x+cp.w*.35-13*S; player.y=cp.y-27*S; player.vx=player.vy=0; state='idle'; spawnDust(player.x+13*S,player.y+27*S,THEME_PRESETS[theme].platform);}
+      if(modeCfg().noFail){if(mode==='zen'&&score.cleared>0)addLeaderboard(false); const cp=platforms[player.idx]; player.x=cp.x+cp.w*.35-13*S; player.y=cp.y-27*S; player.vx=player.vy=0; state='idle'; spawnDust(player.x+13*S,player.y+27*S,THEME_PRESETS[theme].platform);}
       else if(lives>0){
         lives--; failCount++; sfxLose(); streak=0; // Reset Perfects al caer
         // Texto "-1 LIFE" en rojo
@@ -654,7 +654,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.22-4';
+document.getElementById('version-hash').textContent='2026.03.22-5';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

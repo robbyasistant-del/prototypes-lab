@@ -119,7 +119,7 @@
       <div class="leaderboard" id="lb-list"></div>
     </div>
     <div class="stats-actions-bottom">
-      <button class="btn btn-soft" id="share-copy">Copy Score</button>
+      <button class="btn btn-soft" id="share-copy">Copy Leaderboard</button>
       <button class="btn btn-soft" id="share-x">Share on Twitter</button>
       <button class="btn btn-main" id="stats-done">Done</button>
     </div>
@@ -253,9 +253,11 @@ function updateAmbience(){if(!audioCtx)return; if(settings.ambience&&settings.so
 function unlock(id){if(stats.ach[id])return;stats.ach[id]=Date.now();save();}
 function addLeaderboard(win){const arr=stats.leaderboard[mode]||[];arr.push({t:Date.now(),j:score.cleared,time:((performance.now()-firstTs)/1000),a:stats.all.attempts,win});arr.sort((a,b)=> (b.j-a.j) || (a.time-b.time));stats.leaderboard[mode]=arr.slice(0,10);save();}
 function shareText(){const t=((performance.now()-firstTs)/1000).toFixed(1);return `I scored ${score.cleared} jumps in 100 Jumps II (${MODES[mode].name}) in ${t}s. 🎮 #100Jumps`}
+function leaderboardText(){const lb=stats.leaderboard[mode]||[]; const title=`100 Jumps II - ${MODES[mode].name} Leaderboard`; if(!lb.length)return `${title}\nNo scores yet.`; return [title,...lb.map((r,i)=>`#${i+1} ${r.j} jumps - ${r.time.toFixed(1)}s - ${new Date(r.t).toLocaleDateString()}`)].join('\n')}
 let copyToastTimer=0;
 function showCopyToast(){const el=document.getElementById('copy-toast'); if(!el)return; el.classList.add('show'); clearTimeout(copyToastTimer); copyToastTimer=setTimeout(()=>el.classList.remove('show'),1100)}
 async function copyShare(){try{await navigator.clipboard.writeText(shareText());showCopyToast();}catch(_){}}
+async function copyLeaderboard(){try{await navigator.clipboard.writeText(leaderboardText());showCopyToast();}catch(_){}}
 function twitterShare(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText()),'_blank')}
 
 function spawn(type,x,y,cnt,col){for(let i=0;i<cnt;i++)particles.push({type,x,y,vx:rand(-150,150)*S,vy:rand(-240,10)*S,life:rand(.35,1.2),age:0,size:rand(2,6)*S,c:col||'#fff'})}
@@ -630,7 +632,7 @@ sh(ui.togParticles,()=>{settings.particles=!settings.particles;if(!settings.part
 ui.vol.addEventListener('input',()=>{settings.volume=parseInt(ui.vol.value,10)/100;save();updateAmbience();initAudio();tone(520,null,.08,.2)});
 ui.themeSel.addEventListener('change',()=>{applyTheme(ui.themeSel.value);save()});
 ui.modeSel.addEventListener('change',()=>{mode=ui.modeSel.value;settings.mode=mode;save();reset()});
-sh(document.getElementById('share-copy'),copyShare);
+sh(document.getElementById('share-copy'),copyLeaderboard);
 sh(document.getElementById('share-x'),twitterShare);
 
 /* Boton de tema Light/Dark */
@@ -650,7 +652,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.22-1';
+document.getElementById('version-hash').textContent='2026.03.22-2';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

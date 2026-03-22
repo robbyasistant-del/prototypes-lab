@@ -17,6 +17,8 @@
     #settings-btn{right:16px}
     #theme-btn{display:none}
     #version-footer{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);padding:3px 10px;background:rgba(255,255,255,.72);border-radius:10px;font-size:11px;font-weight:600;color:#475569;pointer-events:none;z-index:50}
+    #copy-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(10px);padding:8px 14px;border-radius:999px;background:rgba(15,23,42,.88);color:#fff;font-size:13px;font-weight:800;letter-spacing:.01em;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;z-index:100001}
+    #copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     body.theme-dark #version-footer{background:rgba(15,23,42,.72);color:#cbd5e1}
     #stats-btn{left:16px}
     #settings-btn:active,#stats-btn:active{transform:scale(.88)}
@@ -130,6 +132,7 @@
     <button class="btn btn-soft" id="mb-share" style="display:none">Share Result</button>
   </div></div>
 </div>
+<div id="copy-toast">Copied!</div>
 <div id="version-footer">100 Jumps II - v<span id="version-hash">--</span></div>
 <button id="settings-float" aria-label="Settings" style="position:fixed;top:max(22px,env(safe-area-inset-top,0px)+22px);right:16px;z-index:999999;width:48px;height:48px;background:transparent;color:#94a3b8;border:none;border-radius:14px;font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;">&#9881;</button>
 <button id="stats-float" aria-label="Stats" style="position:fixed;top:max(22px,env(safe-area-inset-top,0px)+22px);left:16px;z-index:999999;width:48px;height:48px;background:transparent;color:#94a3b8;border:none;border-radius:14px;font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;">&#127942;</button>
@@ -250,7 +253,9 @@ function updateAmbience(){if(!audioCtx)return; if(settings.ambience&&settings.so
 function unlock(id){if(stats.ach[id])return;stats.ach[id]=Date.now();save();}
 function addLeaderboard(win){const arr=stats.leaderboard[mode]||[];arr.push({t:Date.now(),j:score.cleared,time:((performance.now()-firstTs)/1000),a:stats.all.attempts,win});arr.sort((a,b)=> (b.j-a.j) || (a.time-b.time));stats.leaderboard[mode]=arr.slice(0,10);save();}
 function shareText(){const t=((performance.now()-firstTs)/1000).toFixed(1);return `I scored ${score.cleared} jumps in 100 Jumps II (${MODES[mode].name}) in ${t}s. 🎮 #100Jumps`}
-async function copyShare(){try{await navigator.clipboard.writeText(shareText());alert('Score copied!');}catch(_){}}
+let copyToastTimer=0;
+function showCopyToast(){const el=document.getElementById('copy-toast'); if(!el)return; el.classList.add('show'); clearTimeout(copyToastTimer); copyToastTimer=setTimeout(()=>el.classList.remove('show'),1100)}
+async function copyShare(){try{await navigator.clipboard.writeText(shareText());showCopyToast();}catch(_){}}
 function twitterShare(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText()),'_blank')}
 
 function spawn(type,x,y,cnt,col){for(let i=0;i<cnt;i++)particles.push({type,x,y,vx:rand(-150,150)*S,vy:rand(-240,10)*S,life:rand(.35,1.2),age:0,size:rand(2,6)*S,c:col||'#fff'})}
@@ -645,7 +650,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.21-14';
+document.getElementById('version-hash').textContent='2026.03.22-1';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

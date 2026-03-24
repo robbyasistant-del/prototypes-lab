@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dreamline Conductor</title><style>
+body{margin:0;font-family:Inter,Segoe UI;background:linear-gradient(180deg,#071321,#02060d);color:#ecf6ff}.app{max-width:960px;margin:auto;padding:16px}
+.h{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.c{background:#10213d;border:1px solid #31538a;border-radius:12px;padding:10px}.big{font-size:1.1rem;font-weight:800}
+.board{margin-top:10px;display:grid;grid-template-columns:2fr 1fr;gap:10px}.tracks{background:#0b1830;border:1px solid #27477f;border-radius:12px;padding:12px;min-height:320px;position:relative;overflow:hidden}
+.track{height:70px;border:2px solid #365f9e;border-radius:12px;margin-bottom:10px;position:relative;cursor:pointer}.track.active{box-shadow:0 0 16px #47e4cf77;border-color:#47e4cf}
+.label{position:absolute;left:10px;top:8px;font-size:.82rem;opacity:.8}.train{position:absolute;top:26px;left:-40px;transition:left .08s linear;font-size:1.4rem}
+.side{display:flex;flex-direction:column;gap:8px}.event{background:#13264a;border:1px solid #355b97;border-radius:10px;padding:8px;min-height:90px}
+#overlay{position:fixed;inset:0;background:#01040cd9;display:none;place-items:center}.modal{background:#12244b;border:1px solid #3c65a5;padding:18px;border-radius:12px;text-align:center}
+button{padding:10px 12px;border:none;border-radius:8px;background:#42d7bd;font-weight:800;cursor:pointer}
+</style></head><body><div class='app'><h1>?? Dreamline Conductor</h1><p>Click tracks to toggle destination color before each train arrives. Match train color to active track color for points. Reach 1200 score in 2 minutes to WIN. 6 crashes = GAME OVER.</p>
+<div class='h'><div class='c'><div>Score</div><div class='big' id='score'>0</div></div><div class='c'><div>Time</div><div class='big' id='time'>120</div></div><div class='c'><div>Crashes</div><div class='big' id='crash'>0/6</div></div><div class='c'><div>Passengers Saved</div><div class='big' id='saved'>0</div></div><div class='c'><div>Badge</div><div class='big' id='badge'>Rookie</div></div></div>
+<div class='board'><div class='tracks' id='tracks'></div><div class='side'><div class='event' id='event'>Open with low friction: click any lane to set color. Then keep flow alive.</div><div class='event'>Reward ladder: 5 combo = Flow Rider ? 12 combo = Neon Maestro ? 20 combo = Dream Architect</div></div></div></div>
+<div id='overlay'><div class='modal'><h2 id='et'></h2><p id='ed'></p><button onclick='start()'>Play Again</button></div></div>
+<script>
+const colors=['#5cc8ff','#ffd166','#ef476f'];const emojis={'#5cc8ff':'??','#ffd166':'??','#ef476f':'??'}; let S={};let loopI,spawnI,secI;
+function mkTracks(){tracks.innerHTML='';S.tracks=[];for(let i=0;i<3;i++){let c=colors[i];const t={i,color:c,trains:[]};S.tracks.push(t);const el=document.createElement('div');el.className='track';el.dataset.i=i;el.style.borderColor=c;el.innerHTML=`<div class='label'>Lane ${i+1} ${emojis[c]}</div>`;el.onclick=()=>toggle(i);tracks.appendChild(el);} }
+function toggle(i){const t=S.tracks[i];const idx=(colors.indexOf(t.color)+1)%3;t.color=colors[idx];renderTrack(i);event.textContent='Switched Lane '+(i+1)+' to '+emojis[t.color]+' ? instant feedback +1 focus';}
+function renderTrack(i){const el=[...tracks.children][i];el.style.borderColor=S.tracks[i].color;el.querySelector('.label').textContent=`Lane ${i+1} ${emojis[S.tracks[i].color]}`;el.innerHTML=el.querySelector('.label').outerHTML + S.tracks[i].trains.map(tr=>`<div class='train' style='left:${tr.x}%;'>${emojis[tr.color]}??</div>`).join('');}
+function spawn(){const lane=Math.floor(Math.random()*3);S.tracks[lane].trains.push({x:-10,color:colors[Math.floor(Math.random()*3)]});}
+function badge(){if(S.bestCombo>=20)return'Dream Architect';if(S.bestCombo>=12)return'Neon Maestro';if(S.bestCombo>=5)return'Flow Rider';return'Rookie'}
+function draw(){score.textContent=S.score;time.textContent=S.time;crash.textContent=`${S.crash}/6`;saved.textContent=S.saved;badge.textContent=badge();S.tracks.forEach((_,i)=>renderTrack(i));}
+function end(win){clearInterval(loopI);clearInterval(spawnI);clearInterval(secI);et.textContent=win?'YOU WIN ??':'GAME OVER';ed.innerHTML=`Score <b>${S.score}</b><br>Saved <b>${S.saved}</b><br>Best combo <b>${S.bestCombo}</b> (${badge()})`;overlay.style.display='grid';}
+function loop(){S.tracks.forEach(t=>{for(let k=t.trains.length-1;k>=0;k--){const tr=t.trains[k];tr.x+=1.8;if(tr.x>=92){if(tr.color===t.color){S.combo++;S.bestCombo=Math.max(S.bestCombo,S.combo);const pts=40+S.combo*4;S.score+=pts;S.saved++;event.textContent='Perfect route! +'+pts;}else{S.crash++;S.combo=0;S.score=Math.max(0,S.score-55);event.textContent='Crash! wrong destination.';}t.trains.splice(k,1);}}});draw();if(S.crash>=6)end(false);if(S.score>=1200)end(true)}
+function start(){S={score:0,time:120,crash:0,saved:0,combo:0,bestCombo:0,tracks:[]};overlay.style.display='none';mkTracks();draw();clearInterval(loopI);clearInterval(spawnI);clearInterval(secI);loopI=setInterval(loop,80);spawnI=setInterval(spawn,1050);secI=setInterval(()=>{S.time--;draw();if(S.time<=0)end(S.score>=1200)},1000)}
+start();
+</script></body></html>

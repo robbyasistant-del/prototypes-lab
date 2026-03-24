@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Constellation Sort Sprint</title>
+<style>
+:root{--bg:#080b18;--panel:#101936;--line:#2b3f7e;--ink:#eaf0ff;--good:#66f0b4;--bad:#ff7b89;--acc:#8ec5ff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial;background:radial-gradient(circle at 20% 0%,#1a2350,#080b18 55%);color:var(--ink)}
+.wrap{max-width:980px;margin:0 auto;padding:18px}.panel{background:rgba(16,25,54,.92);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.board{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}.slot,.tile{height:62px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.slot{border:2px dashed #3f589e;background:#0f1b3d}.slot.ok{border-color:var(--good)}.slot.bad{border-color:var(--bad)}
+.tile{cursor:pointer;background:linear-gradient(160deg,#1f3068,#253f8e);border:1px solid #5a79d0}.tile.pick{outline:3px solid #ffd979}
+.hud{display:grid;grid-template-columns:repeat(5,minmax(80px,1fr));gap:8px}.kpi{background:#111e42;border:1px solid #334d93;border-radius:10px;padding:8px;text-align:center}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:linear-gradient(140deg,#7ec2ff,#5a9dff);color:#06112e}.ghost{background:#111d40;color:#d9e6ff;border:1px solid #4e6abb}
+#feedback{min-height:24px;font-weight:700}
+</style></head><body><div class="wrap">
+<div class="panel"><h1>✨ Constellation Sort Sprint</h1>
+<p><b>Cómo jugar:</b> Completa 5 rondas. Toca una estrella y luego un slot para colocarla en orden 1→5. Error = pierdes 1 corazón <b>pero la estrella vuelve al pool</b> (no hay bloqueo). Limpia rondas para WIN.</p>
+<div class="hud"><div class="kpi">Ronda<br><b id="round">1/5</b></div><div class="kpi">Score<br><b id="score">0</b></div><div class="kpi">Combo<br><b id="combo">0</b></div><div class="kpi">Corazones<br><b id="hearts">4</b></div><div class="kpi">Tiempo<br><b id="time">90</b>s</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" id="start">Start Run</button><button class="ghost" id="reset">Reset</button><a class="ghost" style="text-decoration:none" href="./report.html">Open report</a></div><p id="feedback">Pulsa Start Run.</p></div>
+<div class="panel"><h3>Orden objetivo</h3><div class="board" id="target"></div><h3>Drop zone</h3><div class="board" id="slots"></div><h3>Pool</h3><div class="board" id="pool"></div></div>
+<div class="panel"><p id="result">Sin run.</p></div></div>
+<script>
+const names=["Astra","Nova","Lyra","Orion","Vega"];const $=i=>document.getElementById(i);
+let S={live:false,round:1,score:0,combo:0,hearts:4,time:90,target:[],pool:[],slots:[],sel:null,timer:null};
+function msg(t,ok){const f=$("feedback");f.textContent=t;f.style.color=ok?"#66f0b4":"#ff9aa5"}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function build(){S.target=names.map((n,i)=>({n,rank:i+1}));S.pool=shuffle(S.target);S.slots=[null,null,null,null,null];S.sel=null;render()}
+function render(){ $("round").textContent=`${S.round}/5`;$("score").textContent=S.score;$("combo").textContent=S.combo;$("hearts").textContent=S.hearts;$("time").textContent=S.time;
+$("target").innerHTML=S.target.map(t=>`<div class='tile' style='cursor:default;background:#17306d'>${t.rank}. ${t.n}</div>`).join("");
+$("slots").innerHTML=S.slots.map((s,i)=>`<div class='slot ${s?.ok===true?'ok':s?.ok===false?'bad':''}' data-slot='${i}'>${s&&s.card?s.card.n:'Slot '+(i+1)}</div>`).join("");
+$("pool").innerHTML=S.pool.map((t,i)=>`<div class='tile ${S.sel===i?'pick':''}' data-pool='${i}'>★ ${t.n}</div>`).join("");
+ document.querySelectorAll('[data-pool]').forEach(el=>el.onclick=()=>{if(!S.live)return;S.sel=+el.dataset.pool;render()});
+ document.querySelectorAll('[data-slot]').forEach(el=>el.onclick=()=>{if(!S.live||S.sel===null)return;place(+el.dataset.slot)});
+}
+function end(win,why){S.live=false;clearInterval(S.timer);$("result").textContent=`${win?'🏆 WIN':'💥 GAME OVER'} — ${why}. Score final ${S.score}`;msg(win?"Victoria":"Fallaste",win)}
+function nextRound(){S.score+=40+S.time;S.round++;if(S.round>5)return end(true,'Constelaciones completas');build();msg('Round clear + bonus',true)}
+function place(i){if(S.slots[i]?.card)return;const card=S.pool[S.sel];const ok=(i+1===card.rank);if(ok){S.slots[i]={ok:true,card};S.pool.splice(S.sel,1);S.score+=22+S.combo*4;S.combo++;msg('Perfect placement',true);}else{S.hearts--;S.combo=0;S.score=Math.max(0,S.score-10);S.slots[i]={ok:false,card:null};setTimeout(()=>{S.slots[i]=null;render()},280);msg('Wrong orbit (-1 corazón). Intenta de nuevo.',false);}S.sel=null;
+if(S.hearts<=0)return end(false,'Sin corazones');
+if(S.slots.every(s=>s?.ok===true))return nextRound();
+render();}
+function start(){S={...S,live:true,round:1,score:0,combo:0,hearts:4,time:90};clearInterval(S.timer);build();S.timer=setInterval(()=>{if(!S.live)return;S.time--;if(S.time<=0)end(false,'Tiempo agotado');render()},1000);$("result").textContent='Run activo';msg('Ordena estrellas 1→5',true)}
+$("start").onclick=start;$("reset").onclick=()=>{clearInterval(S.timer);S.live=false;S={...S,round:1,score:0,combo:0,hearts:4,time:90};build();$("result").textContent='Reset';msg('Listo',true)};build();
+</script></body></html>

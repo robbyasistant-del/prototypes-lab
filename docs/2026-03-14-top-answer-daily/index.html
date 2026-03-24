@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Top Answer Daily</title>
+<style>
+:root{--bg:#080a19;--panel:#121632;--line:#303a72;--text:#eaf0ff;--muted:#9caee6;--pri:#6d28d9;--acc:#22d3ee;}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#16163a,var(--bg));color:var(--text);font-family:Inter,Segoe UI,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:22px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+.badge{display:inline-block;background:rgba(255,255,255,.08);padding:4px 10px;border-radius:999px;font-size:.8rem}.row{display:flex;gap:10px;flex-wrap:wrap}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:linear-gradient(135deg,var(--pri),var(--acc));color:#051424}.ghost{background:#0f1634;color:#dce6ff;border:1px solid #3a4b95}
+input{width:100%;background:#0c1330;border:1px solid #30427d;color:#ecf2ff;border-radius:10px;padding:12px;font-size:1rem}
+.hint{color:var(--muted)}.score{font-weight:800;font-size:1.1rem}.pill{padding:4px 8px;border-radius:999px;background:#1a2450;border:1px solid #3550aa}
+.success{color:#76f7b2}.danger{color:#ff9ea8}
+</style></head>
+<body><div class="wrap"><div class="card">
+<span class="badge">Social Word Daily</span>
+<h1>Top Answer Daily</h1>
+<p>How to play: tienes 5 rondas. En cada ronda, adivina la <b>respuesta más popular</b> para una pregunta. 3 intentos por ronda. Ganas badge según score final.</p>
+<div class="row"><span class="pill" id="round">Round 1/5</span><span class="pill" id="tries">Intentos: 3</span><span class="pill">Tiempo: <span id="timer">90</span>s</span></div>
+<h3 id="question"></h3>
+<p class="hint" id="hint"></p>
+<input id="guess" placeholder="Escribe tu respuesta (ej: pizza)" maxlength="24"/>
+<div class="row" style="margin-top:10px">
+<button class="primary" id="submit">Enviar</button><button class="ghost" id="skip">Skip (-8)</button><button class="ghost" id="restart">Restart</button><a class="ghost" href="./report.html">Ver report</a>
+</div>
+<p id="feedback" class="hint">Feedback inmediato: exact match = +30, synonym hit = +18, fail = 0.</p>
+<p class="score">Score: <span id="score">0</span> · Streak: <span id="streak">0</span> · Best: <span id="best">0</span></p>
+<div id="end"></div>
+</div></div>
+<script>
+const rounds = [
+ {q:"Name a food people order late at night",a:"pizza",alts:["burger","tacos"],h:"Fast, cheesy, delivery classic."},
+ {q:"Name something people forget before leaving home",a:"keys",alts:["wallet","phone"],h:"Small object, unlocks things."},
+ {q:"Name an app people open first in the morning",a:"whatsapp",alts:["instagram","gmail"],h:"Messaging/social first-check habit."},
+ {q:"Name a game genre for quick 2-minute sessions",a:"puzzle",alts:["word","arcade"],h:"Brainy + bite-size."},
+ {q:"Name a reason to keep a daily streak",a:"habit",alts:["reward","discipline"],h:"You do it every day for consistency."}
+];
+let i=0, tries=3, score=0, streak=0, best=Number(localStorage.getItem('ta_best')||0), t=90, ended=false;
+const q=document.getElementById('question'),h=document.getElementById('hint'),fb=document.getElementById('feedback');
+function render(){const r=rounds[i];document.getElementById('round').textContent=`Round ${i+1}/5`;document.getElementById('tries').textContent=`Intentos: ${tries}`;q.textContent=r.q;h.textContent='Hint: '+r.h;document.getElementById('score').textContent=score;document.getElementById('streak').textContent=streak;document.getElementById('best').textContent=best;}
+function norm(s){return s.toLowerCase().trim();}
+function nextRound(){i++;tries=3;document.getElementById('guess').value='';if(i>=rounds.length||t<=0){finish();return;}render();}
+function badgeFor(s){if(s>=120)return 'Gold Mind 🏆';if(s>=85)return 'Silver Pulse 🥈';if(s>=55)return 'Bronze Spark 🥉';return 'Starter Seed 🌱';}
+function finish(){ended=true;const win=score>=85; if(score>best){best=score;localStorage.setItem('ta_best',String(best));}
+ document.getElementById('end').innerHTML=`<div class='card' style='margin-top:12px'><h2>${win?'YOU WIN':'GAME OVER'}</h2><p>Final score: <b>${score}</b> · Badge: <b>${badgeFor(score)}</b></p><p>${win?'Excelente, loop completo y share-ready.':'Keep testing, ajusta semántica y timing para mejorar D1.'}</p></div>`;
+ render();}
+setInterval(()=>{if(ended)return;t--;document.getElementById('timer').textContent=t;if(t<=0)finish();},1000);
+document.getElementById('submit').onclick=()=>{if(ended)return;const val=norm(document.getElementById('guess').value);if(!val){fb.textContent='Escribe algo primero.';return;}const r=rounds[i];
+if(val===r.a){score+=30+Math.max(0,tries-1)*4;streak++;fb.innerHTML=`<span class='success'>Top answer! +30</span>`;nextRound();return;}
+if(r.alts.includes(val)){score+=18;streak=Math.max(0,streak-1);fb.innerHTML=`<span class='success'>Valid social answer +18 (not top #1)</span>`;nextRound();return;}
+tries--;streak=0;fb.innerHTML=`<span class='danger'>Nope. Try again.</span>`;if(tries<=0){fb.innerHTML=`<span class='danger'>Ronda perdida. Top era: ${r.a}. </span>`;nextRound();}else render();};
+document.getElementById('skip').onclick=()=>{if(ended)return;score=Math.max(0,score-8);streak=0;nextRound();};
+document.getElementById('restart').onclick=()=>location.reload();render();
+</script></body></html>

@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quantum Kitchen Rush</title><style>
+:root{--bg:#050816;--panel:#111935;--acc:#4ef0c3;--danger:#ff5f7a;--gold:#ffd166;--text:#eef3ff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,sans-serif;background:radial-gradient(circle at 20% 10%,#1a2658,#050816 65%);color:var(--text)}
+.wrap{max-width:980px;margin:auto;padding:16px}.hud{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px}.card{background:linear-gradient(160deg,#1a2550,#0f1735);border:1px solid #30438a;border-radius:12px;padding:10px;box-shadow:0 8px 20px #0006}
+.big{font-size:1.1rem;font-weight:700}.small{opacity:.75;font-size:.8rem}#hint{background:#13204a;padding:10px;border-left:4px solid var(--acc);border-radius:8px;margin-bottom:12px;animation:fade 8s forwards}
+@keyframes fade{0%,70%{opacity:1}100%{opacity:.25}}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:12px}.pots{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pot{height:170px;border:2px dashed #4e66c4;border-radius:14px;position:relative;padding:8px;transition:.2s;background:linear-gradient(170deg,#101a3d,#0a1130)}
+.pot.hot{box-shadow:0 0 0 2px #4ef0c366,0 0 28px #4ef0c355}.timer{position:absolute;top:8px;right:8px;background:#0b1433;padding:4px 8px;border-radius:999px;font-size:.8rem}
+.need{font-weight:700;margin-bottom:6px}.fill{height:10px;background:#1d2e69;border-radius:999px;overflow:hidden}.fill span{display:block;height:100%;background:linear-gradient(90deg,#4ef0c3,#ffd166);width:0%}
+.ingredients{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.ing{padding:12px;border:none;border-radius:10px;background:linear-gradient(160deg,#263b87,#1a2b67);color:#fff;font-weight:700;cursor:pointer;transition:transform .1s,filter .2s}.ing:hover{transform:translateY(-2px);filter:brightness(1.12)}
+.side{display:flex;flex-direction:column;gap:10px}.badge{background:#1a2f53;border:1px solid #365e98;border-radius:10px;padding:10px;min-height:66px}
+.log{height:140px;overflow:auto;background:#0b1230;border-radius:10px;padding:8px;font-size:.85rem;border:1px solid #253d7d}
+#overlay{position:fixed;inset:0;display:grid;place-items:center;background:#01030ad9;visibility:hidden;opacity:0;transition:.2s}.modal{background:#0f1a3f;border:1px solid #3f5bb2;border-radius:14px;padding:20px;max-width:460px;text-align:center}
+.show{visibility:visible!important;opacity:1!important}button.main{padding:10px 14px;background:linear-gradient(160deg,#48e6bb,#20b48d);border:none;border-radius:10px;font-weight:800;cursor:pointer}
+</style></head><body><div class="wrap"><h1>?? Quantum Kitchen Rush</h1><div id="hint">Tap ingredient buttons, then tap a pot to cook matching order. Complete 12 dishes before 3 meltdowns. Combo = big score + badges.</div>
+<div class="hud">
+<div class="card"><div class="small">Score</div><div class="big" id="score">0</div></div>
+<div class="card"><div class="small">Combo</div><div class="big" id="combo">x1</div></div>
+<div class="card"><div class="small">Orders Done</div><div class="big" id="done">0/12</div></div>
+<div class="card"><div class="small">Meltdowns</div><div class="big" id="fails">0/3</div></div>
+<div class="card"><div class="small">Badge</div><div class="big" id="badge">Starter</div></div></div>
+<div class="grid"><div>
+<div class="pots" id="pots"></div>
+<div class="ingredients" id="ings"></div></div>
+<div class="side"><div class="badge"><b>Current Pick:</b> <span id="pick">None</span></div><div class="badge"><b>Rewards:</b><div id="rewards">? 3 combo: Speed Chef<br>? 6 combo: Star Magnet<br>? 10 combo: Quantum Legend</div></div><div class="log" id="log"></div></div></div></div>
+<div id="overlay"><div class="modal"><h2 id="endTitle"></h2><p id="endTxt"></p><button class="main" onclick="startGame()">Play again</button></div></div>
+<script>
+const ingredients=['?? Fire Noodle','?? Frost Berry','? Volt Tofu','?? Star Spice','?? Zen Leaf','?? Neon Shroom'];
+const recipes=[['?? Fire Noodle','?? Star Spice'],['?? Frost Berry','?? Zen Leaf'],['? Volt Tofu','?? Neon Shroom'],['?? Fire Noodle','?? Neon Shroom'],['? Volt Tofu','?? Star Spice'],['?? Frost Berry','? Volt Tofu']];
+let state={};
+function rnd(a){return a[Math.floor(Math.random()*a.length)]}
+function log(t){const el=document.getElementById('log');el.innerHTML=`${new Date().toLocaleTimeString().slice(0,8)} ? ${t}<br>`+el.innerHTML}
+function badgeFor(c){if(c>=10)return 'Quantum Legend';if(c>=6)return 'Star Magnet';if(c>=3)return 'Speed Chef';return 'Starter'}
+function spawnPot(i){const rec=rnd(recipes);return{ id:i, rec, prog:0, ttl:14, pulse:0 }}
+function draw(){const pots=document.getElementById('pots');pots.innerHTML='';state.pots.forEach((p,idx)=>{const d=document.createElement('div');d.className='pot'+(p.ttl<6?' hot':'');d.onclick=()=>cook(idx);d.innerHTML=`<div class='timer'>${p.ttl.toFixed(1)}s</div><div class='need'>Order: ${p.rec.join(' + ')}</div><div class='small'>Need ${2-p.prog} more match(es)</div><div class='fill'><span style='width:${p.prog*50}%'></span></div>`;pots.appendChild(d)});
+document.getElementById('score').textContent=state.score;document.getElementById('combo').textContent='x'+state.combo;document.getElementById('done').textContent=`${state.done}/12`;document.getElementById('fails').textContent=`${state.fail}/3`;document.getElementById('badge').textContent=badgeFor(state.comboBest);
+document.getElementById('pick').textContent=state.pick||'None';}
+function cook(idx){if(!state.pick){log('Pick ingredient first!');return}const p=state.pots[idx];if(p.rec.includes(state.pick)){p.prog++;state.score+=20*state.combo;state.combo++;state.comboBest=Math.max(state.comboBest,state.combo);log(`Perfect ingredient! +${20*(state.combo-1)}`);if(p.prog>=2){state.done++;state.score+=80+state.combo*8;state.pots[idx]=spawnPot(idx);log('Dish completed! bonus unlocked')} }
+else{state.score=Math.max(0,state.score-30);state.combo=1;log('Wrong mix! combo reset')}if(state.done>=12)return end(true);draw()}
+function tick(){state.pots.forEach((p,i)=>{p.ttl-=0.1;if(p.ttl<=0){state.fail++;state.combo=1;state.pots[i]=spawnPot(i);log('?? Pot meltdown!')}});draw();if(state.fail>=3)end(false)}
+let timer=null;
+function end(win){clearInterval(timer);document.getElementById('endTitle').textContent=win?'YOU WIN ?':'GAME OVER';document.getElementById('endTxt').innerHTML=`Score: <b>${state.score}</b><br>Best badge: <b>${badgeFor(state.comboBest)}</b><br>${win?'Kitchen stabilized.':'Too many meltdowns.'}`;document.getElementById('overlay').classList.add('show')}
+function startGame(){state={score:0,combo:1,comboBest:1,done:0,fail:0,pick:null,pots:[spawnPot(0),spawnPot(1),spawnPot(2),spawnPot(3)]};document.getElementById('overlay').classList.remove('show');const wrap=document.getElementById('ings');wrap.innerHTML='';ingredients.forEach(n=>{const b=document.createElement('button');b.className='ing';b.textContent=n;b.onclick=()=>{state.pick=n;draw();log('Picked '+n)};wrap.appendChild(b)});draw();log('Service started. Complete 12 dishes!');clearInterval(timer);timer=setInterval(tick,100)}
+startGame();
+</script></body></html>

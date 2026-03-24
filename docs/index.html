@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang='es'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Catálogo de Prototipos</title>
+<style>
+body{font-family:Inter,Segoe UI,Arial;background:#0b1020;color:#ecf2ff;margin:0;padding:22px}
+h1{margin:0 0 6px}.muted{color:#9db0d9}.top{margin-bottom:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:18px}.card{background:#131c36;border:1px solid #314774;border-radius:14px;padding:14px;position:relative}.card:hover{border-color:#5d7cc0;transform:translateY(-2px)}.card.rated{box-shadow:0 0 0 1px rgba(255,209,102,.4),0 0 20px rgba(255,209,102,.08)}.rated-badge{position:absolute;top:10px;right:10px;font-size:11px;color:#ffd166;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.35);border-radius:999px;padding:4px 8px;display:none}.card.rated .rated-badge{display:block}.head{display:flex;gap:12px;align-items:center}.emo{font-size:28px}.date{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8fa4d5}.card h3{margin:4px 0 0;font-size:18px}.card p{color:#c7d3f1;font-size:14px;line-height:1.4;min-height:40px;margin:10px 0}a{color:#8bc3ff;text-decoration:none;font-weight:600}.links{font-size:14px}.rating{margin:10px 0 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.star{background:none;border:none;cursor:pointer;color:#5b6b91;font-size:20px;line-height:1;padding:0}.star.active{color:#ffd166}.rlabel{font-size:11px;color:#9db0d9}.jumps{box-shadow:inset 0 0 0 1px rgba(255,209,102,.35)}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.search,.select{padding:10px 12px;border-radius:10px;border:1px solid #314774;background:#131c36;color:#ecf2ff;min-width:220px}.pill{font-size:12px;color:#9db0d9;background:#131c36;border:1px solid #314774;border-radius:999px;padding:8px 12px}
+</style>
+</head>
+<body>
+<div class='top'>
+  <h1>Catálogo de Prototipos</h1>
+  <p class='muted'>Listado completo en fichas de <strong>prototypes_html/</strong>. Incluye todos los prototipos desarrollados desde el 25 de febrero y la serie 100 Jumps. Las puntuaciones usan la clave anterior para conservar tus valoraciones.</p>
+  <div class='toolbar'>
+    <input id='search' class='search' placeholder='Buscar prototipo...'>
+    <select id='dateFilter' class='select'>
+      <option value='all'>Todas las fechas</option>
+      <option value='100 Jumps Series'>100 Jumps Series</option>
+      <option value='2026-03-24'>2026-03-24</option>
+      <option value='2026-03-23'>2026-03-23</option>
+      <option value='2026-03-22'>2026-03-22</option>
+      <option value='2026-03-21'>2026-03-21</option>
+      <option value='2026-03-19'>2026-03-19</option>
+      <option value='2026-03-18'>2026-03-18</option>
+      <option value='2026-03-17'>2026-03-17</option>
+      <option value='2026-03-16'>2026-03-16</option>
+      <option value='2026-03-14'>2026-03-14</option>
+      <option value='2026-03-13'>2026-03-13</option>
+      <option value='2026-03-12'>2026-03-12</option>
+      <option value='2026-03-11'>2026-03-11</option>
+      <option value='2026-03-10'>2026-03-10</option>
+      <option value='2026-03-09'>2026-03-09</option>
+      <option value='2026-03-08'>2026-03-08</option>
+      <option value='2026-03-07'>2026-03-07</option>
+      <option value='2026-03-06'>2026-03-06</option>
+      <option value='2026-03-05'>2026-03-05</option>
+      <option value='2026-03-04'>2026-03-04</option>
+      <option value='2026-03-03'>2026-03-03</option>
+      <option value='2026-03-01'>2026-03-01</option>
+      <option value='2026-02-28'>2026-02-28</option>
+      <option value='2026-02-27'>2026-02-27</option>
+      <option value='2026-02-26'>2026-02-26</option>
+      <option value='2026-02-25'>2026-02-25</option>
+    </select>
+    <select id='sortBy' class='select'>
+      <option value='date-desc'>Orden: fecha desc</option>
+      <option value='date-asc'>Orden: fecha asc</option>
+      <option value='rating-desc'>Orden: mejor valorados</option>
+      <option value='rating-asc'>Orden: peor valorados</option>
+      <option value='name-asc'>Orden: nombre A-Z</option>
+    </select>
+    <span class='pill'>Total: 87</span>
+    <span class='pill'>Ratings preservados: prototypeRatingsV1</span>
+  </div>
+</div>
+<div id='grid' class='grid'>
+<article class='card'>
+  <div class='head'><span class='emo'>📰</span><div><div class='date'>2026-03-24</div><h3>Headline Havoc Factory</h3></div></div>
+  <p>Drag words onto conveyor headlines to stamp them as REAL, HYPE, or PRANK before the newsroom implodes.</p>
+  <div class='rating' data-key='2026-03-24-headline-havoc-factory'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-24-headline-havoc-factory/index.html'>Play prototype</a> · <a href='./2026-03-24-headline-havoc-factory/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🪐</span><div><div class='date'>2026-03-24</div><h3>Orbital Relay Rush</h3></div></div>
+  <p>Hold and release to sling a courier pod through gravity wells, chain relays, and survive a stylish sci-fi gauntlet.</p>
+  <div class='rating' data-key='2026-03-24-orbital-relay-rush'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-24-orbital-relay-rush/index.html'>Play prototype</a> · <a href='./2026-03-24-orbital-relay-rush/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎭</span><div><div class='date'>2026-03-24</div><h3>Prank Parade Switchyard</h3></div></div>
+  <p>Flip rail junctions to route absurd April Fools floats into the right gates before credibility crashes.</p>
+  <div class='rating' data-key='2026-03-24-prank-parade-switchyard'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-24-prank-parade-switchyard/index.html'>Play prototype</a> · <a href='./2026-03-24-prank-parade-switchyard/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>💎</span><div><div class='date'>2026-03-23</div><h3>Velvet Vault Heist</h3></div></div>
+  <p>Program a looping heist route through a luxury vault: steal gems, hit switches, dodge sensors, and chase the diamond.</p>
+  <div class='rating' data-key='2026-03-23-velvet-vault-heist'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-23-velvet-vault-heist/index.html'>Play prototype</a> · <a href='./2026-03-23-velvet-vault-heist/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🌊</span><div><div class='date'>2026-03-23</div><h3>Lighthouse of Lost Moods</h3></div></div>
+  <p>Drag emotional boats into a lighthouse beam and rotate colors in time to rescue them before the storm fills up.</p>
+  <div class='rating' data-key='2026-03-23-lighthouse-of-lost-moods'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-23-lighthouse-of-lost-moods/index.html'>Play prototype</a> · <a href='./2026-03-23-lighthouse-of-lost-moods/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🌱</span><div><div class='date'>2026-03-23</div><h3>Bloom Cannon Club</h3></div></div>
+  <p>Arcade gardening with ballistic seeds: complete flower beds, trigger chain reactions, and keep weeds from taking over.</p>
+  <div class='rating' data-key='2026-03-23-bloom-cannon-club'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-23-bloom-cannon-club/index.html'>Play prototype</a> · <a href='./2026-03-23-bloom-cannon-club/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🏟️</span><div><div class='date'>2026-03-22</div><h3>Crowdlink Constellations</h3></div></div>
+  <p>Sports-clue drafting on a star map: connect clue clusters into valid constellations before the crowd meter crashes.</p>
+  <div class='rating' data-key='2026-03-22-crowdlink-constellations'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-22-crowdlink-constellations/index.html'>Play prototype</a> · <a href='./2026-03-22-crowdlink-constellations/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎲</span><div><div class='date'>2026-03-22</div><h3>Pips Market Sprint</h3></div></div>
+  <p>Real-time dice budgeting: drag pips into hot lanes to fulfill surging orders, protect streaks, and outrun market crashes.</p>
+  <div class='rating' data-key='2026-03-22-pips-market-sprint'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-22-pips-market-sprint/index.html'>Play prototype</a> · <a href='./2026-03-22-pips-market-sprint/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🤖</span><div><div class='date'>2026-03-22</div><h3>Gemini Rift Runner</h3></div></div>
+  <p>Dual-track command racing: queue mirrored actions for two runners and survive AI rifts with precision timing.</p>
+  <div class='rating' data-key='2026-03-22-gemini-rift-runner'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-22-gemini-rift-runner/index.html'>Play prototype</a> · <a href='./2026-03-22-gemini-rift-runner/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎲</span><div><div class='date'>2026-03-21</div><h3>Pips Odyssey</h3></div></div>
+  <p>Dice-drafting star run: spend pips as thrust, chase relic routes, stack streaks, and survive five jumps.</p>
+  <div class='rating' data-key='2026-03-21-pips-odyssey'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-21-pips-odyssey/index.html'>Play prototype</a> · <a href='./2026-03-21-pips-odyssey/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🛰️</span><div><div class='date'>2026-03-21</div><h3>Prank Link Switchboard</h3></div></div>
+  <p>Real-time lane-routing: flip junctions to send real broadcasts safely and dump prank packets before credibility implodes.</p>
+  <div class='rating' data-key='2026-03-21-prank-link-switchboard'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-21-prank-link-switchboard/index.html'>Play prototype</a> · <a href='./2026-03-21-prank-link-switchboard/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-21</div><h3>Gemini Constellation Forge</h3></div></div>
+  <p>One-stroke constellation crafting: draw sealed loops around star fragments to mint Gemini cores before instability eats the sky.</p>
+  <div class='rating' data-key='2026-03-21-gemini-constellation-forge'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-21-gemini-constellation-forge/index.html'>Play prototype</a> · <a href='./2026-03-21-gemini-constellation-forge/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-19</div><h3>Gravity Weaver</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-19-gravity-weaver/</p>
+  <div class='rating' data-key='2026-03-19-gravity-weaver'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-19-gravity-weaver/index.html'>Play prototype</a> · <a href='./2026-03-19-gravity-weaver/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-19</div><h3>Echo Drift</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-19-echo-drift/</p>
+  <div class='rating' data-key='2026-03-19-echo-drift'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-19-echo-drift/index.html'>Play prototype</a> · <a href='./2026-03-19-echo-drift/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-03-19</div><h3>Chroma Pulse</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-19-chroma-pulse/</p>
+  <div class='rating' data-key='2026-03-19-chroma-pulse'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-19-chroma-pulse/index.html'>Play prototype</a> · <a href='./2026-03-19-chroma-pulse/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-18</div><h3>Symbiosis Split</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-18-symbiosis-split/</p>
+  <div class='rating' data-key='2026-03-18-symbiosis-split'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-18-symbiosis-split/index.html'>Play prototype</a> · <a href='./2026-03-18-symbiosis-split/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-18</div><h3>Entropy Weaver</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-18-entropy-weaver/</p>
+  <div class='rating' data-key='2026-03-18-entropy-weaver'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-18-entropy-weaver/index.html'>Play prototype</a> · <a href='./2026-03-18-entropy-weaver/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-18</div><h3>Chrono Echo Chase</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-18-chrono-echo-chase/</p>
+  <div class='rating' data-key='2026-03-18-chrono-echo-chase'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-18-chrono-echo-chase/index.html'>Play prototype</a> · <a href='./2026-03-18-chrono-echo-chase/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-17</div><h3>Signal Samurai</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-17-signal-samurai/</p>
+  <div class='rating' data-key='2026-03-17-signal-samurai'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-17-signal-samurai/index.html'>Play prototype</a> · <a href='./2026-03-17-signal-samurai/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>⚡</span><div><div class='date'>2026-03-17</div><h3>Quantum Kitchen Rush</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-17-quantum-kitchen-rush/</p>
+  <div class='rating' data-key='2026-03-17-quantum-kitchen-rush'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-17-quantum-kitchen-rush/index.html'>Play prototype</a> · <a href='./2026-03-17-quantum-kitchen-rush/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-17</div><h3>Dreamline Conductor</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-17-dreamline-conductor/</p>
+  <div class='rating' data-key='2026-03-17-dreamline-conductor'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-17-dreamline-conductor/index.html'>Play prototype</a> · <a href='./2026-03-17-dreamline-conductor/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-16</div><h3>Starlink Raiders</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-16-starlink-raiders/</p>
+  <div class='rating' data-key='2026-03-16-starlink-raiders'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-16-starlink-raiders/index.html'>Play prototype</a> · <a href='./2026-03-16-starlink-raiders/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-16</div><h3>Merge Orbit Smith</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-16-merge-orbit-smith/</p>
+  <div class='rating' data-key='2026-03-16-merge-orbit-smith'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-16-merge-orbit-smith/index.html'>Play prototype</a> · <a href='./2026-03-16-merge-orbit-smith/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-16</div><h3>Echo Heist Operator</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-16-echo-heist-operator/</p>
+  <div class='rating' data-key='2026-03-16-echo-heist-operator'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-16-echo-heist-operator/index.html'>Play prototype</a> · <a href='./2026-03-16-echo-heist-operator/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-14</div><h3>Top Answer Daily</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-14-top-answer-daily/</p>
+  <div class='rating' data-key='2026-03-14-top-answer-daily'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-14-top-answer-daily/index.html'>Play prototype</a> · <a href='./2026-03-14-top-answer-daily/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-03-14</div><h3>Rhythm Lane Reactor</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-14-rhythm-lane-reactor/</p>
+  <div class='rating' data-key='2026-03-14-rhythm-lane-reactor'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-14-rhythm-lane-reactor/index.html'>Play prototype</a> · <a href='./2026-03-14-rhythm-lane-reactor/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🧩</span><div><div class='date'>2026-03-14</div><h3>Color Tubes Blitz</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-14-color-tubes-blitz/</p>
+  <div class='rating' data-key='2026-03-14-color-tubes-blitz'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-14-color-tubes-blitz/index.html'>Play prototype</a> · <a href='./2026-03-14-color-tubes-blitz/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-03-13</div><h3>Word Arrow Vault</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-13-word-arrow-vault/</p>
+  <div class='rating' data-key='2026-03-13-word-arrow-vault'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-13-word-arrow-vault/index.html'>Play prototype</a> · <a href='./2026-03-13-word-arrow-vault/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-13</div><h3>Star Signal Sorter</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-13-star-signal-sorter/</p>
+  <div class='rating' data-key='2026-03-13-star-signal-sorter'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-13-star-signal-sorter/index.html'>Play prototype</a> · <a href='./2026-03-13-star-signal-sorter/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-03-13</div><h3>Piano Pulse Keeper</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-13-piano-pulse-keeper/</p>
+  <div class='rating' data-key='2026-03-13-piano-pulse-keeper'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-13-piano-pulse-keeper/index.html'>Play prototype</a> · <a href='./2026-03-13-piano-pulse-keeper/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-12</div><h3>Star Sort Sanctuary</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-12-star-sort-sanctuary/</p>
+  <div class='rating' data-key='2026-03-12-star-sort-sanctuary'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-12-star-sort-sanctuary/index.html'>Play prototype</a> · <a href='./2026-03-12-star-sort-sanctuary/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-03-12</div><h3>Rhythm Route Rescue</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-12-rhythm-route-rescue/</p>
+  <div class='rating' data-key='2026-03-12-rhythm-route-rescue'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-12-rhythm-route-rescue/index.html'>Play prototype</a> · <a href='./2026-03-12-rhythm-route-rescue/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-03-12</div><h3>Parse Pulse Daily</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-12-parse-pulse-daily/</p>
+  <div class='rating' data-key='2026-03-12-parse-pulse-daily'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-12-parse-pulse-daily/index.html'>Play prototype</a> · <a href='./2026-03-12-parse-pulse-daily/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-11</div><h3>Streakweaver Letters</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-11-streakweaver-letters/</p>
+  <div class='rating' data-key='2026-03-11-streakweaver-letters'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-11-streakweaver-letters/index.html'>Play prototype</a> · <a href='./2026-03-11-streakweaver-letters/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-11</div><h3>Signal Sprint Operators</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-11-signal-sprint-operators/</p>
+  <div class='rating' data-key='2026-03-11-signal-sprint-operators'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-11-signal-sprint-operators/index.html'>Play prototype</a> · <a href='./2026-03-11-signal-sprint-operators/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-03-11</div><h3>Rhythm Lane Rescue</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-11-rhythm-lane-rescue/</p>
+  <div class='rating' data-key='2026-03-11-rhythm-lane-rescue'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-11-rhythm-lane-rescue/index.html'>Play prototype</a> · <a href='./2026-03-11-rhythm-lane-rescue/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-03-10</div><h3>Wordlane Escape Run</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-10-wordlane-escape-run/</p>
+  <div class='rating' data-key='2026-03-10-wordlane-escape-run'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-10-wordlane-escape-run/index.html'>Play prototype</a> · <a href='./2026-03-10-wordlane-escape-run/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-10</div><h3>Starforge Sorting Club</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-10-starforge-sorting-club/</p>
+  <div class='rating' data-key='2026-03-10-starforge-sorting-club'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-10-starforge-sorting-club/index.html'>Play prototype</a> · <a href='./2026-03-10-starforge-sorting-club/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-03-10</div><h3>Piano Pattern Pursuit</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-10-piano-pattern-pursuit/</p>
+  <div class='rating' data-key='2026-03-10-piano-pattern-pursuit'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-10-piano-pattern-pursuit/index.html'>Play prototype</a> · <a href='./2026-03-10-piano-pattern-pursuit/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-09</div><h3>Solitaire Signal Smith</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-09-solitaire-signal-smith/</p>
+  <div class='rating' data-key='2026-03-09-solitaire-signal-smith'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-09-solitaire-signal-smith/index.html'>Play prototype</a> · <a href='./2026-03-09-solitaire-signal-smith/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-09</div><h3>Neon Ring Rescue</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-09-neon-ring-rescue/</p>
+  <div class='rating' data-key='2026-03-09-neon-ring-rescue'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-09-neon-ring-rescue/index.html'>Play prototype</a> · <a href='./2026-03-09-neon-ring-rescue/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-03-09</div><h3>Echo Syllable Sprint</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-09-echo-syllable-sprint/</p>
+  <div class='rating' data-key='2026-03-09-echo-syllable-sprint'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-09-echo-syllable-sprint/index.html'>Play prototype</a> · <a href='./2026-03-09-echo-syllable-sprint/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-08</div><h3>Solitaire Signal Stack</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-08-solitaire-signal-stack/</p>
+  <div class='rating' data-key='2026-03-08-solitaire-signal-stack'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-08-solitaire-signal-stack/index.html'>Play prototype</a> · <a href='./2026-03-08-solitaire-signal-stack/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-03-08</div><h3>Piano Pulse Switch</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-08-piano-pulse-switch/</p>
+  <div class='rating' data-key='2026-03-08-piano-pulse-switch'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-08-piano-pulse-switch/index.html'>Play prototype</a> · <a href='./2026-03-08-piano-pulse-switch/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-08</div><h3>Constellation Sort Sprint</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-08-constellation-sort-sprint/</p>
+  <div class='rating' data-key='2026-03-08-constellation-sort-sprint'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-08-constellation-sort-sprint/index.html'>Play prototype</a> · <a href='./2026-03-08-constellation-sort-sprint/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-03-07</div><h3>Word Arrow Escape</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-07-word-arrow-escape/</p>
+  <div class='rating' data-key='2026-03-07-word-arrow-escape'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-07-word-arrow-escape/index.html'>Play prototype</a> · <a href='./2026-03-07-word-arrow-escape/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-07</div><h3>Star Sort Showdown</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-07-star-sort-showdown/</p>
+  <div class='rating' data-key='2026-03-07-star-sort-showdown'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-07-star-sort-showdown/index.html'>Play prototype</a> · <a href='./2026-03-07-star-sort-showdown/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-07</div><h3>Serendipitous Discovery</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-07-serendipitous-discovery/</p>
+  <div class='rating' data-key='2026-03-07-serendipitous-discovery'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-07-serendipitous-discovery/index.html'>Play prototype</a> · <a href='./2026-03-07-serendipitous-discovery/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-03-07</div><h3>Piano Tile Relay</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-07-piano-tile-relay/</p>
+  <div class='rating' data-key='2026-03-07-piano-tile-relay'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-07-piano-tile-relay/index.html'>Play prototype</a> · <a href='./2026-03-07-piano-tile-relay/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-07</div><h3>Magnet Shift Daily</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-07-magnet-shift-daily/</p>
+  <div class='rating' data-key='2026-03-07-magnet-shift-daily'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-07-magnet-shift-daily/index.html'>Play prototype</a> · <a href='./2026-03-07-magnet-shift-daily/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-06</div><h3>Sum Tiles 24</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-06-sum-tiles-24/</p>
+  <div class='rating' data-key='2026-03-06-sum-tiles-24'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-06-sum-tiles-24/index.html'>Play prototype</a> · <a href='./2026-03-06-sum-tiles-24/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-06</div><h3>Pathmint Grid</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-06-pathmint-grid/</p>
+  <div class='rating' data-key='2026-03-06-pathmint-grid'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-06-pathmint-grid/index.html'>Play prototype</a> · <a href='./2026-03-06-pathmint-grid/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-03-06</div><h3>Lexi Loop Daily</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-06-lexi-loop-daily/</p>
+  <div class='rating' data-key='2026-03-06-lexi-loop-daily'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-06-lexi-loop-daily/index.html'>Play prototype</a> · <a href='./2026-03-06-lexi-loop-daily/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>⚡</span><div><div class='date'>2026-03-05</div><h3>Rune Rally</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-05-rune-rally/</p>
+  <div class='rating' data-key='2026-03-05-rune-rally'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-05-rune-rally/index.html'>Play prototype</a> · <a href='./2026-03-05-rune-rally/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🧩</span><div><div class='date'>2026-03-05</div><h3>Market Mosaic</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-05-market-mosaic/</p>
+  <div class='rating' data-key='2026-03-05-market-mosaic'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-05-market-mosaic/index.html'>Play prototype</a> · <a href='./2026-03-05-market-mosaic/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-03-05</div><h3>Lexi Lattice</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-05-lexi-lattice/</p>
+  <div class='rating' data-key='2026-03-05-lexi-lattice'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-05-lexi-lattice/index.html'>Play prototype</a> · <a href='./2026-03-05-lexi-lattice/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-04</div><h3>Tide Loop</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-04-tide-loop/</p>
+  <div class='rating' data-key='2026-03-04-tide-loop'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-04-tide-loop/index.html'>Play prototype</a> · <a href='./2026-03-04-tide-loop/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-04</div><h3>Sync Sigil</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-04-sync-sigil/</p>
+  <div class='rating' data-key='2026-03-04-sync-sigil'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-04-sync-sigil/index.html'>Play prototype</a> · <a href='./2026-03-04-sync-sigil/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>⚡</span><div><div class='date'>2026-03-04</div><h3>Rating Rally</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-04-rating-rally/</p>
+  <div class='rating' data-key='2026-03-04-rating-rally'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-04-rating-rally/index.html'>Play prototype</a> · <a href='./2026-03-04-rating-rally/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-03</div><h3>Photon Rally</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-03-photon-rally/</p>
+  <div class='rating' data-key='2026-03-03-photon-rally'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-03-photon-rally/index.html'>Play prototype</a> · <a href='./2026-03-03-photon-rally/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-03-03</div><h3>Muse Grid</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-03-muse-grid/</p>
+  <div class='rating' data-key='2026-03-03-muse-grid'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-03-muse-grid/index.html'>Play prototype</a> · <a href='./2026-03-03-muse-grid/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-03</div><h3>Lumen Echo</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-03-lumen-echo/</p>
+  <div class='rating' data-key='2026-03-03-lumen-echo'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-03-lumen-echo/index.html'>Play prototype</a> · <a href='./2026-03-03-lumen-echo/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🧩</span><div><div class='date'>2026-03-01</div><h3>Shard Merge Arena</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-01-shard-merge-arena/</p>
+  <div class='rating' data-key='2026-03-01-shard-merge-arena'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-01-shard-merge-arena/index.html'>Play prototype</a> · <a href='./2026-03-01-shard-merge-arena/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>✨</span><div><div class='date'>2026-03-01</div><h3>Echo Lanes</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-01-echo-lanes/</p>
+  <div class='rating' data-key='2026-03-01-echo-lanes'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-01-echo-lanes/index.html'>Play prototype</a> · <a href='./2026-03-01-echo-lanes/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>⚡</span><div><div class='date'>2026-03-01</div><h3>Courier Rush</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-03-01-courier-rush/</p>
+  <div class='rating' data-key='2026-03-01-courier-rush'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-03-01-courier-rush/index.html'>Play prototype</a> · <a href='./2026-03-01-courier-rush/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-02-28</div><h3>Pulse Keeper</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-28-pulse-keeper/</p>
+  <div class='rating' data-key='2026-02-28-pulse-keeper'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-28-pulse-keeper/index.html'>Play prototype</a> · <a href='./2026-02-28-pulse-keeper/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-02-28</div><h3>Orbit Lexicon</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-28-orbit-lexicon/</p>
+  <div class='rating' data-key='2026-02-28-orbit-lexicon'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-28-orbit-lexicon/index.html'>Play prototype</a> · <a href='./2026-02-28-orbit-lexicon/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-02-28</div><h3>Guess The Mon</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-28-guess-the-mon/</p>
+  <div class='rating' data-key='2026-02-28-guess-the-mon'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-28-guess-the-mon/index.html'>Play prototype</a> · <a href='./2026-02-28-guess-the-mon/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>☕</span><div><div class='date'>2026-02-28</div><h3>Coinflow Cafe</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-28-coinflow-cafe/</p>
+  <div class='rating' data-key='2026-02-28-coinflow-cafe'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-28-coinflow-cafe/index.html'>Play prototype</a> · <a href='./2026-02-28-coinflow-cafe/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-02-27</div><h3>Syllable Sprint</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-27-syllable-sprint/</p>
+  <div class='rating' data-key='2026-02-27-syllable-sprint'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-27-syllable-sprint/index.html'>Play prototype</a> · <a href='./2026-02-27-syllable-sprint/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎵</span><div><div class='date'>2026-02-27</div><h3>Price Pulse</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-27-price-pulse/</p>
+  <div class='rating' data-key='2026-02-27-price-pulse'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-27-price-pulse/index.html'>Play prototype</a> · <a href='./2026-02-27-price-pulse/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-02-27</div><h3>Neon Recall 9</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-27-neon-recall-9/</p>
+  <div class='rating' data-key='2026-02-27-neon-recall-9'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-27-neon-recall-9/index.html'>Play prototype</a> · <a href='./2026-02-27-neon-recall-9/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-02-27</div><h3>Neon Path Memory</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-27-neon-path-memory/</p>
+  <div class='rating' data-key='2026-02-27-neon-path-memory'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-27-neon-path-memory/index.html'>Play prototype</a> · <a href='./2026-02-27-neon-path-memory/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-02-27</div><h3>Lexiflash 9</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-27-lexiflash-9/</p>
+  <div class='rating' data-key='2026-02-27-lexiflash-9'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-27-lexiflash-9/index.html'>Play prototype</a> · <a href='./2026-02-27-lexiflash-9/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-02-26</div><h3>Word Merge</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-26-word-merge/</p>
+  <div class='rating' data-key='2026-02-26-word-merge'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-26-word-merge/index.html'>Play prototype</a> · <a href='./2026-02-26-word-merge/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🎮</span><div><div class='date'>2026-02-26</div><h3>Tricky 60S</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-26-tricky-60s/</p>
+  <div class='rating' data-key='2026-02-26-tricky-60s'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-26-tricky-60s/index.html'>Play prototype</a> · <a href='./2026-02-26-tricky-60s/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🧩</span><div><div class='date'>2026-02-26</div><h3>Block Solitaire</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-26-block-solitaire/</p>
+  <div class='rating' data-key='2026-02-26-block-solitaire'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-26-block-solitaire/index.html'>Play prototype</a> · <a href='./2026-02-26-block-solitaire/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🔤</span><div><div class='date'>2026-02-25</div><h3>Word Solitaire Mix</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-25-word-solitaire-mix/</p>
+  <div class='rating' data-key='2026-02-25-word-solitaire-mix'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-25-word-solitaire-mix/index.html'>Play prototype</a> · <a href='./2026-02-25-word-solitaire-mix/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>🧩</span><div><div class='date'>2026-02-25</div><h3>Block Duel</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-25-block-duel/</p>
+  <div class='rating' data-key='2026-02-25-block-duel'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-25-block-duel/index.html'>Play prototype</a> · <a href='./2026-02-25-block-duel/report.html'>Read report</a></div>
+</article>
+<article class='card'>
+  <div class='head'><span class='emo'>⚡</span><div><div class='date'>2026-02-25</div><h3>Arrow Escape Daily</h3></div></div>
+  <p>Playable prototype in prototypes_html/2026-02-25-arrow-escape-daily/</p>
+  <div class='rating' data-key='2026-02-25-arrow-escape-daily'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./2026-02-25-arrow-escape-daily/index.html'>Play prototype</a> · <a href='./2026-02-25-arrow-escape-daily/report.html'>Read report</a></div>
+</article>
+<article class='card jumps'>
+  <div class='head'><span class='emo'>🏆</span><div><div class='date'>100 Jumps Series</div><h3>100 Jumps Zen</h3></div></div>
+  <p>Playable prototype in prototypes_html/100jumps-zen/</p>
+  <div class='rating' data-key='100jumps-zen'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./100jumps-zen/index.html'>Play prototype</a></div>
+</article>
+<article class='card jumps'>
+  <div class='head'><span class='emo'>🏆</span><div><div class='date'>100 Jumps Series</div><h3>100 Jumps Variant B</h3></div></div>
+  <p>Playable prototype in prototypes_html/100jumps-variant-b/</p>
+  <div class='rating' data-key='100jumps-variant-b'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./100jumps-variant-b/index.html'>Play prototype</a></div>
+</article>
+<article class='card jumps'>
+  <div class='head'><span class='emo'>🏆</span><div><div class='date'>100 Jumps Series</div><h3>100 Jumps Variant A</h3></div></div>
+  <p>Playable prototype in prototypes_html/100jumps-variant-a/</p>
+  <div class='rating' data-key='100jumps-variant-a'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./100jumps-variant-a/index.html'>Play prototype</a></div>
+</article>
+<article class='card jumps'>
+  <div class='head'><span class='emo'>🏆</span><div><div class='date'>100 Jumps Series</div><h3>100 Jumps - Clone Exacto (Enhanced)</h3></div></div>
+  <p>Playable prototype in prototypes_html/100-jumps-series/</p>
+  <div class='rating' data-key='100-jumps-series'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./100-jumps-series/index.html'>Play prototype</a></div>
+</article>
+<article class='card jumps'>
+  <div class='head'><span class='emo'>🏆</span><div><div class='date'>100 Jumps Series</div><h3>100 Jumps - Clone Exacto II</h3></div></div>
+  <p>Playable prototype in prototypes_html/100-jumps-clone-II/</p>
+  <div class='rating' data-key='100-jumps-clone-II'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./100-jumps-clone-II/index.html'>Play prototype</a></div>
+</article>
+<article class='card jumps'>
+  <div class='head'><span class='emo'>🏆</span><div><div class='date'>100 Jumps Series</div><h3>100 Jumps Clone</h3></div></div>
+  <p>Playable prototype in prototypes_html/100jumps-clone/</p>
+  <div class='rating' data-key='100jumps-clone'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./100jumps-clone/index.html'>Play prototype</a></div>
+</article>
+<article class='card jumps'>
+  <div class='head'><span class='emo'>🏆</span><div><div class='date'>100 Jumps Series</div><h3>100 Jumps Battle</h3></div></div>
+  <p>Playable prototype in prototypes_html/100jumps-battle/</p>
+  <div class='rating' data-key='100jumps-battle'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>★</button><button class='star' data-v='2'>★</button><button class='star' data-v='3'>★</button><button class='star' data-v='4'>★</button></div>
+  <div class='links'><a href='./100jumps-battle/index.html'>Play prototype</a></div>
+</article>
+</div>
+<script>
+(() => {
+  const KEY = 'prototypeRatingsV1';
+  const ratings = JSON.parse(localStorage.getItem(KEY) || '{}');
+  const grid = document.getElementById('grid');
+  const cards = Array.from(document.querySelectorAll('#grid .card'));
+
+  cards.forEach(card => {
+    const badge = document.createElement('div');
+    badge.className = 'rated-badge';
+    badge.textContent = '★ Rated';
+    card.appendChild(badge);
+  });
+
+  function getDate(card){ return card.querySelector('.date')?.textContent.trim() || ''; }
+  function getName(card){ return card.querySelector('h3')?.textContent.trim() || ''; }
+  function getRating(card){ const r = card.querySelector('.rating'); return Number(ratings[r.dataset.key] || 0); }
+
+  function paint(ratingEl){
+    const key = ratingEl.dataset.key;
+    const v = Number(ratings[key] || 0);
+    ratingEl.querySelectorAll('.star').forEach(st => {
+      const sv = Number(st.dataset.v);
+      st.classList.toggle('active', sv <= v);
+    });
+    const card = ratingEl.closest('.card');
+    card.classList.toggle('rated', v > 0);
+    const badge = card.querySelector('.rated-badge');
+    if (badge) badge.textContent = v > 0 ? ('★ ' + v + '/4') : '★ Rated';
+  }
+
+  document.querySelectorAll('.rating').forEach(ratingEl => {
+    paint(ratingEl);
+    ratingEl.querySelectorAll('.star').forEach(st => {
+      st.addEventListener('click', () => {
+        const key = ratingEl.dataset.key;
+        ratings[key] = Number(st.dataset.v);
+        localStorage.setItem(KEY, JSON.stringify(ratings));
+        paint(ratingEl);
+        applyFilters();
+      });
+    });
+  });
+
+  const search = document.getElementById('search');
+  const dateFilter = document.getElementById('dateFilter');
+  const sortBy = document.getElementById('sortBy');
+
+  function applyFilters(){
+    const q = search.value.toLowerCase().trim();
+    const dateVal = dateFilter.value;
+    cards.forEach(c => {
+      const txt = c.innerText.toLowerCase();
+      const matchesSearch = txt.includes(q);
+      const matchesDate = dateVal === 'all' || getDate(c) === dateVal;
+      c.style.display = (matchesSearch && matchesDate) ? '' : 'none';
+    });
+    const visible = cards.filter(c => c.style.display !== 'none');
+    visible.sort((a,b) => {
+      switch(sortBy.value){
+        case 'date-asc': return getDate(a).localeCompare(getDate(b));
+        case 'rating-desc': return getRating(b) - getRating(a) || getDate(b).localeCompare(getDate(a));
+        case 'rating-asc': return getRating(a) - getRating(b) || getDate(b).localeCompare(getDate(a));
+        case 'name-asc': return getName(a).localeCompare(getName(b));
+        case 'date-desc':
+        default: return getDate(b).localeCompare(getDate(a));
+      }
+    });
+    visible.forEach(c => grid.appendChild(c));
+  }
+
+  search.addEventListener('input', applyFilters);
+  dateFilter.addEventListener('change', applyFilters);
+  sortBy.addEventListener('change', applyFilters);
+  applyFilters();
+})();
+</script>
+</body>
+</html>

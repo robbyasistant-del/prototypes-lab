@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Coinflow Cafe — Mini Management</title>
+<style>
+body{margin:0;font-family:Inter,Segoe UI,Arial;background:#fff8ef;color:#2b1e17}.wrap{max-width:980px;margin:0 auto;padding:18px}
+.panel{background:#fff;border:1px solid #e8d7c7;border-radius:14px;padding:14px;box-shadow:0 8px 20px #00000012}.grid{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+.orders{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.card{border:1px solid #ecd9c5;background:#fffcf8;border-radius:12px;padding:10px}
+.btn{border:none;background:#ff8e3c;color:#fff;font-weight:700;padding:8px 10px;border-radius:8px;cursor:pointer}.btn.alt{background:#5b8def}
+.stat{font-size:27px;font-weight:700} .muted{opacity:.7;font-size:13px}
+</style></head><body><div class="wrap">
+<h1>Coinflow Cafe</h1><p>Serve drink orders under time pressure. Choose upgrades that change your economy every 30 seconds.</p>
+<div class="grid"><div class="panel"><h3>Live Orders</h3><div id="orders" class="orders"></div></div>
+<div class="panel"><h3>Cafe HUD</h3><div class="muted">Coins</div><div id="coins" class="stat">0</div><div class="muted">Satisfied</div><div id="sat" class="stat">0</div><div class="muted">Missed</div><div id="miss" class="stat">0</div><div class="muted">Time</div><div id="time" class="stat">120</div>
+<hr><h4>Upgrades (cost 30)</h4><button class="btn alt" id="tip">+20% tip chance</button> <button class="btn alt" id="speed">-15% prep time</button><div id="log" class="muted" style="margin-top:10px">Start shift.</div><p><button class="btn" id="start">Start Shift</button></p></div></div></div>
+<script>
+const menu=['Espresso','Latte','Mocha','Matcha','Iced Tea'];
+let state={coins:0,sat:0,miss:0,time:120,run:false,tip:0,prep:1,orders:[]};
+const el=id=>document.getElementById(id),ordersEl=el('orders');
+function ui(){el('coins').textContent=Math.floor(state.coins);el('sat').textContent=state.sat;el('miss').textContent=state.miss;el('time').textContent=state.time;renderOrders();}
+function renderOrders(){ordersEl.innerHTML='';state.orders.forEach(o=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<b>${o.item}</b><div class='muted'>Patience: ${Math.max(0,Math.ceil(o.ttl))}s</div><button class='btn'>Serve</button>`;d.querySelector('button').onclick=()=>serve(o.id);ordersEl.appendChild(d);});}
+function addOrder(){ if(!state.run) return; const id=Math.random().toString(36).slice(2,8); const ttl=(12+Math.random()*10)*state.prep; state.orders.push({id,item:menu[Math.floor(Math.random()*menu.length)],ttl}); ui(); }
+function serve(id){const i=state.orders.findIndex(x=>x.id===id); if(i<0) return; const o=state.orders[i]; const bonus=o.ttl>8?8:o.ttl>4?4:2; const tip=Math.random()<state.tip?6:0; state.coins += 10+bonus+tip; state.sat++; state.orders.splice(i,1); el('log').textContent=`Served +${10+bonus+tip} coins`; ui();}
+function tick(){if(!state.run) return; state.time--; state.orders.forEach(o=>o.ttl-=1); const before=state.orders.length; state.orders=state.orders.filter(o=>o.ttl>0); const lost=before-state.orders.length; if(lost){state.miss+=lost; state.coins=Math.max(0,state.coins-lost*5); el('log').textContent=`${lost} order(s) missed`;} if(state.time<=0)end(); ui();}
+let timers=[]; function start(){timers.forEach(clearInterval); state={coins:0,sat:0,miss:0,time:120,run:true,tip:0,prep:1,orders:[]}; ui(); timers=[setInterval(tick,1000),setInterval(addOrder,2600),setInterval(()=>{if(state.run&&state.orders.length<5)addOrder();},1400)]; el('log').textContent='Shift live. Keep queue healthy.';}
+function end(){state.run=false;timers.forEach(clearInterval);el('log').textContent=`Shift ended · Coins ${Math.floor(state.coins)} · Satisfaction ${state.sat}`;}
+el('start').onclick=start; el('tip').onclick=()=>{if(state.coins>=30){state.coins-=30;state.tip=Math.min(.8,state.tip+.2);el('log').textContent='Tip chance upgraded';ui();}}; el('speed').onclick=()=>{if(state.coins>=30){state.coins-=30;state.prep=Math.max(.6,state.prep-.15);el('log').textContent='Prep speed upgraded';ui();}}; ui();
+</script></body></html>

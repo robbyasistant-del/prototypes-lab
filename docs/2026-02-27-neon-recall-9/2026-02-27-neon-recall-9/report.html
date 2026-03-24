@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Report — Neon Recall 9</title>
+<style>body{font-family:Inter,Arial,sans-serif;margin:20px;color:#122}h1,h2{margin:.2em 0}.box{border:1px solid #ccd8ee;border-radius:10px;padding:12px;margin:10px 0;background:#f9fbff}</style>
+</head><body>
+<h1>Neon Recall 9 — Quality Prototype Report</h1>
+<p><b>Fecha:</b> 2026-02-27 · <b>Tipo:</b> Memory / Reflex / Daily skill challenge</p>
+
+<div class="box">
+  <h2>Core loop</h2>
+  <ol>
+    <li>Start → se muestra mapping 1..9 aleatorio en grid 3x3 durante 3s.</li>
+    <li>Se oculta todo y jugador debe pulsar casillas en orden 1→9.</li>
+    <li>Acierto: casilla verde + número visible.</li>
+    <li>Fallo: reset de progreso + penalización de 5s.</li>
+    <li>Win al completar 9; Lose si tiempo &gt;= 60s agotado.</li>
+  </ol>
+</div>
+
+<div class="box">
+  <h2>Retention / replay hooks</h2>
+  <ul>
+    <li>Run corto (&lt;60s): fricción baja, alta repetición.</li>
+    <li>Penalización tangible (-5s) genera tensión y mejora de habilidad.</li>
+    <li>Variación diaria por random seed permite rutina tipo streak.</li>
+  </ul>
+</div>
+
+<div class="box">
+  <h2>ASO/SEO angle</h2>
+  <p>Keywords candidatas: <i>memory game</i>, <i>brain training</i>, <i>daily challenge</i>, <i>speed puzzle</i>, <i>focus game</i>, <i>3x3 memory</i>.</p>
+</div>
+
+<div class="box">
+  <h2>KPI sugeridos</h2>
+  <ul>
+    <li>Completion rate (Win %) por sesión.</li>
+    <li>Median completion time (solo wins).</li>
+    <li>Retries per session y drop-off tras primer fallo.</li>
+    <li>D1 return para usuarios que juegan &gt;=3 runs primer día.</li>
+  </ul>
+</div>
+
+<div class="box">
+  <h2>Riesgos</h2>
+  <ul>
+    <li>Dificultad percibida alta para nuevos usuarios (onboarding mínimo).</li>
+    <li>Accesibilidad visual en pantallas pequeñas (tamaño de celda/número).</li>
+    <li>Necesidad de audio/haptic feedback para pulido de sensación premium.</li>
+  </ul>
+</div>
+</body></html>

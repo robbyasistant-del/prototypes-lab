@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entropy Weaver - Strategy Report</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 100%);
+  color: #e0e6ed;
+  line-height: 1.6;
+  padding: 40px 20px;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 36px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #ffe66d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+.subtitle {
+  color: #a0aec0;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+.section {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+h2 {
+  color: #4ecdc4;
+  font-size: 22px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid rgba(78, 205, 196, 0.3);
+  padding-bottom: 10px;
+}
+h3 {
+  color: #ffe66d;
+  font-size: 16px;
+  margin: 15px 0 10px;
+}
+p, li {
+  color: #c0c8d8;
+  margin-bottom: 10px;
+}
+ul {
+  margin-left: 20px;
+}
+.highlight {
+  background: rgba(255, 107, 107, 0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #ff6b6b;
+}
+.tag {
+  display: inline-block;
+  background: rgba(78, 205, 196, 0.2);
+  color: #4ecdc4;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  margin: 3px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+th, td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+th {
+  color: #4ecdc4;
+  font-weight: 600;
+}
+.metric {
+  display: inline-block;
+  background: rgba(255, 230, 109, 0.1);
+  border: 1px solid rgba(255, 230, 109, 0.3);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin: 5px;
+}
+.metric-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffe66d;
+}
+.metric-label {
+  font-size: 12px;
+  color: #a0aec0;
+}
+.back-link {
+  display: inline-block;
+  margin-top: 30px;
+  color: #4ecdc4;
+  text-decoration: none;
+  font-weight: 600;
+}
+.back-link:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔥 ENTROPY WEAVER</h1>
+  <p class="subtitle">Prototype Strategy Report • March 18, 2026</p>
+
+  <div class="section">
+    <h2>🎯 Core Concept</h2>
+    <p>A <strong>physics-manipulation puzzle game</strong> where players control the fundamental law of decay. Unlike traditional puzzle games with static obstacles, Entropy Weaver introduces <span class="highlight">dynamic state transitions</span> that create emergent gameplay scenarios.</p>
+    
+    <h3>Unique Mechanics</h3>
+    <ul>
+      <li><strong>Three-State System:</strong> STABLE → DECAYING → ENTROPIC → (regenerates entropy)</li>
+      <li><strong>Resource Loop:</strong> Using entropy consumes charges, but letting things dissolve completely replenishes them</li>
+      <li><strong>Reversibility:</strong> Unlike typical destruction mechanics, players can REVERSE entropy to rebuild paths</li>
+      <li><strong>Strategic Timing:</strong> Decaying walls have a countdown - plan your route before they vanish</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🎮 Engagement Loop</h2>
+    
+    <h3>The "One More Try" Hook</h3>
+    <ul>
+      <li><strong>Immediate Feedback:</strong> Visual particle effects, screen shake, and sound on every entropy action</li>
+      <li><strong>Progressive Complexity:</strong> 8 levels with increasing maze complexity and strategic depth</li>
+      <li><strong>Scoring System:</strong> Base score + entropy bonus + reverse bonus encourages efficiency</li>
+      <li><strong>Badge System:</strong> Gold/Silver/Bronze mastery levels based on remaining resources</li>
+    </ul>
+
+    <h3>Session Design</h3>
+    <ul>
+      <li><strong>Short Sessions:</strong> 2-5 minutes per level</li>
+      <li><strong>No Punishment:</strong> Instant retry with full reset</li>
+      <li><strong>Clear Win State:</strong> Portal entry triggers completion screen with stats</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📊 KPIs & Success Metrics</h2>
+    
+    <div>
+      <div class="metric">
+        <div class="metric-value">3m</div>
+        <div class="metric-label">Target Avg Session</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">65%</div>
+        <div class="metric-label">Level Completion Rate</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">4.2+</div>
+        <div class="metric-label">Levels per User</div>
+      </div>
+    </div>
+
+    <table>
+      <tr>
+        <th>Metric</th>
+        <th>Target</th>
+        <th>Measurement</th>
+      </tr>
+      <tr>
+        <td>D1 Retention</td>
+        <td>35%+</td>
+        <td>Return within 24h</td>
+      </tr>
+      <tr>
+        <td>Level 8 Reach</td>
+        <td>15%+</td>
+        <td>Completion funnel</td>
+      </tr>
+      <tr>
+        <td>Avg Moves/Level</td>
+        <td>8-15</td>
+        <td>Game balance indicator</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🔍 SEO/ASO Strategy</h2>
+    
+    <h3>Keywords</h3>
+    <div>
+      <span class="tag">puzzle game</span>
+      <span class="tag">physics puzzle</span>
+      <span class="tag">best puzzle games 2026</span>
+      <span class="tag">maze solver</span>
+      <span class="tag">brain teaser</span>
+      <span class="tag">logic puzzle</span>
+      <span class="tag">offline games</span>
+      <span class="tag">no wifi games</span>
+    </div>
+
+    <h3>App Store Optimization</h3>
+    <ul>
+      <li><strong>Title:</strong> Entropy Weaver - Physics Puzzle Maze</li>
+      <li><strong>Subtitle:</strong> Manipulate Decay, Master the Maze</li>
+      <li><strong>Screenshots:</strong> Show 3-state transitions, particle effects, before/after entropy</li>
+      <li><strong>Preview Video:</strong> 15-second hook showing wall decay and portal escape</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🧪 A/B Test Experiments</h2>
+    
+    <table>
+      <tr>
+        <th>Experiment</th>
+        <th>Variant A</th>
+        <th>Variant B</th>
+        <th>Success Metric</th>
+      </tr>
+      <tr>
+        <td>Tutorial Length</td>
+        <td>Interactive (3 steps)</td>
+        <td>Text-only overlay</td>
+        <td>L2 completion rate</td>
+      </tr>
+      <tr>
+        <td>Entropy Regen Rate</td>
+        <td>1 per dissolve</td>
+        <td>0.5 per dissolve</td>
+        <td>Avg session time</td>
+      </tr>
+      <tr>
+        <td>Visual Theme</td>
+        <td>Sci-fi/Cyber</td>
+        <td>Fantasy/Magic</td>
+        <td>CTR on creatives</td>
+      </tr>
+      <tr>
+        <td>Difficulty Curve</td>
+        <td>Current (8 levels)</td>
+        <td>Add 4 easier intro levels</td>
+        <td>D1 retention</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>⚠️ Risk Assessment</h2>
+    
+    <table>
+      <tr>
+        <th>Risk</th>
+        <th>Impact</th>
+        <th>Mitigation</th>
+      </tr>
+      <tr>
+        <td>Concept too abstract</td>
+        <td>High</td>
+        <td>Strong tutorial, visual feedback, "decay" metaphor vs "entropy" jargon</td>
+      </tr>
+      <tr>
+        <td>Punishing failure</td>
+        <td>Medium</td>
+        <td>Highlight optimal path on 3rd failure, unlimited undos</td>
+      </tr>
+      <tr>
+        <td>Short content lifespan</td>
+        <td>Medium</td>
+        <td>Level editor, daily puzzles, community sharing</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🚀 Monetization Path</h2>
+    
+    <ul>
+      <li><strong>Ad-Supported (Free):</strong> Banner between levels, rewarded video for hints/undos</li>
+      <li><strong>Premium ($2.99):</strong> Remove ads, +50 bonus levels, custom themes</li>
+      <li><strong>Season Pass:</strong> Monthly puzzle packs with unique mechanics</li>
+    </ul>
+  </div>
+
+  <a href="../index.html" class="back-link">← Back to Prototype Catalog</a>
+</div>
+</body>
+</html>

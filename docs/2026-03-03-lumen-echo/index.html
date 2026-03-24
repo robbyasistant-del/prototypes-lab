@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lumen Echo — Drift Memory</title>
+  <style>
+    :root{
+      --bg:#070b1a;
+      --panel:#101834;
+      --ink:#ecf2ff;
+      --muted:#9ca9d0;
+      --accent:#7cf6ff;
+      --good:#47f59f;
+      --bad:#ff668f;
+      --warn:#ffcf5a;
+      --cell:#172347;
+      --cell2:#203165;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(1000px 500px at 10% -20%, #21346b44, transparent),
+        radial-gradient(800px 500px at 110% 0%, #4b208955, transparent),
+        var(--bg);
+      color:var(--ink);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+      padding:16px;
+    }
+    .app{
+      width:min(980px,100%);
+      background:linear-gradient(180deg,#0f1733dd,#0b1228f0);
+      border:1px solid #33497f;
+      border-radius:20px;
+      box-shadow:0 18px 48px #0008;
+      padding:16px;
+    }
+    h1{margin:0 0 4px;font-size:1.35rem;letter-spacing:.3px}
+    .subtitle{margin:0 0 10px;color:var(--muted)}
+    .instructions{
+      font-size:.94rem;
+      color:#d9e6ff;
+      background:#0d1530;
+      border:1px solid #2d4074;
+      border-radius:12px;
+      padding:10px;
+      line-height:1.35;
+    }
+    .hud{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}
+    .card{background:#0d1735;border:1px solid #2e4378;border-radius:12px;padding:9px}
+    .card .k{font-size:.78rem;color:var(--muted)}
+    .card .v{font-weight:800;font-size:1.1rem;margin-top:3px}
+
+    .arena{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:8px;
+      max-width:560px;
+    }
+    .cell{
+      aspect-ratio:1/1;
+      border-radius:14px;
+      border:1px solid #334a84;
+      background:linear-gradient(145deg,var(--cell),#111d40);
+      color:#d7e7ff;
+      font-weight:800;
+      font-size:1.05rem;
+      cursor:pointer;
+      transition:transform .12s,box-shadow .12s,border-color .15s,background .15s;
+    }
+    .cell:hover{transform:translateY(-1px);border-color:#5a7ed0}
+    .cell:disabled{cursor:not-allowed;opacity:.9}
+    .cell.ghost{opacity:.5}
+    .cell.show{background:linear-gradient(145deg,#273d79,#2c4587);box-shadow:0 0 0 2px #87b6ff55 inset}
+    .cell.ok{background:linear-gradient(145deg,#1f6a4f,#23795a);border-color:#59f6b0}
+    .cell.bad{background:linear-gradient(145deg,#7a2c48,#8c2b50);border-color:#ff7ea6}
+
+    .side{width:min(280px,100%)}
+    .transform{font-size:.93rem;line-height:1.45;background:#0d1530;border:1px solid #2e4378;border-radius:12px;padding:10px}
+    .feedback{min-height:28px;font-weight:800;margin-top:8px}
+    .feedback.ok{color:var(--good)}
+    .feedback.bad{color:var(--bad)}
+    .feedback.info{color:var(--accent)}
+    .timeline{margin-top:8px;color:#c9d9ff;font-size:.9rem;min-height:40px;white-space:pre-wrap}
+
+    .bar{height:12px;background:#17254f;border-radius:999px;overflow:hidden;border:1px solid #30497f;margin-top:10px}
+    .fill{height:100%;width:100%;background:linear-gradient(90deg,#7cf6ff,#6e9fff,#d780ff);transition:width .2s linear}
+
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    button.ctrl{border:none;border-radius:11px;padding:10px 12px;font-weight:800;cursor:pointer}
+    button.primary{background:linear-gradient(135deg,#7cf6ff,#8fc8ff);color:#071125}
+    button.ghost{background:#1a2856;color:#dbe9ff;border:1px solid #3f5fa4}
+    .meta{margin-top:8px;color:var(--muted);font-size:.9rem;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Lumen Echo — Drift Memory</h1>
+    <p class="subtitle">Memory game with spatial transform: remember a beacon sequence, then replay it on a shifted map.</p>
+
+    <div class="instructions">
+      <b>How it works:</b> In each round, beacons flash in order on the 5×5 map (observe phase).<br>
+      Then the map applies a <b>drift transform</b> (rotate / mirror / shift), and you must click the <b>transformed positions</b> in the same order.<br>
+      <b>Scoring:</b> +100 base per correct click + speed bonus + round-clear bonus. Wrong click costs 1 Stability.<br>
+      <b>Win:</b> clear Round 8. <b>Lose:</b> Stability reaches 0 or timer expires. Badge at end: <b>🏅 Prism Oracle</b> (9000+) / <b>🥈 Echo Pilot</b> (6000+) / <b>🛰️ Cadet</b>.
+    </div>
+
+    <div class="hud">
+      <div class="card"><div class="k">Round</div><div class="v" id="roundV">1/8</div></div>
+      <div class="card"><div class="k">Stability</div><div class="v" id="livesV">5</div></div>
+      <div class="card"><div class="k">Score</div><div class="v" id="scoreV">0</div></div>
+      <div class="card"><div class="k">Phase</div><div class="v" id="phaseV">Idle</div></div>
+      <div class="card"><div class="k">Best Streak</div><div class="v" id="streakV">0</div></div>
+    </div>
+
+    <div class="arena">
+      <div>
+        <div class="grid" id="grid"></div>
+        <div class="bar"><div class="fill" id="timeFill"></div></div>
+      </div>
+      <div class="side">
+        <div class="transform" id="transformInfo">Press Start to begin.</div>
+        <div class="feedback info" id="feedback">Ready.</div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="ctrl primary" id="startBtn">Start / Restart</button>
+      <button class="ctrl ghost" id="revealBtn">Show Current Target</button>
+      <button class="ctrl ghost" id="simBtn">Run 200 bot tests</button>
+    </div>
+
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <script>
+    const N=5, TOTAL_ROUNDS=8, MAX_LIVES=5;
+    const SHOW_STEP_MS=520;
+    const BREAK_MS=120;
+    const PHASE={IDLE:'Idle',SHOW:'Observe',INPUT:'Replay',OVER:'Finished'};
+
+    const gridEl=document.getElementById('grid');
+    const roundV=document.getElementById('roundV');
+    const livesV=document.getElementById('livesV');
+    const scoreV=document.getElementById('scoreV');
+    const phaseV=document.getElementById('phaseV');
+    const streakV=document.getElementById('streakV');
+    const timeFill=document.getElementById('timeFill');
+    const transformInfo=document.getElementById('transformInfo');
+    const feedback=document.getElementById('feedback');
+    const timeline=document.getElementById('timeline');
+    const meta=document.getElementById('meta');
+
+    const startBtn=document.getElementById('startBtn');
+    const revealBtn=document.getElementById('revealBtn');
+    const simBtn=document.getElementById('simBtn');
+
+    const cells=[];
+    for(let i=0;i<N*N;i++){
+      const b=document.createElement('button');
+      b.className='cell ghost';
+      b.textContent='';
+      b.dataset.i=i;
+      b.onclick=()=>onCellClick(i);
+      gridEl.appendChild(b);
+      cells.push(b);
+    }
+
+    const transforms=[
+      {name:'Rotate 90° CW', fn:(r,c)=>[c,N-1-r]},
+      {name:'Rotate 180°', fn:(r,c)=>[N-1-r,N-1-c]},
+      {name:'Rotate 90° CCW', fn:(r,c)=>[N-1-c,r]},
+      {name:'Mirror Vertical', fn:(r,c)=>[r,N-1-c]},
+      {name:'Mirror Horizontal', fn:(r,c)=>[N-1-r,c]},
+      {name:'Shift +1 row (wrap)', fn:(r,c)=>[(r+1)%N,c]},
+      {name:'Shift +1 col (wrap)', fn:(r,c)=>[r,(c+1)%N]},
+      {name:'Diagonal Flip', fn:(r,c)=>[c,r]}
+    ];
+
+    let st=null;
+
+    function idxToRC(i){return [Math.floor(i/N), i%N]}
+    function rcToIdx(r,c){return r*N+c}
+    function rand(n){return Math.floor(Math.random()*n)}
+    function pick(arr){return arr[rand(arr.length)]}
+    function wait(ms){return new Promise(r=>setTimeout(r,ms))}
+
+    function makeRound(round){
+      const len=Math.min(2+round,8);
+      const seq=[];
+      const used=new Set();
+      while(seq.length<len){
+        const i=rand(N*N);
+        if(used.has(i)) continue;
+        used.add(i); seq.push(i);
+      }
+      const tf=pick(transforms);
+      const target=seq.map(i=>{
+        const [r,c]=idxToRC(i);
+        const [nr,nc]=tf.fn(r,c);
+        return rcToIdx(nr,nc);
+      });
+      return {len,seq,target,tf};
+    }
+
+    function newGame(){
+      clearInterval(st?.timer);
+      st={
+        round:1,lives:MAX_LIVES,score:0,phase:PHASE.IDLE,
+        roundData:null,inputAt:0,timeLeft:0,timer:null,bestStreak:0,combo:0
+      };
+      meta.textContent='';
+      setFeedback('Mission started. Observe carefully.', 'info');
+      startRound();
+    }
+
+    async function startRound(){
+      if(!st) return;
+      if(st.round>TOTAL_ROUNDS) return endGame(true,'All drift rounds cleared. YOU WIN.');
+      st.roundData=makeRound(st.round);
+      st.phase=PHASE.SHOW;
+      st.inputAt=0;
+      clearCells();
+      renderHud();
+      transformInfo.innerHTML=`<b>Drift Transform:</b> ${st.roundData.tf.name}<br><b>Sequence Length:</b> ${st.roundData.len}<br>Watch first, then replay transformed positions in exact order.`;
+      timeline.textContent='Observe sequence...';
+      disableGrid(true);
+
+      for(let step=0; step<st.roundData.seq.length; step++){
+        const idx=st.roundData.seq[step];
+        flashCell(idx,'show',String(step+1));
+        await wait(SHOW_STEP_MS);
+        if(!st || st.phase===PHASE.OVER) return;
+        resetCell(idx);
+        await wait(BREAK_MS);
+      }
+      beginInputPhase();
+    }
+
+    function beginInputPhase(){
+      st.phase=PHASE.INPUT;
+      st.timeLeft=Math.max(12, 22 - st.round);
+      timeline.textContent='Replay now.';
+      setFeedback('Your turn. Click transformed path.', 'info');
+      disableGrid(false);
+      tickTimer();
+      st.timer=setInterval(tickTimer,100);
+      renderHud();
+    }
+
+    function tickTimer(){
+      if(!st || st.phase!==PHASE.INPUT) return;
+      st.timeLeft-=0.1;
+      if(st.timeLeft<=0){
+        st.timeLeft=0;
+        clearInterval(st.timer);
+        st.lives--;
+        st.combo=0;
+        setFeedback('Timeout! Stability -1.', 'bad');
+        if(st.lives<=0) return endGame(false,'Core destabilized. GAME OVER.');
+        st.round++;
+        renderHud();
+        setTimeout(startRound,650);
+        return;
+      }
+      timeFill.style.width=(100*st.timeLeft/Math.max(12,22-st.round)).toFixed(1)+'%';
+    }
+
+    function onCellClick(i){
+      if(!st || st.phase!==PHASE.INPUT) return;
+      const expected=st.roundData.target[st.inputAt];
+      if(i===expected){
+        st.inputAt++;
+        st.combo++;
+        st.bestStreak=Math.max(st.bestStreak,st.combo);
+        const speed=Math.floor(st.timeLeft*12);
+        const gain=100 + speed + st.round*15;
+        st.score+=gain;
+        flashCell(i,'ok',String(st.inputAt));
+        setFeedback(`Correct +${gain}`, 'ok');
+      }else{
+        st.lives--;
+        st.combo=0;
+        flashCell(i,'bad','✕');
+        flashCell(expected,'show','!');
+        setFeedback(`Wrong tile. Expected another node. Stability -1`, 'bad');
+        if(st.lives<=0){
+          renderHud();
+          return endGame(false,'Stability depleted. GAME OVER.');
+        }
+      }
+      renderHud();
+      if(st.inputAt>=st.roundData.target.length){
+        clearInterval(st.timer);
+        const roundBonus=st.round*180 + Math.floor(st.timeLeft*20);
+        st.score+=roundBonus;
+        setFeedback(`Round ${st.round} clear! Bonus +${roundBonus}`, 'ok');
+        st.round++;
+        disableGrid(true);
+        setTimeout(startRound,750);
+      }
+    }
+
+    function badgeFor(score){
+      if(score>=9000) return '🏅 Prism Oracle';
+      if(score>=6000) return '🥈 Echo Pilot';
+      return '🛰️ Cadet';
+    }
+
+    function endGame(win,msg){
+      clearInterval(st?.timer);
+      st.phase=PHASE.OVER;
+      disableGrid(true);
+      setFeedback(win ? 'Victory confirmed.' : 'Run failed.', win?'ok':'bad');
+      timeline.textContent=msg;
+      transformInfo.innerHTML=`<b>${win?'WIN':'LOSE'}</b><br>${msg}`;
+      const b=badgeFor(st.score);
+      meta.textContent=`Final Score: ${st.score}\nBadge: ${b}\nBest Streak: ${st.bestStreak}\n${win?'Excellent memory drift control.':'Try again: focus on transform before clicking.'}`;
+      renderHud();
+    }
+
+    function setFeedback(txt,type){
+      feedback.className='feedback '+type;
+      feedback.textContent=txt;
+    }
+
+    function clearCells(){cells.forEach(c=>{c.className='cell ghost';c.textContent='';});}
+    function disableGrid(flag){cells.forEach(c=>c.disabled=flag)}
+    function resetCell(i){cells[i].className='cell ghost';cells[i].textContent='';}
+    function flashCell(i,cls,label){
+      const c=cells[i];
+      c.className='cell '+cls;
+      c.textContent=label||'';
+      setTimeout(()=>{if(st?.phase!==PHASE.INPUT || cls==='show') resetCell(i)},260);
+    }
+
+    function revealTarget(){
+      if(!st || !st.roundData) return;
+      timeline.textContent='Current transformed target order:\n'+st.roundData.target.map((x,i)=>`${i+1}. cell#${x+1}`).join('\n');
+      st.roundData.target.forEach((i,k)=>setTimeout(()=>flashCell(i,'show',String(k+1)),k*180));
+    }
+
+    function renderHud(){
+      if(!st) return;
+      roundV.textContent=`${Math.min(st.round,TOTAL_ROUNDS)}/${TOTAL_ROUNDS}`;
+      livesV.textContent=String(st.lives);
+      scoreV.textContent=String(st.score);
+      phaseV.textContent=st.phase;
+      streakV.textContent=String(st.bestStreak);
+      if(st.phase!==PHASE.INPUT) timeFill.style.width='100%';
+    }
+
+    // --- simulation for balancing ---
+    function simulateRuns(runs=200,skill=0.88){
+      let wins=0,totalScore=0;
+      for(let g=0; g<runs; g++){
+        let lives=MAX_LIVES,score=0,bestStreak=0,combo=0;
+        for(let round=1; round<=TOTAL_ROUNDS; round++){
+          const rd=makeRound(round);
+          const stepAcc=Math.max(0.72, skill - round*0.015);
+          let cleared=true;
+          for(let s=0;s<rd.target.length;s++){
+            if(Math.random()<stepAcc){
+              combo++; bestStreak=Math.max(bestStreak,combo);
+              score += 100 + Math.floor((12+Math.random()*40)) + round*15;
+            }else{
+              lives--; combo=0; cleared=false;
+              if(lives<=0) break;
+              if(Math.random()<0.18){ lives--; if(lives<=0) break; }
+            }
+          }
+          if(lives<=0) break;
+          if(cleared) score += round*180 + Math.floor(30+Math.random()*140);
+        }
+        if(lives>0) wins++;
+        totalScore += score;
+      }
+      return {
+        runs,
+        wins,
+        winRate:+(100*wins/runs).toFixed(1),
+        avgScore:Math.round(totalScore/runs)
+      };
+    }
+
+    startBtn.onclick=newGame;
+    revealBtn.onclick=revealTarget;
+    simBtn.onclick=()=>{
+      const r=simulateRuns(200,0.92);
+      meta.textContent=`Bot tests (200 runs): ${JSON.stringify(r)}`;
+      setFeedback('Bot test completed.', 'info');
+    };
+
+    window.__simulate=simulateRuns;
+
+    st={round:1,lives:MAX_LIVES,score:0,phase:PHASE.IDLE,bestStreak:0};
+    renderHud();
+    setFeedback('Ready. Press Start.', 'info');
+  </script>
+</body>
+</html>

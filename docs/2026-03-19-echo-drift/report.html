@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHO DRIFT - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a0a12 0%, #1a0a1e 100%);
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff00aa, #aa00ff, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 40px;
+        }
+        .section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,0,170,0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+        h2 {
+            color: #ff00aa;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        h3 {
+            color: #00aaff;
+            font-size: 16px;
+            margin: 20px 0 10px;
+        }
+        p, li {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        .metric-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .metric {
+            background: rgba(255,0,170,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255,0,170,0.3);
+        }
+        .metric-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ff00aa;
+        }
+        .metric-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin: 3px;
+        }
+        .tag-primary { background: #ff00aa; color: white; }
+        .tag-secondary { background: #aa00ff; color: white; }
+        .tag-success { background: #00aaff; color: #0a0a12; }
+        .tag-warning { background: #00ff88; color: #0a0a12; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,0,170,0.2);
+        }
+        th {
+            color: #ff00aa;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .highlight {
+            background: rgba(255,0,170,0.1);
+            padding: 15px;
+            border-left: 3px solid #ff00aa;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ECHO DRIFT</h1>
+        <div class="subtitle">Time-Loop Racing Game - Strategy Report</div>
+        
+        <div class="section">
+            <h2>🎮 Game Concept & Hook</h2>
+            <p><strong>ECHO DRIFT</strong> is a time-manipulation racing game where players compete against ghost recordings of their previous laps. The core innovation is the <strong>"Paradox Collision"</strong> mechanic - touching any past version of yourself results in instant game over.</p>
+            
+            <div class="highlight">
+                <strong>The Hook:</strong> Unlike traditional racing games, you're not just racing the clock - you're racing your own history. Every lap you complete becomes an obstacle for future laps. The emergent gameplay of weaving through your own racing line creates unique, shareable moments.
+            </div>
+            
+            <div class="metric-box">
+                <div class="metric">
+                    <div class="metric-value">3</div>
+                    <div class="metric-label">Laps</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">∞</div>
+                    <div class="metric-label">Ghosts</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">1 Hit</div>
+                    <div class="metric-label">Death</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Core Loop Explanation</h2>
+            
+            <ul>
+                <li><strong>1. Race Lap 1:</strong> Clean track, focus on setting a good line</li>
+                <li><strong>2. Ghost Created:</strong> Lap 1 recording becomes replaying ghost</li>
+                <li><strong>3. Race Lap 2:</strong> Navigate while avoiding your ghost from Lap 1</li>
+                <li><strong>4. Second Ghost:</strong> Now two ghosts on track (Lap 1 & 2)</li>
+                <li><strong>5. Final Lap:</strong> Master the chaos of multiple converging timelines</li>
+                <li><strong>6. Victory:</strong> Complete all 3 laps without paradox for fastest time</li>
+            </ul>
+            
+            <h3>Retention Mechanics</h3>
+            <ul>
+                <li><strong>Speedrun Culture:</strong> Global leaderboards drive replayability</li>
+                <li><strong>Ghost Variety:</strong> Each run creates unique ghost patterns</li>
+                <li><strong>Drift Mechanics:</strong> Mastery curve for advanced driving techniques</li>
+                <li><strong>Near Miss:</strong> Close calls with ghosts create tension & satisfaction</li>
+                <li><strong>Badge System:</strong> 4 unlockable achievements per completion</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>💰 Monetization Strategy</h2>
+            
+            <h3>Primary: Racing Pass & Skins (Cosmetic Heavy)</h3>
+            <ul>
+                <li><strong>Battle Pass:</strong> $4.99/season - Car skins, trails, ghost appearances</li>
+                <li><strong>Car Skins:</strong> $0.99-$2.99 - Neon, Cyberpunk, Retro styles</li>
+                <li><strong>Ghost Themes:</strong> $0.99 - Change ghost appearance (hologram, fire, glitch)</li>
+                <li><strong>Trail Effects:</strong> $0.99 - Particle trails (sparks, bubbles, pixels)</li>
+            </ul>
+            
+            <h3>Secondary: QoL & Convenience</h3>
+            <table>
+                <tr><th>Item</th><th>Price</th><th>Value Prop</th></tr>
+                <tr><td>Remove Ads</td><td>$2.99</td><td>Uninterrupted racing</td></tr>
+                <tr><td>Track Unlock</td><td>$1.99</td><td>Additional track layouts</td></tr>
+                <tr><td>Continue Run</td><td>$0.99</td><td>One resurrection per race</td></tr>
+                <tr><td>Time Rewind</td><td>Watch Ad</td><td>Rewind 3 seconds on crash</td></tr>
+            </table>
+            
+            <h3>Tertiary: Competitive IAP</h3>
+            <p>$9.99 "Racer's Pack": Exclusive car, nameplate flair, early access to new tracks, private lobby creation.</p>
+        </div>
+        
+        <div class="section">
+            <h2>📈 SEO/ASO/SEM Recommendations</h2>
+            
+            <h3>App Store Keywords</h3>
+            <div>
+                <span class="tag tag-primary">racing game</span>
+                <span class="tag tag-primary">time attack</span>
+                <span class="tag tag-primary">drift game</span>
+                <span class="tag tag-secondary">arcade racing</span>
+                <span class="tag tag-secondary">ghost racing</span>
+                <span class="tag tag-secondary">speedrun</span>
+                <span class="tag tag-success">competitive</span>
+                <span class="tag tag-success">leaderboard</span>
+                <span class="tag tag-warning">indie racing</span>
+                <span class="tag tag-warning">retro wave</span>
+            </div>
+            
+            <h3>Google Ads Targeting</h3>
+            <ul>
+                <li><strong>Interests:</strong> Racing games, Speedrunning, Drifting, Synthwave</li>
+                <li><strong>Demographics:</strong> 16-35, male-skewed (70/30)</li>
+                <li><strong>Placements:</strong> YouTube (racing content), Twitch, Reddit r/simracing</li>
+                <li><strong>CPI Target:</strong> $0.40-$1.00 (racing genre)</li>
+            </ul>
+            
+            <h3>Influencer Strategy</h3>
+            <ul>
+                <li>Target speedrunners on Twitch/YouTube</li>
+                <li>"Can you beat my time?" challenge format</li>
+                <li>Synthwave aesthetic appeals to retrowave communities</li>
+                <li>Clip-worthy moments: near-misses with ghosts</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Target Audience & Psychology</h2>
+            
+            <table>
+                <tr><th>Segment</th><th>Age</th><th>Motivation</th><th>Play Pattern</th></tr>
+                <tr><td>Speedrunners</td><td>18-30</td><td>Optimization, records</td><td>Multiple short runs</td></tr>
+                <tr><td>Racing Fans</td><td>20-40</td><td>Drift mechanics, precision</td><td>10-20 min sessions</td></tr>
+                <tr><td>Casual Racers</td><td>16-28</td><td>Fun, visual spectacle</td><td>2-5 min sessions</td></tr>
+                <tr><td>Competitive</td><td>18-35</td><td>Leaderboard climbing</td><td>Daily competitive grind</td></tr>
+            </table>
+            
+            <h3>Psychological Hooks</h3>
+            <ul>
+                <li><strong>Temporal Paradox:</strong> Unique concept creates curiosity and word-of-mouth</li>
+                <li><strong>Near Miss Effect:</strong> Close calls trigger "almost had it" replay urge</li>
+                <li><strong>Self-Competition:</strong> Racing your own ghost is inherently personal</li>
+                <li><strong>Mastery Curve:</strong> Drift mechanics reward skill investment</li>
+                <li><strong>Social Proof:</strong> Shareable moments of ghost-dodging chaos</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📊 KPIs to Track</h2>
+            
+            <table>
+                <tr><th>KPI</th><th>Target</th><th>Red Flag</th></tr>
+                <tr><td>Day 1 Retention</td><td>>40%</td><td><25%</td></tr>
+                <tr><td>Day 7 Retention</td><td>>12%</td><td><6%</td></tr>
+                <tr><td>Completion Rate (3 laps)</td><td>15-25%</td><td><5% or >40%</td></tr>
+                <tr><td>Runs Per Session</td><td>>5</td><td><3</td></tr>
+                <tr><td>ARPU</td><td>>$0.08</td><td><$0.03</td></tr>
+                <tr><td>Cosmetic Conversion</td><td>>5%</td><td><2%</td></tr>
+                <tr><td>Social Share Rate</td><td>>3%</td><td><1%</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🧪 A/B Test Experiments</h2>
+            
+            <table>
+                <tr><th>Test</th><th>Variant A</th><th>Variant B</th><th>Success Metric</th></tr>
+                <tr><td>Difficulty</td><td>1 hit = death</td><td>3 hits = death</td><td>Completion rate</td></tr>
+                <tr><td>Ghost Opacity</td><td>60% visible</td><td>40% visible (harder)</td><td>Session length</td></tr>
+                <tr><td>Lap Count</td><td>3 laps</td><td>5 laps (more chaos)</td><td>Retention</td></tr>
+                <tr><td>Drift Mechanics</td><td>Space to drift</td><td>Auto-drift on turns</td><td>Tutorial completion</td></tr>
+                <tr><td>Ghost Warning</td><td>Visual warning</td><td>No warning (hardcore)</td><td>Win rate</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risk Analysis</h2>
+            
+            <table>
+                <tr><th>Risk</th><th>Impact</th><th>Likelihood</th><th>Mitigation</th></tr>
+                <tr><td>Too difficult, high churn</td><td>High</td><td>High</td><td>Practice mode (no death), difficulty slider</td></tr>
+                <tr><td>Short content (1 track)</td><td>Medium</td><td>High</td><td>Procedural track generation, user tracks</td></tr>
+                <tr><td>Performance (ghost recording)</td><td>Medium</td><td>Medium</td><td>Optimize recording format, cap ghost count</td></tr>
+                <tr><td>Concept confusion</td><td>Medium</td><td>Medium</td><td>Better tutorial, visual ghost explanation</td></tr>
+                <tr><td>Competition (Asphalt, etc)</td><td>Low</td><td>High</td><td>Unique time-loop USP, minimalist aesthetic</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Post-Launch Roadmap</h2>
+            
+            <p><strong>Week 1-2:</strong> Add practice mode (ghosts don't kill), fix drift physics</p>
+            <p><strong>Week 3-4:</strong> Global leaderboards, weekly tournaments</p>
+            <p><strong>Month 2:</strong> Multiplayer ghost racing (async), new track themes</p>
+            <p><strong>Month 3:</strong> Level editor, community track sharing, esports features</p>
+        </div>
+        
+    </div>
+</body>
+</html>

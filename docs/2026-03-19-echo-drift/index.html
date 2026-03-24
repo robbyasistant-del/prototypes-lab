@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ECHO DRIFT - Time-Loop Racing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: none;
+            user-select: none;
+        }
+        
+        body {
+            background: #0a0a12;
+            overflow: hidden;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: white;
+        }
+        
+        #gameCanvas {
+            display: block;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .lap-counter {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.7;
+        }
+        
+        .lap-counter span {
+            font-size: 48px;
+            font-weight: 900;
+            display: block;
+        }
+        
+        .timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.7;
+        }
+        
+        .timer span {
+            font-size: 36px;
+            font-weight: 900;
+            display: block;
+            font-variant-numeric: tabular-nums;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .ghost-count {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            text-align: right;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.6;
+        }
+        
+        .ghost-count span {
+            font-size: 24px;
+            font-weight: 700;
+            display: block;
+            color: #ff00aa;
+        }
+        
+        .echo-warning {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #ff00aa;
+            text-shadow: 0 0 30px #ff00aa;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-align: center;
+        }
+        
+        .echo-warning.show {
+            opacity: 1;
+        }
+        
+        .controls-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 13px;
+            opacity: 0.5;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .controls-hint kbd {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+        
+        #startScreen, #crashScreen, #winScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 18, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto;
+            z-index: 100;
+        }
+        
+        #crashScreen, #winScreen {
+            display: none;
+        }
+        
+        h1 {
+            font-size: clamp(40px, 8vw, 80px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ff00aa, #aa00ff, #00aaff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 3s ease infinite;
+            text-align: center;
+        }
+        
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .tagline {
+            font-size: 18px;
+            opacity: 0.8;
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        
+        .concept-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,0,170,0.3);
+            border-radius: 15px;
+            padding: 25px 35px;
+            margin-bottom: 40px;
+            max-width: 550px;
+        }
+        
+        .concept-box h3 {
+            color: #ff00aa;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        
+        .concept-box p {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin: 8px 0;
+        }
+        
+        .echo-visual {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .echo-step {
+            text-align: center;
+        }
+        
+        .echo-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 10px;
+            border: 2px solid;
+        }
+        
+        .echo-step:nth-child(1) .echo-icon { border-color: #00aaff; background: rgba(0,170,255,0.2); }
+        .echo-step:nth-child(2) .echo-icon { border-color: #aa00ff; background: rgba(170,0,255,0.2); }
+        .echo-step:nth-child(3) .echo-icon { border-color: #ff00aa; background: rgba(255,0,170,0.2); }
+        
+        .echo-step p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .btn {
+            padding: 20px 60px;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #ff00aa, #aa00ff);
+            color: white;
+            box-shadow: 0 10px 40px rgba(255, 0, 170, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 0, 170, 0.6);
+        }
+        
+        .crash-title {
+            font-size: 64px;
+            font-weight: 900;
+            color: #ff4444;
+            -webkit-text-fill-color: #ff4444;
+            margin-bottom: 10px;
+        }
+        
+        .crash-subtitle {
+            font-size: 18px;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .stat-box {
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 900;
+            color: #ff00aa;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        
+        .paradox-badge {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 10px;
+            opacity: 0.3;
+            transition: all 0.3s;
+            border: 2px solid;
+        }
+        
+        .paradox-badge.earned {
+            opacity: 1;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px currentColor;
+        }
+        
+        .badge-time { color: #00aaff; border-color: #00aaff; }
+        .badge-survivor { color: #00ff88; border-color: #00ff88; }
+        .badge-paradox { color: #ff00aa; border-color: #ff00aa; }
+        .badge-master { color: #ffcc00; border-color: #ffcc00; }
+        
+        .final-time {
+            font-size: 72px;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+            color: #00ff88;
+            margin: 20px 0;
+            text-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    
+    <div id="ui">
+        <div class="lap-counter">Lap <span id="lapNum">1</span>/3</div>
+        <div class="timer">Time <span id="timer">00:00.00</span></div>
+        <div class="ghost-count">Echoes <span id="ghostCount">0</span></div>
+        <div class="echo-warning" id="echoWarning">⚠️ ECHO COLLISION IMMINENT ⚠️</div>
+        <div class="controls-hint">
+            <kbd>↑</kbd> Accelerate <kbd>←</kbd><kbd>→</kbd> Steer <kbd>SPACE</kbd> Drift
+        </div>
+    </div>
+    
+    <div id="startScreen">
+        <h1>Echo Drift</h1>
+        <div class="tagline">Race against your past. Avoid the paradox. Drift through time.</div>
+        
+        <div class="concept-box">
+            <h3>The Paradox Mechanic</h3>
+            <p>Every lap you complete becomes a "ghost echo" that replays your exact path.</p>
+            <p>You must race against your previous selves while avoiding collisions.</p>
+            
+            <div class="echo-visual">
+                <div class="echo-step">
+                    <div class="echo-icon">🏎️</div>
+                    <p>Lap 1<br>Race clean</p>
+                </div>
+                <div class="echo-step">
+                    <div class="echo-icon">👻</div>
+                    <p>Lap 2<br>Avoid ghost</p>
+                </div>
+                <div class="echo-step">
+                    <div class="echo-icon">⚡</div>
+                    <p>Lap 3<br>Master chaos</p>
+                </div>
+            </div>
+            
+            <p style="margin-top: 15px; text-align: center; color: #ff00aa;">💀 Hit any echo = INSTANT PARADOX (Game Over)</p>
+        </div>
+        
+        <button class="btn" onclick="startGame()">INITIATE DRIFT</button>
+    </div>
+    
+    <div id="crashScreen">
+        <div class="crash-title">PARADOX!</div>
+        <div class="crash-subtitle">You collided with your own timeline.</div>
+        
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="stat-value" id="crashLap">1</span>
+                <div class="stat-label">Lap Reached</div>
+            </div>
+            <div class="stat-box">
+                <span class="stat-value" id="crashTime">00:00</span>
+                <div class="stat-label">Survival Time</div>
+            </div>
+            <div class="stat-box">
+                <span class="stat-value" id="crashGhosts">0</span>
+                <div class="stat-label">Echoes Dodged</div>
+            </div>
+        </div>
+        
+        <button class="btn" onclick="resetGame()">RESET TIMELINE</button>
+    </div>
+    
+    <div id="winScreen">
+        <h1 style="-webkit-text-fill-color: #00ff88;">Paradox Master!</h1>
+        <div class="tagline">You navigated the impossible. All echoes converged.</div>
+        
+        <div class="final-time" id="finalTime">00:00.00</div>
+        
+        <div style="margin: 20px 0;">
+            <span class="paradox-badge badge-time" id="badgeTime">Speed Demon</span>
+            <span class="paradox-badge badge-survivor" id="badgeSurvivor">Timeline Guardian</span>
+            <span class="paradox-badge badge-paradox" id="badgeParadox">Paradox Avoider</span>
+            <span class="paradox-badge badge-master" id="badgeMaster">Echo Master</span>
+        </div>
+        
+        <button class="btn" onclick="resetGame()">RACE AGAIN</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Game state
+        let gameState = 'start';
+        let currentLap = 1;
+        let maxLaps = 3;
+        let startTime = 0;
+        let gameTime = 0;
+        let lapStartTime = 0;
+        let ghostsDodged = 0;
+        
+        // Car physics
+        const car = {
+            x: 0, y: 0,
+            angle: 0,
+            speed: 0,
+            maxSpeed: 8,
+            acceleration: 0.2,
+            friction: 0.96,
+            turnSpeed: 0.08,
+            driftFactor: 0,
+            trail: []
+        };
+        
+        // Input
+        const keys = {};
+        
+        // Track and ghosts
+        let track = [];
+        let checkpoints = [];
+        let ghosts = []; // Array of ghost recordings
+        let currentRecording = []; // Current lap recording
+        
+        // Camera
+        let camera = { x: 0, y: 0 };
+        
+        // Resize
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+        
+        // Generate track
+        function generateTrack() {
+            track = [];
+            checkpoints = [];
+            
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const trackRadius = Math.min(canvas.width, canvas.height) * 0.35;
+            
+            // Create figure-8 track with points
+            const numPoints = 100;
+            for (let i = 0; i < numPoints; i++) {
+                const t = (i / numPoints) * Math.PI * 2;
+                
+                // Figure-8 formula with variations
+                const x = cx + Math.cos(t) * trackRadius * (1 + 0.3 * Math.cos(3 * t));
+                const y = cy + Math.sin(t) * trackRadius * 0.6 + Math.sin(2 * t) * trackRadius * 0.3;
+                
+                track.push({ x, y });
+                
+                // Add checkpoints every 10 points
+                if (i % 10 === 0) {
+                    checkpoints.push({ x, y, passed: false });
+                }
+            }
+            
+            // Set start position
+            car.x = track[0].x;
+            car.y = track[0].y;
+            car.angle = Math.atan2(track[1].y - track[0].y, track[1].x - track[0].x);
+            car.speed = 0;
+            car.trail = [];
+        }
+        
+        function startGame() {
+            gameState = 'playing';
+            currentLap = 1;
+            startTime = Date.now();
+            lapStartTime = startTime;
+            ghostsDodged = 0;
+            ghosts = [];
+            currentRecording = [];
+            
+            generateTrack();
+            
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('crashScreen').style.display = 'none';
+            document.getElementById('winScreen').style.display = 'none';
+            
+            updateUI();
+        }
+        
+        function updateCar() {
+            // Acceleration
+            if (keys['ArrowUp'] || keys['w']) {
+                car.speed += car.acceleration;
+            } else if (keys['ArrowDown'] || keys['s']) {
+                car.speed -= car.acceleration;
+            }
+            
+            // Cap speed
+            car.speed = Math.max(-car.maxSpeed * 0.5, Math.min(car.maxSpeed, car.speed));
+            
+            // Steering (only when moving)
+            if (Math.abs(car.speed) > 0.1) {
+                const turn = car.speed > 0 ? car.turnSpeed : -car.turnSpeed;
+                if (keys['ArrowLeft'] || keys['a']) {
+                    car.angle -= turn;
+                }
+                if (keys['ArrowRight'] || keys['d']) {
+                    car.angle += turn;
+                }
+            }
+            
+            // Drift
+            if (keys[' '] && Math.abs(car.speed) > 2) {
+                car.driftFactor = Math.min(car.driftFactor + 0.05, 0.7);
+            } else {
+                car.driftFactor = Math.max(car.driftFactor - 0.05, 0);
+            }
+            
+            // Apply friction
+            car.speed *= car.friction;
+            
+            // Calculate velocity
+            const vx = Math.cos(car.angle) * car.speed;
+            const vy = Math.sin(car.angle) * car.speed;
+            
+            // Store trail
+            car.trail.push({ x: car.x, y: car.y, life: 1 });
+            if (car.trail.length > 40) car.trail.shift();
+            
+            // Update position
+            car.x += vx;
+            car.y += vy;
+            
+            // Update trail life
+            car.trail.forEach(t => t.life *= 0.95);
+            
+            // Record position for ghost
+            if (gameState === 'playing') {
+                currentRecording.push({
+                    x: car.x,
+                    y: car.y,
+                    angle: car.angle,
+                    time: Date.now() - lapStartTime
+                });
+            }
+            
+            // Check checkpoint crossing
+            checkpoints.forEach(cp => {
+                const dx = cp.x - car.x;
+                const dy = cp.y - car.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 40) {
+                    cp.passed = true;
+                }
+            });
+            
+            // Check lap completion
+            const startDist = Math.sqrt(
+                Math.pow(track[0].x - car.x, 2) + 
+                Math.pow(track[0].y - car.y, 2)
+            );
+            
+            if (startDist < 60 && car.speed > 0 && checkpoints.every(cp => cp.passed)) {
+                completeLap();
+            }
+            
+            // Check ghost collisions
+            let nearGhost = false;
+            ghosts.forEach(ghost => {
+                const currentTime = Date.now() - lapStartTime;
+                // Find ghost position at current time
+                const ghostPos = ghost.find(g => g.time >= currentTime) || ghost[ghost.length - 1];
+                
+                if (ghostPos) {
+                    const dx = ghostPos.x - car.x;
+                    const dy = ghostPos.y - car.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 30) {
+                        // Collision!
+                        crash('echo');
+                    } else if (dist < 100) {
+                        nearGhost = true;
+                    }
+                }
+            });
+            
+            // Show warning
+            document.getElementById('echoWarning').classList.toggle('show', nearGhost);
+            if (nearGhost) ghostsDodged++;
+        }
+        
+        function completeLap() {
+            // Save current recording as ghost
+            ghosts.push([...currentRecording]);
+            currentRecording = [];
+            
+            // Reset checkpoints
+            checkpoints.forEach(cp => cp.passed = false);
+            
+            currentLap++;
+            lapStartTime = Date.now();
+            
+            if (currentLap > maxLaps) {
+                winGame();
+            } else {
+                updateUI();
+                // Visual feedback
+                showLapComplete();
+            }
+        }
+        
+        function showLapComplete() {
+            const el = document.createElement('div');
+            el.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 64px;
+                font-weight: 900;
+                color: #00ff88;
+                text-shadow: 0 0 40px #00ff88;
+                pointer-events: none;
+                animation: lapPop 1s ease-out forwards;
+            `;
+            el.textContent = `LAP ${currentLap - 1} COMPLETE!`;
+            document.body.appendChild(el);
+            
+            setTimeout(() => el.remove(), 1000);
+        }
+        
+        function crash(reason) {
+            gameState = 'crash';
+            
+            document.getElementById('crashLap').textContent = currentLap;
+            document.getElementById('crashTime').textContent = formatTime(gameTime);
+            document.getElementById('crashGhosts').textContent = ghostsDodged;
+            
+            document.getElementById('crashScreen').style.display = 'flex';
+        }
+        
+        function winGame() {
+            gameState = 'win';
+            
+            document.getElementById('finalTime').textContent = formatTime(gameTime);
+            
+            // Award badges
+            const timeSeconds = gameTime / 1000;
+            if (timeSeconds < 45) document.getElementById('badgeTime').classList.add('earned');
+            if (ghostsDodged > 100) document.getElementById('badgeSurvivor').classList.add('earned');
+            if (currentLap >= 3) document.getElementById('badgeParadox').classList.add('earned');
+            document.getElementById('badgeMaster').classList.add('earned');
+            
+            document.getElementById('winScreen').style.display = 'flex';
+        }
+        
+        function resetGame() {
+            // Reset badges
+            document.querySelectorAll('.paradox-badge').forEach(b => b.classList.remove('earned'));
+            startGame();
+        }
+        
+        function formatTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const centis = Math.floor((ms % 1000) / 10);
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centis.toString().padStart(2, '0')}`;
+        }
+        
+        function updateUI() {
+            document.getElementById('lapNum').textContent = currentLap;
+            document.getElementById('ghostCount').textContent = ghosts.length;
+            
+            if (gameState === 'playing') {
+                gameTime = Date.now() - startTime;
+                document.getElementById('timer').textContent = formatTime(gameTime);
+            }
+        }
+        
+        function drawTrack() {
+            // Draw track path
+            ctx.strokeStyle = 'rgba(100, 100, 120, 0.5)';
+            ctx.lineWidth = 80;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            ctx.beginPath();
+            track.forEach((point, i) => {
+                if (i === 0) ctx.moveTo(point.x, point.y);
+                else ctx.lineTo(point.x, point.y);
+            });
+            ctx.closePath();
+            ctx.stroke();
+            
+            // Draw track center line
+            ctx.strokeStyle = 'rgba(255, 0, 170, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([20, 20]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Draw checkpoints
+            checkpoints.forEach((cp, i) => {
+                const color = cp.passed ? '#00ff88' : '#ff00aa';
+                ctx.beginPath();
+                ctx.arc(cp.x, cp.y, 15, 0, Math.PI * 2);
+                ctx.fillStyle = color + '40';
+                ctx.fill();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+            
+            // Draw start line
+            ctx.beginPath();
+            ctx.arc(track[0].x, track[0].y, 30, 0, Math.PI * 2);
+            ctx.strokeStyle = '#00ff88';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+        }
+        
+        function drawGhosts() {
+            const currentTime = Date.now() - lapStartTime;
+            
+            ghosts.forEach((ghost, ghostIndex) => {
+                // Find position at current time
+                const ghostPos = ghost.find(g => g.time >= currentTime) || ghost[ghost.length - 1];
+                
+                if (ghostPos) {
+                    // Ghost trail
+                    const trailStart = Math.max(0, ghost.indexOf(ghostPos) - 20);
+                    const trail = ghost.slice(trailStart, ghost.indexOf(ghostPos) + 1);
+                    
+                    ctx.beginPath();
+                    trail.forEach((pos, i) => {
+                        if (i === 0) ctx.moveTo(pos.x, pos.y);
+                        else ctx.lineTo(pos.x, pos.y);
+                    });
+                    ctx.strokeStyle = `rgba(255, 0, 170, ${0.3 + ghostIndex * 0.2})`;
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                    
+                    // Ghost car
+                    ctx.save();
+                    ctx.translate(ghostPos.x, ghostPos.y);
+                    ctx.rotate(ghostPos.angle);
+                    
+                    // Ghost glow
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = '#ff00aa';
+                    
+                    // Ghost body
+                    ctx.fillStyle = 'rgba(255, 0, 170, 0.6)';
+                    ctx.beginPath();
+                    ctx.moveTo(15, 0);
+                    ctx.lineTo(-10, 8);
+                    ctx.lineTo(-10, -8);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    ctx.restore();
+                    ctx.shadowBlur = 0;
+                }
+            });
+        }
+        
+        function drawCar() {
+            ctx.save();
+            ctx.translate(car.x, car.y);
+            ctx.rotate(car.angle);
+            
+            // Drift particles
+            if (car.driftFactor > 0.3) {
+                for (let i = 0; i < 3; i++) {
+                    const px = -15 + Math.random() * 10;
+                    const py = (Math.random() - 0.5) * 12;
+                    ctx.fillStyle = `rgba(255, 100, 100, ${car.driftFactor})`;
+                    ctx.fillRect(px, py, 3, 3);
+                }
+            }
+            
+            // Car trail
+            car.trail.forEach((t, i) => {
+                const alpha = t.life * 0.5;
+                const size = (i / car.trail.length) * 8;
+                ctx.fillStyle = `rgba(0, 170, 255, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(t.x - car.x, t.y - car.y, size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            // Car glow
+            ctx.shadowBlur = 30;
+            ctx.shadowColor = '#00aaff';
+            
+            // Car body
+            ctx.fillStyle = '#00aaff';
+            ctx.beginPath();
+            ctx.moveTo(18, 0);
+            ctx.lineTo(-12, 10);
+            ctx.lineTo(-8, 0);
+            ctx.lineTo(-12, -10);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Engine glow
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(-5, 0, 4, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
+            ctx.shadowBlur = 0;
+        }
+        
+        function gameLoop() {
+            if (gameState === 'playing') {
+                // Clear
+                ctx.fillStyle = '#0a0a12';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Grid background
+                ctx.strokeStyle = 'rgba(0, 170, 255, 0.05)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x < canvas.width; x += 60) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < canvas.height; y += 60) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+                
+                updateCar();
+                
+                drawTrack();
+                drawGhosts();
+                drawCar();
+                
+                updateUI();
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Input handlers
+        window.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+            
+            if (e.code === 'Space') {
+                e.preventDefault();
+            }
+            
+            if (e.key === 'Enter') {
+                if (gameState === 'start') startGame();
+                else if (gameState === 'crash' || gameState === 'win') resetGame();
+            }
+        });
+        
+        window.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+        
+        // Touch controls
+        let touchStart = null;
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            touchStart = { x: touch.clientX, y: touch.clientY };
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!touchStart) return;
+            
+            const touch = e.touches[0];
+            const dx = touch.clientX - touchStart.x;
+            const dy = touch.clientY - touchStart.y;
+            
+            // Virtual joystick
+            keys['ArrowUp'] = dy < -30;
+            keys['ArrowDown'] = dy > 30;
+            keys['ArrowLeft'] = dx < -30;
+            keys['ArrowRight'] = dx > 30;
+        });
+        
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            touchStart = null;
+            keys['ArrowUp'] = false;
+            keys['ArrowDown'] = false;
+            keys['ArrowLeft'] = false;
+            keys['ArrowRight'] = false;
+        });
+        
+        // Start loop
+        gameLoop();
+    </script>
+</body>
+</html>

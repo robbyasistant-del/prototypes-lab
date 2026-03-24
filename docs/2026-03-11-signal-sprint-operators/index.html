@@ -1,0 +1,23 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Signal Sprint: Operators</title><style>
+body{margin:0;font-family:Inter,Segoe UI,sans-serif;background:#07101f;color:#e9f1ff}.wrap{max-width:980px;margin:0 auto;padding:20px}
+.panel{background:#111d35;border:1px solid #2e4576;border-radius:16px;padding:16px}h1{margin:.1em 0}p{line-height:1.45}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.pill{background:#18284a;border:1px solid #33518b;border-radius:999px;padding:6px 10px;font-size:12px}
+button{background:linear-gradient(145deg,#60a5fa,#22d3ee);border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+button.alt{background:#1a2a4c;color:#dbeafe;border:1px solid #365089}a{color:#9bd4ff;text-decoration:none}
+.grid{display:grid;gap:10px}.center{text-align:center}.big{font-size:28px;font-weight:800}
+input,select{background:#0f1a30;color:#eaf2ff;border:1px solid #355084;border-radius:8px;padding:8px}
+</style></head><body><div class="wrap"><div class="panel"><h1>Signal Sprint: Operators</h1><p><b>Instrucciones:</b> Tienes 4 números y un target. Selecciona operador (+,-,×,÷) entre cada número para llegar o acercarte al target. 5 rondas, 2 vidas. Feedback inmediato por ronda.</p>
+<div class="row"><div class="pill" id="round">Ronda 1/5</div><div class="pill" id="lives">Vidas: 2</div><div class="pill" id="score">Score: 0</div><div class="pill" id="coins">Coins: 0</div><div class="pill" id="badge">Badge: Rookie Analyst</div></div>
+<div id="nums" class="big center"></div><div class="center" style="margin:10px 0">Target: <span class="big" id="target"></span></div>
+<div class="row center" style="justify-content:center"><select id="o1"><option>+</option><option>-</option><option>*</option><option>/</option></select><select id="o2"><option>+</option><option>-</option><option>*</option><option>/</option></select><select id="o3"><option>+</option><option>-</option><option>*</option><option>/</option></select></div>
+<div class="row"><button id="start">Start / Restart</button><button class="alt" id="submit">Submit Round</button></div><p id="feed">Pulsa Start para generar la partida diaria.</p>
+<div class="row"><a class="pill" href="./report.html">Ver report detallado</a></div></div></div><script>const ops={'+':(a,b)=>a+b,'-':(a,b)=>a-b,'*':(a,b)=>a*b,'/':(a,b)=>b===0?9999:a/b};
+let round=1,lives=2,score=0,coins=0,nums=[],target=0,done=false;
+const $=id=>document.getElementById(id);
+function badge(){return coins>=80?'Signal Master':coins>=45?'Trend Solver':'Rookie Analyst'}
+function ui(){ $('round').textContent=`Ronda ${Math.min(round,5)}/5`; $('lives').textContent=`Vidas: ${lives}`; $('score').textContent=`Score: ${score}`; $('coins').textContent=`Coins: ${coins}`; $('badge').textContent='Badge: '+badge();}
+function gen(){ nums=Array.from({length:4},()=>Math.floor(Math.random()*8)+1); target=Math.floor(Math.random()*45)+10; $('nums').textContent=nums.join('  '); $('target').textContent=target; }
+function step(){ if(round>5){done=true;$('feed').innerHTML=`<b>WIN</b> run completo. Score ${score}. Badge ${badge()}`;return;} gen(); ui(); }
+$('start').onclick=()=>{round=1;lives=2;score=0;coins=0;done=false;gen();ui();$('feed').textContent='Elige operadores y pulsa Submit Round.';}
+$('submit').onclick=()=>{ if(done||!nums.length)return; const o=[$('o1').value,$('o2').value,$('o3').value]; let val=ops[o[0]](nums[0],nums[1]); val=ops[o[1]](val,nums[2]); val=ops[o[2]](val,nums[3]); const diff=Math.abs(target-val); if(diff===0){score+=30;coins+=20;$('feed').textContent='Perfect hit! +30';} else if(diff<=3){score+=16;coins+=10;$('feed').textContent=`Near miss (${diff}) +16`;} else {lives--;score=Math.max(0,score-7);$('feed').textContent=`Off target (${diff.toFixed(1)}). -1 vida`; if(lives<=0){done=true;$('feed').innerHTML=`<b>GAME OVER</b> sin vidas. Score ${score}. Badge ${badge()}`;ui();return;}} round++; step(); };
+ui();</script></body></html>

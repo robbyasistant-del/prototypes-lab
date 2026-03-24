@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAVITY WEAVER - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #050508 0%, #0a1a2e 100%);
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00aaff, #00ffaa, #aaff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 40px;
+        }
+        .section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(0,255,170,0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+        h2 {
+            color: #00ffaa;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        h3 {
+            color: #00aaff;
+            font-size: 16px;
+            margin: 20px 0 10px;
+        }
+        p, li {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        .metric-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .metric {
+            background: rgba(0,255,170,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(0,255,170,0.3);
+        }
+        .metric-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: #00ffaa;
+        }
+        .metric-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin: 3px;
+        }
+        .tag-primary { background: #00aaff; color: #050508; }
+        .tag-secondary { background: #00ffaa; color: #050508; }
+        .tag-success { background: #aaff00; color: #050508; }
+        .tag-warning { background: #ffaa00; color: #050508; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,255,170,0.2);
+        }
+        th {
+            color: #00ffaa;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .highlight {
+            background: rgba(0,255,170,0.1);
+            padding: 15px;
+            border-left: 3px solid #00ffaa;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GRAVITY WEAVER</h1>
+        <div class="subtitle">Physics Puzzle Game - Strategy Report</div>
+        
+        <div class="section">
+            <h2>🎮 Game Concept & Hook</h2>
+            <p><strong>GRAVITY WEAVER</strong> is a physics-based puzzle game where players draw gravitational fields to guide particles through obstacle courses. The core innovation is the <strong>"Direct-Manipulation Physics"</strong> system - no rigid pre-placed tools, players create dynamic force fields in real-time.</p>
+            
+            <div class="highlight">
+                <strong>The Hook:</strong> Unlike traditional physics puzzles with fixed elements, Gravity Weaver gives players god-like control over gravity itself. The "draw anywhere" mechanic creates emergent solutions where players discover their own approaches to each puzzle.
+            </div>
+            
+            <div class="metric-box">
+                <div class="metric">
+                    <div class="metric-value">8</div>
+                    <div class="metric-label">Levels</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">Draw</div>
+                    <div class="metric-label">Input Method</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">★★★</div>
+                    <div class="metric-label">Star System</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Core Loop Explanation</h2>
+            
+            <ul>
+                <li><strong>1. Observe:</strong> Analyze particle trajectory and obstacle layout</li>
+                <li><strong>2. Plan:</strong> Consider optimal gravity field placement for energy efficiency</li>
+                <li><strong>3. Draw:</strong> Click and drag to create gravitational wells of varying strength</li>
+                <li><strong>4. Simulate:</strong> Watch particles react to gravity fields in real-time</li>
+                <li><strong>5. Iterate:</strong> Adjust fields or clear and retry for better efficiency</li>
+                <li><strong>6. Complete:</strong> Guide all particles to targets with energy remaining</li>
+            </ul>
+            
+            <h3>Retention Mechanics</h3>
+            <ul>
+                <li><strong>Star Rating:</strong> 3-star system encourages replay for perfect scores</li>
+                <li><strong>Energy Constraint:</strong> Limited resource creates optimization puzzle layer</li>
+                <li><strong>Progressive Complexity:</strong> 8 levels with escalating difficulty curve</li>
+                <li><strong>Multiple Solutions:</strong> No single "correct" path encourages experimentation</li>
+                <li><strong>Master Badge:</strong> End-game achievement for completionists</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>💰 Monetization Strategy</h2>
+            
+            <h3>Primary: Premium Levels & Hints (Puzzle Model)</h3>
+            <ul>
+                <li><strong>Base Game:</strong> Free with 8 core levels</li>
+                <li><strong>Level Pack DLC:</strong> $1.99 for 10 additional levels (monthly releases)</li>
+                <li><strong>Hint System:</strong> Free hint every 4 hours OR $0.99 for 10 hints</li>
+                <li><strong>Skip Level:</strong> Watch rewarded ad or $0.99 to unlock next level</li>
+            </ul>
+            
+            <h3>Secondary: Cosmetics & QoL</h3>
+            <table>
+                <tr><th>Item</th><th>Price</th><th>Value Prop</th></tr>
+                <tr><td>Remove Ads</td><td>$2.99</td><td>Uninterrupted gameplay</td></tr>
+                <tr><td>Particle Skins</td><td>$0.99</td><td>Neon, Fire, Ice trails</td></tr>
+                <tr><td>Unlimited Energy</td><td>$4.99</td><td>Sandbox mode freedom</td></tr>
+                <tr><td>Level Editor</td><td>$1.99</td><td>Create & share levels</td></tr>
+            </table>
+            
+            <h3>Tertiary: Subscription (Gravity Pass)</h3>
+            <p>$2.99/month: Unlimited hints, exclusive levels, no ads, daily challenges with leaderboard rewards.</p>
+        </div>
+        
+        <div class="section">
+            <h2>📈 SEO/ASO/SEM Recommendations</h2>
+            
+            <h3>App Store Keywords</h3>
+            <div>
+                <span class="tag tag-primary">physics puzzle</span>
+                <span class="tag tag-primary">gravity game</span>
+                <span class="tag tag-primary">brain teaser</span>
+                <span class="tag tag-secondary">logic puzzle</span>
+                <span class="tag tag-secondary">spatial reasoning</span>
+                <span class="tag tag-secondary">science game</span>
+                <span class="tag tag-success">casual puzzle</span>
+                <span class="tag tag-success">offline game</span>
+                <span class="tag tag-warning">educational</span>
+                <span class="tag tag-warning">stress relief</span>
+            </div>
+            
+            <h3>Google Ads Targeting</h3>
+            <ul>
+                <li><strong>Interests:</strong> Physics puzzles, Brain training, STEM education</li>
+                <li><strong>Demographics:</strong> 18-45, slight STEM skew</li>
+                <li><strong>Placements:</strong> Puzzle game apps, Educational content, Reddit</li>
+                <li><strong>CPI Target:</strong> $0.50-$1.50 (puzzle genre premium)</li>
+            </ul>
+            
+            <h3>Content Marketing</h3>
+            <ul>
+                <li>"Satisfying physics" compilations on TikTok/YouTube Shorts</li>
+                <li>Reddit r/physicsgifs, r/gaming crossposts</li>
+                <li>"Can you solve this?" challenge posts with level screenshots</li>
+                <li>Educational angle: "Learn gravity while playing"</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Target Audience & Psychology</h2>
+            
+            <table>
+                <tr><th>Segment</th><th>Age</th><th>Motivation</th><th>Play Pattern</th></tr>
+                <tr><td>Puzzle Enthusiasts</td><td>25-45</td><td>Mental challenge, satisfaction</td><td>15-30 min sessions</td></tr>
+                <tr><td>STEM Students</td><td>16-25</td><td>Physics interest, learning</td><td>10-20 min sessions</td></tr>
+                <tr><td>Casual Relaxers</td><td>30-55</td><td>No time pressure, zen mode</td><td>5-15 min sessions</td></tr>
+                <tr><td>Perfectionists</td><td>20-40</td><td>3-star all levels</td><td>Replay until perfect</td></tr>
+            </table>
+            
+            <h3>Psychological Hooks</h3>
+            <ul>
+                <li><strong>Agency:</strong> Drawing gravity fields gives powerful "god mode" feeling</li>
+                <li><strong>Eureka Moments:</strong> Solving complex levels creates memorable dopamine hits</li>
+                <li><strong>Optimization Drive:</strong> Energy constraint encourages efficient solutions</li>
+                <li><strong>Completionism:</strong> Star ratings drive replay for perfection</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📊 KPIs to Track</h2>
+            
+            <table>
+                <tr><th>KPI</th><th>Target</th><th>Red Flag</th></tr>
+                <tr><td>Day 1 Retention</td><td>>50%</td><td><35%</td></tr>
+                <tr><td>Day 7 Retention</td><td>>20%</td><td><10%</td></tr>
+                <tr><td>Level Complete Rate</td><td>>70%</td><td><50%</td></tr>
+                <tr><td>Hint Usage</td><td>30-50%</td><td><10% or >80%</td></tr>
+                <tr><td>ARPU</td><td>>$0.15</td><td><$0.05</td></tr>
+                <tr><td>Level Pack Conversion</td><td>>8%</td><td><3%</td></tr>
+                <tr><td>Avg Session Time</td><td>>8 min</td><td><4 min</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🧪 A/B Test Experiments</h2>
+            
+            <table>
+                <tr><th>Test</th><th>Variant A</th><th>Variant B</th><th>Success Metric</th></tr>
+                <tr><td>Energy System</td><td>Limited energy</td><td>Unlimited, time-based stars</td><td>Level completion</td></tr>
+                <tr><td>Hint Availability</td><td>1 free hint/level</td><td>Hint every 2 hours</td><td>Hint conversion</td></tr>
+                <tr><td>Level Order</td><td>Current progression</td><td>Player-chosen order</td><td>Retention</td></tr>
+                <tr><td>Star Thresholds</td><td>50% energy = 3 stars</td><td>70% energy = 3 stars</td><td>3-star rate</td></tr>
+                <tr><td>Tutorial Style</td><td>Animated overlay</td><td>Interactive demo</td><td>L1 completion</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risk Analysis</h2>
+            
+            <table>
+                <tr><th>Risk</th><th>Impact</th><th>Likelihood</th><th>Mitigation</th></tr>
+                <tr><td>Level too hard, player stuck</td><td>High</td><td>Medium</td><td>Skip option, dynamic hints, difficulty modes</td></tr>
+                <tr><td>Short content (8 levels)</td><td>Medium</td><td>High</td><td>Monthly level packs, editor, daily challenges</td></tr>
+                <tr><td>Physics bugs/glitches</td><td>Medium</td><td>Medium</td><td>Extensive testing, reset level button</td></tr>
+                <tr><td>Puzzle fatigue</td><td>Medium</td><td>Medium</td><td>Varied mechanics, sandbox mode</td></tr>
+                <tr><td>Competition (Brain Out, etc)</td><td>Low</td><td>High</td><td>Unique gravity mechanic USP</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Post-Launch Roadmap</h2>
+            
+            <p><strong>Week 1-2:</strong> Fix physics edge cases, add level skip if stuck >3 attempts</p>
+            <p><strong>Week 3-4:</strong> First DLC pack (10 levels), community feature voting</p>
+            <p><strong>Month 2:</strong> Level Editor beta, Daily Challenge mode</p>
+            <p><strong>Month 3:</strong> User-generated level marketplace, Season Pass</p>
+        </div>
+        
+    </div>
+</body>
+</html>

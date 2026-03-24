@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Crowdlink Constellations</title>
+<style>
+:root{--bg:#08111f;--panel:rgba(14,21,38,.9);--line:rgba(132,170,255,.18);--text:#eef4ff;--muted:#9fb3d9;--cyan:#7de7ff;--gold:#ffd166;--green:#8dffb5;--danger:#ff6f8c}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:radial-gradient(circle at top,#193561,#0a1324 46%,#03060d 100%);font-family:Inter,Segoe UI,sans-serif;color:var(--text);overflow:hidden}
+body:before{content:'';position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle at 18% 18%,rgba(125,231,255,.14),transparent 16%),radial-gradient(circle at 82% 24%,rgba(255,209,102,.12),transparent 18%)}
+#app{height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:12px;padding:14px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(10px);box-shadow:0 24px 58px rgba(0,0,0,.34)}
+.top{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;padding:15px 18px}.title h1{margin:0;font-size:clamp(28px,5vw,46px)}.title p{margin:8px 0 0;color:var(--muted);line-height:1.55}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chips span{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{padding:12px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05)}.stat b{display:block;font-size:22px;margin-top:6px}.label{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.main{display:grid;grid-template-columns:1.05fr .95fr;gap:12px;min-height:0}.boardWrap{padding:14px;display:grid;grid-template-rows:1fr auto;gap:12px}.board{position:relative;border-radius:24px;border:1px solid rgba(255,255,255,.05);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));overflow:hidden}.board canvas{width:100%;height:100%}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{padding:13px 16px;border:none;border-radius:16px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#7de7ff,#8fa6ff);color:#06111f}.btn.alt{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.08)}
+.side{padding:14px;display:grid;grid-template-rows:auto auto 1fr auto;gap:12px}.brief,.legend,.log,.badges{padding:16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05)}.brief p,.legend p{margin:0;color:#d7e4ff;line-height:1.55}.legend ul,.log ul{margin:0;padding-left:18px}.log{min-height:0;overflow:auto}.badges{display:flex;gap:8px;flex-wrap:wrap}.badge{padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);font-size:12px}.badge.on{background:rgba(255,209,102,.16);border-color:rgba(255,209,102,.35);color:#ffe49a}
+.overlay{position:fixed;inset:0;background:rgba(1,4,10,.72);display:grid;place-items:center;padding:18px}.card{max-width:760px;width:min(100%,760px);padding:24px;border-radius:28px;background:linear-gradient(180deg,rgba(13,20,40,.98),rgba(8,12,24,.98));border:1px solid rgba(125,231,255,.22)}.card h2{margin:0 0 10px;font-size:clamp(28px,5vw,46px)}.card p{color:#d8e5ff;line-height:1.6}.big{font-size:clamp(38px,8vw,78px);font-weight:900;margin:14px 0;background:linear-gradient(180deg,#fff,#7de7ff);-webkit-background-clip:text;color:transparent}.bullet{display:grid;gap:10px;margin:16px 0}.bullet div{padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05)}.footer{text-align:center;color:#90a4ce;font-size:12px;padding:0 16px 12px}
+@media(max-width:1050px){.top,.main{grid-template-columns:1fr}}@media(max-width:640px){#app{padding:10px}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div id="app">
+<section class="top panel">
+  <div class="title">
+    <div class="label">Trend signal · Connections Sports Edition</div>
+    <h1>Crowdlink Constellations</h1>
+    <p>Select 4 clue-stars that belong to the same sports theme. Lock the right cluster, preserve the crowd meter, and clear four rounds before strikes pile up.</p>
+    <div class="chips"><span>Visible instructions</span><span>Scoring + badges</span><span>Win / game over</span></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="label">Score</span><b id="score">0</b></div>
+    <div class="stat"><span class="label">Round</span><b id="round">1 / 4</b></div>
+    <div class="stat"><span class="label">Strikes</span><b id="strikes">0 / 3</b></div>
+    <div class="stat"><span class="label">Crowd</span><b id="crowd">100%</b></div>
+  </div>
+</section>
+<section class="main">
+  <div class="boardWrap panel">
+    <div class="board"><canvas id="canvas" width="900" height="680"></canvas></div>
+    <div class="actions"><button id="submitBtn" class="btn">Lock constellation</button><button id="clearBtn" class="btn alt">Clear picks</button></div>
+  </div>
+  <aside class="side panel">
+    <div class="brief"><p><strong>How to play:</strong> tap clue-stars to select <strong>exactly 4</strong>. If they all belong together, lock the set to ignite the constellation and advance. Wrong mixes cost strikes and crowd energy.</p></div>
+    <div class="legend"><ul><li>First-try solve: +120</li><li>Late solve: +80</li><li>Wrong set: crowd -18% + strike</li><li>Win by solving 4 rounds before 3 strikes</li></ul></div>
+    <div class="log"><ul id="log"></ul></div>
+    <div class="badges" id="badges"></div>
+  </aside>
+</section>
+<div class="footer">Sports-daily energy, but spatial and dramatic instead of flat and template-y.</div>
+</div>
+<div id="overlay" class="overlay"><div class="card"><div class="label">How to play in 8 seconds</div><h2>Pick 4 clue-stars that share a sports theme.</h2><p>Build one valid 4-card constellation per round. Solve all four rounds to win. If you hit 3 strikes or the crowd meter reaches 0%, the run ends.</p><div class="bullet"><div><strong>Win:</strong> solve 4 rounds.</div><div><strong>Lose:</strong> 3 strikes or 0% crowd.</div><div><strong>Badges:</strong> First Try Fire, No Panic, Clean Sheet.</div></div><button id="startBtn" class="btn">Start run</button></div></div>
+<script>
+const ROUNDS = [
+[{word:'Derby',g:'Horse Race'},{word:'Jockey',g:'Horse Race'},{word:'Stallion',g:'Horse Race'},{word:'Paddock',g:'Horse Race'},{word:'Touchdown',g:'Football'},{word:'Blitz',g:'Football'},{word:'Huddle',g:'Football'},{word:'Snap',g:'Football'}],
+[{word:'Backhand',g:'Tennis'},{word:'Clay',g:'Tennis'},{word:'Ace',g:'Tennis'},{word:'Deuce',g:'Tennis'},{word:'Blue Line',g:'Hockey'},{word:'Faceoff',g:'Hockey'},{word:'Slapshot',g:'Hockey'},{word:'Crease',g:'Hockey'}],
+[{word:'Par',g:'Golf'},{word:'Bogey',g:'Golf'},{word:'Bunker',g:'Golf'},{word:'Fairway',g:'Golf'},{word:'Vault',g:'Gymnastics'},{word:'Beam',g:'Gymnastics'},{word:'Routine',g:'Gymnastics'},{word:'Leotard',g:'Gymnastics'}],
+[{word:'Fast Break',g:'Basketball'},{word:'Rebound',g:'Basketball'},{word:'Paint',g:'Basketball'},{word:'Screen',g:'Basketball'},{word:'Relay',g:'Swimming'},{word:'Freestyle',g:'Swimming'},{word:'Anchor',g:'Swimming'},{word:'Lane Rope',g:'Swimming'}]
+];
+const state={round:0,score:0,strikes:0,crowd:100,selected:[],nodes:[],badges:new Set(),log:[],firstTry:true,playing:false,over:false,pulse:0};
+const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
+function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);}
+function startRound(){state.selected=[];state.firstTry=true;const clues=shuffle(ROUNDS[state.round]);state.nodes=clues.map((c,i)=>({...
+c,x:170+(i%4)*185+(Math.random()*30-15),y:210+Math.floor(i/4)*190+(Math.random()*30-15)}));hud();log('Round '+(state.round+1)+' opened.');}
+function hud(){score.textContent=state.score;round.textContent=(state.round+1)+' / 4';strikes.textContent=state.strikes+' / 3';crowd.textContent=Math.max(0,state.crowd)+'%';}
+function log(m){state.log.unshift(m);state.log=state.log.slice(0,7);document.getElementById('log').innerHTML=state.log.map(v=>`<li>${v}</li>`).join('');}
+function badge(id,label){if(state.badges.has(id))return;state.badges.add(id);renderBadges();log('Badge: '+label);}
+function renderBadges(){const defs=[['first','First Try Fire'],['panic','No Panic'],['clean','Clean Sheet']];badges.innerHTML=defs.map(([i,l])=>`<div class="badge ${state.badges.has(i)?'on':''}">${l}</div>`).join('');}
+canvas.addEventListener('click',e=>{if(!state.playing||state.over)return;const r=canvas.getBoundingClientRect();const x=(e.clientX-r.left)*(canvas.width/r.width),y=(e.clientY-r.top)*(canvas.height/r.height);const hit=state.nodes.findIndex(n=>Math.hypot(x-n.x,y-n.y)<56);if(hit<0)return;const pos=state.selected.indexOf(hit);if(pos>=0)state.selected.splice(pos,1);else if(state.selected.length<4)state.selected.push(hit);draw();});
+function submit(){if(state.selected.length!==4){log('Pick exactly 4 stars.');return;}const picks=state.selected.map(i=>state.nodes[i]);const ok=picks.every(p=>p.g===picks[0].g);if(ok){const gain=state.firstTry?120:80;state.score+=gain;log('Locked '+picks[0].g+' +'+gain);if(state.firstTry)badge('first','First Try Fire');if(state.strikes===0)badge('clean','Clean Sheet');if(state.crowd>=70)badge('panic','No Panic');state.round++;if(state.round>=4)return end(true,'You lit every constellation and the crowd loved it.');startRound();}else{state.strikes++;state.crowd-=18;state.firstTry=false;log('Wrong mix. Strike taken.');if(state.strikes>=3||state.crowd<=0)return end(false,'The crowd turned on your board before the slate was solved.');}state.selected=[];hud();}
+function end(win,msg){state.over=true;state.playing=false;overlay.innerHTML=`<div class="card"><div class="label">${win?'Victory':'Game over'}</div><h2>${win?'Constellations complete':'Crowd lost'}</h2><div class="big">${state.score}</div><p>${msg}</p><div class="bullet"><div><strong>Rounds solved:</strong> ${Math.min(state.round,4)} / 4</div><div><strong>Badges:</strong> ${state.badges.size}</div><div><strong>Tip:</strong> spot the weirdest clue first, then pull its family.</div></div><button class="btn" onclick="restart()">Play again</button></div>`;overlay.style.display='grid';}
+function restart(){state.round=0;state.score=0;state.strikes=0;state.crowd=100;state.badges.clear();state.log=[];state.over=false;state.playing=true;startRound();renderBadges();overlay.style.display='none';}
+function wrap(t,x,y,mw,lh){const words=t.split(' ');let line='',rows=[];for(const w of words){const test=line?line+' '+w:w;if(ctx.measureText(test).width>mw){rows.push(line);line=w;}else line=test;}rows.push(line);rows.forEach((row,i)=>ctx.fillText(row,x,y+i*lh));}
+function draw(){ctx.clearRect(0,0,900,680);state.pulse+=.02;for(let i=0;i<160;i++){const x=(i*71)%900,y=(i*113)%680;ctx.fillStyle=`rgba(255,255,255,${0.04+0.03*Math.sin(state.pulse+i)})`;ctx.fillRect(x,y,2,2);}for(let i=0;i<state.selected.length-1;i++){const a=state.nodes[state.selected[i]],b=state.nodes[state.selected[i+1]];ctx.strokeStyle='rgba(125,231,255,.9)';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}state.nodes.forEach((n,i)=>{const sel=state.selected.includes(i);const g=ctx.createRadialGradient(n.x,n.y,2,n.x,n.y,70);g.addColorStop(0,sel?'rgba(255,209,102,.95)':'rgba(125,231,255,.88)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(n.x,n.y,68,0,Math.PI*2);ctx.fill();ctx.fillStyle=sel?'#ffd166':'#89b7ff';ctx.beginPath();ctx.arc(n.x,n.y,52,0,Math.PI*2);ctx.fill();ctx.fillStyle='#071120';ctx.font='bold 18px Inter';ctx.textAlign='center';wrap(n.word,n.x,n.y-6,82,20);});requestAnimationFrame(draw);}
+startBtn.onclick=restart;submitBtn.onclick=submit;clearBtn.onclick=()=>{state.selected=[];draw();};renderBadges();startRound();draw();
+</script>
+</body></html>

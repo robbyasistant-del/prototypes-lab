@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Photon Rally: Phase Snap</title>
+  <style>
+    :root{
+      --bg:#070b1a;--panel:#0f1730;--line:#273a6b;--txt:#e8eeff;--muted:#9db0df;
+      --ok:#35e39a;--bad:#ff647c;--warn:#ffd166;--cy:#45d6ff;--mg:#ff67f4;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;
+      font-family:Inter,Segoe UI,system-ui,sans-serif;color:var(--txt);
+      background:radial-gradient(circle at 20% 0,#1c2957,var(--bg) 55%);
+    }
+    .app{width:min(980px,100%);background:rgba(15,23,48,.95);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 18px 40px #0008}
+    h1{margin:0 0 6px;font-size:1.35rem}
+    .sub{color:var(--muted);margin:0 0 10px}
+    .how{background:#0c1430;border:1px solid #2b3f76;border-radius:12px;padding:10px;font-size:.94rem;line-height:1.35;color:#dbe7ff}
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0}
+    .card{background:#0b1330;border:1px solid #2a3e77;border-radius:11px;padding:9px}
+    .k{font-size:.8rem;color:var(--muted)}
+    .v{font-size:1.08rem;font-weight:800}
+
+    .arena{position:relative;height:220px;background:linear-gradient(180deg,#0b1230,#09102a);border:1px solid #2a3f74;border-radius:14px;overflow:hidden}
+    .track{position:absolute;left:0;right:0;height:25%;border-top:1px solid #1f2f5d}
+    .track:nth-child(1){top:0}.track:nth-child(2){top:25%}.track:nth-child(3){top:50%}.track:nth-child(4){top:75%}
+    .capture{position:absolute;left:76%;top:0;bottom:0;width:8%;background:linear-gradient(90deg,#ffffff12,#ffffff30,#ffffff12);border-left:2px solid #ffffff75;border-right:2px solid #ffffff75}
+    .photon{position:absolute;width:26px;height:26px;border-radius:50%;left:0%;top:calc(var(--lane)*25% + 12.5% - 13px);transform:translateX(-50%);
+      background:radial-gradient(circle at 30% 30%,#fff,var(--cy));box-shadow:0 0 16px var(--cy),0 0 30px #45d6ff70;display:none}
+    .photon.mag{background:radial-gradient(circle at 30% 30%,#fff,var(--mg));box-shadow:0 0 16px var(--mg),0 0 30px #ff67f470}
+
+    .lanes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+    .laneBtn{padding:11px;border-radius:10px;border:1px solid #425ea0;background:#1a2750;color:var(--txt);font-weight:800;cursor:pointer}
+    .laneBtn:hover{transform:translateY(-1px);border-color:#68a9ff}
+    .laneBtn.hit{outline:2px solid #fff7;filter:brightness(1.1)}
+
+    .msg{min-height:28px;font-weight:800;margin-top:8px}
+    .ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .p{border:none;background:linear-gradient(135deg,var(--cy),#8ae6ff);color:#031326;padding:10px 14px;border-radius:10px;font-weight:900;cursor:pointer}
+    .g{border:1px solid #4263a5;background:#1a2852;color:#dce8ff;padding:10px 14px;border-radius:10px;cursor:pointer}
+    .meta{white-space:pre-wrap;color:#aec1ed;font-size:.9rem;margin-top:8px;min-height:40px}
+    @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.arena{height:200px}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Photon Rally: Phase Snap</h1>
+    <p class="sub">Reflex challenge: intercept unstable photons in the right lane at the exact capture window.</p>
+    <div class="how">
+      <b>How it works:</b> 15 waves, 3 lives. A photon spawns in one lane and races right.
+      Press <b>A/S/D/F</b> (or tap lane buttons) when it is inside the bright capture zone.
+      <b>Perfect</b> timing scores big. Wrong lane or bad timing loses a life. Survive all waves to win.
+      Badge unlocks at <b>1200+</b> points: <b>⚡ Phase Sniper</b>.
+    </div>
+
+    <div class="stats">
+      <div class="card"><div class="k">Wave</div><div class="v" id="wave">0/15</div></div>
+      <div class="card"><div class="k">Score</div><div class="v" id="score">0</div></div>
+      <div class="card"><div class="k">Lives</div><div class="v" id="lives">3</div></div>
+      <div class="card"><div class="k">Streak</div><div class="v" id="streak">0</div></div>
+      <div class="card"><div class="k">Badge</div><div class="v" id="badge">—</div></div>
+    </div>
+
+    <div class="arena" id="arena">
+      <div class="track"></div><div class="track"></div><div class="track"></div><div class="track"></div>
+      <div class="capture"></div>
+      <div class="photon" id="photon"></div>
+    </div>
+
+    <div class="lanes">
+      <button class="laneBtn" data-lane="0">A · Lane 1</button>
+      <button class="laneBtn" data-lane="1">S · Lane 2</button>
+      <button class="laneBtn" data-lane="2">D · Lane 3</button>
+      <button class="laneBtn" data-lane="3">F · Lane 4</button>
+    </div>
+
+    <div class="msg" id="msg">Press Start.</div>
+    <div class="controls">
+      <button class="p" id="start">Start / Restart</button>
+      <button class="g" id="hint">Hint</button>
+      <button class="g" id="sim">Run 120 AI tests</button>
+    </div>
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <script>
+    const TOTAL_WAVES = 15, MAX_LIVES = 3;
+    const keys = { a:0, s:1, d:2, f:3 };
+    const photon = document.getElementById('photon');
+    const laneBtns = [...document.querySelectorAll('.laneBtn')];
+
+    const ui = {
+      wave: document.getElementById('wave'), score: document.getElementById('score'),
+      lives: document.getElementById('lives'), streak: document.getElementById('streak'),
+      badge: document.getElementById('badge'), msg: document.getElementById('msg'),
+      meta: document.getElementById('meta')
+    };
+
+    let g = null;
+
+    function evaluateHit(pressedLane, targetLane, progress){
+      if (pressedLane !== targetLane) return {ok:false, type:'wrong-lane', points:0};
+      if (progress < 0.76) return {ok:false, type:'too-early', points:0};
+      if (progress > 0.84) return {ok:false, type:'too-late', points:0};
+      const centerDist = Math.abs(progress - 0.80);
+      if (centerDist <= 0.012) return {ok:true, type:'perfect', points:180};
+      if (centerDist <= 0.03) return {ok:true, type:'great', points:130};
+      return {ok:true, type:'good', points:90};
+    }
+
+    function setMsg(text, cls=''){ ui.msg.className = 'msg ' + cls; ui.msg.textContent = text; }
+    function badgeFor(score){ return score >= 1200 ? '⚡ Phase Sniper' : score >= 850 ? '🥈 Relay Pilot' : '—'; }
+
+    function newGame(){
+      g = { wave:0, score:0, lives:MAX_LIVES, streak:0, active:true, running:false, startTs:0,
+            duration:0, targetLane:0, hue:'cy', raf:0, reacted:false };
+      ui.meta.textContent = '';
+      nextWave();
+      paint();
+      setMsg('Photon lock initialized. Stay sharp.', 'warn');
+    }
+
+    function nextWave(){
+      if (!g.active) return;
+      g.wave++;
+      if (g.wave > TOTAL_WAVES) return end(true, 'All waves cleared. You win the rally!');
+
+      g.targetLane = Math.floor(Math.random()*4);
+      g.duration = 1250 + Math.random()*900; // ms
+      g.hue = Math.random() < 0.5 ? 'cy' : 'mag';
+      g.startTs = performance.now();
+      g.running = true;
+      g.reacted = false;
+
+      photon.style.setProperty('--lane', g.targetLane);
+      photon.classList.toggle('mag', g.hue === 'mag');
+      photon.style.display = 'block';
+      photon.style.left = '0%';
+      if (g.raf) cancelAnimationFrame(g.raf);
+      g.raf = requestAnimationFrame(step);
+      paint();
+    }
+
+    function step(ts){
+      if (!g || !g.running) return;
+      const progress = Math.min(1, (ts - g.startTs) / g.duration);
+      photon.style.left = (progress * 100).toFixed(2) + '%';
+      if (progress >= 1){
+        failWave('Missed photon (no intercept).');
+        return;
+      }
+      g.raf = requestAnimationFrame(step);
+    }
+
+    function pulseLaneBtn(lane){
+      laneBtns.forEach((b,i)=>b.classList.toggle('hit', i===lane));
+      setTimeout(()=>laneBtns.forEach(b=>b.classList.remove('hit')),120);
+    }
+
+    function inputLane(lane){
+      if (!g || !g.active || !g.running || g.reacted) return;
+      g.reacted = true;
+      pulseLaneBtn(lane);
+
+      const now = performance.now();
+      const progress = Math.min(1, (now - g.startTs) / g.duration);
+      const r = evaluateHit(lane, g.targetLane, progress);
+
+      if (r.ok){
+        g.streak++;
+        const streakBoost = Math.min(60, g.streak * 8);
+        const gain = r.points + streakBoost;
+        g.score += gain;
+        setMsg(`${r.type.toUpperCase()}! +${gain}`, 'ok');
+      } else {
+        g.lives--;
+        g.streak = 0;
+        const why = r.type === 'wrong-lane' ? 'Wrong lane!' : r.type === 'too-early' ? 'Too early!' : 'Too late!';
+        setMsg(`${why} -1 life`, 'bad');
+      }
+
+      g.running = false;
+      photon.style.display = 'none';
+      paint();
+
+      if (g.lives <= 0) return end(false, 'Shield integrity failed. GAME OVER.');
+      setTimeout(nextWave, 330);
+    }
+
+    function failWave(reason){
+      if (!g || !g.active) return;
+      g.running = false;
+      g.lives--;
+      g.streak = 0;
+      photon.style.display = 'none';
+      setMsg(reason + ' -1 life', 'bad');
+      paint();
+      if (g.lives <= 0) return end(false, 'Shield integrity failed. GAME OVER.');
+      setTimeout(nextWave, 360);
+    }
+
+    function end(win, text){
+      g.active = false;
+      g.running = false;
+      if (g.raf) cancelAnimationFrame(g.raf);
+      photon.style.display = 'none';
+      ui.badge.textContent = badgeFor(g.score);
+      setMsg(win ? 'Victory confirmed.' : 'Run terminated.', win ? 'ok' : 'bad');
+      ui.meta.textContent = `${text}\nFinal score: ${g.score}\nBadge: ${badgeFor(g.score)}`;
+      paint();
+    }
+
+    function paint(){
+      if (!g){
+        ui.wave.textContent = `0/${TOTAL_WAVES}`; ui.score.textContent='0'; ui.lives.textContent=MAX_LIVES;
+        ui.streak.textContent='0'; ui.badge.textContent='—';
+        return;
+      }
+      ui.wave.textContent = `${Math.min(g.wave, TOTAL_WAVES)}/${TOTAL_WAVES}`;
+      ui.score.textContent = g.score;
+      ui.lives.textContent = g.lives;
+      ui.streak.textContent = g.streak;
+      ui.badge.textContent = badgeFor(g.score);
+    }
+
+    function runAiTests(runs = 120){
+      let wins = 0, totalScore = 0;
+      for (let i=0;i<runs;i++){
+        let score = 0, lives = MAX_LIVES, streak = 0;
+        for (let w=1; w<=TOTAL_WAVES; w++){
+          const lane = Math.floor(Math.random()*4);
+          const duration = 1250 + Math.random()*900;
+
+          // bot: mostly right lane, human-like reaction jitter
+          const pickLane = Math.random() < 0.86 ? lane : Math.floor(Math.random()*4);
+          const reactionMs = duration * (0.80 + (Math.random()-0.5)*0.08); // around window
+          const progress = reactionMs / duration;
+          const r = evaluateHit(pickLane, lane, progress);
+          if (r.ok){ streak++; score += r.points + Math.min(60, streak*8); }
+          else { lives--; streak = 0; if (lives <= 0) break; }
+        }
+        if (lives > 0) wins++;
+        totalScore += score;
+      }
+      return { runs, wins, winRate: (wins/runs*100).toFixed(1)+'%', avgScore: Math.round(totalScore/runs) };
+    }
+
+    laneBtns.forEach(btn=>btn.addEventListener('click', ()=>inputLane(Number(btn.dataset.lane))));
+    window.addEventListener('keydown', e=>{ const lane = keys[e.key?.toLowerCase()]; if (lane!==undefined) inputLane(lane); });
+
+    document.getElementById('start').onclick = newGame;
+    document.getElementById('hint').onclick = ()=>{
+      ui.meta.textContent = 'Hint: wait until photon center is inside capture band (76%-84%).\nPress lane once. Panicking early is the common fail.';
+      setMsg('Timing > speed. Breathe, then snap.', 'warn');
+    };
+    document.getElementById('sim').onclick = ()=>{ const r = runAiTests(120); ui.meta.textContent = 'AI test batch: ' + JSON.stringify(r); };
+
+    // Expose for console testing
+    window.__photon = { evaluateHit, runAiTests };
+    paint();
+  </script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHROMA PULSE - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 100%);
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff0066, #ff00ff, #6600ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 40px;
+        }
+        .section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+        h2 {
+            color: #ff00ff;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        h3 {
+            color: #00ffff;
+            font-size: 16px;
+            margin: 20px 0 10px;
+        }
+        p, li {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        .metric-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .metric {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ff00ff;
+        }
+        .metric-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin: 3px;
+        }
+        .tag-primary { background: #ff0066; color: white; }
+        .tag-secondary { background: #6600ff; color: white; }
+        .tag-success { background: #00ff88; color: #0a0a0f; }
+        .tag-warning { background: #ffcc00; color: #0a0a0f; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            color: #ff00ff;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .highlight {
+            background: rgba(255,0,255,0.1);
+            padding: 15px;
+            border-left: 3px solid #ff00ff;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CHROMA PULSE</h1>
+        <div class="subtitle">Synesthetic Rhythm Action Game - Strategy Report</div>
+        
+        <div class="section">
+            <h2>🎮 Game Concept & Hook</h2>
+            <p><strong>CHROMA PULSE</strong> merges rhythm game mechanics with color-matching reflex challenges in a synesthetic audio-visual experience. The core innovation is the <strong>"Color-State"</strong> system where players must match their central orb's color to incoming rings.</p>
+            
+            <div class="highlight">
+                <strong>The Hook:</strong> Unlike typical rhythm games with fixed note highways, CHROMA PULSE features a 360-degree radial playfield where color-matching is the key mechanic. The "one more try" factor comes from the satisfying color-transition animation and escalating combo multipliers.
+            </div>
+            
+            <div class="metric-box">
+                <div class="metric">
+                    <div class="metric-value">6</div>
+                    <div class="metric-label">Colors</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">10K</div>
+                    <div class="metric-label">Win Score</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">∞</div>
+                    <div class="metric-label">Replayability</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Core Loop Explanation</h2>
+            <ul>
+                <li><strong>1. Anticipation:</strong> Colored rings spawn at screen edges and travel inward</li>
+                <li><strong>2. Decision:</strong> Player must judge if current orb color matches incoming ring</li>
+                <li><strong>3. Action:</strong> Click/tap to pulse when ring enters the hit zone (40-140px radius)</li>
+                <li><strong>4. Feedback:</strong> Immediate visual explosion, combo counter, score pop-up</li>
+                <li><strong>5. Escalation:</strong> Rings spawn faster as score increases (beatInterval decreases)</li>
+                <li><strong>6. Risk/Reward:</strong> Wrong color = health loss; Perfect timing = combo multiplier</li>
+            </ul>
+            
+            <h3>Retention Mechanics</h3>
+            <ul>
+                <li><strong>Combo System:</strong> 10% score multiplier per combo level</li>
+                <li><strong>Badge Collection:</strong> 4 unlockable badges per run</li>
+                <li><strong>Health Tension:</strong> Single mistake doesn't end run, creates "clutch" moments</li>
+                <li><strong>Win State:</strong> 10,000 point goal gives clear objective</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>💰 Monetization Strategy</h2>
+            
+            <h3>Primary: Ad-Based (Hypercasual Model)</h3>
+            <ul>
+                <li><strong>Interstitial:</strong> Every 3 game over screens (eCPM $3-8)</li>
+                <li><strong>Rewarded Video:</strong> Continue run (1 per game), Double coins, Unlock themes</li>
+                <li><strong>Banner:</strong> Bottom of game over screen only (non-intrusive)</li>
+            </ul>
+            
+            <h3>Secondary: IAP ($0.99 - $4.99)</h3>
+            <table>
+                <tr><th>Item</th><th>Price</th><th>Value Prop</th></tr>
+                <tr><td>Remove Ads</td><td>$2.99</td><td>Permanent, instant conversion</td></tr>
+                <tr><td>Color Pack</td><td>$0.99</td><td>Neon/Pastel/Retro palettes</td></tr>
+                <tr><td>Premium Skin</td><td>$1.99</td><td>Particle effects, trails</td></tr>
+                <tr><td>Starter Pack</td><td>$4.99</td><td>All skins + 2x coins forever</td></tr>
+            </table>
+            
+            <h3>Tertiary: Battle Pass (Seasonal)</h3>
+            <p>$4.99/season with exclusive color schemes, particle trails, and badge frames. 30 tiers, 2-week seasons.</p>
+        </div>
+        
+        <div class="section">
+            <h2>📈 SEO/ASO/SEM Recommendations</h2>
+            
+            <h3>App Store Keywords</h3>
+            <div>
+                <span class="tag tag-primary">rhythm game</span>
+                <span class="tag tag-primary">color match</span>
+                <span class="tag tag-primary">arcade</span>
+                <span class="tag tag-secondary">hypercasual</span>
+                <span class="tag tag-secondary">reflex</span>
+                <span class="tag tag-secondary">one tap</span>
+                <span class="tag tag-success">synesthesia</span>
+                <span class="tag tag-success">neon</span>
+                <span class="tag tag-warning">beat</span>
+                <span class="tag tag-warning">pulse</span>
+            </div>
+            
+            <h3>Google Ads Targeting</h3>
+            <ul>
+                <li><strong>Interests:</strong> Rhythm games, Arcade games, Electronic music</li>
+                <li><strong>Demographics:</strong> 13-35, all genders</li>
+                <li><strong>Placements:</strong> YouTube, Gaming apps, TikTok</li>
+                <li><strong>CPI Target:</strong> $0.30-$0.80 (hypercasual benchmark)</li>
+            </ul>
+            
+            <h3>TikTok/Instagram Strategy</h3e>
+            <ul>
+                <li>15-sec gameplay clips showing 50+ combo moments</li>
+                <li>"Satisfying" ASMR-style color transitions</li>
+                <li>Trending audio sync challenges</li>
+                <li>Hashtag: #ChromaPulse #RhythmGame #ColorMatch</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Target Audience & Psychology</h2>
+            
+            <table>
+                <tr><th>Segment</th><th>Age</th><th>Motivation</th><th>Play Pattern</th></tr>
+                <tr><td>Casual Commuters</td><td>25-40</td><td>Quick dopamine hit</td><td>2-3 min sessions</td></tr>
+                <tr><td>Rhythm Enthusiasts</td><td>16-28</td><td>Skill mastery, high scores</td><td>10-20 min sessions</td></tr>
+                <tr><td>Hypercasual Players</td><td>13-25</td><td>Instant gratification</td><td>1-2 min bursts</td></tr>
+                <tr><td>ASMR/Satisfying</td><td>18-35</td><td>Visual/audio satisfaction</td><td>Zen/relaxation mode</td></tr>
+            </table>
+            
+            <h3>Psychological Hooks</h3>
+            <ul>
+                <li><strong>Variable Reward:</strong> Random color spawning creates anticipation</li>
+                <li><strong>Near Miss:</strong> Ring passing close to hit zone triggers "almost got it"</li>
+                <li><strong>Loss Aversion:</strong> Combo breaking feels significant (2x+ multipliers lost)</li>
+                <li><strong>Completion:</strong> Badge collection drives completionist behavior</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📊 KPIs to Track</h2>
+            
+            <table>
+                <tr><th>KPI</th><th>Target</th><th>Red Flag</th></tr>
+                <tr><td>Day 1 Retention</td><td>>45%</td><td><30%</td></tr>
+                <tr><td>Day 7 Retention</td><td>>15%</td><td><8%</td></tr>
+                <tr><td>Session Length</td><td>>4 min</td><td><2 min</td></tr>
+                <tr><td>Sessions/Day</td><td>>3</td><td><2</td></tr>
+                <tr><td>ARPU</td><td>>$0.05</td><td><$0.02</td></tr>
+                <tr><td>Ad View Rate</td><td>>60%</td><td><40%</td></tr>
+                <tr><td>Win Rate (10K)</td><td>5-10%</td><td><2% or >20%</td></tr>
+                <tr><td>Tutorial Drop-off</td><td><10%</td><td>>25%</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🧪 A/B Test Experiments</h2>
+            
+            <table>
+                <tr><th>Test</th><th>Variant A</th><th>Variant B</th><th>Success Metric</th></tr>
+                <tr><td>Win Condition</td><td>10,000 points</td><td>Survive 60 seconds</td><td>Session length</td></tr>
+                <tr><td>Health System</td><td>100 HP, -15 wrong</td><td>3 Lives system</td><td>Win rate</td></tr>
+                <tr><td>Color Count</td><td>6 colors</td><td>4 colors (easier)</td><td>D1 retention</td></tr>
+                <tr><td>Interstitial Freq</td><td>Every 3 deaths</td><td>Every 2 deaths</td><td>ARPU vs retention</td></tr>
+                <tr><td>Tutorial Style</td><td>Text overlay</td><td>Interactive guide</td><td>Tutorial completion</td></tr>
+                <tr><td>Combo Reset</td><td>Any miss resets</td><td>3 misses reset</td><td>Avg combo</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risk Analysis</h2>
+            
+            <table>
+                <tr><th>Risk</th><th>Impact</th><th>Likelihood</th><th>Mitigation</th></tr>
+                <tr><td>High difficulty kills retention</td><td>High</td><td>Medium</td><td>Dynamic difficulty, easy mode</td></tr>
+                <tr><td>Ad fatigue</td><td>Medium</td><td>High</td><td>Rewarded > interstitial, cap frequency</td></tr>
+                <tr><td>Colorblind accessibility</td><td>Medium</td><td>Medium</td><td>Shape patterns, symbols on rings</td></tr>
+                <tr><td>Competition (rhythm games)</td><td>Medium</td><td>High</td><td>Unique 360° radial mechanic USP</td></tr>
+                <tr><td>Performance on low-end devices</td><td>Low</td><td>Medium</td><td>Particle limit option, quality toggle</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Post-Launch Roadmap</h2>
+            
+            <p><strong>Week 1-2:</strong> Bug fixes, balancing, first A/B tests</p>
+            <p><strong>Week 3-4:</strong> First content update (2 new color themes)</p>
+            <p><strong>Month 2:</strong> Battle Pass Season 1, Daily Challenges</p>
+            <p><strong>Month 3:</strong> Multiplayer (async ghost racing), Leaderboards</p>
+        </div>
+        
+    </div>
+</body>
+</html>

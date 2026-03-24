@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Muse Grid: Cipher Couriers</title>
+  <style>
+    :root{
+      --bg:#0a1022;--panel:#121b35;--line:#2f4275;--accent:#7dd3fc;--accent2:#c4b5fd;
+      --ok:#4ade80;--bad:#fb7185;--txt:#e8eeff;--muted:#9badcf;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,system-ui;background:radial-gradient(circle at 20% 0,#1a2a57,var(--bg));color:var(--txt);min-height:100vh;padding:16px;display:flex;justify-content:center}
+    .app{width:min(980px,100%);background:rgba(18,27,53,.96);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 16px 40px #0008}
+    h1{margin:0 0 6px;font-size:1.45rem}
+    .sub{color:var(--muted);margin-bottom:8px}
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}
+    .card{background:#0e1730;border:1px solid #2a3d6f;border-radius:12px;padding:10px}
+    .card b{font-size:1.15rem}
+    .reward{color:#fde68a;font-weight:700}
+    .board{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+    .panel{background:#0e1730;border:1px solid #2a3d6f;border-radius:14px;padding:12px}
+    .clues{margin:0;padding-left:18px;line-height:1.45}
+    .clues li{margin-bottom:6px}
+    .q{font-size:1.08rem;padding:10px;border:1px dashed #4460a6;border-radius:12px;background:#0a1430;min-height:62px;margin-bottom:10px}
+    .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .opts button{padding:11px;border-radius:10px;border:1px solid #435f9f;background:#1a2850;color:#f2f6ff;font-weight:700;cursor:pointer}
+    .opts button:hover{border-color:var(--accent);transform:translateY(-1px)}
+    .msg{min-height:26px;margin-top:10px;font-weight:800}
+    .ok{color:var(--ok)} .bad{color:var(--bad)}
+    .bar{height:10px;background:#1c2b53;border-radius:999px;overflow:hidden;margin-top:12px}
+    .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:100%;transition:width .2s linear}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .controls button{padding:10px 14px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
+    .primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#0a1228}
+    .ghost{background:#19284f;color:#e0ebff;border:1px solid #4563a7}
+    .mini{font-size:.92rem;color:var(--muted);margin-top:8px;white-space:pre-wrap}
+    @media (max-width:860px){.board{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <h1>Muse Grid: Cipher Couriers</h1>
+  <div class="sub"><b>Puzzle Logic Grid</b>: deduce one correct answer from a set of clues. Every case has exactly one valid solution.</div>
+  <div class="sub"><b>Instructions:</b> Clear 8 cases. You have 3 lives. Each case is timed (40s). Correct = points + streak bonus; Wrong/timeout = lose 1 life. <b>Win</b>: solve all 8 before lives hit 0. <b>Lose</b>: 0 lives. Reward unlocks at 1200+ score.</div>
+
+  <div class="stats">
+    <div class="card">Case<br><b id="round">0/8</b></div>
+    <div class="card">Score<br><b id="score">0</b></div>
+    <div class="card">Lives<br><b id="lives">3</b></div>
+    <div class="card">Streak<br><b id="streak">0</b></div>
+    <div class="card">Reward<br><b id="reward" class="reward">—</b></div>
+  </div>
+
+  <div class="board">
+    <div class="panel">
+      <h3 style="margin:0 0 8px">Clues</h3>
+      <ol id="clues" class="clues"></ol>
+    </div>
+    <div class="panel">
+      <h3 style="margin:0 0 8px">Question</h3>
+      <div id="question" class="q">Press Start.</div>
+      <div id="opts" class="opts"></div>
+      <div id="msg" class="msg"></div>
+      <div class="bar"><div id="fill" class="fill"></div></div>
+      <div id="meta" class="mini"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="start" class="primary">Start / Restart</button>
+    <button id="hint" class="ghost">Hint</button>
+    <button id="test" class="ghost">Run 120 QA sims</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const TOTAL_CASES = 8;
+  const START_LIVES = 3;
+  const ROUND_TIME = 40;
+
+  const DET = ['Iris','Noor','Pax','Sol'];
+  const ART = ['Amber Key','Glass Feather','Iron Coin','Velvet Map'];
+  const ROOM = ['Atrium','Belfry','Crypt','Docks'];
+
+  const $ = id => document.getElementById(id);
+  const ui = {
+    round: $('round'), score:$('score'), lives:$('lives'), streak:$('streak'), reward:$('reward'),
+    clues:$('clues'), question:$('question'), opts:$('opts'), msg:$('msg'), fill:$('fill'), meta:$('meta')
+  };
+
+  let st = null;
+  let timer = null;
+
+  const rng = n => Math.floor(Math.random()*n);
+  const shuffle = arr => { const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=rng(i+1); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+  const perms = (arr) => {
+    if(arr.length===1) return [arr];
+    const out=[];
+    arr.forEach((v,i)=>{
+      const rest=[...arr.slice(0,i),...arr.slice(i+1)];
+      perms(rest).forEach(p=>out.push([v,...p]));
+    });
+    return out;
+  };
+
+  const allPermIdx = perms([0,1,2,3]);
+  const allCandidates = [];
+  for(const aP of allPermIdx){
+    for(const rP of allPermIdx){
+      allCandidates.push({aP,rP});
+    }
+  }
+
+  function arRoomOfArtifact(cand, artIdx){
+    const d = cand.aP.indexOf(artIdx);
+    return cand.rP[d];
+  }
+
+  function checkClue(cand, clue){
+    switch(clue.t){
+      case 'DA': return cand.aP[clue.d]===clue.a;
+      case 'DR': return cand.rP[clue.d]===clue.r;
+      case 'AR': return arRoomOfArtifact(cand, clue.a)===clue.r;
+      case 'nDA': return cand.aP[clue.d]!==clue.a;
+      case 'nDR': return cand.rP[clue.d]!==clue.r;
+      case 'nAR': return arRoomOfArtifact(cand, clue.a)!==clue.r;
+      default: return true;
+    }
+  }
+
+  function clueText(c){
+    if(c.t==='DA') return `${DET[c.d]} carried the ${ART[c.a]}.`;
+    if(c.t==='DR') return `${DET[c.d]} went to the ${ROOM[c.r]}.`;
+    if(c.t==='AR') return `The ${ART[c.a]} was found in the ${ROOM[c.r]}.`;
+    if(c.t==='nDA') return `${DET[c.d]} did NOT carry the ${ART[c.a]}.`;
+    if(c.t==='nDR') return `${DET[c.d]} did NOT go to the ${ROOM[c.r]}.`;
+    return `The ${ART[c.a]} was NOT in the ${ROOM[c.r]}.`;
+  }
+
+  function buildTruthPool(sol){
+    const pool=[];
+    for(let d=0;d<4;d++){
+      pool.push({t:'DA',d,a:sol.aP[d]});
+      pool.push({t:'DR',d,r:sol.rP[d]});
+      for(let a=0;a<4;a++) if(a!==sol.aP[d]) pool.push({t:'nDA',d,a});
+      for(let r=0;r<4;r++) if(r!==sol.rP[d]) pool.push({t:'nDR',d,r});
+    }
+    for(let a=0;a<4;a++){
+      const r = arRoomOfArtifact(sol,a);
+      pool.push({t:'AR',a,r});
+      for(let rr=0;rr<4;rr++) if(rr!==r) pool.push({t:'nAR',a,r:rr});
+    }
+    return shuffle(pool);
+  }
+
+  function solve(clues){
+    return allCandidates.filter(c=>clues.every(cl=>checkClue(c,cl)));
+  }
+
+  function generateCase(){
+    for(let attempt=0;attempt<120;attempt++){
+      const sol = {aP:shuffle([0,1,2,3]), rP:shuffle([0,1,2,3])};
+      const pool = buildTruthPool(sol);
+      const clues=[];
+      let sols = allCandidates;
+
+      while(clues.length<9 && sols.length>1){
+        const next = pool.find(c => !clues.some(x => JSON.stringify(x)===JSON.stringify(c)));
+        if(!next) break;
+        clues.push(next);
+        sols = solve(clues);
+      }
+
+      if(sols.length!==1 || clues.length<5) continue;
+
+      const qType = rng(3);
+      let question, options, answer;
+
+      if(qType===0){
+        const a = rng(4);
+        question = `Who carried the ${ART[a]}?`;
+        answer = DET[sol.aP.indexOf(a)];
+        options = shuffle([...DET]);
+      } else if(qType===1){
+        const d = rng(4);
+        question = `Where did ${DET[d]} go?`;
+        answer = ROOM[sol.rP[d]];
+        options = shuffle([...ROOM]);
+      } else {
+        const r = rng(4);
+        const d = sol.rP.indexOf(r);
+        question = `Which artifact was in the ${ROOM[r]}?`;
+        answer = ART[sol.aP[d]];
+        options = shuffle([...ART]);
+      }
+
+      if(!options.includes(answer)) options[0]=answer;
+
+      const hint = `Cross-link negatives first, then lock one guaranteed match and propagate.`;
+      return {sol, clues, question, options, answer, hint};
+    }
+    throw new Error('Generator failed to produce unique case.');
+  }
+
+  function rewardFor(score){
+    if(score>=1500) return '👑 Grand Logician';
+    if(score>=1200) return '🏆 Grid Virtuoso';
+    if(score>=900) return '🥈 Sharp Sleuth';
+    return '🎯 Apprentice';
+  }
+
+  function setMsg(text, ok=null){
+    ui.msg.textContent = text;
+    ui.msg.className = 'msg' + (ok===null ? '' : ok ? ' ok':' bad');
+  }
+
+  function paint(){
+    if(!st) return;
+    ui.round.textContent = `${st.round}/${TOTAL_CASES}`;
+    ui.score.textContent = st.score;
+    ui.lives.textContent = st.lives;
+    ui.streak.textContent = st.streak;
+    ui.reward.textContent = rewardFor(st.score);
+    ui.fill.style.width = `${Math.max(0,(st.timeLeft/ROUND_TIME)*100)}%`;
+  }
+
+  function drawCase(){
+    ui.clues.innerHTML = '';
+    st.current.clues.forEach((c,i)=>{
+      const li=document.createElement('li');
+      li.textContent = clueText(c);
+      ui.clues.appendChild(li);
+    });
+    ui.question.textContent = st.current.question;
+    ui.opts.innerHTML='';
+    st.current.options.forEach(opt=>{
+      const b=document.createElement('button');
+      b.textContent=opt;
+      b.onclick=()=>submitAnswer(opt);
+      ui.opts.appendChild(b);
+    });
+    ui.meta.textContent = '';
+    paint();
+  }
+
+  function nextCase(){
+    if(st.round>TOTAL_CASES){
+      finish(true,'All 8 cases solved. YOU WIN.');
+      return;
+    }
+    st.current = generateCase();
+    st.timeLeft = ROUND_TIME;
+    drawCase();
+  }
+
+  function submitAnswer(opt){
+    if(!st.active) return;
+    const correct = opt===st.current.answer;
+    if(correct){
+      st.streak++;
+      const gain = 120 + st.streak*18 + Math.floor(st.timeLeft*2);
+      st.score += gain;
+      setMsg(`Correct! +${gain}. Answer confirmed: ${st.current.answer}.`, true);
+    } else {
+      st.streak = 0;
+      st.lives--;
+      st.score = Math.max(0, st.score-20);
+      setMsg(`Wrong. Correct answer: ${st.current.answer}. -1 life.`, false);
+    }
+
+    if(st.lives<=0){ finish(false,'No lives left. YOU LOSE.'); return; }
+    if(st.round>=TOTAL_CASES){ finish(true,'All 8 cases solved. YOU WIN.'); return; }
+
+    st.round++;
+    nextCase();
+  }
+
+  function finish(win, headline){
+    st.active=false;
+    clearInterval(timer);
+    ui.opts.innerHTML='';
+    ui.question.textContent=headline;
+    const reward = rewardFor(st.score);
+    ui.meta.textContent = `Final score: ${st.score}\nReward: ${reward}\n${win?'Victory condition met.':'Lose condition triggered.'}`;
+    setMsg(win?'Casebook closed with clean logic.':'Casebook collapsed. Try again.', win);
+    paint();
+  }
+
+  function startGame(){
+    clearInterval(timer);
+    st = {round:1,score:0,lives:START_LIVES,streak:0,timeLeft:ROUND_TIME,active:true,current:null};
+    setMsg('Game started. Read clues, then lock the only valid answer.');
+    nextCase();
+    timer = setInterval(()=>{
+      if(!st?.active) return;
+      st.timeLeft -= 0.2;
+      if(st.timeLeft<=0){
+        st.timeLeft=0;
+        st.lives--;
+        st.streak=0;
+        setMsg('Timeout. -1 life and next case.', false);
+        if(st.lives<=0){ finish(false,'Timer bled out. YOU LOSE.'); return; }
+        if(st.round>=TOTAL_CASES){ finish(true,'All 8 cases solved. YOU WIN.'); return; }
+        st.round++;
+        nextCase();
+      }
+      paint();
+    },200);
+  }
+
+  function runQualityTests(runs=120){
+    let pass=0, uniq=0;
+    for(let i=0;i<runs;i++){
+      try{
+        const c = generateCase();
+        const sols = solve(c.clues);
+        const unique = sols.length===1;
+        if(unique) uniq++;
+
+        const answerIncluded = c.options.includes(c.answer);
+        const clueCountOk = c.clues.length>=5 && c.clues.length<=9;
+        const resolvedBySolver = (()=>{
+          const s=sols[0];
+          if(c.question.startsWith('Who carried')){
+            const art = ART.findIndex(a=>c.question.includes(a));
+            return DET[s.aP.indexOf(art)]===c.answer;
+          }
+          if(c.question.startsWith('Where did')){
+            const d = DET.findIndex(dn=>c.question.includes(dn));
+            return ROOM[s.rP[d]]===c.answer;
+          }
+          const rr = ROOM.findIndex(rn=>c.question.includes(rn));
+          const d = s.rP.indexOf(rr);
+          return ART[s.aP[d]]===c.answer;
+        })();
+
+        if(unique && answerIncluded && clueCountOk && resolvedBySolver) pass++;
+      } catch {}
+    }
+    const quality = +(pass/runs*10).toFixed(2);
+    return {runs, passed:pass, uniqueCases:uniq, passRate:+(pass/runs*100).toFixed(1), qualityScore10:quality};
+  }
+
+  $('start').onclick = startGame;
+  $('hint').onclick = ()=>{
+    if(!st?.current){ ui.meta.textContent='Hint available after Start.'; return; }
+    ui.meta.textContent = 'Hint: ' + st.current.hint;
+  };
+  $('test').onclick = ()=>{
+    const r = runQualityTests(120);
+    ui.meta.textContent = `QA sims: ${JSON.stringify(r)}`;
+  };
+
+  window.__runQualityTests = runQualityTests;
+  window.__startMuseGrid = startGame;
+  setMsg('Ready.');
+  paint();
+})();
+</script>
+</body>
+</html>

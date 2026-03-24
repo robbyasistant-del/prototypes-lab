@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Market Mosaic: Contract Cartel</title>
+  <style>
+    :root{
+      --bg:#071018;--panel:#0f1b2a;--panel2:#132338;--ink:#e9f2ff;--muted:#96abc7;
+      --good:#36d38a;--bad:#ff6e7f;--acc:#73b6ff;--gold:#ffd166;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,system-ui;background:radial-gradient(circle at 20% 0,#14253b,var(--bg));color:var(--ink);padding:16px}
+    .app{max-width:1040px;margin:0 auto;background:rgba(12,21,33,.94);border:1px solid #28435f;border-radius:18px;padding:16px;box-shadow:0 18px 50px #0008}
+    h1{margin:0 0 8px;font-size:1.4rem}
+    .sub{color:var(--muted);margin:6px 0}
+    .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}
+    .kpi{background:var(--panel);border:1px solid #2f4f72;border-radius:12px;padding:8px 10px;min-height:58px}
+    .kpi b{font-size:1.1rem}
+    .contract{background:var(--panel2);border:1px solid #3f6490;border-radius:14px;padding:12px;margin-top:10px}
+    .demand{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .pill{background:#11253b;border:1px solid #355b86;padding:5px 8px;border-radius:999px;font-size:.9rem}
+    .market{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+    .stall{background:#0e1a2b;border:1px solid #355475;border-radius:12px;padding:10px;cursor:pointer;transition:all .15s}
+    .stall:hover{transform:translateY(-1px);border-color:#77b5ff}
+    .stall.sel{outline:2px solid var(--gold);background:#1a2f44}
+    .stall h3{margin:0 0 4px;font-size:1rem}
+    .muted{color:var(--muted)}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    button{border:none;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+    .primary{background:linear-gradient(135deg,#7bc1ff,#4ee2a8);color:#071218}
+    .ghost{background:#16283c;color:#dcecff;border:1px solid #43648d}
+    .warn{background:#3a1e2a;color:#ffdce4;border:1px solid #7c3a4f}
+    #feedback{min-height:28px;margin-top:10px;font-weight:700}
+    .good{color:var(--good)} .bad{color:var(--bad)}
+    .tiny{font-size:.88rem;color:var(--muted);white-space:pre-wrap;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Market Mosaic: Contract Cartel</h1>
+    <div class="sub"><b>Logic + Resource puzzle:</b> each day, pick exactly 3 crates that satisfy the contract rule. You pay crate costs from your coins, then receive payout from demand multipliers.</div>
+    <div class="sub"><b>Win:</b> finish Day 8 with score ≥ 140 and at least 1 strike left. <b>GAME OVER:</b> 3 strikes, or coins drop below 0.</div>
+
+    <div class="grid">
+      <div class="kpi">Day<br><b id="day">1/8</b></div>
+      <div class="kpi">Coins<br><b id="coins">24</b></div>
+      <div class="kpi">Score<br><b id="score">0</b></div>
+      <div class="kpi">Strikes<br><b id="strikes">0/3</b></div>
+      <div class="kpi">Selected Cost<br><b id="selCost">0</b></div>
+      <div class="kpi">Reward Badge<br><b id="badge">—</b></div>
+    </div>
+
+    <div class="contract" id="contract"></div>
+    <div class="market" id="market"></div>
+
+    <div class="controls">
+      <button class="primary" id="startBtn">Start / Restart</button>
+      <button class="ghost" id="shipBtn">Ship Selected 3</button>
+      <button class="ghost" id="hintBtn">Hint</button>
+      <button class="warn" id="simBtn">Run 300 sim stress test</button>
+    </div>
+
+    <div id="feedback"></div>
+    <div id="meta" class="tiny"></div>
+  </div>
+
+<script>
+(() => {
+  const GOODS = ["Grain","Spice","Silk"];
+  const ICON = { Grain:"🌾", Spice:"🌶️", Silk:"🧵" };
+  const TOTAL_DAYS = 8;
+  const WIN_SCORE = 140;
+
+  const contractTypes = [
+    {
+      id:"all-different-ascending",
+      text:"Choose 3 crates of all different goods AND strictly ascending quality (q1<q2<q3).",
+      hint:"Sort by quality in your head; no duplicate good allowed.",
+      check:(arr)=>{
+        if(arr.length!==3) return false;
+        const goods = new Set(arr.map(c=>c.good));
+        const q = arr.map(c=>c.q).sort((a,b)=>a-b);
+        return goods.size===3 && q[0]<q[1] && q[1]<q[2];
+      }
+    },
+    {
+      id:"exact-quality-sum",
+      text:"Choose 3 crates with total quality exactly 8 AND at least one Spice crate.",
+      hint:"Target quality sum = 8. Include Spice at least once.",
+      check:(arr)=> arr.length===3 && arr.reduce((s,c)=>s+c.q,0)===8 && arr.some(c=>c.good==="Spice")
+    },
+    {
+      id:"pair-plus-single",
+      text:"Choose exactly 2 crates of one good + 1 crate of a different good. Pair qualities must differ by at least 2.",
+      hint:"Count goods 2+1. For the pair, avoid close qualities.",
+      check:(arr)=>{
+        if(arr.length!==3) return false;
+        const cnt = arr.reduce((m,c)=>(m[c.good]=(m[c.good]||0)+1,m),{});
+        const vals = Object.values(cnt).sort();
+        if(vals.join(',')!=="1,2") return false;
+        const pairGood = Object.keys(cnt).find(k=>cnt[k]===2);
+        const pair = arr.filter(c=>c.good===pairGood).map(c=>c.q);
+        return Math.abs(pair[0]-pair[1])>=2;
+      }
+    },
+    {
+      id:"even-odd-balance",
+      text:"Choose 3 crates where exactly 2 qualities are even and 1 is odd. Include at least 2 different goods.",
+      hint:"Parity first: 2 even + 1 odd.",
+      check:(arr)=>{
+        if(arr.length!==3) return false;
+        const even = arr.filter(c=>c.q%2===0).length;
+        return even===2 && new Set(arr.map(c=>c.good)).size>=2;
+      }
+    }
+  ];
+
+  const state = {
+    day:1, coins:24, score:0, strikes:0, selected:[], market:[], demand:null, contract:null, over:false
+  };
+
+  const $ = id => document.getElementById(id);
+  const ids = {
+    day:$("day"), coins:$("coins"), score:$("score"), strikes:$("strikes"), selCost:$("selCost"),
+    badge:$("badge"), contract:$("contract"), market:$("market"), feedback:$("feedback"), meta:$("meta")
+  };
+
+  function r(n){ return Math.floor(Math.random()*n); }
+  function pick(arr){ return arr[r(arr.length)]; }
+
+  function createCrate(i){
+    const good = pick(GOODS);
+    const q = 1 + r(4);
+    const cost = 2 + r(5) + (q>=3?1:0);
+    return { id:i, good, q, cost };
+  }
+
+  function genDemand(){
+    return {
+      Grain: 1 + r(3),
+      Spice: 1 + r(3),
+      Silk: 1 + r(3)
+    };
+  }
+
+  function combinations3(arr){
+    const out=[];
+    for(let i=0;i<arr.length-2;i++) for(let j=i+1;j<arr.length-1;j++) for(let k=j+1;k<arr.length;k++) out.push([arr[i],arr[j],arr[k]]);
+    return out;
+  }
+
+  function isSolvable(market, contract, coins){
+    return combinations3(market).some(c => contract.check(c) && c.reduce((s,x)=>s+x.cost,0)<=coins+2);
+  }
+
+  function buildDay(){
+    state.selected=[];
+    state.demand = genDemand();
+    state.contract = pick(contractTypes);
+    let tries=0;
+    do{
+      state.market = Array.from({length:9},(_,i)=>createCrate(i));
+      tries++;
+    } while(!isSolvable(state.market,state.contract,state.coins) && tries<80);
+  }
+
+  function selectedCost(){
+    return state.selected.reduce((s,id)=> s + state.market.find(c=>c.id===id).cost,0);
+  }
+
+  function payoutFor(crates){
+    return crates.reduce((s,c)=> s + (4 + c.q*state.demand[c.good]), 0);
+  }
+
+  function calcBadge(score){
+    if(score>=220) return "👑 Mosaic Tycoon";
+    if(score>=170) return "🏆 Contract Master";
+    if(score>=130) return "🥈 Clever Trader";
+    return "🧩 Apprentice Broker";
+  }
+
+  function feedback(text,ok=true){
+    ids.feedback.className = ok?"good":"bad";
+    ids.feedback.textContent = text;
+  }
+
+  function render(){
+    ids.day.textContent = `${state.day}/${TOTAL_DAYS}`;
+    ids.coins.textContent = state.coins;
+    ids.score.textContent = state.score;
+    ids.strikes.textContent = `${state.strikes}/3`;
+    ids.selCost.textContent = selectedCost();
+    ids.badge.textContent = calcBadge(state.score);
+
+    ids.contract.innerHTML = `<b>Contract:</b> ${state.contract.text}
+      <div class="demand">
+        <span class="pill">${ICON.Grain} Grain demand x${state.demand.Grain}</span>
+        <span class="pill">${ICON.Spice} Spice demand x${state.demand.Spice}</span>
+        <span class="pill">${ICON.Silk} Silk demand x${state.demand.Silk}</span>
+      </div>`;
+
+    ids.market.innerHTML = "";
+    state.market.forEach(c=>{
+      const d = document.createElement("div");
+      const sel = state.selected.includes(c.id);
+      d.className = `stall ${sel?"sel":""}`;
+      d.innerHTML = `<h3>${ICON[c.good]} ${c.good}</h3><div>Quality: <b>${c.q}</b></div><div>Cost: <b>${c.cost}</b> coins</div><div class="muted">ID #${c.id+1}</div>`;
+      d.onclick = ()=>toggleSelect(c.id);
+      ids.market.appendChild(d);
+    });
+  }
+
+  function toggleSelect(id){
+    if(state.over) return;
+    if(state.selected.includes(id)) state.selected = state.selected.filter(x=>x!==id);
+    else {
+      if(state.selected.length>=3){ feedback("You can only select exactly 3 crates.",false); return; }
+      state.selected.push(id);
+    }
+    ids.selCost.textContent = selectedCost();
+    render();
+  }
+
+  function advanceDay(){
+    state.day++;
+    if(state.strikes>=3 || state.coins<0) return endGame(false,"GAME OVER — your trading network collapsed.");
+    if(state.day>TOTAL_DAYS){
+      const win = state.score>=WIN_SCORE && state.strikes<3 && state.coins>=0;
+      return endGame(win, win?"YOU WIN — Mosaic empire secured!":"GAME OVER — end of season target missed.");
+    }
+    buildDay();
+    render();
+  }
+
+  function ship(){
+    if(state.over) return;
+    if(state.selected.length!==3){ feedback("Select exactly 3 crates before shipping.",false); return; }
+    const crates = state.selected.map(id=>state.market.find(c=>c.id===id));
+    const cost = crates.reduce((s,c)=>s+c.cost,0);
+
+    if(cost>state.coins){
+      state.strikes++;
+      feedback(`Over budget! Need ${cost}, have ${state.coins}. Strike +1.`,false);
+      state.selected=[];
+      render();
+      return advanceDay();
+    }
+
+    if(!state.contract.check(crates)){
+      state.coins -= 1;
+      state.strikes++;
+      feedback("Contract failed. Immediate penalty: -1 coin and Strike +1.",false);
+      state.selected=[];
+      render();
+      return advanceDay();
+    }
+
+    const payout = payoutFor(crates);
+    const profit = payout - cost;
+    const gain = Math.max(8, Math.round(payout*1.6 - cost*1.1));
+    state.coins += profit;
+    state.score += gain;
+    feedback(`Great shipment! Cost ${cost}, payout ${payout}, profit ${profit}, score +${gain}.`,true);
+    state.selected=[];
+    render();
+    advanceDay();
+  }
+
+  function endGame(win,msg){
+    state.over = true;
+    ids.market.innerHTML = "";
+    ids.contract.innerHTML = `<b>${msg}</b><br>Final score: <b>${state.score}</b> | Final coins: <b>${state.coins}</b> | Badge: <b>${calcBadge(state.score)}</b>`;
+    feedback(win?"Victory locked.":"Run ended.",win);
+  }
+
+  function startGame(){
+    Object.assign(state,{day:1,coins:24,score:0,strikes:0,selected:[],market:[],demand:null,contract:null,over:false});
+    buildDay();
+    render();
+    feedback("New run started. Choose smart and ship 3 crates/day.",true);
+    ids.meta.textContent = "";
+  }
+
+  // ---------- Simulation harness (for stress testing) ----------
+  function bestMove(){
+    const combos = combinations3(state.market).filter(c=> c.reduce((s,x)=>s+x.cost,0)<=state.coins);
+    const valid = combos.filter(c=> state.contract.check(c));
+    if(!valid.length) return null;
+    valid.sort((a,b)=>{
+      const va = (payoutFor(a)-a.reduce((s,x)=>s+x.cost,0));
+      const vb = (payoutFor(b)-b.reduce((s,x)=>s+x.cost,0));
+      return vb-va;
+    });
+    return valid[0].map(c=>c.id);
+  }
+
+  function runOneBotGame(){
+    startGame();
+    while(!state.over){
+      const move = bestMove();
+      if(move){ state.selected = move.slice(); ship(); }
+      else { state.selected = state.market.slice(0,3).map(c=>c.id); ship(); }
+    }
+    return {
+      win: state.score>=WIN_SCORE && state.strikes<3 && state.coins>=0,
+      score: state.score,
+      coins: state.coins,
+      strikes: state.strikes
+    };
+  }
+
+  function runSims(n=300){
+    let wins=0,totalScore=0,failByStrike=0;
+    for(let i=0;i<n;i++){
+      const r = runOneBotGame();
+      if(r.win) wins++;
+      if(r.strikes>=3 || r.coins<0) failByStrike++;
+      totalScore += r.score;
+    }
+    const report = {
+      runs:n,
+      winRate:+(wins*100/n).toFixed(1),
+      avgScore:Math.round(totalScore/n),
+      collapseRate:+(failByStrike*100/n).toFixed(1)
+    };
+    ids.meta.textContent = `Sim report: ${JSON.stringify(report)}`;
+    return report;
+  }
+
+  $("startBtn").onclick = startGame;
+  $("shipBtn").onclick = ship;
+  $("hintBtn").onclick = ()=> feedback(`Hint: ${state.contract?.hint || "Start first."}`,true);
+  $("simBtn").onclick = ()=> runSims(300);
+
+  window.__runSims = runSims;
+  window.__runOneBotGame = runOneBotGame;
+  startGame();
+})();
+</script>
+</body>
+</html>

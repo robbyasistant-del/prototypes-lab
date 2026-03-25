@@ -44,7 +44,7 @@ p{color:var(--muted);line-height:1.5}
 <body>
 <canvas id="game" aria-label="Helix Fall Rebuilt game canvas"></canvas>
 <div class="ui">
-  <div class="version badge">v2026.03.25-r5</div>
+  <div class="version badge">v2026.03.25-r6</div>
   <div class="top">
     <div class="cluster">
       <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
@@ -187,7 +187,7 @@ function update(){
   if(!world.playing) return;
   world.time += 1;
   player.vy += gravity;
-  const pointerSteer = input.pointer === null ? 0 : clamp((input.pointer - player.x) / Math.max(70, world.shaftWidth * 0.22), -1, 1);
+  const pointerSteer = input.pointer === null ? 0 : clamp((player.x - input.pointer) / Math.max(70, world.shaftWidth * 0.22), -1, 1);
   if(input.left) player.vx -= moveAccel;
   if(input.right) player.vx += moveAccel;
   if(pointerSteer !== 0) player.vx += pointerSteer * moveAccel * 1.35;

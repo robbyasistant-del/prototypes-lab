@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Helix Fall Sprint Report</title>
+<style>body{font-family:Inter,Segoe UI,Arial;background:#0b1020;color:#e8efff;max-width:900px;margin:0 auto;padding:32px;line-height:1.6}a{color:#8bc3ff}code{background:#131c36;padding:2px 6px;border-radius:6px}h1,h2{line-height:1.2}section{background:#131c36;border:1px solid #314774;border-radius:18px;padding:20px;margin:16px 0}</style>
+</head>
+<body>
+<h1>Helix Fall Sprint — Sprint 1 Report</h1>
+<p><a href="./index.html">Play the prototype</a></p>
+<section>
+  <h2>Concept</h2>
+  <p>A 2D vertical-fall browser prototype inspired by <em>Helix Jump</em>, translated into a side-on falling lane. The player steers a falling orb horizontally to pass through platform gaps while avoiding red danger bands and deciding when to land safely versus greedily chaining more drops.</p>
+</section>
+<section>
+  <h2>What sprint 1 proves</h2>
+  <ul>
+    <li>Playable core loop in a browser, no dependencies.</li>
+    <li>Helix-like essence preserved in 2D: fall, thread gaps, timing, danger, progression, survival pressure.</li>
+    <li>Score and combo system rewarding chained drops.</li>
+    <li>Settings and persistent stats panel in the spirit of the 100 Jumps Clone II prototype.</li>
+    <li>Visible version/footer for easy iteration tracking.</li>
+  </ul>
+</section>
+<section>
+  <h2>Design notes</h2>
+  <ul>
+    <li><strong>Danger state:</strong> a panic meter rises with speed; red bands punish lazy landings.</li>
+    <li><strong>Risk/reward:</strong> safe landings reset combo, while gap chains produce better score and stronger feel.</li>
+    <li><strong>Clean scope:</strong> one polished survival mode instead of too many half-baked modes.</li>
+  </ul>
+</section>
+<section>
+  <h2>Next obvious upgrades</h2>
+  <ul>
+    <li>Breakable floors and “smash through” power state after long chains.</li>
+    <li>Daily seed / challenge layouts.</li>
+    <li>More enemy-like floor patterns and moving hazards.</li>
+    <li>Audio pass and stronger progression unlocks.</li>
+  </ul>
+</section>
+</body>
+</html>

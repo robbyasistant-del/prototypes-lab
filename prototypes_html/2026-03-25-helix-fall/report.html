@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Helix Fall Rebuilt Report</title>
+<title>Helix Fall Tower Spin Report</title>
 <style>
 body{font-family:Inter,Segoe UI,Arial;background:#0a1223;color:#ebf3ff;max-width:920px;margin:0 auto;padding:32px;line-height:1.65}
 section{background:#121d35;border:1px solid #2c436d;border-radius:18px;padding:20px;margin:16px 0}
@@ -12,31 +12,31 @@ h1,h2{line-height:1.15}
 </style>
 </head>
 <body>
-<h1>Helix Fall Rebuilt — Rebuild Report</h1>
-<p><a href="./index.html">Play the rebuilt prototype</a></p>
+<h1>Helix Fall — Tower Spin Rework Report</h1>
+<p><a href="./index.html">Play the rotating-tower prototype</a></p>
 <section>
-  <h2>Why this rebuild happened</h2>
-  <p>The previous version failed at the basics: the player ball was not reading clearly, platforms and shaft geometry were easy to lose, visual feedback was weak, and mobile controls did not feel trustworthy. This rebuild throws away the “subtle” presentation and prioritizes readability and playability first.</p>
+  <h2>Why this rework happened</h2>
+  <p>The previous rebuild improved readability but still framed play as moving the ball horizontally inside a shaft. That was the wrong feel. This pass changes the fantasy so the ball stays centered while the pillar and stacked platforms rotate under it, closer to Helix Jump.</p>
 </section>
 <section>
-  <h2>What changed in rebuild r4</h2>
+  <h2>What changed in r7 tower-spin</h2>
   <ul>
-    <li><strong>Oversized glowing player orb</strong> with highlight, shadow, bounce squash, and particle bursts.</li>
-    <li><strong>Thick central shaft</strong> with strong edge rails so the playable lane is always obvious.</li>
-    <li><strong>Chunky platforms</strong> using bright cyan safe zones, dark bordered gaps, and hot red death strips.</li>
-    <li><strong>Usable controls</strong> with hold-to-move desktop keys and large mobile buttons.</li>
-    <li><strong>Clear mechanics loop</strong>: fall through dark gaps for streak/score, bounce on safe platforms, die on red.</li>
-    <li><strong>Immediate feedback</strong> via flashes, shake, streak growth, particles, and readable HUD state.</li>
-    <li><strong>Visible version bump</strong> to <code>v2026.03.25-r4 rebuild</code> for remote testing.</li>
+    <li><strong>Centered player ball</strong> that remains visually anchored over the tower during play.</li>
+    <li><strong>Rotating tower presentation</strong> driven by drag/swipe and keyboard input.</li>
+    <li><strong>Angular platform sectors</strong> with safe cyan slices, dark gaps, and red danger wedges.</li>
+    <li><strong>Side hiding / wraparound effect</strong> so platform slices visually move around the left and right sides of the pillar as you spin.</li>
+    <li><strong>Natural controls</strong> that let the player drag the world rather than chase the ball.</li>
+    <li><strong>Preserved game loop</strong>: rotate a gap beneath the ball to keep falling, bounce on safe slices, die on red.</li>
+    <li><strong>Visible version bump</strong> to <code>v2026.03.25-r7 tower-spin</code>.</li>
   </ul>
 </section>
 <section>
   <h2>Design intent</h2>
-  <p>This is still a 2D Helix Jump-inspired vertical-fall game, but it now behaves like a testable action toy rather than a vague mockup. Every important object is high-contrast and oversized on purpose. The rebuild favors a clear first-play experience over minimalism.</p>
+  <p>This is still a lightweight 2D prototype, but the interaction model now matches the expected mental model much better. The player reads the ball as fixed and the tower as the object being manipulated. That single change makes the whole toy feel closer to the reference genre.</p>
 </section>
 <section>
   <h2>Local verification target</h2>
-  <p>Before shipping, the rebuild should be opened locally and checked for: visible ball at spawn, readable shaft/platforms, responsive left/right controls, bounce feedback on cyan landings, red death behavior, and mirrored docs copies matching the prototype.</p>
+  <p>Before shipping, verify locally that: the ball remains centered, dragging right rotates the tower right, dragging left reverses it, platform slices visually wrap around the pillar edges, gaps and red wedges are readable, and the mirrored docs files match the prototype files.</p>
 </section>
 </body>
 </html>

@@ -1,17 +1,25 @@
-# Helix Fall rebuild note — r4
+# Helix Fall rebuild note — r7 tower-spin
 
-This iteration is a strong rebuild, not a tune-up.
+This iteration changes the core interaction, not just the art.
+
+## Mechanical change
+- The ball now stays visually centered above the pillar during play.
+- Horizontal input no longer moves the ball across the lane.
+- Instead, dragging or pressing left/right rotates the tower beneath the ball.
+- Platforms are defined as angular ring slices with safe zones, gaps, and danger wedges.
+- As the stack rotates, slices visibly wrap around the pillar and hide toward the left/right sides to better mimic the Helix Jump feel.
 
 ## Why
-The prior prototype still failed the first-read test: the ball, platforms, motion, and controls were not obvious enough to play remotely.
+The previous rebuild was readable, but it still felt like steering the ball side to side inside a shaft. The user wanted the stronger Helix Jump fantasy: hold the ball in place and spin the world around it.
 
-## What was rebuilt
-- Replaced the scene presentation with a high-contrast central shaft and thick rails.
-- Rebuilt platforms to use very clear safe cyan surfaces, dark gaps, and red kill strips.
-- Reworked the player into a large glowing ball with shadow, squash, and burst feedback.
-- Simplified the loop so it is readable: fall through gaps for streak/score, bounce on safe, die on red.
-- Replaced touch controls with large hold-to-move buttons that are visible on mobile.
-- Added stronger UI copy and a visible version bump: `v2026.03.25-r4 rebuild`.
+## What changed in r7
+- Rebuilt gameplay around a shared tower rotation angle and ring-sector collision checks.
+- Kept the player orb centered and oversized for mobile readability.
+- Rendered platforms as rotating cylindrical bands so the tower visibly turns and slices disappear around the sides.
+- Preserved the simple bounce / fall-through-gap / die-on-red loop.
+- Kept drag-first controls with keyboard fallback.
+- Updated the visible version label to `v2026.03.25-r7 tower-spin`.
+- Synced the docs mirror so the public copy matches the prototype.
 
 ## Verification intent
-Local browser screenshots were captured for menu and autoplay gameplay states to confirm the rebuilt version renders visibly before shipping.
+Local verification should confirm: centered ball, obvious tower rotation from drag input, readable hidden-side platform motion, functioning gap/danger collision, and matching mirrored docs output.

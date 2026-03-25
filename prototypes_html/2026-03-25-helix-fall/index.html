@@ -3,27 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Helix Fall Rebuilt</title>
+<title>Helix Fall Rotating Tower</title>
 <style>
 :root{
-  --bg:#08111f;--bg2:#12243f;--panel:rgba(8,14,28,.78);--line:rgba(255,255,255,.12);--text:#ecf5ff;--muted:#9fb4d3;
-  --safe:#5ce1ff;--safe2:#a4f4ff;--danger:#ff5a7a;--danger2:#ff9cb0;--player:#ffe45d;--player2:#fff7c0;--glow:#8d7dff;
+  --bg:#07101d;--bg2:#132a49;--panel:rgba(8,14,28,.78);--line:rgba(255,255,255,.12);--text:#ecf5ff;--muted:#9fb4d3;
+  --safe:#63e4ff;--safe2:#b6f6ff;--danger:#ff5a7a;--danger2:#ff9cb0;--player:#ffe45d;--player2:#fff7c0;--glow:#8d7dff;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:none}
 html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(circle at top,#1a315b 0,#0a1325 62%,#060912 100%);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
 canvas{display:block;width:100vw;height:100vh}
 button{font:inherit}
 .ui{position:fixed;inset:0;pointer-events:none}
-.badge,.stat,.pill,.card,.action{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}
+.badge,.stat,.card,.action,.controls{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}
 .top{position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .cluster{display:flex;gap:10px;flex-wrap:wrap}
 .stat{pointer-events:auto;border-radius:18px;padding:10px 14px;min-width:88px}
 .stat .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .stat .value{font-size:24px;font-weight:900;line-height:1.05;margin-top:4px}
-.pill{display:none}
-.menu,.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;pointer-events:auto;background:rgba(2,5,12,.2)}
+.menu,.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;pointer-events:auto;background:rgba(2,5,12,.28)}
 .hidden{display:none !important}
-.card{width:min(94vw,460px);border-radius:28px;padding:22px}
+.card{width:min(94vw,500px);border-radius:28px;padding:22px}
 h1,h2{margin:0 0 8px;line-height:1.05;letter-spacing:-.04em}
 h1{font-size:38px} h2{font-size:30px}
 p{color:var(--muted);line-height:1.5}
@@ -32,19 +31,19 @@ p{color:var(--muted);line-height:1.5}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.actions>*{flex:1}
 .action{pointer-events:auto;border:none;border-radius:18px;padding:14px 16px;color:var(--text);font-weight:900;cursor:pointer}
 .action.primary{background:linear-gradient(135deg,#69e7ff,#8f7dff);color:#08111f}
-.action.warn{background:linear-gradient(135deg,#ff8aa4,#ff5a7a);color:#18050b}
-.legend{display:grid;gap:8px;margin-top:14px;font-size:14px}.legend div{display:flex;align-items:center;gap:10px}.sw{width:18px;height:18px;border-radius:6px;display:inline-block}
-.version{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);padding:8px 10px;border-radius:999px;font-size:12px;pointer-events:none}
+.controls{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);padding:10px 16px;border-radius:999px;font-size:13px;color:var(--muted)}
+.version{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);padding:8px 10px;border-radius:999px;font-size:12px;pointer-events:none}
 @media (max-width:700px){
-  .top{top:90px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1}.cluster{width:100%}.cluster .stat{flex:1}
-  h1{font-size:34px}
+  .top{top:90px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1}.cluster{width:100%}.cluster .stat{flex:1} h1{font-size:34px}
+  .controls{bottom:12px;left:12px;right:12px;transform:none;text-align:center;border-radius:18px}
+  .version{bottom:72px}
 }
 </style>
 </head>
 <body>
-<canvas id="game" aria-label="Helix Fall Rebuilt game canvas"></canvas>
+<canvas id="game" aria-label="Helix Fall Rotating Tower game canvas"></canvas>
 <div class="ui">
-  <div class="version badge">v2026.03.25-r6</div>
+  <div class="version badge">v2026.03.25-r7 tower-spin</div>
   <div class="top">
     <div class="cluster">
       <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
@@ -56,22 +55,17 @@ p{color:var(--muted);line-height:1.5}
       <button class="action" id="restartBtn" style="flex:0 0 auto">↻ Restart</button>
     </div>
   </div>
-  <div class="pill" id="hint"></div>
+  <div class="controls">Drag anywhere to spin the tower · ←/→ also rotate · keep the ball centered and open a gap underneath it.</div>
 </div>
 
 <div class="menu" id="menu">
   <div class="card">
-    <h1>Helix Fall Rebuilt</h1>
-    <p>This version is a full readability and controls rebuild. The ball is oversized and glowing, the shaft and platforms are thick and high-contrast, impacts burst with particles, and the mobile buttons are big enough to actually use.</p>
+    <h1>Helix Fall: Tower Spin</h1>
+    <p>This rebuild switches to the proper fantasy: the ball stays centered while the pillar and stacked platforms rotate around it. Swipe to spin the tower, line gaps up under the ball, bounce on safe slices, and avoid the red danger wedges.</p>
     <div class="grid">
-      <div class="badge"><b>Visible player</b><span>Bright orb + trail + shadow</span></div>
-      <div class="badge"><b>Readable lane</b><span>Central pillar + obvious gaps</span></div>
-      <div class="badge"><b>Playable</b><span>Real bounce / fail / scoring loop</span></div>
-    </div>
-    <div class="legend">
-      <div><span class="sw" style="background:#5ce1ff"></span> cyan = safe platform</div>
-      <div><span class="sw" style="background:#0b1020;border:1px solid rgba(255,255,255,.2)"></span> dark gap = fall through</div>
-      <div><span class="sw" style="background:#ff5a7a"></span> red = instant death</div>
+      <div class="badge"><b>Centered ball</b><span>Player stays locked over the pillar</span></div>
+      <div class="badge"><b>Visible tower spin</b><span>Rings wrap around and hide to each side</span></div>
+      <div class="badge"><b>Natural touch</b><span>Drag the world, don’t chase the ball</span></div>
     </div>
     <div class="actions">
       <button class="action primary" id="playBtn">Play now</button>
@@ -100,23 +94,38 @@ p{color:var(--muted);line-height:1.5}
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const $ = id => document.getElementById(id);
-const ui = {score:$('score'), depth:$('depth'), streak:$('streak'), state:$('stateLabel'), hint:$('hint')};
-const menu = $('menu'); const gameOver = $('gameOver');
-const storageKey = 'helix-fall-rebuilt-best';
+const ui = {score:$('score'), depth:$('depth'), streak:$('streak'), state:$('stateLabel')};
+const menu = $('menu');
+const gameOver = $('gameOver');
+const storageKey = 'helix-fall-rotating-tower-best';
 let best = Number(localStorage.getItem(storageKey) || 0) || 0;
 
+const TAU = Math.PI * 2;
+const clamp = (v,a,b)=>Math.max(a, Math.min(b,v));
+const lerp = (a,b,t)=>a + (b-a)*t;
+const rand = (a,b)=>a + Math.random()*(b-a);
+function normalizeAngle(a){ while(a <= -Math.PI) a += TAU; while(a > Math.PI) a -= TAU; return a; }
+function angleInRange(angle,start,end){ const span = ((end - start) % TAU + TAU) % TAU; const rel = ((angle - start) % TAU + TAU) % TAU; return rel >= 0 && rel <= span; }
+
 const world = {
-  shaftWidth: 0, shaftX: 0, cameraY: 0, speed: 0, score: 0, depth: 0, streak: 0,
-  playing: false, time: 0, flash: 0, rumble: 0, particles: [], platforms: [], nextPlatform: 0
+  playing:false,time:0,score:0,depth:0,streak:0,flash:0,rumble:0,
+  cameraY:0,towerAngle:0,towerVel:0,pillarRadius:0,ringRadius:0,
+  particles:[],platforms:[],nextIndex:0
 };
-const input = {left:false,right:false,pointer:null,dragging:false};
-const player = {x:0,y:120,r:18,vx:0,vy:0,alive:true,fallChain:0,squash:1};
-const gravity = 0.48;
-const moveAccel = 0.75;
-const maxVX = 6.2;
-const bounceV = -11.8;
-const startY = 130;
-const platformGap = 116;
+const player = {
+  x:0,y:0,r:18,vy:0,alive:true,fallChain:0,squash:1
+};
+const input = {dragging:false,lastX:0,deltaX:0,keyDir:0};
+const physics = {
+  gravity:0.48,
+  bounce:-11.4,
+  platformGap:122,
+  collisionAngle:0,
+  keyboardTorque:0.0028,
+  dragTorque:0.0105,
+  damping:0.93,
+  maxVel:0.17
+};
 
 function resize(){
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -125,44 +134,43 @@ function resize(){
   canvas.style.width = innerWidth + 'px';
   canvas.style.height = innerHeight + 'px';
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  world.shaftWidth = Math.min(innerWidth * 0.58, 340);
-  world.shaftX = innerWidth / 2 - world.shaftWidth / 2;
-  if(!world.playing){ player.x = innerWidth / 2; }
+  world.pillarRadius = clamp(innerWidth * 0.08, 30, 54);
+  world.ringRadius = clamp(innerWidth * 0.24, 112, 190);
+  player.x = innerWidth * 0.5;
+  player.y = innerHeight * 0.32;
 }
-addEventListener('resize', resize); resize();
+addEventListener('resize', resize);
+resize();
 
-function rand(a,b){ return a + Math.random()*(b-a); }
-function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
-function lerp(a,b,t){ return a + (b-a)*t; }
-function clearRun(){
-  world.cameraY = 0; world.speed = 0; world.score = 0; world.depth = 0; world.streak = 0; world.time = 0; world.flash = 0; world.rumble = 0;
-  world.particles = []; world.platforms = []; world.nextPlatform = 0;
-  player.x = innerWidth/2; player.y = startY; player.vx = 0; player.vy = 0; player.alive = true; player.fallChain = 0; player.squash = 1;
-  let y = 220;
-  for(let i=0;i<26;i++){ world.platforms.push(makePlatform(i,y)); y += platformGap; }
-  world.nextPlatform = world.platforms.length;
-  syncUi();
+function makeSegments(){
+  const gapCenter = rand(0, TAU);
+  const gapWidth = rand(0.82, 1.02);
+  const dangerWidth = rand(0.36, 0.56);
+  const safeStart = gapCenter + gapWidth * 0.5;
+  const safeEnd = gapCenter + TAU - gapWidth * 0.5;
+  const dangerStart = safeStart + rand(0.55, Math.max(0.68, (TAU - gapWidth) - dangerWidth - 0.55));
+  const dangerEnd = dangerStart + dangerWidth;
+  return {gapStart: gapCenter - gapWidth * 0.5, gapEnd: gapCenter + gapWidth * 0.5, dangerStart, dangerEnd};
 }
 function makePlatform(i,y){
-  const margin = 12;
-  const gapW = clamp(world.shaftWidth * rand(.22,.3), 84, 128);
-  const gapX = rand(world.shaftX + margin, world.shaftX + world.shaftWidth - gapW - margin);
-  const side = Math.random() < .5 ? 'left' : 'right';
-  const dangerW = i < 3 ? 0 : rand(50, 88);
-  const danger = side === 'left'
-    ? {x: world.shaftX, w: Math.min(dangerW, Math.max(0, gapX - world.shaftX - 18))}
-    : {x: Math.max(gapX + gapW + 18, world.shaftX + world.shaftWidth - dangerW), w: Math.min(dangerW, Math.max(0, world.shaftX + world.shaftWidth - (gapX + gapW) - 18))};
-  return {i,y,h:22,gapX,gapW,danger: danger.w > 26 ? danger : null, pulse:Math.random()*Math.PI*2, cleared:false};
+  const seg = makeSegments();
+  return {i,y,h:24,pulse:Math.random()*TAU,cleared:false,...seg};
 }
-function extendPlatforms(){
-  while(world.platforms.length < 40){
-    const lastY = world.platforms[world.platforms.length-1].y;
-    world.platforms.push(makePlatform(world.nextPlatform++, lastY + platformGap));
+function clearRun(){
+  world.playing = false; world.time = 0; world.score = 0; world.depth = 0; world.streak = 0; world.flash = 0; world.rumble = 0;
+  world.cameraY = 0; world.towerAngle = 0; world.towerVel = 0; world.particles = []; world.platforms = []; world.nextIndex = 0;
+  player.vy = 0; player.alive = true; player.fallChain = 0; player.squash = 1;
+  let y = innerHeight * 0.52;
+  for(let i=0;i<28;i++){ world.platforms.push(makePlatform(i, y)); y += physics.platformGap; }
+  world.nextIndex = world.platforms.length;
+  syncUi();
+}
+function ensurePlatforms(){
+  while(world.platforms.length < 42){
+    const last = world.platforms[world.platforms.length - 1];
+    world.platforms.push(makePlatform(world.nextIndex++, last.y + physics.platformGap));
   }
-  world.platforms = world.platforms.filter(p => p.y > world.cameraY - 280);
-}
-function burst(x,y,color,count=14,force=1){
-  for(let i=0;i<count;i++) world.particles.push({x,y,vx:rand(-3.3,3.3)*force,vy:rand(-4.6,1.2)*force,life:rand(18,36),max:36,color,size:rand(3,7)});
+  world.platforms = world.platforms.filter(p => p.y > world.cameraY - 220);
 }
 function syncUi(){
   ui.score.textContent = Math.floor(world.score);
@@ -170,159 +178,269 @@ function syncUi(){
   ui.streak.textContent = world.streak;
   ui.state.textContent = world.playing ? (player.alive ? 'Falling' : 'Down') : 'Ready';
 }
-function startGame(){ menu.classList.add('hidden'); gameOver.classList.add('hidden'); world.playing = true; clearRun(); ui.hint.textContent = ''; }
+function burst(x,y,color,count=16,force=1){
+  for(let i=0;i<count;i++) world.particles.push({x,y,vx:rand(-2.8,2.8)*force,vy:rand(-4.4,1.2)*force,life:rand(20,38),max:38,color,size:rand(3,7)});
+}
+function startGame(){
+  clearRun();
+  world.playing = true;
+  if(new URLSearchParams(location.search).get('demoSpin') === '1') world.towerVel = 0.085;
+  menu.classList.add('hidden');
+  gameOver.classList.add('hidden');
+}
 function endGame(reason){
-  world.playing = false; player.alive = false; best = Math.max(best, Math.floor(world.score)); localStorage.setItem(storageKey, String(best));
-  $('gameOverTitle').textContent = reason === 'danger' ? 'Danger strip hit' : 'Crushed on platform';
-  $('gameOverText').textContent = reason === 'danger' ? 'You touched the red zone. Aim for the dark opening sooner.' : 'You landed too hard outside the gap.';
+  world.playing = false; player.alive = false;
+  best = Math.max(best, Math.floor(world.score));
+  localStorage.setItem(storageKey, String(best));
+  $('gameOverTitle').textContent = reason === 'danger' ? 'Danger wedge hit' : 'Lost the tower';
+  $('gameOverText').textContent = reason === 'danger' ? 'The red slice rotated under the ball.' : 'You fell out of the readable play lane.';
   $('finalScore').textContent = Math.floor(world.score);
   $('finalDepth').textContent = Math.floor(world.depth);
   $('finalBest').textContent = best;
   gameOver.classList.remove('hidden');
-  ui.hint.textContent = 'Tap retry and go again.';
   syncUi();
+}
+
+function platformStateAtBall(p){
+  const contactAngle = normalizeAngle(physics.collisionAngle - world.towerAngle);
+  if(angleInRange(contactAngle, p.gapStart, p.gapEnd)) return 'gap';
+  if(angleInRange(contactAngle, p.dangerStart, p.dangerEnd)) return 'danger';
+  return 'safe';
 }
 
 function update(){
   if(!world.playing) return;
   world.time += 1;
-  player.vy += gravity;
-  const pointerSteer = input.pointer === null ? 0 : clamp((player.x - input.pointer) / Math.max(70, world.shaftWidth * 0.22), -1, 1);
-  if(input.left) player.vx -= moveAccel;
-  if(input.right) player.vx += moveAccel;
-  if(pointerSteer !== 0) player.vx += pointerSteer * moveAccel * 1.35;
-  if(!input.left && !input.right && input.pointer === null) player.vx *= 0.88;
-  player.vx = clamp(player.vx,-maxVX,maxVX);
-  const prevX = player.x, prevY = player.y;
-  player.x += player.vx;
-  player.y += player.vy;
-  const leftWall = world.shaftX + player.r + 8;
-  const rightWall = world.shaftX + world.shaftWidth - player.r - 8;
-  if(player.x < leftWall){ player.x = leftWall; player.vx *= -0.38; burst(player.x, player.y, '#8d7dff', 6, .7); }
-  if(player.x > rightWall){ player.x = rightWall; player.vx *= -0.38; burst(player.x, player.y, '#8d7dff', 6, .7); }
+  world.towerVel += input.keyDir * physics.keyboardTorque;
+  if(input.deltaX){
+    world.towerVel += input.deltaX * physics.dragTorque;
+    input.deltaX = 0;
+  }
+  world.towerVel *= physics.damping;
+  world.towerVel = clamp(world.towerVel, -physics.maxVel, physics.maxVel);
+  world.towerAngle = normalizeAngle(world.towerAngle + world.towerVel);
+
+  const prevY = player.y + world.cameraY;
+  player.vy += physics.gravity;
+  world.cameraY += Math.max(0, player.vy);
+  const currentY = player.y + world.cameraY;
 
   for(const p of world.platforms){
-    const previousBottom = prevY + player.r;
-    const currentBottom = player.y + player.r;
-    if(previousBottom <= p.y && currentBottom >= p.y){
-      const inGap = player.x > p.gapX && player.x < p.gapX + p.gapW;
-      if(inGap){
+    if(prevY + player.r <= p.y && currentY + player.r >= p.y){
+      const state = platformStateAtBall(p);
+      if(state === 'gap'){
         if(!p.cleared){
           p.cleared = true;
-          player.fallChain += 1; world.streak = Math.max(world.streak, player.fallChain); world.score += 15 + player.fallChain * 10; world.flash = 1; burst(player.x, p.y, '#5ce1ff', 12, 1.2);
+          player.fallChain += 1;
+          world.streak = Math.max(world.streak, player.fallChain);
+          world.score += 15 + player.fallChain * 10;
+          world.flash = 1;
+          burst(player.x, player.y + world.cameraY, '#63e4ff', 14, 1.1);
         }
+      } else if(state === 'danger'){
+        burst(player.x, player.y + world.cameraY, '#ff5a7a', 28, 1.5);
+        world.rumble = 18;
+        endGame('danger');
+        return;
       } else {
-        const hitDanger = p.danger && player.x + player.r > p.danger.x && player.x - player.r < p.danger.x + p.danger.w;
-        if(hitDanger){ burst(player.x, p.y, '#ff5a7a', 30, 1.5); world.rumble = 16; endGame('danger'); return; }
-        player.y = p.y - player.r; player.vy = bounceV - Math.min(player.fallChain * .45, 2.2); player.squash = 1.34;
-        world.score += 4 + player.fallChain * 2; player.fallChain = 0; burst(player.x, p.y, '#fff7c0', 18, 1.05); world.rumble = 7;
+        world.cameraY = p.y - player.r - player.y;
+        player.vy = physics.bounce - Math.min(player.fallChain * 0.4, 2.2);
+        player.squash = 1.34;
+        world.score += 4 + player.fallChain * 2;
+        player.fallChain = 0;
+        world.rumble = 7;
+        burst(player.x, player.y + world.cameraY, '#fff7c0', 18, 1.0);
       }
     }
   }
 
   player.squash = lerp(player.squash, 1, 0.18);
-  world.cameraY = Math.max(0, player.y - innerHeight * 0.3);
   world.depth = Math.max(world.depth, world.cameraY);
   world.score += 0.08 + Math.max(0, player.vy) * 0.015;
-  extendPlatforms();
-  if(player.y - world.cameraY > innerHeight + 120){ endGame('fall'); return; }
+  world.flash *= 0.89;
+  world.rumble *= 0.86;
+  ensurePlatforms();
+  if(player.y > innerHeight + 140) endGame('fall');
   syncUi();
 }
 
 function drawBackground(){
-  const flash = world.flash > 0 ? `rgba(180,240,255,${world.flash * .18})` : 'transparent';
-  const g = ctx.createLinearGradient(0,0,0,innerHeight); g.addColorStop(0,'#163058'); g.addColorStop(.45,'#0b1326'); g.addColorStop(1,'#050912');
+  const g = ctx.createLinearGradient(0,0,0,innerHeight);
+  g.addColorStop(0,'#163058'); g.addColorStop(.45,'#0b1326'); g.addColorStop(1,'#050912');
   ctx.fillStyle = g; ctx.fillRect(0,0,innerWidth,innerHeight);
-  if(world.flash > 0){ ctx.fillStyle = flash; ctx.fillRect(0,0,innerWidth,innerHeight); }
-  ctx.save(); ctx.translate(0, -(world.cameraY * .15) % 80);
+  if(world.flash > 0){ ctx.fillStyle = `rgba(180,240,255,${world.flash * 0.2})`; ctx.fillRect(0,0,innerWidth,innerHeight); }
+  ctx.save();
+  ctx.translate(0, -(world.cameraY * 0.12) % 80);
   for(let i=0;i<14;i++){ const y = i * 80; ctx.fillStyle = 'rgba(255,255,255,.035)'; ctx.fillRect(0,y,innerWidth,2); }
   ctx.restore();
 }
-function drawShaft(){
-  const x = world.shaftX, w = world.shaftWidth;
-  const grad = ctx.createLinearGradient(x,0,x+w,0); grad.addColorStop(0,'rgba(255,255,255,.06)'); grad.addColorStop(.5,'rgba(115,160,255,.12)'); grad.addColorStop(1,'rgba(255,255,255,.06)');
-  ctx.fillStyle = 'rgba(4,9,18,.72)'; ctx.fillRect(x,0,w,innerHeight);
-  ctx.fillStyle = grad; ctx.fillRect(x,0,w,innerHeight);
-  ctx.fillStyle = 'rgba(140,210,255,.22)'; ctx.fillRect(x-8,0,8,innerHeight); ctx.fillRect(x+w,0,8,innerHeight);
-  ctx.fillStyle = 'rgba(255,255,255,.05)'; ctx.fillRect(x + w/2 - 4,0,8,innerHeight);
+function drawPillar(){
+  const cx = player.x, cy = player.y;
+  const pillarTop = -40;
+  const pillarBottom = innerHeight + 40;
+  const grad = ctx.createLinearGradient(cx - world.pillarRadius,0,cx + world.pillarRadius,0);
+  grad.addColorStop(0,'rgba(255,255,255,.04)');
+  grad.addColorStop(.28,'rgba(180,220,255,.16)');
+  grad.addColorStop(.5,'rgba(255,255,255,.34)');
+  grad.addColorStop(.72,'rgba(120,170,255,.15)');
+  grad.addColorStop(1,'rgba(255,255,255,.04)');
+  ctx.fillStyle = 'rgba(5,10,20,.85)';
+  ctx.beginPath();
+  ctx.ellipse(cx, cy + (pillarTop + pillarBottom) / 2, world.pillarRadius + 3, (pillarBottom - pillarTop) / 2, 0, 0, TAU);
+  ctx.fill();
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.ellipse(cx, cy + (pillarTop + pillarBottom) / 2, world.pillarRadius, (pillarBottom - pillarTop) / 2, 0, 0, TAU);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.08)';
+  ctx.fillRect(cx - 2, 0, 4, innerHeight);
+}
+
+function sampleSegment(start,end,steps){
+  const pts = [];
+  for(let i=0;i<=steps;i++){
+    const t = i / steps;
+    const a = start + (end - start) * t;
+    const front = Math.cos(a);
+    if(front <= -0.22) continue;
+    pts.push({
+      a,
+      x: player.x + Math.sin(a) * world.ringRadius,
+      squash: 0.26 + 0.74 * ((front + 1) * 0.5),
+      front
+    });
+  }
+  return pts;
+}
+function drawArcBand(y, start, end, fill, glow, thickness){
+  const pts = sampleSegment(start,end,56);
+  if(pts.length < 2) return;
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, y + thickness * pts[0].squash * 0.5);
+  for(const p of pts) ctx.lineTo(p.x, y + thickness * p.squash * 0.5);
+  for(let i=pts.length-1;i>=0;i--){ const p = pts[i]; ctx.lineTo(p.x, y - thickness * p.squash * 0.5); }
+  ctx.closePath();
+  ctx.shadowBlur = glow ? 22 : 0;
+  ctx.shadowColor = glow || 'transparent';
+  ctx.fillStyle = fill;
+  ctx.fill();
+  ctx.shadowBlur = 0;
 }
 function drawPlatforms(){
   for(const p of world.platforms){
     const y = p.y - world.cameraY;
-    if(y < -50 || y > innerHeight + 50) continue;
-    const pulse = .5 + .5 * Math.sin(world.time * .05 + p.pulse);
-    ctx.shadowBlur = 22;
-    ctx.shadowColor = 'rgba(92,225,255,.45)';
-    ctx.fillStyle = '#5ce1ff';
-    ctx.fillRect(world.shaftX, y - 10, p.gapX - world.shaftX, p.h);
-    ctx.fillRect(p.gapX + p.gapW, y - 10, world.shaftX + world.shaftWidth - (p.gapX + p.gapW), p.h);
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = 'rgba(255,255,255,.18)';
-    ctx.fillRect(world.shaftX, y - 10, p.gapX - world.shaftX, 4);
-    ctx.fillRect(p.gapX + p.gapW, y - 10, world.shaftX + world.shaftWidth - (p.gapX + p.gapW), 4);
-    ctx.fillStyle = 'rgba(6,11,20,.94)';
-    ctx.fillRect(p.gapX, y - 14, p.gapW, p.h + 12);
-    ctx.strokeStyle = `rgba(255,255,255,${.2 + pulse * .25})`;
-    ctx.lineWidth = 3;
-    ctx.strokeRect(p.gapX + 2, y - 12, p.gapW - 4, p.h + 8);
-    if(p.danger){
-      ctx.shadowBlur = 18; ctx.shadowColor = 'rgba(255,90,122,.7)'; ctx.fillStyle = '#ff5a7a'; ctx.fillRect(p.danger.x, y - 10, p.danger.w, p.h); ctx.shadowBlur = 0;
-      ctx.fillStyle = 'rgba(255,255,255,.16)'; ctx.fillRect(p.danger.x, y - 10, p.danger.w, 4);
+    if(y < -80 || y > innerHeight + 100) continue;
+    const rotGapStart = p.gapStart + world.towerAngle;
+    const rotGapEnd = p.gapEnd + world.towerAngle;
+    const rotDangerStart = p.dangerStart + world.towerAngle;
+    const rotDangerEnd = p.dangerEnd + world.towerAngle;
+
+    drawArcBand(y, rotGapEnd, rotDangerStart, '#63e4ff', 'rgba(99,228,255,.45)', p.h);
+    drawArcBand(y, rotDangerEnd, rotGapStart + TAU, '#63e4ff', 'rgba(99,228,255,.45)', p.h);
+    drawArcBand(y, rotDangerStart, rotDangerEnd, '#ff5a7a', 'rgba(255,90,122,.7)', p.h + 2);
+
+    const pulse = 0.35 + 0.35 * Math.sin(world.time * 0.04 + p.pulse);
+    const ringPts = sampleSegment(0, TAU, 88);
+    if(ringPts.length > 1){
+      ctx.beginPath();
+      ctx.moveTo(ringPts[0].x, y);
+      for(const pt of ringPts) ctx.lineTo(pt.x, y);
+      ctx.strokeStyle = `rgba(255,255,255,${0.09 + pulse * 0.16})`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    const gapPts = sampleSegment(rotGapStart, rotGapEnd, 34);
+    if(gapPts.length > 1){
+      ctx.beginPath();
+      ctx.moveTo(gapPts[0].x, y + 16 * gapPts[0].squash);
+      for(const pt of gapPts) ctx.lineTo(pt.x, y + 16 * pt.squash);
+      for(let i=gapPts.length-1;i>=0;i--){ const pt = gapPts[i]; ctx.lineTo(pt.x, y - 16 * pt.squash); }
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(3,7,14,.92)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,.16)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
     }
   }
 }
 function drawPlayer(){
-  const x = player.x, y = player.y - world.cameraY;
+  const x = player.x, y = player.y;
+  ctx.fillStyle = 'rgba(255,220,120,.14)';
+  ctx.beginPath(); ctx.ellipse(x, y + player.r + 11, 18, 7, 0, 0, TAU); ctx.fill();
   ctx.save();
   ctx.translate(x,y);
   ctx.scale(1 / player.squash, player.squash);
-  ctx.shadowBlur = 28; ctx.shadowColor = 'rgba(255,228,93,.7)';
-  const grad = ctx.createRadialGradient(-5,-7,4,0,0,24); grad.addColorStop(0,'#fffceb'); grad.addColorStop(.55,'#ffe45d'); grad.addColorStop(1,'#ffab2d');
-  ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(0,0,player.r,0,Math.PI*2); ctx.fill();
+  ctx.shadowBlur = 28; ctx.shadowColor = 'rgba(255,228,93,.72)';
+  const grad = ctx.createRadialGradient(-5,-7,4,0,0,24);
+  grad.addColorStop(0,'#fffceb'); grad.addColorStop(.55,'#ffe45d'); grad.addColorStop(1,'#ffab2d');
+  ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(0,0,player.r,0,TAU); ctx.fill();
   ctx.shadowBlur = 0; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(255,255,255,.92)'; ctx.stroke();
-  ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.beginPath(); ctx.arc(-5,-7,5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.beginPath(); ctx.arc(-5,-7,5,0,TAU); ctx.fill();
   ctx.restore();
-  ctx.fillStyle = 'rgba(255,220,120,.18)'; ctx.beginPath(); ctx.ellipse(x, y + player.r + 10, 18, 7, 0, 0, Math.PI * 2); ctx.fill();
+}
+function drawGuide(){
+  const markerAngle = physics.collisionAngle;
+  const x = player.x + Math.sin(markerAngle) * (world.ringRadius + 16);
+  const y = player.y - Math.cos(markerAngle) * 8;
+  ctx.fillStyle = 'rgba(255,255,255,.16)';
+  ctx.beginPath(); ctx.arc(x, y, 4, 0, TAU); ctx.fill();
 }
 function drawParticles(){
   world.particles = world.particles.filter(p => p.life > 0);
   for(const p of world.particles){
     p.x += p.vx; p.y += p.vy; p.vy += 0.14; p.life -= 1;
     const a = p.life / p.max;
-    ctx.globalAlpha = a; ctx.fillStyle = p.color; ctx.fillRect(p.x - p.size/2, p.y - world.cameraY - p.size/2, p.size, p.size); ctx.globalAlpha = 1;
+    ctx.globalAlpha = a;
+    ctx.fillStyle = p.color;
+    ctx.fillRect(p.x - p.size/2, p.y - world.cameraY - p.size/2, p.size, p.size);
+    ctx.globalAlpha = 1;
   }
 }
 function render(){
   drawBackground();
-  const shakeX = world.rumble ? rand(-world.rumble, world.rumble) * .18 : 0;
-  const shakeY = world.rumble ? rand(-world.rumble, world.rumble) * .14 : 0;
-  ctx.save(); ctx.translate(shakeX, shakeY);
-  drawShaft(); drawPlatforms(); drawParticles(); drawPlayer();
+  const shakeX = world.rumble ? rand(-world.rumble, world.rumble) * 0.16 : 0;
+  const shakeY = world.rumble ? rand(-world.rumble, world.rumble) * 0.12 : 0;
+  ctx.save();
+  ctx.translate(shakeX, shakeY);
+  drawPillar();
+  drawPlatforms();
+  drawParticles();
+  drawGuide();
+  drawPlayer();
   ctx.restore();
-  world.flash *= .88; world.rumble *= .86;
 }
 function frame(){ update(); render(); requestAnimationFrame(frame); }
 requestAnimationFrame(frame);
 
 addEventListener('keydown', e => {
-  if(['ArrowLeft','a','A'].includes(e.key)) input.left = true;
-  if(['ArrowRight','d','D'].includes(e.key)) input.right = true;
+  if(['ArrowLeft','a','A'].includes(e.key)) input.keyDir = -1;
+  if(['ArrowRight','d','D'].includes(e.key)) input.keyDir = 1;
   if(e.key === ' ' && !world.playing) startGame();
 });
 addEventListener('keyup', e => {
-  if(['ArrowLeft','a','A'].includes(e.key)) input.left = false;
-  if(['ArrowRight','d','D'].includes(e.key)) input.right = false;
+  if(['ArrowLeft','a','A','ArrowRight','d','D'].includes(e.key)) input.keyDir = 0;
 });
-canvas.addEventListener('pointerdown',e=>{ input.dragging = true; input.pointer = e.clientX; if(!world.playing) startGame(); });
-canvas.addEventListener('pointermove',e=>{ if(input.dragging) input.pointer = e.clientX; });
-['pointerup','pointercancel','pointerleave'].forEach(evt=>canvas.addEventListener(evt,()=>{ input.dragging = false; input.pointer = null; }));
+canvas.addEventListener('pointerdown', e => {
+  input.dragging = true; input.lastX = e.clientX;
+  if(!world.playing) startGame();
+});
+canvas.addEventListener('pointermove', e => {
+  if(!input.dragging) return;
+  const dx = e.clientX - input.lastX;
+  input.deltaX += dx;
+  input.lastX = e.clientX;
+});
+['pointerup','pointercancel','pointerleave'].forEach(evt => canvas.addEventListener(evt, () => { input.dragging = false; }));
 $('playBtn').onclick = startGame;
 $('retryBtn').onclick = startGame;
-$('closeBtn').onclick = ()=> gameOver.classList.add('hidden');
+$('closeBtn').onclick = () => gameOver.classList.add('hidden');
 $('restartBtn').onclick = startGame;
-$('howBtn').onclick = ()=> ui.hint.textContent = '';
-clearRun(); syncUi();
-if (new URLSearchParams(location.search).get('autoplay') === '1') startGame();
+$('howBtn').onclick = () => alert('Drag left/right anywhere on the screen to rotate the tower under the centered ball. Open a gap below the ball to keep falling. Cyan is safe. Red kills.');
+clearRun();
+syncUi();
+if(new URLSearchParams(location.search).get('autoplay') === '1') startGame();
 </script>
 </body>
 </html>

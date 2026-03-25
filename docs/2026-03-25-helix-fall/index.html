@@ -3,163 +3,126 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Helix Fall Sprint</title>
+<title>Helix Fall Rebuilt</title>
 <style>
-:root{--bg1:#09111f;--bg2:#15233d;--card:rgba(10,18,34,.82);--line:rgba(255,255,255,.1);--text:#eef4ff;--muted:#9eb0ce;--accent:#6ee7ff;--accent2:#a78bfa;--danger:#ff5d73;--safe:#77f2ae;--gold:#ffd76a}
+:root{
+  --bg:#08111f;--bg2:#12243f;--panel:rgba(8,14,28,.78);--line:rgba(255,255,255,.12);--text:#ecf5ff;--muted:#9fb4d3;
+  --safe:#5ce1ff;--safe2:#a4f4ff;--danger:#ff5a7a;--danger2:#ff9cb0;--player:#ffe45d;--player2:#fff7c0;--glow:#8d7dff;
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(circle at top,#1a2b4c 0%,#09111f 58%,#050913 100%);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;color:var(--text)}
+html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(circle at top,#1a315b 0,#0a1325 62%,#060912 100%);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
 canvas{display:block;width:100vw;height:100vh}
-button,select,input{font:inherit}
+button{font:inherit}
 .ui{position:fixed;inset:0;pointer-events:none}
-.topbar,.footer,.hint,.center,.fab,.toast,.modal,.touchbar{position:fixed}
-.topbar{top:16px;left:16px;right:16px;display:flex;justify-content:space-between;gap:10px;pointer-events:none}
-.panel{pointer-events:auto;background:rgba(8,15,30,.58);border:1px solid var(--line);backdrop-filter:blur(14px);border-radius:18px;box-shadow:0 10px 35px rgba(0,0,0,.25)}
-.metric{padding:10px 14px;min-width:92px}.metric .label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.metric .value{font-weight:900;font-size:24px;line-height:1.05;margin-top:4px}
-.side{display:flex;gap:10px;align-items:flex-start}
-.fab{top:18px;width:52px;height:52px;border:none;border-radius:16px;background:rgba(8,15,30,.82);color:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.25);pointer-events:auto;font-size:23px;cursor:pointer}.fab.left{left:16px}.fab.right{right:16px}
-.footer{left:50%;bottom:14px;transform:translateX(-50%);padding:6px 12px;font-size:12px;color:var(--muted);background:rgba(7,12,24,.58);border:1px solid var(--line);border-radius:999px;pointer-events:none}
-.hint{left:50%;bottom:54px;transform:translateX(-50%);font-size:13px;color:#dce9ff;background:rgba(7,12,24,.62);border:1px solid var(--line);padding:8px 12px;border-radius:999px;pointer-events:none;max-width:min(92vw,760px);text-align:center}
-.touchbar{left:12px;right:12px;bottom:96px;display:none;justify-content:space-between;gap:12px;pointer-events:none;z-index:20}
-.touchbtn{flex:1;height:64px;border:none;border-radius:22px;background:rgba(8,15,30,.66);color:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.22);font-size:28px;font-weight:900;pointer-events:auto;touch-action:none;user-select:none}
-.center{left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,420px);padding:22px;border-radius:28px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.35);pointer-events:auto}
-.center.hidden,.modal.hidden,.toast.hidden{display:none}
-.center h1,.modal h2{margin:0 0 8px;font-size:30px;letter-spacing:-.04em}.sub{color:var(--muted);line-height:1.45;font-size:15px}
-.row{display:flex;gap:10px}.row>*{flex:1}
-.btn{margin-top:14px;border:none;border-radius:16px;padding:14px 16px;font-weight:800;cursor:pointer;pointer-events:auto}.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101f}.btn.secondary{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--line)}
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.kpi{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:12px}.kpi b{display:block;font-size:22px}.kpi span{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-.modal{inset:0;background:rgba(2,6,15,.58);display:flex;align-items:center;justify-content:center;padding:18px;pointer-events:auto}.card{width:min(92vw,430px);max-height:90vh;overflow:auto;padding:22px;border-radius:26px;background:rgba(12,19,36,.95);border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.45)}
-.card h3{margin:18px 0 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
-.list,.stats-grid{display:grid;gap:10px}.stats-grid{grid-template-columns:repeat(2,1fr)}.stat{padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line)}.stat b{display:block;font-size:23px}.stat span{font-size:12px;color:var(--muted)}
-.toggle,.range,.selectRow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
-input[type=range]{width:150px} select{background:#101a30;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px}
-.toast{left:50%;bottom:90px;transform:translateX(-50%);background:rgba(0,0,0,.82);padding:10px 14px;border-radius:999px;font-weight:700}
-.small{font-size:12px;color:var(--muted)}
-@media (max-width:560px){.metric{min-width:76px;padding:8px 12px}.metric .value{font-size:20px}.topbar{top:92px;left:10px;right:10px}.fab{top:16px;width:58px;height:58px;font-size:24px}.fab.left{left:10px}.fab.right{right:10px}.kpis{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr 1fr}.hint{bottom:18px;font-size:12px;max-width:calc(100vw - 18px);padding:8px 10px}.touchbar{display:flex}}
+.badge,.stat,.pill,.card,.touchButton,.action{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}
+.top{position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.cluster{display:flex;gap:10px;flex-wrap:wrap}
+.stat{pointer-events:auto;border-radius:18px;padding:10px 14px;min-width:88px}
+.stat .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-size:24px;font-weight:900;line-height:1.05;margin-top:4px}
+.pill{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;padding:8px 14px;border-radius:999px;font-size:12px;color:#dfeaff;max-width:min(94vw,820px);text-align:center}
+.menu,.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;pointer-events:auto;background:rgba(2,5,12,.2)}
+.hidden{display:none !important}
+.card{width:min(94vw,460px);border-radius:28px;padding:22px}
+h1,h2{margin:0 0 8px;line-height:1.05;letter-spacing:-.04em}
+h1{font-size:38px} h2{font-size:30px}
+p{color:var(--muted);line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.badge{border-radius:18px;padding:12px}.badge b{display:block;font-size:20px;margin-bottom:4px}.badge span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.actions>*{flex:1}
+.action{pointer-events:auto;border:none;border-radius:18px;padding:14px 16px;color:var(--text);font-weight:900;cursor:pointer}
+.action.primary{background:linear-gradient(135deg,#69e7ff,#8f7dff);color:#08111f}
+.action.warn{background:linear-gradient(135deg,#ff8aa4,#ff5a7a);color:#18050b}
+.touch{position:fixed;left:12px;right:12px;bottom:76px;display:none;gap:12px;pointer-events:none}
+.touchButton{pointer-events:auto;touch-action:none;user-select:none;height:78px;border:none;border-radius:24px;color:white;font-size:26px;font-weight:900;flex:1}
+.legend{display:grid;gap:8px;margin-top:14px;font-size:14px}.legend div{display:flex;align-items:center;gap:10px}.sw{width:18px;height:18px;border-radius:6px;display:inline-block}
+.version{position:fixed;right:12px;top:12px;padding:8px 10px;border-radius:999px;font-size:12px}
+@media (max-width:700px){
+  .top{top:90px}.grid{grid-template-columns:1fr}.touch{display:flex}.stat{min-width:0;flex:1}.cluster{width:100%}.cluster .stat{flex:1}.version{left:50%;right:auto;transform:translateX(-50%)}
+  h1{font-size:34px}
+}
 </style>
 </head>
 <body>
-<canvas id="game"></canvas>
+<canvas id="game" aria-label="Helix Fall Rebuilt game canvas"></canvas>
 <div class="ui">
-  <button class="fab left" id="statsBtn" aria-label="Stats">🏆</button>
-  <button class="fab right" id="settingsBtn" aria-label="Settings">⚙️</button>
-  <div class="topbar">
-    <div class="side">
-      <div class="panel metric"><div class="label">Score</div><div class="value" id="scoreValue">0</div></div>
-      <div class="panel metric"><div class="label">Depth</div><div class="value" id="depthValue">0</div></div>
+  <div class="version badge">v2026.03.25-r4 rebuild</div>
+  <div class="top">
+    <div class="cluster">
+      <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
+      <div class="stat"><div class="label">Depth</div><div class="value" id="depth">0</div></div>
+      <div class="stat"><div class="label">Streak</div><div class="value" id="streak">0</div></div>
     </div>
-    <div class="side">
-      <div class="panel metric"><div class="label">Combo</div><div class="value" id="comboValue">x1</div></div>
-      <div class="panel metric"><div class="label">Danger</div><div class="value" id="dangerValue">safe</div></div>
+    <div class="cluster">
+      <div class="stat"><div class="label">State</div><div class="value" id="stateLabel">Ready</div></div>
+      <button class="action" id="restartBtn" style="flex:0 0 auto">↻ Restart</button>
     </div>
   </div>
-  <div class="hint" id="hint">Drag or use A/D / ←→ to steer the ball through black gaps. Cyan = safe, red = deadly.</div>
-  <div class="touchbar" id="touchbar"><button class="touchbtn" id="leftBtn">←</button><button class="touchbtn" id="rightBtn">→</button></div>
-  <div class="footer">Helix Fall Sprint · v2026.03.25-3</div>
-</div>
-
-<div class="center" id="startCard">
-  <h1>Helix Fall Sprint</h1>
-  <div class="sub">A readable, playable vertical-fall Helix-style prototype. Drop through black gaps, bounce on safe cyan ledges, avoid red kill zones, and build combo by threading multiple openings in a row.</div>
-  <div class="kpis">
-    <div class="kpi"><b>Visible lane</b><span>Central shaft + guide rails</span></div>
-    <div class="kpi"><b>Clean reads</b><span>Black gap / cyan safe / red danger</span></div>
-    <div class="kpi"><b>Sticky stats</b><span>Settings + records persist</span></div>
+  <div class="touch">
+    <button class="touchButton" id="leftBtn">⟵ HOLD LEFT</button>
+    <button class="touchButton" id="rightBtn">HOLD RIGHT ⟶</button>
   </div>
-  <button class="btn primary" id="playBtn">Play</button>
-  <button class="btn secondary" id="howBtn">How it works</button>
+  <div class="pill" id="hint">Move the bright yellow ball into the dark gap. Bounce on cyan platforms. Red strips kill instantly.</div>
 </div>
 
-<div class="modal hidden" id="endModal">
+<div class="menu" id="menu">
   <div class="card">
-    <h2 id="endTitle">Run over</h2>
-    <div class="sub" id="endText"></div>
-    <div class="stats-grid" style="margin-top:14px">
-      <div class="stat"><b id="endScore">0</b><span>Score</span></div>
-      <div class="stat"><b id="endDepth">0</b><span>Depth</span></div>
-      <div class="stat"><b id="endCombo">x1</b><span>Max combo</span></div>
-      <div class="stat"><b id="endFloor">0</b><span>Floors cleared</span></div>
+    <h1>Helix Fall Rebuilt</h1>
+    <p>This version is a full readability and controls rebuild. The ball is oversized and glowing, the shaft and platforms are thick and high-contrast, impacts burst with particles, and the mobile buttons are big enough to actually use.</p>
+    <div class="grid">
+      <div class="badge"><b>Visible player</b><span>Bright orb + trail + shadow</span></div>
+      <div class="badge"><b>Readable lane</b><span>Central pillar + obvious gaps</span></div>
+      <div class="badge"><b>Playable</b><span>Real bounce / fail / scoring loop</span></div>
     </div>
-    <div class="row">
-      <button class="btn primary" id="retryBtn">Retry</button>
-      <button class="btn secondary" id="shareBtn">Copy result</button>
+    <div class="legend">
+      <div><span class="sw" style="background:#5ce1ff"></span> cyan = safe platform</div>
+      <div><span class="sw" style="background:#0b1020;border:1px solid rgba(255,255,255,.2)"></span> dark gap = fall through</div>
+      <div><span class="sw" style="background:#ff5a7a"></span> red = instant death</div>
+    </div>
+    <div class="actions">
+      <button class="action primary" id="playBtn">Play now</button>
+      <button class="action" id="howBtn">Controls</button>
     </div>
   </div>
 </div>
 
-<div class="modal hidden" id="settingsModal">
+<div class="modal hidden" id="gameOver">
   <div class="card">
-    <h2>Settings</h2>
-    <div class="toggle"><span>Particles</span><input id="particlesInput" type="checkbox"></div>
-    <div class="toggle"><span>Screen shake</span><input id="shakeInput" type="checkbox"></div>
-    <div class="toggle"><span>Slow-mo on combo</span><input id="slowmoInput" type="checkbox"></div>
-    <div class="range"><span>SFX volume</span><input id="volumeInput" type="range" min="0" max="100"></div>
-    <div class="selectRow"><span>Theme</span><select id="themeInput"><option value="midnight">Midnight</option><option value="sunset">Sunset</option><option value="mint">Mint</option></select></div>
-    <div class="small">If audio or storage is blocked in the browser, the game keeps running and quietly degrades.</div>
-    <button class="btn primary" id="closeSettingsBtn">Done</button>
+    <h2 id="gameOverTitle">Run over</h2>
+    <p id="gameOverText">You clipped a danger strip.</p>
+    <div class="grid" style="margin-top:10px">
+      <div class="badge"><b id="finalScore">0</b><span>Score</span></div>
+      <div class="badge"><b id="finalDepth">0</b><span>Depth</span></div>
+      <div class="badge"><b id="finalBest">0</b><span>Best</span></div>
+    </div>
+    <div class="actions">
+      <button class="action primary" id="retryBtn">Retry</button>
+      <button class="action" id="closeBtn">Close</button>
+    </div>
   </div>
 </div>
-
-<div class="modal hidden" id="statsModal">
-  <div class="card">
-    <h2>Stats</h2>
-    <div class="stats-grid">
-      <div class="stat"><b id="bestScoreStat">0</b><span>Best score</span></div>
-      <div class="stat"><b id="bestDepthStat">0</b><span>Best depth</span></div>
-      <div class="stat"><b id="bestComboStat">1</b><span>Best combo</span></div>
-      <div class="stat"><b id="runsStat">0</b><span>Runs</span></div>
-      <div class="stat"><b id="avgDepthStat">0</b><span>Avg depth</span></div>
-      <div class="stat"><b id="dangerHitsStat">0</b><span>Danger deaths</span></div>
-    </div>
-    <h3>Current rules</h3>
-    <div class="list small">
-      <div>• Steer the bright ball toward the black openings.</div>
-      <div>• Landing on cyan ledges is safe, but it resets combo.</div>
-      <div>• Touching red ledges ends the run immediately.</div>
-    </div>
-    <button class="btn secondary" id="resetStatsBtn">Reset stats</button>
-    <button class="btn primary" id="closeStatsBtn">Close</button>
-  </div>
-</div>
-
-<div class="toast hidden" id="toast">Copied.</div>
 
 <script>
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
-const ui = {
-  score: document.getElementById('scoreValue'), depth: document.getElementById('depthValue'), combo: document.getElementById('comboValue'), danger: document.getElementById('dangerValue'),
-  hint: document.getElementById('hint'), startCard: document.getElementById('startCard'), endModal: document.getElementById('endModal'), settingsModal: document.getElementById('settingsModal'), statsModal: document.getElementById('statsModal')
+const $ = id => document.getElementById(id);
+const ui = {score:$('score'), depth:$('depth'), streak:$('streak'), state:$('stateLabel'), hint:$('hint')};
+const menu = $('menu'); const gameOver = $('gameOver');
+const storageKey = 'helix-fall-rebuilt-best';
+let best = Number(localStorage.getItem(storageKey) || 0) || 0;
+
+const world = {
+  shaftWidth: 0, shaftX: 0, cameraY: 0, speed: 0, score: 0, depth: 0, streak: 0,
+  playing: false, time: 0, flash: 0, rumble: 0, particles: [], platforms: [], nextPlatform: 0
 };
-const KEY_SETTINGS = 'helixFallSprintSettings';
-const KEY_STATS = 'helixFallSprintStats';
-const safeParse = (key, fallback) => { try { return Object.assign({}, fallback, JSON.parse(localStorage.getItem(key) || '{}')); } catch { return {...fallback}; } };
-const settings = safeParse(KEY_SETTINGS, {particles:true,shake:true,slowmo:true,volume:65,theme:'midnight'});
-const stats = safeParse(KEY_STATS, {runs:0,bestScore:0,bestDepth:0,bestCombo:1,totalDepth:0,dangerDeaths:0});
-function save(){ try{ localStorage.setItem(KEY_SETTINGS, JSON.stringify(settings)); localStorage.setItem(KEY_STATS, JSON.stringify(stats)); }catch{} }
-
-document.getElementById('particlesInput').checked = !!settings.particles;
-document.getElementById('shakeInput').checked = !!settings.shake;
-document.getElementById('slowmoInput').checked = !!settings.slowmo;
-document.getElementById('volumeInput').value = settings.volume ?? 65;
-document.getElementById('themeInput').value = settings.theme || 'midnight';
-
-let last=0,flash=0,shake=0,slowmoTimer=0;
-let input = {left:false,right:false,pointerX:null,pointerActive:false};
-let state='menu';
-let cameraY=0;
-let score=0, depth=0, combo=1, maxCombo=1, cleared=0, dangerMeter=0;
-let player, floors, particles;
-
-const FLOOR_SPACING = 120;
-const FLOOR_THICKNESS = 16;
-const PLAYER_RADIUS = 15;
-const START_Y = 56;
-
-const themes = {
-  midnight:{bgA:'#09111f',bgB:'#172746',tower:'#2e446c',towerEdge:'rgba(166,207,255,.34)',ring:'#5fe5ff',safeGlow:'rgba(95,229,255,.28)',danger:'#ff5d73',dangerGlow:'rgba(255,93,115,.34)',player:'#fff3a4',playerEdge:'#ffffff',trail:'#a78bfa',gap:'#02060f'},
-  sunset:{bgA:'#281225',bgB:'#56305e',tower:'#7b4f7c',towerEdge:'rgba(255,225,193,.28)',ring:'#ffd76a',safeGlow:'rgba(255,215,106,.24)',danger:'#ff6b6b',dangerGlow:'rgba(255,107,107,.3)',player:'#fff5cf',playerEdge:'#fff',trail:'#ff9cb1',gap:'#150610'},
-  mint:{bgA:'#08181b',bgB:'#11454c',tower:'#1e6269',towerEdge:'rgba(200,255,247,.26)',ring:'#8bffdd',safeGlow:'rgba(139,255,221,.26)',danger:'#ff6f91',dangerGlow:'rgba(255,111,145,.32)',player:'#fff6b0',playerEdge:'#ffffff',trail:'#7bf7ff',gap:'#020b0d'}
-};
+const input = {left:false,right:false,pointer:null};
+const player = {x:0,y:120,r:18,vx:0,vy:0,alive:true,fallChain:0,squash:1};
+const gravity = 0.48;
+const moveAccel = 0.75;
+const maxVX = 6.2;
+const bounceV = -11.8;
+const startY = 130;
+const platformGap = 116;
 
 function resize(){
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -168,357 +131,207 @@ function resize(){
   canvas.style.width = innerWidth + 'px';
   canvas.style.height = innerHeight + 'px';
   ctx.setTransform(dpr,0,0,dpr,0,0);
+  world.shaftWidth = Math.min(innerWidth * 0.58, 340);
+  world.shaftX = innerWidth / 2 - world.shaftWidth / 2;
+  if(!world.playing){ player.x = innerWidth / 2; }
 }
-window.addEventListener('resize', resize); resize();
+addEventListener('resize', resize); resize();
 
-function rand(a,b){ return a + Math.random() * (b-a); }
+function rand(a,b){ return a + Math.random()*(b-a); }
 function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
-function lerp(a,b,t){ return a + (b-a) * t; }
-function toast(msg){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.remove('hidden'); clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.add('hidden'),1100); }
-
-let audioCtx;
-function blip(freq=240, len=0.08, type='sine', gain=0.04){
-  if((settings.volume ?? 0) <= 0) return;
-  try{
-    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
-    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.type = type; o.frequency.value = freq; g.gain.value = gain * ((settings.volume ?? 65)/100);
-    o.connect(g); g.connect(audioCtx.destination); o.start(); g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + len); o.stop(audioCtx.currentTime + len);
-  }catch{}
+function lerp(a,b,t){ return a + (b-a)*t; }
+function clearRun(){
+  world.cameraY = 0; world.speed = 0; world.score = 0; world.depth = 0; world.streak = 0; world.time = 0; world.flash = 0; world.rumble = 0;
+  world.particles = []; world.platforms = []; world.nextPlatform = 0;
+  player.x = innerWidth/2; player.y = startY; player.vx = 0; player.vy = 0; player.alive = true; player.fallChain = 0; player.squash = 1;
+  let y = 220;
+  for(let i=0;i<26;i++){ world.platforms.push(makePlatform(i,y)); y += platformGap; }
+  world.nextPlatform = world.platforms.length;
+  syncUi();
 }
-
-function getLane(){
-  const width = Math.min(innerWidth * 0.78, 380);
-  const left = innerWidth / 2 - width / 2;
-  return {left, width, right:left+width, center:left+width/2};
+function makePlatform(i,y){
+  const margin = 12;
+  const gapW = clamp(world.shaftWidth * rand(.22,.3), 84, 128);
+  const gapX = rand(world.shaftX + margin, world.shaftX + world.shaftWidth - gapW - margin);
+  const side = Math.random() < .5 ? 'left' : 'right';
+  const dangerW = i < 3 ? 0 : rand(50, 88);
+  const danger = side === 'left'
+    ? {x: world.shaftX, w: Math.min(dangerW, Math.max(0, gapX - world.shaftX - 18))}
+    : {x: Math.max(gapX + gapW + 18, world.shaftX + world.shaftWidth - dangerW), w: Math.min(dangerW, Math.max(0, world.shaftX + world.shaftWidth - (gapX + gapW) - 18))};
+  return {i,y,h:22,gapX,gapW,danger: danger.w > 26 ? danger : null, pulse:Math.random()*Math.PI*2, cleared:false};
 }
-
-function resetRun(){
-  state='playing'; cameraY=0; score=0; depth=0; combo=1; maxCombo=1; cleared=0; dangerMeter=0; flash=0; shake=0; slowmoTimer=0;
-  const lane = getLane();
-  player={x:lane.center,y:START_Y,r:PLAYER_RADIUS,vx:0,vy:0,alive:true,lastSafeY:START_Y,lastFloor:-1};
-  floors=[]; particles=[];
-  for(let i=0;i<28;i++) floors.push(makeFloor(i));
-  stats.runs++; save();
-  ui.startCard.classList.add('hidden'); ui.endModal.classList.add('hidden');
-  ui.hint.textContent='Aim for the black openings. Cyan ledges are safe. Red ledges are instant death.';
-  syncStats();
-}
-
-function makeFloor(i){
-  const lane = getLane();
-  const y = 150 + i * FLOOR_SPACING;
-  const width = lane.width;
-  const left = lane.left;
-  const open = rand(width * 0.22, width * 0.32);
-  let openX = rand(left + 22, left + width - open - 22);
-  if(i < 2){
-    const bias = (Math.random() * 2 - 1) * width * 0.08;
-    openX = clamp(lane.center - open/2 + bias, left + 22, left + width - open - 22);
+function extendPlatforms(){
+  while(world.platforms.length < 40){
+    const lastY = world.platforms[world.platforms.length-1].y;
+    world.platforms.push(makePlatform(world.nextPlatform++, lastY + platformGap));
   }
-  let danger = null;
-  if(i > 2 && Math.random() < Math.min(0.18 + i*0.012, 0.58)){
-    const side = Math.random() < 0.5 ? 'left' : 'right';
-    const len = rand(width * 0.16, width * 0.3);
-    danger = side === 'left'
-      ? {x:left, w:Math.min(len, openX-left-14)}
-      : {x:Math.max(openX+open+14, left+width-len), w:Math.min(len, left+width-(openX+open)-14)};
-    if(!danger || danger.w < 28) danger = null;
-  }
-  return {index:i,y,left,width,openX,open,thick:FLOOR_THICKNESS,danger,pulse:Math.random()*Math.PI*2,passed:false,landed:false};
+  world.platforms = world.platforms.filter(p => p.y > world.cameraY - 280);
+}
+function burst(x,y,color,count=14,force=1){
+  for(let i=0;i<count;i++) world.particles.push({x,y,vx:rand(-3.3,3.3)*force,vy:rand(-4.6,1.2)*force,life:rand(18,36),max:36,color,size:rand(3,7)});
+}
+function syncUi(){
+  ui.score.textContent = Math.floor(world.score);
+  ui.depth.textContent = Math.floor(world.depth);
+  ui.streak.textContent = world.streak;
+  ui.state.textContent = world.playing ? (player.alive ? 'Falling' : 'Down') : 'Ready';
+}
+function startGame(){ menu.classList.add('hidden'); gameOver.classList.add('hidden'); world.playing = true; clearRun(); ui.hint.textContent = 'Hold left/right, or use A/D / arrow keys. Thread the ball through dark gaps.'; }
+function endGame(reason){
+  world.playing = false; player.alive = false; best = Math.max(best, Math.floor(world.score)); localStorage.setItem(storageKey, String(best));
+  $('gameOverTitle').textContent = reason === 'danger' ? 'Danger strip hit' : 'Crushed on platform';
+  $('gameOverText').textContent = reason === 'danger' ? 'You touched the red zone. Aim for the dark opening sooner.' : 'You landed too hard outside the gap.';
+  $('finalScore').textContent = Math.floor(world.score);
+  $('finalDepth').textContent = Math.floor(world.depth);
+  $('finalBest').textContent = best;
+  gameOver.classList.remove('hidden');
+  ui.hint.textContent = 'Tap retry and go again.';
+  syncUi();
 }
 
-function ensureFloors(){
-  while(floors.length < 90) floors.push(makeFloor(floors.length));
-  floors = floors.filter(f => f.y > cameraY - 260);
-}
+function update(){
+  if(!world.playing) return;
+  world.time += 1;
+  player.vy += gravity;
+  if(input.left) player.vx -= moveAccel;
+  if(input.right) player.vx += moveAccel;
+  if(!input.left && !input.right) player.vx *= 0.88;
+  player.vx = clamp(player.vx,-maxVX,maxVX);
+  const prevX = player.x, prevY = player.y;
+  player.x += player.vx;
+  player.y += player.vy;
+  const leftWall = world.shaftX + player.r + 8;
+  const rightWall = world.shaftX + world.shaftWidth - player.r - 8;
+  if(player.x < leftWall){ player.x = leftWall; player.vx *= -0.38; burst(player.x, player.y, '#8d7dff', 6, .7); }
+  if(player.x > rightWall){ player.x = rightWall; player.vx *= -0.38; burst(player.x, player.y, '#8d7dff', 6, .7); }
 
-function theme(){ return themes[settings.theme] || themes.midnight; }
-function isInsideGap(f, x){ return x > f.openX + 2 && x < f.openX + f.open - 2; }
-function isOnFloorX(f, x, radius=player.r){
-  const leftHit = x + radius > f.left && x - radius < f.openX;
-  const rightHit = x + radius > f.openX + f.open && x - radius < f.left + f.width;
-  return leftHit || rightHit;
-}
-function landingFloor(prevBottom, nextBottom){
-  for(const f of floors){
-    if(prevBottom <= f.y && nextBottom >= f.y - 1 && isOnFloorX(f, player.x)) return f;
-  }
-  return null;
-}
-function floorPassedInGap(prevY, nextY){
-  for(const f of floors){
-    if(!f.passed && prevY < f.y && nextY >= f.y && isInsideGap(f, player.x)) return f;
-  }
-  return null;
-}
-
-function kill(reason){
-  if(state !== 'playing') return;
-  state='ended';
-  if(reason === 'danger') stats.dangerDeaths++;
-  stats.bestScore = Math.max(stats.bestScore, Math.round(score));
-  stats.bestDepth = Math.max(stats.bestDepth, Math.floor(depth));
-  stats.bestCombo = Math.max(stats.bestCombo, maxCombo);
-  stats.totalDepth += Math.floor(depth);
-  save();
-  document.getElementById('endTitle').textContent = reason === 'danger' ? 'Danger band.' : 'You fell out of lane.';
-  document.getElementById('endText').textContent = reason === 'danger'
-    ? 'The ball touched a red kill segment. Read the safe cyan side or thread the gap.'
-    : 'You drifted beyond the visible tower. Recover earlier and stay inside the lane.';
-  document.getElementById('endScore').textContent = Math.round(score);
-  document.getElementById('endDepth').textContent = Math.floor(depth);
-  document.getElementById('endCombo').textContent = 'x' + maxCombo;
-  document.getElementById('endFloor').textContent = cleared;
-  ui.endModal.classList.remove('hidden');
-  syncStats();
-  blip(110,0.3,'sawtooth',0.06);
-}
-
-function registerGapPass(f){
-  f.passed = true;
-  combo++;
-  maxCombo = Math.max(maxCombo, combo);
-  cleared++;
-  score += 14 * combo + Math.floor(depth * 0.04);
-  if(combo >= 3 && settings.slowmo) slowmoTimer = 0.06;
-  if(settings.particles){
-    for(let i=0;i<10+combo;i++) particles.push({x:player.x,y:player.y,vx:rand(-110,110),vy:rand(-190,-30),life:rand(0.25,0.8),c:theme().trail});
-  }
-  flash = Math.min(1, flash + 0.18);
-  shake = Math.max(shake, Math.min(10, combo * 1.4));
-  ui.hint.textContent = combo >= 4 ? 'Chain alive. Keep threading the openings.' : 'Gap cleared. Another gap keeps the combo climbing.';
-  blip(280 + combo*24,0.08,'sine',0.04);
-}
-
-function safeBounce(f){
-  player.y = f.y - player.r;
-  const bounce = clamp(240 - combo * 8 - dangerMeter * 40, 150, 240);
-  player.vy = -bounce;
-  player.lastSafeY = player.y;
-  player.lastFloor = f.index;
-  if(!f.landed){
-    f.landed = true;
-    cleared++;
-    score += 8 + Math.floor(combo*2);
-  }
-  combo = 1;
-  dangerMeter = Math.max(0, dangerMeter - 0.42);
-  ui.hint.textContent = 'Safe bounce. Combo reset, but you live.';
-  blip(220,0.05,'triangle',0.03);
-}
-
-function update(dt){
-  if(state !== 'playing') return;
-  if(slowmoTimer>0){ slowmoTimer -= dt; dt *= 0.55; }
-
-  const lane = getLane();
-  const pointerSteer = input.pointerX===null ? 0 : clamp((input.pointerX - player.x) / Math.max(120, lane.width * 0.34), -1, 1);
-  const steer = (input.left?-1:0) + (input.right?1:0) + pointerSteer;
-  const targetVX = steer * (230 + Math.min(depth * 0.2, 120));
-  player.vx = lerp(player.vx, targetVX, 0.14);
-  player.vy += (700 + Math.min(depth * 0.5, 320) + combo*6 + dangerMeter*70) * dt;
-
-  const prevY = player.y;
-  const prevBottom = player.y + player.r;
-  player.x += player.vx * dt;
-  player.y += player.vy * dt;
-  player.x = clamp(player.x, lane.left - 44, lane.right + 44);
-
-  const hitFloor = landingFloor(prevBottom, player.y + player.r);
-  if(hitFloor && player.vy > 0){
-    const onDanger = hitFloor.danger && player.x + player.r > hitFloor.danger.x && player.x - player.r < hitFloor.danger.x + hitFloor.danger.w;
-    if(onDanger){ flash = 1; shake = 12; kill('danger'); return; }
-    safeBounce(hitFloor);
-  } else {
-    let passed;
-    while((passed = floorPassedInGap(prevY, player.y))){ registerGapPass(passed); }
-  }
-
-  cameraY = Math.max(0, player.y - innerHeight * 0.34);
-  depth = Math.max(0, (player.y - START_Y) * 0.1);
-  dangerMeter = clamp(dangerMeter + dt * (player.vy > 380 ? 0.42 : -0.22), 0, 1);
-
-  if(player.x < lane.left - 70 || player.x > lane.right + 70 || player.y - cameraY > innerHeight + 90){ kill('miss'); return; }
-
-  particles = particles.filter(p => (p.life -= dt) > 0).map(p => ({...p,x:p.x+p.vx*dt,y:p.y+p.vy*dt,vy:p.vy+360*dt}));
-  flash = Math.max(0, flash - dt*2.6);
-  shake = Math.max(0, shake - dt*16);
-  ensureFloors();
-  ui.score.textContent = Math.round(score);
-  ui.depth.textContent = Math.floor(depth);
-  ui.combo.textContent = 'x' + combo;
-  ui.danger.textContent = dangerMeter > 0.72 ? 'HIGH' : dangerMeter > 0.38 ? 'warm' : 'safe';
-  ui.danger.style.color = dangerMeter > 0.72 ? 'var(--danger)' : dangerMeter > 0.38 ? 'var(--gold)' : 'var(--safe)';
-}
-
-function draw(){
-  const t = theme();
-  const lane = getLane();
-  const sx = settings.shake ? rand(-shake,shake) : 0;
-  const sy = settings.shake ? rand(-shake,shake) : 0;
-  ctx.save();
-  ctx.translate(sx,sy);
-
-  const bg = ctx.createLinearGradient(0,0,0,innerHeight);
-  bg.addColorStop(0,t.bgB); bg.addColorStop(1,t.bgA);
-  ctx.fillStyle = bg; ctx.fillRect(0,0,innerWidth,innerHeight);
-
-  for(let i=0;i<38;i++){
-    const y = ((i*120 - cameraY*0.32) % (innerHeight+120)) - 80;
-    ctx.fillStyle = `rgba(255,255,255,${0.025 + (i%4)*0.01})`;
-    ctx.fillRect(lane.center-1, y, 2, 66);
-  }
-
-  const shaftTop = -220;
-  const shaftBottom = innerHeight + 360;
-  const gx = ctx.createLinearGradient(lane.left,0,lane.right,0);
-  gx.addColorStop(0,'rgba(255,255,255,.04)');
-  gx.addColorStop(.12,t.towerEdge);
-  gx.addColorStop(.5,'rgba(255,255,255,.06)');
-  gx.addColorStop(.88,t.towerEdge);
-  gx.addColorStop(1,'rgba(255,255,255,.04)');
-  ctx.fillStyle = gx;
-  ctx.fillRect(lane.left, shaftTop, lane.width, shaftBottom - shaftTop);
-  ctx.strokeStyle = 'rgba(255,255,255,.12)';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(lane.left, shaftTop, lane.width, shaftBottom - shaftTop);
-  ctx.fillStyle = 'rgba(0,0,0,.16)';
-  ctx.fillRect(lane.left + lane.width*0.12, shaftTop, lane.width*0.76, shaftBottom - shaftTop);
-
-  ctx.save();
-  ctx.translate(0,-cameraY);
-  for(const f of floors){
-    if(f.y < cameraY - 120 || f.y > cameraY + innerHeight + 180) continue;
-    const pulse = Math.sin(performance.now()*0.003 + f.pulse)*0.5+0.5;
-    const leftSeg = {x:f.left, w:f.openX-f.left};
-    const rightSeg = {x:f.openX+f.open, w:f.left+f.width-(f.openX+f.open)};
-    for(const seg of [leftSeg, rightSeg]){
-      if(seg.w <= 0) continue;
-      ctx.fillStyle = t.safeGlow;
-      roundRect(seg.x-2, f.y-4, seg.w+4, f.thick+8, 12); ctx.fill();
-      const g = ctx.createLinearGradient(seg.x, f.y, seg.x, f.y+f.thick);
-      g.addColorStop(0,'rgba(255,255,255,.86)');
-      g.addColorStop(0.4,t.ring);
-      g.addColorStop(1,'rgba(22,90,124,.95)');
-      ctx.fillStyle = g;
-      roundRect(seg.x, f.y, seg.w, f.thick, 10); ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,.26)';
-      ctx.lineWidth = 1.5;
-      roundRect(seg.x, f.y, seg.w, f.thick, 10); ctx.stroke();
-    }
-    ctx.fillStyle = `${t.gap}`;
-    roundRect(f.openX, f.y-3, f.open, f.thick+6, 10); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,.08)';
-    ctx.lineWidth = 1;
-    roundRect(f.openX, f.y-3, f.open, f.thick+6, 10); ctx.stroke();
-    if(f.danger){
-      ctx.fillStyle = `rgba(255,255,255,${0.05 + pulse*0.04})`;
-      roundRect(f.danger.x-2, f.y-5, f.danger.w+4, f.thick+10, 12); ctx.fill();
-      ctx.fillStyle = t.dangerGlow;
-      roundRect(f.danger.x-3, f.y-6, f.danger.w+6, f.thick+12, 12); ctx.fill();
-      const dg = ctx.createLinearGradient(f.danger.x, f.y, f.danger.x, f.y+f.thick);
-      dg.addColorStop(0,'#fff0f3');
-      dg.addColorStop(.25,t.danger);
-      dg.addColorStop(1,'#8d1930');
-      ctx.fillStyle = dg;
-      roundRect(f.danger.x, f.y-1, f.danger.w, f.thick+2, 10); ctx.fill();
+  for(const p of world.platforms){
+    const previousBottom = prevY + player.r;
+    const currentBottom = player.y + player.r;
+    if(previousBottom <= p.y && currentBottom >= p.y){
+      const inGap = player.x > p.gapX && player.x < p.gapX + p.gapW;
+      if(inGap){
+        if(!p.cleared){
+          p.cleared = true;
+          player.fallChain += 1; world.streak = Math.max(world.streak, player.fallChain); world.score += 15 + player.fallChain * 10; world.flash = 1; burst(player.x, p.y, '#5ce1ff', 12, 1.2);
+        }
+      } else {
+        const hitDanger = p.danger && player.x + player.r > p.danger.x && player.x - player.r < p.danger.x + p.danger.w;
+        if(hitDanger){ burst(player.x, p.y, '#ff5a7a', 30, 1.5); world.rumble = 16; endGame('danger'); return; }
+        player.y = p.y - player.r; player.vy = bounceV - Math.min(player.fallChain * .45, 2.2); player.squash = 1.34;
+        world.score += 4 + player.fallChain * 2; player.fallChain = 0; burst(player.x, p.y, '#fff7c0', 18, 1.05); world.rumble = 7;
+      }
     }
   }
 
-  if(player){
-    ctx.fillStyle = 'rgba(255,255,255,.2)';
-    ctx.beginPath(); ctx.arc(player.x, player.y+20, player.r*0.88, 0, Math.PI*2); ctx.fill();
-    const halo = ctx.createRadialGradient(player.x, player.y, 3, player.x, player.y, 36);
-    halo.addColorStop(0,'rgba(255,255,255,.95)');
-    halo.addColorStop(0.32,t.player);
-    halo.addColorStop(1,'rgba(255,255,255,0)');
-    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(player.x, player.y, 36, 0, Math.PI*2); ctx.fill();
-    const orb = ctx.createRadialGradient(player.x-4, player.y-7, 2, player.x, player.y, player.r+4);
-    orb.addColorStop(0,'#ffffff'); orb.addColorStop(0.55,t.player); orb.addColorStop(1,'#d7b75d');
-    ctx.fillStyle = orb; ctx.beginPath(); ctx.arc(player.x, player.y, player.r, 0, Math.PI*2); ctx.fill();
-    ctx.lineWidth = 2.5; ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.stroke();
-    ctx.fillStyle = 'rgba(40,30,10,.92)'; ctx.beginPath(); ctx.arc(player.x+5, player.y-4, 2.4, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.beginPath(); ctx.arc(player.x-5, player.y-7, 3.4, 0, Math.PI*2); ctx.fill();
-  }
+  player.squash = lerp(player.squash, 1, 0.18);
+  world.cameraY = Math.max(0, player.y - innerHeight * 0.3);
+  world.depth = Math.max(world.depth, world.cameraY);
+  world.score += 0.08 + Math.max(0, player.vy) * 0.015;
+  extendPlatforms();
+  if(player.y - world.cameraY > innerHeight + 120){ endGame('fall'); return; }
+  syncUi();
+}
 
-  for(const p of particles){
-    ctx.globalAlpha = Math.max(0,p.life*1.15);
-    ctx.fillStyle = p.c;
-    ctx.beginPath(); ctx.arc(p.x,p.y, 2.4, 0, Math.PI*2); ctx.fill();
-  }
-  ctx.globalAlpha = 1;
-  ctx.restore();
-
-  if(flash>0){ ctx.fillStyle = `rgba(255,255,255,${flash*0.12})`; ctx.fillRect(0,0,innerWidth,innerHeight); }
+function drawBackground(){
+  const flash = world.flash > 0 ? `rgba(180,240,255,${world.flash * .18})` : 'transparent';
+  const g = ctx.createLinearGradient(0,0,0,innerHeight); g.addColorStop(0,'#163058'); g.addColorStop(.45,'#0b1326'); g.addColorStop(1,'#050912');
+  ctx.fillStyle = g; ctx.fillRect(0,0,innerWidth,innerHeight);
+  if(world.flash > 0){ ctx.fillStyle = flash; ctx.fillRect(0,0,innerWidth,innerHeight); }
+  ctx.save(); ctx.translate(0, -(world.cameraY * .15) % 80);
+  for(let i=0;i<14;i++){ const y = i * 80; ctx.fillStyle = 'rgba(255,255,255,.035)'; ctx.fillRect(0,y,innerWidth,2); }
   ctx.restore();
 }
-
-function roundRect(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
-function loop(ts){ const dt = Math.min(0.033, (ts-last||16.7)/1000); last = ts; update(dt); draw(); requestAnimationFrame(loop); }
-requestAnimationFrame(loop);
-
-function syncStats(){
-  document.getElementById('bestScoreStat').textContent = stats.bestScore;
-  document.getElementById('bestDepthStat').textContent = stats.bestDepth;
-  document.getElementById('bestComboStat').textContent = 'x'+stats.bestCombo;
-  document.getElementById('runsStat').textContent = stats.runs;
-  document.getElementById('avgDepthStat').textContent = stats.runs ? Math.round(stats.totalDepth / stats.runs) : 0;
-  document.getElementById('dangerHitsStat').textContent = stats.dangerDeaths;
+function drawShaft(){
+  const x = world.shaftX, w = world.shaftWidth;
+  const grad = ctx.createLinearGradient(x,0,x+w,0); grad.addColorStop(0,'rgba(255,255,255,.06)'); grad.addColorStop(.5,'rgba(115,160,255,.12)'); grad.addColorStop(1,'rgba(255,255,255,.06)');
+  ctx.fillStyle = 'rgba(4,9,18,.72)'; ctx.fillRect(x,0,w,innerHeight);
+  ctx.fillStyle = grad; ctx.fillRect(x,0,w,innerHeight);
+  ctx.fillStyle = 'rgba(140,210,255,.22)'; ctx.fillRect(x-8,0,8,innerHeight); ctx.fillRect(x+w,0,8,innerHeight);
+  ctx.fillStyle = 'rgba(255,255,255,.05)'; ctx.fillRect(x + w/2 - 4,0,8,innerHeight);
 }
-syncStats();
-
-function closeAll(){ ui.settingsModal.classList.add('hidden'); ui.statsModal.classList.add('hidden'); }
-function copyResult(){
-  const txt = `Helix Fall Sprint — score ${Math.round(score)}, depth ${Math.floor(depth)}, max combo x${maxCombo}, floors ${cleared}.`;
-  const copy = navigator.clipboard?.writeText ? navigator.clipboard.writeText(txt) : Promise.reject();
-  copy.then(()=>toast('Result copied.')).catch(()=>toast(txt));
+function drawPlatforms(){
+  for(const p of world.platforms){
+    const y = p.y - world.cameraY;
+    if(y < -50 || y > innerHeight + 50) continue;
+    const pulse = .5 + .5 * Math.sin(world.time * .05 + p.pulse);
+    ctx.shadowBlur = 22;
+    ctx.shadowColor = 'rgba(92,225,255,.45)';
+    ctx.fillStyle = '#5ce1ff';
+    ctx.fillRect(world.shaftX, y - 10, p.gapX - world.shaftX, p.h);
+    ctx.fillRect(p.gapX + p.gapW, y - 10, world.shaftX + world.shaftWidth - (p.gapX + p.gapW), p.h);
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = 'rgba(255,255,255,.18)';
+    ctx.fillRect(world.shaftX, y - 10, p.gapX - world.shaftX, 4);
+    ctx.fillRect(p.gapX + p.gapW, y - 10, world.shaftX + world.shaftWidth - (p.gapX + p.gapW), 4);
+    ctx.fillStyle = 'rgba(6,11,20,.94)';
+    ctx.fillRect(p.gapX, y - 14, p.gapW, p.h + 12);
+    ctx.strokeStyle = `rgba(255,255,255,${.2 + pulse * .25})`;
+    ctx.lineWidth = 3;
+    ctx.strokeRect(p.gapX + 2, y - 12, p.gapW - 4, p.h + 8);
+    if(p.danger){
+      ctx.shadowBlur = 18; ctx.shadowColor = 'rgba(255,90,122,.7)'; ctx.fillStyle = '#ff5a7a'; ctx.fillRect(p.danger.x, y - 10, p.danger.w, p.h); ctx.shadowBlur = 0;
+      ctx.fillStyle = 'rgba(255,255,255,.16)'; ctx.fillRect(p.danger.x, y - 10, p.danger.w, 4);
+    }
+  }
 }
+function drawPlayer(){
+  const x = player.x, y = player.y - world.cameraY;
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.scale(1 / player.squash, player.squash);
+  ctx.shadowBlur = 28; ctx.shadowColor = 'rgba(255,228,93,.7)';
+  const grad = ctx.createRadialGradient(-5,-7,4,0,0,24); grad.addColorStop(0,'#fffceb'); grad.addColorStop(.55,'#ffe45d'); grad.addColorStop(1,'#ffab2d');
+  ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(0,0,player.r,0,Math.PI*2); ctx.fill();
+  ctx.shadowBlur = 0; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(255,255,255,.92)'; ctx.stroke();
+  ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.beginPath(); ctx.arc(-5,-7,5,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+  ctx.fillStyle = 'rgba(255,220,120,.18)'; ctx.beginPath(); ctx.ellipse(x, y + player.r + 10, 18, 7, 0, 0, Math.PI * 2); ctx.fill();
+}
+function drawParticles(){
+  world.particles = world.particles.filter(p => p.life > 0);
+  for(const p of world.particles){
+    p.x += p.vx; p.y += p.vy; p.vy += 0.14; p.life -= 1;
+    const a = p.life / p.max;
+    ctx.globalAlpha = a; ctx.fillStyle = p.color; ctx.fillRect(p.x - p.size/2, p.y - world.cameraY - p.size/2, p.size, p.size); ctx.globalAlpha = 1;
+  }
+}
+function render(){
+  drawBackground();
+  const shakeX = world.rumble ? rand(-world.rumble, world.rumble) * .18 : 0;
+  const shakeY = world.rumble ? rand(-world.rumble, world.rumble) * .14 : 0;
+  ctx.save(); ctx.translate(shakeX, shakeY);
+  drawShaft(); drawPlatforms(); drawParticles(); drawPlayer();
+  ctx.restore();
+  world.flash *= .88; world.rumble *= .86;
+}
+function frame(){ update(); render(); requestAnimationFrame(frame); }
+requestAnimationFrame(frame);
 
-document.getElementById('playBtn').onclick = resetRun;
-document.getElementById('retryBtn').onclick = resetRun;
-document.getElementById('shareBtn').onclick = copyResult;
-document.getElementById('howBtn').onclick = ()=>{ toast('Steer into black gaps. Cyan ledges are safe. Red ledges kill.'); };
-document.getElementById('settingsBtn').onclick = ()=>{ closeAll(); ui.settingsModal.classList.remove('hidden'); };
-document.getElementById('statsBtn').onclick = ()=>{ syncStats(); closeAll(); ui.statsModal.classList.remove('hidden'); };
-document.getElementById('closeSettingsBtn').onclick = ()=> ui.settingsModal.classList.add('hidden');
-document.getElementById('closeStatsBtn').onclick = ()=> ui.statsModal.classList.add('hidden');
-document.getElementById('resetStatsBtn').onclick = ()=>{ Object.assign(stats,{runs:0,bestScore:0,bestDepth:0,bestCombo:1,totalDepth:0,dangerDeaths:0}); save(); syncStats(); toast('Stats reset.'); };
-
-document.getElementById('particlesInput').onchange = e=>{ settings.particles=e.target.checked; save(); };
-document.getElementById('shakeInput').onchange = e=>{ settings.shake=e.target.checked; save(); };
-document.getElementById('slowmoInput').onchange = e=>{ settings.slowmo=e.target.checked; save(); };
-document.getElementById('volumeInput').oninput = e=>{ settings.volume=+e.target.value; save(); blip(340,0.05,'triangle',0.05); };
-document.getElementById('themeInput').onchange = e=>{ settings.theme=e.target.value; save(); toast('Theme switched.'); };
-
-document.addEventListener('keydown',e=>{
-  if(['ArrowLeft','a','A'].includes(e.key)) input.left=true;
-  if(['ArrowRight','d','D'].includes(e.key)) input.right=true;
-  if(e.key==='Escape') closeAll();
-  if((e.key===' ' || e.key==='Enter') && state!=='playing') resetRun();
+addEventListener('keydown', e => {
+  if(['ArrowLeft','a','A'].includes(e.key)) input.left = true;
+  if(['ArrowRight','d','D'].includes(e.key)) input.right = true;
+  if(e.key === ' ' && !world.playing) startGame();
 });
-document.addEventListener('keyup',e=>{
-  if(['ArrowLeft','a','A'].includes(e.key)) input.left=false;
-  if(['ArrowRight','d','D'].includes(e.key)) input.right=false;
+addEventListener('keyup', e => {
+  if(['ArrowLeft','a','A'].includes(e.key)) input.left = false;
+  if(['ArrowRight','d','D'].includes(e.key)) input.right = false;
 });
-canvas.addEventListener('pointerdown',e=>{
-  input.pointerActive=true;
-  input.pointerX=e.clientX;
-  if(state==='menu') resetRun();
-  else if(state==='ended' && ui.endModal.classList.contains('hidden')) resetRun();
-});
-canvas.addEventListener('pointermove',e=>{ if(input.pointerActive) input.pointerX=e.clientX; });
-['pointerup','pointercancel','pointerleave'].forEach(ev=>canvas.addEventListener(ev,()=>{ input.pointerX=null; input.pointerActive=false; }));
-const hold=(id,key)=>{
-  const el=document.getElementById(id);
-  if(!el) return;
-  const on=()=>{ input[key]=true; input.pointerX=null; input.pointerActive=false; };
-  const off=()=>{ input[key]=false; };
-  ['pointerdown','touchstart','mousedown'].forEach(evt=>el.addEventListener(evt,e=>{ e.preventDefault(); on(); },{passive:false}));
-  ['pointerup','pointercancel','pointerleave','touchend','touchcancel','mouseup'].forEach(evt=>el.addEventListener(evt,e=>{ e.preventDefault(); off(); },{passive:false}));
-};
-hold('leftBtn','left');
-hold('rightBtn','right');
+function bindHold(id,key){
+  const el = $(id);
+  const on = ev => { ev.preventDefault(); input[key] = true; };
+  const off = ev => { ev.preventDefault(); input[key] = false; };
+  ['pointerdown','touchstart','mousedown'].forEach(evt => el.addEventListener(evt,on,{passive:false}));
+  ['pointerup','pointercancel','pointerleave','touchend','touchcancel','mouseup'].forEach(evt => el.addEventListener(evt,off,{passive:false}));
+}
+bindHold('leftBtn','left'); bindHold('rightBtn','right');
+$('playBtn').onclick = startGame;
+$('retryBtn').onclick = startGame;
+$('closeBtn').onclick = ()=> gameOver.classList.add('hidden');
+$('restartBtn').onclick = startGame;
+$('howBtn').onclick = ()=> ui.hint.textContent = 'Controls: hold the big left/right buttons on mobile, or use A/D or arrow keys on desktop. Stay in the shaft, pass through dark gaps, avoid red.';
+clearRun(); syncUi();
+if (new URLSearchParams(location.search).get('autoplay') === '1') startGame();
 </script>
 </body>
 </html>

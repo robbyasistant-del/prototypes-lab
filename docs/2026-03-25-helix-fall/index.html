@@ -43,7 +43,7 @@ p{color:var(--muted);line-height:1.5}
 <body>
 <canvas id="game" aria-label="Helix Fall Rotating Tower game canvas"></canvas>
 <div class="ui">
-  <div class="version badge">v2026.03.25-r7 tower-spin</div>
+  <div class="version badge">v2026.03.25-r8 bounce-lock</div>
   <div class="top">
     <div class="cluster">
       <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
@@ -113,7 +113,7 @@ const world = {
   particles:[],platforms:[],nextIndex:0
 };
 const player = {
-  x:0,y:0,r:18,vy:0,alive:true,fallChain:0,squash:1
+  x:0,y:0,r:18,vy:0,alive:true,fallChain:0,squash:1,bouncePulse:0
 };
 const input = {dragging:false,lastX:0,deltaX:0,keyDir:0};
 const physics = {
@@ -159,7 +159,7 @@ function makePlatform(i,y){
 function clearRun(){
   world.playing = false; world.time = 0; world.score = 0; world.depth = 0; world.streak = 0; world.flash = 0; world.rumble = 0;
   world.cameraY = 0; world.towerAngle = 0; world.towerVel = 0; world.particles = []; world.platforms = []; world.nextIndex = 0;
-  player.vy = 0; player.alive = true; player.fallChain = 0; player.squash = 1;
+  player.vy = 0; player.alive = true; player.fallChain = 0; player.squash = 1; player.bouncePulse = 0;
   let y = innerHeight * 0.52;
   for(let i=0;i<28;i++){ world.platforms.push(makePlatform(i, y)); y += physics.platformGap; }
   world.nextIndex = world.platforms.length;
@@ -176,7 +176,7 @@ function syncUi(){
   ui.score.textContent = Math.floor(world.score);
   ui.depth.textContent = Math.floor(world.depth);
   ui.streak.textContent = world.streak;
-  ui.state.textContent = world.playing ? (player.alive ? 'Falling' : 'Down') : 'Ready';
+  ui.state.textContent = world.playing ? (player.alive ? (player.bouncePulse > 0.08 ? 'Bounce' : 'Falling') : 'Down') : 'Ready';
 }
 function burst(x,y,color,count=16,force=1){
   for(let i=0;i<count;i++) world.particles.push({x,y,vx:rand(-2.8,2.8)*force,vy:rand(-4.4,1.2)*force,life:rand(20,38),max:38,color,size:rand(3,7)});
@@ -244,17 +244,20 @@ function update(){
         return;
       } else {
         world.cameraY = p.y - player.r - player.y;
-        player.vy = physics.bounce - Math.min(player.fallChain * 0.4, 2.2);
-        player.squash = 1.34;
+        player.vy = physics.bounce;
+        player.squash = 1.42;
+        player.bouncePulse = 1;
+        world.towerVel *= 0.55;
         world.score += 4 + player.fallChain * 2;
         player.fallChain = 0;
         world.rumble = 7;
-        burst(player.x, player.y + world.cameraY, '#fff7c0', 18, 1.0);
+        burst(player.x, player.y + world.cameraY, '#fff7c0', 20, 1.05);
       }
     }
   }
 
   player.squash = lerp(player.squash, 1, 0.18);
+  player.bouncePulse = Math.max(0, player.bouncePulse * 0.86 - 0.03);
   world.depth = Math.max(world.depth, world.cameraY);
   world.score += 0.08 + Math.max(0, player.vy) * 0.015;
   world.flash *= 0.89;
@@ -367,6 +370,10 @@ function drawPlatforms(){
 }
 function drawPlayer(){
   const x = player.x, y = player.y;
+  if(player.bouncePulse > 0){
+    ctx.fillStyle = `rgba(255,245,190,${0.16 * player.bouncePulse})`;
+    ctx.beginPath(); ctx.ellipse(x, y + player.r + 14, 22 + 12 * player.bouncePulse, 8 + 4 * player.bouncePulse, 0, 0, TAU); ctx.fill();
+  }
   ctx.fillStyle = 'rgba(255,220,120,.14)';
   ctx.beginPath(); ctx.ellipse(x, y + player.r + 11, 18, 7, 0, 0, TAU); ctx.fill();
   ctx.save();

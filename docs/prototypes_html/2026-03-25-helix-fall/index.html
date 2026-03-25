@@ -14,13 +14,13 @@ html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(circle
 canvas{display:block;width:100vw;height:100vh}
 button{font:inherit}
 .ui{position:fixed;inset:0;pointer-events:none}
-.badge,.stat,.pill,.card,.touchButton,.action{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}
+.badge,.stat,.pill,.card,.action{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}
 .top{position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .cluster{display:flex;gap:10px;flex-wrap:wrap}
 .stat{pointer-events:auto;border-radius:18px;padding:10px 14px;min-width:88px}
 .stat .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .stat .value{font-size:24px;font-weight:900;line-height:1.05;margin-top:4px}
-.pill{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;padding:8px 14px;border-radius:999px;font-size:12px;color:#dfeaff;max-width:min(94vw,820px);text-align:center}
+.pill{display:none}
 .menu,.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;pointer-events:auto;background:rgba(2,5,12,.2)}
 .hidden{display:none !important}
 .card{width:min(94vw,460px);border-radius:28px;padding:22px}
@@ -33,12 +33,10 @@ p{color:var(--muted);line-height:1.5}
 .action{pointer-events:auto;border:none;border-radius:18px;padding:14px 16px;color:var(--text);font-weight:900;cursor:pointer}
 .action.primary{background:linear-gradient(135deg,#69e7ff,#8f7dff);color:#08111f}
 .action.warn{background:linear-gradient(135deg,#ff8aa4,#ff5a7a);color:#18050b}
-.touch{position:fixed;left:12px;right:12px;bottom:76px;display:none;gap:12px;pointer-events:none}
-.touchButton{pointer-events:auto;touch-action:none;user-select:none;height:78px;border:none;border-radius:24px;color:white;font-size:26px;font-weight:900;flex:1}
 .legend{display:grid;gap:8px;margin-top:14px;font-size:14px}.legend div{display:flex;align-items:center;gap:10px}.sw{width:18px;height:18px;border-radius:6px;display:inline-block}
-.version{position:fixed;right:12px;top:12px;padding:8px 10px;border-radius:999px;font-size:12px}
+.version{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);padding:8px 10px;border-radius:999px;font-size:12px;pointer-events:none}
 @media (max-width:700px){
-  .top{top:90px}.grid{grid-template-columns:1fr}.touch{display:flex}.stat{min-width:0;flex:1}.cluster{width:100%}.cluster .stat{flex:1}.version{left:50%;right:auto;transform:translateX(-50%)}
+  .top{top:90px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1}.cluster{width:100%}.cluster .stat{flex:1}
   h1{font-size:34px}
 }
 </style>
@@ -46,7 +44,7 @@ p{color:var(--muted);line-height:1.5}
 <body>
 <canvas id="game" aria-label="Helix Fall Rebuilt game canvas"></canvas>
 <div class="ui">
-  <div class="version badge">v2026.03.25-r4 rebuild</div>
+  <div class="version badge">v2026.03.25-r5</div>
   <div class="top">
     <div class="cluster">
       <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
@@ -58,11 +56,7 @@ p{color:var(--muted);line-height:1.5}
       <button class="action" id="restartBtn" style="flex:0 0 auto">↻ Restart</button>
     </div>
   </div>
-  <div class="touch">
-    <button class="touchButton" id="leftBtn">⟵ HOLD LEFT</button>
-    <button class="touchButton" id="rightBtn">HOLD RIGHT ⟶</button>
-  </div>
-  <div class="pill" id="hint">Move the bright yellow ball into the dark gap. Bounce on cyan platforms. Red strips kill instantly.</div>
+  <div class="pill" id="hint"></div>
 </div>
 
 <div class="menu" id="menu">
@@ -115,7 +109,7 @@ const world = {
   shaftWidth: 0, shaftX: 0, cameraY: 0, speed: 0, score: 0, depth: 0, streak: 0,
   playing: false, time: 0, flash: 0, rumble: 0, particles: [], platforms: [], nextPlatform: 0
 };
-const input = {left:false,right:false,pointer:null};
+const input = {left:false,right:false,pointer:null,dragging:false};
 const player = {x:0,y:120,r:18,vx:0,vy:0,alive:true,fallChain:0,squash:1};
 const gravity = 0.48;
 const moveAccel = 0.75;
@@ -176,7 +170,7 @@ function syncUi(){
   ui.streak.textContent = world.streak;
   ui.state.textContent = world.playing ? (player.alive ? 'Falling' : 'Down') : 'Ready';
 }
-function startGame(){ menu.classList.add('hidden'); gameOver.classList.add('hidden'); world.playing = true; clearRun(); ui.hint.textContent = 'Hold left/right, or use A/D / arrow keys. Thread the ball through dark gaps.'; }
+function startGame(){ menu.classList.add('hidden'); gameOver.classList.add('hidden'); world.playing = true; clearRun(); ui.hint.textContent = ''; }
 function endGame(reason){
   world.playing = false; player.alive = false; best = Math.max(best, Math.floor(world.score)); localStorage.setItem(storageKey, String(best));
   $('gameOverTitle').textContent = reason === 'danger' ? 'Danger strip hit' : 'Crushed on platform';
@@ -193,9 +187,11 @@ function update(){
   if(!world.playing) return;
   world.time += 1;
   player.vy += gravity;
+  const pointerSteer = input.pointer === null ? 0 : clamp((input.pointer - player.x) / Math.max(70, world.shaftWidth * 0.22), -1, 1);
   if(input.left) player.vx -= moveAccel;
   if(input.right) player.vx += moveAccel;
-  if(!input.left && !input.right) player.vx *= 0.88;
+  if(pointerSteer !== 0) player.vx += pointerSteer * moveAccel * 1.35;
+  if(!input.left && !input.right && input.pointer === null) player.vx *= 0.88;
   player.vx = clamp(player.vx,-maxVX,maxVX);
   const prevX = player.x, prevY = player.y;
   player.x += player.vx;
@@ -317,19 +313,14 @@ addEventListener('keyup', e => {
   if(['ArrowLeft','a','A'].includes(e.key)) input.left = false;
   if(['ArrowRight','d','D'].includes(e.key)) input.right = false;
 });
-function bindHold(id,key){
-  const el = $(id);
-  const on = ev => { ev.preventDefault(); input[key] = true; };
-  const off = ev => { ev.preventDefault(); input[key] = false; };
-  ['pointerdown','touchstart','mousedown'].forEach(evt => el.addEventListener(evt,on,{passive:false}));
-  ['pointerup','pointercancel','pointerleave','touchend','touchcancel','mouseup'].forEach(evt => el.addEventListener(evt,off,{passive:false}));
-}
-bindHold('leftBtn','left'); bindHold('rightBtn','right');
+canvas.addEventListener('pointerdown',e=>{ input.dragging = true; input.pointer = e.clientX; if(!world.playing) startGame(); });
+canvas.addEventListener('pointermove',e=>{ if(input.dragging) input.pointer = e.clientX; });
+['pointerup','pointercancel','pointerleave'].forEach(evt=>canvas.addEventListener(evt,()=>{ input.dragging = false; input.pointer = null; }));
 $('playBtn').onclick = startGame;
 $('retryBtn').onclick = startGame;
 $('closeBtn').onclick = ()=> gameOver.classList.add('hidden');
 $('restartBtn').onclick = startGame;
-$('howBtn').onclick = ()=> ui.hint.textContent = 'Controls: hold the big left/right buttons on mobile, or use A/D or arrow keys on desktop. Stay in the shaft, pass through dark gaps, avoid red.';
+$('howBtn').onclick = ()=> ui.hint.textContent = '';
 clearRun(); syncUi();
 if (new URLSearchParams(location.search).get('autoplay') === '1') startGame();
 </script>

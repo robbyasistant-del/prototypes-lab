@@ -43,7 +43,7 @@ p{color:var(--muted);line-height:1.5}
 <body>
 <canvas id="game" aria-label="Helix Fall Rotating Tower game canvas"></canvas>
 <div class="ui">
-  <div class="version badge">v2026.03.25-r8 bounce-lock</div>
+  <div class="version badge">v2026.03.25-r9 bounce-fix</div>
   <div class="top">
     <div class="cluster">
       <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
@@ -113,7 +113,7 @@ const world = {
   particles:[],platforms:[],nextIndex:0
 };
 const player = {
-  x:0,y:0,r:18,vy:0,alive:true,fallChain:0,squash:1,bouncePulse:0
+  x:0,y:0,r:18,vy:0,alive:true,fallChain:0,squash:1,bouncePulse:0,lastBouncePlatform:-1,bounceCooldown:0
 };
 const input = {dragging:false,lastX:0,deltaX:0,keyDir:0};
 const physics = {
@@ -159,7 +159,7 @@ function makePlatform(i,y){
 function clearRun(){
   world.playing = false; world.time = 0; world.score = 0; world.depth = 0; world.streak = 0; world.flash = 0; world.rumble = 0;
   world.cameraY = 0; world.towerAngle = 0; world.towerVel = 0; world.particles = []; world.platforms = []; world.nextIndex = 0;
-  player.vy = 0; player.alive = true; player.fallChain = 0; player.squash = 1; player.bouncePulse = 0;
+  player.vy = 0; player.alive = true; player.fallChain = 0; player.squash = 1; player.bouncePulse = 0; player.lastBouncePlatform = -1; player.bounceCooldown = 0;
   let y = innerHeight * 0.52;
   for(let i=0;i<28;i++){ world.platforms.push(makePlatform(i, y)); y += physics.platformGap; }
   world.nextIndex = world.platforms.length;
@@ -221,12 +221,15 @@ function update(){
   world.towerAngle = normalizeAngle(world.towerAngle + world.towerVel);
 
   const prevY = player.y + world.cameraY;
+  const prevBottom = prevY + player.r;
+  if(player.bounceCooldown > 0) player.bounceCooldown -= 1;
   player.vy += physics.gravity;
   world.cameraY += Math.max(0, player.vy);
   const currentY = player.y + world.cameraY;
+  const currentBottom = currentY + player.r;
 
   for(const p of world.platforms){
-    if(prevY + player.r <= p.y && currentY + player.r >= p.y){
+    if(player.vy > 0 && player.bounceCooldown <= 0 && player.lastBouncePlatform !== p.i && prevBottom <= p.y && currentBottom >= p.y){
       const state = platformStateAtBall(p);
       if(state === 'gap'){
         if(!p.cleared){
@@ -243,16 +246,26 @@ function update(){
         endGame('danger');
         return;
       } else {
-        world.cameraY = p.y - player.r - player.y;
+        world.cameraY = p.y - player.r - player.y - 2;
         player.vy = physics.bounce;
         player.squash = 1.42;
         player.bouncePulse = 1;
+        player.lastBouncePlatform = p.i;
+        player.bounceCooldown = 10;
         world.towerVel *= 0.55;
         world.score += 4 + player.fallChain * 2;
         player.fallChain = 0;
         world.rumble = 7;
         burst(player.x, player.y + world.cameraY, '#fff7c0', 20, 1.05);
+        break;
       }
+    }
+  }
+
+  if(player.lastBouncePlatform !== -1){
+    const bouncedPlatform = world.platforms.find(p => p.i === player.lastBouncePlatform);
+    if(!bouncedPlatform || (player.y + world.cameraY + player.r) < bouncedPlatform.y - 18){
+      player.lastBouncePlatform = -1;
     }
   }
 

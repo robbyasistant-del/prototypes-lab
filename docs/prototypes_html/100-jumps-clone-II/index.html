@@ -171,13 +171,38 @@ const ACH = [
   {id:'closeCall',name:'Close Call',icon:'&#9711;',desc:'Land near platform edge'},
   {id:'phoenix',name:'Phoenix',icon:'&#9832;',desc:'Recover from 2 fails and still win'},
   {id:'flawless',name:'Flawless',icon:'&#10004;',desc:'Win with no misses'},
-  {id:'marathonZen',name:'Cloud Drift',icon:'&#9729;',desc:'Reach 150 jumps in Zen'}
+  {id:'marathonZen',name:'Cloud Drift',icon:'&#9729;',desc:'Reach 150 jumps in Zen'},
+  {id:'hundredHero',name:'Hundred Hero',icon:'&#127942;',desc:'Complete the 100 jumps in Classic'},
+  {id:'lastSixSurge',name:'Last-Six Surge',icon:'&#9203;',desc:'Reach the final stretch and still finish Classic'},
+  {id:'calmFinisher',name:'Calm Finisher',icon:'&#127808;',desc:'Win Classic without ever reaching Perfect x3'},
+  {id:'quietFlow',name:'Quiet Flow',icon:'&#8767;',desc:'Play Zen for 10 minutes'},
+  {id:'softLanding',name:'Soft Landing',icon:'&#10084;',desc:'Fall 5 times in Zen and keep going'},
+  {id:'zenMarathon',name:'Zen Marathon',icon:'&#8734;',desc:'Reach 300 jumps in Zen'},
+  {id:'peacefulPerfect',name:'Peaceful Perfect',icon:'&#10047;',desc:'Reach Perfect x5 in Zen'},
+  {id:'endlessStarter',name:'Endless Starter',icon:'&#9654;',desc:'Reach 25 jumps in Endless'},
+  {id:'endlessClimber',name:'Endless Climber',icon:'&#9650;',desc:'Reach 75 jumps in Endless'},
+  {id:'endlessCenturion',name:'Endless Centurion',icon:'&#128285;',desc:'Reach 150 jumps in Endless'},
+  {id:'suddenEnd',name:'Sudden End',icon:'&#9888;',desc:'Reach 50+ jumps in Endless and die'},
+  {id:'noWayBack',name:'No Way Back',icon:'&#128128;',desc:'Reach 100+ jumps in Endless and die with no extra lives left'},
+  {id:'longRun',name:'Long Run',icon:'&#9201;',desc:'Survive 5 minutes in Endless'},
+  {id:'clockKeeper',name:'Clock Keeper',icon:'&#9200;',desc:'Win Time Attack with 20s or more left'},
+  {id:'lastSecond',name:'Last Second',icon:'&#8987;',desc:'Win Time Attack with 3s or less left'},
+  {id:'timeBanker',name:'Time Banker',icon:'&#128176;',desc:'Earn 10s or more from Perfect bonuses in Time Attack'},
+  {id:'movingTarget',name:'Moving Target',icon:'&#8646;',desc:'Land 10 times on moving platforms in Hardcore'},
+  {id:'ironNerves',name:'Iron Nerves',icon:'&#9876;',desc:'Win Hardcore with 1 life or less'}
 ];
+const MODE_ACH={
+  classic:['first','nightOwl','collector','triplePerfect','airDancer','closeCall','speedster','flawless','phoenix','hundredHero','lastSixSurge','calmFinisher'],
+  zen:['first','nightOwl','collector','triplePerfect','airDancer','closeCall','zenMaster','marathonZen','quietFlow','softLanding','zenMarathon','peacefulPerfect'],
+  endless:['first','nightOwl','collector','triplePerfect','airDancer','closeCall','endlessStarter','endlessClimber','endlessCenturion','suddenEnd','noWayBack','longRun'],
+  time:['first','nightOwl','collector','triplePerfect','airDancer','closeCall','speedster','flawless','phoenix','clockKeeper','lastSecond','timeBanker'],
+  hardcore:['first','nightOwl','collector','triplePerfect','airDancer','closeCall','speedster','flawless','phoenix','hardcoreChampion','movingTarget','ironNerves']
+};
 
 const cv = document.getElementById('gc'), ctx = cv.getContext('2d');
 let W=0,H=0,S=1;
 let state='idle', player, platforms, cam, score, power=0, streak=0, lives=0, particles=[];
-let mode='classic', theme='light', failCount=0, firstTs=0, lastTs=0, runEnd=false, jumpRot=0, bounce=0, timeLeft=60;
+let mode='classic', theme='light', failCount=0, firstTs=0, lastTs=0, runEnd=false, jumpRot=0, bounce=0, timeLeft=60, maxStreak=0, zenFalls=0, timeBonusEarned=0, hardcoreMovingLands=0;
 
 let settings = {sound:true,vibration:true,volume:.8,ambience:false,particles:false,theme:'light',mode:'classic'};
 let stats = {ach:{},leaderboard:{classic:[],zen:[],endless:[],time:[],hardcore:[]},themesUsed:{},all:{attempts:0,wins:0}};
@@ -224,7 +249,7 @@ function reset(){
   player={x:platforms[0].x+platforms[0].w*.35-13*S,y:y-27*S,vx:0,vy:0,idx:0,air:0,jumpStartTime:null};
   cam={x:0,v:0,target:0};
   score={remaining:targetJumps(),cleared:0};
-  state='idle';power=0;streak=0;lives=0;particles=[];runEnd=false;firstTs=performance.now();failCount=0;jumpRot=0;bounce=0;timeLeft=mode==='time'?100:60;
+  state='idle';power=0;streak=0;maxStreak=0;zenFalls=0;timeBonusEarned=0;hardcoreMovingLands=0;lives=0;particles=[];runEnd=false;firstTs=performance.now();failCount=0;jumpRot=0;bounce=0;timeLeft=mode==='time'?100:60;
   stats.all.attempts++; save();
 }
 
@@ -327,7 +352,7 @@ function update(dt){
       if(np && cx>=np.x&&cx<=np.x+np.w && pb<=np.y+2*S && b>=np.y-2*S && b<=np.y+tol){onLand(np,ni,cx); return;}
     }
     if(b>H+90*S){
-      if(modeCfg().noFail){if(mode==='zen'&&score.cleared>0)addLeaderboard(false); const cp=platforms[player.idx]; player.x=cp.x+cp.w*.35-13*S; player.y=cp.y-27*S; player.vx=player.vy=0; state='idle'; spawnDust(player.x+13*S,player.y+27*S,THEME_PRESETS[theme].platform);}
+      if(modeCfg().noFail){if(mode==='zen'&&score.cleared>0){addLeaderboard(false); zenFalls++; if(zenFalls>=5) unlock('softLanding');} const cp=platforms[player.idx]; player.x=cp.x+cp.w*.35-13*S; player.y=cp.y-27*S; player.vx=player.vy=0; state='idle'; spawnDust(player.x+13*S,player.y+27*S,THEME_PRESETS[theme].platform);}
       else if(lives>0){
         lives--; failCount++; sfxLose(); streak=0; // Reset Perfects al caer
         // Texto "-1 LIFE" en rojo
@@ -356,15 +381,24 @@ function update(dt){
   }
   ensure();
 
+  const secNow=(performance.now()-firstTs)/1000;
   if(mode==='zen'){
-    const sec=(performance.now()-firstTs)/1000;
-    if(sec>=300) unlock('zenMaster');
+    if(secNow>=300) unlock('zenMaster');
+    if(secNow>=600) unlock('quietFlow');
     if(score.cleared>=150) unlock('marathonZen');
+    if(score.cleared>=300) unlock('zenMarathon');
+  }
+  if(mode==='endless'){
+    if(secNow>=300) unlock('longRun');
+    if(score.cleared>=25) unlock('endlessStarter');
+    if(score.cleared>=75) unlock('endlessClimber');
+    if(score.cleared>=150) unlock('endlessCenturion');
   }
 }
 
 function onLand(plat,idx,cx){
-  const old=player.idx; player.idx=idx; player.vx=player.vy=0; player.y=plat.y-27*S; state='idle'; jumpRot=0; bounce=1;
+  const old=player.idx; const wasMoving=mode==='hardcore' && plat.moveAmp>0; player.idx=idx; player.vx=player.vy=0; player.y=plat.y-27*S; state='idle'; jumpRot=0; bounce=1;
+  if(wasMoving){hardcoreMovingLands++; if(hardcoreMovingLands>=10) unlock('movingTarget');}
   plat.moveAmp=0; plat.moveSpeed=0; plat.baseX=plat.x;
   const pc=plat.x+plat.w/2,dist=Math.abs(cx-pc),perfect=dist<=plat.w*.11;
   score.cleared += (idx-old); if(targetJumps()!==Infinity) score.remaining=Math.max(0,targetJumps()-score.cleared);
@@ -374,11 +408,12 @@ function onLand(plat,idx,cx){
 
   sfxLand(dist);
   if(perfect){
-    streak++; spawnPerfect(cx,plat.y); sfxPerfect(); 
-    if(mode==='time'){const bonus=streak; timeLeft += bonus; addFloatText(`+${bonus}s`, cx, plat.y - 58*S, THEME_PRESETS[theme].perfect, 15);}
+    streak++; maxStreak=Math.max(maxStreak,streak); spawnPerfect(cx,plat.y); sfxPerfect(); 
+    if(mode==='time'){const bonus=streak; timeLeft += bonus; timeBonusEarned += bonus; if(timeBonusEarned>=10) unlock('timeBanker'); addFloatText(`+${bonus}s`, cx, plat.y - 58*S, THEME_PRESETS[theme].perfect, 15);}
     // Texto "Perfect!" flotante con color del theme
     addFloatText('Perfect!', cx, plat.y - 40*S, THEME_PRESETS[theme].perfect, 16);
     if(streak>=3) unlock('triplePerfect');
+    if(mode==='zen'&&streak>=5) unlock('peacefulPerfect');
     // Cada 3 perfectos consecutivos = vida extra
     if(streak % 3 === 0) {
       lives++;
@@ -395,11 +430,16 @@ function endRun(win){
   const sec=(performance.now()-firstTs)/1000;
   if(win){
     stats.all.wins++; if(sec<60) unlock('speedster'); if(mode==='hardcore') unlock('hardcoreChampion'); if(failCount===0) unlock('flawless'); if(failCount>=2) unlock('phoenix');
+    if(mode==='classic'){unlock('hundredHero'); unlock('lastSixSurge'); if(maxStreak<3) unlock('calmFinisher');}
+    if(mode==='time'){if(timeLeft>=20) unlock('clockKeeper'); if(timeLeft<=3) unlock('lastSecond');}
+    if(mode==='hardcore'&&lives<=1) unlock('ironNerves');
     sfxWin(); spawnConfetti(player.x+13*S,player.y);
     ui.mt.textContent='Victory!';
     ui.ms.textContent = mode==='time' ? `Time Attack complete in ${sec.toFixed(2)}s` : `${score.cleared} jumps complete in ${sec.toFixed(1)}s`;
     ui.mb.textContent='Play Again';
   } else {
+    if(mode==='endless'&&score.cleared>=50) unlock('suddenEnd');
+    if(mode==='endless'&&score.cleared>=100&&lives===0) unlock('noWayBack');
     ui.mt.textContent='Game Over'; ui.ms.textContent=`You reached ${score.cleared} jumps`; ui.mb.textContent='Retry';
   }
   addLeaderboard(win);
@@ -626,7 +666,7 @@ document.addEventListener('keyup',up);
 
 function sh(el,fn){el.addEventListener('click',e=>{e.stopPropagation();fn(e)});el.addEventListener('touchend',e=>{e.preventDefault();e.stopPropagation();fn(e)},{passive:false})}
 function syncUI(){ui.togSound.classList.toggle('on',settings.sound);ui.togVib.classList.toggle('on',settings.vibration);ui.togAmb.classList.toggle('on',settings.ambience);ui.togParticles.classList.toggle('on',settings.particles);ui.vol.value=Math.round(settings.volume*100);ui.volRow.style.display=settings.sound?'flex':'none';ui.themeSel.value=settings.theme;ui.modeSel.value=settings.mode;}
-function renderStats(){ui.runJumps.textContent=score.cleared;ui.runTime.textContent=((performance.now()-firstTs)/1000).toFixed(1)+'s';ui.achGrid.innerHTML='';ACH.forEach(a=>{const d=document.createElement('div');d.className='ach'+(stats.ach[a.id]?'':' lock');d.title=a.desc;d.innerHTML=`<i>${a.icon}</i><b>${a.name}</b>`;ui.achGrid.appendChild(d)});const lb=stats.leaderboard[mode]||[];ui.lb.innerHTML=lb.length?lb.map((r,i)=>`<div class="row"><span>#${i+1} ${new Date(r.t).toLocaleDateString()}</span><span>${r.j} jumps - ${r.time.toFixed(1)}s</span></div>`).join(''):'<div class="row"><span>No scores yet</span><span>Play now!</span></div>'}
+function renderStats(){ui.runJumps.textContent=score.cleared;ui.runTime.textContent=((performance.now()-firstTs)/1000).toFixed(1)+'s';ui.achGrid.innerHTML='';const modeAch=(MODE_ACH[mode]||[]).map(id=>ACH.find(a=>a.id===id)).filter(Boolean);modeAch.forEach(a=>{const d=document.createElement('div');d.className='ach'+(stats.ach[a.id]?'':' lock');d.title=a.desc;d.innerHTML=`<i>${a.icon}</i><b>${a.name}</b>`;ui.achGrid.appendChild(d)});const lb=stats.leaderboard[mode]||[];ui.lb.innerHTML=lb.length?lb.map((r,i)=>`<div class="row"><span>#${i+1} ${new Date(r.t).toLocaleDateString()}</span><span>${r.j} jumps - ${r.time.toFixed(1)}s</span></div>`).join(''):'<div class="row"><span>No scores yet</span><span>Play now!</span></div>'}
 
 sh(document.getElementById('settings-btn'),()=>{syncUI();ui.settingsOverlay.classList.add('show')});
 sh(document.getElementById('settings-float'),()=>{syncUI();ui.settingsOverlay.classList.add('show')});
@@ -661,7 +701,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.22-10';
+document.getElementById('version-hash').textContent='2026.03.25-1';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

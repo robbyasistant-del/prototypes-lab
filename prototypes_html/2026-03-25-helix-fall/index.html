@@ -11,14 +11,16 @@ html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(circle
 canvas{display:block;width:100vw;height:100vh}
 button,select,input{font:inherit}
 .ui{position:fixed;inset:0;pointer-events:none}
-.topbar,.footer,.hint,.center,.fab,.toast,.modal{position:fixed}
+.topbar,.footer,.hint,.center,.fab,.toast,.modal,.touchbar{position:fixed}
 .topbar{top:16px;left:16px;right:16px;display:flex;justify-content:space-between;gap:10px;pointer-events:none}
 .panel{pointer-events:auto;background:rgba(8,15,30,.58);border:1px solid var(--line);backdrop-filter:blur(14px);border-radius:18px;box-shadow:0 10px 35px rgba(0,0,0,.25)}
 .metric{padding:10px 14px;min-width:92px}.metric .label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.metric .value{font-weight:900;font-size:24px;line-height:1.05;margin-top:4px}
 .side{display:flex;gap:10px;align-items:flex-start}
-.fab{top:18px;width:52px;height:52px;border:none;border-radius:16px;background:rgba(8,15,30,.72);color:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.25);pointer-events:auto;font-size:23px;cursor:pointer}.fab.left{left:16px}.fab.right{right:16px}
+.fab{top:18px;width:52px;height:52px;border:none;border-radius:16px;background:rgba(8,15,30,.82);color:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.25);pointer-events:auto;font-size:23px;cursor:pointer}.fab.left{left:16px}.fab.right{right:16px}
 .footer{left:50%;bottom:14px;transform:translateX(-50%);padding:6px 12px;font-size:12px;color:var(--muted);background:rgba(7,12,24,.58);border:1px solid var(--line);border-radius:999px;pointer-events:none}
 .hint{left:50%;bottom:54px;transform:translateX(-50%);font-size:13px;color:#dce9ff;background:rgba(7,12,24,.62);border:1px solid var(--line);padding:8px 12px;border-radius:999px;pointer-events:none;max-width:min(92vw,760px);text-align:center}
+.touchbar{left:12px;right:12px;bottom:96px;display:none;justify-content:space-between;gap:12px;pointer-events:none;z-index:20}
+.touchbtn{flex:1;height:64px;border:none;border-radius:22px;background:rgba(8,15,30,.66);color:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.22);font-size:28px;font-weight:900;pointer-events:auto;touch-action:none;user-select:none}
 .center{left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,420px);padding:22px;border-radius:28px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.35);pointer-events:auto}
 .center.hidden,.modal.hidden,.toast.hidden{display:none}
 .center h1,.modal h2{margin:0 0 8px;font-size:30px;letter-spacing:-.04em}.sub{color:var(--muted);line-height:1.45;font-size:15px}
@@ -32,7 +34,7 @@ button,select,input{font:inherit}
 input[type=range]{width:150px} select{background:#101a30;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px}
 .toast{left:50%;bottom:90px;transform:translateX(-50%);background:rgba(0,0,0,.82);padding:10px 14px;border-radius:999px;font-weight:700}
 .small{font-size:12px;color:var(--muted)}
-@media (max-width:560px){.metric{min-width:76px;padding:8px 12px}.metric .value{font-size:20px}.topbar{top:78px}.kpis{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr 1fr}.hint{bottom:18px;font-size:12px}}
+@media (max-width:560px){.metric{min-width:76px;padding:8px 12px}.metric .value{font-size:20px}.topbar{top:92px;left:10px;right:10px}.fab{top:16px;width:58px;height:58px;font-size:24px}.fab.left{left:10px}.fab.right{right:10px}.kpis{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr 1fr}.hint{bottom:18px;font-size:12px;max-width:calc(100vw - 18px);padding:8px 10px}.touchbar{display:flex}}
 </style>
 </head>
 <body>
@@ -51,7 +53,8 @@ input[type=range]{width:150px} select{background:#101a30;color:var(--text);borde
     </div>
   </div>
   <div class="hint" id="hint">Drag or use A/D / ←→ to steer the ball through black gaps. Cyan = safe, red = deadly.</div>
-  <div class="footer">Helix Fall Sprint · v2026.03.25-2</div>
+  <div class="touchbar" id="touchbar"><button class="touchbtn" id="leftBtn">←</button><button class="touchbtn" id="rightBtn">→</button></div>
+  <div class="footer">Helix Fall Sprint · v2026.03.25-3</div>
 </div>
 
 <div class="center" id="startCard">
@@ -141,7 +144,7 @@ document.getElementById('volumeInput').value = settings.volume ?? 65;
 document.getElementById('themeInput').value = settings.theme || 'midnight';
 
 let last=0,flash=0,shake=0,slowmoTimer=0;
-let input = {left:false,right:false,pointerX:null};
+let input = {left:false,right:false,pointerX:null,pointerActive:false};
 let state='menu';
 let cameraY=0;
 let score=0, depth=0, combo=1, maxCombo=1, cleared=0, dangerMeter=0;
@@ -499,12 +502,23 @@ document.addEventListener('keyup',e=>{
   if(['ArrowRight','d','D'].includes(e.key)) input.right=false;
 });
 canvas.addEventListener('pointerdown',e=>{
+  input.pointerActive=true;
   input.pointerX=e.clientX;
   if(state==='menu') resetRun();
   else if(state==='ended' && ui.endModal.classList.contains('hidden')) resetRun();
 });
-canvas.addEventListener('pointermove',e=>{ if(e.pressure>0 || e.buttons) input.pointerX=e.clientX; });
-['pointerup','pointercancel','pointerleave'].forEach(ev=>canvas.addEventListener(ev,()=>input.pointerX=null));
+canvas.addEventListener('pointermove',e=>{ if(input.pointerActive) input.pointerX=e.clientX; });
+['pointerup','pointercancel','pointerleave'].forEach(ev=>canvas.addEventListener(ev,()=>{ input.pointerX=null; input.pointerActive=false; }));
+const hold=(id,key)=>{
+  const el=document.getElementById(id);
+  if(!el) return;
+  const on=()=>{ input[key]=true; input.pointerX=null; input.pointerActive=false; };
+  const off=()=>{ input[key]=false; };
+  ['pointerdown','touchstart','mousedown'].forEach(evt=>el.addEventListener(evt,e=>{ e.preventDefault(); on(); },{passive:false}));
+  ['pointerup','pointercancel','pointerleave','touchend','touchcancel','mouseup'].forEach(evt=>el.addEventListener(evt,e=>{ e.preventDefault(); off(); },{passive:false}));
+};
+hold('leftBtn','left');
+hold('rightBtn','right');
 </script>
 </body>
 </html>

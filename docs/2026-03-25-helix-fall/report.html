@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Helix Fall Tower Spin Report</title>
+<title>Helix Fall Mechanic Correction Report</title>
 <style>
 body{font-family:Inter,Segoe UI,Arial;background:#0a1223;color:#ebf3ff;max-width:920px;margin:0 auto;padding:32px;line-height:1.65}
 section{background:#121d35;border:1px solid #2c436d;border-radius:18px;padding:20px;margin:16px 0}
@@ -12,31 +12,30 @@ h1,h2{line-height:1.15}
 </style>
 </head>
 <body>
-<h1>Helix Fall — Tower Spin Rework Report</h1>
-<p><a href="./index.html">Play the rotating-tower prototype</a></p>
+<h1>Helix Fall — Mechanic Correction Report</h1>
+<p><a href="./index.html">Play the updated prototype</a></p>
 <section>
-  <h2>Why this rework happened</h2>
-  <p>The previous rebuild improved readability but still framed play as moving the ball horizontally inside a shaft. That was the wrong feel. This pass changes the fantasy so the ball stays centered while the pillar and stacked platforms rotate under it, closer to Helix Jump.</p>
+  <h2>What was corrected</h2>
+  <p>This pass fixes the core interaction to better match the original Helix Jump loop: blue/safe slices stop the fall and bounce the ball modestly, while only a true gap allows the ball to keep falling, clear the level, and score.</p>
 </section>
 <section>
-  <h2>What changed in r7 tower-spin</h2>
+  <h2>What changed in r10 mechanic-match</h2>
   <ul>
-    <li><strong>Centered player ball</strong> that remains visually anchored over the tower during play.</li>
-    <li><strong>Rotating tower presentation</strong> driven by drag/swipe and keyboard input.</li>
-    <li><strong>Angular platform sectors</strong> with safe cyan slices, dark gaps, and red danger wedges.</li>
-    <li><strong>Side hiding / wraparound effect</strong> so platform slices visually move around the left and right sides of the pillar as you spin.</li>
-    <li><strong>Natural controls</strong> that let the player drag the world rather than chase the ball.</li>
-    <li><strong>Preserved game loop</strong>: rotate a gap beneath the ball to keep falling, bounce on safe slices, die on red.</li>
-    <li><strong>Visible version bump</strong> to <code>v2026.03.25-r7 tower-spin</code>.</li>
+    <li><strong>Centered ball / rotating tower</strong> remains the interaction model.</li>
+    <li><strong>Stable safe collision</strong> snaps the ball onto blue slices and rebounds it instead of letting it slip through.</li>
+    <li><strong>Gap clear scoring</strong> now happens when the player actually passes a platform through its opening.</li>
+    <li><strong>Platform break feedback</strong> throws ring shards when a row is cleared.</li>
+    <li><strong>Removed bounce scoring</strong> so points track actual clears rather than ordinary waiting bounces.</li>
+    <li><strong>Visible version bump</strong> to <code>v2026.03.26-r10 mechanic-match</code>.</li>
   </ul>
 </section>
 <section>
-  <h2>Design intent</h2>
-  <p>This is still a lightweight 2D prototype, but the interaction model now matches the expected mental model much better. The player reads the ball as fixed and the tower as the object being manipulated. That single change makes the whole toy feel closer to the reference genre.</p>
+  <h2>Reference note</h2>
+  <p>Web search tooling was unavailable during this pass, so the correction was based on established knowledge of Helix Jump’s platform loop: safe platform = catch + small bounce, gap = pass + break + score, danger = fail.</p>
 </section>
 <section>
-  <h2>Local verification target</h2>
-  <p>Before shipping, verify locally that: the ball remains centered, dragging right rotates the tower right, dragging left reverses it, platform slices visually wrap around the pillar edges, gaps and red wedges are readable, and the mirrored docs files match the prototype files.</p>
+  <h2>Verification target</h2>
+  <p>Local verification should confirm: no blue-platform tunneling, no repeated false collision spam, readable small bounce on safe contact, visible break feedback on gap clears, and the mirrored docs files matching the prototype files.</p>
 </section>
 </body>
 </html>

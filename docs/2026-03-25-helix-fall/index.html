@@ -22,10 +22,10 @@ button{font:inherit}
 .stat .value{font-size:24px;font-weight:900;line-height:1.05;margin-top:4px}
 .menu,.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;pointer-events:auto;background:rgba(2,5,12,.28)}
 .hidden{display:none !important}
-.card{width:min(94vw,500px);border-radius:28px;padding:22px}
 h1,h2{margin:0 0 8px;line-height:1.05;letter-spacing:-.04em}
 h1{font-size:38px} h2{font-size:30px}
 p{color:var(--muted);line-height:1.5}
+.card{width:min(94vw,500px);border-radius:28px;padding:22px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
 .badge{border-radius:18px;padding:12px}.badge b{display:block;font-size:20px;margin-bottom:4px}.badge span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.actions>*{flex:1}
@@ -43,7 +43,7 @@ p{color:var(--muted);line-height:1.5}
 <body>
 <canvas id="game" aria-label="Helix Fall Rotating Tower game canvas"></canvas>
 <div class="ui">
-  <div class="version badge">v2026.03.25-r9 bounce-fix</div>
+  <div class="version badge">v2026.03.26-r10 mechanic-match</div>
   <div class="top">
     <div class="cluster">
       <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
@@ -55,17 +55,17 @@ p{color:var(--muted);line-height:1.5}
       <button class="action" id="restartBtn" style="flex:0 0 auto">↻ Restart</button>
     </div>
   </div>
-  <div class="controls">Drag anywhere to spin the tower · ←/→ also rotate · keep the ball centered and open a gap underneath it.</div>
+  <div class="controls">Drag anywhere to spin the tower · ←/→ also rotate · safe blue slices bounce you back up · only gaps let you drop and break a level.</div>
 </div>
 
 <div class="menu" id="menu">
   <div class="card">
     <h1>Helix Fall: Tower Spin</h1>
-    <p>This rebuild switches to the proper fantasy: the ball stays centered while the pillar and stacked platforms rotate around it. Swipe to spin the tower, line gaps up under the ball, bounce on safe slices, and avoid the red danger wedges.</p>
+    <p>This pass tightens the toy around the real Helix Jump loop: the ball stays centered, blue slices stop the fall with a small bounce, and only a gap lets you pass through, break the platform, and score.</p>
     <div class="grid">
       <div class="badge"><b>Centered ball</b><span>Player stays locked over the pillar</span></div>
-      <div class="badge"><b>Visible tower spin</b><span>Rings wrap around and hide to each side</span></div>
-      <div class="badge"><b>Natural touch</b><span>Drag the world, don’t chase the ball</span></div>
+      <div class="badge"><b>Safe bounce</b><span>Blue slices catch and rebound you</span></div>
+      <div class="badge"><b>Gap break</b><span>Passing a gap clears that ring and scores</span></div>
     </div>
     <div class="actions">
       <button class="action primary" id="playBtn">Play now</button>
@@ -117,8 +117,8 @@ const player = {
 };
 const input = {dragging:false,lastX:0,deltaX:0,keyDir:0};
 const physics = {
-  gravity:0.48,
-  bounce:-11.4,
+  gravity:0.52,
+  bounce:-8.2,
   platformGap:122,
   collisionAngle:0,
   keyboardTorque:0.0028,
@@ -145,7 +145,7 @@ resize();
 function makeSegments(){
   const gapCenter = rand(0, TAU);
   const gapWidth = rand(0.82, 1.02);
-  const dangerWidth = rand(0.36, 0.56);
+  const dangerWidth = rand(0.34, 0.5);
   const safeStart = gapCenter + gapWidth * 0.5;
   const safeEnd = gapCenter + TAU - gapWidth * 0.5;
   const dangerStart = safeStart + rand(0.55, Math.max(0.68, (TAU - gapWidth) - dangerWidth - 0.55));
@@ -154,7 +154,7 @@ function makeSegments(){
 }
 function makePlatform(i,y){
   const seg = makeSegments();
-  return {i,y,h:24,pulse:Math.random()*TAU,cleared:false,...seg};
+  return {i,y,h:24,pulse:Math.random()*TAU,cleared:false,clearFade:0,clearScored:false,...seg};
 }
 function clearRun(){
   world.playing = false; world.time = 0; world.score = 0; world.depth = 0; world.streak = 0; world.flash = 0; world.rumble = 0;
@@ -170,16 +170,47 @@ function ensurePlatforms(){
     const last = world.platforms[world.platforms.length - 1];
     world.platforms.push(makePlatform(world.nextIndex++, last.y + physics.platformGap));
   }
-  world.platforms = world.platforms.filter(p => p.y > world.cameraY - 220);
+  world.platforms = world.platforms.filter(p => p.y > world.cameraY - 260 && (!p.cleared || p.clearFade > 0.02));
 }
 function syncUi(){
   ui.score.textContent = Math.floor(world.score);
-  ui.depth.textContent = Math.floor(world.depth);
+  ui.depth.textContent = Math.floor(world.depth / physics.platformGap);
   ui.streak.textContent = world.streak;
   ui.state.textContent = world.playing ? (player.alive ? (player.bouncePulse > 0.08 ? 'Bounce' : 'Falling') : 'Down') : 'Ready';
 }
 function burst(x,y,color,count=16,force=1){
-  for(let i=0;i<count;i++) world.particles.push({x,y,vx:rand(-2.8,2.8)*force,vy:rand(-4.4,1.2)*force,life:rand(20,38),max:38,color,size:rand(3,7)});
+  for(let i=0;i<count;i++) world.particles.push({kind:'spark',x,y,vx:rand(-2.8,2.8)*force,vy:rand(-4.4,1.2)*force,life:rand(20,38),max:38,color,size:rand(3,7)});
+}
+function burstPlatformBreak(p){
+  const segments = [
+    [p.gapEnd + world.towerAngle, p.dangerStart + world.towerAngle, '#63e4ff'],
+    [p.dangerStart + world.towerAngle, p.dangerEnd + world.towerAngle, '#ff5a7a'],
+    [p.dangerEnd + world.towerAngle, p.gapStart + world.towerAngle + TAU, '#63e4ff']
+  ];
+  const baseY = p.y;
+  for(const [start,end,color] of segments){
+    const span = end - start;
+    if(span <= 0.08) continue;
+    const chunks = Math.max(4, Math.round(span / 0.28));
+    for(let i=0;i<chunks;i++){
+      const a = start + span * ((i + 0.5) / chunks);
+      const front = Math.max(0.28, (Math.cos(a) + 1) * 0.5);
+      world.particles.push({
+        kind:'shard',
+        x: player.x + Math.sin(a) * world.ringRadius,
+        y: baseY,
+        vx: Math.sin(a) * rand(1.4,3.2),
+        vy: rand(-2.6,-0.3),
+        spin: rand(-0.18,0.18),
+        angle: rand(0,TAU),
+        w: rand(14,22),
+        h: rand(8,14) * front,
+        life: rand(30,46),
+        max: 46,
+        color
+      });
+    }
+  }
 }
 function startGame(){
   clearRun();
@@ -195,7 +226,7 @@ function endGame(reason){
   $('gameOverTitle').textContent = reason === 'danger' ? 'Danger wedge hit' : 'Lost the tower';
   $('gameOverText').textContent = reason === 'danger' ? 'The red slice rotated under the ball.' : 'You fell out of the readable play lane.';
   $('finalScore').textContent = Math.floor(world.score);
-  $('finalDepth').textContent = Math.floor(world.depth);
+  $('finalDepth').textContent = Math.floor(world.depth / physics.platformGap);
   $('finalBest').textContent = best;
   gameOver.classList.remove('hidden');
   syncUi();
@@ -206,6 +237,19 @@ function platformStateAtBall(p){
   if(angleInRange(contactAngle, p.gapStart, p.gapEnd)) return 'gap';
   if(angleInRange(contactAngle, p.dangerStart, p.dangerEnd)) return 'danger';
   return 'safe';
+}
+function clearPlatform(p){
+  if(p.clearScored) return;
+  p.cleared = true;
+  p.clearScored = true;
+  p.clearFade = 1;
+  player.fallChain += 1;
+  world.streak = Math.max(world.streak, player.fallChain);
+  world.score += 10 + player.fallChain * 5;
+  world.flash = 1;
+  world.rumble = 8;
+  burstPlatformBreak(p);
+  burst(player.x, player.y + world.cameraY, '#63e4ff', 12, 0.9);
 }
 
 function update(){
@@ -228,43 +272,43 @@ function update(){
   const currentY = player.y + world.cameraY;
   const currentBottom = currentY + player.r;
 
+  let collided = false;
   for(const p of world.platforms){
-    if(player.vy > 0 && player.bounceCooldown <= 0 && player.lastBouncePlatform !== p.i && prevBottom <= p.y && currentBottom >= p.y){
+    if(p.cleared){
+      p.clearFade *= 0.9;
+      continue;
+    }
+    if(prevBottom <= p.y && currentBottom >= p.y){
       const state = platformStateAtBall(p);
       if(state === 'gap'){
-        if(!p.cleared){
-          p.cleared = true;
-          player.fallChain += 1;
-          world.streak = Math.max(world.streak, player.fallChain);
-          world.score += 15 + player.fallChain * 10;
-          world.flash = 1;
-          burst(player.x, player.y + world.cameraY, '#63e4ff', 14, 1.1);
-        }
-      } else if(state === 'danger'){
+        clearPlatform(p);
+        continue;
+      }
+      if(player.vy <= 0 || player.bounceCooldown > 0 || player.lastBouncePlatform === p.i) continue;
+      if(state === 'danger'){
         burst(player.x, player.y + world.cameraY, '#ff5a7a', 28, 1.5);
         world.rumble = 18;
         endGame('danger');
         return;
-      } else {
-        world.cameraY = p.y - player.r - player.y - 2;
-        player.vy = physics.bounce;
-        player.squash = 1.42;
-        player.bouncePulse = 1;
-        player.lastBouncePlatform = p.i;
-        player.bounceCooldown = 10;
-        world.towerVel *= 0.55;
-        world.score += 4 + player.fallChain * 2;
-        player.fallChain = 0;
-        world.rumble = 7;
-        burst(player.x, player.y + world.cameraY, '#fff7c0', 20, 1.05);
-        break;
       }
+      world.cameraY = p.y - player.r - player.y - 0.5;
+      player.vy = physics.bounce;
+      player.squash = 1.24;
+      player.bouncePulse = 1;
+      player.lastBouncePlatform = p.i;
+      player.bounceCooldown = 8;
+      player.fallChain = 0;
+      world.towerVel *= 0.58;
+      world.rumble = 5;
+      burst(player.x, player.y + world.cameraY, '#fff7c0', 10, 0.55);
+      collided = true;
+      break;
     }
   }
 
   if(player.lastBouncePlatform !== -1){
     const bouncedPlatform = world.platforms.find(p => p.i === player.lastBouncePlatform);
-    if(!bouncedPlatform || (player.y + world.cameraY + player.r) < bouncedPlatform.y - 18){
+    if(!bouncedPlatform || bouncedPlatform.cleared || (player.y + world.cameraY + player.r) < bouncedPlatform.y - 26){
       player.lastBouncePlatform = -1;
     }
   }
@@ -272,11 +316,10 @@ function update(){
   player.squash = lerp(player.squash, 1, 0.18);
   player.bouncePulse = Math.max(0, player.bouncePulse * 0.86 - 0.03);
   world.depth = Math.max(world.depth, world.cameraY);
-  world.score += 0.08 + Math.max(0, player.vy) * 0.015;
   world.flash *= 0.89;
   world.rumble *= 0.86;
   ensurePlatforms();
-  if(player.y > innerHeight + 140) endGame('fall');
+  if(!collided && player.y > innerHeight + 140) endGame('fall');
   syncUi();
 }
 
@@ -328,7 +371,7 @@ function sampleSegment(start,end,steps){
   }
   return pts;
 }
-function drawArcBand(y, start, end, fill, glow, thickness){
+function drawArcBand(y, start, end, fill, glow, thickness, alpha=1){
   const pts = sampleSegment(start,end,56);
   if(pts.length < 2) return;
   ctx.beginPath();
@@ -336,28 +379,34 @@ function drawArcBand(y, start, end, fill, glow, thickness){
   for(const p of pts) ctx.lineTo(p.x, y + thickness * p.squash * 0.5);
   for(let i=pts.length-1;i>=0;i--){ const p = pts[i]; ctx.lineTo(p.x, y - thickness * p.squash * 0.5); }
   ctx.closePath();
+  ctx.save();
+  ctx.globalAlpha = alpha;
   ctx.shadowBlur = glow ? 22 : 0;
   ctx.shadowColor = glow || 'transparent';
   ctx.fillStyle = fill;
   ctx.fill();
-  ctx.shadowBlur = 0;
+  ctx.restore();
 }
 function drawPlatforms(){
   for(const p of world.platforms){
     const y = p.y - world.cameraY;
-    if(y < -80 || y > innerHeight + 100) continue;
+    if(y < -120 || y > innerHeight + 100) continue;
+    if(p.cleared && p.clearFade <= 0.02) continue;
     const rotGapStart = p.gapStart + world.towerAngle;
     const rotGapEnd = p.gapEnd + world.towerAngle;
     const rotDangerStart = p.dangerStart + world.towerAngle;
     const rotDangerEnd = p.dangerEnd + world.towerAngle;
+    const alpha = p.cleared ? p.clearFade : 1;
 
-    drawArcBand(y, rotGapEnd, rotDangerStart, '#63e4ff', 'rgba(99,228,255,.45)', p.h);
-    drawArcBand(y, rotDangerEnd, rotGapStart + TAU, '#63e4ff', 'rgba(99,228,255,.45)', p.h);
-    drawArcBand(y, rotDangerStart, rotDangerEnd, '#ff5a7a', 'rgba(255,90,122,.7)', p.h + 2);
+    if(!p.cleared){
+      drawArcBand(y, rotGapEnd, rotDangerStart, '#63e4ff', 'rgba(99,228,255,.45)', p.h, alpha);
+      drawArcBand(y, rotDangerEnd, rotGapStart + TAU, '#63e4ff', 'rgba(99,228,255,.45)', p.h, alpha);
+      drawArcBand(y, rotDangerStart, rotDangerEnd, '#ff5a7a', 'rgba(255,90,122,.7)', p.h + 2, alpha);
+    }
 
     const pulse = 0.35 + 0.35 * Math.sin(world.time * 0.04 + p.pulse);
     const ringPts = sampleSegment(0, TAU, 88);
-    if(ringPts.length > 1){
+    if(ringPts.length > 1 && !p.cleared){
       ctx.beginPath();
       ctx.moveTo(ringPts[0].x, y);
       for(const pt of ringPts) ctx.lineTo(pt.x, y);
@@ -373,11 +422,14 @@ function drawPlatforms(){
       for(const pt of gapPts) ctx.lineTo(pt.x, y + 16 * pt.squash);
       for(let i=gapPts.length-1;i>=0;i--){ const pt = gapPts[i]; ctx.lineTo(pt.x, y - 16 * pt.squash); }
       ctx.closePath();
+      ctx.save();
+      ctx.globalAlpha = p.cleared ? Math.max(0, 0.55 * p.clearFade) : 1;
       ctx.fillStyle = 'rgba(3,7,14,.92)';
       ctx.fill();
       ctx.strokeStyle = 'rgba(255,255,255,.16)';
       ctx.lineWidth = 2;
       ctx.stroke();
+      ctx.restore();
     }
   }
 }
@@ -410,12 +462,27 @@ function drawGuide(){
 function drawParticles(){
   world.particles = world.particles.filter(p => p.life > 0);
   for(const p of world.particles){
-    p.x += p.vx; p.y += p.vy; p.vy += 0.14; p.life -= 1;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += p.kind === 'shard' ? 0.18 : 0.14;
+    p.life -= 1;
     const a = p.life / p.max;
+    ctx.save();
     ctx.globalAlpha = a;
-    ctx.fillStyle = p.color;
-    ctx.fillRect(p.x - p.size/2, p.y - world.cameraY - p.size/2, p.size, p.size);
-    ctx.globalAlpha = 1;
+    if(p.kind === 'shard'){
+      p.angle += p.spin;
+      ctx.translate(p.x, p.y - world.cameraY);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.strokeStyle = 'rgba(255,255,255,.18)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(-p.w/2, -p.h/2, p.w, p.h);
+    } else {
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x - p.size/2, p.y - world.cameraY - p.size/2, p.size, p.size);
+    }
+    ctx.restore();
   }
 }
 function render(){
@@ -457,7 +524,7 @@ $('playBtn').onclick = startGame;
 $('retryBtn').onclick = startGame;
 $('closeBtn').onclick = () => gameOver.classList.add('hidden');
 $('restartBtn').onclick = startGame;
-$('howBtn').onclick = () => alert('Drag left/right anywhere on the screen to rotate the tower under the centered ball. Open a gap below the ball to keep falling. Cyan is safe. Red kills.');
+$('howBtn').onclick = () => alert('Drag left/right anywhere on the screen to rotate the tower under the centered ball. Blue slices bounce you upward and stop the fall. Only a gap lets you pass through and break the ring. Red kills.');
 clearRun();
 syncUi();
 if(new URLSearchParams(location.search).get('autoplay') === '1') startGame();

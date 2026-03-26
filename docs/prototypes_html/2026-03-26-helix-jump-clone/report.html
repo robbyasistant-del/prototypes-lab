@@ -22,7 +22,16 @@ a{color:#225fe0}code{background:#eef4ff;padding:2px 6px;border-radius:6px}
     <li>Deterministic swept crossed-row detection: every row crossed during downward travel is checked in order.</li>
     <li>Safe-platform bounce, squash/stretch, combo reset to <code>x1</code>.</li>
     <li>Gap clears shatter the row, score points, play reward tones, and raise the combo for consecutive clears.</li>
-    <li>Simple faux-3D pillar/ring rendering in Canvas 2D.</li>
+    <li>Reworked faux-3D tower rendering with a thicker pillar, distinct back/front ring passes, and visible gap faces.</li>
+  </ul>
+</section>
+<section>
+  <h2>Visual readability pass</h2>
+  <ul>
+    <li>The center pillar is intentionally thicker so the structure reads as a cylinder instead of a thin post.</li>
+    <li>Ring platforms are now drawn in separate back and front layers around that pillar, which makes the wraparound shape clearer in 2D.</li>
+    <li>Front-facing platform faces have stronger top/side separation, while rear arcs are lighter and flatter so depth is easier to parse.</li>
+    <li>Gap boundaries now get explicit radial side faces, making the opening easier to spot at a glance.</li>
   </ul>
 </section>
 <section>
@@ -43,7 +52,7 @@ a{color:#225fe0}code{background:#eef4ff;padding:2px 6px;border-radius:6px}
 </section>
 <section>
   <h2>Version</h2>
-  <p><code>v2026.03.26-r1</code></p>
+  <p><code>v2026.03.26-r2</code></p>
 </section>
 </body>
 </html>

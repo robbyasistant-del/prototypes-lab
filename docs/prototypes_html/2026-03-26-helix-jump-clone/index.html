@@ -52,7 +52,7 @@ button{font:inherit}
   </div>
   <div class="combo-pop" id="comboPop">Combo x2</div>
   <div class="help">Drag/swipe left-right to rotate the tower · Keyboard: ← → / A D · Bounce on color, drop through gaps, shatter rows, build combo.</div>
-  <div class="version badge">v2026.03.26-r1</div>
+  <div class="version badge">v2026.03.26-r2</div>
 </div>
 
 <div class="overlay" id="menu">
@@ -131,7 +131,7 @@ const ball = {
   idleTimer:0
 };
 
-const view = {w:0,h:0,dpr:1,pillarRadius:42,ringRadius:150,rowSpacing:118,rowThickness:22,frontScale:0.34,backScale:0.18,contactAngle:Math.PI*0.5};
+const view = {w:0,h:0,dpr:1,pillarRadius:58,ringRadius:150,rowSpacing:118,rowThickness:26,frontScale:0.34,backScale:0.17,contactAngle:Math.PI*0.5};
 
 function resize(){
   view.dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -139,9 +139,10 @@ function resize(){
   canvas.width = Math.floor(view.w * view.dpr); canvas.height = Math.floor(view.h * view.dpr);
   canvas.style.width = view.w + 'px'; canvas.style.height = view.h + 'px';
   ctx.setTransform(view.dpr,0,0,view.dpr,0,0);
-  view.pillarRadius = clamp(view.w * 0.075, 30, 52);
-  view.ringRadius = clamp(view.w * 0.22, 110, 190);
+  view.pillarRadius = clamp(view.w * 0.108, 48, 84);
+  view.ringRadius = clamp(view.w * 0.235, 118, 200);
   view.rowSpacing = clamp(view.h * 0.14, 100, 126);
+  view.rowThickness = clamp(view.w * 0.032, 20, 30);
   ball.radius = clamp(view.w * 0.032, 14, 22);
   ball.screenX = view.w * 0.5;
   ball.screenY = view.h * anchorYFactor;
@@ -156,6 +157,9 @@ function paletteForDepth(i){
     top:`hsl(${hue} 92% 66%)`,
     top2:`hsl(${hue} 96% 79%)`,
     side:`hsl(${hue} 68% 54%)`,
+    sideDark:`hsl(${hue} 68% 42%)`,
+    back:`hsla(${hue} 55% 52% / .35)`,
+    rim:`hsla(${hue} 90% 96% / .85)`,
     shadow:`hsla(${hue} 70% 25% / .22)`
   };
 }
@@ -407,65 +411,171 @@ function drawPillar(){
   const wob = game.wobble * 6 * Math.sin(performance.now()*0.03);
   const x = ball.screenX + wob;
   const top = -120, h = view.h + 240;
-  const grad = ctx.createLinearGradient(x - view.pillarRadius,0,x + view.pillarRadius,0);
-  grad.addColorStop(0,'#e9efff'); grad.addColorStop(.32,'#cfd7f1'); grad.addColorStop(.68,'#aeb9df'); grad.addColorStop(1,'#dce6ff');
+  const left = x - view.pillarRadius;
+  const width = view.pillarRadius * 2;
+  const grad = ctx.createLinearGradient(left,0,left + width,0);
+  grad.addColorStop(0,'#f4f7ff');
+  grad.addColorStop(.18,'#dde5fb');
+  grad.addColorStop(.45,'#bcc8ea');
+  grad.addColorStop(.72,'#a6b3db');
+  grad.addColorStop(1,'#dfe9ff');
   ctx.fillStyle = grad;
-  ctx.fillRect(x - view.pillarRadius, top, view.pillarRadius * 2, h);
-  ctx.fillStyle = 'rgba(255,255,255,.34)'; ctx.fillRect(x - view.pillarRadius * .5, top, view.pillarRadius * .26, h);
-  ctx.fillStyle = 'rgba(73,95,146,.18)'; ctx.fillRect(x + view.pillarRadius * .4, top, view.pillarRadius * .3, h);
+  ctx.fillRect(left, top, width, h);
+
+  ctx.fillStyle = 'rgba(255,255,255,.45)';
+  ctx.fillRect(x - view.pillarRadius * .42, top, view.pillarRadius * .22, h);
+  ctx.fillStyle = 'rgba(58,76,124,.18)';
+  ctx.fillRect(x + view.pillarRadius * .24, top, view.pillarRadius * .34, h);
+
+  ctx.strokeStyle = 'rgba(77,94,137,.18)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(left, top); ctx.lineTo(left, top + h);
+  ctx.moveTo(left + width, top); ctx.lineTo(left + width, top + h);
+  ctx.stroke();
 }
 
-function drawRow(row, front){
-  if(row.cleared && row.breakAge > 0.06) return;
-  const y = worldToScreenY(row.worldY);
-  if(y < -80 || y > view.h + 80) return;
-  const ringRx = view.ringRadius;
-  const ringRy = view.ringRadius * (front ? view.frontScale : view.backScale);
-  const innerRx = view.pillarRadius + 7;
-  const innerRy = innerRx * (front ? view.frontScale : view.backScale);
-  const rotation = game.towerAngle + row.baseAngle;
-  const segments = row.segments;
-  const alpha = row.cleared ? clamp(1 - row.breakAge * 2.2, 0, 1) : 1;
-  for(const seg of segments){
-    const mid = wrap(seg.start + wrap(seg.end - seg.start) * 0.5 + rotation);
-    const isFront = Math.sin(mid) >= 0;
-    if(isFront !== front) continue;
-    ctx.save();
-    ctx.globalAlpha = alpha;
-    ctx.beginPath();
-    traceEllipseArc(ball.screenX, y, ringRx, ringRy, seg.start + rotation, seg.end + rotation, false);
-    traceEllipseArc(ball.screenX, y, innerRx, innerRy, seg.end + rotation, seg.start + rotation, true);
-    ctx.closePath();
-    const fill = ctx.createLinearGradient(ball.screenX, y - ringRy, ball.screenX, y + ringRy + view.rowThickness);
-    fill.addColorStop(0,row.color.top2); fill.addColorStop(1,row.color.top);
-    ctx.fillStyle = fill;
-    ctx.fill();
-    ctx.strokeStyle = front ? 'rgba(255,255,255,.48)' : 'rgba(68,84,124,.25)';
-    ctx.lineWidth = front ? 2.4 : 1.2;
-    ctx.stroke();
-    if(front){
-      ctx.beginPath();
-      traceEllipseArc(ball.screenX, y + view.rowThickness * 0.55, ringRx, ringRy, seg.start + rotation, seg.end + rotation, false);
-      traceEllipseArc(ball.screenX, y + view.rowThickness * 0.55, ringRx - 16, Math.max(2, ringRy - 4), seg.end + rotation, seg.start + rotation, true);
-      ctx.closePath();
-      ctx.fillStyle = row.color.side;
-      ctx.globalAlpha = alpha * 0.85;
-      ctx.fill();
+function sampleArcParts(start, end, rotation, front){
+  const span = wrap(end - start);
+  const parts = [];
+  const step = 0.08;
+  let active = null;
+  for(let d=0; d<=span + 0.0001; d += step){
+    const localA = start + Math.min(span, d);
+    const worldA = localA + rotation;
+    const visibleFront = Math.sin(worldA) >= 0;
+    const match = front ? visibleFront : !visibleFront;
+    if(match){
+      if(active == null) active = localA;
+    } else if(active != null){
+      const prev = start + Math.max(0, Math.min(span, d - step * 0.5));
+      if(wrap(prev - active) > 0.03) parts.push({start:wrap(active), end:wrap(prev)});
+      active = null;
     }
-    ctx.restore();
   }
+  if(active != null){
+    parts.push({start:wrap(active), end:wrap(end)});
+  }
+  return parts.filter(p => wrap(p.end - p.start) > 0.03);
 }
 
 function traceEllipseArc(cx,cy,rx,ry,start,end,anticlockwise){
-  const span = wrap(end - start || TAU);
-  const total = anticlockwise ? wrap(start - end) : span;
-  const steps = Math.max(6, Math.ceil(total / 0.18));
+  const total = anticlockwise ? wrap(start - end) : wrap(end - start);
+  const steps = Math.max(6, Math.ceil(total / 0.12));
   for(let i=0;i<=steps;i++){
     const t = i / steps;
     const a = anticlockwise ? start - total * t : start + total * t;
     const x = cx + Math.cos(a) * rx;
     const y = cy + Math.sin(a) * ry;
     if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+}
+
+function traceRingBand(cx,cy,outerRx,outerRy,innerRx,innerRy,start,end){
+  ctx.beginPath();
+  traceEllipseArc(cx,cy,outerRx,outerRy,start,end,false);
+  traceEllipseArc(cx,cy,innerRx,innerRy,end,start,true);
+  ctx.closePath();
+}
+
+function drawGapCap(cx, cy, outerRx, outerRy, innerRx, innerRy, angle, isFront, color, alpha){
+  const ox = cx + Math.cos(angle) * outerRx;
+  const oy = cy + Math.sin(angle) * outerRy;
+  const ix = cx + Math.cos(angle) * innerRx;
+  const iy = cy + Math.sin(angle) * innerRy;
+  const drop = isFront ? view.rowThickness : view.rowThickness * 0.45;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.beginPath();
+  ctx.moveTo(ox, oy);
+  ctx.lineTo(ix, iy);
+  ctx.lineTo(ix, iy + drop);
+  ctx.lineTo(ox, oy + drop);
+  ctx.closePath();
+  const g = ctx.createLinearGradient(ox, oy, ox, oy + drop);
+  g.addColorStop(0, isFront ? color.top2 : color.back);
+  g.addColorStop(1, isFront ? color.sideDark : 'rgba(73,86,119,.24)');
+  ctx.fillStyle = g;
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawRow(row, layer='front'){
+  if(row.cleared && row.breakAge > 0.06) return;
+  const y = worldToScreenY(row.worldY);
+  if(y < -100 || y > view.h + 100) return;
+
+  const cx = ball.screenX;
+  const rotation = game.towerAngle + row.baseAngle;
+  const outerRx = view.ringRadius;
+  const outerRyBack = view.ringRadius * view.backScale;
+  const outerRyFront = view.ringRadius * view.frontScale;
+  const innerRx = view.pillarRadius + 12;
+  const innerRyBack = innerRx * view.backScale;
+  const innerRyFront = innerRx * view.frontScale;
+  const alpha = row.cleared ? clamp(1 - row.breakAge * 2.2, 0, 1) : 1;
+
+  for(const seg of row.segments){
+    if(layer === 'back'){
+      const backParts = sampleArcParts(seg.start, seg.end, rotation, false);
+      for(const part of backParts){
+        ctx.save();
+        ctx.globalAlpha = alpha * 0.72;
+        traceRingBand(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, part.start + rotation, part.end + rotation);
+        const backFill = ctx.createLinearGradient(cx, y - outerRyBack, cx, y + view.rowThickness * 0.55);
+        backFill.addColorStop(0, 'rgba(255,255,255,.34)');
+        backFill.addColorStop(1, row.color.back);
+        ctx.fillStyle = backFill;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(74,88,122,.16)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      const segStartWorld = seg.start + rotation;
+      const segEndWorld = seg.end + rotation;
+      if(Math.sin(segStartWorld) < 0) drawGapCap(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, segStartWorld, false, row.color, alpha * 0.5);
+      if(Math.sin(segEndWorld) < 0) drawGapCap(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, segEndWorld, false, row.color, alpha * 0.5);
+      continue;
+    }
+
+    const frontParts = sampleArcParts(seg.start, seg.end, rotation, true);
+    for(const part of frontParts){
+      ctx.save();
+      ctx.globalAlpha = alpha;
+
+      traceRingBand(cx, y + view.rowThickness * 0.9, outerRx, outerRyFront, innerRx, innerRyFront, part.start + rotation, part.end + rotation);
+      const sideFill = ctx.createLinearGradient(cx, y, cx, y + view.rowThickness * 1.15);
+      sideFill.addColorStop(0, row.color.side);
+      sideFill.addColorStop(1, row.color.sideDark);
+      ctx.fillStyle = sideFill;
+      ctx.fill();
+
+      traceRingBand(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, part.start + rotation, part.end + rotation);
+      const topFill = ctx.createLinearGradient(cx, y - outerRyFront, cx, y + outerRyFront);
+      topFill.addColorStop(0, row.color.top2);
+      topFill.addColorStop(.5, row.color.top);
+      topFill.addColorStop(1, row.color.side);
+      ctx.fillStyle = topFill;
+      ctx.fill();
+
+      ctx.strokeStyle = row.color.rim;
+      ctx.lineWidth = 2.1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      traceEllipseArc(cx, y, outerRx, outerRyFront, part.start + rotation, part.end + rotation, false);
+      ctx.strokeStyle = 'rgba(255,255,255,.72)';
+      ctx.lineWidth = 2.2;
+      ctx.stroke();
+      ctx.restore();
+
+      const startWorld = part.start + rotation;
+      const endWorld = part.end + rotation;
+      if(Math.sin(startWorld) >= 0) drawGapCap(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, startWorld, true, row.color, alpha * 0.95);
+      if(Math.sin(endWorld) >= 0) drawGapCap(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, endWorld, true, row.color, alpha * 0.95);
+    }
   }
 }
 
@@ -511,10 +621,10 @@ function drawFlash(){
 
 function render(){
   drawBackground();
+  for(const row of game.ringRows) drawRow(row, 'back');
   drawPillar();
-  for(const row of game.ringRows) drawRow(row,false);
+  for(const row of game.ringRows) drawRow(row, 'front');
   drawBall();
-  for(const row of game.ringRows) drawRow(row,true);
   drawParticles();
   drawFlash();
 }

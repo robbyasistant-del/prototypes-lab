@@ -52,7 +52,7 @@ button{font:inherit}
   </div>
   <div class="combo-pop" id="comboPop">Combo x2</div>
   <div class="help">Drag/swipe left-right to rotate the tower · Keyboard: ← → / A D · Bounce on color, drop through gaps, shatter rows, build combo.</div>
-  <div class="version badge">v2026.03.26-r2</div>
+  <div class="version badge">v2026.03.26-r3</div>
 </div>
 
 <div class="overlay" id="menu">
@@ -158,9 +158,10 @@ function paletteForDepth(i){
     top2:`hsl(${hue} 96% 79%)`,
     side:`hsl(${hue} 68% 54%)`,
     sideDark:`hsl(${hue} 68% 42%)`,
-    back:`hsla(${hue} 55% 52% / .35)`,
-    rim:`hsla(${hue} 90% 96% / .85)`,
-    shadow:`hsla(${hue} 70% 25% / .22)`
+    back:`hsl(${hue} 48% 58%)`,
+    backDark:`hsl(${hue} 44% 44%)`,
+    rim:`hsla(${hue} 90% 96% / .92)`,
+    shadow:`hsla(${hue} 70% 25% / .32)`
   };
 }
 
@@ -478,12 +479,33 @@ function traceRingBand(cx,cy,outerRx,outerRy,innerRx,innerRy,start,end){
   ctx.closePath();
 }
 
+function drawArcWall(cx, cy, rx, ry, start, end, drop, topColor, bottomColor, alpha=1){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.beginPath();
+  traceEllipseArc(cx, cy, rx, ry, start, end, false);
+  for(let i=0;i<=Math.max(6, Math.ceil(wrap(end - start) / 0.12));i++){
+    const t = 1 - i / Math.max(6, Math.ceil(wrap(end - start) / 0.12));
+    const a = start + wrap(end - start) * t;
+    const x = cx + Math.cos(a) * rx;
+    const y = cy + Math.sin(a) * ry + drop;
+    ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  const g = ctx.createLinearGradient(cx, cy - ry, cx, cy + drop + ry);
+  g.addColorStop(0, topColor);
+  g.addColorStop(1, bottomColor);
+  ctx.fillStyle = g;
+  ctx.fill();
+  ctx.restore();
+}
+
 function drawGapCap(cx, cy, outerRx, outerRy, innerRx, innerRy, angle, isFront, color, alpha){
   const ox = cx + Math.cos(angle) * outerRx;
   const oy = cy + Math.sin(angle) * outerRy;
   const ix = cx + Math.cos(angle) * innerRx;
   const iy = cy + Math.sin(angle) * innerRy;
-  const drop = isFront ? view.rowThickness : view.rowThickness * 0.45;
+  const drop = isFront ? view.rowThickness : view.rowThickness * 0.62;
   ctx.save();
   ctx.globalAlpha = alpha;
   ctx.beginPath();
@@ -494,7 +516,7 @@ function drawGapCap(cx, cy, outerRx, outerRy, innerRx, innerRy, angle, isFront, 
   ctx.closePath();
   const g = ctx.createLinearGradient(ox, oy, ox, oy + drop);
   g.addColorStop(0, isFront ? color.top2 : color.back);
-  g.addColorStop(1, isFront ? color.sideDark : 'rgba(73,86,119,.24)');
+  g.addColorStop(1, isFront ? color.sideDark : color.backDark);
   ctx.fillStyle = g;
   ctx.fill();
   ctx.restore();
@@ -519,43 +541,54 @@ function drawRow(row, layer='front'){
     if(layer === 'back'){
       const backParts = sampleArcParts(seg.start, seg.end, rotation, false);
       for(const part of backParts){
+        const startA = part.start + rotation;
+        const endA = part.end + rotation;
+        drawArcWall(cx, y, outerRx, outerRyBack, startA, endA, view.rowThickness * 0.58, row.color.back, row.color.backDark, alpha * 0.96);
+        drawArcWall(cx, y, innerRx, innerRyBack, startA, endA, view.rowThickness * 0.58, row.color.backDark, row.color.backDark, alpha * 0.92);
+
         ctx.save();
-        ctx.globalAlpha = alpha * 0.72;
-        traceRingBand(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, part.start + rotation, part.end + rotation);
-        const backFill = ctx.createLinearGradient(cx, y - outerRyBack, cx, y + view.rowThickness * 0.55);
-        backFill.addColorStop(0, 'rgba(255,255,255,.34)');
+        ctx.globalAlpha = alpha;
+        traceRingBand(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, startA, endA);
+        const backFill = ctx.createLinearGradient(cx, y - outerRyBack, cx, y + view.rowThickness * 0.7);
+        backFill.addColorStop(0, '#ffffff');
+        backFill.addColorStop(.32, row.color.top2);
         backFill.addColorStop(1, row.color.back);
         ctx.fillStyle = backFill;
         ctx.fill();
-        ctx.strokeStyle = 'rgba(74,88,122,.16)';
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = 'rgba(74,88,122,.24)';
+        ctx.lineWidth = 1.3;
         ctx.stroke();
         ctx.restore();
       }
 
       const segStartWorld = seg.start + rotation;
       const segEndWorld = seg.end + rotation;
-      if(Math.sin(segStartWorld) < 0) drawGapCap(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, segStartWorld, false, row.color, alpha * 0.5);
-      if(Math.sin(segEndWorld) < 0) drawGapCap(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, segEndWorld, false, row.color, alpha * 0.5);
+      if(Math.sin(segStartWorld) < 0) drawGapCap(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, segStartWorld, false, row.color, alpha * 0.92);
+      if(Math.sin(segEndWorld) < 0) drawGapCap(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, segEndWorld, false, row.color, alpha * 0.92);
       continue;
     }
 
     const frontParts = sampleArcParts(seg.start, seg.end, rotation, true);
     for(const part of frontParts){
+      const startA = part.start + rotation;
+      const endA = part.end + rotation;
+      drawArcWall(cx, y, outerRx, outerRyFront, startA, endA, view.rowThickness * 0.96, row.color.side, row.color.sideDark, alpha);
+      drawArcWall(cx, y, innerRx, innerRyFront, startA, endA, view.rowThickness * 0.96, row.color.sideDark, row.color.backDark, alpha);
+
       ctx.save();
       ctx.globalAlpha = alpha;
-
-      traceRingBand(cx, y + view.rowThickness * 0.9, outerRx, outerRyFront, innerRx, innerRyFront, part.start + rotation, part.end + rotation);
-      const sideFill = ctx.createLinearGradient(cx, y, cx, y + view.rowThickness * 1.15);
-      sideFill.addColorStop(0, row.color.side);
-      sideFill.addColorStop(1, row.color.sideDark);
-      ctx.fillStyle = sideFill;
+      traceRingBand(cx, y + view.rowThickness * 0.92, outerRx, outerRyFront, innerRx, innerRyFront, startA, endA);
+      const bottomFill = ctx.createLinearGradient(cx, y + view.rowThickness * 0.1, cx, y + view.rowThickness * 1.16);
+      bottomFill.addColorStop(0, row.color.side);
+      bottomFill.addColorStop(1, row.color.sideDark);
+      ctx.fillStyle = bottomFill;
       ctx.fill();
 
-      traceRingBand(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, part.start + rotation, part.end + rotation);
+      traceRingBand(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, startA, endA);
       const topFill = ctx.createLinearGradient(cx, y - outerRyFront, cx, y + outerRyFront);
-      topFill.addColorStop(0, row.color.top2);
-      topFill.addColorStop(.5, row.color.top);
+      topFill.addColorStop(0, '#ffffff');
+      topFill.addColorStop(.22, row.color.top2);
+      topFill.addColorStop(.58, row.color.top);
       topFill.addColorStop(1, row.color.side);
       ctx.fillStyle = topFill;
       ctx.fill();
@@ -565,16 +598,14 @@ function drawRow(row, layer='front'){
       ctx.stroke();
 
       ctx.beginPath();
-      traceEllipseArc(cx, y, outerRx, outerRyFront, part.start + rotation, part.end + rotation, false);
-      ctx.strokeStyle = 'rgba(255,255,255,.72)';
+      traceEllipseArc(cx, y, outerRx, outerRyFront, startA, endA, false);
+      ctx.strokeStyle = 'rgba(255,255,255,.78)';
       ctx.lineWidth = 2.2;
       ctx.stroke();
       ctx.restore();
 
-      const startWorld = part.start + rotation;
-      const endWorld = part.end + rotation;
-      if(Math.sin(startWorld) >= 0) drawGapCap(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, startWorld, true, row.color, alpha * 0.95);
-      if(Math.sin(endWorld) >= 0) drawGapCap(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, endWorld, true, row.color, alpha * 0.95);
+      if(Math.sin(startA) >= 0) drawGapCap(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, startA, true, row.color, alpha * 0.98);
+      if(Math.sin(endA) >= 0) drawGapCap(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, endA, true, row.color, alpha * 0.98);
     }
   }
 }

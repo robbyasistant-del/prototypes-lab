@@ -1,29 +1,33 @@
-# Helix Fall rebuild note — r10 mechanic-match
+# Helix Fall rebuild note — r11 solid-sweep
 
-This pass corrects the core platform interaction to behave much more like Helix Jump.
+This pass replaces the fragile one-shot platform check with a deterministic swept collision pass.
 
 ## Mechanic correction
-- The ball stays visually centered while the tower rotates beneath it.
-- Blue/safe platform slices now **catch the ball and give a modest bounce**.
-- The ball **does not pass through safe slices** anymore.
-- Only the **gap** allows the ball to continue downward.
-- When a platform is passed through the gap, that platform now **breaks visually** and awards score.
-- Red/danger wedges still end the run.
+- Cyan/blue platform slices are now **genuinely solid**.
+- The ball **cannot pass through cyan** anymore.
+- The ball may **only** pass through the **black gap**.
+- Safe hits now do a true **position correction to the platform top** plus a small **upward bounce**.
+- Red/danger wedges still kill immediately.
+- Gap clears still break the row and award score.
 
-## Why this changed
-The prior tower-spin rebuild had the right presentation idea, but the interaction was still off: safe hits could feel too permissive and scoring did not clearly map to clearing a level. The target feel is the classic Helix Jump loop: wait/bounce on safe, keep falling only through gaps, and treat each passed platform as a clear.
+## What structurally changed
+- Reworked the fall resolution into a **continuous downward sweep** instead of a single end-of-frame check.
+- Each frame now tracks the ball’s downward travel in **substeps**, then tests every platform crossed in order.
+- For each crossed platform, collision state is sampled at the **exact crossing moment** using the interpolated tower angle.
+- A safe result immediately **snaps the ball above the platform** and reverses velocity, which prevents tunneling and repeated bounce spam.
+- A gap result clears that platform and lets the sweep continue downward.
+- A danger result ends the run on contact.
 
-## What changed in r10
-- Simplified collision handling around a single downward crossing test per platform row.
-- Safe collisions now snap the ball to the platform top and apply a small readable rebound.
-- Gap clears now mark the platform as cleared, spawn break shards, and award score there instead of on ordinary bounces.
-- Cleared rows fade out and stop participating in collision.
-- Kept the ball centered and the tower-driven rotation model from the previous rebuild.
-- Updated the visible version label to `v2026.03.26-r10 mechanic-match`.
-- Synced the docs mirror so the public copy matches the working prototype.
+## Why this fixes the bug
+The previous logic only asked “what is under the ball at one late instant?” which still allowed the ball to slip through cyan when timing/rotation lined up badly. The new logic resolves the entire downward path, so every crossed row gets a real contact decision before the ball can move past it.
 
-## Reference note
-Web search tooling was unavailable in this environment, so this correction used established knowledge of the original Helix Jump interaction: safe platform = stop + small bounce, gap = pass + break + score.
+## Version
+Visible version label updated to `v2026.03.26-r11 solid-sweep`.
 
-## Verification intent
-Local verification should confirm: stable safe bounces without tunneling or repeated false hits, no passing through blue slices, visible break-on-gap feedback, score only when clearing through gaps, and mirrored docs output matching the prototype.
+## Verification target
+Local verification should confirm:
+- cyan cannot be tunneled through,
+- black gap allows passing and clearing/scoring,
+- red still kills,
+- no sticking / repeated collision spam,
+- docs mirrors match the prototype copy.

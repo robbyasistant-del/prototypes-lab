@@ -43,7 +43,7 @@ p{color:var(--muted);line-height:1.5}
 <body>
 <canvas id="game" aria-label="Helix Fall Rotating Tower game canvas"></canvas>
 <div class="ui">
-  <div class="version badge">v2026.03.26-r10 mechanic-match</div>
+  <div class="version badge">v2026.03.26-r11 solid-sweep</div>
   <div class="top">
     <div class="cluster">
       <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
@@ -55,17 +55,17 @@ p{color:var(--muted);line-height:1.5}
       <button class="action" id="restartBtn" style="flex:0 0 auto">↻ Restart</button>
     </div>
   </div>
-  <div class="controls">Drag anywhere to spin the tower · ←/→ also rotate · safe blue slices bounce you back up · only gaps let you drop and break a level.</div>
+  <div class="controls">Drag anywhere to spin the tower · ←/→ also rotate · cyan slices are solid and bounce you back up · only the black gap lets you drop and clear a ring.</div>
 </div>
 
 <div class="menu" id="menu">
   <div class="card">
     <h1>Helix Fall: Tower Spin</h1>
-    <p>This pass tightens the toy around the real Helix Jump loop: the ball stays centered, blue slices stop the fall with a small bounce, and only a gap lets you pass through, break the platform, and score.</p>
+    <p>This pass makes the core rule deterministic: cyan is solid, red still kills, and only the black gap lets the centered ball pass and break a platform.</p>
     <div class="grid">
-      <div class="badge"><b>Centered ball</b><span>Player stays locked over the pillar</span></div>
-      <div class="badge"><b>Safe bounce</b><span>Blue slices catch and rebound you</span></div>
-      <div class="badge"><b>Gap break</b><span>Passing a gap clears that ring and scores</span></div>
+      <div class="badge"><b>Solid cyan</b><span>Safe slices always catch the ball</span></div>
+      <div class="badge"><b>Gap only</b><span>Clears happen only through black openings</span></div>
+      <div class="badge"><b>Swept collision</b><span>Continuous crossing test stops tunneling</span></div>
     </div>
     <div class="actions">
       <button class="action primary" id="playBtn">Play now</button>
@@ -105,7 +105,9 @@ const clamp = (v,a,b)=>Math.max(a, Math.min(b,v));
 const lerp = (a,b,t)=>a + (b-a)*t;
 const rand = (a,b)=>a + Math.random()*(b-a);
 function normalizeAngle(a){ while(a <= -Math.PI) a += TAU; while(a > Math.PI) a -= TAU; return a; }
-function angleInRange(angle,start,end){ const span = ((end - start) % TAU + TAU) % TAU; const rel = ((angle - start) % TAU + TAU) % TAU; return rel >= 0 && rel <= span; }
+function wrapAnglePositive(a){ return ((a % TAU) + TAU) % TAU; }
+function angleInRange(angle,start,end){ const span = wrapAnglePositive(end - start); const rel = wrapAnglePositive(angle - start); return rel >= 0 && rel <= span; }
+function angleCenter(start,end){ return start + wrapAnglePositive(end - start) * 0.5; }
 
 const world = {
   playing:false,time:0,score:0,depth:0,streak:0,flash:0,rumble:0,
@@ -113,7 +115,7 @@ const world = {
   particles:[],platforms:[],nextIndex:0
 };
 const player = {
-  x:0,y:0,r:18,vy:0,alive:true,fallChain:0,squash:1,bouncePulse:0,lastBouncePlatform:-1,bounceCooldown:0
+  x:0,y:0,r:18,vy:0,alive:true,fallChain:0,squash:1,bouncePulse:0,lastSafePlatform:-1
 };
 const input = {dragging:false,lastX:0,deltaX:0,keyDir:0};
 const physics = {
@@ -124,7 +126,9 @@ const physics = {
   keyboardTorque:0.0028,
   dragTorque:0.0105,
   damping:0.93,
-  maxVel:0.17
+  maxVel:0.17,
+  safeSnap:0.5,
+  tunnelStep:18
 };
 
 function resize(){
@@ -159,7 +163,7 @@ function makePlatform(i,y){
 function clearRun(){
   world.playing = false; world.time = 0; world.score = 0; world.depth = 0; world.streak = 0; world.flash = 0; world.rumble = 0;
   world.cameraY = 0; world.towerAngle = 0; world.towerVel = 0; world.particles = []; world.platforms = []; world.nextIndex = 0;
-  player.vy = 0; player.alive = true; player.fallChain = 0; player.squash = 1; player.bouncePulse = 0; player.lastBouncePlatform = -1; player.bounceCooldown = 0;
+  player.vy = 0; player.alive = true; player.fallChain = 0; player.squash = 1; player.bouncePulse = 0; player.lastSafePlatform = -1;
   let y = innerHeight * 0.52;
   for(let i=0;i<28;i++){ world.platforms.push(makePlatform(i, y)); y += physics.platformGap; }
   world.nextIndex = world.platforms.length;
@@ -232,8 +236,8 @@ function endGame(reason){
   syncUi();
 }
 
-function platformStateAtBall(p){
-  const contactAngle = normalizeAngle(physics.collisionAngle - world.towerAngle);
+function platformStateAtAngle(p,towerAngle){
+  const contactAngle = wrapAnglePositive(physics.collisionAngle - towerAngle);
   if(angleInRange(contactAngle, p.gapStart, p.gapEnd)) return 'gap';
   if(angleInRange(contactAngle, p.dangerStart, p.dangerEnd)) return 'danger';
   return 'safe';
@@ -251,10 +255,44 @@ function clearPlatform(p){
   burstPlatformBreak(p);
   burst(player.x, player.y + world.cameraY, '#63e4ff', 12, 0.9);
 }
+function resolveVerticalSweep(prevBottom,nextBottom,prevAngle,nextAngle){
+  if(nextBottom <= prevBottom) return false;
+  const crossed = world.platforms
+    .filter(p => !p.cleared && prevBottom <= p.y && nextBottom >= p.y)
+    .sort((a,b)=>a.y - b.y);
+  for(const p of crossed){
+    const t = clamp((p.y - prevBottom) / Math.max(0.0001, nextBottom - prevBottom), 0, 1);
+    const angleAtHit = normalizeAngle(prevAngle + (nextAngle - prevAngle) * t);
+    const state = platformStateAtAngle(p, angleAtHit);
+    if(state === 'gap'){
+      clearPlatform(p);
+      continue;
+    }
+    if(state === 'danger'){
+      burst(player.x, p.y, '#ff5a7a', 28, 1.5);
+      world.rumble = 18;
+      endGame('danger');
+      return true;
+    }
+    world.cameraY = p.y - player.r - player.y - physics.safeSnap;
+    player.vy = physics.bounce;
+    player.squash = 1.24;
+    player.bouncePulse = 1;
+    player.lastSafePlatform = p.i;
+    player.fallChain = 0;
+    world.towerAngle = angleAtHit;
+    world.towerVel *= 0.58;
+    world.rumble = 5;
+    burst(player.x, p.y - player.r, '#fff7c0', 10, 0.55);
+    return true;
+  }
+  return false;
+}
 
 function update(){
   if(!world.playing) return;
   world.time += 1;
+  const prevAngle = world.towerAngle;
   world.towerVel += input.keyDir * physics.keyboardTorque;
   if(input.deltaX){
     world.towerVel += input.deltaX * physics.dragTorque;
@@ -262,54 +300,35 @@ function update(){
   }
   world.towerVel *= physics.damping;
   world.towerVel = clamp(world.towerVel, -physics.maxVel, physics.maxVel);
-  world.towerAngle = normalizeAngle(world.towerAngle + world.towerVel);
+  const nextAngle = normalizeAngle(world.towerAngle + world.towerVel);
 
-  const prevY = player.y + world.cameraY;
-  const prevBottom = prevY + player.r;
-  if(player.bounceCooldown > 0) player.bounceCooldown -= 1;
+  const prevWorldY = player.y + world.cameraY;
+  const prevBottom = prevWorldY + player.r;
   player.vy += physics.gravity;
-  world.cameraY += Math.max(0, player.vy);
-  const currentY = player.y + world.cameraY;
-  const currentBottom = currentY + player.r;
+  const descent = Math.max(0, player.vy);
+  const steps = Math.max(1, Math.ceil(descent / physics.tunnelStep));
+  let resolved = false;
 
-  let collided = false;
-  for(const p of world.platforms){
-    if(p.cleared){
-      p.clearFade *= 0.9;
-      continue;
-    }
-    if(prevBottom <= p.y && currentBottom >= p.y){
-      const state = platformStateAtBall(p);
-      if(state === 'gap'){
-        clearPlatform(p);
-        continue;
-      }
-      if(player.vy <= 0 || player.bounceCooldown > 0 || player.lastBouncePlatform === p.i) continue;
-      if(state === 'danger'){
-        burst(player.x, player.y + world.cameraY, '#ff5a7a', 28, 1.5);
-        world.rumble = 18;
-        endGame('danger');
-        return;
-      }
-      world.cameraY = p.y - player.r - player.y - 0.5;
-      player.vy = physics.bounce;
-      player.squash = 1.24;
-      player.bouncePulse = 1;
-      player.lastBouncePlatform = p.i;
-      player.bounceCooldown = 8;
-      player.fallChain = 0;
-      world.towerVel *= 0.58;
-      world.rumble = 5;
-      burst(player.x, player.y + world.cameraY, '#fff7c0', 10, 0.55);
-      collided = true;
+  for(let step=0; step<steps; step++){
+    const subPrevBottom = player.y + world.cameraY + player.r;
+    const subPrevAngle = normalizeAngle(prevAngle + (nextAngle - prevAngle) * (step / steps));
+    const move = descent / steps;
+    world.cameraY += move;
+    const subNextBottom = player.y + world.cameraY + player.r;
+    const subNextAngle = normalizeAngle(prevAngle + (nextAngle - prevAngle) * ((step + 1) / steps));
+    world.towerAngle = subNextAngle;
+    if(resolveVerticalSweep(subPrevBottom, subNextBottom, subPrevAngle, subNextAngle)){
+      resolved = true;
       break;
     }
   }
+  if(!resolved) world.towerAngle = nextAngle;
 
-  if(player.lastBouncePlatform !== -1){
-    const bouncedPlatform = world.platforms.find(p => p.i === player.lastBouncePlatform);
+  for(const p of world.platforms){ if(p.cleared) p.clearFade *= 0.9; }
+  if(player.lastSafePlatform !== -1){
+    const bouncedPlatform = world.platforms.find(p => p.i === player.lastSafePlatform);
     if(!bouncedPlatform || bouncedPlatform.cleared || (player.y + world.cameraY + player.r) < bouncedPlatform.y - 26){
-      player.lastBouncePlatform = -1;
+      player.lastSafePlatform = -1;
     }
   }
 
@@ -319,7 +338,7 @@ function update(){
   world.flash *= 0.89;
   world.rumble *= 0.86;
   ensurePlatforms();
-  if(!collided && player.y > innerHeight + 140) endGame('fall');
+  if(!resolved && player.y > innerHeight + 140) endGame('fall');
   syncUi();
 }
 
@@ -524,7 +543,31 @@ $('playBtn').onclick = startGame;
 $('retryBtn').onclick = startGame;
 $('closeBtn').onclick = () => gameOver.classList.add('hidden');
 $('restartBtn').onclick = startGame;
-$('howBtn').onclick = () => alert('Drag left/right anywhere on the screen to rotate the tower under the centered ball. Blue slices bounce you upward and stop the fall. Only a gap lets you pass through and break the ring. Red kills.');
+$('howBtn').onclick = () => alert('Drag left/right anywhere on the screen to rotate the tower under the centered ball. Cyan slices are solid and bounce you upward. Only the black gap lets you pass through and break the ring. Red kills.');
+
+window.__helixDebug = {
+  startGame,
+  clearRun,
+  step(count=1){ for(let i=0;i<count;i++) update(); syncUi(); },
+  getState(){
+    return {
+      world:{ playing:world.playing, score:world.score, depth:world.depth, cameraY:world.cameraY, towerAngle:world.towerAngle, towerVel:world.towerVel },
+      player:{ y:player.y, r:player.r, vy:player.vy, alive:player.alive, bouncePulse:player.bouncePulse },
+      platforms:world.platforms.map(p => ({ i:p.i, y:p.y, cleared:p.cleared, clearScored:p.clearScored, gapStart:p.gapStart, gapEnd:p.gapEnd, dangerStart:p.dangerStart, dangerEnd:p.dangerEnd }))
+    };
+  },
+  setTowerAngle(angle){ world.towerAngle = normalizeAngle(angle); },
+  setTowerVel(v){ world.towerVel = v; },
+  setPlayerVelocity(v){ player.vy = v; },
+  setCameraY(v){ world.cameraY = v; },
+  setInputKeyDir(v){ input.keyDir = v; },
+  findUpcoming(){ return world.platforms.filter(p => !p.cleared && p.y >= world.cameraY + player.y - 10).sort((a,b)=>a.y-b.y)[0] || null; },
+  angleForSection(platform, section){
+    if(section === 'gap') return normalizeAngle(physics.collisionAngle - angleCenter(platform.gapStart, platform.gapEnd));
+    if(section === 'danger') return normalizeAngle(physics.collisionAngle - angleCenter(platform.dangerStart, platform.dangerEnd));
+    return normalizeAngle(physics.collisionAngle - angleCenter(platform.dangerEnd, platform.gapStart + TAU));
+  }
+};
 clearRun();
 syncUi();
 if(new URLSearchParams(location.search).get('autoplay') === '1') startGame();

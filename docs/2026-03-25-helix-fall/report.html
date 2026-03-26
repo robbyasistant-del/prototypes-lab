@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Helix Fall Mechanic Correction Report</title>
+<title>Helix Fall Solid Sweep Report</title>
 <style>
 body{font-family:Inter,Segoe UI,Arial;background:#0a1223;color:#ebf3ff;max-width:920px;margin:0 auto;padding:32px;line-height:1.65}
 section{background:#121d35;border:1px solid #2c436d;border-radius:18px;padding:20px;margin:16px 0}
@@ -12,30 +12,30 @@ h1,h2{line-height:1.15}
 </style>
 </head>
 <body>
-<h1>Helix Fall — Mechanic Correction Report</h1>
+<h1>Helix Fall — Solid Collision Report</h1>
 <p><a href="./index.html">Play the updated prototype</a></p>
 <section>
   <h2>What was corrected</h2>
-  <p>This pass fixes the core interaction to better match the original Helix Jump loop: blue/safe slices stop the fall and bounce the ball modestly, while only a true gap allows the ball to keep falling, clear the level, and score.</p>
+  <p>This pass makes the platform rule deterministic: cyan slices are solid and bounce the ball back up, only the black gap allows a pass-through and clear, and red still kills on contact.</p>
 </section>
 <section>
-  <h2>What changed in r10 mechanic-match</h2>
+  <h2>What changed in r11 solid-sweep</h2>
   <ul>
-    <li><strong>Centered ball / rotating tower</strong> remains the interaction model.</li>
-    <li><strong>Stable safe collision</strong> snaps the ball onto blue slices and rebounds it instead of letting it slip through.</li>
-    <li><strong>Gap clear scoring</strong> now happens when the player actually passes a platform through its opening.</li>
-    <li><strong>Platform break feedback</strong> throws ring shards when a row is cleared.</li>
-    <li><strong>Removed bounce scoring</strong> so points track actual clears rather than ordinary waiting bounces.</li>
-    <li><strong>Visible version bump</strong> to <code>v2026.03.26-r10 mechanic-match</code>.</li>
+    <li><strong>Swept collision resolution</strong> replaced the old single late frame check.</li>
+    <li><strong>Substep downward movement</strong> means crossed rows are processed in order instead of being skipped.</li>
+    <li><strong>Exact crossing-time angle sampling</strong> decides whether the ball hit cyan, black gap, or red.</li>
+    <li><strong>Safe contact snap + bounce</strong> corrects position to the platform top and immediately reverses vertical velocity.</li>
+    <li><strong>Gap-only clears</strong> preserve scoring and break effects only when the opening is actually used.</li>
+    <li><strong>Visible version bump</strong> to <code>v2026.03.26-r11 solid-sweep</code>.</li>
   </ul>
 </section>
 <section>
-  <h2>Reference note</h2>
-  <p>Web search tooling was unavailable during this pass, so the correction was based on established knowledge of Helix Jump’s platform loop: safe platform = catch + small bounce, gap = pass + break + score, danger = fail.</p>
+  <h2>Why this is more reliable</h2>
+  <p>The old logic could still answer collision too late in the frame, which left room for tunneling through cyan. The new sweep resolves every crossed platform before the ball can move past it, so solid slices behave like solid floors.</p>
 </section>
 <section>
   <h2>Verification target</h2>
-  <p>Local verification should confirm: no blue-platform tunneling, no repeated false collision spam, readable small bounce on safe contact, visible break feedback on gap clears, and the mirrored docs files matching the prototype files.</p>
+  <p>Local verification checks should confirm: cyan bounce works without tunneling, the black gap clears and scores, red kills, and both docs mirrors match the working prototype.</p>
 </section>
 </body>
 </html>

@@ -51,7 +51,7 @@ button{font:inherit}
     </div>
   </div>
   <div class="combo-pop" id="comboPop">Combo x2</div>
-  <div class="version badge">v2026.03.27-r7</div>
+  <div class="version badge">v2026.03.27-r8</div>
 </div>
 
 <div class="overlay" id="menu">
@@ -528,6 +528,8 @@ function drawRow(row, layer='front'){
   const drop = view.rowThickness * (isFront ? 0.82 : 0.34);
   const alpha = row.cleared ? clamp(1 - row.breakAge * 2.2, 0, 1) : 1;
   const clipPad = outerRx + 40;
+  const gapStartA = row.gapStart + rotation;
+  const gapEndA = row.gapEnd + rotation;
 
   ctx.save();
   ctx.beginPath();
@@ -547,6 +549,13 @@ function drawRow(row, layer='front'){
       drawSimpleArcFace(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, 'rgba(255,255,255,.9)', row.color.back, 'rgba(255,255,255,.24)', alpha * 0.88);
     }
   }
+
+  ctx.save();
+  ctx.globalCompositeOperation = 'destination-out';
+  traceRingBand(cx, y - 1, outerRx + 2, outerRy + 2, innerRx - 2, innerRy - 2, gapStartA, gapEndA);
+  ctx.fillStyle = 'rgba(0,0,0,1)';
+  ctx.fill();
+  ctx.restore();
 
   ctx.restore();
 }

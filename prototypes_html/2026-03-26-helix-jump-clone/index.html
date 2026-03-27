@@ -51,8 +51,7 @@ button{font:inherit}
     </div>
   </div>
   <div class="combo-pop" id="comboPop">Combo x2</div>
-  <div class="help">Drag/swipe left-right to rotate the tower · Keyboard: ← → / A D · Bounce on color, drop through gaps, shatter rows, build combo.</div>
-  <div class="version badge">v2026.03.26-r5</div>
+  <div class="version badge">v2026.03.27-r6</div>
 </div>
 
 <div class="overlay" id="menu">
@@ -535,6 +534,21 @@ function drawRow(row, layer='front'){
   if(isFront) ctx.rect(cx - clipPad, y, clipPad * 2, view.h + view.rowThickness + 120);
   else ctx.rect(cx - clipPad, -120, clipPad * 2, y + drop + 120);
   ctx.clip();
+
+  const gapStartA = row.gapStart + rotation;
+  const gapEndA = row.gapEnd + rotation;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  traceRingBand(cx, y + (isFront ? drop * 0.22 : drop * 0.1), outerRx, outerRy, innerRx, innerRy, gapStartA, gapEndA);
+  const gapFill = ctx.createLinearGradient(cx, y - outerRy, cx, y + outerRy + drop);
+  gapFill.addColorStop(0, isFront ? 'rgba(6,12,28,0.96)' : 'rgba(20,30,54,0.92)');
+  gapFill.addColorStop(1, isFront ? 'rgba(2,6,16,0.98)' : 'rgba(10,16,32,0.94)');
+  ctx.fillStyle = gapFill;
+  ctx.fill();
+  ctx.strokeStyle = isFront ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.10)';
+  ctx.lineWidth = isFront ? 1.8 : 1.2;
+  ctx.stroke();
+  ctx.restore();
 
   for(const seg of row.segments){
     const startA = seg.start + rotation;

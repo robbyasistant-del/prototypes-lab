@@ -52,7 +52,7 @@ button{font:inherit}
   </div>
   <div class="combo-pop" id="comboPop">Combo x2</div>
   <div class="help">Drag/swipe left-right to rotate the tower · Keyboard: ← → / A D · Bounce on color, drop through gaps, shatter rows, build combo.</div>
-  <div class="version badge">v2026.03.26-r4</div>
+  <div class="version badge">v2026.03.26-r5</div>
 </div>
 
 <div class="overlay" id="menu">
@@ -521,84 +521,70 @@ function drawRow(row, layer='front'){
   const cx = ball.screenX;
   const rotation = game.towerAngle + row.baseAngle;
   const outerRx = view.ringRadius;
-  const outerRyBack = view.ringRadius * view.backScale;
-  const outerRyFront = view.ringRadius * view.frontScale;
   const innerRx = view.pillarRadius + 12;
-  const innerRyBack = innerRx * view.backScale;
-  const innerRyFront = innerRx * view.frontScale;
+  const isFront = layer === 'front';
+  const arcScale = isFront ? view.frontScale : view.backScale;
+  const outerRy = outerRx * arcScale;
+  const innerRy = innerRx * arcScale;
+  const drop = view.rowThickness * (isFront ? 0.96 : 0.58);
   const alpha = row.cleared ? clamp(1 - row.breakAge * 2.2, 0, 1) : 1;
+  const clipPad = outerRx + 40;
+
+  ctx.save();
+  ctx.beginPath();
+  if(isFront) ctx.rect(cx - clipPad, y, clipPad * 2, view.h + view.rowThickness + 120);
+  else ctx.rect(cx - clipPad, -120, clipPad * 2, y + drop + 120);
+  ctx.clip();
 
   for(const seg of row.segments){
-    if(layer === 'back'){
-      const backParts = sampleArcParts(seg.start, seg.end, rotation, false);
-      for(const part of backParts){
-        const startA = part.start + rotation;
-        const endA = part.end + rotation;
-        drawArcWall(cx, y, outerRx, outerRyBack, startA, endA, view.rowThickness * 0.58, row.color.back, row.color.backDark, alpha * 0.96);
-        drawArcWall(cx, y, innerRx, innerRyBack, startA, endA, view.rowThickness * 0.58, row.color.backDark, row.color.backDark, alpha * 0.92);
+    const startA = seg.start + rotation;
+    const endA = seg.end + rotation;
 
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        traceRingBand(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, startA, endA);
-        const backFill = ctx.createLinearGradient(cx, y - outerRyBack, cx, y + view.rowThickness * 0.7);
-        backFill.addColorStop(0, '#ffffff');
-        backFill.addColorStop(.32, row.color.top2);
-        backFill.addColorStop(1, row.color.back);
-        ctx.fillStyle = backFill;
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(74,88,122,.24)';
-        ctx.lineWidth = 1.3;
-        ctx.stroke();
-        ctx.restore();
-      }
+    drawArcWall(cx, y, outerRx, outerRy, startA, endA, drop, isFront ? row.color.side : row.color.back, isFront ? row.color.sideDark : row.color.backDark, alpha);
+    drawArcWall(cx, y, innerRx, innerRy, startA, endA, drop, isFront ? row.color.sideDark : row.color.backDark, row.color.backDark, alpha * (isFront ? 1 : 0.96));
 
-      const segStartWorld = seg.start + rotation;
-      const segEndWorld = seg.end + rotation;
-      if(Math.sin(segStartWorld) < 0) drawGapCap(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, segStartWorld, false, row.color, alpha * 0.92);
-      if(Math.sin(segEndWorld) < 0) drawGapCap(cx, y, outerRx, outerRyBack, innerRx, innerRyBack, segEndWorld, false, row.color, alpha * 0.92);
-      continue;
-    }
+    ctx.save();
+    ctx.globalAlpha = alpha;
 
-    const frontParts = sampleArcParts(seg.start, seg.end, rotation, true);
-    for(const part of frontParts){
-      const startA = part.start + rotation;
-      const endA = part.end + rotation;
-      drawArcWall(cx, y, outerRx, outerRyFront, startA, endA, view.rowThickness * 0.96, row.color.side, row.color.sideDark, alpha);
-      drawArcWall(cx, y, innerRx, innerRyFront, startA, endA, view.rowThickness * 0.96, row.color.sideDark, row.color.backDark, alpha);
+    traceRingBand(cx, y + drop * 0.94, outerRx, outerRy, innerRx, innerRy, startA, endA);
+    const bottomFill = ctx.createLinearGradient(cx, y + drop * 0.2, cx, y + drop + outerRy);
+    bottomFill.addColorStop(0, isFront ? row.color.side : row.color.back);
+    bottomFill.addColorStop(1, isFront ? row.color.sideDark : row.color.backDark);
+    ctx.fillStyle = bottomFill;
+    ctx.fill();
 
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      traceRingBand(cx, y + view.rowThickness * 0.92, outerRx, outerRyFront, innerRx, innerRyFront, startA, endA);
-      const bottomFill = ctx.createLinearGradient(cx, y + view.rowThickness * 0.1, cx, y + view.rowThickness * 1.16);
-      bottomFill.addColorStop(0, row.color.side);
-      bottomFill.addColorStop(1, row.color.sideDark);
-      ctx.fillStyle = bottomFill;
-      ctx.fill();
-
-      traceRingBand(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, startA, endA);
-      const topFill = ctx.createLinearGradient(cx, y - outerRyFront, cx, y + outerRyFront);
+    traceRingBand(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA);
+    const topFill = ctx.createLinearGradient(cx, y - outerRy, cx, y + outerRy + drop * 0.25);
+    if(isFront){
       topFill.addColorStop(0, '#ffffff');
       topFill.addColorStop(.22, row.color.top2);
       topFill.addColorStop(.58, row.color.top);
       topFill.addColorStop(1, row.color.side);
-      ctx.fillStyle = topFill;
-      ctx.fill();
-
-      ctx.strokeStyle = row.color.rim;
-      ctx.lineWidth = 2.1;
-      ctx.stroke();
-
-      ctx.beginPath();
-      traceEllipseArc(cx, y, outerRx, outerRyFront, startA, endA, false);
-      ctx.strokeStyle = 'rgba(255,255,255,.78)';
-      ctx.lineWidth = 2.2;
-      ctx.stroke();
-      ctx.restore();
-
-      if(Math.sin(startA) >= 0) drawGapCap(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, startA, true, row.color, alpha * 0.98);
-      if(Math.sin(endA) >= 0) drawGapCap(cx, y, outerRx, outerRyFront, innerRx, innerRyFront, endA, true, row.color, alpha * 0.98);
+    } else {
+      topFill.addColorStop(0, '#ffffff');
+      topFill.addColorStop(.32, row.color.top2);
+      topFill.addColorStop(1, row.color.back);
     }
+    ctx.fillStyle = topFill;
+    ctx.fill();
+
+    drawGapCap(cx, y, outerRx, outerRy, innerRx, innerRy, startA, isFront, row.color, alpha * (isFront ? 0.98 : 0.92));
+    drawGapCap(cx, y, outerRx, outerRy, innerRx, innerRy, endA, isFront, row.color, alpha * (isFront ? 0.98 : 0.92));
+
+    traceRingBand(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA);
+    ctx.strokeStyle = isFront ? row.color.rim : 'rgba(74,88,122,.24)';
+    ctx.lineWidth = isFront ? 1.8 : 1.2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    traceEllipseArc(cx, y, outerRx, outerRy, startA, endA, false);
+    ctx.strokeStyle = isFront ? 'rgba(255,255,255,.74)' : 'rgba(255,255,255,.38)';
+    ctx.lineWidth = isFront ? 2 : 1.2;
+    ctx.stroke();
+    ctx.restore();
   }
+
+  ctx.restore();
 }
 
 function drawBall(){
@@ -688,8 +674,11 @@ $('startBtn').addEventListener('click', startRun);
 $('resumeBtn').addEventListener('click', ()=>pauseCard.classList.add('hidden'));
 $('howBtn').addEventListener('click', ()=>{ menu.classList.add('hidden'); pauseCard.classList.remove('hidden'); });
 
-resetRun();
-syncUi();
+if(new URLSearchParams(location.search).get('autostart') === '1') startRun();
+else {
+  resetRun();
+  syncUi();
+}
 </script>
 </body>
 </html>

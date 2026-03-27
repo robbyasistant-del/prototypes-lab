@@ -51,17 +51,17 @@ button{font:inherit}
     </div>
   </div>
   <div class="combo-pop" id="comboPop">Combo x2</div>
-  <div class="version badge">v2026.03.27-r11</div>
+  <div class="version badge">v2026.03.27-r12</div>
 </div>
 
 <div class="overlay" id="menu">
   <div class="card">
     <h1>Helix Jump Clone</h1>
-    <p>A clean Sprint 1 prototype: the ball stays centered, the tower rotates under swipe, safe slices bounce, gap clears shatter rows, and combo climbs only on consecutive drops.</p>
+    <p>A clean Sprint 1 prototype: the ball stays centered, the tower rotates under swipe, safe wedge slices bounce, gap clears shatter rows, and combo climbs only on consecutive drops.</p>
     <div class="grid">
       <div class="badge"><b>Centered ball</b><span>World scroll illusion</span></div>
       <div class="badge"><b>Swept rows</b><span>No tunnel-through solids</span></div>
-      <div class="badge"><b>Touch first</b><span>Mouse + keyboard fallback</span></div>
+      <div class="badge"><b>Pie-slice read</b><span>Clearer 2D openings</span></div>
     </div>
     <div class="actions">
       <button class="action" id="startBtn" style="background:linear-gradient(135deg,#ffcf6e,#ff8f57);color:#201200">Play</button>
@@ -73,7 +73,7 @@ button{font:inherit}
 <div class="overlay hidden" id="pauseCard">
   <div class="card">
     <h2>Run paused</h2>
-    <p>Every safe bounce resets your combo back to x1. To climb the multiplier, keep threading the next gaps without touching another ring.</p>
+    <p>Every safe bounce resets your combo back to x1. To climb the multiplier, keep threading the next gaps without touching another platform.</p>
     <div class="actions">
       <button class="action" id="resumeBtn" style="background:linear-gradient(135deg,#ffcf6e,#ff8f57);color:#201200">Resume</button>
     </div>
@@ -153,14 +153,14 @@ function paletteForDepth(i){
   const hues = [18, 42, 190, 156, 275, 336];
   const hue = hues[i % hues.length];
   return {
-    top:`hsl(${hue} 92% 66%)`,
-    top2:`hsl(${hue} 96% 79%)`,
-    side:`hsl(${hue} 68% 54%)`,
+    top:`hsl(${hue} 96% 76%)`,
+    top2:`hsl(${hue} 98% 86%)`,
+    side:`hsl(${hue} 76% 58%)`,
     sideDark:`hsl(${hue} 68% 42%)`,
-    back:`hsl(${hue} 48% 58%)`,
-    backDark:`hsl(${hue} 44% 44%)`,
-    rim:`hsla(${hue} 90% 96% / .92)`,
-    shadow:`hsla(${hue} 70% 25% / .32)`
+    back:`hsl(${hue} 56% 64%)`,
+    backDark:`hsl(${hue} 48% 46%)`,
+    rim:`hsla(${hue} 96% 98% / .94)`,
+    shadow:`hsla(${hue} 72% 24% / .28)`
   };
 }
 
@@ -265,8 +265,9 @@ function shatterRow(row){
       const a0 = wrap(seg.start + span * t0 + game.towerAngle + row.baseAngle);
       const a1 = wrap(seg.start + span * t1 + game.towerAngle + row.baseAngle);
       const mid = wrap((a0 + a1) * 0.5);
+      const radial = lerp(view.pillarRadius + 28, view.ringRadius * 0.92, 0.72);
       game.particles.push({
-        kind:'shard', x:ball.screenX + Math.cos(mid) * view.ringRadius * 0.9, y:ball.screenY + (row.worldY - ball.worldY),
+        kind:'shard', x:ball.screenX + Math.cos(mid) * radial, y:ball.screenY + (row.worldY - game.cameraY) + Math.sin(mid) * view.rowThickness * 0.15,
         vx:Math.cos(mid) * rand(70,180), vy:rand(-60,150), life:rand(.6,1.2), age:0, spin:rand(-4,4), angle:rand(0,TAU),
         w:rand(18,28), h:rand(8,14), color:row.color.top
       });
@@ -412,12 +413,10 @@ function drawPillar(){
   grad.addColorStop(1,'#dfe9ff');
   ctx.fillStyle = grad;
   ctx.fillRect(left, top, width, h);
-
   ctx.fillStyle = 'rgba(255,255,255,.45)';
   ctx.fillRect(x - view.pillarRadius * .42, top, view.pillarRadius * .22, h);
   ctx.fillStyle = 'rgba(58,76,124,.18)';
   ctx.fillRect(x + view.pillarRadius * .24, top, view.pillarRadius * .34, h);
-
   ctx.strokeStyle = 'rgba(77,94,137,.18)';
   ctx.lineWidth = 2;
   ctx.beginPath();
@@ -426,303 +425,163 @@ function drawPillar(){
   ctx.stroke();
 }
 
-function sampleArcParts(start, end, rotation, front){
+function angleLerp(start, end, t){ return wrap(start + wrap(end - start) * t); }
+function partitionArc(start, end){
   const span = wrap(end - start);
-  const parts = [];
-  const step = 0.08;
+  if(span <= 1.5) return [{start, end}];
+  const split = clamp(span * 0.18, 0.22, 0.42);
+  return [
+    {start, end:angleLerp(start, end, 0.5 - split * 0.5 / span)},
+    {start:angleLerp(start, end, 0.5 + split * 0.5 / span), end}
+  ];
+}
+function isFrontAngle(angle){ return Math.sin(angle) >= 0; }
+function visibleSubArcs(start, end, wantFront){
+  const span = wrap(end - start);
+  const steps = Math.max(12, Math.ceil(span / 0.08));
+  const arcs = [];
   let active = null;
-  for(let d=0; d<=span + 0.0001; d += step){
-    const localA = start + Math.min(span, d);
-    const worldA = localA + rotation;
-    const visibleFront = Math.sin(worldA) >= 0;
-    const match = front ? visibleFront : !visibleFront;
-    if(match){
-      if(active == null) active = localA;
-    } else if(active != null){
-      const prev = start + Math.max(0, Math.min(span, d - step * 0.5));
-      if(wrap(prev - active) > 0.03) parts.push({start:wrap(active), end:wrap(prev)});
+  for(let i=0;i<=steps;i++){
+    const t = i / steps;
+    const a = angleLerp(start, end, t);
+    const match = isFrontAngle(a) === wantFront;
+    if(match && active == null) active = a;
+    if((!match || i===steps) && active != null){
+      const closeT = i===steps && match ? t : Math.max(0, (i-1) / steps);
+      const closeA = angleLerp(start, end, closeT);
+      if(wrap(closeA - active) > 0.03) arcs.push({start:active, end:closeA});
       active = null;
     }
   }
-  if(active != null){
-    parts.push({start:wrap(active), end:wrap(end)});
-  }
-  return parts.filter(p => wrap(p.end - p.start) > 0.03);
+  return arcs;
 }
-
-function ellipsePoint(cx, cy, rx, ry, angle, yOffset=0){
-  return {x:cx + Math.cos(angle) * rx, y:cy + Math.sin(angle) * ry + yOffset};
-}
-
-function traceEllipseArc(cx,cy,rx,ry,start,end,anticlockwise){
-  const total = anticlockwise ? wrap(start - end) : wrap(end - start);
-  const steps = Math.max(6, Math.ceil(total / 0.12));
+function traceWedge(cx, cy, aStart, aEnd, innerR, outerR, squish, tipBias=0.06){
+  const tipAngle = angleLerp(aStart, aEnd, 0.5);
+  const tipR = innerR + (outerR - innerR) * tipBias;
+  const tipX = cx + Math.cos(tipAngle) * tipR;
+  const tipY = cy + Math.sin(tipAngle) * outerR * squish * 0.14;
+  const span = wrap(aEnd - aStart);
+  const steps = Math.max(6, Math.ceil(span / 0.12));
+  ctx.beginPath();
+  ctx.moveTo(tipX, tipY);
   for(let i=0;i<=steps;i++){
-    const t = i / steps;
-    const a = anticlockwise ? start - total * t : start + total * t;
-    const x = cx + Math.cos(a) * rx;
-    const y = cy + Math.sin(a) * ry;
+    const a = angleLerp(aStart, aEnd, i / steps);
+    ctx.lineTo(cx + Math.cos(a) * outerR, cy + Math.sin(a) * outerR * squish);
+  }
+  ctx.closePath();
+}
+function drawWedgeShadow(cx, cy, aStart, aEnd, innerR, outerR, squish, drop, color, alpha=1){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  traceWedge(cx, cy + drop, aStart, aEnd, innerR, outerR, squish, 0.08);
+  const grad = ctx.createLinearGradient(cx, cy - outerR * squish, cx, cy + outerR * squish + drop);
+  grad.addColorStop(0, 'rgba(255,255,255,.08)');
+  grad.addColorStop(1, color);
+  ctx.fillStyle = grad;
+  ctx.fill();
+  ctx.restore();
+}
+function drawWedgeFace(cx, cy, aStart, aEnd, innerR, outerR, squish, palette, alpha=1){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  traceWedge(cx, cy, aStart, aEnd, innerR, outerR, squish, 0.08);
+  const grad = ctx.createLinearGradient(cx, cy - outerR * squish, cx, cy + outerR * squish);
+  grad.addColorStop(0, palette.top);
+  grad.addColorStop(.55, palette.mid);
+  grad.addColorStop(1, palette.bottom);
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  ctx.beginPath();
+  const span = wrap(aEnd - aStart);
+  const steps = Math.max(6, Math.ceil(span / 0.11));
+  for(let i=0;i<=steps;i++){
+    const a = angleLerp(aStart, aEnd, i / steps);
+    const x = cx + Math.cos(a) * outerR;
+    const y = cy + Math.sin(a) * outerR * squish;
     if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
   }
-}
-
-function traceRingBand(cx,cy,outerRx,outerRy,innerRx,innerRy,start,end){
-  ctx.beginPath();
-  traceEllipseArc(cx,cy,outerRx,outerRy,start,end,false);
-  traceEllipseArc(cx,cy,innerRx,innerRy,end,start,true);
-  ctx.closePath();
-}
-
-function drawArcWall(cx, cy, rx, ry, start, end, drop, topColor, bottomColor, alpha=1){
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  ctx.beginPath();
-  traceEllipseArc(cx, cy, rx, ry, start, end, false);
-  for(let i=0;i<=Math.max(6, Math.ceil(wrap(end - start) / 0.12));i++){
-    const t = 1 - i / Math.max(6, Math.ceil(wrap(end - start) / 0.12));
-    const a = start + wrap(end - start) * t;
-    const x = cx + Math.cos(a) * rx;
-    const y = cy + Math.sin(a) * ry + drop;
-    ctx.lineTo(x, y);
-  }
-  ctx.closePath();
-  const g = ctx.createLinearGradient(cx, cy - ry, cx, cy + drop + ry);
-  g.addColorStop(0, topColor);
-  g.addColorStop(1, bottomColor);
-  ctx.fillStyle = g;
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawCutWall(cx, cy, outerRx, outerRy, innerRx, innerRy, angle, drop, topColor, bottomColor, alpha=1){
-  const outerTop = ellipsePoint(cx, cy, outerRx, outerRy, angle);
-  const innerTop = ellipsePoint(cx, cy, innerRx, innerRy, angle);
-  const outerBottom = ellipsePoint(cx, cy, outerRx, outerRy, angle, drop);
-  const innerBottom = ellipsePoint(cx, cy, innerRx, innerRy, angle, drop);
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  ctx.beginPath();
-  ctx.moveTo(outerTop.x, outerTop.y);
-  ctx.lineTo(innerTop.x, innerTop.y);
-  ctx.lineTo(innerBottom.x, innerBottom.y);
-  ctx.lineTo(outerBottom.x, outerBottom.y);
-  ctx.closePath();
-  const g = ctx.createLinearGradient(outerTop.x, cy, innerTop.x, cy + drop);
-  g.addColorStop(0, topColor);
-  g.addColorStop(1, bottomColor);
-  ctx.fillStyle = g;
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawSimpleArcFace(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end, fillTop, fillBottom, rimColor, alpha=1){
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  traceRingBand(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end);
-  const face = ctx.createLinearGradient(cx, cy - outerRy, cx, cy + outerRy);
-  face.addColorStop(0, fillTop);
-  face.addColorStop(1, fillBottom);
-  ctx.fillStyle = face;
-  ctx.fill();
-
-  traceRingBand(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end);
-  ctx.strokeStyle = rimColor;
-  ctx.lineWidth = 1.8;
+  ctx.strokeStyle = palette.rim;
+  ctx.lineWidth = 2;
   ctx.stroke();
 
-  ctx.beginPath();
-  traceEllipseArc(cx, cy, outerRx, outerRy, start, end, false);
-  ctx.strokeStyle = 'rgba(255,255,255,.72)';
-  ctx.lineWidth = 2.1;
-  ctx.stroke();
-  ctx.restore();
-}
-
-function drawPlatformBackHint(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end, color, alpha=1){
-  drawSimpleArcFace(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end, color.top, color.bottom, color.rim, alpha);
-}
-
-function drawPlatformTopFace(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end, color, alpha=1){
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  traceRingBand(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end);
-  const face = ctx.createLinearGradient(cx, cy - outerRy, cx, cy + outerRy * 1.05);
-  face.addColorStop(0, color.top);
-  face.addColorStop(0.56, color.mid);
-  face.addColorStop(1, color.bottom);
-  ctx.fillStyle = face;
-  ctx.fill();
-
-  ctx.beginPath();
-  traceEllipseArc(cx, cy, outerRx, outerRy, start, end, false);
-  ctx.strokeStyle = color.outerHighlight;
-  ctx.lineWidth = 2.2;
-  ctx.stroke();
-
-  ctx.beginPath();
-  traceEllipseArc(cx, cy, innerRx, innerRy, start, end, false);
-  ctx.strokeStyle = color.innerShadow;
-  ctx.lineWidth = 1.7;
-  ctx.stroke();
-
-  traceRingBand(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end);
-  ctx.strokeStyle = color.rim;
+  ctx.strokeStyle = palette.edge;
   ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(cx + Math.cos(aStart) * (innerR + (outerR-innerR)*0.1), cy + Math.sin(aStart) * outerR * squish * 0.2);
+  ctx.lineTo(cx + Math.cos(aStart) * outerR, cy + Math.sin(aStart) * outerR * squish);
+  ctx.moveTo(cx + Math.cos(aEnd) * (innerR + (outerR-innerR)*0.1), cy + Math.sin(aEnd) * outerR * squish * 0.2);
+  ctx.lineTo(cx + Math.cos(aEnd) * outerR, cy + Math.sin(aEnd) * outerR * squish);
   ctx.stroke();
   ctx.restore();
 }
-
-function drawPlatformLip(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end, drop, color, alpha=1){
+function drawGapGuide(cx, cy, start, end, innerR, outerR, squish, drop, alpha=1){
+  const span = wrap(end - start);
+  if(span < 0.08) return;
   ctx.save();
   ctx.globalAlpha = alpha;
+  const mid = angleLerp(start, end, 0.5);
+  const tipR = innerR * 0.26;
   ctx.beginPath();
-  traceEllipseArc(cx, cy, outerRx, outerRy, start, end, false);
-  const total = wrap(end - start);
-  const steps = Math.max(10, Math.ceil(total / 0.1));
-  for(let i=steps;i>=0;i--){
-    const t = i / steps;
-    const a = start + total * t;
-    const x = cx + Math.cos(a) * outerRx;
-    const y = cy + Math.sin(a) * outerRy + drop;
-    ctx.lineTo(x, y);
+  ctx.moveTo(cx + Math.cos(mid) * tipR, cy + Math.sin(mid) * outerR * squish * 0.06);
+  const steps = Math.max(8, Math.ceil(span / 0.1));
+  for(let i=0;i<=steps;i++){
+    const a = angleLerp(start, end, i / steps);
+    ctx.lineTo(cx + Math.cos(a) * outerR * 1.03, cy + Math.sin(a) * outerR * squish + drop * 0.15);
   }
   ctx.closePath();
-  const g = ctx.createLinearGradient(cx, cy - outerRy * 0.2, cx, cy + drop + outerRy);
-  g.addColorStop(0, color.top);
-  g.addColorStop(1, color.bottom);
+  const g = ctx.createLinearGradient(cx, cy - outerR * squish, cx, cy + outerR * squish + drop);
+  g.addColorStop(0,'rgba(255,255,255,.40)');
+  g.addColorStop(.45,'rgba(153,196,255,.18)');
+  g.addColorStop(1,'rgba(41,71,135,.03)');
   ctx.fillStyle = g;
   ctx.fill();
 
-  ctx.beginPath();
-  traceEllipseArc(cx, cy + drop, outerRx, outerRy, start, end, false);
-  ctx.strokeStyle = color.edge;
-  ctx.lineWidth = 1.1;
-  ctx.stroke();
+  for(const boundary of [start, end]){
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(boundary) * tipR, cy + Math.sin(boundary) * outerR * squish * 0.06);
+    ctx.lineTo(cx + Math.cos(boundary) * outerR * 1.03, cy + Math.sin(boundary) * outerR * squish + drop * 0.08);
+    ctx.strokeStyle = 'rgba(255,255,255,.72)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
   ctx.restore();
 }
-
-function drawGapSector(cx, cy, outerRx, outerRy, innerRx, innerRy, gapStart, gapEnd, drop, color, alpha=1){
-  const gapSpan = wrap(gapEnd - gapStart);
-  if(gapSpan <= 0.04) return;
-
-  ctx.save();
-  ctx.globalAlpha = alpha;
-
-  const sectorStart = gapStart;
-  const sectorEnd = gapEnd;
-  traceRingBand(cx, cy, outerRx, outerRy, innerRx, innerRy, sectorStart, sectorEnd);
-  const voidGrad = ctx.createLinearGradient(cx, cy - outerRy * 0.6, cx, cy + drop + outerRy * 1.6);
-  voidGrad.addColorStop(0, color.voidTop);
-  voidGrad.addColorStop(0.55, color.voidMid);
-  voidGrad.addColorStop(1, color.voidBottom);
-  ctx.fillStyle = voidGrad;
-  ctx.fill();
-
-  drawCutWall(cx, cy, outerRx, outerRy, innerRx, innerRy, gapStart, drop, color.cutLight, color.cutDark, alpha * 0.98);
-  drawCutWall(cx, cy, outerRx, outerRy, innerRx, innerRy, gapEnd, drop, color.cutLight, color.cutDark, alpha * 0.98);
-  drawArcWall(cx, cy, innerRx, innerRy, sectorStart, sectorEnd, drop, color.innerWallTop, color.innerWallBottom, alpha * 0.88);
-
-  ctx.beginPath();
-  traceEllipseArc(cx, cy, outerRx, outerRy, sectorStart, sectorEnd, false);
-  ctx.strokeStyle = color.outerEdge;
-  ctx.lineWidth = 1.4;
-  ctx.stroke();
-
-  ctx.beginPath();
-  traceEllipseArc(cx, cy, innerRx, innerRy, sectorStart, sectorEnd, false);
-  ctx.strokeStyle = color.innerEdge;
-  ctx.lineWidth = 1.15;
-  ctx.stroke();
-
-  ctx.restore();
-}
-
 function drawRow(row, layer='front'){
   if(row.cleared && row.breakAge > 0.06) return;
   const y = worldToScreenY(row.worldY);
-  if(y < -100 || y > view.h + 100) return;
+  if(y < -120 || y > view.h + 120) return;
 
   const cx = ball.screenX;
   const rotation = game.towerAngle + row.baseAngle;
-  const outerRx = view.ringRadius;
-  const innerRx = view.pillarRadius + 16;
+  const outerR = view.ringRadius;
+  const innerR = view.pillarRadius + 10;
   const isFront = layer === 'front';
-  const outerRy = outerRx * (isFront ? view.frontScale : view.backScale);
-  const innerRy = innerRx * (isFront ? view.frontScale : view.backScale);
-  const lipDrop = view.rowThickness * (isFront ? 0.24 : 0.1);
+  const squish = isFront ? 0.36 : 0.18;
+  const drop = view.rowThickness * (isFront ? 0.3 : 0.12);
   const alpha = row.cleared ? clamp(1 - row.breakAge * 2.2, 0, 1) : 1;
-  const clipPad = outerRx + 40;
+  const clipPad = outerR + 48;
 
   ctx.save();
   ctx.beginPath();
-  if(isFront) ctx.rect(cx - clipPad, y - 6, clipPad * 2, view.h + view.rowThickness + 120);
-  else ctx.rect(cx - clipPad, -120, clipPad * 2, y + lipDrop + 120);
+  if(isFront) ctx.rect(cx - clipPad, y - 12, clipPad * 2, view.h + view.rowThickness + 120);
+  else ctx.rect(cx - clipPad, -120, clipPad * 2, y + drop + 120);
   ctx.clip();
 
   for(const seg of row.segments){
-    const startA = seg.start + rotation;
-    const endA = seg.end + rotation;
-    const backHint = isFront
-      ? {
-          top:'rgba(50,77,138,.18)',
-          bottom:row.color.backDark,
-          rim:'rgba(255,255,255,.14)'
-        }
-      : {
-          top:'rgba(255,255,255,.82)',
-          bottom:row.color.back,
-          rim:'rgba(255,255,255,.22)'
-        };
-    const topFace = isFront
-      ? {
-          top:row.color.top2,
-          mid:row.color.top,
-          bottom:row.color.side,
-          outerHighlight:'rgba(255,255,255,.82)',
-          innerShadow:'rgba(36,58,112,.52)',
-          rim:'rgba(255,255,255,.36)'
-        }
-      : {
-          top:'rgba(255,255,255,.96)',
-          mid:row.color.back,
-          bottom:row.color.backDark,
-          outerHighlight:'rgba(255,255,255,.52)',
-          innerShadow:'rgba(36,58,112,.28)',
-          rim:'rgba(255,255,255,.18)'
-        };
-    const lip = isFront
-      ? {
-          top:'rgba(255,255,255,.16)',
-          bottom:'rgba(44,70,132,.28)',
-          edge:'rgba(255,255,255,.28)'
-        }
-      : {
-          top:'rgba(255,255,255,.08)',
-          bottom:'rgba(40,63,118,.16)',
-          edge:'rgba(255,255,255,.14)'
-        };
-
-    drawPlatformBackHint(cx, y + lipDrop * (isFront ? 0.55 : 0.35), outerRx, outerRy, innerRx, innerRy, startA, endA, backHint, alpha * (isFront ? 0.18 : 0.3));
-    if(isFront) drawPlatformLip(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, lipDrop, lip, alpha * 0.85);
-    drawPlatformTopFace(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, topFace, alpha);
+    for(const part of partitionArc(seg.start + rotation, seg.end + rotation)){
+      const visibleParts = visibleSubArcs(part.start, part.end, isFront);
+      for(const vis of visibleParts){
+        const facePalette = isFront
+          ? {top:row.color.top2, mid:row.color.top, bottom:row.color.side, rim:'rgba(255,255,255,.9)', edge:'rgba(255,255,255,.58)'}
+          : {top:'rgba(255,255,255,.92)', mid:row.color.back, bottom:row.color.backDark, rim:'rgba(255,255,255,.42)', edge:'rgba(255,255,255,.24)'};
+        if(isFront) drawWedgeShadow(cx, y, vis.start, vis.end, innerR, outerR, squish, drop, row.color.shadow, alpha * 0.95);
+        drawWedgeFace(cx, y, vis.start, vis.end, innerR, outerR, squish, facePalette, alpha * (isFront ? 1 : 0.9));
+      }
+    }
   }
 
-  if(isFront){
-    const gapStartA = row.gapStart + rotation;
-    const gapEndA = row.gapEnd + rotation;
-    drawGapSector(cx, y, outerRx, outerRy, innerRx, innerRy, gapStartA, gapEndA, lipDrop, {
-      voidTop:'rgba(255,255,255,.42)',
-      voidMid:'rgba(124,146,208,.18)',
-      voidBottom:'rgba(44,67,122,.08)',
-      cutLight:'rgba(255,255,255,.42)',
-      cutDark:'rgba(75,104,173,.55)',
-      innerWallTop:'rgba(236,244,255,.95)',
-      innerWallBottom:'rgba(109,130,190,.82)',
-      outerEdge:'rgba(255,255,255,.22)',
-      innerEdge:'rgba(255,255,255,.72)'
-    }, alpha * 0.92);
-  }
-
+  if(isFront) drawGapGuide(cx, y, row.gapStart + rotation, row.gapEnd + rotation, innerR, outerR, squish, drop, alpha * 0.95);
   ctx.restore();
 }
 

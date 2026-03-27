@@ -22,18 +22,17 @@ a{color:#225fe0}code{background:#eef4ff;padding:2px 6px;border-radius:6px}
     <li>Deterministic swept crossed-row detection: every row crossed during downward travel is checked in order.</li>
     <li>Safe-platform bounce, squash/stretch, combo reset to <code>x1</code>.</li>
     <li>Gap clears shatter the row, score points, play reward tones, and raise the combo for consecutive clears.</li>
-    <li>Reworked each platform into a flatter annulus segment around the pillar with a large, obvious geometric opening and cleaner top-face-first rendering.</li>
+    <li>Platforms are now rendered as radial pie-slice wedges rather than donut bands, making the opening much easier to read in 2D.</li>
   </ul>
 </section>
 <section>
-  <h2>r10 flat-donut rendering pass</h2>
+  <h2>r12 pie-slice render rework</h2>
   <ul>
-    <li>Platforms were simplified from chunky cut-wall slabs into flatter annulus slices that read more like classic Helix rings.</li>
-    <li>The top face now does almost all of the visual work, while the old heavy side walls and cut walls were removed from the main read.</li>
-    <li>The gap stays true geometry, but the presentation now makes the missing wedge look larger and more obvious at a glance.</li>
-    <li>A restrained back hint and thin front lip preserve front/back layering without turning the ring into a thick tube.</li>
-    <li>The pillar remains clearly separated from the ring by a distinct inner radius and inner-edge shading.</li>
-    <li>This is a render-only rework: gameplay rules, collisions, combo, score, controls, and audio were intentionally left alone.</li>
+    <li>Replaced the old annulus / donut presentation with large center-anchored wedge shapes that radiate outward from the pillar.</li>
+    <li>Long safe spans can visually split into two pieces, keeping each level readable while preserving the same collision arc underneath.</li>
+    <li>The gap is emphasized by a translucent drop-lane fan and bright boundary rails so the missing section reads instantly.</li>
+    <li>Front/back depth is still present, but it now comes from light back wedges and a restrained front shadow instead of heavy tube walls.</li>
+    <li>This remains a render-only rework: mechanics, physics, scoring, combo, controls, camera, and sound logic were intentionally left untouched.</li>
   </ul>
 </section>
 <section>
@@ -54,7 +53,7 @@ a{color:#225fe0}code{background:#eef4ff;padding:2px 6px;border-radius:6px}
 </section>
 <section>
   <h2>Version</h2>
-  <p><code>v2026.03.27-r10</code></p>
+  <p><code>v2026.03.27-r12</code></p>
 </section>
 </body>
 </html>

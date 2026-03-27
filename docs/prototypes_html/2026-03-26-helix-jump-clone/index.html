@@ -51,7 +51,7 @@ button{font:inherit}
     </div>
   </div>
   <div class="combo-pop" id="comboPop">Combo x2</div>
-  <div class="version badge">v2026.03.27-r9</div>
+  <div class="version badge">v2026.03.27-r10</div>
 </div>
 
 <div class="overlay" id="menu">
@@ -538,6 +538,69 @@ function drawSimpleArcFace(cx, cy, outerRx, outerRy, innerRx, innerRy, start, en
   ctx.restore();
 }
 
+function drawPlatformBackHint(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end, color, alpha=1){
+  drawSimpleArcFace(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end, color.top, color.bottom, color.rim, alpha);
+}
+
+function drawPlatformTopFace(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end, color, alpha=1){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  traceRingBand(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end);
+  const face = ctx.createLinearGradient(cx, cy - outerRy, cx, cy + outerRy * 1.05);
+  face.addColorStop(0, color.top);
+  face.addColorStop(0.56, color.mid);
+  face.addColorStop(1, color.bottom);
+  ctx.fillStyle = face;
+  ctx.fill();
+
+  ctx.beginPath();
+  traceEllipseArc(cx, cy, outerRx, outerRy, start, end, false);
+  ctx.strokeStyle = color.outerHighlight;
+  ctx.lineWidth = 2.2;
+  ctx.stroke();
+
+  ctx.beginPath();
+  traceEllipseArc(cx, cy, innerRx, innerRy, start, end, false);
+  ctx.strokeStyle = color.innerShadow;
+  ctx.lineWidth = 1.7;
+  ctx.stroke();
+
+  traceRingBand(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end);
+  ctx.strokeStyle = color.rim;
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawPlatformLip(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end, drop, color, alpha=1){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.beginPath();
+  traceEllipseArc(cx, cy, outerRx, outerRy, start, end, false);
+  const total = wrap(end - start);
+  const steps = Math.max(10, Math.ceil(total / 0.1));
+  for(let i=steps;i>=0;i--){
+    const t = i / steps;
+    const a = start + total * t;
+    const x = cx + Math.cos(a) * outerRx;
+    const y = cy + Math.sin(a) * outerRy + drop;
+    ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  const g = ctx.createLinearGradient(cx, cy - outerRy * 0.2, cx, cy + drop + outerRy);
+  g.addColorStop(0, color.top);
+  g.addColorStop(1, color.bottom);
+  ctx.fillStyle = g;
+  ctx.fill();
+
+  ctx.beginPath();
+  traceEllipseArc(cx, cy + drop, outerRx, outerRy, start, end, false);
+  ctx.strokeStyle = color.edge;
+  ctx.lineWidth = 1.1;
+  ctx.stroke();
+  ctx.restore();
+}
+
 function drawRow(row, layer='front'){
   if(row.cleared && row.breakAge > 0.06) return;
   const y = worldToScreenY(row.worldY);
@@ -546,39 +609,66 @@ function drawRow(row, layer='front'){
   const cx = ball.screenX;
   const rotation = game.towerAngle + row.baseAngle;
   const outerRx = view.ringRadius;
-  const innerRx = view.pillarRadius + 14;
+  const innerRx = view.pillarRadius + 16;
   const isFront = layer === 'front';
   const outerRy = outerRx * (isFront ? view.frontScale : view.backScale);
   const innerRy = innerRx * (isFront ? view.frontScale : view.backScale);
-  const drop = view.rowThickness * (isFront ? 0.82 : 0.34);
+  const lipDrop = view.rowThickness * (isFront ? 0.24 : 0.1);
   const alpha = row.cleared ? clamp(1 - row.breakAge * 2.2, 0, 1) : 1;
   const clipPad = outerRx + 40;
 
   ctx.save();
   ctx.beginPath();
   if(isFront) ctx.rect(cx - clipPad, y - 6, clipPad * 2, view.h + view.rowThickness + 120);
-  else ctx.rect(cx - clipPad, -120, clipPad * 2, y + drop + 120);
+  else ctx.rect(cx - clipPad, -120, clipPad * 2, y + lipDrop + 120);
   ctx.clip();
 
   for(const seg of row.segments){
     const startA = seg.start + rotation;
     const endA = seg.end + rotation;
-    const topTop = isFront ? row.color.top2 : 'rgba(255,255,255,.92)';
-    const topBottom = isFront ? row.color.top : row.color.back;
-    const rim = isFront ? row.color.rim : 'rgba(255,255,255,.26)';
-    const outerLight = isFront ? row.color.side : row.color.back;
-    const outerDark = isFront ? row.color.sideDark : row.color.backDark;
-    const innerLight = isFront ? 'rgba(255,255,255,.26)' : 'rgba(255,255,255,.16)';
-    const innerDark = isFront ? 'rgba(40,55,96,.30)' : 'rgba(32,40,78,.24)';
-    const cutLight = isFront ? row.color.top2 : 'rgba(255,255,255,.72)';
-    const cutDark = isFront ? row.color.sideDark : row.color.backDark;
+    const backHint = isFront
+      ? {
+          top:'rgba(50,77,138,.18)',
+          bottom:row.color.backDark,
+          rim:'rgba(255,255,255,.14)'
+        }
+      : {
+          top:'rgba(255,255,255,.82)',
+          bottom:row.color.back,
+          rim:'rgba(255,255,255,.22)'
+        };
+    const topFace = isFront
+      ? {
+          top:row.color.top2,
+          mid:row.color.top,
+          bottom:row.color.side,
+          outerHighlight:'rgba(255,255,255,.82)',
+          innerShadow:'rgba(36,58,112,.52)',
+          rim:'rgba(255,255,255,.36)'
+        }
+      : {
+          top:'rgba(255,255,255,.96)',
+          mid:row.color.back,
+          bottom:row.color.backDark,
+          outerHighlight:'rgba(255,255,255,.52)',
+          innerShadow:'rgba(36,58,112,.28)',
+          rim:'rgba(255,255,255,.18)'
+        };
+    const lip = isFront
+      ? {
+          top:'rgba(255,255,255,.16)',
+          bottom:'rgba(44,70,132,.28)',
+          edge:'rgba(255,255,255,.28)'
+        }
+      : {
+          top:'rgba(255,255,255,.08)',
+          bottom:'rgba(40,63,118,.16)',
+          edge:'rgba(255,255,255,.14)'
+        };
 
-    drawSimpleArcFace(cx, y + drop, outerRx, outerRy, innerRx, innerRy, startA, endA, outerLight, outerDark, 'rgba(0,0,0,0)', alpha * (isFront ? 0.56 : 0.42));
-    drawArcWall(cx, y, outerRx, outerRy, startA, endA, drop, outerLight, outerDark, alpha * (isFront ? 0.96 : 0.72));
-    drawArcWall(cx, y, innerRx, innerRy, startA, endA, drop, innerLight, innerDark, alpha * (isFront ? 0.84 : 0.6));
-    drawCutWall(cx, y, outerRx, outerRy, innerRx, innerRy, startA, drop, cutLight, cutDark, alpha * (isFront ? 0.92 : 0.68));
-    drawCutWall(cx, y, outerRx, outerRy, innerRx, innerRy, endA, drop, cutLight, cutDark, alpha * (isFront ? 0.92 : 0.68));
-    drawSimpleArcFace(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, topTop, topBottom, rim, alpha);
+    drawPlatformBackHint(cx, y + lipDrop * (isFront ? 0.55 : 0.35), outerRx, outerRy, innerRx, innerRy, startA, endA, backHint, alpha * (isFront ? 0.18 : 0.3));
+    if(isFront) drawPlatformLip(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, lipDrop, lip, alpha * 0.85);
+    drawPlatformTopFace(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, topFace, alpha);
   }
 
   ctx.restore();

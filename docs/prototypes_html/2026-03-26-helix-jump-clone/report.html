@@ -22,17 +22,18 @@ a{color:#225fe0}code{background:#eef4ff;padding:2px 6px;border-radius:6px}
     <li>Deterministic swept crossed-row detection: every row crossed during downward travel is checked in order.</li>
     <li>Safe-platform bounce, squash/stretch, combo reset to <code>x1</code>.</li>
     <li>Gap clears shatter the row, score points, play reward tones, and raise the combo for consecutive clears.</li>
-    <li>Reworked each platform into a coherent cut-ring section with a true geometric gap, top/bottom faces, and sealed cut walls around the opening.</li>
+    <li>Reworked each platform into a flatter annulus segment around the pillar with a large, obvious geometric opening and cleaner top-face-first rendering.</li>
   </ul>
 </section>
 <section>
-  <h2>Donut-cut rendering pass</h2>
+  <h2>r10 flat-donut rendering pass</h2>
   <ul>
-    <li>The wrong r8 approach was removed: the gap is no longer created by painting a full top band and erasing part of it afterward.</li>
-    <li>Each row now renders as a cut donut / cut ring segment with matching top and underside faces, plus explicit cut walls at both gap edges.</li>
-    <li>The opening is now true empty space defined by the segment geometry itself, so the ball path reads consistently from both above and below.</li>
-    <li>The pillar remains visually separate from the platforms so the silhouette is easier to parse during fast rotation.</li>
-    <li>This pass keeps mechanics intact and focuses on visual coherence, not gameplay rule changes.</li>
+    <li>Platforms were simplified from chunky cut-wall slabs into flatter annulus slices that read more like classic Helix rings.</li>
+    <li>The top face now does almost all of the visual work, while the old heavy side walls and cut walls were removed from the main read.</li>
+    <li>The gap stays true geometry, but the presentation now makes the missing wedge look larger and more obvious at a glance.</li>
+    <li>A restrained back hint and thin front lip preserve front/back layering without turning the ring into a thick tube.</li>
+    <li>The pillar remains clearly separated from the ring by a distinct inner radius and inner-edge shading.</li>
+    <li>This is a render-only rework: gameplay rules, collisions, combo, score, controls, and audio were intentionally left alone.</li>
   </ul>
 </section>
 <section>
@@ -53,7 +54,7 @@ a{color:#225fe0}code{background:#eef4ff;padding:2px 6px;border-radius:6px}
 </section>
 <section>
   <h2>Version</h2>
-  <p><code>v2026.03.27-r9</code></p>
+  <p><code>v2026.03.27-r10</code></p>
 </section>
 </body>
 </html>

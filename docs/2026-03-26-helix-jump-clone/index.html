@@ -51,7 +51,7 @@ button{font:inherit}
     </div>
   </div>
   <div class="combo-pop" id="comboPop">Combo x2</div>
-  <div class="version badge">v2026.03.27-r8</div>
+  <div class="version badge">v2026.03.27-r9</div>
 </div>
 
 <div class="overlay" id="menu">
@@ -450,6 +450,10 @@ function sampleArcParts(start, end, rotation, front){
   return parts.filter(p => wrap(p.end - p.start) > 0.03);
 }
 
+function ellipsePoint(cx, cy, rx, ry, angle, yOffset=0){
+  return {x:cx + Math.cos(angle) * rx, y:cy + Math.sin(angle) * ry + yOffset};
+}
+
 function traceEllipseArc(cx,cy,rx,ry,start,end,anticlockwise){
   const total = anticlockwise ? wrap(start - end) : wrap(end - start);
   const steps = Math.max(6, Math.ceil(total / 0.12));
@@ -483,6 +487,27 @@ function drawArcWall(cx, cy, rx, ry, start, end, drop, topColor, bottomColor, al
   }
   ctx.closePath();
   const g = ctx.createLinearGradient(cx, cy - ry, cx, cy + drop + ry);
+  g.addColorStop(0, topColor);
+  g.addColorStop(1, bottomColor);
+  ctx.fillStyle = g;
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawCutWall(cx, cy, outerRx, outerRy, innerRx, innerRy, angle, drop, topColor, bottomColor, alpha=1){
+  const outerTop = ellipsePoint(cx, cy, outerRx, outerRy, angle);
+  const innerTop = ellipsePoint(cx, cy, innerRx, innerRy, angle);
+  const outerBottom = ellipsePoint(cx, cy, outerRx, outerRy, angle, drop);
+  const innerBottom = ellipsePoint(cx, cy, innerRx, innerRy, angle, drop);
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.beginPath();
+  ctx.moveTo(outerTop.x, outerTop.y);
+  ctx.lineTo(innerTop.x, innerTop.y);
+  ctx.lineTo(innerBottom.x, innerBottom.y);
+  ctx.lineTo(outerBottom.x, outerBottom.y);
+  ctx.closePath();
+  const g = ctx.createLinearGradient(outerTop.x, cy, innerTop.x, cy + drop);
   g.addColorStop(0, topColor);
   g.addColorStop(1, bottomColor);
   ctx.fillStyle = g;
@@ -528,8 +553,6 @@ function drawRow(row, layer='front'){
   const drop = view.rowThickness * (isFront ? 0.82 : 0.34);
   const alpha = row.cleared ? clamp(1 - row.breakAge * 2.2, 0, 1) : 1;
   const clipPad = outerRx + 40;
-  const gapStartA = row.gapStart + rotation;
-  const gapEndA = row.gapEnd + rotation;
 
   ctx.save();
   ctx.beginPath();
@@ -540,22 +563,23 @@ function drawRow(row, layer='front'){
   for(const seg of row.segments){
     const startA = seg.start + rotation;
     const endA = seg.end + rotation;
+    const topTop = isFront ? row.color.top2 : 'rgba(255,255,255,.92)';
+    const topBottom = isFront ? row.color.top : row.color.back;
+    const rim = isFront ? row.color.rim : 'rgba(255,255,255,.26)';
+    const outerLight = isFront ? row.color.side : row.color.back;
+    const outerDark = isFront ? row.color.sideDark : row.color.backDark;
+    const innerLight = isFront ? 'rgba(255,255,255,.26)' : 'rgba(255,255,255,.16)';
+    const innerDark = isFront ? 'rgba(40,55,96,.30)' : 'rgba(32,40,78,.24)';
+    const cutLight = isFront ? row.color.top2 : 'rgba(255,255,255,.72)';
+    const cutDark = isFront ? row.color.sideDark : row.color.backDark;
 
-    if(isFront){
-      drawArcWall(cx, y, outerRx, outerRy, startA, endA, drop, row.color.side, row.color.sideDark, alpha * 0.95);
-      drawSimpleArcFace(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, row.color.top2, row.color.top, row.color.rim, alpha);
-    } else {
-      drawArcWall(cx, y, outerRx, outerRy, startA, endA, drop, row.color.back, row.color.backDark, alpha * 0.72);
-      drawSimpleArcFace(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, 'rgba(255,255,255,.9)', row.color.back, 'rgba(255,255,255,.24)', alpha * 0.88);
-    }
+    drawSimpleArcFace(cx, y + drop, outerRx, outerRy, innerRx, innerRy, startA, endA, outerLight, outerDark, 'rgba(0,0,0,0)', alpha * (isFront ? 0.56 : 0.42));
+    drawArcWall(cx, y, outerRx, outerRy, startA, endA, drop, outerLight, outerDark, alpha * (isFront ? 0.96 : 0.72));
+    drawArcWall(cx, y, innerRx, innerRy, startA, endA, drop, innerLight, innerDark, alpha * (isFront ? 0.84 : 0.6));
+    drawCutWall(cx, y, outerRx, outerRy, innerRx, innerRy, startA, drop, cutLight, cutDark, alpha * (isFront ? 0.92 : 0.68));
+    drawCutWall(cx, y, outerRx, outerRy, innerRx, innerRy, endA, drop, cutLight, cutDark, alpha * (isFront ? 0.92 : 0.68));
+    drawSimpleArcFace(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, topTop, topBottom, rim, alpha);
   }
-
-  ctx.save();
-  ctx.globalCompositeOperation = 'destination-out';
-  traceRingBand(cx, y - 1, outerRx + 2, outerRy + 2, innerRx - 2, innerRy - 2, gapStartA, gapEndA);
-  ctx.fillStyle = 'rgba(0,0,0,1)';
-  ctx.fill();
-  ctx.restore();
 
   ctx.restore();
 }

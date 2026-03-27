@@ -51,7 +51,7 @@ button{font:inherit}
     </div>
   </div>
   <div class="combo-pop" id="comboPop">Combo x2</div>
-  <div class="version badge">v2026.03.27-r10</div>
+  <div class="version badge">v2026.03.27-r11</div>
 </div>
 
 <div class="overlay" id="menu">
@@ -601,6 +601,42 @@ function drawPlatformLip(cx, cy, outerRx, outerRy, innerRx, innerRy, start, end,
   ctx.restore();
 }
 
+function drawGapSector(cx, cy, outerRx, outerRy, innerRx, innerRy, gapStart, gapEnd, drop, color, alpha=1){
+  const gapSpan = wrap(gapEnd - gapStart);
+  if(gapSpan <= 0.04) return;
+
+  ctx.save();
+  ctx.globalAlpha = alpha;
+
+  const sectorStart = gapStart;
+  const sectorEnd = gapEnd;
+  traceRingBand(cx, cy, outerRx, outerRy, innerRx, innerRy, sectorStart, sectorEnd);
+  const voidGrad = ctx.createLinearGradient(cx, cy - outerRy * 0.6, cx, cy + drop + outerRy * 1.6);
+  voidGrad.addColorStop(0, color.voidTop);
+  voidGrad.addColorStop(0.55, color.voidMid);
+  voidGrad.addColorStop(1, color.voidBottom);
+  ctx.fillStyle = voidGrad;
+  ctx.fill();
+
+  drawCutWall(cx, cy, outerRx, outerRy, innerRx, innerRy, gapStart, drop, color.cutLight, color.cutDark, alpha * 0.98);
+  drawCutWall(cx, cy, outerRx, outerRy, innerRx, innerRy, gapEnd, drop, color.cutLight, color.cutDark, alpha * 0.98);
+  drawArcWall(cx, cy, innerRx, innerRy, sectorStart, sectorEnd, drop, color.innerWallTop, color.innerWallBottom, alpha * 0.88);
+
+  ctx.beginPath();
+  traceEllipseArc(cx, cy, outerRx, outerRy, sectorStart, sectorEnd, false);
+  ctx.strokeStyle = color.outerEdge;
+  ctx.lineWidth = 1.4;
+  ctx.stroke();
+
+  ctx.beginPath();
+  traceEllipseArc(cx, cy, innerRx, innerRy, sectorStart, sectorEnd, false);
+  ctx.strokeStyle = color.innerEdge;
+  ctx.lineWidth = 1.15;
+  ctx.stroke();
+
+  ctx.restore();
+}
+
 function drawRow(row, layer='front'){
   if(row.cleared && row.breakAge > 0.06) return;
   const y = worldToScreenY(row.worldY);
@@ -669,6 +705,22 @@ function drawRow(row, layer='front'){
     drawPlatformBackHint(cx, y + lipDrop * (isFront ? 0.55 : 0.35), outerRx, outerRy, innerRx, innerRy, startA, endA, backHint, alpha * (isFront ? 0.18 : 0.3));
     if(isFront) drawPlatformLip(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, lipDrop, lip, alpha * 0.85);
     drawPlatformTopFace(cx, y, outerRx, outerRy, innerRx, innerRy, startA, endA, topFace, alpha);
+  }
+
+  if(isFront){
+    const gapStartA = row.gapStart + rotation;
+    const gapEndA = row.gapEnd + rotation;
+    drawGapSector(cx, y, outerRx, outerRy, innerRx, innerRy, gapStartA, gapEndA, lipDrop, {
+      voidTop:'rgba(255,255,255,.42)',
+      voidMid:'rgba(124,146,208,.18)',
+      voidBottom:'rgba(44,67,122,.08)',
+      cutLight:'rgba(255,255,255,.42)',
+      cutDark:'rgba(75,104,173,.55)',
+      innerWallTop:'rgba(236,244,255,.95)',
+      innerWallBottom:'rgba(109,130,190,.82)',
+      outerEdge:'rgba(255,255,255,.22)',
+      innerEdge:'rgba(255,255,255,.72)'
+    }, alpha * 0.92);
   }
 
   ctx.restore();

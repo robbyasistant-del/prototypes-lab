@@ -22,17 +22,17 @@ a{color:#225fe0}code{background:#eef4ff;padding:2px 6px;border-radius:6px}
     <li>Deterministic swept crossed-row detection: every row crossed during downward travel is checked in order.</li>
     <li>Safe-platform bounce, squash/stretch, combo reset to <code>x1</code>.</li>
     <li>Gap clears shatter the row, score points, play reward tones, and raise the combo for consecutive clears.</li>
-    <li>Reworked faux-3D tower rendering with a clip-based sealed ring-volume renderer: each platform piece is drawn as one continuous annulus volume per layer, then revealed by front/back clipping instead of stitched visible sub-polygons.</li>
+    <li>Simplified faux-3D tower rendering into cleaner arc-shaped platform bands with larger openings and no explicit dark gap band.</li>
   </ul>
 </section>
 <section>
-  <h2>Render-method rework</h2>
+  <h2>Visual simplification pass</h2>
   <ul>
-    <li>The center pillar stays intentionally thicker so the structure reads as a cylinder instead of a thin post.</li>
-    <li>The old sampled visible-arc strip method was removed from the active row renderer. Rows are no longer split into many front/back micro-polygons.</li>
-    <li>Each safe platform now renders as one continuous annulus sector volume for the back layer and one for the front layer, with simple half-plane clipping deciding what is visible.</li>
-    <li>The gap remains readable because the open sector is defined by the platform segment endpoints, and both radial cut faces are filled as explicit solid caps.</li>
-    <li>This should remove the previous transparency/crack impression because the renderer no longer relies on adjacent sampled arc slices trying to meet perfectly along the ring.</li>
+    <li>The black painted gap band was removed entirely so the opening reads as empty space again.</li>
+    <li>Gap widths were increased meaningfully across spawn and regular rows to make the safe opening clearer at a glance.</li>
+    <li>Platform faces were simplified into cleaner arc bands around the pillar instead of heavier sealed-volume shapes with extra end caps.</li>
+    <li>The pillar remains visually separate from the platforms so the silhouette is easier to parse during fast rotation.</li>
+    <li>This pass keeps mechanics intact and focuses only on readability and a simpler arcade look.</li>
   </ul>
 </section>
 <section>
@@ -53,7 +53,7 @@ a{color:#225fe0}code{background:#eef4ff;padding:2px 6px;border-radius:6px}
 </section>
 <section>
   <h2>Version</h2>
-  <p><code>v2026.03.26-r5</code></p>
+  <p><code>v2026.03.27-r7</code></p>
 </section>
 </body>
 </html>

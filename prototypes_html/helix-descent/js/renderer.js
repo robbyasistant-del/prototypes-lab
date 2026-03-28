@@ -236,6 +236,7 @@ HelixDescent.Renderer = (function () {
 
         // Ball screen Y
         var ballSY = dToY(ball.depth) + baseRY * BALL_OFF;
+        var ballD = ball.depth; // use depth, NOT screenY, for z-ordering
 
         // === Z-ordered rendering ===
 
@@ -247,9 +248,10 @@ HelixDescent.Renderer = (function () {
         // 2. Center pillar
         drawPillar(theme);
 
-        // 3. FRONT halves of rings BELOW the ball (further from camera → draw first)
+        // 3. FRONT halves of rings AT or BELOW the ball (depth >= ballD → ball is above)
+        //    These are further from camera → draw first, so ball appears on top.
         for (var i = vis.length - 1; i >= 0; i--) {
-            if (vis[i].sy > ballSY) {
+            if (vis[i].ring.depth >= ballD) {
                 drawRingHalf(vis[i], tw.angle, theme, true);
             }
         }
@@ -257,9 +259,10 @@ HelixDescent.Renderer = (function () {
         // 4. The ball
         drawBall(ball, ballSY, theme);
 
-        // 5. FRONT halves of rings ABOVE/AT the ball (closer to camera → occlude ball)
+        // 5. FRONT halves of rings ABOVE the ball (depth < ballD → between camera & ball)
+        //    Closer to camera → drawn last to occlude ball correctly.
         for (var i = vis.length - 1; i >= 0; i--) {
-            if (vis[i].sy <= ballSY) {
+            if (vis[i].ring.depth < ballD) {
                 drawRingHalf(vis[i], tw.angle, theme, true);
             }
         }

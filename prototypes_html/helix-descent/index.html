@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Helix Descent</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <canvas id="game-canvas"></canvas>
+
+    <!-- Score HUD -->
+    <div class="score-hud hidden">
+        <div id="score">0</div>
+    </div>
+
+    <!-- Combo display -->
+    <div id="combo" class="hidden">x2</div>
+
+    <!-- Mute button -->
+    <button id="mute-btn" aria-label="Toggle sound">🔊</button>
+
+    <!-- Menu Overlay -->
+    <div id="menu-overlay" class="overlay">
+        <div class="title">HELIX DESCENT</div>
+        <div class="subtitle">Thread the needle. One drop at a time.</div>
+        <div class="tap-hint">Tap to Start</div>
+        <div class="best-line">Best: <span id="best-score">0</span></div>
+    </div>
+
+    <!-- Game Over Overlay -->
+    <div id="gameover-overlay" class="overlay hidden">
+        <div class="go-title">GAME OVER</div>
+        <div class="go-score-label">SCORE</div>
+        <div class="go-score" id="go-score">0</div>
+        <div class="go-best">Best: <span id="go-best">0</span></div>
+        <div class="tap-hint">Tap to Restart</div>
+    </div>
+
+    <!-- JS modules in dependency order -->
+    <script src="js/themes.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/input.js"></script>
+    <script src="js/tower.js"></script>
+    <script src="js/physics.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/game.js"></script>
+
+</body>
+</html>

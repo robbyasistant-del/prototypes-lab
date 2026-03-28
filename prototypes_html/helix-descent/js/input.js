@@ -7,152 +7,85 @@ var HelixDescent = HelixDescent || {};
 HelixDescent.Input = (function () {
     'use strict';
 
-    var TOUCH_SENSITIVITY = 0.009;   // radians per pixel of drag
-    var MOUSE_SENSITIVITY = 0.007;
-    var KEY_ROTATION_FORCE = 8.0;    // radians/s² when key held
+    var TOUCH_SENS = 0.012;
+    var MOUSE_SENS = 0.009;
+    var KEY_FORCE  = 9.0;
 
-    var angularForce = 0;            // current frame rotational input
-    var dragging = false;
-    var lastX = 0;
-    var dragDeltaX = 0;
+    var force = 0, dragging = false, lastX = 0, deltaX = 0;
+    var keys = {};
+    var tapCb = null, canvas = null;
 
-    var keysDown = {};
-    var tapCallback = null;          // called on tap/click (for menu/restart)
-    var canvas = null;
+    /* touch */
+    var touchStartX = 0, touchMoved = false;
 
-    function init(canvasEl, onTap) {
-        canvas = canvasEl;
-        tapCallback = onTap;
-
-        // Touch
-        canvas.addEventListener('touchstart', onTouchStart, { passive: false });
-        canvas.addEventListener('touchmove', onTouchMove, { passive: false });
-        canvas.addEventListener('touchend', onTouchEnd, { passive: false });
-        canvas.addEventListener('touchcancel', onTouchEnd, { passive: false });
-
-        // Mouse
-        canvas.addEventListener('mousedown', onMouseDown);
-        window.addEventListener('mousemove', onMouseMove);
-        window.addEventListener('mouseup', onMouseUp);
-
-        // Keyboard
-        window.addEventListener('keydown', onKeyDown);
-        window.addEventListener('keyup', onKeyUp);
+    function onTS(e) {
+        e.preventDefault(); HelixDescent.Audio.resume();
+        var tc = e.touches[0];
+        dragging = true; lastX = tc.clientX; touchStartX = tc.clientX;
+        touchMoved = false; deltaX = 0;
+    }
+    function onTM(e) {
+        e.preventDefault(); if (!dragging) return;
+        var tc = e.touches[0];
+        deltaX = tc.clientX - lastX; lastX = tc.clientX;
+        if (Math.abs(tc.clientX - touchStartX) > 8) touchMoved = true;
+    }
+    function onTE(e) {
+        e.preventDefault(); dragging = false; deltaX = 0;
+        if (!touchMoved && tapCb) tapCb();
     }
 
-    function destroy() {
-        if (!canvas) return;
-        canvas.removeEventListener('touchstart', onTouchStart);
-        canvas.removeEventListener('touchmove', onTouchMove);
-        canvas.removeEventListener('touchend', onTouchEnd);
-        canvas.removeEventListener('touchcancel', onTouchEnd);
-        canvas.removeEventListener('mousedown', onMouseDown);
-        window.removeEventListener('mousemove', onMouseMove);
-        window.removeEventListener('mouseup', onMouseUp);
-        window.removeEventListener('keydown', onKeyDown);
-        window.removeEventListener('keyup', onKeyUp);
-    }
+    /* mouse */
+    var mouseStartX = 0, mouseMoved = false;
 
-    /* ---- Touch ---- */
-    var touchStartX = 0;
-    var touchMoved = false;
-
-    function onTouchStart(e) {
-        e.preventDefault();
+    function onMD(e) {
         HelixDescent.Audio.resume();
-        var t = e.touches[0];
-        dragging = true;
-        lastX = t.clientX;
-        touchStartX = t.clientX;
-        touchMoved = false;
-        dragDeltaX = 0;
+        dragging = true; lastX = e.clientX; mouseStartX = e.clientX;
+        mouseMoved = false; deltaX = 0;
     }
-
-    function onTouchMove(e) {
-        e.preventDefault();
+    function onMM(e) {
         if (!dragging) return;
-        var t = e.touches[0];
-        dragDeltaX = t.clientX - lastX;
-        lastX = t.clientX;
-        if (Math.abs(t.clientX - touchStartX) > 8) touchMoved = true;
-    }
-
-    function onTouchEnd(e) {
-        e.preventDefault();
-        dragging = false;
-        dragDeltaX = 0;
-        if (!touchMoved && tapCallback) tapCallback();
-    }
-
-    /* ---- Mouse ---- */
-    var mouseStartX = 0;
-    var mouseMoved = false;
-
-    function onMouseDown(e) {
-        HelixDescent.Audio.resume();
-        dragging = true;
-        lastX = e.clientX;
-        mouseStartX = e.clientX;
-        mouseMoved = false;
-        dragDeltaX = 0;
-    }
-
-    function onMouseMove(e) {
-        if (!dragging) return;
-        dragDeltaX = e.clientX - lastX;
-        lastX = e.clientX;
+        deltaX = e.clientX - lastX; lastX = e.clientX;
         if (Math.abs(e.clientX - mouseStartX) > 5) mouseMoved = true;
     }
-
-    function onMouseUp() {
-        dragging = false;
-        dragDeltaX = 0;
-        if (!mouseMoved && tapCallback) tapCallback();
+    function onMU() {
+        dragging = false; deltaX = 0;
+        if (!mouseMoved && tapCb) tapCb();
     }
 
-    /* ---- Keyboard ---- */
+    /* keyboard */
+    function onKD(e) {
+        keys[e.code] = true;
+        if (e.code === 'Space' || e.code === 'Enter') { if (tapCb) tapCb(); }
+    }
+    function onKU(e) { keys[e.code] = false; }
 
-    function onKeyDown(e) {
-        keysDown[e.code] = true;
-        if (e.code === 'Space' || e.code === 'Enter') {
-            if (tapCallback) tapCallback();
-        }
+    function init(el, onTap) {
+        canvas = el; tapCb = onTap;
+        canvas.addEventListener('touchstart', onTS, { passive: false });
+        canvas.addEventListener('touchmove', onTM, { passive: false });
+        canvas.addEventListener('touchend', onTE, { passive: false });
+        canvas.addEventListener('touchcancel', onTE, { passive: false });
+        canvas.addEventListener('mousedown', onMD);
+        window.addEventListener('mousemove', onMM);
+        window.addEventListener('mouseup', onMU);
+        window.addEventListener('keydown', onKD);
+        window.addEventListener('keyup', onKU);
     }
 
-    function onKeyUp(e) {
-        keysDown[e.code] = false;
-    }
-
-    /* ---- Per-frame query ---- */
-
-    /**
-     * Call once per physics step.
-     * Returns angular force to apply to the tower (radians/s²).
-     */
     function getAngularForce() {
-        var force = 0;
-
-        // Drag (touch or mouse) → direct velocity injection
-        if (dragging && dragDeltaX !== 0) {
-            var sens = ('ontouchstart' in window) ? TOUCH_SENSITIVITY : MOUSE_SENSITIVITY;
-            force = dragDeltaX * sens * 60; // scale to per-second
-            dragDeltaX = 0;
+        var f = 0;
+        if (dragging && deltaX !== 0) {
+            var s = ('ontouchstart' in window) ? TOUCH_SENS : MOUSE_SENS;
+            f = deltaX * s * 60;
+            deltaX = 0;
         }
-
-        // Keyboard
-        if (keysDown['ArrowLeft'] || keysDown['KeyA']) force -= KEY_ROTATION_FORCE;
-        if (keysDown['ArrowRight'] || keysDown['KeyD']) force += KEY_ROTATION_FORCE;
-
-        return force;
+        if (keys['ArrowLeft'] || keys['KeyA']) f -= KEY_FORCE;
+        if (keys['ArrowRight'] || keys['KeyD']) f += KEY_FORCE;
+        return f;
     }
 
-    /** True if any drag is active (used to apply stronger damping when dragging). */
     function isDragging() { return dragging; }
 
-    return {
-        init: init,
-        destroy: destroy,
-        getAngularForce: getAngularForce,
-        isDragging: isDragging
-    };
+    return { init: init, getAngularForce: getAngularForce, isDragging: isDragging };
 })();

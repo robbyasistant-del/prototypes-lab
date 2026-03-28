@@ -1,6 +1,5 @@
 /**
- * Helix Descent — Theme Definitions & Color Utilities
- * Defines visual themes and provides color interpolation for smooth transitions.
+ * Helix Descent — Visual Themes & Color Utilities
  */
 var HelixDescent = HelixDescent || {};
 
@@ -10,138 +9,110 @@ HelixDescent.Themes = (function () {
     var themes = [
         {
             name: 'Classic',
-            bg1: '#dceefb',
-            bg2: '#b8ddf5',
-            platform: '#00bcd4',
-            platformAlt: '#0097a7',
-            platformSide: '#00838f',
-            danger: '#f44336',
-            dangerAlt: '#d32f2f',
-            dangerSide: '#b71c1c',
-            ball: '#ffffff',
-            ballOutline: '#b0bec5',
-            ballShadow: 'rgba(0,0,0,0.18)',
-            pillar1: '#cfd8dc',
-            pillar2: '#90a4ae',
-            text: '#263238',
-            accent: '#ff9800',
-            scorePopup: '#00bcd4',
-            particles: ['#00bcd4', '#4dd0e1', '#80deea', '#ffffff'],
-            dangerParticles: ['#f44336', '#ff5252', '#ff8a80', '#ffcdd2'],
-            comboColor: '#ff9800',
+            bg1: '#E3F2FD', bg2: '#FAFAFA',
+            platform: '#00BCD4', platformSide: '#00838F',
+            platformAlt: '#0097A7', platformAltSide: '#006064',
+            danger: '#EF5350', dangerSide: '#C62828',
+            dangerAlt: '#E53935', dangerAltSide: '#B71C1C',
+            ball: '#FFFFFF', ballOutline: '#B0BEC5', ballHighlight: 'rgba(255,255,255,0.7)',
+            ballShadow: 'rgba(0,0,0,0.15)',
+            pillar1: '#B0BEC5', pillar2: '#78909C',
+            gapColor: 'rgba(0,0,0,0.06)',
+            particles: ['#00BCD4','#4DD0E1','#80DEEA','#FFFFFF'],
+            dangerParticles: ['#EF5350','#FF5252','#FF8A80','#FFCDD2'],
+            scoreColor: '#00BCD4', comboColor: '#FF9800',
             glow: false
         },
         {
             name: 'Neon Night',
-            bg1: '#0a0a2e',
-            bg2: '#12123a',
-            platform: '#00e5ff',
-            platformAlt: '#00b8d4',
-            platformSide: '#006978',
-            danger: '#ff1744',
-            dangerAlt: '#d50000',
-            dangerSide: '#9a0007',
-            ball: '#ffffff',
-            ballOutline: '#b2ebf2',
-            ballShadow: 'rgba(0,229,255,0.12)',
-            pillar1: '#1a237e',
-            pillar2: '#0d1442',
-            text: '#e0f7fa',
-            accent: '#ff4081',
-            scorePopup: '#18ffff',
-            particles: ['#00e5ff', '#18ffff', '#84ffff', '#e0f7fa'],
-            dangerParticles: ['#ff1744', '#ff616f', '#ff8a80', '#ff80ab'],
-            comboColor: '#ff4081',
+            bg1: '#0D0D2B', bg2: '#1A1A3E',
+            platform: '#00E5FF', platformSide: '#006978',
+            platformAlt: '#00B8D4', platformAltSide: '#005662',
+            danger: '#FF1744', dangerSide: '#9A0007',
+            dangerAlt: '#D50000', dangerAltSide: '#7F0000',
+            ball: '#FFFFFF', ballOutline: '#B2EBF2', ballHighlight: 'rgba(0,229,255,0.3)',
+            ballShadow: 'rgba(0,229,255,0.10)',
+            pillar1: '#1A237E', pillar2: '#0D1442',
+            gapColor: 'rgba(0,229,255,0.04)',
+            particles: ['#00E5FF','#18FFFF','#84FFFF','#E0F7FA'],
+            dangerParticles: ['#FF1744','#FF616F','#FF8A80','#FF80AB'],
+            scoreColor: '#18FFFF', comboColor: '#FF4081',
             glow: true
         },
         {
             name: 'Sunset',
-            bg1: '#ff7043',
-            bg2: '#ff8a65',
-            platform: '#5d4037',
-            platformAlt: '#4e342e',
-            platformSide: '#3e2723',
-            danger: '#b71c1c',
-            dangerAlt: '#880e4f',
-            dangerSide: '#560027',
-            ball: '#fff8e1',
-            ballOutline: '#ffe082',
-            ballShadow: 'rgba(62,39,35,0.22)',
-            pillar1: '#6d4c41',
-            pillar2: '#4e342e',
-            text: '#fff8e1',
-            accent: '#ffd54f',
-            scorePopup: '#ffd54f',
-            particles: ['#ffd54f', '#ffe082', '#ffecb3', '#fff8e1'],
-            dangerParticles: ['#b71c1c', '#e53935', '#ff5252', '#ff8a80'],
-            comboColor: '#ffd54f',
+            bg1: '#FF8A65', bg2: '#FFE0B2',
+            platform: '#5D4037', platformSide: '#3E2723',
+            platformAlt: '#4E342E', platformAltSide: '#321911',
+            danger: '#B71C1C', dangerSide: '#560027',
+            dangerAlt: '#880E4F', dangerAltSide: '#3E0018',
+            ball: '#FFF8E1', ballOutline: '#FFE082', ballHighlight: 'rgba(255,248,225,0.6)',
+            ballShadow: 'rgba(62,39,35,0.18)',
+            pillar1: '#6D4C41', pillar2: '#4E342E',
+            gapColor: 'rgba(62,39,35,0.06)',
+            particles: ['#FFD54F','#FFE082','#FFECB3','#FFF8E1'],
+            dangerParticles: ['#B71C1C','#E53935','#FF5252','#FF8A80'],
+            scoreColor: '#FFD54F', comboColor: '#FFD54F',
             glow: false
         }
     ];
 
-    /* ---- colour helpers ---- */
-
     function hexToRgb(hex) {
-        hex = hex.replace('#', '');
+        hex = hex.replace('#','');
         if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
         var n = parseInt(hex, 16);
         return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
     }
 
     function rgbToHex(r, g, b) {
-        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
     }
 
-    function lerpColor(hex1, hex2, t) {
-        var a = hexToRgb(hex1), b = hexToRgb(hex2);
-        var r = Math.round(a[0] + (b[0] - a[0]) * t);
-        var g = Math.round(a[1] + (b[1] - a[1]) * t);
-        var bl = Math.round(a[2] + (b[2] - a[2]) * t);
-        return rgbToHex(r, g, bl);
+    function lerpColor(a, b, t) {
+        var ca = hexToRgb(a), cb = hexToRgb(b);
+        return rgbToHex(
+            Math.round(ca[0] + (cb[0] - ca[0]) * t),
+            Math.round(ca[1] + (cb[1] - ca[1]) * t),
+            Math.round(ca[2] + (cb[2] - ca[2]) * t)
+        );
     }
 
-    function lerpTheme(themeA, themeB, t) {
-        var result = {};
-        for (var key in themeA) {
-            if (!themeA.hasOwnProperty(key)) continue;
-            var va = themeA[key], vb = themeB[key];
+    function lerpTheme(a, b, t) {
+        var out = {};
+        for (var k in a) {
+            if (!a.hasOwnProperty(k)) continue;
+            var va = a[k], vb = b[k];
             if (typeof va === 'string' && va.charAt(0) === '#') {
-                result[key] = lerpColor(va, vb, t);
-            } else if (Array.isArray(va) && typeof va[0] === 'string' && va[0].charAt(0) === '#') {
-                result[key] = va.map(function (c, i) { return lerpColor(c, vb[i] || c, t); });
+                out[k] = lerpColor(va, vb, t);
+            } else if (Array.isArray(va) && va.length && typeof va[0] === 'string' && va[0].charAt(0) === '#') {
+                out[k] = [];
+                for (var i = 0; i < va.length; i++) out[k][i] = lerpColor(va[i], (vb[i] || va[i]), t);
             } else if (typeof va === 'boolean') {
-                result[key] = t < 0.5 ? va : vb;
+                out[k] = t < 0.5 ? va : vb;
             } else {
-                result[key] = va;
+                out[k] = va;
             }
         }
-        return result;
+        return out;
     }
 
-    /* ---- public API ---- */
-
     var FLOORS_PER_THEME = 50;
-    var TRANSITION_FLOORS = 5; // smooth transition over 5 floors
+    var TRANSITION_FLOORS = 5;
 
     return {
         list: themes,
         FLOORS_PER_THEME: FLOORS_PER_THEME,
-
-        /** Get the blended theme for the current floor depth. */
         getTheme: function (floor) {
             var idx = Math.floor(floor / FLOORS_PER_THEME) % themes.length;
             var next = (idx + 1) % themes.length;
-            var posInTheme = floor % FLOORS_PER_THEME;
-            var transitionStart = FLOORS_PER_THEME - TRANSITION_FLOORS;
-
-            if (posInTheme >= transitionStart) {
-                var t = (posInTheme - transitionStart) / TRANSITION_FLOORS;
-                return lerpTheme(themes[idx], themes[next], t);
+            var pos = floor % FLOORS_PER_THEME;
+            var start = FLOORS_PER_THEME - TRANSITION_FLOORS;
+            if (pos >= start) {
+                return lerpTheme(themes[idx], themes[next], (pos - start) / TRANSITION_FLOORS);
             }
             return themes[idx];
         },
-
-        hexToRgb: hexToRgb,
-        lerpColor: lerpColor
+        lerpColor: lerpColor,
+        hexToRgb: hexToRgb
     };
 })();

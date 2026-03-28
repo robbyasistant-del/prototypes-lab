@@ -1,59 +1,41 @@
 /**
- * Helix Descent — Main Game Loop & State Machine
- * Orchestrates all modules: physics, rendering, audio, input, tower, themes.
+ * Helix Descent — Game Loop & State Machine (REWRITE)
  */
 var HelixDescent = HelixDescent || {};
 
 HelixDescent.Game = (function () {
     'use strict';
 
-    var STATE_MENU     = 0;
-    var STATE_PLAYING  = 1;
-    var STATE_GAMEOVER = 2;
-
+    var STATE_MENU = 0, STATE_PLAYING = 1, STATE_GAMEOVER = 2;
     var state = STATE_MENU;
-    var score = 0;
-    var bestScore = 0;
-    var lastThemeIndex = -1;
-    var gameOverTimer = 0;
-    var trailTimer = 0;
+    var score = 0, bestScore = 0, lastThemeIdx = -1;
+    var goTimer = 0, trailTimer = 0;
 
-    /* ---- Fixed timestep ---- */
-    var PHYSICS_DT = 1 / 120;
-    var accumulator = 0;
-    var lastTime = 0;
+    /* Fixed timestep */
+    var PH_DT = 1 / 120, accum = 0, lastT = 0;
     var running = false;
-    var rafId = null;
 
-    /* ---- DOM refs ---- */
-    var canvas, scoreEl, bestScoreEl, comboEl;
-    var menuOverlay, gameOverOverlay, goScoreEl, goBestEl;
-    var muteBtn;
-
-    /* ---- Init ---- */
+    /* DOM */
+    var canvas, scoreEl, bestEl, comboEl;
+    var menuOv, goOv, goScoreEl, goBestEl, muteBtn;
 
     function init() {
-        canvas         = document.getElementById('game-canvas');
-        scoreEl        = document.getElementById('score');
-        bestScoreEl    = document.getElementById('best-score');
-        comboEl        = document.getElementById('combo');
-        menuOverlay    = document.getElementById('menu-overlay');
-        gameOverOverlay= document.getElementById('gameover-overlay');
-        goScoreEl      = document.getElementById('go-score');
-        goBestEl       = document.getElementById('go-best');
-        muteBtn        = document.getElementById('mute-btn');
+        canvas    = document.getElementById('game-canvas');
+        scoreEl   = document.getElementById('score');
+        bestEl    = document.getElementById('best-score');
+        comboEl   = document.getElementById('combo');
+        menuOv    = document.getElementById('menu-overlay');
+        goOv      = document.getElementById('gameover-overlay');
+        goScoreEl = document.getElementById('go-score');
+        goBestEl  = document.getElementById('go-best');
+        muteBtn   = document.getElementById('mute-btn');
 
-        // Load best score
-        try { bestScore = parseInt(localStorage.getItem('helix_best') || '0', 10); }
-        catch(e) { bestScore = 0; }
-        updateBestDisplay();
+        try { bestScore = parseInt(localStorage.getItem('helix_best') || '0', 10); } catch(e) { bestScore = 0; }
+        if (bestEl) bestEl.textContent = bestScore;
 
-        // Init subsystems
         HelixDescent.Renderer.init(canvas);
         HelixDescent.Audio.init();
         HelixDescent.Input.init(canvas, onTap);
-
-        // Physics callbacks
         HelixDescent.Physics.setCallbacks({
             onBounce: onBounce,
             onFallThrough: onFallThrough,
@@ -61,119 +43,74 @@ HelixDescent.Game = (function () {
             onNearMiss: onNearMiss
         });
 
-        // Mute button
         if (muteBtn) {
             muteBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                var m = HelixDescent.Audio.toggleMute();
-                muteBtn.textContent = m ? '🔇' : '🔊';
+                muteBtn.textContent = HelixDescent.Audio.toggleMute() ? '🔇' : '🔊';
             });
         }
 
-        // Resize
-        window.addEventListener('resize', function () {
-            HelixDescent.Renderer.resize();
-        });
+        window.addEventListener('resize', function () { HelixDescent.Renderer.resize(); });
 
-        // Show menu
         showMenu();
-
-        // Start loop
         running = true;
-        lastTime = performance.now();
-        rafId = requestAnimationFrame(loop);
+        lastT = performance.now();
+        requestAnimationFrame(loop);
     }
 
-    /* ---- Game loop ---- */
+    /* ---- Loop ---- */
 
-    function loop(timestamp) {
+    function loop(ts) {
         if (!running) return;
-        rafId = requestAnimationFrame(loop);
+        requestAnimationFrame(loop);
 
-        var dt = Math.min((timestamp - lastTime) / 1000, 0.05); // cap at 50ms
-        lastTime = timestamp;
+        var dt = Math.min((ts - lastT) / 1000, 0.05);
+        lastT = ts;
 
-        var Physics = HelixDescent.Physics;
-        var Tower   = HelixDescent.Tower;
-        var Input   = HelixDescent.Input;
-        var Renderer = HelixDescent.Renderer;
-        var Themes  = HelixDescent.Themes;
+        var P = HelixDescent.Physics, T = HelixDescent.Tower;
+        var I = HelixDescent.Input, R = HelixDescent.Renderer;
+        var Th = HelixDescent.Themes;
 
         if (state === STATE_PLAYING) {
-            // Fixed physics timestep
-            accumulator += dt;
-            while (accumulator >= PHYSICS_DT) {
-                var force = Input.getAngularForce();
-                var result = Physics.step(PHYSICS_DT, force, Input.isDragging());
-                accumulator -= PHYSICS_DT;
-
-                if (result === 'crash') {
-                    triggerGameOver();
-                    accumulator = 0;
-                    break;
-                }
+            accum += dt;
+            while (accum >= PH_DT) {
+                var res = P.step(PH_DT, I.getAngularForce(), I.isDragging());
+                accum -= PH_DT;
+                if (res === 'crash') { triggerGameOver(); accum = 0; break; }
             }
 
-            // Update tower generation
-            Tower.update(Physics.getBall().depth);
+            T.update(P.getBall().depth);
 
-            // Update ring destroy timers
-            var rings = Tower.getRings();
-            for (var i = 0; i < rings.length; i++) {
-                if (rings[i].destroyed) {
-                    rings[i].destroyTimer += dt;
-                }
-            }
-
-            // Trail particles while falling fast
-            if (Physics.getBall().velocityY > 3) {
+            // Trail particles
+            if (P.getBall().velocityY > 3.5) {
                 trailTimer += dt;
-                if (trailTimer > 0.03) {
+                if (trailTimer > 0.035) {
                     trailTimer = 0;
-                    var theme = Themes.getTheme(Physics.getFloorsCleared());
-                    Renderer.spawnTrailParticle(Physics.getBall().depth, theme);
+                    R.spawnTrailParticle(P.getBall().depth, Th.getTheme(P.getFloorsCleared()));
                 }
             }
 
-            // Check theme transition
             checkThemeTransition();
-
-            // Update score display
             scoreEl.textContent = score;
-            updateComboDisplay();
-
+            updateCombo();
         } else if (state === STATE_GAMEOVER) {
-            gameOverTimer += dt;
+            goTimer += dt;
         }
 
-        // Render
-        var theme = Themes.getTheme(
-            state === STATE_PLAYING || state === STATE_GAMEOVER
-                ? Physics.getFloorsCleared() : 0
+        var theme = Th.getTheme(
+            (state === STATE_PLAYING || state === STATE_GAMEOVER) ? P.getFloorsCleared() : 0
         );
-        Renderer.render(theme, state, dt);
-
-        // Draw UI overlays on top of canvas
-        drawCanvasUI(theme, dt);
+        R.render(theme, state, dt);
     }
 
-    /* ---- Canvas-based UI (score, combo on canvas) ---- */
-
-    function drawCanvasUI(theme, dt) {
-        // Additional canvas UI can go here if needed
-        // Most UI is handled via DOM overlays for simplicity
-    }
-
-    /* ---- State transitions ---- */
+    /* ---- States ---- */
 
     function showMenu() {
         state = STATE_MENU;
-        menuOverlay.classList.remove('hidden');
-        gameOverOverlay.classList.add('hidden');
+        menuOv.classList.remove('hidden');
+        goOv.classList.add('hidden');
         scoreEl.parentElement.classList.add('hidden');
         comboEl.classList.add('hidden');
-
-        // Set up idle state
         HelixDescent.Physics.reset();
         HelixDescent.Tower.reset();
         HelixDescent.Tower.update(0);
@@ -183,16 +120,12 @@ HelixDescent.Game = (function () {
 
     function startGame() {
         state = STATE_PLAYING;
-        score = 0;
-        lastThemeIndex = -1;
-        trailTimer = 0;
-
-        menuOverlay.classList.add('hidden');
-        gameOverOverlay.classList.add('hidden');
+        score = 0; lastThemeIdx = -1; trailTimer = 0;
+        menuOv.classList.add('hidden');
+        goOv.classList.add('hidden');
         scoreEl.parentElement.classList.remove('hidden');
         scoreEl.textContent = '0';
         comboEl.classList.add('hidden');
-
         HelixDescent.Physics.reset();
         HelixDescent.Tower.reset();
         HelixDescent.Tower.update(0);
@@ -203,42 +136,31 @@ HelixDescent.Game = (function () {
 
     function triggerGameOver() {
         state = STATE_GAMEOVER;
-        gameOverTimer = 0;
-
+        goTimer = 0;
         var theme = HelixDescent.Themes.getTheme(HelixDescent.Physics.getFloorsCleared());
-
-        // Effects
         HelixDescent.Audio.playCrash();
-        HelixDescent.Renderer.triggerShake(15, 0.35);
-        HelixDescent.Renderer.spawnCrashParticles(
-            HelixDescent.Physics.getBall().depth, theme
-        );
+        HelixDescent.Renderer.triggerShake(16, 0.38);
+        HelixDescent.Renderer.spawnCrashParticles(HelixDescent.Physics.getBall().depth, theme);
 
-        // Update best
         if (score > bestScore) {
             bestScore = score;
             try { localStorage.setItem('helix_best', String(bestScore)); } catch(e) {}
         }
+        if (bestEl) bestEl.textContent = bestScore;
 
-        // Show overlay after brief delay
         setTimeout(function () {
             goScoreEl.textContent = score;
             goBestEl.textContent = bestScore;
-            gameOverOverlay.classList.remove('hidden');
+            goOv.classList.remove('hidden');
             scoreEl.parentElement.classList.add('hidden');
             comboEl.classList.add('hidden');
         }, 250);
     }
 
-    /* ---- Tap handler ---- */
-
     function onTap() {
         HelixDescent.Audio.resume();
-        if (state === STATE_MENU) {
-            startGame();
-        } else if (state === STATE_GAMEOVER && gameOverTimer > 0.4) {
-            startGame();
-        }
+        if (state === STATE_MENU) startGame();
+        else if (state === STATE_GAMEOVER && goTimer > 0.4) startGame();
     }
 
     /* ---- Physics callbacks ---- */
@@ -252,77 +174,48 @@ HelixDescent.Game = (function () {
     function onFallThrough(ring, combo) {
         score++;
         var theme = HelixDescent.Themes.getTheme(HelixDescent.Physics.getFloorsCleared());
-
-        // Score tick sound
         HelixDescent.Audio.playScoreTick(combo);
 
-        // Score popup
-        var text = '+1';
-        if (combo >= 3) text = '+1 x' + combo;
-        HelixDescent.Renderer.spawnPopup(text, ring.depth, theme.scorePopup);
+        var txt = '+1';
+        if (combo >= 3) txt = '+1 x' + combo;
+        HelixDescent.Renderer.spawnPopup(txt, ring.depth, theme.scoreColor);
 
-        // Combo milestones
-        if (combo === 3 || combo === 5 || combo === 8 || combo === 10 || combo % 5 === 0) {
+        if (combo === 3 || combo === 5 || combo === 8 || combo >= 10 && combo % 5 === 0) {
             HelixDescent.Audio.playCombo(combo);
         }
-
-        // Perfect drop (combo >= 3 floors without bouncing)
-        if (combo >= 3) {
-            HelixDescent.Audio.playPerfect();
-            HelixDescent.Renderer.spawnPopup('PERFECT!', ring.depth - 0.3, theme.comboColor);
-        }
-
-        // Extra score for combos
-        if (combo > 1) {
-            score += Math.floor(combo / 2);
-        }
+        if (combo > 1) score += Math.floor(combo / 3);
     }
 
-    function onCrash(ring) {
-        // Handled in triggerGameOver
-    }
+    function onCrash() { /* handled in triggerGameOver */ }
 
     function onNearMiss() {
         HelixDescent.Audio.playNearMiss();
         var theme = HelixDescent.Themes.getTheme(HelixDescent.Physics.getFloorsCleared());
         var ball = HelixDescent.Physics.getBall();
-        HelixDescent.Renderer.spawnPopup('CLOSE!', ball.depth, theme.danger);
+        HelixDescent.Renderer.spawnPopup('CLOSE!', ball.depth, theme.comboColor);
     }
-
-    /* ---- Theme transitions ---- */
 
     function checkThemeTransition() {
-        var floor = HelixDescent.Physics.getFloorsCleared();
-        var idx = Math.floor(floor / HelixDescent.Themes.FLOORS_PER_THEME);
-        if (idx !== lastThemeIndex && lastThemeIndex >= 0) {
+        var fl = HelixDescent.Physics.getFloorsCleared();
+        var idx = Math.floor(fl / HelixDescent.Themes.FLOORS_PER_THEME);
+        if (idx !== lastThemeIdx && lastThemeIdx >= 0) {
             HelixDescent.Audio.playThemeTransition();
         }
-        lastThemeIndex = idx;
+        lastThemeIdx = idx;
     }
 
-    /* ---- UI helpers ---- */
-
-    function updateBestDisplay() {
-        if (bestScoreEl) bestScoreEl.textContent = bestScore;
-    }
-
-    function updateComboDisplay() {
+    function updateCombo() {
         var c = HelixDescent.Physics.getCombo();
         if (c >= 2) {
             comboEl.classList.remove('hidden');
             comboEl.textContent = 'x' + c;
-            comboEl.style.transform = 'scale(' + Math.min(1.5, 1 + c * 0.05) + ')';
+            comboEl.style.transform = 'scale(' + Math.min(1.5, 1 + c * 0.04) + ')';
         } else {
             comboEl.classList.add('hidden');
         }
     }
 
-    return {
-        init: init
-    };
+    return { init: init };
 })();
 
-/* ---- Bootstrap ---- */
-window.addEventListener('DOMContentLoaded', function () {
-    HelixDescent.Game.init();
-});
+window.addEventListener('DOMContentLoaded', function () { HelixDescent.Game.init(); });

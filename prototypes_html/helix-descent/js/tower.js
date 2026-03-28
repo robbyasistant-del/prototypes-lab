@@ -1,6 +1,5 @@
 /**
  * Helix Descent — Procedural Tower Generation
- * Generates rings with gaps, safe zones, and danger zones.
  */
 var HelixDescent = HelixDescent || {};
 
@@ -8,248 +7,158 @@ HelixDescent.Tower = (function () {
     'use strict';
 
     var PI2 = Math.PI * 2;
+    var SEG_SAFE = 0, SEG_GAP = 1, SEG_DANGER = 2;
 
-    // Segment types
-    var SEG_SAFE   = 0;
-    var SEG_GAP    = 1;
-    var SEG_DANGER = 2;
-
-    /**
-     * A Ring at a given depth.
-     * segments: [{ start, end, type }]  — angles in [0, 2π), tower-local
-     */
     function Ring(depth, floor) {
         this.depth = depth;
         this.floor = floor;
         this.segments = [];
-        this.passed = false;       // ball has fallen past this ring
-        this.destroyed = false;    // visual: platform crumble animation
-        this.destroyTimer = 0;
+        this.passed = false;
     }
 
-    var rings = [];
-    var nextFloor = 0;
-    var nextDepth = 0;
-    var RING_SPACING = 1.0;        // world units between rings
-    var GENERATE_AHEAD = 15;       // rings ahead of ball
-    var REMOVE_BEHIND = 5;         // rings behind ball before removal
+    var rings = [], nextFloor = 0, nextDepth = 0;
+    var RING_SPACING = 1.0;
+    var GENERATE_AHEAD = 18;
+    var REMOVE_BEHIND = 8;
 
-    /* ---- Difficulty scaling ---- */
-
+    /* Difficulty curves */
     function gapWidth(floor) {
-        // Starts wide (~80°), narrows to ~40° at floor 200+
-        var base = 1.4;   // radians (~80°)
-        var minW = 0.7;   // radians (~40°)
-        var t = Math.min(floor / 200, 1);
-        return base - (base - minW) * t;
+        // Start very wide (~100°→1.75rad), narrow to ~45°→0.78rad at floor 250+
+        if (floor < 10) return 1.75;  // first 10 floors: huge gaps, easy
+        var t = Math.min((floor - 10) / 240, 1);
+        return 1.75 - (1.75 - 0.78) * t;
     }
 
     function dangerChance(floor) {
-        // No danger for first 8 floors, then ramps up
-        if (floor < 8) return 0;
-        return Math.min(0.6, (floor - 8) / 150);
+        if (floor < 10) return 0;  // NO danger first 10 floors
+        if (floor < 20) return 0.15;
+        return Math.min(0.55, 0.15 + (floor - 20) / 200);
     }
 
     function dangerWidth(floor) {
-        var base = 0.5;  // ~29°
-        var maxW = 1.2;  // ~69°
-        var t = Math.min(floor / 250, 1);
-        return base + (maxW - base) * t;
+        return 0.45 + Math.min(floor / 300, 1) * 0.75;
     }
 
     function extraGapChance(floor) {
-        // Chance for a second gap (makes some rings easier, adds variety)
-        if (floor < 15) return 0.3;
-        return Math.max(0.05, 0.3 - floor / 500);
+        if (floor < 20) return 0.35;
+        return Math.max(0.08, 0.35 - floor / 400);
     }
 
-    /* ---- Generation ---- */
-
+    /* Generation */
     function generateRing(floor, depth) {
         var ring = new Ring(depth, floor);
         var gw = gapWidth(floor);
 
-        // Primary gap at random angle
-        var gapStart = Math.random() * PI2;
-        var gapEnd = (gapStart + gw) % PI2;
+        var g1s = Math.random() * PI2;
+        var g1e = (g1s + gw) % PI2;
 
-        // Optional second gap (opposite side for variety)
-        var hasSecondGap = Math.random() < extraGapChance(floor);
-        var gap2Start = -1, gap2End = -1;
-        if (hasSecondGap) {
-            var offset = PI2 * 0.4 + Math.random() * PI2 * 0.2; // 144°–216° away
-            gap2Start = (gapStart + offset) % PI2;
-            var gw2 = gw * (0.6 + Math.random() * 0.4);
-            gap2End = (gap2Start + gw2) % PI2;
+        var hasG2 = Math.random() < extraGapChance(floor);
+        var g2s = -1, g2e = -1;
+        if (hasG2) {
+            var off = PI2 * 0.35 + Math.random() * PI2 * 0.3;
+            g2s = (g1s + off) % PI2;
+            var gw2 = gw * (0.5 + Math.random() * 0.5);
+            g2e = (g2s + gw2) % PI2;
         }
 
-        // Danger zones
         var dangers = [];
         if (Math.random() < dangerChance(floor)) {
             var dw = dangerWidth(floor);
-            // Place danger zone away from gaps
-            var dangerStart = (gapEnd + 0.3 + Math.random() * (PI2 - gw - dw - 0.6)) % PI2;
-            var dangerEnd = (dangerStart + dw) % PI2;
-
-            // Verify danger doesn't overlap gaps
-            if (!anglesOverlap(dangerStart, dangerEnd, gapStart, gapEnd) &&
-                (!hasSecondGap || !anglesOverlap(dangerStart, dangerEnd, gap2Start, gap2End))) {
-                dangers.push({ start: dangerStart, end: dangerEnd });
+            var ds = (g1e + 0.3 + Math.random() * (PI2 - gw - dw - 0.6)) % PI2;
+            var de = (ds + dw) % PI2;
+            if (!anglesOverlap(ds, de, g1s, g1e) &&
+                (!hasG2 || !anglesOverlap(ds, de, g2s, g2e))) {
+                dangers.push({ s: ds, e: de });
             }
         }
 
-        // Build segments by sweeping 0→2π
-        ring.segments = buildSegments(gapStart, gapEnd,
-            hasSecondGap ? gap2Start : -1,
-            hasSecondGap ? gap2End : -1,
-            dangers);
-
+        ring.segments = buildSegments(g1s, g1e, hasG2 ? g2s : -1, hasG2 ? g2e : -1, dangers);
         return ring;
     }
 
-    /** Check if two angular ranges overlap (ranges may wrap around 2π). */
     function anglesOverlap(s1, e1, s2, e2) {
-        return angleInRange(s1, s2, e2) || angleInRange(e1, s2, e2) ||
-               angleInRange(s2, s1, e1) || angleInRange(e2, s1, e1);
+        return inRange(s1, s2, e2) || inRange(e1, s2, e2) ||
+               inRange(s2, s1, e1) || inRange(e2, s1, e1);
     }
 
-    function angleInRange(a, start, end) {
+    function inRange(a, s, e) {
         a = ((a % PI2) + PI2) % PI2;
-        start = ((start % PI2) + PI2) % PI2;
-        end = ((end % PI2) + PI2) % PI2;
-        if (start <= end) return a >= start && a <= end;
-        return a >= start || a <= end;  // wraps around
+        s = ((s % PI2) + PI2) % PI2;
+        e = ((e % PI2) + PI2) % PI2;
+        return s <= e ? (a >= s && a <= e) : (a >= s || a <= e);
     }
 
     function buildSegments(g1s, g1e, g2s, g2e, dangers) {
-        // Create a list of angular boundaries and classify each region
-        var points = [];
-        addBoundary(points, g1s, 'gap_start');
-        addBoundary(points, g1e, 'gap_end');
-        if (g2s >= 0) {
-            addBoundary(points, g2s, 'gap_start');
-            addBoundary(points, g2e, 'gap_end');
-        }
-        for (var i = 0; i < dangers.length; i++) {
-            addBoundary(points, dangers[i].start, 'danger_start');
-            addBoundary(points, dangers[i].end, 'danger_end');
-        }
+        var pts = [];
+        addPt(pts, g1s); addPt(pts, g1e);
+        if (g2s >= 0) { addPt(pts, g2s); addPt(pts, g2e); }
+        for (var i = 0; i < dangers.length; i++) { addPt(pts, dangers[i].s); addPt(pts, dangers[i].e); }
+        pts.sort(function (a, b) { return a - b; });
 
-        // Sort by angle
-        points.sort(function (a, b) { return a.angle - b.angle; });
+        if (!pts.length) return [{ start: 0, end: PI2, type: SEG_SAFE }];
 
-        if (points.length === 0) {
-            // Full safe ring (shouldn't happen, but safety)
-            return [{ start: 0, end: PI2, type: SEG_SAFE }];
-        }
-
-        // Walk around the circle, determining type of each region
         var segs = [];
-        for (var j = 0; j < points.length; j++) {
-            var curr = points[j].angle;
-            var next = points[(j + 1) % points.length].angle;
+        for (var j = 0; j < pts.length; j++) {
+            var curr = pts[j], next = pts[(j + 1) % pts.length];
             if (next <= curr) next += PI2;
             var mid = ((curr + next) / 2) % PI2;
-
             var type = SEG_SAFE;
-            if (angleInRange(mid, g1s, g1e)) type = SEG_GAP;
-            if (g2s >= 0 && angleInRange(mid, g2s, g2e)) type = SEG_GAP;
+            if (inRange(mid, g1s, g1e)) type = SEG_GAP;
+            if (g2s >= 0 && inRange(mid, g2s, g2e)) type = SEG_GAP;
             for (var k = 0; k < dangers.length; k++) {
-                if (angleInRange(mid, dangers[k].start, dangers[k].end)) type = SEG_DANGER;
+                if (inRange(mid, dangers[k].s, dangers[k].e)) type = SEG_DANGER;
             }
-
-            var segEnd = points[(j + 1) % points.length].angle;
-            if (segEnd === curr) continue;
-            segs.push({ start: curr, end: segEnd, type: type });
+            var se = pts[(j + 1) % pts.length];
+            if (se === curr) continue;
+            segs.push({ start: curr, end: se, type: type });
         }
-
-        // Merge adjacent segments of same type
-        return mergeSegments(segs);
+        return mergeSegs(segs);
     }
 
-    function addBoundary(arr, angle, label) {
-        arr.push({ angle: ((angle % PI2) + PI2) % PI2, label: label });
-    }
+    function addPt(arr, a) { arr.push(((a % PI2) + PI2) % PI2); }
 
-    function mergeSegments(segs) {
+    function mergeSegs(segs) {
         if (segs.length <= 1) return segs;
-        var merged = [segs[0]];
+        var m = [segs[0]];
         for (var i = 1; i < segs.length; i++) {
-            var prev = merged[merged.length - 1];
-            if (segs[i].type === prev.type) {
-                prev.end = segs[i].end;
-            } else {
-                merged.push(segs[i]);
-            }
+            var prev = m[m.length - 1];
+            if (segs[i].type === prev.type) prev.end = segs[i].end;
+            else m.push(segs[i]);
         }
-        // Check wrap-around merge
-        if (merged.length > 1 && merged[0].type === merged[merged.length - 1].type) {
-            merged[merged.length - 1].end = merged[0].end;
-            merged.shift();
+        if (m.length > 1 && m[0].type === m[m.length - 1].type) {
+            m[m.length - 1].end = m[0].end;
+            m.shift();
         }
-        return merged;
+        return m;
     }
 
-    /* ---- Public API ---- */
+    function reset() { rings = []; nextFloor = 0; nextDepth = 2.0; }
 
-    function reset() {
-        rings = [];
-        nextFloor = 0;
-        nextDepth = 2.0; // first ring is 2 units below start
-    }
-
-    /** Ensure enough rings exist ahead of the ball. */
     function update(ballDepth) {
-        // Generate rings ahead
         while (nextDepth < ballDepth + GENERATE_AHEAD * RING_SPACING) {
-            var ring = generateRing(nextFloor, nextDepth);
-            rings.push(ring);
+            rings.push(generateRing(nextFloor, nextDepth));
             nextFloor++;
             nextDepth += RING_SPACING;
         }
-
-        // Remove rings far behind
         while (rings.length > 0 && rings[0].depth < ballDepth - REMOVE_BEHIND * RING_SPACING) {
             rings.shift();
         }
     }
 
-    /** Get all currently active rings. */
     function getRings() { return rings; }
 
-    /** Get the ring at or just below a given depth, or null. */
-    function getRingAtDepth(depth) {
-        for (var i = 0; i < rings.length; i++) {
-            if (Math.abs(rings[i].depth - depth) < 0.05) return rings[i];
-        }
-        return null;
-    }
-
-    /**
-     * Check what segment type the ball would hit at a given ring.
-     * ballAngle: the ball's angle in tower-local coordinates [0, 2π).
-     * Returns: SEG_SAFE, SEG_GAP, or SEG_DANGER.
-     */
     function checkSegment(ring, ballAngle) {
         ballAngle = ((ballAngle % PI2) + PI2) % PI2;
         for (var i = 0; i < ring.segments.length; i++) {
-            var seg = ring.segments[i];
-            if (angleInRange(ballAngle, seg.start, seg.end)) {
-                return seg.type;
-            }
+            var s = ring.segments[i];
+            if (inRange(ballAngle, s.start, s.end)) return s.type;
         }
-        return SEG_SAFE; // fallback
+        return SEG_SAFE;
     }
 
     return {
-        SEG_SAFE: SEG_SAFE,
-        SEG_GAP: SEG_GAP,
-        SEG_DANGER: SEG_DANGER,
+        SEG_SAFE: SEG_SAFE, SEG_GAP: SEG_GAP, SEG_DANGER: SEG_DANGER,
         RING_SPACING: RING_SPACING,
-        reset: reset,
-        update: update,
-        getRings: getRings,
-        getRingAtDepth: getRingAtDepth,
-        checkSegment: checkSegment
+        reset: reset, update: update, getRings: getRings, checkSegment: checkSegment
     };
 })();

@@ -1,174 +1,110 @@
 /**
  * Helix Descent — Web Audio API Sound Synthesis
- * All sounds generated procedurally — no external audio files.
  */
 var HelixDescent = HelixDescent || {};
 
 HelixDescent.Audio = (function () {
     'use strict';
 
-    var ctx = null;
-    var masterGain = null;
-    var muted = false;
-    var volume = 0.5;
+    var ctx = null, master = null, muted = false, vol = 0.45;
 
     function init() {
         try {
             ctx = new (window.AudioContext || window.webkitAudioContext)();
-            masterGain = ctx.createGain();
-            masterGain.gain.value = volume;
-            masterGain.connect(ctx.destination);
-        } catch (e) {
-            console.warn('Web Audio not available');
-        }
+            master = ctx.createGain();
+            master.gain.value = vol;
+            master.connect(ctx.destination);
+        } catch (e) { /* no audio */ }
     }
 
-    function resume() {
-        if (ctx && ctx.state === 'suspended') ctx.resume();
-    }
+    function resume() { if (ctx && ctx.state === 'suspended') ctx.resume(); }
+    function toggleMute() { muted = !muted; if (master) master.gain.value = muted ? 0 : vol; return muted; }
 
-    function setMuted(m) {
-        muted = m;
-        if (masterGain) masterGain.gain.value = muted ? 0 : volume;
-    }
+    function t() { return ctx ? ctx.currentTime : 0; }
 
-    function toggleMute() { setMuted(!muted); return muted; }
-    function isMuted() { return muted; }
-
-    /* ---- helpers ---- */
-
-    function now() { return ctx ? ctx.currentTime : 0; }
-
-    function osc(type, freq, startT, dur, gainVal, dest) {
+    function osc(type, freq, start, dur, gain, dest) {
         if (!ctx) return;
-        var o = ctx.createOscillator();
-        var g = ctx.createGain();
-        o.type = type;
-        o.frequency.value = freq;
-        g.gain.setValueAtTime(gainVal, startT);
-        g.gain.exponentialRampToValueAtTime(0.001, startT + dur);
-        o.connect(g);
-        g.connect(dest || masterGain);
-        o.start(startT);
-        o.stop(startT + dur);
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = type; o.frequency.value = freq;
+        g.gain.setValueAtTime(gain, start);
+        g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+        o.connect(g); g.connect(dest || master);
+        o.start(start); o.stop(start + dur);
     }
 
-    function noise(startT, dur, gainVal, dest) {
+    function noise(start, dur, gain, dest) {
         if (!ctx) return;
         var len = Math.ceil(ctx.sampleRate * dur);
         var buf = ctx.createBuffer(1, len, ctx.sampleRate);
-        var data = buf.getChannelData(0);
-        for (var i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
-        var src = ctx.createBufferSource();
-        src.buffer = buf;
+        var d = buf.getChannelData(0);
+        for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        var s = ctx.createBufferSource(); s.buffer = buf;
         var g = ctx.createGain();
-        g.gain.setValueAtTime(gainVal, startT);
-        g.gain.exponentialRampToValueAtTime(0.001, startT + dur);
-        src.connect(g);
-        g.connect(dest || masterGain);
-        src.start(startT);
-        src.stop(startT + dur);
+        g.gain.setValueAtTime(gain, start);
+        g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+        s.connect(g); g.connect(dest || master);
+        s.start(start); s.stop(start + dur);
     }
 
-    /* ---- sound effects ---- */
-
-    /** Bounce pop — pitch varies with speed multiplier */
     function playBounce(speedMul) {
-        if (!ctx) return;
-        resume();
-        var t = now();
-        var baseFreq = 600 + Math.random() * 100;
-        var freq = baseFreq * (0.8 + (speedMul || 1) * 0.2);
-        osc('sine', freq, t, 0.08, 0.25);
-        osc('sine', freq * 1.5, t, 0.05, 0.1);
-        noise(t, 0.03, 0.06);
+        if (!ctx) return; resume();
+        var n = t(), f = 550 + Math.random() * 120;
+        f *= (0.85 + (speedMul || 1) * 0.15);
+        osc('sine', f, n, 0.09, 0.22);
+        osc('sine', f * 1.5, n, 0.05, 0.08);
+        noise(n, 0.03, 0.05);
     }
 
-    /** Crash — low rumble + high crack */
     function playCrash() {
-        if (!ctx) return;
-        resume();
-        var t = now();
-        // Low rumble
-        osc('sawtooth', 60, t, 0.4, 0.3);
-        osc('sine', 40, t, 0.5, 0.2);
-        // Crack
-        noise(t, 0.15, 0.35);
-        osc('square', 200, t, 0.06, 0.2);
-        osc('square', 150, t + 0.03, 0.08, 0.15);
+        if (!ctx) return; resume();
+        var n = t();
+        osc('sawtooth', 55, n, 0.45, 0.28);
+        osc('sine', 38, n, 0.5, 0.18);
+        noise(n, 0.18, 0.32);
+        osc('square', 190, n, 0.07, 0.18);
+        osc('square', 140, n + 0.03, 0.09, 0.13);
     }
 
-    /** Score tick — subtle ascending tone */
     function playScoreTick(combo) {
-        if (!ctx) return;
-        resume();
-        var t = now();
-        var freq = 800 + Math.min(combo || 0, 10) * 60;
-        osc('sine', freq, t, 0.06, 0.12);
+        if (!ctx) return; resume();
+        var n = t(), f = 750 + Math.min(combo || 0, 12) * 55;
+        osc('sine', f, n, 0.07, 0.10);
     }
 
-    /** Combo milestone — excited ascending arpeggio */
     function playCombo(level) {
-        if (!ctx) return;
-        resume();
-        var t = now();
-        var base = 500 + Math.min(level, 8) * 80;
-        osc('sine', base, t, 0.1, 0.18);
-        osc('sine', base * 1.25, t + 0.06, 0.1, 0.15);
-        osc('sine', base * 1.5, t + 0.12, 0.15, 0.12);
+        if (!ctx) return; resume();
+        var n = t(), base = 480 + Math.min(level, 10) * 70;
+        osc('sine', base, n, 0.1, 0.16);
+        osc('sine', base * 1.25, n + 0.06, 0.1, 0.13);
+        osc('sine', base * 1.5, n + 0.12, 0.14, 0.10);
     }
 
-    /** Theme transition — sweeping filter chord */
     function playThemeTransition() {
-        if (!ctx) return;
-        resume();
-        var t = now();
-        var filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(200, t);
-        filter.frequency.exponentialRampToValueAtTime(4000, t + 1.0);
-        filter.connect(masterGain);
-        osc('sine', 330, t, 1.2, 0.08, filter);
-        osc('sine', 440, t, 1.2, 0.06, filter);
-        osc('sine', 550, t, 1.2, 0.05, filter);
+        if (!ctx) return; resume();
+        var n = t();
+        var filt = ctx.createBiquadFilter();
+        filt.type = 'lowpass';
+        filt.frequency.setValueAtTime(200, n);
+        filt.frequency.exponentialRampToValueAtTime(3500, n + 1.0);
+        filt.connect(master);
+        osc('sine', 330, n, 1.1, 0.07, filt);
+        osc('sine', 440, n, 1.1, 0.05, filt);
+        osc('sine', 550, n, 1.1, 0.04, filt);
     }
 
-    /** Near-miss whoosh */
     function playNearMiss() {
-        if (!ctx) return;
-        resume();
-        var t = now();
-        var filter = ctx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(2000, t);
-        filter.Q.value = 2;
-        filter.connect(masterGain);
-        noise(t, 0.12, 0.15, filter);
-        osc('sine', 1200, t, 0.08, 0.06);
-    }
-
-    /** Perfect drop — sparkle */
-    function playPerfect() {
-        if (!ctx) return;
-        resume();
-        var t = now();
-        osc('sine', 1200, t, 0.1, 0.15);
-        osc('sine', 1600, t + 0.05, 0.1, 0.12);
-        osc('sine', 2000, t + 0.1, 0.15, 0.1);
+        if (!ctx) return; resume();
+        var n = t();
+        var filt = ctx.createBiquadFilter();
+        filt.type = 'bandpass'; filt.frequency.value = 1800; filt.Q.value = 2;
+        filt.connect(master);
+        noise(n, 0.10, 0.12, filt);
+        osc('sine', 1100, n, 0.07, 0.05);
     }
 
     return {
-        init: init,
-        resume: resume,
-        setMuted: setMuted,
-        toggleMute: toggleMute,
-        isMuted: isMuted,
-        playBounce: playBounce,
-        playCrash: playCrash,
-        playScoreTick: playScoreTick,
-        playCombo: playCombo,
-        playThemeTransition: playThemeTransition,
-        playNearMiss: playNearMiss,
-        playPerfect: playPerfect
+        init: init, resume: resume, toggleMute: toggleMute, isMuted: function(){ return muted; },
+        playBounce: playBounce, playCrash: playCrash, playScoreTick: playScoreTick,
+        playCombo: playCombo, playThemeTransition: playThemeTransition, playNearMiss: playNearMiss
     };
 })();

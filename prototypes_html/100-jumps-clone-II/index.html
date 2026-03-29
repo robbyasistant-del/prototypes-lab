@@ -101,7 +101,7 @@
     <div class="slider-row" id="vol-row"><span class="toggle-label">Volume</span><input class="vol-slider" type="range" id="vol-slider" min="0" max="100" value="80" /></div>
     <div class="toggle-row"><span class="toggle-label">Ambience</span><button class="toggle" id="tog-amb"></button></div>
     <div class="toggle-row"><span class="toggle-label">Particles</span><button class="toggle on" id="tog-particles"></button></div>
-    <div class="toggle-row"><span class="toggle-label">Vibration</span><button class="toggle on" id="tog-vib"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Haptic Feedback</span><button class="toggle on" id="tog-vib"></button></div>
     <div class="select-row"><span class="toggle-label">Theme</span><select id="theme-select"></select></div>
     <div class="select-row"><span class="toggle-label">Mode</span><select id="mode-select"></select></div>
     <button class="btn btn-main" id="settings-done">Done</button>
@@ -211,6 +211,33 @@ stats.leaderboard=Object.assign({classic:[],zen:[],endless:[],time:[],hardcore:[
 mode=settings.mode; theme=settings.theme;
 function save(){localStorage.setItem('100j2_settings',JSON.stringify(settings));localStorage.setItem('100j2_stats',JSON.stringify(stats));}
 
+const Haptics = {
+  supported: typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function',
+  _enabled: null,
+  get enabled() {
+    if (this._enabled === null) {
+      const stored = localStorage.getItem('hapticsEnabled');
+      if (stored !== null) { this._enabled = stored !== 'false'; }
+      else { this._enabled = settings.vibration !== false; localStorage.setItem('hapticsEnabled', this._enabled ? 'true' : 'false'); }
+    }
+    return this._enabled;
+  },
+  set enabled(val) {
+    this._enabled = val;
+    localStorage.setItem('hapticsEnabled', val ? 'true' : 'false');
+    settings.vibration = val;
+  },
+  fire(pattern) {
+    if (this.supported && this.enabled) { try { navigator.vibrate(pattern); } catch(e) {} }
+  },
+  land() { this.fire(15); },
+  perfect() { this.fire(30); },
+  combo() { this.fire([20, 50, 40]); },
+  gameOver() { this.fire([50, 30, 80, 30, 120]); },
+  achievement() { this.fire([15, 30, 15, 30, 50]); }
+};
+settings.vibration = Haptics.enabled;
+
 const ui = {
  modal:document.getElementById('modal'),mt:document.getElementById('mt'),ms:document.getElementById('ms'),mb:document.getElementById('mb'),mbShare:document.getElementById('mb-share'),
  settingsOverlay:document.getElementById('settings-overlay'),statsOverlay:document.getElementById('stats-overlay'),
@@ -273,14 +300,14 @@ function setCamTarget(){ const c=platforms[player.idx],n=platforms[player.idx+1]
 let audioCtx, ambNode;
 function initAudio(){if(!audioCtx){try{audioCtx=new (window.AudioContext||window.webkitAudioContext)()}catch(_){}} if(audioCtx&&audioCtx.state==='suspended') audioCtx.resume(); updateAmbience();}
 function tone(f,t,d,v,del=0,type='sine'){if(!settings.sound||!audioCtx)return;const st=audioCtx.currentTime+del,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(f,st);if(t) o.frequency.exponentialRampToValueAtTime(t,st+d*.8);g.gain.setValueAtTime(v*settings.volume,st);g.gain.exponentialRampToValueAtTime(.001,st+d);o.connect(g);g.connect(audioCtx.destination);o.start(st);o.stop(st+d+.02)}
-function sfxJump(){if(settings.vibration&&navigator.vibrate)navigator.vibrate(6);tone(180,220,.12,.15,0,'sine');tone(360,320,.14,.1,.02,'sine');}
+function sfxJump(){Haptics.fire(6);tone(180,220,.12,.15,0,'sine');tone(360,320,.14,.1,.02,'sine');}
 function sfxLand(dist){const p=clamp(1-dist/(170*S),.55,1.3); tone(180*p,80*p,.11,.28,0,'triangle');}
 function sfxPerfect(){[660,880,1100].forEach((n,i)=>tone(n,null,.24,.24-i*.05,i*.06,'sine'))}
 function sfxWin(){[523,659,784,1047].forEach((n,i)=>{tone(n,null,.55,.25,i*.11,'triangle');tone(n*2,null,.45,.12,i*.11,'sine')})}
 function sfxLose(){tone(380,200,.22,.26);tone(220,130,.3,.2,.15,'triangle')}
 function updateAmbience(){if(!audioCtx)return; if(settings.ambience&&settings.sound){if(!ambNode){ambNode=audioCtx.createOscillator();const g=audioCtx.createGain();ambNode.type='sine';ambNode.frequency.value=58;g.gain.value=.02*settings.volume;ambNode.connect(g);g.connect(audioCtx.destination);ambNode._g=g;ambNode.start();} ambNode._g.gain.setTargetAtTime(.02*settings.volume,audioCtx.currentTime,.2);} else if(ambNode){ambNode._g.gain.setTargetAtTime(.0001,audioCtx.currentTime,.2);} }
 
-function unlock(id){if(stats.ach[id])return;stats.ach[id]=Date.now();save();}
+function unlock(id){if(stats.ach[id])return;stats.ach[id]=Date.now();Haptics.achievement();save();}
 function addLeaderboard(win){const arr=stats.leaderboard[mode]||[];arr.push({t:Date.now(),j:score.cleared,time:((performance.now()-firstTs)/1000),a:stats.all.attempts,win});arr.sort((a,b)=> (b.j-a.j) || (a.time-b.time));stats.leaderboard[mode]=arr.slice(0,10);save();}
 function shareText(){const t=((performance.now()-firstTs)/1000).toFixed(1);return `I scored ${score.cleared} jumps in 100 Jumps II (${MODES[mode].name}) in ${t}s.\n\nLet me recommend you this game: https://bit.ly/100jumps\n\n🎮 #100Jumps #100JumpsChallenge #100JumpsEndless`}
 function leaderboardText(){const lb=stats.leaderboard[mode]||[]; const title=`100 Jumps II - ${MODES[mode].name} Leaderboard`; const cta='Let me recommend you this game: https://bit.ly/100jumps'; const tags='🎮 #100Jumps #100JumpsChallenge #100JumpsEndless'; if(!lb.length)return `${title}
@@ -325,7 +352,7 @@ function drawFloatTexts(){
 }
 
 function down(e){e.preventDefault();initAudio(); if(ui.modal.classList.contains('show')||ui.settingsOverlay.classList.contains('show')||ui.statsOverlay.classList.contains('show')) return; if(state==='idle'){state='charging';power=0}else if(state==='jumping'||state==='falling'){}}
-function up(e){e.preventDefault(); if(state!=='charging')return; sfxJump();const p=Math.max(.07,power)*0.55; player.vx=(230+380*p)*S; player.vy=-(250+820*p)*S; state='jumping'; power=0; player.air=0; player.jumpStartTime=performance.now(); if(settings.vibration&&navigator.vibrate)navigator.vibrate(8)}
+function up(e){e.preventDefault(); if(state!=='charging')return; sfxJump();const p=Math.max(.07,power)*0.55; player.vx=(230+380*p)*S; player.vy=-(250+820*p)*S; state='jumping'; power=0; player.air=0; player.jumpStartTime=performance.now(); Haptics.fire(8)}
 
 function update(dt){
   if(dt>.1)dt=.1;
@@ -408,7 +435,7 @@ function onLand(plat,idx,cx){
 
   sfxLand(dist);
   if(perfect){
-    streak++; maxStreak=Math.max(maxStreak,streak); spawnPerfect(cx,plat.y); sfxPerfect(); 
+    streak++; maxStreak=Math.max(maxStreak,streak); spawnPerfect(cx,plat.y); sfxPerfect(); Haptics.perfect(); 
     if(mode==='time'){const bonus=streak; timeLeft += bonus; timeBonusEarned += bonus; if(timeBonusEarned>=10) unlock('timeBanker'); addFloatText(`+${bonus}s`, cx, plat.y - 58*S, THEME_PRESETS[theme].perfect, 15);}
     // Texto "Perfect!" flotante con color del theme
     addFloatText('Perfect!', cx, plat.y - 40*S, THEME_PRESETS[theme].perfect, 16);
@@ -417,10 +444,11 @@ function onLand(plat,idx,cx){
     // Cada 3 perfectos consecutivos = vida extra
     if(streak % 3 === 0) {
       lives++;
+      Haptics.combo();
       addFloatText('+1 LIFE', cx, plat.y - 60*S, '#ff5b78', 14);
     }
   }
-  else {streak=0; spawnDust(cx,plat.y+2*S,THEME_PRESETS[theme].platform);}
+  else {streak=0; spawnDust(cx,plat.y+2*S,THEME_PRESETS[theme].platform); Haptics.land();}
 
   if(modeCfg().target!==Infinity && score.cleared>=modeCfg().target){endRun(true);}
 }
@@ -440,6 +468,7 @@ function endRun(win){
   } else {
     if(mode==='endless'&&score.cleared>=50) unlock('suddenEnd');
     if(mode==='endless'&&score.cleared>=100&&lives===0) unlock('noWayBack');
+    Haptics.gameOver();
     ui.mt.textContent='Game Over'; ui.ms.textContent=`You reached ${score.cleared} jumps`; ui.mb.textContent='Retry';
   }
   addLeaderboard(win);
@@ -665,7 +694,7 @@ document.addEventListener('keydown',e=>{if(e.repeat)return; if(e.key==='Escape')
 document.addEventListener('keyup',up);
 
 function sh(el,fn){el.addEventListener('click',e=>{e.stopPropagation();fn(e)});el.addEventListener('touchend',e=>{e.preventDefault();e.stopPropagation();fn(e)},{passive:false})}
-function syncUI(){ui.togSound.classList.toggle('on',settings.sound);ui.togVib.classList.toggle('on',settings.vibration);ui.togAmb.classList.toggle('on',settings.ambience);ui.togParticles.classList.toggle('on',settings.particles);ui.vol.value=Math.round(settings.volume*100);ui.volRow.style.display=settings.sound?'flex':'none';ui.themeSel.value=settings.theme;ui.modeSel.value=settings.mode;}
+function syncUI(){ui.togSound.classList.toggle('on',settings.sound);ui.togVib.classList.toggle('on',Haptics.enabled);ui.togAmb.classList.toggle('on',settings.ambience);ui.togParticles.classList.toggle('on',settings.particles);ui.vol.value=Math.round(settings.volume*100);ui.volRow.style.display=settings.sound?'flex':'none';ui.themeSel.value=settings.theme;ui.modeSel.value=settings.mode;}
 function renderStats(){ui.runJumps.textContent=score.cleared;ui.runTime.textContent=((performance.now()-firstTs)/1000).toFixed(1)+'s';ui.achGrid.innerHTML='';const modeAch=(MODE_ACH[mode]||[]).map(id=>ACH.find(a=>a.id===id)).filter(Boolean);modeAch.forEach(a=>{const d=document.createElement('div');d.className='ach'+(stats.ach[a.id]?'':' lock');d.title=a.desc;d.innerHTML=`<i>${a.icon}</i><b>${a.name}</b>`;ui.achGrid.appendChild(d)});const lb=stats.leaderboard[mode]||[];ui.lb.innerHTML=lb.length?lb.map((r,i)=>`<div class="row"><span>#${i+1} ${new Date(r.t).toLocaleDateString()}</span><span>${r.j} jumps - ${r.time.toFixed(1)}s</span></div>`).join(''):'<div class="row"><span>No scores yet</span><span>Play now!</span></div>'}
 
 sh(document.getElementById('settings-btn'),()=>{syncUI();ui.settingsOverlay.classList.add('show')});
@@ -675,7 +704,7 @@ sh(document.getElementById('stats-btn'),()=>{renderStats();ui.statsOverlay.class
 sh(document.getElementById('stats-float'),()=>{renderStats();ui.statsOverlay.classList.add('show')});
 sh(document.getElementById('stats-done'),()=>ui.statsOverlay.classList.remove('show'));
 sh(ui.togSound,()=>{settings.sound=!settings.sound;syncUI();updateAmbience();save()});
-sh(ui.togVib,()=>{settings.vibration=!settings.vibration;syncUI();save()});
+sh(ui.togVib,()=>{Haptics.enabled=!Haptics.enabled;syncUI();save()});
 sh(ui.togAmb,()=>{settings.ambience=!settings.ambience;syncUI();initAudio();save()});
 sh(ui.togParticles,()=>{settings.particles=!settings.particles;if(!settings.particles)particles=[];syncUI();save()});
 ui.vol.addEventListener('input',()=>{settings.volume=parseInt(ui.vol.value,10)/100;save();updateAmbience();initAudio();tone(520,null,.08,.2)});
@@ -701,7 +730,7 @@ updateThemeIcon();
 
 applyTheme(settings.theme||'light'); mode=settings.mode||'classic'; syncUI();
 /* Mostrar version (commit hash) */
-document.getElementById('version-hash').textContent='2026.03.25-1';
+document.getElementById('version-hash').textContent='2026.03.29-1';
 // Delay reset to ensure canvas is ready
 setTimeout(()=>{reset(); requestAnimationFrame(loop);},50);
 </script>

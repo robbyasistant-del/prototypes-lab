@@ -38,7 +38,7 @@
         }
         .zen-title {
             position: absolute;
-            top: 15%;
+            top: 12%;
             text-align: center;
             color: white;
             opacity: 0;
@@ -162,6 +162,254 @@
         .hidden {
             display: none !important;
         }
+
+        /* ── Mode Selector ── */
+        .mode-selector {
+            position: absolute;
+            top: 38%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 16px;
+            opacity: 0;
+            animation: zenFadeIn 1.5s 0.8s ease-out forwards;
+            z-index: 10;
+        }
+        .mode-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.7);
+            padding: 14px 28px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+            letter-spacing: 0.12em;
+            transition: all 0.35s;
+            backdrop-filter: blur(12px);
+            text-align: center;
+            min-width: 140px;
+        }
+        .mode-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+        .mode-btn .mode-icon {
+            font-size: 1.6rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .mode-btn .mode-label {
+            font-weight: 400;
+        }
+        .mode-btn .mode-sub {
+            font-size: 0.7rem;
+            opacity: 0.5;
+            margin-top: 4px;
+            display: block;
+        }
+        .mode-btn.daily-btn {
+            border-color: rgba(255, 180, 100, 0.25);
+        }
+        .mode-btn.daily-btn:hover {
+            border-color: rgba(255, 180, 100, 0.45);
+            background: rgba(255, 180, 100, 0.08);
+        }
+
+        /* ── Daily Badge ── */
+        .daily-badge {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 180, 100, 0.1);
+            border: 1px solid rgba(255, 180, 100, 0.25);
+            color: rgba(255, 200, 130, 0.9);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+            z-index: 5;
+        }
+
+        /* ── Game Over Overlay ── */
+        .gameover-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(5, 5, 15, 0.85);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+        .gameover-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .gameover-card {
+            text-align: center;
+            color: white;
+            max-width: 380px;
+            width: 90%;
+        }
+        .gameover-card h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            margin-bottom: 8px;
+            color: rgba(255, 200, 130, 0.95);
+        }
+        .gameover-card .go-date {
+            font-size: 0.8rem;
+            opacity: 0.5;
+            letter-spacing: 0.15em;
+            margin-bottom: 30px;
+        }
+        .gameover-card .go-score {
+            font-size: 4rem;
+            font-weight: 200;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+        .gameover-card .go-score-label {
+            font-size: 0.85rem;
+            opacity: 0.5;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .go-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 28px;
+        }
+        .go-stat {
+            text-align: center;
+        }
+        .go-stat .go-stat-val {
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+        .go-stat .go-stat-lbl {
+            font-size: 0.7rem;
+            opacity: 0.45;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        .go-stat.best .go-stat-val {
+            color: rgba(100, 220, 160, 0.9);
+        }
+
+        /* ── Leaderboard ── */
+        .go-leaderboard {
+            margin: 0 auto 24px;
+            max-width: 280px;
+        }
+        .go-leaderboard h3 {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.45;
+            margin-bottom: 10px;
+        }
+        .lb-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+        .lb-entry.you {
+            background: rgba(255, 180, 100, 0.1);
+            border: 1px solid rgba(255, 180, 100, 0.2);
+        }
+        .lb-entry .lb-rank {
+            opacity: 0.4;
+            width: 24px;
+            text-align: left;
+        }
+        .lb-entry .lb-name {
+            flex: 1;
+            text-align: left;
+            opacity: 0.7;
+        }
+        .lb-entry .lb-score {
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        /* ── Buttons ── */
+        .go-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .go-btn {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.8);
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px);
+        }
+        .go-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.25);
+        }
+        .go-btn.primary {
+            background: rgba(255, 180, 100, 0.15);
+            border-color: rgba(255, 180, 100, 0.3);
+            color: rgba(255, 200, 140, 0.95);
+        }
+        .go-btn.primary:hover {
+            background: rgba(255, 180, 100, 0.25);
+        }
+        .go-btn .btn-icon {
+            margin-right: 6px;
+        }
+
+        /* ── Share Toast ── */
+        .share-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: rgba(100, 220, 160, 0.15);
+            border: 1px solid rgba(100, 220, 160, 0.3);
+            color: rgba(100, 220, 160, 0.9);
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            backdrop-filter: blur(10px);
+            transition: transform 0.4s ease;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .share-toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -171,25 +419,195 @@
         <h1>ZEN JUMPS</h1>
         <p>Find your flow</p>
     </div>
-    
-    <div class="score-display">
-        <div class="number" id="scoreNumber">0</div>
-        <div class="label">Peaceful Jumps</div>
+
+    <!-- Mode Selector (shown on title screen) -->
+    <div class="mode-selector" id="modeSelector">
+        <button class="mode-btn zen-btn" id="btnZenMode">
+            <span class="mode-icon">🧘</span>
+            <span class="mode-label">Zen</span>
+            <span class="mode-sub">Endless &amp; forgiving</span>
+        </button>
+        <button class="mode-btn daily-btn" id="btnDailyMode">
+            <span class="mode-icon">📅</span>
+            <span class="mode-label">Daily</span>
+            <span class="mode-sub" id="dailySub">Same map for everyone</span>
+        </button>
     </div>
+    
+    <div class="score-display hidden" id="scoreDisplay">
+        <div class="number" id="scoreNumber">0</div>
+        <div class="label" id="scoreLabel">Peaceful Jumps</div>
+    </div>
+
+    <!-- Daily challenge badge (shown during daily play) -->
+    <div class="daily-badge hidden" id="dailyBadge">📅 Daily Challenge</div>
     
     <div class="breathing-guide" id="breathingGuide"></div>
     
     <div class="zen-message" id="zenMessage"></div>
     
-    <div class="controls-hint">Hold to breathe • Release to flow</div>
+    <div class="controls-hint" id="controlsHint">Hold to breathe • Release to flow</div>
     
     <div class="ambient-controls">
         <button class="control-btn active" id="musicBtn" onclick="game.toggleMusic()">🎵</button>
         <button class="control-btn active" id="soundBtn" onclick="game.toggleSound()">🎧</button>
     </div>
 
+    <!-- Game Over Overlay (daily challenge) -->
+    <div class="gameover-overlay" id="gameoverOverlay">
+        <div class="gameover-card">
+            <h2>DAILY ZEN</h2>
+            <div class="go-date" id="goDate"></div>
+            <div class="go-score" id="goScore">0</div>
+            <div class="go-score-label">Platforms Reached</div>
+            <div class="go-stats">
+                <div class="go-stat best">
+                    <div class="go-stat-val" id="goBest">0</div>
+                    <div class="go-stat-lbl">Best Today</div>
+                </div>
+                <div class="go-stat">
+                    <div class="go-stat-val" id="goAttempts">0</div>
+                    <div class="go-stat-lbl">Attempts</div>
+                </div>
+                <div class="go-stat">
+                    <div class="go-stat-val" id="goPerfects">0</div>
+                    <div class="go-stat-lbl">Perfects</div>
+                </div>
+            </div>
+            <div class="go-leaderboard" id="goLeaderboard">
+                <h3>Today's Leaderboard</h3>
+                <div id="lbEntries"></div>
+            </div>
+            <div class="go-buttons">
+                <button class="go-btn primary" id="btnRetryDaily">
+                    <span class="btn-icon">🔄</span>Try Again
+                </button>
+                <button class="go-btn" id="btnShareDaily">
+                    <span class="btn-icon">📋</span>Share
+                </button>
+                <button class="go-btn" id="btnBackMenu">
+                    <span class="btn-icon">🏠</span>Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Toast -->
+    <div class="share-toast" id="shareToast">✅ Copied to clipboard!</div>
+
     <script>
-        // Ambient Audio Generator
+        // ═══════════════════════════════════════════
+        //  Seeded PRNG — mulberry32
+        //  Deterministic random from a 32-bit seed.
+        //  All players get the same daily layout.
+        // ═══════════════════════════════════════════
+        function mulberry32(seed) {
+            return function() {
+                seed |= 0;
+                seed = seed + 0x6D2B79F5 | 0;
+                let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+                t = t + Math.imul(t ^ (t >>> 7), 61 | t) ^ t;
+                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+        }
+
+        // Daily seed: YYYYMMDD as integer
+        function getDailySeed() {
+            return parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, ''));
+        }
+
+        function getTodayKey() {
+            return new Date().toISOString().slice(0, 10); // "2026-03-29"
+        }
+
+        function formatDateNice(dateStr) {
+            const d = new Date(dateStr + 'T00:00:00');
+            return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // ═══════════════════════════════════════════
+        //  Daily Stats (localStorage)
+        // ═══════════════════════════════════════════
+        class DailyStats {
+            constructor() {
+                this.storagePrefix = 'zen-daily-';
+                this.leaderboardKey = 'zen-daily-leaderboard';
+            }
+
+            _getKey(dateStr) {
+                return this.storagePrefix + dateStr;
+            }
+
+            getToday() {
+                const key = this._getKey(getTodayKey());
+                const raw = localStorage.getItem(key);
+                if (!raw) return { scores: [], attempts: 0, bestScore: 0, perfects: 0 };
+                try { return JSON.parse(raw); }
+                catch { return { scores: [], attempts: 0, bestScore: 0, perfects: 0 }; }
+            }
+
+            recordAttempt(score, perfects) {
+                const dateStr = getTodayKey();
+                const key = this._getKey(dateStr);
+                const data = this.getToday();
+                data.attempts++;
+                data.scores.push(score);
+                data.perfects = Math.max(data.perfects || 0, perfects);
+                if (score > data.bestScore) data.bestScore = score;
+                localStorage.setItem(key, JSON.stringify(data));
+
+                // Update leaderboard
+                this._updateLeaderboard(dateStr, score);
+                return data;
+            }
+
+            _updateLeaderboard(dateStr, score) {
+                const lb = this.getLeaderboard(dateStr);
+                // Add entry (anonymous names for local leaderboard feel)
+                const names = ['You'];
+                const existing = lb.find(e => e.name === 'You');
+                if (existing) {
+                    if (score > existing.score) existing.score = score;
+                } else {
+                    lb.push({ name: 'You', score });
+                }
+                // Sort descending
+                lb.sort((a, b) => b.score - a.score);
+                // Keep top 10
+                const trimmed = lb.slice(0, 10);
+                const lbKey = this.leaderboardKey + '-' + dateStr;
+                localStorage.setItem(lbKey, JSON.stringify(trimmed));
+            }
+
+            getLeaderboard(dateStr) {
+                dateStr = dateStr || getTodayKey();
+                const lbKey = this.leaderboardKey + '-' + dateStr;
+                const raw = localStorage.getItem(lbKey);
+                if (!raw) return [];
+                try { return JSON.parse(raw); }
+                catch { return []; }
+            }
+
+            generateShareCard(score) {
+                const dateStr = getTodayKey();
+                const data = this.getToday();
+                const dateNice = formatDateNice(dateStr);
+                const bars = this._scoreBars(score);
+                return `🧘 Zen Jumps — Daily Challenge\n📅 ${dateNice}\n\n${bars}\n\n🏔️ Platform ${score} reached\n🎯 Best today: ${data.bestScore}\n🔄 Attempt #${data.attempts}\n\nhttps://robbyasistant-del.github.io/prototypes-lab/prototypes_html/100jumps-zen/`;
+            }
+
+            _scoreBars(score) {
+                // Visual bar: filled squares out of 100
+                const filled = Math.min(score, 100);
+                const blocks = Math.ceil(filled / 5); // 20 max blocks
+                const empty = 20 - blocks;
+                return '▓'.repeat(blocks) + '░'.repeat(empty) + ` ${score}/100`;
+            }
+        }
+
+        // ═══════════════════════════════════════════
+        //  Ambient Audio Generator
+        // ═══════════════════════════════════════════
         class AmbientAudio {
             constructor() {
                 this.ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -202,8 +620,7 @@
             }
             
             setupDrone() {
-                // Create ambient drone
-                const frequencies = [110, 164.81, 196, 246.94]; // A2, E3, G3, B3
+                const frequencies = [110, 164.81, 196, 246.94];
                 frequencies.forEach((freq, i) => {
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
@@ -223,7 +640,6 @@
                 this.gainNodes.forEach((gain, i) => {
                     gain.gain.setTargetAtTime(0.03 + i * 0.01, this.ctx.currentTime, 2);
                 });
-                // Slowly modulate frequencies
                 this.droneInterval = setInterval(() => {
                     if (!this.musicEnabled) return;
                     this.oscillators.forEach(osc => {
@@ -295,9 +711,27 @@
                     osc.stop(this.ctx.currentTime + i * 0.1 + 2);
                 });
             }
+
+            playFall() {
+                if (!this.soundEnabled) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(350, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(80, this.ctx.currentTime + 0.8);
+                gain.gain.setValueAtTime(0, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.12, this.ctx.currentTime + 0.03);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.9);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.9);
+            }
         }
 
-        // Soft Particles for Zen mode
+        // ═══════════════════════════════════════════
+        //  Soft Particles for Zen mode
+        // ═══════════════════════════════════════════
         class ZenParticle {
             constructor(x, y, hue) {
                 this.x = x;
@@ -358,11 +792,16 @@
             }
         }
 
+        // ═══════════════════════════════════════════
+        //  Game States & Messages
+        // ═══════════════════════════════════════════
         const STATE = {
+            MENU: 'menu',
             IDLE: 'idle',
             CHARGING: 'charging',
             JUMPING: 'jumping',
-            ZEN: 'zen'
+            ZEN: 'zen',
+            GAMEOVER: 'gameover'
         };
 
         const ZEN_MESSAGES = [
@@ -378,21 +817,28 @@
             "Stillness moves"
         ];
 
+        // ═══════════════════════════════════════════
+        //  Main Game
+        // ═══════════════════════════════════════════
         class Game {
             constructor() {
                 this.canvas = document.getElementById('gameCanvas');
                 this.ctx = this.canvas.getContext('2d');
                 this.audio = new AmbientAudio();
+                this.dailyStats = new DailyStats();
                 this.resize();
                 
-                this.state = STATE.IDLE;
+                this.state = STATE.MENU;
+                this.mode = null; // 'zen' or 'daily'
                 this.score = 0;
                 this.combo = 0;
+                this.perfectCount = 0;
                 this.camera = { x: 0, y: 0 };
                 this.platforms = [];
                 this.particles = [];
                 this.orbs = [];
                 this.ambientHue = 220;
+                this.gameStarted = false;
                 
                 this.player = {
                     x: 0, y: 0,
@@ -407,7 +853,6 @@
                 this.charging = false;
                 this.chargeStartTime = 0;
                 this.currentPlatform = 0;
-                this.platformSeed = Date.now();
                 
                 // Create ambient orbs
                 for (let i = 0; i < 5; i++) {
@@ -415,8 +860,9 @@
                 }
                 
                 this.setupInputs();
-                this.generatePlatforms();
-                this.resetPlayer();
+                this.setupMenuButtons();
+                this.setupGameoverButtons();
+                this.showMenu();
                 this.audio.startDrone();
                 this.loop();
             }
@@ -429,19 +875,98 @@
                 this.canvas.style.height = window.innerHeight + 'px';
                 this.ctx.scale(this.dpr, this.dpr);
             }
-            
-            generatePlatforms() {
+
+            // ── Menu ──
+            showMenu() {
+                this.state = STATE.MENU;
+                this.gameStarted = false;
+                document.getElementById('zenTitle').classList.remove('hidden');
+                document.getElementById('modeSelector').classList.remove('hidden');
+                document.getElementById('scoreDisplay').classList.add('hidden');
+                document.getElementById('dailyBadge').classList.add('hidden');
+                document.getElementById('breathingGuide').classList.remove('hidden');
+                document.getElementById('controlsHint').classList.remove('hidden');
+                document.getElementById('gameoverOverlay').classList.remove('visible');
+
+                // Show today's best on Daily button
+                const todayData = this.dailyStats.getToday();
+                const sub = document.getElementById('dailySub');
+                if (todayData.bestScore > 0) {
+                    sub.textContent = `Best today: ${todayData.bestScore} (${todayData.attempts} tries)`;
+                } else {
+                    sub.textContent = 'Same map for everyone';
+                }
+            }
+
+            startMode(mode) {
+                this.mode = mode;
+                this.score = 0;
+                this.combo = 0;
+                this.perfectCount = 0;
+                this.currentPlatform = 0;
+                this.camera = { x: 0, y: 0 };
+                this.particles = [];
+                this.gameStarted = true;
+
+                document.getElementById('zenTitle').classList.add('hidden');
+                document.getElementById('modeSelector').classList.add('hidden');
+                document.getElementById('breathingGuide').classList.add('hidden');
+                document.getElementById('controlsHint').classList.add('hidden');
+                document.getElementById('scoreDisplay').classList.remove('hidden');
+                document.getElementById('gameoverOverlay').classList.remove('visible');
+
+                if (mode === 'daily') {
+                    document.getElementById('dailyBadge').classList.remove('hidden');
+                    document.getElementById('scoreLabel').textContent = 'Daily Challenge';
+                    this.generatePlatforms(getDailySeed());
+                } else {
+                    document.getElementById('dailyBadge').classList.add('hidden');
+                    document.getElementById('scoreLabel').textContent = 'Peaceful Jumps';
+                    this.generatePlatforms(null); // Math.random()
+                }
+
+                this.resetPlayer();
+                this.state = STATE.IDLE;
+            }
+
+            setupMenuButtons() {
+                document.getElementById('btnZenMode').addEventListener('click', () => {
+                    if (this.audio.ctx.state === 'suspended') this.audio.ctx.resume();
+                    this.startMode('zen');
+                });
+                document.getElementById('btnDailyMode').addEventListener('click', () => {
+                    if (this.audio.ctx.state === 'suspended') this.audio.ctx.resume();
+                    this.startMode('daily');
+                });
+            }
+
+            setupGameoverButtons() {
+                document.getElementById('btnRetryDaily').addEventListener('click', () => {
+                    this.startMode(this.mode || 'daily');
+                });
+                document.getElementById('btnShareDaily').addEventListener('click', () => {
+                    this.shareResult();
+                });
+                document.getElementById('btnBackMenu').addEventListener('click', () => {
+                    this.showMenu();
+                });
+            }
+
+            // ── Platform Generation ──
+            generatePlatforms(seed) {
                 this.platforms = [];
+                const rng = seed != null ? mulberry32(seed) : Math.random.bind(Math);
+                
                 let x = 100;
                 let y = this.canvas.height / this.dpr - 150;
                 
+                // Starting platform (always the same shape)
                 this.platforms.push({ x: 50, y: y, width: 120, height: 12 });
                 
-                // Zen mode: gentler progression
                 for (let i = 1; i <= 1000; i++) {
-                    const gap = 80 + Math.random() * 60;
+                    const gap = 80 + rng() * 60;
                     const width = 70 - Math.min(30, i * 0.02);
-                    const yOffset = (Math.random() - 0.5) * 80;
+                    const yOffset = (rng() - 0.5) * 80;
                     
                     x += gap;
                     y = Math.max(120, Math.min(this.canvas.height / this.dpr - 120, y + yOffset));
@@ -533,6 +1058,9 @@
                 // Slowly shift ambient hue
                 this.ambientHue += 0.1;
                 
+                // Skip physics if on menu or gameover
+                if (this.state === STATE.MENU || this.state === STATE.GAMEOVER) return;
+
                 // Player physics
                 if (this.state === STATE.JUMPING) {
                     this.player.vy += 0.4;
@@ -544,9 +1072,13 @@
                     
                     this.checkLanding();
                     
-                    // In Zen mode, reset if fell
+                    // Fell off screen
                     if (this.player.y > this.canvas.height / this.dpr + 50) {
-                        this.resetToLastPlatform();
+                        if (this.mode === 'daily') {
+                            this.onDailyGameOver();
+                        } else {
+                            this.resetToLastPlatform();
+                        }
                     }
                 }
                 
@@ -603,6 +1135,7 @@
                 const isGood = Math.abs(this.player.x + this.player.width / 2 - centerX) < perfectZone / 2;
                 
                 if (isGood) {
+                    this.perfectCount++;
                     this.audio.playChime();
                     this.spawnZenParticles(this.player.x + this.player.width / 2, this.player.y + this.player.height, this.ambientHue);
                     
@@ -628,8 +1161,85 @@
                 this.state = STATE.IDLE;
                 this.combo = 0;
                 
-                // Gentle feedback
                 this.spawnZenParticles(this.player.x + this.player.width / 2, this.player.y + this.player.height + 50, 0);
+            }
+
+            // ── Daily Challenge: Game Over ──
+            onDailyGameOver() {
+                this.audio.playFall();
+                this.state = STATE.GAMEOVER;
+                this.charging = false;
+
+                // Record stats
+                const data = this.dailyStats.recordAttempt(this.score, this.perfectCount);
+
+                // Populate overlay
+                document.getElementById('goDate').textContent = formatDateNice(getTodayKey());
+                document.getElementById('goScore').textContent = this.score;
+                document.getElementById('goBest').textContent = data.bestScore;
+                document.getElementById('goAttempts').textContent = data.attempts;
+                document.getElementById('goPerfects').textContent = this.perfectCount;
+
+                // Leaderboard
+                this.renderLeaderboard();
+
+                // Show overlay
+                setTimeout(() => {
+                    document.getElementById('gameoverOverlay').classList.add('visible');
+                }, 400);
+            }
+
+            renderLeaderboard() {
+                const lb = this.dailyStats.getLeaderboard();
+                const container = document.getElementById('lbEntries');
+                container.innerHTML = '';
+
+                if (lb.length === 0) {
+                    container.innerHTML = '<div style="opacity:0.4;font-size:0.8rem;">No entries yet</div>';
+                    return;
+                }
+
+                lb.forEach((entry, i) => {
+                    const div = document.createElement('div');
+                    div.className = 'lb-entry' + (entry.name === 'You' ? ' you' : '');
+                    div.innerHTML = `
+                        <span class="lb-rank">${i + 1}.</span>
+                        <span class="lb-name">${entry.name}</span>
+                        <span class="lb-score">${entry.score}</span>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            shareResult() {
+                const card = this.dailyStats.generateShareCard(this.score);
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(card).then(() => {
+                        this.showToast();
+                    }).catch(() => {
+                        this.fallbackCopy(card);
+                    });
+                } else {
+                    this.fallbackCopy(card);
+                }
+            }
+
+            fallbackCopy(text) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); this.showToast(); }
+                catch { /* silent fail */ }
+                document.body.removeChild(ta);
+            }
+
+            showToast() {
+                const toast = document.getElementById('shareToast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2500);
             }
             
             spawnZenParticles(x, y, hue) {
@@ -663,7 +1273,7 @@
             
             draw() {
                 // Dynamic gradient background
-                const hue = (this.ambientHue % 60) + 200; // 200-260 range (blue to purple)
+                const hue = (this.ambientHue % 60) + 200;
                 const grad = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
                 grad.addColorStop(0, `hsl(${hue}, 40%, 8%)`);
                 grad.addColorStop(1, `hsl(${hue + 20}, 30%, 5%)`);
@@ -672,6 +1282,12 @@
                 
                 // Draw ambient orbs
                 this.orbs.forEach(orb => orb.draw(this.ctx));
+
+                // Skip game rendering if on menu
+                if (!this.gameStarted) {
+                    this.particles.forEach(p => p.draw(this.ctx));
+                    return;
+                }
                 
                 this.ctx.save();
                 this.ctx.translate(-this.camera.x, 0);
@@ -691,43 +1307,48 @@
                     this.ctx.fillStyle = glowGrad;
                     this.ctx.fillRect(plat.x - 20, plat.y - 20, plat.width + 40, plat.height + 40);
                     
-                    // Platform
-                    this.ctx.fillStyle = `hsla(${this.ambientHue}, 30%, 35%, 0.6)`;
+                    // Platform — warm tint for daily mode
+                    if (this.mode === 'daily') {
+                        this.ctx.fillStyle = `hsla(${(this.ambientHue + 30) % 360}, 35%, 38%, 0.65)`;
+                    } else {
+                        this.ctx.fillStyle = `hsla(${this.ambientHue}, 30%, 35%, 0.6)`;
+                    }
                     this.ctx.fillRect(plat.x, plat.y, plat.width, plat.height);
                     
                     // Center highlight
-                    this.ctx.fillStyle = `hsla(${this.ambientHue}, 50%, 60%, 0.3)`;
+                    const hlHue = this.mode === 'daily' ? (this.ambientHue + 30) % 360 : this.ambientHue;
+                    this.ctx.fillStyle = `hsla(${hlHue}, 50%, 60%, 0.3)`;
                     const centerW = plat.width * 0.25;
                     this.ctx.fillRect(plat.x + plat.width / 2 - centerW / 2, plat.y, centerW, plat.height);
                 });
                 
-                // Draw player
-                this.ctx.save();
-                this.ctx.translate(this.player.x + this.player.width / 2, this.player.y + this.player.height / 2);
-                this.ctx.scale(this.player.scaleX, this.player.scaleY);
-                
-                // Soft glow
-                const playerGlow = this.ctx.createRadialGradient(0, 0, 0, 0, 0, 30);
-                playerGlow.addColorStop(0, `hsla(${this.ambientHue}, 70%, 70%, 0.5)`);
-                playerGlow.addColorStop(1, 'transparent');
-                this.ctx.fillStyle = playerGlow;
-                this.ctx.beginPath();
-                this.ctx.arc(0, 0, 30, 0, Math.PI * 2);
-                this.ctx.fill();
-                
-                // Player body
-                this.ctx.fillStyle = `hsl(${this.ambientHue}, 60%, 65%)`;
-                this.ctx.beginPath();
-                this.ctx.arc(0, 0, 12, 0, Math.PI * 2);
-                this.ctx.fill();
-                
-                // Inner light
-                this.ctx.fillStyle = 'rgba(255,255,255,0.6)';
-                this.ctx.beginPath();
-                this.ctx.arc(-3, -3, 4, 0, Math.PI * 2);
-                this.ctx.fill();
-                
-                this.ctx.restore();
+                // Draw player (skip if gameover and player fell off)
+                if (this.state !== STATE.GAMEOVER) {
+                    this.ctx.save();
+                    this.ctx.translate(this.player.x + this.player.width / 2, this.player.y + this.player.height / 2);
+                    this.ctx.scale(this.player.scaleX, this.player.scaleY);
+                    
+                    const playerGlow = this.ctx.createRadialGradient(0, 0, 0, 0, 0, 30);
+                    playerGlow.addColorStop(0, `hsla(${this.ambientHue}, 70%, 70%, 0.5)`);
+                    playerGlow.addColorStop(1, 'transparent');
+                    this.ctx.fillStyle = playerGlow;
+                    this.ctx.beginPath();
+                    this.ctx.arc(0, 0, 30, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    this.ctx.fillStyle = `hsl(${this.ambientHue}, 60%, 65%)`;
+                    this.ctx.beginPath();
+                    this.ctx.arc(0, 0, 12, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    this.ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                    this.ctx.beginPath();
+                    this.ctx.arc(-3, -3, 4, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    this.ctx.restore();
+                }
+
                 this.ctx.restore();
                 
                 // Draw particles

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Echo - Memory Rhythm Game</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(180deg, #0d0221 0%, #1a0b2e 50%, #240b36 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            color: #fff;
+        }
+        #gameContainer {
+            position: relative;
+            margin-top: 15px;
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.3), 0 0 80px rgba(0, 255, 255, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            background: radial-gradient(ellipse at center bottom, #2d1b4e 0%, #0d0221 70%);
+        }
+        #ui {
+            display: flex;
+            gap: 25px;
+            margin: 12px 0;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .stat { 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            text-shadow: 0 0 10px currentColor;
+        }
+        #instructions, #gameOver, #levelComplete {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(13, 2, 33, 0.98);
+            padding: 35px;
+            border-radius: 15px;
+            border: 2px solid;
+            z-index: 100;
+            max-width: 480px;
+        }
+        #instructions { border-color: #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.5); }
+        #gameOver { border-color: #ff0040; box-shadow: 0 0 40px rgba(255,0,64,0.6); display: none; }
+        #levelComplete { border-color: #00ffff; box-shadow: 0 0 40px rgba(0,255,255,0.6); display: none; }
+        #instructions h1 {
+            font-size: 32px;
+            color: #ff00ff;
+            text-shadow: 0 0 20px #ff00ff;
+            margin-bottom: 15px;
+        }
+        #gameOver h2 { color: #ff0040; font-size: 38px; text-shadow: 0 0 20px #ff0040; margin-bottom: 15px; }
+        #levelComplete h2 { color: #00ffff; font-size: 38px; text-shadow: 0 0 20px #00ffff; margin-bottom: 15px; }
+        button {
+            margin-top: 20px;
+            padding: 14px 35px;
+            font-size: 18px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,0,255,0.8);
+        }
+        .combo-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 48px;
+            font-weight: bold;
+            color: #ffff00;
+            text-shadow: 0 0 20px #ffff00;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .combo-display.active { opacity: 1; }
+        .badge {
+            display: inline-block;
+            padding: 6px 15px;
+            margin: 4px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .badge-gold { background: #ffd700; color: #000; box-shadow: 0 0 10px #ffd700; }
+        .badge-silver { background: #c0c0c0; color: #000; }
+        .badge-purple { background: #9d4edd; color: #fff; box-shadow: 0 0 10px #9d4edd; }
+    </style>
+</head>
+<body>
+    <div id="ui">
+        <div class="stat" style="color:#ff00ff">Level: <span id="level">1</span></div>
+        <div class="stat" style="color:#00ffff">Score: <span id="score">0</span></div>
+        <div class="stat" style="color:#ffff00">Combo: <span id="combo">0</span>x</div>
+        <div class="stat" style="color:#00ff80">Lives: <span id="lives">3</span></div>
+    </div>
+    
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="700"></canvas>
+        
+        <div id="instructions">
+            <h1>🎵 NEON ECHO 🎵</h1>
+            <p style="font-size:18px;color:#00ffff;margin-bottom:15px;">Follow the rhythm. Match the pattern.</p>
+            <p style="margin:10px 0;line-height:1.6;">
+                🎹 <strong>WATCH</strong> the neon pads light up in sequence<br>
+                🎵 <strong>LISTEN</strong> to the synthwave tones<br>
+                🖱️ <strong>REPEAT</strong> the pattern by clicking pads<br>
+                ⚡ <strong>SPEED</strong> increases with each level<br>
+                🔥 Build <strong>COMBOS</strong> for massive points!
+            </p>
+            <button onclick="startGame()">START THE BEAT</button>
+        </div>
+        
+        <div id="gameOver">
+            <h2>SIGNAL LOST</h2>
+            <p id="finalScore" style="font-size:20px;margin:10px 0;">Score: 0</p>
+            <p id="maxCombo" style="color:#ffff00;">Max Combo: 0</p>
+            <p id="badges" style="margin-top:15px;"></p>
+            <button onclick="restartGame()" style="background:linear-gradient(90deg,#ff0040,#ff00ff);">RETRY</button>
+        </div>
+        
+        <div id="levelComplete">
+            <h2>SYNC PERFECT</h2>
+            <p id="levelScore" style="font-size:18px;margin:10px 0;">+0 pts</p>
+            <p id="levelBadges" style="margin-top:10px;"></p>
+            <button onclick="nextLevel()" style="background:linear-gradient(90deg,#00ffff,#ff00ff);">NEXT TRACK</button>
+        </div>
+        
+        <div id="comboDisplay" class="combo-display"></div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = new AudioContext();
+        
+        let gameState = 'menu';
+        let level = 1;
+        let score = 0;
+        let combo = 0;
+        let maxCombo = 0;
+        let lives = 3;
+        let pattern = [];
+        let playerPattern = [];
+        let pads = [];
+        let isShowingPattern = false;
+        let canInput = false;
+        let gridSize = 2;
+        let patternSpeed = 600;
+        let particles = [];
+        let stars = [];
+        let pulse = 0;
+        
+        const colors = ['#ff0040', '#00ff80', '#0080ff', '#ff00ff', '#ffff00', '#ff8000', '#00ffff', '#ff4080', '#80ff00'];
+        const frequencies = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50, 1318.50, 1567.98];
+        
+        // Starfield
+        for (let i = 0; i < 100; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speed: Math.random() * 0.5 + 0.1
+            });
+        }
+        
+        function playTone(index) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.frequency.value = frequencies[index % frequencies.length];
+            osc.type = 'sawtooth';
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.3);
+        }
+        
+        function playError() {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.value = 100;
+            osc.type = 'sawtooth';
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.4);
+        }
+        
+        function initPads() {
+            pads = [];
+            gridSize = Math.min(3 + Math.floor((level - 1) / 2), 4);
+            const padSize = 100;
+            const gap = 20;
+            const startX = (canvas.width - (gridSize * padSize + (gridSize - 1) * gap)) / 2;
+            const startY = 120;
+            
+            for (let i = 0; i < gridSize * gridSize; i++) {
+                const row = Math.floor(i / gridSize);
+                const col = i % gridSize;
+                pads.push({
+                    x: startX + col * (padSize + gap),
+                    y: startY + row * (padSize + gap),
+                    size: padSize,
+                    color: colors[i % colors.length],
+                    index: i,
+                    active: false,
+                    glow: 0
+                });
+            }
+        }
+        
+        function generatePattern() {
+            pattern = [];
+            const length = Math.min(3 + Math.floor(level / 2), 12);
+            for (let i = 0; i < length; i++) {
+                pattern.push(Math.floor(Math.random() * pads.length));
+            }
+        }
+        
+        function showPattern() {
+            isShowingPattern = true;
+            canInput = false;
+            playerPattern = [];
+            let i = 0;
+            
+            const interval = setInterval(() => {
+                if (i > 0) pads[pattern[i - 1]].active = false;
+                
+                if (i >= pattern.length) {
+                    clearInterval(interval);
+                    isShowingPattern = false;
+                    canInput = true;
+                    return;
+                }
+                
+                const padIndex = pattern[i];
+                pads[padIndex].active = true;
+                pads[padIndex].glow = 1;
+                playTone(padIndex);
+                
+                createParticles(pads[padIndex].x + pads[padIndex].size/2, 
+                               pads[padIndex].y + pads[padIndex].size/2, 
+                               pads[padIndex].color);
+                
+                setTimeout(() => { pads[padIndex].active = false; }, patternSpeed * 0.6);
+                i++;
+            }, patternSpeed);
+        }
+        
+        function createParticles(x, y, color) {
+            for (let i = 0; i < 15; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: (Math.random() - 0.5) * 8,
+                    life: 30,
+                    color: color,
+                    size: Math.random() * 4 + 2
+                });
+            }
+        }
+        
+        function startGame() {
+            document.getElementById('instructions').style.display = 'none';
+            audioCtx.resume();
+            gameState = 'playing';
+            level = 1;
+            score = 0;
+            combo = 0;
+            maxCombo = 0;
+            lives = 3;
+            patternSpeed = 600;
+            initPads();
+            generatePattern();
+            updateUI();
+            setTimeout(showPattern, 500);
+            gameLoop();
+        }
+        
+        function restartGame() {
+            document.getElementById('gameOver').style.display = 'none';
+            gameState = 'playing';
+            level = 1;
+            score = 0;
+            combo = 0;
+            maxCombo = 0;
+            lives = 3;
+            patternSpeed = 600;
+            initPads();
+            generatePattern();
+            updateUI();
+            setTimeout(showPattern, 500);
+        }
+        
+        function nextLevel() {
+            document.getElementById('levelComplete').style.display = 'none';
+            gameState = 'playing';
+            level++;
+            patternSpeed = Math.max(300, 600 - level * 30);
+            initPads();
+            generatePattern();
+            updateUI();
+            setTimeout(showPattern, 500);
+        }
+        
+        function handleInput(padIndex) {
+            if (!canInput || isShowingPattern) return;
+            
+            pads[padIndex].active = true;
+            pads[padIndex].glow = 1;
+            playTone(padIndex);
+            createParticles(pads[padIndex].x + pads[padIndex].size/2,
+                           pads[padIndex].y + pads[padIndex].size/2,
+                           pads[padIndex].color);
+            
+            setTimeout(() => { pads[padIndex].active = false; }, 200);
+            
+            playerPattern.push(padIndex);
+            
+            // Check correctness
+            const currentIndex = playerPattern.length - 1;
+            if (playerPattern[currentIndex] !== pattern[currentIndex]) {
+                // Wrong!
+                playError();
+                combo = 0;
+                lives--;
+                updateUI();
+                
+                // Visual feedback
+                canvas.style.boxShadow = '0 0 50px #ff0000';
+                setTimeout(() => { canvas.style.boxShadow = ''; }, 300);
+                
+                if (lives <= 0) {
+                    gameOver();
+                } else {
+                    canInput = false;
+                    setTimeout(() => {
+                        playerPattern = [];
+                        showPattern();
+                    }, 1000);
+                }
+                return;
+            }
+            
+            // Correct
+            if (playerPattern.length === pattern.length) {
+                // Level complete
+                combo++;
+                if (combo > maxCombo) maxCombo = combo;
+                const basePoints = pattern.length * 100;
+                const comboBonus = combo * 50;
+                score += basePoints + comboBonus;
+                
+                showCombo(combo);
+                updateUI();
+                
+                canInput = false;
+                setTimeout(levelComplete, 500);
+            }
+        }
+        
+        function showCombo(c) {
+            const display = document.getElementById('comboDisplay');
+            if (c > 1) {
+                display.textContent = c + 'x COMBO!';
+                display.classList.add('active');
+                setTimeout(() => display.classList.remove('active'), 1000);
+            }
+        }
+        
+        function levelComplete() {
+            gameState = 'complete';
+            const badges = [];
+            if (combo >= 3) badges.push('<span class="badge badge-gold">🔥 Hot Streak</span>');
+            if (lives === 3) badges.push('<span class="badge badge-purple">💎 Flawless</span>');
+            if (pattern.length >= 8) badges.push('<span class="badge badge-silver">🧠 Memory Master</span>');
+            
+            document.getElementById('levelScore').textContent = `Level ${level} Complete! +${pattern.length * 100 + combo * 50} pts`;
+            document.getElementById('levelBadges').innerHTML = badges.join('');
+            document.getElementById('levelComplete').style.display = 'block';
+        }
+        
+        function gameOver() {
+            gameState = 'gameover';
+            const badges = [];
+            if (score > 5000) badges.push('<span class="badge badge-gold">🏆 Neon Legend</span>');
+            else if (score > 2500) badges.push('<span class="badge badge-silver">🎵 Rhythm King</span>');
+            if (maxCombo >= 5) badges.push('<span class="badge badge-purple">⚡ Combo Beast</span>');
+            if (level >= 5) badges.push('<span class="badge badge-gold">🌟 Deep Space</span>');
+            
+            document.getElementById('finalScore').textContent = `Final Score: ${score}`;
+            document.getElementById('maxCombo').textContent = `Max Combo: ${maxCombo}x`;
+            document.getElementById('badges').innerHTML = badges.join('');
+            document.getElementById('gameOver').style.display = 'block';
+        }
+        
+        function updateUI() {
+            document.getElementById('level').textContent = level;
+            document.getElementById('score').textContent = score;
+            document.getElementById('combo').textContent = combo;
+            document.getElementById('lives').textContent = lives;
+        }
+        
+        function update() {
+            pulse += 0.05;
+            
+            // Update particles
+            particles = particles.filter(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.2;
+                p.life--;
+                return p.life > 0;
+            });
+            
+            // Update pad glow
+            pads.forEach(pad => {
+                if (pad.glow > 0) pad.glow -= 0.05;
+            });
+            
+            // Update stars
+            stars.forEach(star => {
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+        }
+        
+        function draw() {
+            // Background
+            ctx.fillStyle = 'rgba(13, 2, 33, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Stars
+            stars.forEach(star => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            // Grid lines
+            ctx.strokeStyle = 'rgba(255, 0, 255, 0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < canvas.width; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, canvas.height);
+                ctx.stroke();
+            }
+            for (let i = 0; i < canvas.height; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+            
+            // Horizon glow
+            const horizon = ctx.createLinearGradient(0, canvas.height - 200, 0, canvas.height);
+            horizon.addColorStop(0, 'rgba(255, 0, 255, 0)');
+            horizon.addColorStop(1, 'rgba(255, 0, 255, 0.2)');
+            ctx.fillStyle = horizon;
+            ctx.fillRect(0, canvas.height - 200, canvas.width, 200);
+            
+            // Draw pads
+            pads.forEach(pad => {
+                const glowSize = pad.active ? 30 + Math.sin(pulse * 2) * 10 : 0;
+                
+                // Glow effect
+                if (pad.glow > 0 || pad.active) {
+                    const gradient = ctx.createRadialGradient(
+                        pad.x + pad.size/2, pad.y + pad.size/2, 0,
+                        pad.x + pad.size/2, pad.y + pad.size/2, pad.size + glowSize
+                    );
+                    gradient.addColorStop(0, pad.color);
+                    gradient.addColorStop(0.5, pad.color + '80');
+                    gradient.addColorStop(1, 'transparent');
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(pad.x + pad.size/2, pad.y + pad.size/2, pad.size + glowSize, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Pad background
+                ctx.fillStyle = pad.active ? pad.color : '#1a0b2e';
+                ctx.fillRect(pad.x, pad.y, pad.size, pad.size);
+                
+                // Pad border
+                ctx.strokeStyle = pad.active ? '#ffffff' : pad.color;
+                ctx.lineWidth = pad.active ? 4 : 2;
+                ctx.strokeRect(pad.x, pad.y, pad.size, pad.size);
+                
+                // Inner decoration
+                ctx.fillStyle = pad.active ? '#ffffff' : pad.color + '40';
+                ctx.fillRect(pad.x + 20, pad.y + 20, pad.size - 40, pad.size - 40);
+            });
+            
+            // Draw particles
+            particles.forEach(p => {
+                ctx.globalAlpha = p.life / 30;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            
+            // Status text
+            ctx.font = 'bold 16px Courier New';
+            ctx.textAlign = 'center';
+            if (isShowingPattern) {
+                ctx.fillStyle = '#00ffff';
+                ctx.fillText('👁 WATCH THE PATTERN', canvas.width/2, 60);
+            } else if (canInput) {
+                ctx.fillStyle = '#00ff80';
+                ctx.fillText('✋ YOUR TURN - REPEAT!', canvas.width/2, 60);
+            }
+            
+            // Progress bar
+            if (canInput && pattern.length > 0) {
+                const barWidth = 200;
+                const progress = playerPattern.length / pattern.length;
+                ctx.fillStyle = '#333';
+                ctx.fillRect((canvas.width - barWidth)/2, 75, barWidth, 10);
+                ctx.fillStyle = '#00ffff';
+                ctx.fillRect((canvas.width - barWidth)/2, 75, barWidth * progress, 10);
+            }
+        }
+        
+        function gameLoop() {
+            if (gameState !== 'playing') return;
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Input handling
+        canvas.addEventListener('mousedown', e => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            pads.forEach(pad => {
+                if (x >= pad.x && x <= pad.x + pad.size &&
+                    y >= pad.y && y <= pad.y + pad.size) {
+                    handleInput(pad.index);
+                }
+            });
+        });
+        
+        canvas.addEventListener('touchstart', e => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const x = e.touches[0].clientX - rect.left;
+            const y = e.touches[0].clientY - rect.top;
+            
+            pads.forEach(pad => {
+                if (x >= pad.x && x <= pad.x + pad.size &&
+                    y >= pad.y && y <= pad.y + pad.size) {
+                    handleInput(pad.index);
+                }
+            });
+        });
+        
+        // Initial draw
+        draw();
+    </script>
+</body>
+</html>

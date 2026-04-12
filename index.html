@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototypes Lab - HTML5 Game Factory</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #aaa; font-size: 18px; }
+        .date-badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: rgba(0,255,255,0.2);
+            border-radius: 20px;
+            font-size: 14px;
+            color: #00ffff;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .prototype-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .prototype-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+        }
+        .prototype-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: rgba(0,255,255,0.3);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .emoji {
+            font-size: 40px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+        .card-title h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .card-title .tagline {
+            color: #888;
+            font-size: 14px;
+        }
+        .mechanic {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(138, 43, 226, 0.3);
+            border-radius: 12px;
+            font-size: 12px;
+            margin: 10px 0;
+            color: #dda0dd;
+        }
+        .features {
+            margin: 15px 0;
+        }
+        .features li {
+            list-style: none;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #ccc;
+            font-size: 14px;
+        }
+        .features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00ff80;
+            font-weight: bold;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .btn-play {
+            background: linear-gradient(135deg, #00ff80, #00cc66);
+            color: #000;
+        }
+        .btn-report {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00ffff;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 PROTOTYPES LAB</h1>
+            <p class="subtitle">Daily HTML5 Game Factory - Quality First, Always</p>
+            <span class="date-badge">📅 April 12, 2026 Batch</span>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Prototypes</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Playable</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Unique Mechanics</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="grid">
+            <!-- Gravity Weaver -->
+            <div class="prototype-card">
+                <div class="card-header">
+                    <div class="emoji">🌌</div>
+                    <div class="card-title">
+                        <h2>Gravity Weaver</h2>
+                        <span class="tagline">Bend gravity. Guide particles.</span>
+                    </div>
+                </div>
+                <span class="mechanic">🎯 Physics Puzzle</span>
+                <ul class="features">
+                    <li>Dynamic gravity field manipulation</li>
+                    <li>Emergent particle physics</li>
+                    <li>Resource-based power system</li>
+                    <li>Level progression with obstacles</li>
+                    <li>Badges & scoring system</li>
+                </ul>
+                <div class="buttons">
+                    <a href="2026-04-12_gravity-weaver/index.html" class="btn btn-play">▶ PLAY NOW</a>
+                    <a href="2026-04-12_gravity-weaver/report.html" class="btn btn-report">📊 REPORT</a>
+                </div>
+            </div>
+            
+            <!-- Neon Echo -->
+            <div class="prototype-card">
+                <div class="card-header">
+                    <div class="emoji">🎵</div>
+                    <div class="card-title">
+                        <h2>Neon Echo</h2>
+                        <span class="tagline">Follow the rhythm. Match patterns.</span>
+                    </div>
+                </div>
+                <span class="mechanic">🎹 Memory + Rhythm</span>
+                <ul class="features">
+                    <li>Audio-visual pattern matching</li>
+                    <li>Synthwave aesthetic</li>
+                    <li>Combo multiplier system</li>
+                    <li>Progressive grid expansion</li>
+                    <li>Life-based challenge</li>
+                </ul>
+                <div class="buttons">
+                    <a href="2026-04-12_neon-echo/index.html" class="btn btn-play">▶ PLAY NOW</a>
+                    <a href="2026-04-12_neon-echo/report.html" class="btn btn-report">📊 REPORT</a>
+                </div>
+            </div>
+            
+            <!-- Chrono Fracture -->
+            <div class="prototype-card">
+                <div class="card-header">
+                    <div class="emoji">⏳</div>
+                    <div class="card-title">
+                        <h2>Chrono Fracture</h2>
+                        <span class="tagline">Bend time. Solve eternity.</span>
+                    </div>
+                </div>
+                <span class="mechanic">⏱️ Time Manipulation</span>
+                <ul class="features">
+                    <li>Temporal clone recording</li>
+                    <li>Paradox collision detection</li>
+                    <li>Multi-switch coordination puzzles</li>
+                    <li>Resource-limited time power</li>
+                    <li>Escalating complexity</li>
+                </ul>
+                <div class="buttons">
+                    <a href="2026-04-12_chrono-fracture/index.html" class="btn btn-play">▶ PLAY NOW</a>
+                    <a href="2026-04-12_chrono-fracture/report.html" class="btn btn-report">📊 REPORT</a>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>🚀 Built by the Daily Game Factory Cron | Quality Prototypes Every Day</p>
+            <p style="margin-top: 10px; font-size: 12px;">All prototypes are complete playable games with instructions, scoring, and win/lose states.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Color Cascade - Paint Mixing Physics Puzzle</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-align: center;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #888; margin-bottom: 15px; text-align: center; }
+        .game-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        canvas {
+            border: 3px solid #4a4a6a;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 250px;
+        }
+        .panel {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .panel h3 {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .target-color {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto;
+            border: 3px solid #fff;
+            box-shadow: 0 0 20px currentColor;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #48dbfb;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+        }
+        .controls {
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        .controls kbd {
+            background: #333;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .level-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .stars {
+            font-size: 20px;
+            letter-spacing: 5px;
+        }
+        .instructions {
+            background: rgba(254, 202, 87, 0.2);
+            border: 1px solid #feca57;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 12px;
+            text-align: center;
+        }
+        .win-overlay, .lose-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .win-overlay.show, .lose-overlay.show {
+            display: flex;
+        }
+        .overlay-content {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            border: 2px solid;
+        }
+        .win-overlay .overlay-content {
+            border-color: #00d26a;
+            box-shadow: 0 0 50px rgba(0,210,106,0.3);
+        }
+        .lose-overlay .overlay-content {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 50px rgba(255,107,107,0.3);
+        }
+        .overlay-content h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .overlay-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #aaa;
+        }
+        .badges {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge.perfect { background: #ffd700; color: #000; }
+        .badge.fast { background: #00d2ff; color: #000; }
+        .badge.efficient { background: #a855f7; color: #fff; }
+        .palette {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .palette-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 50;
+        }
+        .message.show { opacity: 1; }
+        .message.success { background: #00d26a; color: #000; }
+        .message.error { background: #ff6b6b; color: #fff; }
+    </style>
+</head>
+<body>
+    <h1>🎨 Color Cascade</h1>
+    <p class="subtitle">Engineer paint flow to mix the perfect color</p>
+    
+    <span class="level-badge">Level <span id="levelNum">1</span> of 5</span>
+    
+    <div class="game-container">
+        <canvas id="gameCanvas" width="600" height="500"></canvas>
+        
+        <div class="sidebar">
+            <div class="panel">
+                <h3>🎯 Target Color</h3>
+                <div class="target-color" id="targetColor"></div>
+                <p style="text-align:center; font-size:12px; margin-top:10px; color:#aaa;">Mix to create this color!</p>
+            </div>
+            
+            <div class="panel">
+                <h3>📊 Stats</h3>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value" id="moves">0</div>
+                        <div class="stat-label">Moves</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="time">0</div>
+                        <div class="stat-label">Seconds</div>
+                    </div>
+                </div>
+                <div style="margin-top:15px; text-align:center;">
+                    <span class="stars" id="stars">⭐⭐⭐</span>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h3>🎮 Controls</h3>
+                <div class="controls">
+                    <p><kbd>Click</kbd> Toggle barriers</p>
+                    <p><kbd>Space</kbd> Flip gravity</p>
+                    <p><kbd>R</kbd> Restart level</p>
+                </div>
+            </div>
+            
+            <div class="instructions" id="instruction">
+                Click barriers to guide paint flow. Mix colors to match the target!
+            </div>
+            
+            <div class="buttons">
+                <button class="btn-primary" onclick="game.resetLevel()">🔄 Restart</button>
+                <button class="btn-secondary" onclick="game.nextLevel()">⏭ Skip</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="win-overlay" id="winOverlay">
+        <div class="overlay-content">
+            <h2>🎉 PERFECT!</h2>
+            <p>You mastered the color cascade!</p>
+            <div class="badges" id="winBadges"></div>
+            <p>Time: <span id="winTime"></span>s | Moves: <span id="winMoves"></span></p>
+            <div class="buttons" style="margin-top:20px;">
+                <button class="btn-primary" onclick="game.nextLevel()">Next Level →</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lose-overlay" id="loseOverlay">
+        <div class="overlay-content">
+            <h2>💔 OOPS!</h2>
+            <p id="loseReason">Wrong color reached the bucket!</p>
+            <div class="buttons" style="margin-top:20px;">
+                <button class="btn-primary" onclick="game.resetLevel()">Try Again ↻</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="message" id="message"></div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const COLORS = {
+            RED: { r: 255, g: 0, b: 0, name: 'Red' },
+            BLUE: { r: 0, g: 0, b: 255, name: 'Blue' },
+            YELLOW: { r: 255, g: 255, b: 0, name: 'Yellow' },
+            ORANGE: { r: 255, g: 165, b: 0, name: 'Orange' },
+            GREEN: { r: 0, g: 255, b: 0, name: 'Green' },
+            PURPLE: { r: 128, g: 0, b: 128, name: 'Purple' }
+        };
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = Math.random() * 2;
+                this.color = { ...color };
+                this.radius = 4;
+                this.life = 1;
+            }
+
+            update(gravity) {
+                this.vy += gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Air resistance
+                this.vx *= 0.99;
+                this.vy *= 0.99;
+                
+                // Bounds
+                if (this.x < this.radius) { this.x = this.radius; this.vx *= -0.5; }
+                if (this.x > canvas.width - this.radius) { this.x = canvas.width - this.radius; this.vx *= -0.5; }
+                if (this.y < this.radius) { this.y = this.radius; this.vy *= -0.5; }
+                if (this.y > canvas.height - this.radius) { 
+                    this.y = canvas.height - this.radius; 
+                    this.vy *= -0.3;
+                    this.vx *= 0.8;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgb(${this.color.r},${this.color.g},${this.color.b})`;
+                ctx.fill();
+            }
+        }
+
+        class Game {
+            constructor() {
+                this.level = 0;
+                this.particles = [];
+                this.barriers = [];
+                this.sources = [];
+                this.bucket = null;
+                this.targetColor = null;
+                this.gravity = 0.15;
+                this.moves = 0;
+                this.startTime = 0;
+                this.elapsed = 0;
+                this.state = 'playing'; // playing, won, lost
+                this.particlesInBucket = [];
+                this.winTimer = null;
+                
+                this.levels = [
+                    {
+                        sources: [{ x: 100, y: 50, color: COLORS.RED }],
+                        bucket: { x: 400, y: 400, w: 100, h: 60 },
+                        target: COLORS.RED,
+                        barriers: [
+                            { x: 0, y: 200, w: 250, h: 15, active: true },
+                            { x: 350, y: 200, w: 250, h: 15, active: true }
+                        ],
+                        instruction: "Click the gap to block it. Guide red paint to the bucket!"
+                    },
+                    {
+                        sources: [
+                            { x: 80, y: 50, color: COLORS.RED },
+                            { x: 220, y: 50, color: COLORS.YELLOW }
+                        ],
+                        bucket: { x: 350, y: 400, w: 100, h: 60 },
+                        target: COLORS.ORANGE,
+                        barriers: [
+                            { x: 150, y: 150, w: 15, h: 150, active: true },
+                            { x: 300, y: 250, w: 150, h: 15, active: true },
+                            { x: 450, y: 150, w: 15, h: 150, active: false }
+                        ],
+                        instruction: "Red + Yellow = Orange! Mix them in the bucket."
+                    },
+                    {
+                        sources: [
+                            { x: 100, y: 50, color: COLORS.BLUE },
+                            { x: 300, y: 50, color: COLORS.YELLOW }
+                        ],
+                        bucket: { x: 400, y: 350, w: 100, h: 60 },
+                        target: COLORS.GREEN,
+                        barriers: [
+                            { x: 200, y: 180, w: 200, h: 15, active: true },
+                            { x: 100, y: 300, w: 15, h: 150, active: false },
+                            { x: 400, y: 280, w: 100, h: 15, active: true }
+                        ],
+                        instruction: "Blue + Yellow = Green! Use barriers to control the mix."
+                    },
+                    {
+                        sources: [
+                            { x: 50, y: 50, color: COLORS.RED },
+                            { x: 200, y: 50, color: COLORS.BLUE },
+                            { x: 350, y: 50, color: COLORS.YELLOW }
+                        ],
+                        bucket: { x: 450, y: 380, w: 100, h: 60 },
+                        target: { r: 85, g: 85, b: 85, name: 'Brown' }, // Equal mix
+                        barriers: [
+                            { x: 120, y: 150, w: 15, h: 200, active: true },
+                            { x: 270, y: 150, w: 15, h: 200, active: true },
+                            { x: 150, y: 280, w: 200, h: 15, active: true },
+                            { x: 400, y: 200, w: 15, h: 150, active: false }
+                        ],
+                        instruction: "Mix ALL THREE colors equally! Timing matters."
+                    },
+                    {
+                        sources: [
+                            { x: 80, y: 30, color: COLORS.RED },
+                            { x: 300, y: 30, color: COLORS.BLUE }
+                        ],
+                        bucket: { x: 250, y: 420, w: 100, h: 60 },
+                        target: COLORS.PURPLE,
+                        barriers: [
+                            { x: 180, y: 120, w: 15, h: 150, active: true },
+                            { x: 420, y: 120, w: 15, h: 150, active: true },
+                            { x: 180, y: 250, w: 255, h: 15, active: true },
+                            { x: 100, y: 320, w: 15, h: 120, active: false },
+                            { x: 485, y: 320, w: 15, h: 120, active: false }
+                        ],
+                        instruction: "Final challenge! Red + Blue = Purple. Master the cascade!"
+                    }
+                ];
+                
+                this.setupLevel();
+                this.setupEvents();
+                this.loop();
+            }
+
+            setupLevel() {
+                const lvl = this.levels[this.level];
+                this.particles = [];
+                this.barriers = lvl.barriers.map(b => ({...b}));
+                this.sources = lvl.sources.map(s => ({...s}));
+                this.bucket = {...lvl.bucket};
+                this.targetColor = lvl.target;
+                this.moves = 0;
+                this.startTime = Date.now();
+                this.state = 'playing';
+                this.particlesInBucket = [];
+                
+                document.getElementById('levelNum').textContent = this.level + 1;
+                document.getElementById('targetColor').style.backgroundColor = 
+                    `rgb(${lvl.target.r},${lvl.target.g},${lvl.target.b})`;
+                document.getElementById('targetColor').style.boxShadow = 
+                    `0 0 20px rgb(${lvl.target.r},${lvl.target.g},${lvl.target.b})`;
+                document.getElementById('instruction').textContent = lvl.instruction;
+                document.getElementById('winOverlay').classList.remove('show');
+                document.getElementById('loseOverlay').classList.remove('show');
+                
+                this.updateStats();
+            }
+
+            setupEvents() {
+                canvas.addEventListener('click', (e) => {
+                    if (this.state !== 'playing') return;
+                    
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    let clicked = false;
+                    this.barriers.forEach(b => {
+                        if (x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h) {
+                            b.active = !b.active;
+                            this.moves++;
+                            clicked = true;
+                            this.showMessage(b.active ? 'Barrier ON' : 'Barrier OFF', 'success');
+                        }
+                    });
+                    
+                    if (clicked) this.updateStats();
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.gravity = this.gravity > 0 ? -0.15 : 0.15;
+                        this.showMessage(this.gravity > 0 ? 'Gravity: DOWN' : 'Gravity: UP', 'success');
+                    }
+                    if (e.code === 'KeyR') {
+                        this.resetLevel();
+                    }
+                });
+            }
+
+            showMessage(text, type) {
+                const msg = document.getElementById('message');
+                msg.textContent = text;
+                msg.className = `message show ${type}`;
+                setTimeout(() => msg.classList.remove('show'), 1500);
+            }
+
+            updateStats() {
+                document.getElementById('moves').textContent = this.moves;
+                const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                document.getElementById('time').textContent = elapsed;
+                
+                // Star calculation
+                let stars = 3;
+                if (this.moves > 5) stars--;
+                if (this.moves > 10) stars--;
+                if (elapsed > 60) stars--;
+                document.getElementById('stars').textContent = '⭐'.repeat(Math.max(1, stars));
+            }
+
+            spawnParticles() {
+                this.sources.forEach(source => {
+                    if (Math.random() < 0.3) {
+                        this.particles.push(new Particle(
+                            source.x + (Math.random() - 0.5) * 20,
+                            source.y,
+                            source.color
+                        ));
+                    }
+                });
+            }
+
+            checkCollisions() {
+                this.particles.forEach(p => {
+                    // Barrier collisions
+                    this.barriers.forEach(b => {
+                        if (!b.active) return;
+                        
+                        // Simple AABB collision
+                        if (p.x + p.radius > b.x && p.x - p.radius < b.x + b.w &&
+                            p.y + p.radius > b.y && p.y - p.radius < b.y + b.h) {
+                            
+                            // Push particle out
+                            const overlapX = (p.x < b.x + b.w/2) ? 
+                                (p.x + p.radius - b.x) : (b.x + b.w - (p.x - p.radius));
+                            const overlapY = (p.y < b.y + b.h/2) ? 
+                                (p.y + p.radius - b.y) : (b.y + b.h - (p.y - p.radius));
+                            
+                            if (overlapX < overlapY) {
+                                p.x += (p.x < b.x + b.w/2) ? -overlapX - 1 : overlapX + 1;
+                                p.vx *= -0.5;
+                            } else {
+                                p.y += (p.y < b.y + b.h/2) ? -overlapY - 1 : overlapY + 1;
+                                p.vy *= -0.5;
+                            }
+                        }
+                    });
+                    
+                    // Bucket collision
+                    const b = this.bucket;
+                    if (p.x > b.x && p.x < b.x + b.w && p.y > b.y && p.y < b.y + b.h) {
+                        // Inside bucket - collect
+                        this.particlesInBucket.push(p);
+                        p.life = 0;
+                        
+                        // Check if enough particles collected
+                        if (this.particlesInBucket.length >= 30 && !this.winTimer) {
+                            this.checkWinCondition();
+                        }
+                    }
+                    
+                    // Check if escaped (fell off bottom with gravity down, or top with gravity up)
+                    if ((this.gravity > 0 && p.y > canvas.height + 20) ||
+                        (this.gravity < 0 && p.y < -20)) {
+                        p.life = 0;
+                    }
+                });
+            }
+
+            checkWinCondition() {
+                if (this.particlesInBucket.length < 10) return;
+                
+                // Calculate average color
+                const avg = { r: 0, g: 0, b: 0 };
+                this.particlesInBucket.forEach(p => {
+                    avg.r += p.color.r;
+                    avg.g += p.color.g;
+                    avg.b += p.color.b;
+                });
+                avg.r /= this.particlesInBucket.length;
+                avg.g /= this.particlesInBucket.length;
+                avg.b /= this.particlesInBucket.length;
+                
+                // Check if matches target (with tolerance)
+                const tolerance = 60;
+                const diff = Math.abs(avg.r - this.targetColor.r) + 
+                           Math.abs(avg.g - this.targetColor.g) + 
+                           Math.abs(avg.b - this.targetColor.b);
+                
+                if (diff < tolerance * 3) {
+                    this.win();
+                } else if (this.particlesInBucket.length > 50) {
+                    // Too many wrong particles
+                    this.lose(`Got ${this.getColorName(avg)} instead of ${this.targetColor.name}!`);
+                }
+            }
+
+            getColorName(color) {
+                const colors = [
+                    { name: 'Red', r: 255, g: 0, b: 0 },
+                    { name: 'Blue', r: 0, g: 0, b: 255 },
+                    { name: 'Yellow', r: 255, g: 255, b: 0 },
+                    { name: 'Orange', r: 255, g: 165, b: 0 },
+                    { name: 'Green', r: 0, g: 255, b: 0 },
+                    { name: 'Purple', r: 128, g: 0, b: 128 }
+                ];
+                
+                let closest = 'Mixed';
+                let minDiff = Infinity;
+                colors.forEach(c => {
+                    const diff = Math.abs(c.r - color.r) + Math.abs(c.g - color.g) + Math.abs(c.b - color.b);
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                        closest = c.name;
+                    }
+                });
+                return closest;
+            }
+
+            win() {
+                this.state = 'won';
+                const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                
+                document.getElementById('winTime').textContent = elapsed;
+                document.getElementById('winMoves').textContent = this.moves;
+                
+                const badges = [];
+                if (this.moves <= 3) badges.push('<span class="badge perfect">🏆 Perfect</span>');
+                if (elapsed < 30) badges.push('<span class="badge fast">⚡ Speedster</span>');
+                if (this.moves <= 5) badges.push('<span class="badge efficient">🎯 Efficient</span>');
+                document.getElementById('winBadges').innerHTML = badges.join('');
+                
+                document.getElementById('winOverlay').classList.add('show');
+            }
+
+            lose(reason) {
+                this.state = 'lost';
+                document.getElementById('loseReason').textContent = reason;
+                document.getElementById('loseOverlay').classList.add('show');
+            }
+
+            resetLevel() {
+                this.setupLevel();
+            }
+
+            nextLevel() {
+                this.level++;
+                if (this.level >= this.levels.length) {
+                    this.level = 0;
+                    this.showMessage('🎉 All levels complete! Starting over.', 'success');
+                }
+                this.setupLevel();
+            }
+
+            draw() {
+                // Clear with trail effect
+                ctx.fillStyle = 'rgba(26, 26, 46, 0.3)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw sources
+                this.sources.forEach(s => {
+                    ctx.fillStyle = `rgb(${s.color.r},${s.color.g},${s.color.b})`;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, 15, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    // Label
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '12px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(s.color.name, s.x, s.y - 25);
+                });
+                
+                // Draw barriers
+                this.barriers.forEach(b => {
+                    ctx.fillStyle = b.active ? 'rgba(100, 200, 255, 0.6)' : 'rgba(100, 200, 255, 0.15)';
+                    ctx.fillRect(b.x, b.y, b.w, b.h);
+                    ctx.strokeStyle = b.active ? '#64c8ff' : 'rgba(100, 200, 255, 0.3)';
+                    ctx.lineWidth = b.active ? 3 : 1;
+                    ctx.strokeRect(b.x, b.y, b.w, b.h);
+                    
+                    // Active indicator
+                    if (b.active) {
+                        ctx.fillStyle = '#64c8ff';
+                        ctx.beginPath();
+                        ctx.arc(b.x + b.w/2, b.y + b.h/2, 4, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                });
+                
+                // Draw bucket
+                const b = this.bucket;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.fillRect(b.x, b.y, b.w, b.h);
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(b.x, b.y, b.w, b.h);
+                
+                // Target color indicator in bucket
+                ctx.fillStyle = `rgb(${this.targetColor.r},${this.targetColor.g},${this.targetColor.b})`;
+                ctx.beginPath();
+                ctx.arc(b.x + b.w/2, b.y + b.h/2, 15, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Bucket fill level
+                if (this.particlesInBucket.length > 0) {
+                    const fillHeight = Math.min(this.particlesInBucket.length / 50, 1) * b.h * 0.8;
+                    const avg = { r: 0, g: 0, b: 0 };
+                    this.particlesInBucket.forEach(p => {
+                        avg.r += p.color.r;
+                        avg.g += p.color.g;
+                        avg.b += p.color.b;
+                    });
+                    avg.r /= this.particlesInBucket.length;
+                    avg.g /= this.particlesInBucket.length;
+                    avg.b /= this.particlesInBucket.length;
+                    
+                    ctx.fillStyle = `rgba(${avg.r},${avg.g},${avg.b},0.5)`;
+                    ctx.fillRect(b.x + 5, b.y + b.h - fillHeight - 5, b.w - 10, fillHeight);
+                }
+                
+                // Draw particles
+                this.particles.forEach(p => {
+                    if (p.life > 0) p.draw();
+                });
+                
+                // Gravity indicator
+                ctx.fillStyle = '#fff';
+                ctx.font = '14px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(this.gravity > 0 ? '↓ Gravity' : '↑ Gravity', 10, 30);
+                
+                // Particle count
+                ctx.fillText(`Particles: ${this.particles.length}`, 10, 50);
+                ctx.fillText(`In bucket: ${this.particlesInBucket.length}/30`, 10, 70);
+            }
+
+            loop() {
+                if (this.state === 'playing') {
+                    this.spawnParticles();
+                    this.particles.forEach(p => p.update(this.gravity));
+                    this.particles = this.particles.filter(p => p.life > 0);
+                    this.checkCollisions();
+                    this.updateStats();
+                }
+                
+                this.draw();
+                requestAnimationFrame(() => this.loop());
+            }
+        }
+
+        const game = new Game();
+    </script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Void Siphon - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #050508 0%, #0a0a15 50%, #151525 100%);
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 42px;
+            background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #888; font-size: 18px; font-style: italic; }
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(131, 56, 236, 0.2);
+            border: 1px solid #8338ec;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 15px;
+            color: #c084fc;
+        }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h2 {
+            font-size: 24px;
+            color: #ff006e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 0, 110, 0.3);
+        }
+        h3 {
+            font-size: 18px;
+            color: #8338ec;
+            margin: 20px 0 10px;
+        }
+        p { margin-bottom: 15px; color: #ccc; }
+        ul { margin-left: 20px; color: #ccc; }
+        li { margin-bottom: 8px; }
+        .highlight {
+            background: rgba(131, 56, 236, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #8338ec;
+            margin: 15px 0;
+        }
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .keyword {
+            background: rgba(255,0,110,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            color: #ff006e;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .kpi-card {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .kpi-value { font-size: 32px; font-weight: bold; color: #00ff88; }
+        .kpi-label { font-size: 12px; color: #888; text-transform: uppercase; margin-top: 5px; }
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .risk-card {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff006e;
+        }
+        .risk-card.mitigation { border-left-color: #00ff88; }
+        .risk-title { font-weight: bold; margin-bottom: 10px; }
+        .test-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .test-card {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .test-name { font-weight: bold; color: #ff006e; margin-bottom: 8px; }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        .nav-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff006e, #8338ec);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th { color: #8338ec; font-weight: 600; }
+        td { color: #ccc; }
+        .risk-meter {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        .risk-bar {
+            height: 20px;
+            background: linear-gradient(90deg, #00ff88, #ffff00, #ff006e);
+            border-radius: 10px;
+            position: relative;
+        }
+        .risk-zones {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚫ Void Siphon</h1>
+            <p class="subtitle">Risk/Reward Energy Extraction - Strategy Report</p>
+            <span class="badge">📅 April 14, 2026 Batch</span>
+            <br><br>
+            <a href="index.html" class="nav-btn">▶ Play Game</a>
+        </header>
+
+        <div class="section">
+            <h2>🎮 Game Concept & Hook</h2>
+            <div class="highlight">
+                <strong>One-Sentence Hook:</strong> "Press-your-luck energy extraction - siphon unstable voids for power, but one collapse destroys everything."
+            </div>
+            <p><strong>Core Concept:</strong> Void Siphon combines the psychological tension of gambling with strategic resource management. Players face unstable energy pockets that can be siphoned for power, but each extraction risks catastrophic collapse. The "bank" mechanic lets players secure progress, but greed (continuing to siphon) unlocks combo multipliers.</p>
+            <p><strong>Why It's Bold:</strong> This isn't just a "press your luck" game like Deal or No Deal. It adds strategic depth through:</p>
+            <ul>
+                <li>Multiple simultaneous risk targets (5-7 voids, any can collapse)</li>
+                <li>Combo multipliers reward consecutive plays</li>
+                <li>Visual risk feedback (stability rings, pulsing warnings)</li>
+                <li>Meaningful decisions every single click</li>
+            </ul>
+            <p><strong>Unique Selling Points:</strong></p>
+            <ul>
+                <li>Real risk visualization - see exactly how unstable each void is</li>
+                <li>Combo system rewards aggressive play while punishing greed</li>
+                <li>All-or-nothing tension - any collapse = total loss</li>
+                <li>Session length flexibility - bank early for safety or push for S rank</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Core Loop Explanation</h2>
+            <h3>The Greed Cycle</h3>
+            <div class="risk-meter">
+                <div class="risk-bar"></div>
+                <div class="risk-zones">
+                    <span style="color:#00ff88">SAFE (Bank)</span>
+                    <span style="color:#ffff00">RISKY (×2-3)</span>
+                    <span style="color:#ff8800">DANGER (×4-5)</span>
+                    <span style="color:#ff006e">DEATH</span>
+                </div>
+            </div>
+            <p><strong>1. Assess (1 second):</strong> Player sees 5-7 void pockets with varying energy and stability levels. Risk meter shows current danger.</p>
+            <p><strong>2. Decide (Continuous):</strong> Which void to siphon? Low stability = high risk but usually more energy. Safe voids = reliable but slower.</p>
+            <p><strong>3. Siphon (Click):</strong> Extract energy. Watch stability ring decrease. Feel the tension as RNG determines fate.</p>
+            <p><strong>4. React (Immediate):</strong> Success = energy gained + combo increased. Failure = total loss, game over.</p>
+            <p><strong>5. Evaluate (Every siphon):</strong> Bank now and secure gains? Or push for higher multiplier?</p>
+            <p><strong>6. Win/Lose (End state):</strong> Reach target energy = victory with S/A/B/C rank. Any collapse = lose all progress.</p>
+            
+            <div class="highlight">
+                <strong>Session Length:</strong> 2-10 minutes | <strong>Core Emotion:</strong> Tension, greed, relief, regret
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🏆 Scoring & Progression Systems</h2>
+            <h3>Rank System</h3>
+            <table>
+                <tr><th>Rank</th><th>Energy Required</th><th>Risk Profile</th><th>Badge</th></tr>
+                <tr><td>S</td><td>150% of target</td><td>High risk, max multiplier</td><td>Void Master</td></tr>
+                <tr><td>A</td><td>120% of target</td><td>Moderate-high risk</td><td>Risk Taker</td></tr>
+                <tr><td>B</td><td>Target reached</td><td>Balanced play</td><td>Survivor</td></tr>
+                <tr><td>C</td><td>Retreat with 50%+</td><td>Conservative</td><td>Cautious</td></tr>
+                <tr><td>F</td><td>Collapse or retreat early</td><td>Failed</td><td>Lost Soul</td></tr>
+            </table>
+            <h3>Combo Multiplier System</h3>
+            <table>
+                <tr><th>Consecutive Siphons</th><th>Multiplier</th><th>Risk</th></tr>
+                <tr><td>1-2</td><td>×1.0</td><td>Base</td></tr>
+                <tr><td>3-4</td><td>×1.5</td><td>+15% collapse chance</td></tr>
+                <tr><td>5-6</td><td>×2.5</td><td>+30% collapse chance</td></tr>
+                <tr><td>7+</td><td>×4.0</td><td>+50% collapse chance</td></tr>
+            </table>
+            <p>Banking resets combo but secures all current energy.</p>
+        </div>
+
+        <div class="section">
+            <h2>🔍 SEO/ASO/SEM Keywords & Strategy</h2>
+            <h3>Primary Keywords</h3>
+            <div class="keyword-list">
+                <span class="keyword">press your luck</span>
+                <span class="keyword">risk reward game</span>
+                <span class="keyword">gambling puzzle</span>
+                <span class="keyword">tension game</span>
+                <span class="keyword">resource management</span>
+                <span class="keyword">strategy browser game</span>
+                <span class="keyword"> Roguelike puzzle</span>
+                <span class="keyword">high stakes game</span>
+            </div>
+            <h3>Long-Tail Keywords</h3>
+            <div class="keyword-list">
+                <span class="keyword">games like deal or no deal</span>
+                <span class="keyword">push your luck mechanic</span>
+                <span class="keyword">risk management game online</span>
+                <span class="keyword">casino style puzzle game</span>
+                <span class="keyword">adrenaline rush browser game</span>
+            </div>
+            <h3>Content Strategy</h3>
+            <ul>
+                <li>YouTube: "I risked everything for S rank" tension compilations</li>
+                <li>Reddit: r/gambling, r/roguelikes, r/WebGames</li>
+                <li>TikTok: "This game made my heart race" reaction videos</li>
+                <li>ASO: Target "stress relief" (paradoxically) and "quick games"</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>👥 Target Audience</h2>
+            <table>
+                <tr><th>Segment</th><th>Age</th><th>Motivation</th><th>Channel</th></tr>
+                <tr><td>Risk Seekers</td><td>20-35</td><td>Thrill, near-miss excitement</td><td>Casino game forums</td></tr>
+                <tr><td>Roguelike Fans</td><td>18-30</td><td>High stakes, permadeath</td><td>r/roguelikes, Steam</td></tr>
+                <tr><td>Puzzle Strategy</td><td>25-45</td><td>Optimization, perfect runs</td><td>Puzzle game communities</td></tr>
+                <tr><td>Quick Session Players</td><td>18-35</td><td>5-minute adrenaline hit</td><td>Mobile browsers</td></tr>
+                <tr><td>ASMR/Tension Enjoyers</td><td>20-40</td><td>The "near miss" feeling</td><td>YouTube, TikTok</td></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>📊 KPIs to Track</h2>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">45%+</div>
+                    <div class="kpi-label">Bank Usage Rate</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">35%</div>
+                    <div class="kpi-label">Win Rate (Any Rank)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">8%</div>
+                    <div class="kpi-label">S Rank Rate</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">4.2</div>
+                    <div class="kpi-label">Avg Siphons Before Bank</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">3+</div>
+                    <div class="kpi-label">Avg Sessions Per User</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">65%</div>
+                    <div class="kpi-label">Retry Rate After Loss</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🧪 A/B Test Ideas</h2>
+            <div class="test-list">
+                <div class="test-card">
+                    <div class="test-name">Test A: Collapse Forgiveness</div>
+                    <p><strong>Variant A:</strong> Any collapse = lose everything<br><strong>Variant B:</strong> First collapse warnings only (3 strikes)<br><strong>Metric:</strong> Retention vs tension</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test B: Bank Penalty</div>
+                    <p><strong>Variant A:</strong> Bank is free<br><strong>Variant B:</strong> Bank costs 10% of energy<br><strong>Metric:</strong> Bank frequency, risk-taking</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test C: Visual Risk Feedback</div>
+                    <p><strong>Variant A:</strong> Stability rings (current)<br><strong>Variant B:</strong> Percentage numbers only<br><strong>Metric:</strong> Player comprehension, decisions</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test D: Combo Incentives</div>
+                    <p><strong>Variant A:</strong> ×4 max multiplier<br><strong>Variant B:</strong> ×10 max multiplier (higher highs)<br><strong>Metric:</strong> Greed behavior, session excitement</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test E: Target Energy</div>
+                    <p><strong>Variant A:</strong> 500 target<br><strong>Variant B:</strong> 350 target (easier win)<br><strong>Metric:</strong> Completion rate, satisfaction</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test F: Loss Recovery</div>
+                    <p><strong>Variant A:</strong> Start from 0<br><strong>Variant B:</strong> Keep 25% of banked energy after collapse<br><strong>Metric:</strong> Churn vs progress feeling</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💰 Monetization Potential</h2>
+            <h3>Revenue Streams (Ranked)</h3>
+            <table>
+                <tr><th>Model</th><th>Implementation</th><th>Potential</th></tr>
+                <tr><td>1. Continue Tokens</td><td>$0.99 to continue after collapse</td><td>High (emotion-driven purchases)</td></tr>
+                <tr><td>2. Boosters</td><td>+10% energy extraction, stability bonuses</td><td>Medium-High</td></tr>
+                <tr><td>3. Cosmetic Themes</td><td>Void visual packs (neon, fire, ice)</td><td>Medium</td></tr>
+                <tr><td>4. Premium Mode</td><td>$2.99 removes ads, unlocks hard mode</td><td>Medium</td></tr>
+                <tr><td>5. Energy Refill</td><td>Wait or pay to play again immediately</td><td>Low (frustrating)</td></tr>
+            </table>
+            <p><strong>Recommended:</strong> "Continue tokens" monetize the peak emotional moment (collapse). Players are most willing to pay when they lose a 20-siphon combo. Ethical considerations required - implement purchase limits to prevent exploitation.</p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Market Positioning</h2>
+            <h3>Competitive Landscape</h3>
+            <table>
+                <tr><th>Competitor</th><th>Strength</th><th>Our Differentiation</th></tr>
+                <tr><td>Deal or No Deal (games)</td><td>Press-your-luck TV format</td><td>Strategic choice of multiple targets</td></tr>
+                <tr><td>Slay the Spire</td><td>Risk/reward card choices</td><td>Real-time tension vs turn-based</td></tr>
+                <tr><td>Slots/Casino games</td><td>Pure RNG excitement</td><td>Skill + strategy layer</td></tr>
+                <tr><td>Despot's Game</td><td>Roguelike squad tactics</td><td>Solo resource extraction focus</td></tr>
+                <tr><td>Balatro</td><td>Deckbuilding poker</td><td>Simpler, more accessible core</td></tr>
+            </table>
+            <p><strong>Position:</strong> "The high-stakes strategy game for risk-lovers who want skill to matter."</p>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Risk Factors</h2>
+            <div class="risk-grid">
+                <div class="risk-card">
+                    <div class="risk-title">🔴 Ethical Concerns</div>
+                    <p>Gambling-adjacent mechanics could attract regulatory scrutiny or trigger addiction in vulnerable players.</p>
+                </div>
+                <div class="risk-card mitigation">
+                    <div class="risk-title">✅ Mitigation</div>
+                    <p>Implement session limits, "responsible gaming" warnings, no real-money prizes. Position as skill puzzle, not gambling.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-title">🔴 Frustration Churn</div>
+                    <p>Losing everything to RNG feels terrible. Players may quit after first collapse.</p>
+                </div>
+                <div class="risk-card mitigation">
+                    <div class="risk-title">✅ Mitigation</div>
+                    <p>"Ghost mode" where players can practice risk-free. Stats page showing "near misses" to encourage retry.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-title">🔴 Shallow Depth</div>
+                    <p>Core mechanic is simple. Extended play may feel repetitive.</p>
+                </div>
+                <div class="risk-card mitigation">
+                    <div class="risk-title">✅ Mitigation</div>
+                    <p>Special void types (explosive, regenerating, chained). Unlockable modifiers. Daily challenges.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-title">🔴 Balance Issues</div>
+                    <p>Too easy = boring. Too hard = rage quit. RNG can create impossible or trivial runs.</p>
+                </div>
+                <div class="risk-card mitigation">
+                    <div class="risk-title">✅ Mitigation</div>
+                    <p>Extensive playtesting for bell curve distribution. Ensure 90% of runs are winnable with perfect play.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>⚫ Void Siphon - Created April 14, 2026</p>
+            <p>Part of the Daily Game Factory Prototype Lab</p>
+            <a href="index.html" class="nav-btn">Play the Game</a>
+        </footer>
+    </div>
+</body>
+</html>

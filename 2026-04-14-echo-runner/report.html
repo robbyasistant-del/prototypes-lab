@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Runner - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0c0c1a 0%, #1a0b2e 50%, #2d0b4e 100%);
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 42px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,0,255,0.3);
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #a855f7; font-size: 18px; }
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid #a855f7;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 15px;
+            color: #c084fc;
+        }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h2 {
+            font-size: 24px;
+            color: #00ffff;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+        }
+        h3 {
+            font-size: 18px;
+            color: #ffff00;
+            margin: 20px 0 10px;
+        }
+        p { margin-bottom: 15px; color: #ccc; }
+        ul { margin-left: 20px; color: #ccc; }
+        li { margin-bottom: 8px; }
+        .highlight {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #00ffff;
+            margin: 15px 0;
+        }
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .keyword {
+            background: rgba(255,0,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            color: #ff00ff;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .kpi-card {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .kpi-value { font-size: 32px; font-weight: bold; color: #00ff88; }
+        .kpi-label { font-size: 12px; color: #888; text-transform: uppercase; margin-top: 5px; }
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .risk-card {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff006e;
+        }
+        .risk-card.mitigation { border-left-color: #00ff88; }
+        .risk-title { font-weight: bold; margin-bottom: 10px; }
+        .test-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .test-card {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .test-name { font-weight: bold; color: #ffff00; margin-bottom: 8px; }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        .nav-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff006e, #8338ec);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th { color: #ffff00; font-weight: 600; }
+        td { color: #ccc; }
+        .phase-diagram {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .phase-arrow {
+            font-size: 24px;
+            color: #00ffff;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏃 Echo Runner</h1>
+            <p class="subtitle">Temporal Platformer - Strategy Report</p>
+            <span class="badge">📅 April 14, 2026 Batch</span>
+            <br><br>
+            <a href="index.html" class="nav-btn">▶ Play Game</a>
+        </header>
+
+        <div class="section">
+            <h2>🎮 Game Concept & Hook</h2>
+            <div class="highlight">
+                <strong>One-Sentence Hook:</strong> "Race against your own ghosts - every run becomes part of the level in this 5-phase temporal platformer."
+            </div>
+            <p><strong>Core Concept:</strong> Echo Runner flips traditional platformer design on its head. Instead of memorizing a static level, players CREATE the level through their own actions. Each 10-second phase adds another "echo" of your previous run that becomes both platform and hazard.</p>
+            <p><strong>Why It's Bold:</strong> This is a fundamentally different type of platformer. Most games punish mistakes; Echo Runner weaponizes your past successes. The level designer is YOU, 10 seconds ago. This creates unique "player vs self" psychology.</p>
+            <p><strong>Unique Selling Points:</strong></p>
+            <ul>
+                <li>Procedural level generation based on player input (not algorithms)</li>
+                <li>Unique "player as level designer" mechanic</li>
+                <li>High-skill ceiling with emergent complexity</li>
+                <li>Spectator-friendly ghost racing creates content opportunities</li>
+                <li>Speedrun potential with infinite routing possibilities</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Core Loop Explanation</h2>
+            <h3>The 5-Phase Structure</h3>
+            <div class="phase-diagram">
+                <span style="color:#00ffff">PHASE 1</span> <span class="phase-arrow">→</span> 
+                <span style="color:#ff00ff">PHASE 2 (+1 ghost)</span> <span class="phase-arrow">→</span>
+                <span style="color:#ffff00">PHASE 3 (+2 ghosts)</span> <span class="phase-arrow">→</span>
+                <span style="color:#ff8800">PHASE 4 (+3 ghosts)</span> <span class="phase-arrow">→</span>
+                <span style="color:#00ff88">PHASE 5 (+4 ghosts)</span>
+            </div>
+            <p><strong>1. Record (Phase 1):</strong> Player has clean platform layout. Must reach exit in 10 seconds. This recording becomes Ghost 1.</p>
+            <p><strong>2. Echo 1 (Phase 2):</strong> Ghost 1 replays as solid platform/hazard. Player must use their own path while avoiding collisions.</p>
+            <p><strong>3. Echo 2-4 (Phases 3-5):</strong> Each phase adds another ghost. By Phase 5, screen is chaos of 4 overlapping player paths.</p>
+            <p><strong>4. Death & Retry:</strong> Hitting any ghost = instant death. R key restarts current phase. Deaths accumulate toward rank.</p>
+            <p><strong>5. Victory:</strong> Complete all 5 phases. Rank S/A/B/C based on total deaths (0/3/6/10+).</p>
+            
+            <div class="highlight">
+                <strong>Session Length:</strong> 2-5 minutes per level attempt | <strong>Skill Ceiling:</strong> Essentially infinite
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🏆 Scoring & Progression Systems</h2>
+            <h3>Rank System (Per Level)</h3>
+            <table>
+                <tr><th>Rank</th><th>Deaths Allowed</th><th>Color</th><th>Reward</th></tr>
+                <tr><td>S</td><td>0</td><td style="color:#ffd700">Gold</td><td>Perfect run badge</td></tr>
+                <tr><td>A</td><td>1-2</td><td style="color:#00ff88">Green</td><td>Skilled badge</td></tr>
+                <tr><td>B</td><td>3-5</td><td style="color:#00d2ff">Blue</td><td>Completed badge</td></tr>
+                <tr><td>C</td><td>6-9</td><td style="color:#ff6b6b">Red</td><td>Participation</td></tr>
+                <tr><td>F</td><td>10+</td><td style="color:#666">Gray</td><td>Try again</td></tr>
+            </table>
+            <h3>Level Progression</h3>
+            <table>
+                <tr><th>Level</th><th>Layout</th><th>Platform Gap</th><th>Difficulty</th></tr>
+                <tr><td>1 - Training Grounds</td><td>Wide platforms, forgiving gaps</td><td>Easy jumps</td><td>★★☆☆☆</td></tr>
+                <tr><td>2 - The Gauntlet</td><td>Staggered platforms, precise timing</td><td>Medium jumps</td><td>★★★☆☆</td></tr>
+                <tr><td>3 - Chaos Theory</td><td>Vertical/horizontal mix</td><td>Hard navigation</td><td>★★★★★</td></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🔍 SEO/ASO/SEM Keywords & Strategy</h2>
+            <h3>Primary Keywords</h3>
+            <div class="keyword-list">
+                <span class="keyword">platformer</span>
+                <span class="keyword">speedrun game</span>
+                <span class="keyword">ghost racing</span>
+                <span class="keyword">time trial</span>
+                <span class="keyword">hard platformer</span>
+                <span class="keyword">precision platformer</span>
+                <span class="keyword">indie platformer</span>
+                <span class="keyword">browser platformer</span>
+            </div>
+            <h3>Long-Tail Keywords</h3>
+            <div class="keyword-list">
+                <span class="keyword">games like super meat boy</span>
+                <span class="keyword">race against yourself game</span>
+                <span class="keyword">temporal puzzle platformer</span>
+                <span class="keyword">hard platformer no download</span>
+                <span class="keyword">ghost replay platformer</span>
+                <span class="keyword">twitch platformer games</span>
+            </div>
+            <h3>Content Marketing Strategy</h3>
+            <ul>
+                <li>Streamers: Target "rage game" streamers (requires skill, creates content)</li>
+                <li>YouTube: "How fast can YOU beat Echo Runner?" challenge videos</li>
+                <li>Speedrun.com: Submit for official speedrun categories</li>
+                <li>Reddit: r/speedrun, r/IndieGaming, r/WebGames</li>
+                <li>Twitter/X: Share best times, compete for S ranks</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>👥 Target Audience</h2>
+            <table>
+                <tr><th>Segment</th><th>Age</th><th>Motivation</th><th>Channel</th></tr>
+                <tr><td>Hardcore Platformer Fans</td><td>16-28</td><td>Skill expression, challenge</td><td>Discord, Speedrun communities</td></tr>
+                <tr><td>Speedrunners</td><td>18-30</td><td>Routing optimization, records</td><td>Speedrun.com, Twitch</td></tr>
+                <tr><td>Content Creators</td><td>20-35</td><td>Engaging stream content</td><td>YouTube, Twitch discovery</td></tr>
+                <tr><td>"Git Gud" Players</td><td>18-25</td><td>Mastery, bragging rights</td><td>Reddit, Twitter</td></tr>
+            </table>
+            <p><strong>NOT For:</strong> Casual players seeking relaxation. This game is intentionally hard.</p>
+        </div>
+
+        <div class="section">
+            <h2>📊 KPIs to Track</h2>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">30%+</div>
+                    <div class="kpi-label">Level 1 Phase 1 Completion</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">15%+</div>
+                    <div class="kpi-label">Full Level 1 Completion</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">8+</div>
+                    <div class="kpi-label">Average Deaths (Level 1)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">5+ min</div>
+                    <div class="kpi-label">Session Duration (Retry Loop)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">3%+</div>
+                    <div class="kpi-label">S Rank Achievement Rate</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">40%+</div>
+                    <div class="kpi-label">Return Rate (Same Day)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🧪 A/B Test Ideas</h2>
+            <div class="test-list">
+                <div class="test-card">
+                    <div class="test-name">Test A: Ghost Opacity</div>
+                    <p><strong>Variant A:</strong> 50% opacity (current)<br><strong>Variant B:</strong> 70% opacity for better visibility<br><strong>Metric:</strong> Deaths from "didn't see ghost"</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test B: Phase Timer</div>
+                    <p><strong>Variant A:</strong> 10 seconds<br><strong>Variant B:</strong> 12 seconds (more forgiving)<br><strong>Metric:</strong> Completion rate vs tension</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test C: Death Limit</div>
+                    <p><strong>Variant A:</strong> Unlimited retries per phase<br><strong>Variant B:</strong> Max 3 deaths per phase = full restart<br><strong>Metric:</strong> Session length, completion rate</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test D: Tutorial Depth</div>
+                    <p><strong>Variant A:</strong> Brief overlay<br><strong>Variant B:</strong> Interactive "ghost collision" tutorial<br><strong>Metric:</strong> Phase 1 completion, comprehension</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test E: Leaderboards</div>
+                    <p><strong>Variant A:</strong> No leaderboard<br><strong>Variant B:</strong> Global best times per level<br><strong>Metric:</strong> Return rate, competitive engagement</p>
+                </div>
+                <div class="test-card">
+                    <div class="test-name">Test F: Phase 5 Chaos</div>
+                    <p><strong>Variant A:</strong> 4 ghosts (current)<br><strong>Variant B:</strong> 3 ghosts (less overwhelming)<br><strong>Metric:</strong> Win rate, perceived difficulty</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💰 Monetization Potential</h2>
+            <h3>Revenue Streams (Ranked)</h3>
+            <table>
+                <tr><th>Model</th><th>Implementation</th><th>Potential</th></tr>
+                <tr><td>1. Premium Edition</td><td>$4.99 unlocks 10+ levels, ghost skins</td><td>High (core audience pays)</td></tr>
+                <tr><td>2. Level Packs</td><td>$1.99 per 5-level pack</td><td>Medium-High</td></tr>
+                <tr><td>3. Cosmetic Ghosts</td><td>$0.99 neon/rainbow ghost trails</td><td>Medium</td></tr>
+                <tr><td>4. Practice Mode</td><td>Watch ad for slow-mo practice</td><td>Low (interferes with flow)</td></tr>
+            </table>
+            <p><strong>Recommended:</strong> Free 3 levels as demo. Full game $4.99. Hardcore audience will pay for quality precision platformers (see: Celeste, Super Meat Boy sales).</p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Market Positioning</h2>
+            <h3>Competitive Landscape</h3>
+            <table>
+                <tr><th>Competitor</th><th>Strength</th><th>Our Differentiation</th></tr>
+                <tr><td>Celeste</td><td>Precision, story</td><td>Ghosts create level, not just challenge</td></tr>
+                <tr><td>Super Meat Boy</td><td>Brutal difficulty</td><td>Self-created difficulty curve</td></tr>
+                <tr><td>Trackmania</td><td>Ghost racing</td><td>Platformer instead of racing</td></tr>
+                <tr><td>Braid</td><td>Time manipulation</td><td>Recording vs rewinding</td></tr>
+                <tr><td>Speedrunners</td><td>Multiplayer racing</td><td>Solo vs self</td></tr>
+            </table>
+            <p><strong>Position:</strong> "The precision platformer where YOU are the level designer - every run builds the challenge."</p>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Risk Factors</h2>
+            <div class="risk-grid">
+                <div class="risk-card">
+                    <div class="risk-title">🔴 Skill Wall</div>
+                    <p>High difficulty may alienate 80%+ of players immediately. Most won't reach Phase 3.</p>
+                </div>
+                <div class="risk-card mitigation">
+                    <div class="risk-title">✅ Mitigation</div>
+                    <p>Add "Assist Mode" with slower ghosts or longer timers. Keep S rank for purists only.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-title">🔴 Impossible RNG</div>
+                    <p>A poorly-placed Phase 1 recording could make Phase 5 literally impossible.</p>
+                </div>
+                <div class="risk-card mitigation">
+                    <div class="risk-title">✅ Mitigation</div>
+                    <p>Level design must ensure ALL Phase 1 paths are completable with 4 ghosts. Extensive testing required.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-title">🔴 Content Starvation</div>
+                    <p>3 levels is 15-30 minutes for skilled players. Hardcores may complete and churn.</p>
+                </div>
+                <div class="risk-card mitigation">
+                    <div class="risk-title">✅ Mitigation</div>
+                    <p>Community level sharing would extend indefinitely. Leaderboards create replay value.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-title">🔴 Frustration Quitting</div>
+                    <p>Death on Phase 5 = restart Phase 5. Some ragequit on first failure.</p>
+                </div>
+                <div class="risk-card mitigation">
+                    <div class="risk-title">✅ Mitigation</div>
+                    <p>Consider checkpoint every 2 phases for accessibility mode. Optional for purists.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🏃 Echo Runner - Created April 14, 2026</p>
+            <p>Part of the Daily Game Factory Prototype Lab</p>
+            <a href="index.html" class="nav-btn">Play the Game</a>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚫ Void Siphon - Risk Everything for Power</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #050508 0%, #0a0a15 50%, #151525 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        h1 {
+            font-size: 38px;
+            margin-bottom: 5px;
+            text-align: center;
+            background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tagline { 
+            color: #888; 
+            margin-bottom: 10px; 
+            font-size: 14px;
+            font-style: italic;
+        }
+        .game-wrapper {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        canvas {
+            border: 3px solid #333;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(131, 56, 236, 0.3);
+            cursor: crosshair;
+        }
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 240px;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+        }
+        .card h3 {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        .energy-bar {
+            height: 30px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #333;
+        }
+        .energy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d26a, #00ff88, #ffff00, #ff006e);
+            transition: width 0.3s ease;
+            position: relative;
+        }
+        .energy-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3), transparent);
+        }
+        .energy-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 0 0 10px #000;
+        }
+        .target-bar {
+            margin-top: 10px;
+            height: 8px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 4px;
+            position: relative;
+        }
+        .target-marker {
+            position: absolute;
+            top: -6px;
+            width: 4px;
+            height: 20px;
+            background: #ffd700;
+            box-shadow: 0 0 10px #ffd700;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .stat-value.energy { color: #00ff88; }
+        .stat-value.combo { color: #ff006e; }
+        .stat-value.voids { color: #8338ec; }
+        .stat-label {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        .void-status {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .void-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        .void-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #333;
+            border: 2px solid #555;
+        }
+        .void-dot.active {
+            background: #8338ec;
+            border-color: #a855f7;
+            box-shadow: 0 0 10px #8338ec;
+        }
+        .void-dot.collapsed {
+            background: #333;
+            border-color: #ff006e;
+        }
+        .void-dot.safe {
+            background: #00d26a;
+            border-color: #00ff88;
+        }
+        .risk-meter {
+            margin-top: 10px;
+        }
+        .risk-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+        .risk-bar {
+            height: 8px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .risk-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #ffff00, #ff006e);
+            transition: width 0.3s;
+        }
+        .controls-help {
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        .controls-help kbd {
+            background: #222;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        .btn-bank {
+            background: linear-gradient(135deg, #00d26a, #00a854);
+            color: white;
+        }
+        .btn-retreat {
+            background: linear-gradient(135deg, #ff006e, #c41e3a);
+            color: white;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .instructions {
+            background: rgba(131, 56, 236, 0.15);
+            border: 1px solid #8338ec;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 12px;
+        }
+        .warning {
+            color: #ff006e;
+            font-weight: bold;
+        }
+        .tip {
+            color: #00d2ff;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .overlay.show { display: flex; }
+        .overlay-content {
+            text-align: center;
+            padding: 50px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid;
+            border-radius: 20px;
+            max-width: 400px;
+        }
+        .win-overlay .overlay-content { border-color: #00ff88; box-shadow: 0 0 60px rgba(0,255,136,0.3); }
+        .lose-overlay .overlay-content { border-color: #ff006e; box-shadow: 0 0 60px rgba(255,0,110,0.3); }
+        .overlay h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .overlay p { font-size: 16px; color: #aaa; margin-bottom: 25px; }
+        .rank-badge {
+            font-size: 72px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .multiplier-display {
+            font-size: 36px;
+            color: #ff006e;
+            font-weight: bold;
+            text-shadow: 0 0 20px #ff006e;
+            animation: pulse 0.5s ease;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .combo-chain {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .combo-link {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #333;
+        }
+        .combo-link.active {
+            background: #ff006e;
+            box-shadow: 0 0 10px #ff006e;
+        }
+    </style>
+</head>
+<body>
+    <h1>⚫ VOID SIPHON</h1>
+    <p class="tagline">"The void gives, but it also hungers..."</p>
+    
+    <div class="game-wrapper">
+        <canvas id="gameCanvas" width="600" height="500"></canvas>
+        
+        <div class="side-panel">
+            <div class="card">
+                <h3>⚡ Energy Banked</h3>
+                <div class="energy-bar">
+                    <div class="energy-fill" id="energyFill" style="width: 0%"></div>
+                    <div class="energy-text" id="energyText">0 / 1000</div>
+                </div>
+                <div class="target-bar">
+                    <div class="target-marker" id="targetMarker" style="left: 50%"></div>
+                </div>
+                <p style="font-size: 11px; color: #666; margin-top: 8px; text-align: center;">
+                    Target: <span id="targetDisplay">500</span> ⚡
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3>📊 Stats</h3>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value energy" id="currentEnergy">0</div>
+                        <div class="stat-label">Energy</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value combo" id="comboCount">×1</div>
+                        <div class="stat-label">Multiplier</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value voids" id="activeVoids">5</div>
+                        <div class="stat-label">Voids</div>
+                    </div>
+                </div>
+                <div class="risk-meter">
+                    <div class="risk-label">
+                        <span>Risk Level</span>
+                        <span id="riskText">LOW</span>
+                    </div>
+                    <div class="risk-bar">
+                        <div class="risk-fill" id="riskFill" style="width: 10%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🌀 Void Status</h3>
+                <div class="void-status" id="voidStatus"></div>
+            </div>
+            
+            <div class="card">
+                <h3>🎮 Controls</h3>
+                <div class="controls-help">
+                    <p><kbd>Click</kbd> Siphon void (risky!)</p>
+                    <p><kbd>Space</kbd> Bank energy</p>
+                    <p><kbd>R</kbd> Retreat / Give up</p>
+                </div>
+            </div>
+            
+            <div class="instructions" id="instructionBox">
+                <span class="warning">⚠️ WARNING:</span> Each siphon risks void collapse!<br><br>
+                <span class="tip">💡 TIP:</span> Bank energy to save progress.<br>
+                Combos multiply your gains!
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-bank" onclick="game.bankEnergy()">💰 BANK</button>
+                <button class="btn btn-retreat" onclick="game.retreat()">🏳️ RETREAT</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay win-overlay" id="winOverlay">
+        <div class="overlay-content">
+            <h2>⚡ VICTORY!</h2>
+            <p>You siphoned enough energy without destruction!</p>
+            <div class="rank-badge" id="winRank">S</div>
+            <p>Final Score: <span id="winScore"></span> ⚡</p>
+            <p style="font-size: 14px;">Combos: <span id="winCombos"></span> | Risks Taken: <span id="winRisks"></span></p>
+            <button class="btn btn-bank" onclick="game.restart()">Play Again ↻</button>
+        </div>
+    </div>
+
+    <div class="overlay lose-overlay" id="loseOverlay">
+        <div class="overlay-content">
+            <h2>💥 COLLAPSE!</h2>
+            <p id="loseReason">The void consumed everything...</p>
+            <div class="rank-badge" style="color: #ff006e;">F</div>
+            <p>You lost <span id="lostEnergy"></span> ⚡</p>
+            <button class="btn btn-retreat" onclick="game.restart()">Try Again ↻</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="startOverlay">
+        <div class="overlay-content" style="border-color: #8338ec;">
+            <h2>⚫ VOID SIPHON</h2>
+            <p style="font-size: 14px; line-height: 1.6;">
+                Extract energy from unstable void pockets.<br><br>
+                <strong>Each siphon has risk.</strong> The more you take, 
+                the higher the chance of collapse.<br><br>
+                <span style="color: #ff006e;">If ANY void collapses, you lose EVERYTHING.</span>
+            </p>
+            <div style="text-align: left; font-size: 13px; margin: 20px 0; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                <p>🖱️ <strong>Click voids</strong> to siphon energy</p>
+                <p>⌨️ <strong>SPACE</strong> to bank your current haul</p>
+                <p>💰 <strong>Reach target</strong> to win</p>
+                <p>⚡ <strong>Combos</strong> multiply rewards</p>
+            </div>
+            <button class="btn btn-bank" onclick="document.getElementById('startOverlay').classList.remove('show')">Enter the Void →</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        class VoidPocket {
+            constructor(x, y, radius) {
+                this.x = x;
+                this.y = y;
+                this.baseRadius = radius;
+                this.radius = radius;
+                this.energy = Math.floor(Math.random() * 30) + 20;
+                this.maxEnergy = this.energy;
+                this.stability = 100; // 0-100
+                this.active = true;
+                this.pulsePhase = Math.random() * Math.PI * 2;
+                this.color = { h: 260, s: 70, l: 50 };
+                this.siphonAnim = 0;
+            }
+
+            update() {
+                this.pulsePhase += 0.05;
+                this.radius = this.baseRadius + Math.sin(this.pulsePhase) * 3;
+                
+                if (this.siphonAnim > 0) {
+                    this.siphonAnim -= 0.05;
+                }
+
+                // Visual feedback based on stability
+                if (this.stability < 30) {
+                    this.color = { h: 0, s: 80, l: 50 }; // Red warning
+                } else if (this.stability < 60) {
+                    this.color = { h: 40, s: 80, l: 50 }; // Orange caution
+                } else {
+                    this.color = { h: 260, s: 70, l: 50 }; // Purple normal
+                }
+            }
+
+            siphon() {
+                if (!this.active || this.energy <= 0) return 0;
+                
+                this.siphonAnim = 1;
+                
+                // Calculate risk
+                const stabilityFactor = this.stability / 100;
+                const risk = 1 - stabilityFactor + (Math.random() * 0.3);
+                
+                if (risk > 0.85) {
+                    this.active = false;
+                    return 'collapse';
+                }
+                
+                // Reduce stability
+                this.stability -= Math.random() * 15 + 5;
+                
+                // Extract energy
+                const amount = Math.min(this.energy, Math.floor(Math.random() * 15) + 10);
+                this.energy -= amount;
+                
+                if (this.energy <= 0) {
+                    this.active = false;
+                }
+                
+                return amount;
+            }
+
+            draw() {
+                if (!this.active && this.stability <= 0) {
+                    // Collapsed - draw debris
+                    ctx.fillStyle = '#333';
+                    for (let i = 0; i < 5; i++) {
+                        const angle = (i / 5) * Math.PI * 2;
+                        const dist = this.baseRadius * 0.5;
+                        ctx.beginPath();
+                        ctx.arc(
+                            this.x + Math.cos(angle) * dist,
+                            this.y + Math.sin(angle) * dist,
+                            3, 0, Math.PI * 2
+                        );
+                        ctx.fill();
+                    }
+                    return;
+                }
+
+                const color = `hsl(${this.color.h}, ${this.color.s}%, ${this.color.l}%)`;
+                
+                // Glow
+                const gradient = ctx.createRadialGradient(
+                    this.x, this.y, 0,
+                    this.x, this.y, this.radius * 2
+                );
+                gradient.addColorStop(0, `hsla(${this.color.h}, ${this.color.s}%, ${this.color.l}%, 0.8)`);
+                gradient.addColorStop(0.5, `hsla(${this.color.h}, ${this.color.s}%, ${this.color.l}%, 0.3)`);
+                gradient.addColorStop(1, 'transparent');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Core
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Border
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Siphon animation
+                if (this.siphonAnim > 0) {
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius + (1 - this.siphonAnim) * 20, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // Energy indicator
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(this.energy, this.x, this.y + 4);
+
+                // Stability ring
+                if (this.active) {
+                    ctx.strokeStyle = `hsl(${this.stability * 1.2}, 100%, 50%)`;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(
+                        this.x, this.y, 
+                        this.radius + 6, 
+                        -Math.PI / 2, 
+                        -Math.PI / 2 + (this.stability / 100) * Math.PI * 2
+                    );
+                    ctx.stroke();
+                }
+            }
+
+            isPointInside(x, y) {
+                const dx = x - this.x;
+                const dy = y - this.y;
+                return Math.sqrt(dx * dx + dy * dy) < this.radius + 10;
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color, type = 'energy') {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 4;
+                this.vy = (Math.random() - 0.5) * 4;
+                this.life = 1;
+                this.color = color;
+                this.type = type;
+                this.size = Math.random() * 3 + 2;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= 0.02;
+                this.size *= 0.98;
+            }
+
+            draw() {
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        class Game {
+            constructor() {
+                this.voids = [];
+                this.particles = [];
+                this.bankedEnergy = 0;
+                this.currentEnergy = 0;
+                this.targetEnergy = 500;
+                this.combo = 0;
+                this.comboMultiplier = 1;
+                this.consecutiveSiphons = 0;
+                this.totalRisks = 0;
+                this.level = 1;
+                this.state = 'playing';
+                
+                this.setupLevel();
+                this.setupInput();
+                this.loop();
+            }
+
+            setupLevel() {
+                this.voids = [];
+                const voidCount = 5 + this.level;
+                
+                for (let i = 0; i < voidCount; i++) {
+                    let x, y, tooClose;
+                    let attempts = 0;
+                    do {
+                        x = Math.random() * (canvas.width - 100) + 50;
+                        y = Math.random() * (canvas.height - 100) + 50;
+                        tooClose = this.voids.some(v => {
+                            const dx = v.x - x;
+                            const dy = v.y - y;
+                            return Math.sqrt(dx * dx + dy * dy) < 80;
+                        });
+                        attempts++;
+                    } while (tooClose && attempts < 50);
+                    
+                    this.voids.push(new VoidPocket(x, y, Math.random() * 15 + 20));
+                }
+                
+                this.updateUI();
+            }
+
+            setupInput() {
+                canvas.addEventListener('click', (e) => {
+                    if (this.state !== 'playing') return;
+                    
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    this.voids.forEach(v => {
+                        if (v.isPointInside(x, y) && v.active) {
+                            this.siphon(v);
+                        }
+                    });
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.bankEnergy();
+                    }
+                    if (e.code === 'KeyR') {
+                        this.retreat();
+                    }
+                });
+            }
+
+            siphon(voidPocket) {
+                const result = voidPocket.siphon();
+                this.totalRisks++;
+                
+                if (result === 'collapse') {
+                    this.lose('A void collapsed!');
+                    return;
+                }
+                
+                // Add particles
+                for (let i = 0; i < 10; i++) {
+                    this.particles.push(new Particle(
+                        voidPocket.x, voidPocket.y,
+                        `hsl(${260 + Math.random() * 40}, 80%, 60%)`
+                    ));
+                }
+                
+                // Combo system
+                this.consecutiveSiphons++;
+                if (this.consecutiveSiphons >= 3) {
+                    this.comboMultiplier = Math.min(5, 1 + Math.floor(this.consecutiveSiphons / 3) * 0.5);
+                }
+                
+                // Calculate final energy with multiplier
+                const finalAmount = Math.floor(result * this.comboMultiplier);
+                this.currentEnergy += finalAmount;
+                this.combo++;
+                
+                // Show floating text
+                this.showFloatingText(`+${finalAmount}`, voidPocket.x, voidPocket.y - 30);
+                if (this.comboMultiplier > 1) {
+                    setTimeout(() => {
+                        this.showFloatingText(`×${this.comboMultiplier.toFixed(1)}!`, voidPocket.x, voidPocket.y - 50);
+                    }, 200);
+                }
+                
+                this.updateUI();
+                
+                // Check for all voids depleted
+                if (this.voids.every(v => !v.active || v.energy <= 0)) {
+                    if (this.bankedEnergy + this.currentEnergy >= this.targetEnergy) {
+                        this.win();
+                    } else {
+                        this.lose('All voids depleted before reaching target!');
+                    }
+                }
+            }
+
+            bankEnergy() {
+                if (this.currentEnergy > 0) {
+                    this.bankedEnergy += this.currentEnergy;
+                    
+                    // Visual feedback
+                    for (let i = 0; i < 20; i++) {
+                        this.particles.push(new Particle(
+                            canvas.width / 2, canvas.height / 2,
+                            '#00ff88', 'bank'
+                        ));
+                    }
+                    
+                    this.showFloatingText(`BANKED +${this.currentEnergy}!`, canvas.width/2, canvas.height/2);
+                    
+                    this.currentEnergy = 0;
+                    this.comboMultiplier = 1;
+                    this.consecutiveSiphons = 0;
+                    
+                    this.updateUI();
+                    
+                    // Check win condition
+                    if (this.bankedEnergy >= this.targetEnergy) {
+                        this.win();
+                    }
+                }
+            }
+
+            retreat() {
+                if (this.bankedEnergy >= this.targetEnergy * 0.5) {
+                    this.win(true); // Partial win
+                } else {
+                    this.lose('Retreated with insufficient energy!');
+                }
+            }
+
+            win(partial = false) {
+                this.state = 'won';
+                const total = this.bankedEnergy + this.currentEnergy;
+                const rank = total >= this.targetEnergy * 1.5 ? 'S' : 
+                           total >= this.targetEnergy * 1.2 ? 'A' :
+                           total >= this.targetEnergy ? 'B' : 'C';
+                
+                document.getElementById('winRank').textContent = rank;
+                document.getElementById('winRank').style.color = 
+                    rank === 'S' ? '#ffd700' : rank === 'A' ? '#00ff88' : 
+                    rank === 'B' ? '#00d2ff' : '#888';
+                document.getElementById('winScore').textContent = total;
+                document.getElementById('winCombos').textContent = this.combo;
+                document.getElementById('winRisks').textContent = this.totalRisks;
+                document.getElementById('winOverlay').classList.add('show');
+            }
+
+            lose(reason) {
+                this.state = 'lost';
+                document.getElementById('loseReason').textContent = reason;
+                document.getElementById('lostEnergy').textContent = this.bankedEnergy + this.currentEnergy;
+                document.getElementById('loseOverlay').classList.add('show');
+            }
+
+            restart() {
+                this.state = 'playing';
+                this.bankedEnergy = 0;
+                this.currentEnergy = 0;
+                this.combo = 0;
+                this.comboMultiplier = 1;
+                this.consecutiveSiphons = 0;
+                this.totalRisks = 0;
+                this.particles = [];
+                
+                document.getElementById('winOverlay').classList.remove('show');
+                document.getElementById('loseOverlay').classList.remove('show');
+                
+                this.setupLevel();
+            }
+
+            showFloatingText(text, x, y) {
+                // Simple floating text effect using particles
+                for (let i = 0; i < 5; i++) {
+                    this.particles.push(new Particle(x, y, '#fff', 'text'));
+                }
+            }
+
+            updateUI() {
+                const total = this.bankedEnergy + this.currentEnergy;
+                const percent = Math.min(100, (this.bankedEnergy / this.targetEnergy) * 100);
+                
+                document.getElementById('energyFill').style.width = percent + '%';
+                document.getElementById('energyText').textContent = `${this.bankedEnergy} / ${this.targetEnergy}`;
+                document.getElementById('targetDisplay').textContent = this.targetEnergy;
+                document.getElementById('targetMarker').style.left = '100%';
+                
+                document.getElementById('currentEnergy').textContent = this.currentEnergy;
+                document.getElementById('comboCount').textContent = `×${this.comboMultiplier.toFixed(1)}`;
+                document.getElementById('activeVoids').textContent = this.voids.filter(v => v.active).length;
+                
+                // Risk calculation
+                const activeVoids = this.voids.filter(v => v.active);
+                const avgStability = activeVoids.length > 0 
+                    ? activeVoids.reduce((a, v) => a + v.stability, 0) / activeVoids.length 
+                    : 0;
+                const riskPercent = 100 - avgStability;
+                
+                document.getElementById('riskFill').style.width = riskPercent + '%';
+                const riskText = riskPercent < 30 ? 'LOW' : riskPercent < 60 ? 'MODERATE' : riskPercent < 80 ? 'HIGH' : 'CRITICAL';
+                document.getElementById('riskText').textContent = riskText;
+                document.getElementById('riskText').style.color = 
+                    riskPercent < 30 ? '#00ff88' : riskPercent < 60 ? '#ffff00' : riskPercent < 80 ? '#ff8800' : '#ff006e';
+                
+                // Void status
+                const voidStatus = document.getElementById('voidStatus');
+                voidStatus.innerHTML = this.voids.map((v, i) => `
+                    <div class="void-item">
+                        <div class="void-dot ${!v.active ? 'collapsed' : v.stability < 30 ? 'active' : 'safe'}"></div>
+                        <span>Void ${i + 1}: ${v.active ? v.energy + '⚡' : 'COLLAPSED'} ${v.active ? `(${Math.floor(v.stability)}%)` : ''}</span>
+                    </div>
+                `).join('');
+            }
+
+            draw() {
+                // Background
+                ctx.fillStyle = '#050508';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Grid
+                ctx.strokeStyle = 'rgba(131, 56, 236, 0.08)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x < canvas.width; x += 40) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < canvas.height; y += 40) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+
+                // Voids
+                this.voids.forEach(v => v.draw());
+
+                // Particles
+                this.particles.forEach(p => p.update());
+                this.particles = this.particles.filter(p => p.life > 0);
+                this.particles.forEach(p => p.draw());
+
+                // Connecting lines between consecutive siphon targets
+                if (this.consecutiveSiphons > 0) {
+                    ctx.strokeStyle = `rgba(255, 0, 110, ${this.consecutiveSiphons * 0.1})`;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(canvas.width/2, canvas.height/2);
+                    this.voids.filter(v => v.active).forEach(v => {
+                        ctx.lineTo(v.x, v.y);
+                    });
+                    ctx.stroke();
+                }
+
+                // Current energy indicator floating
+                if (this.currentEnergy > 0) {
+                    ctx.fillStyle = 'rgba(255, 0, 110, 0.8)';
+                    ctx.font = 'bold 20px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`UNBANKED: ${this.currentEnergy}⚡`, canvas.width/2, 30);
+                    
+                    if (this.comboMultiplier > 1) {
+                        ctx.fillStyle = '#ff006e';
+                        ctx.font = 'bold 16px sans-serif';
+                        ctx.fillText(`COMBO ×${this.comboMultiplier.toFixed(1)}!`, canvas.width/2, 55);
+                    }
+                }
+            }
+
+            loop() {
+                this.voids.forEach(v => v.update());
+                this.draw();
+                requestAnimationFrame(() => this.loop());
+            }
+        }
+
+        const game = new Game();
+        document.getElementById('startOverlay').classList.add('show');
+    </script>
+</body>
+</html>

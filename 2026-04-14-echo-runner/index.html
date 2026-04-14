@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏃 Echo Runner - Your Past Creates The Level</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0c0c1a 0%, #1a0b2e 50%, #2d0b4e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 5px;
+            text-align: center;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,0,255,0.5);
+        }
+        .tagline { color: #a855f7; margin-bottom: 10px; font-size: 14px; }
+        .game-wrapper {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        canvas {
+            border: 3px solid #9333ea;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(147, 51, 234, 0.4);
+        }
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 220px;
+        }
+        .card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+        }
+        .card h3 {
+            font-size: 12px;
+            color: #c084fc;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .phase-tracker {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .phase {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            background: rgba(0,0,0,0.3);
+        }
+        .phase.active {
+            background: rgba(168, 85, 247, 0.3);
+            border: 1px solid #a855f7;
+        }
+        .phase.complete {
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid #00ff88;
+        }
+        .phase-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #555;
+        }
+        .phase.active .phase-dot { background: #a855f7; box-shadow: 0 0 10px #a855f7; }
+        .phase.complete .phase-dot { background: #00ff88; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ffff;
+        }
+        .stat-label {
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+        }
+        .controls-help {
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        .controls-help kbd {
+            background: #333;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .btn-record {
+            background: linear-gradient(135deg, #ff006e, #ff4d00);
+            color: white;
+        }
+        .btn-play {
+            background: linear-gradient(135deg, #00d26a, #00a854);
+            color: white;
+        }
+        .btn-reset {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .recording-indicator {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            background: rgba(255, 0, 110, 0.3);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .recording-indicator.active {
+            display: flex;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .rec-dot {
+            width: 12px;
+            height: 12px;
+            background: #ff006e;
+            border-radius: 50%;
+            animation: blink 0.5s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            transition: width 0.1s linear;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .overlay.show { display: flex; }
+        .overlay-content {
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(147,51,234,0.2), rgba(0,0,0,0.5));
+            border: 2px solid #9333ea;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(147, 51, 234, 0.5);
+        }
+        .overlay h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .overlay p { font-size: 18px; color: #aaa; margin-bottom: 30px; }
+        .rank {
+            font-size: 64px;
+            margin: 20px 0;
+        }
+        .ghost-count {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            color: #888;
+        }
+        .ghost-icon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        .instructions {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 11px;
+            text-align: center;
+        }
+        .tip {
+            color: #fbbf24;
+            font-style: italic;
+        }
+        .level-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏃 ECHO RUNNER</h1>
+    <p class="tagline">Your past runs become the level. Survive all 5 phases.</p>
+    
+    <span class="level-indicator">Level <span id="currentLevel">1</span> of 3</span>
+    
+    <div class="game-wrapper">
+        <canvas id="gameCanvas" width="700" height="450"></canvas>
+        
+        <div class="side-panel">
+            <div class="recording-indicator" id="recIndicator">
+                <div class="rec-dot"></div>
+                <span>RECORDING <span id="recTime">10.0</span>s</span>
+            </div>
+            
+            <div class="card">
+                <h3>📊 Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value" id="deaths">0</div>
+                        <div class="stat-label">Deaths</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="phaseNum">1</div>
+                        <div class="stat-label">Phase</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="phaseProgress" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>👻 Ghosts</h3>
+                <div class="ghost-count">
+                    <span>Active echoes:</span>
+                    <span id="ghostCount">0</span>/4
+                </div>
+                <p style="font-size: 11px; color: #888; margin-top: 8px;">
+                    Ghosts are solid platforms you must use!
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3>🎯 Phase Tracker</h3>
+                <div class="phase-tracker" id="phaseTracker">
+                    <div class="phase active" data-phase="1">
+                        <div class="phase-dot"></div>
+                        <span>Phase 1: Record</span>
+                    </div>
+                    <div class="phase" data-phase="2">
+                        <div class="phase-dot"></div>
+                        <span>Phase 2: Echo 1</span>
+                    </div>
+                    <div class="phase" data-phase="3">
+                        <div class="phase-dot"></div>
+                        <span>Phase 3: Echo 2</span>
+                    </div>
+                    <div class="phase" data-phase="4">
+                        <div class="phase-dot"></div>
+                        <span>Phase 4: Echo 3</span>
+                    </div>
+                    <div class="phase" data-phase="5">
+                        <div class="phase-dot"></div>
+                        <span>Phase 5: Final</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="instructions" id="instructionBox">
+                <strong>Your Goal:</strong> Reach the <span style="color:#00ff88">GREEN ZONE</span> in 10 seconds.<br><br>
+                <span class="tip">💡 Tip: Your ghosts become platforms!</span>
+            </div>
+            
+            <div class="card">
+                <h3>🎮 Controls</h3>
+                <div class="controls-help">
+                    <p><kbd>←</kbd> <kbd>→</kbd> Move</p>
+                    <p><kbd>↑</kbd> <kbd>Space</kbd> Jump</p>
+                    <p><kbd>R</kbd> Restart phase</p>
+                </div>
+            </div>
+            
+            <button class="btn btn-reset" onclick="game.restartPhase()">🔄 Restart Phase</button>
+            <button class="btn btn-reset" onclick="game.resetLevel()" style="margin-top:5px;">⏮ Reset Level</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="winOverlay">
+        <div class="overlay-content">
+            <h2>🎉 VICTORY!</h2>
+            <p>You mastered the echo!</p>
+            <div class="rank" id="winRank">S</div>
+            <p>Deaths: <span id="winDeaths"></span> | Time: <span id="winTime"></span>s</p>
+            <button class="btn btn-play" onclick="game.nextLevel()">Next Level →</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="loseOverlay">
+        <div class="overlay-content" style="border-color: #ff006e;">
+            <h2>💀 CRASHED</h2>
+            <p id="loseReason">Hit your own ghost!</p>
+            <button class="btn btn-record" onclick="game.restartPhase()">Try Again ↻</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="startOverlay">
+        <div class="overlay-content">
+            <h2>🏃 ECHO RUNNER</h2>
+            <p>Record your run, then race against your ghosts.<br>They become solid platforms AND hazards!</p>
+            <div style="text-align: left; font-size: 14px; margin: 20px 0;">
+                <p>🎯 <strong>Goal:</strong> Reach the green zone</p>
+                <p>⏱️ <strong>Time limit:</strong> 10 seconds per phase</p>
+                <p>👻 <strong>Ghosts:</strong> Your past runs become platforms</p>
+                <p>💀 <strong>Warning:</strong> Don't touch ghost bodies!</p>
+            </div>
+            <button class="btn btn-play" onclick="document.getElementById('startOverlay').classList.remove('show')">Start Running →</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        class Player {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = 0;
+                this.vy = 0;
+                this.width = 20;
+                this.height = 20;
+                this.grounded = false;
+                this.color = '#00ffff';
+                this.trail = [];
+            }
+
+            update(platforms, input) {
+                // Input
+                if (input.left) this.vx = -5;
+                else if (input.right) this.vx = 5;
+                else this.vx *= 0.8;
+
+                if (input.jump && this.grounded) {
+                    this.vy = -12;
+                    this.grounded = false;
+                }
+
+                // Physics
+                this.vy += 0.6;
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Trail
+                this.trail.push({ x: this.x, y: this.y });
+                if (this.trail.length > 20) this.trail.shift();
+
+                // Platform collisions
+                this.grounded = false;
+                platforms.forEach(p => {
+                    if (this.x + this.width > p.x && this.x < p.x + p.w &&
+                        this.y + this.height > p.y && this.y < p.y + p.h) {
+                        
+                        // Top collision
+                        if (this.vy > 0 && this.y + this.height - this.vy <= p.y) {
+                            this.y = p.y - this.height;
+                            this.vy = 0;
+                            this.grounded = true;
+                        }
+                        // Bottom collision
+                        else if (this.vy < 0 && this.y - this.vy >= p.y + p.h) {
+                            this.y = p.y + p.h;
+                            this.vy = 0;
+                        }
+                        // Side collisions
+                        else if (this.vx > 0) {
+                            this.x = p.x - this.width;
+                            this.vx = 0;
+                        }
+                        else if (this.vx < 0) {
+                            this.x = p.x + p.w;
+                            this.vx = 0;
+                        }
+                    }
+                });
+
+                // Bounds
+                if (this.x < 0) { this.x = 0; this.vx = 0; }
+                if (this.x > canvas.width - this.width) { this.x = canvas.width - this.width; this.vx = 0; }
+                if (this.y > canvas.height) {
+                    return 'fell'; // Death
+                }
+                return null;
+            }
+
+            draw() {
+                // Trail
+                this.trail.forEach((t, i) => {
+                    ctx.fillStyle = `rgba(0, 255, 255, ${i / 40})`;
+                    ctx.fillRect(t.x, t.y, this.width, this.height);
+                });
+
+                // Body
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(this.x, this.y, this.width, this.height);
+
+                // Eyes
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(this.x + 4, this.y + 4, 4, 4);
+                ctx.fillRect(this.x + 12, this.y + 4, 4, 4);
+            }
+        }
+
+        class Ghost {
+            constructor(recording, phase) {
+                this.recording = recording;
+                this.phase = phase;
+                this.frame = 0;
+                this.width = 18;
+                this.height = 18;
+                const colors = ['#ff00ff', '#ffff00', '#ff8800', '#00ff88'];
+                this.color = colors[(phase - 2) % colors.length];
+            }
+
+            update() {
+                if (this.frame < this.recording.length - 1) {
+                    this.frame++;
+                }
+            }
+
+            getPosition() {
+                if (this.frame < this.recording.length) {
+                    return this.recording[this.frame];
+                }
+                return this.recording[this.recording.length - 1];
+            }
+
+            draw() {
+                const pos = this.getPosition();
+                if (!pos) return;
+
+                // Ghost body
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.5 + (this.phase * 0.1);
+                ctx.fillRect(pos.x, pos.y, this.width, this.height);
+                ctx.globalAlpha = 1;
+
+                // Outline
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(pos.x, pos.y, this.width, this.height);
+
+                // Phase number
+                ctx.fillStyle = '#fff';
+                ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(this.phase - 1, pos.x + this.width/2, pos.y + 13);
+            }
+
+            checkCollision(player) {
+                const pos = this.getPosition();
+                if (!pos) return false;
+
+                return player.x < pos.x + this.width &&
+                       player.x + player.width > pos.x &&
+                       player.y < pos.y + this.height &&
+                       player.y + player.height > pos.y;
+            }
+        }
+
+        class Game {
+            constructor() {
+                this.levelIndex = 0;
+                this.phase = 1;
+                this.deaths = 0;
+                this.isRecording = false;
+                this.recording = [];
+                this.ghosts = [];
+                this.timeLeft = 10;
+                this.state = 'ready'; // ready, recording, playing, won, lost
+                
+                this.input = { left: false, right: false, jump: false };
+                
+                this.levels = [
+                    {
+                        start: { x: 50, y: 350 },
+                        goal: { x: 600, y: 100, w: 80, h: 60 },
+                        platforms: [
+                            { x: 0, y: 400, w: 200, h: 50 },
+                            { x: 250, y: 320, w: 100, h: 20 },
+                            { x: 400, y: 250, w: 100, h: 20 },
+                            { x: 550, y: 180, w: 150, h: 20 }
+                        ]
+                    },
+                    {
+                        start: { x: 30, y: 380 },
+                        goal: { x: 600, y: 80, w: 80, h: 60 },
+                        platforms: [
+                            { x: 0, y: 420, w: 150, h: 30 },
+                            { x: 200, y: 350, w: 60, h: 20 },
+                            { x: 320, y: 280, w: 60, h: 20 },
+                            { x: 440, y: 210, w: 60, h: 20 },
+                            { x: 560, y: 140, w: 140, h: 20 }
+                        ]
+                    },
+                    {
+                        start: { x: 30, y: 200 },
+                        goal: { x: 580, y: 200, w: 100, h: 60 },
+                        platforms: [
+                            { x: 0, y: 250, w: 100, h: 20 },
+                            { x: 150, y: 180, w: 50, h: 20 },
+                            { x: 250, y: 320, w: 50, h: 20 },
+                            { x: 350, y: 120, w: 50, h: 20 },
+                            { x: 450, y: 250, w: 50, h: 20 },
+                            { x: 550, y: 180, w: 150, h: 20 }
+                        ]
+                    }
+                ];
+
+                this.setupLevel();
+                this.setupInput();
+                this.startPhase();
+                this.loop();
+            }
+
+            setupLevel() {
+                const lvl = this.levels[this.levelIndex];
+                this.player = new Player(lvl.start.x, lvl.start.y);
+                this.platforms = [...lvl.platforms];
+                this.goal = lvl.goal;
+                this.phase = 1;
+                this.deaths = 0;
+                this.ghosts = [];
+                this.recording = [];
+                this.updateUI();
+            }
+
+            setupInput() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'ArrowLeft') this.input.left = true;
+                    if (e.code === 'ArrowRight') this.input.right = true;
+                    if (e.code === 'ArrowUp' || e.code === 'Space') {
+                        this.input.jump = true;
+                        e.preventDefault();
+                    }
+                    if (e.code === 'KeyR') this.restartPhase();
+                });
+
+                document.addEventListener('keyup', (e) => {
+                    if (e.code === 'ArrowLeft') this.input.left = false;
+                    if (e.code === 'ArrowRight') this.input.right = false;
+                    if (e.code === 'ArrowUp' || e.code === 'Space') this.input.jump = false;
+                });
+            }
+
+            startPhase() {
+                const lvl = this.levels[this.levelIndex];
+                this.player = new Player(lvl.start.x, lvl.start.y);
+                this.timeLeft = 10;
+                this.isRecording = this.phase === 1;
+                this.state = 'playing';
+                
+                if (this.isRecording) {
+                    this.recording = [];
+                }
+                
+                document.getElementById('recIndicator').classList.toggle('active', this.isRecording);
+                this.updateUI();
+            }
+
+            restartPhase() {
+                if (this.phase > 1) {
+                    this.deaths++;
+                }
+                this.startPhase();
+            }
+
+            resetLevel() {
+                this.phase = 1;
+                this.deaths = 0;
+                this.ghosts = [];
+                this.setupLevel();
+                this.startPhase();
+            }
+
+            nextLevel() {
+                this.levelIndex++;
+                if (this.levelIndex >= this.levels.length) {
+                    this.levelIndex = 0;
+                }
+                document.getElementById('winOverlay').classList.remove('show');
+                this.resetLevel();
+            }
+
+            update() {
+                if (this.state !== 'playing') return;
+
+                // Update ghosts
+                this.ghosts.forEach(g => g.update());
+
+                // Update player
+                const result = this.player.update([...this.platforms, ...this.getGhostPlatforms()], this.input);
+                
+                if (result === 'fell') {
+                    this.lose('Fell off the world!');
+                    return;
+                }
+
+                // Record if in phase 1
+                if (this.isRecording) {
+                    this.recording.push({ x: this.player.x, y: this.player.y });
+                }
+
+                // Check ghost collisions (hazard)
+                for (let ghost of this.ghosts) {
+                    if (ghost.checkCollision(this.player)) {
+                        this.lose('Hit your own ghost!');
+                        return;
+                    }
+                }
+
+                // Check goal
+                const g = this.goal;
+                if (this.player.x < g.x + g.w && this.player.x + this.player.width > g.x &&
+                    this.player.y < g.y + g.h && this.player.y + this.player.height > g.y) {
+                    this.completePhase();
+                    return;
+                }
+
+                // Timer
+                this.timeLeft -= 1/60;
+                if (this.timeLeft <= 0) {
+                    this.lose('Time ran out!');
+                    return;
+                }
+
+                this.updateUI();
+            }
+
+            getGhostPlatforms() {
+                return this.ghosts.map(g => {
+                    const pos = g.getPosition();
+                    return { x: pos.x, y: pos.y, w: g.width, h: g.height, isGhost: true };
+                });
+            }
+
+            completePhase() {
+                if (this.phase === 1) {
+                    // Create ghost from recording
+                    this.ghosts.push(new Ghost([...this.recording], 2));
+                }
+                
+                if (this.phase >= 5) {
+                    this.win();
+                    return;
+                }
+
+                this.phase++;
+                
+                // Add more ghosts for subsequent phases
+                if (this.phase > 2) {
+                    const prevGhost = this.ghosts[this.phase - 3];
+                    if (prevGhost) {
+                        this.ghosts.push(new Ghost([...prevGhost.recording], this.phase));
+                    }
+                }
+                
+                this.startPhase();
+            }
+
+            win() {
+                this.state = 'won';
+                const rank = this.deaths === 0 ? 'S' : this.deaths < 3 ? 'A' : this.deaths < 6 ? 'B' : 'C';
+                document.getElementById('winRank').textContent = rank;
+                document.getElementById('winRank').style.color = rank === 'S' ? '#ffd700' : rank === 'A' ? '#00ff88' : rank === 'B' ? '#00d2ff' : '#ff6b6b';
+                document.getElementById('winDeaths').textContent = this.deaths;
+                document.getElementById('winTime').textContent = (10 * 5).toFixed(1);
+                document.getElementById('winOverlay').classList.add('show');
+            }
+
+            lose(reason) {
+                this.state = 'lost';
+                document.getElementById('loseReason').textContent = reason;
+                document.getElementById('loseOverlay').classList.add('show');
+            }
+
+            updateUI() {
+                document.getElementById('currentLevel').textContent = this.levelIndex + 1;
+                document.getElementById('deaths').textContent = this.deaths;
+                document.getElementById('phaseNum').textContent = this.phase;
+                document.getElementById('ghostCount').textContent = this.ghosts.length;
+                document.getElementById('recTime').textContent = Math.max(0, this.timeLeft).toFixed(1);
+                document.getElementById('phaseProgress').style.width = ((10 - this.timeLeft) / 10 * 100) + '%';
+
+                // Update phase tracker
+                document.querySelectorAll('.phase').forEach((el, i) => {
+                    el.classList.remove('active', 'complete');
+                    if (i + 1 === this.phase) el.classList.add('active');
+                    else if (i + 1 < this.phase) el.classList.add('complete');
+                });
+            }
+
+            draw() {
+                // Background
+                ctx.fillStyle = '#0c0c1a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Grid pattern
+                ctx.strokeStyle = 'rgba(147, 51, 234, 0.1)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x < canvas.width; x += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < canvas.height; y += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+
+                // Goal
+                const g = this.goal;
+                ctx.fillStyle = 'rgba(0, 255, 136, 0.3)';
+                ctx.fillRect(g.x, g.y, g.w, g.h);
+                ctx.strokeStyle = '#00ff88';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(g.x, g.y, g.w, g.h);
+                ctx.fillStyle = '#00ff88';
+                ctx.font = '14px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('EXIT', g.x + g.w/2, g.y + g.h/2 + 5);
+
+                // Start zone
+                const s = this.levels[this.levelIndex].start;
+                ctx.fillStyle = 'rgba(0, 200, 255, 0.2)';
+                ctx.fillRect(s.x - 10, s.y - 10, 40, 40);
+                ctx.strokeStyle = '#00d2ff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(s.x - 10, s.y - 10, 40, 40);
+                ctx.fillStyle = '#00d2ff';
+                ctx.font = '12px sans-serif';
+                ctx.fillText('START', s.x + 10, s.y - 15);
+
+                // Platforms
+                this.platforms.forEach(p => {
+                    ctx.fillStyle = 'rgba(100, 100, 150, 0.8)';
+                    ctx.fillRect(p.x, p.y, p.w, p.h);
+                    ctx.strokeStyle = '#8888aa';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(p.x, p.y, p.w, p.h);
+                    
+                    // Pattern
+                    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                    for (let i = 5; i < p.w; i += 15) {
+                        ctx.fillRect(p.x + i, p.y + 2, 2, p.h - 4);
+                    }
+                });
+
+                // Ghosts (draw before player)
+                this.ghosts.forEach(g => g.draw());
+
+                // Player
+                if (this.state === 'playing' || this.state === 'ready') {
+                    this.player.draw();
+                }
+
+                // Timer bar at top
+                const barWidth = canvas.width * (this.timeLeft / 10);
+                ctx.fillStyle = `hsl(${this.timeLeft * 12}, 100%, 50%)`;
+                ctx.fillRect(0, 0, barWidth, 5);
+                
+                // Phase indicator
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 16px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(`Phase ${this.phase}/5`, 10, 25);
+            }
+
+            loop() {
+                this.update();
+                this.draw();
+                requestAnimationFrame(() => this.loop());
+            }
+        }
+
+        const game = new Game();
+        document.getElementById('startOverlay').classList.add('show');
+    </script>
+</body>
+</html>

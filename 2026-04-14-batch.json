@@ -1,0 +1,52 @@
+{
+  "nodes": [
+    {
+      "type": "ai-create-game",
+      "id": "game1",
+      "data": {
+        "name": "Color Cascade",
+        "emoji": "🎨",
+        "concept": "Physics-based color mixing puzzle. Paint flows, mixes, and creates new colors. You control gravity and barriers to guide the flow. Each level has a target color to create by mixing primary colors.",
+        "mechanic": "Gravity + Color Mixing Physics",
+        "hook": "Paint flows like liquid, mixes realistically, and you engineer the solution",
+        "controls": "Click to toggle barriers. Space to flip gravity. R to restart.",
+        "scoring": "Stars based on moves + time. Perfect solutions unlock bonus levels.",
+        "winCondition": "Create the target color in the collection bucket",
+        "loseCondition": "Wrong color reaches bucket or paint escapes",
+        "folder": "2026-04-14-color-cascade"
+      }
+    },
+    {
+      "type": "ai-create-game", 
+      "id": "game2",
+      "data": {
+        "name": "Echo Runner",
+        "emoji": "🏃",
+        "concept": "Temporal platformer where your past runs become the level. Record a 10-second run, then your ghost replays it as solid platforms/hazards. 5 phases per level, each adding another ghost.",
+        "mechanic": "Ghost Recording + Multi-Phase Platforming",
+        "hook": "You are building the level AND beating it simultaneously",
+        "controls": "Arrow keys to move/jump. Space to start recording. Must survive 10 seconds.",
+        "scoring": "Time to complete all 5 phases. Fewer deaths = higher rank.",
+        "winCondition": "Complete all 5 phases reaching the exit",
+        "loseCondition": "Die 10 times or hit a ghost hazard",
+        "folder": "2026-04-14-echo-runner"
+      }
+    },
+    {
+      "type": "ai-create-game",
+      "id": "game3", 
+      "data": {
+        "name": "Void Siphon",
+        "emoji": "⚫",
+        "concept": "Risk/reward energy extraction puzzle. Void pockets contain energy. Siphon it by clicking, but each siphon risks collapse. Balance greed vs survival. Energy powers your base.",
+        "mechanic": "Press-your-luck + Resource Management",
+        "hook": "The more you take, the higher the risk. But you NEED that energy.",
+        "controls": "Click void pockets to siphon. Space to bank energy. R to retreat.",
+        "scoring": "Total energy banked. Combo multipliers for consecutive successful siphons.",
+        "winCondition": "Reach target energy without collapsing a void",
+        "loseCondition": "Any void collapses = immediate game over",
+        "folder": "2026-04-14-void-siphon"
+      }
+    }
+  ]
+}

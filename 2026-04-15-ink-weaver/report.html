@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ink Weaver - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 42px;
+            background: linear-gradient(90deg, #e94560, #ff6b9d, #c44569);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .tagline { color: #888; font-size: 18px; }
+        h2 {
+            color: #e94560;
+            font-size: 28px;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(233, 69, 96, 0.3);
+        }
+        h3 {
+            color: #ffe66d;
+            font-size: 20px;
+            margin: 25px 0 15px;
+        }
+        .section {
+            background: rgba(255,255,255,0.03);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2), rgba(255, 107, 157, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #e94560;
+            margin: 20px 0;
+        }
+        .risk-box {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #ff6b6b;
+            margin: 20px 0;
+        }
+        .keyword-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(233, 69, 96, 0.2);
+            border-radius: 15px;
+            font-size: 13px;
+            margin: 5px;
+            color: #ff6b9d;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .metric:last-child { border-bottom: none; }
+        .metric-label { color: #888; }
+        .metric-value { color: #e94560; font-weight: bold; }
+        ul { padding-left: 20px; }
+        li { margin: 10px 0; color: #ccc; }
+        .ab-test {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .ab-test strong { color: #ffe66d; }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #e94560, #c44569);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .ink-type-demo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 5px;
+        }
+        .ink-type-demo .icon { font-size: 24px; }
+        .ink-type-demo .name { font-size: 14px; color: #aaa; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 INK WEAVER</h1>
+            <p class="tagline">Strategic Analysis & Market Positioning Report</p>
+            <a href="index.html" class="back-btn">▶ PLAY GAME</a>
+        </header>
+        
+        <div class="section">
+            <h2>🎯 Core Loop Explanation</h2>
+            <div class="highlight-box">
+                <strong>The Creative Physics Hook:</strong> Players draw shapes that transform into physics objects (platforms, bouncy balls, float orbs, gears) to solve physics puzzles. The core loop combines creativity with iterative problem-solving.
+            </div>
+            <h3>Loop Breakdown:</h3>
+            <ul>
+                <li><strong>Assessment Phase:</strong> Analyze level layout - orb start, star goal, obstacles</li>
+                <li><strong>Design Phase:</strong> Select ink type and draw solution path</li>
+                <li><strong>Test Phase:</strong> Activate physics simulation to test creation</li>
+                <li><strong>Iterate Phase:</strong> Observe failure points, clear and redesign</li>
+                <li><strong>Success Phase:</strong> Orb reaches star, earn stars based on efficiency</li>
+                <li><strong>Progression:</strong> Unlock new ink types, face complex multi-tool challenges</li>
+            </ul>
+            
+            <h3>Ink Types & Mechanics:</h3>
+            <div>
+                <span class="ink-type-demo"><span class="icon">⬛</span><span class="name">Solid Ink - Static platforms</span></span>
+                <span class="ink-type-demo"><span class="icon">🏐</span><span class="name">Bouncy Balls - High elasticity</span></span>
+                <span class="ink-type-demo"><span class="icon">🎈</span><span class="name">Float Orbs - Upward buoyancy</span></span>
+                <span class="ink-type-demo"><span class="icon">⚙️</span><span class="name">Gear Wheels - Rotating pushers</span></span>
+            </div>
+            
+            <h3>Engagement Mechanics:</h3>
+            <ul>
+                <li><strong>Multiple Solutions:</strong> Every level has infinite possible solutions</li>
+                <li><strong>Efficiency Scoring:</strong> Stars based on ink used + attempts (speedrun potential)</li>
+                <li><strong>Creative Expression:</strong> Players can draw artistic solutions, not just functional</li>
+                <li><strong>Low Friction Retry:</strong> One-click reset, instant physics toggle</li>
+                <li><strong>Gradual Complexity:</strong> 8 levels introducing tools progressively</li>
+                <li><strong>Satisfying Physics:</strong> Realistic collisions, bounces, and momentum</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>💰 Monetization Strategy</h2>
+            
+            <h3>Premium Game Model ($3.99):</h3>
+            <div class="highlight-box">
+                <strong>Primary Strategy: Premium App</strong>
+                <p>Position as a "creative puzzle experience" rather than casual F2P. Lower volume, higher quality perception.</p>
+            </div>
+            <ul>
+                <li><strong>Base Game:</strong> 8 core levels + level editor</li>
+                <li><strong>DLC Level Packs:</strong> $0.99 per 10-level themed pack</li>
+                <li><strong>Cosmetic Ink Skins:</strong> Neon, Gold, Rainbow, Galaxy themes ($0.99 each)</li>
+            </ul>
+            
+            <h3>Alternative F2P Model:</h3>
+            <ul>
+                <li><strong>Ink Refill System:</strong> Soft energy mechanic (refills over time)</li>
+                <li><strong>Rewarded Ads:</strong> +50% ink for watching video</li>
+                <li><strong>Hint System:</strong> First 3 free, then rewarded ad or $0.99 hint pack</li>
+                <li><strong>Premium Remove Ads:</strong> $2.99 unlimited ink + no ads</li>
+                <li><strong>Season Pass:</strong> $4.99 new levels monthly + exclusive ink themes</li>
+            </ul>
+            
+            <h3>UGC Monetization:</h3>
+            <ul>
+                <li><strong>Level Store:</strong> Community-created levels (revenue share with creators)</li>
+                <li><strong>Daily Challenges:</strong> Curated community levels with leaderboard</li>
+                <li><strong>Featured Creator Program:</strong> Payment for high-quality level designers</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🔍 ASO/SEO Keywords</h2>
+            
+            <h3>Primary Keywords:</h3>
+            <div>
+                <span class="keyword-tag">physics puzzle</span>
+                <span class="keyword-tag">drawing game</span>
+                <span class="keyword-tag">creative puzzle</span>
+                <span class="keyword-tag">line rider</span>
+                <span class="keyword-tag">physics simulation</span>
+                <span class="keyword-tag">puzzle sandbox</span>
+            </div>
+            
+            <h3>Secondary Keywords:</h3>
+            <div>
+                <span class="keyword-tag">draw to solve</span>
+                <span class="keyword-tag">ink physics</span>
+                <span class="keyword-tag">ball puzzle</span>
+                <span class="keyword-tag">bridge builder</span>
+                <span class="keyword-tag">contraption maker</span>
+                <span class="keyword-tag">ragdoll physics</span>
+            </div>
+            
+            <h3>Long-tail Keywords:</h3>
+            <div>
+                <span class="keyword-tag">games where you draw the path</span>
+                <span class="keyword-tag">physics drawing puzzle games</span>
+                <span class="keyword-tag">creative problem solving games</span>
+                <span class="keyword-tag">games like crayon physics</span>
+                <span class="keyword-tag">draw your own level games</span>
+            </div>
+            
+            <h3>App Store Description:</h3>
+            <p style="color: #ccc; font-style: italic; margin-top: 15px;">
+                "Draw magic ink that becomes REAL physics objects! Create platforms, bouncy balls, floating orbs, and spinning gears to guide the mystical orb to its destination. Every puzzle has infinite solutions - how will YOU solve it?"
+            </p>
+        </div>
+        
+        <div class="section">
+            <h2>👥 Target Audience</h2>
+            
+            <h3>Primary Demographics:</h3>
+            <ul>
+                <li><strong>Age:</strong> 16-40 (creative problem-solvers)</li>
+                <li><strong>Gender:</strong> 50/50 split (creative tools appeal broadly)</li>
+                <li><strong>Education:</strong> STEM students, engineers, designers</li>
+                <li><strong>Platform:</strong> iPad/tablet preferred (better drawing), mobile secondary</li>
+            </ul>
+            
+            <h3>Psychographic Segments:</h3>
+            <ul>
+                <li><strong>The Engineer:</strong> Optimizes solutions, seeks elegant minimal designs</li>
+                <li><strong>The Artist:</strong> Values creative expression, draws elaborate solutions</li>
+                <li><strong>The Experimenter:</strong> Likes to "break" the physics, find edge cases</li>
+                <li><strong>The Speedrunner:</strong> Competes on efficiency metrics, posts solutions</li>
+                <li><strong>The Casual Creator:</strong> Enjoys sandbox mode, shares pretty drawings</li>
+            </ul>
+            
+            <h3>Competitor Crossover Audiences:</h3>
+            <ul>
+                <li>Line Rider, Crayon Physics, World of Goo players</li>
+                <li>Bridge Constructor, Poly Bridge engineering fans</li>
+                <li>Procreate, Concepts creative app users</li>
+                <li>Portal, Baba Is You puzzle enthusiasts</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📊 KPIs to Track</h2>
+            
+            <div class="metric">
+                <span class="metric-label">Level 1 Completion Rate</span>
+                <span class="metric-value">Target: 85%+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Level 4 Completion Rate</span>
+                <span class="metric-value">Target: 45%+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Game Completion (All Levels)</span>
+                <span class="metric-value">Target: 15%+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Average Attempts per Level</span>
+                <span class="metric-value">Target: 3-7 (sweet spot for engagement)</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Session Length</span>
+                <span class="metric-value">Target: 15-25 minutes</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Return Next Day (D1)</span>
+                <span class="metric-value">Target: 35%+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Level Editor Usage</span>
+                <span class="metric-value">Target: 20%+ of players</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Social Sharing Rate</span>
+                <span class="metric-value">Target: 5%+ share solutions</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Premium Conversion</span>
+                <span class="metric-value">Target: 3-5% (if F2P model)</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Reviews per Download</span>
+                <span class="metric-value">Target: 8%+</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🧪 A/B Test Ideas</h2>
+            
+            <div class="ab-test">
+                <strong>Test 1: Tool Introduction</strong>
+                <p>A) All tools available from start | B) Gradual unlock (current) | C) Tutorial gates per tool</p>
+                <p><em>Hypothesis: Gradual unlock increases level completion but may frustrate experienced players</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 2: Ink Limit</strong>
+                <p>A) Unlimited ink | B) Current 100% meter | C) Per-tool separate meters</p>
+                <p><em>Hypothesis: Unlimited ink increases creative satisfaction but reduces strategic depth</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 3: Success Feedback</strong>
+                <p>A) Star rating | B) Time/ink efficiency score | C) Community percentile ranking</p>
+                <p><em>Hypothesis: Percentile ranking drives competitive replay more than stars</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 4: Hint System</strong>
+                <p>A) No hints | B) Static solution image | C) Animated hint showing one possible solution</p>
+                <p><em>Hypothesis: Animated hints reduce churn at difficult levels by 40%</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 5: Physics Speed</strong>
+                <p>A) Current 1x speed | B) 1.5x for faster iteration | C) Slow-mo option</p>
+                <p><em>Hypothesis: Speed toggle increases session length for power users</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 6: Community Features</strong>
+                <p>A) No sharing | B) Screenshot share | C) Replay video + solution gallery</p>
+                <p><em>Hypothesis: Replay video drives viral growth through "impossible solution" shares</em></p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risk Assessment</h2>
+            
+            <div class="risk-box">
+                <strong>HIGH RISK: Input Precision on Mobile</strong>
+                <p>Drawing physics requires precision that may frustrate mobile users with fat fingers.</p>
+                <p><strong>Mitigation:</strong> Implement line smoothing, undo (3 levels), zoom/pan mode. Market primarily to tablet users. Desktop web version for precision.</p>
+            </div>
+            
+            <div class="risk-box">
+                <strong>MEDIUM RISK: Solution Frustration</strong>
+                <p>Players may get stuck and quit without hints. Open-ended puzzles can cause analysis paralysis.</p>
+                <p><strong>Mitigation:</strong> Optional hint system after 3 failed attempts. "Show Community Solutions" button. Skip level (with star penalty).</p>
+            </div>
+            
+            <div class="risk-box">
+                <strong>MEDIUM RISK: Physics Simulation Inconsistency</strong>
+                <p>Floating point physics can cause "lucky" solutions that work inconsistently, frustrating players.</p>
+                <p><strong>Mitigation:</strong> Deterministic physics engine (fixed timestep). Replay validation. "Verified Solution" badge for consistent solves.</p>
+            </div>
+            
+            <div class="risk-box">
+                <strong>LOW RISK: Content Saturation</strong>
+                <p>8 levels may feel short, though UGC extends content infinitely.</p>
+                <p><strong>Mitigation:</strong> Level editor unlocks at level 5. Daily challenges. Community level curation. Plan 20+ official levels at launch.</p>
+            </div>
+            
+            <div class="risk-box">
+                <strong>LOW RISK: Cloning by Competitors</strong>
+                <p>Simple mechanic is easy to clone, limited moat.</p>
+                <p><strong>Mitigation:</strong> Build brand through art style (unique ink aesthetic). Community features create network effect. Continuous content updates.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Launch Recommendations</h2>
+            
+            <h3>Platform Priority:</h3>
+            <ul>
+                <li><strong>Primary:</strong> iOS (iPad first) - Premium market, better monetization</li>
+                <li><strong>Secondary:</strong> Android tablets - Volume play, emerging markets</li>
+                <li><strong>Tertiary:</strong> Steam/Web - Core audience, content creators</li>
+            </ul>
+            
+            <h3>Launch Marketing Angles:</h3>
+            <ul>
+                <li>"The drawing game where your art comes ALIVE"</li>
+                <li>"Every puzzle has infinite solutions - find YOURS"</li>
+                <li>"Engineering meets art - the physics sandbox for creative minds"</li>
+                <li>Influencer seeding: Send to puzzle YouTubers (Game Maker's Toolkit, puzzle specialists)</li>
+                <li>Reddit communities: r/physicsgames, r/puzzlegames, r/iosgaming</li>
+            </ul>
+            
+            <h3>Post-Launch Content Roadmap:</h3>
+            <ul>
+                <li><strong>Week 2:</strong> Level editor + sharing (UGC launch)</li>
+                <li><strong>Month 1:</strong> 10 new community-featured levels, first tournament</li>
+                <li><strong>Month 2:</strong> New ink type ("Magnet Ink"), Season 1 Battle Pass</li>
+                <li><strong>Month 3:</strong> Multiplayer race mode (solve same puzzle fastest)</li>
+                <li><strong>Month 4:</strong> Nintendo Switch port with touch + controller support</li>
+            </ul>
+            
+            <h3>Premium Partnership Opportunities:</h3>
+            <ul>
+                <li>Procreate: "Export to Ink Weaver" integration</li>
+                <li>Education market: STEM classroom licenses</li>
+                <li>Apple Arcade: Perfect fit for creative puzzle category</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>📊 Generated by Prototype Factory | April 15, 2026 Batch</p>
+            <p style="margin-top: 10px; font-size: 12px;">Confidential - Internal Use Only</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Forge - Letter Alchemy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #2d1b4e 0%, #1a0f2e 50%, #0d0518 100%);
+            color: #f4e4c1;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Instructions overlay */
+        #instructions {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #2d1b4e 0%, #1a0f2e 50%, #0d0518 100%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+        #instructions h1 {
+            font-size: 56px;
+            background: linear-gradient(90deg, #ffd700, #ff8c00, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-family: 'Georgia', serif;
+        }
+        #instructions .subtitle {
+            font-size: 24px;
+            color: #a08060;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        #instructions .how-to {
+            font-size: 18px;
+            color: #c0a080;
+            max-width: 700px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        #instructions .how-to span { 
+            color: #ffd700; 
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        .rune-demo {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 32px;
+        }
+        #start-btn {
+            padding: 20px 60px;
+            font-size: 24px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border: 3px solid #b8860b;
+            border-radius: 10px;
+            color: #2d1b4e;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s;
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4);
+        }
+        #start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 215, 0, 0.6);
+        }
+        
+        /* Game UI */
+        #game-ui {
+            width: 100%;
+            max-width: 1000px;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 2px solid #ffd700;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 10px 20px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        .stat-label { 
+            font-size: 11px; 
+            color: #a08060; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .stat-value { 
+            font-size: 26px; 
+            font-weight: bold; 
+            color: #ffd700;
+            font-family: 'Georgia', serif;
+        }
+        
+        /* Game Container */
+        #game-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        /* Challenge Display */
+        #challenge-area {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(139,69,19,0.1));
+            border: 2px solid #b8860b;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #challenge-title {
+            font-size: 18px;
+            color: #a08060;
+            margin-bottom: 10px;
+        }
+        #challenge-description {
+            font-size: 24px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+        #challenge-enemy {
+            font-size: 48px;
+            margin: 15px 0;
+        }
+        #enemy-health {
+            width: 100%;
+            height: 20px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        #enemy-health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4444, #ff6666);
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+        
+        /* Forge Area */
+        #forge-area {
+            width: 100%;
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid #8b4513;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        #forge-label {
+            font-size: 14px;
+            color: #a08060;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+        #forge-word {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            min-height: 80px;
+            flex-wrap: wrap;
+        }
+        .forge-letter {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #3d2817, #2a1a0f);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffd700;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .forge-letter:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        .forge-letter::after {
+            content: '✕';
+            position: absolute;
+            top: 2px;
+            right: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .forge-letter:hover::after { opacity: 0.5; }
+        
+        /* Forge Result */
+        #forge-result {
+            text-align: center;
+            margin-top: 20px;
+            min-height: 60px;
+        }
+        #spell-name {
+            font-size: 28px;
+            color: #ff6b35;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+        }
+        #spell-effect {
+            font-size: 16px;
+            color: #a08060;
+            margin-top: 5px;
+        }
+        
+        /* Action Buttons */
+        #forge-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .forge-btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: 2px solid;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s;
+        }
+        #cast-btn {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            border-color: #ff6b35;
+            color: #fff;
+        }
+        #cast-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.6);
+        }
+        #clear-forge-btn {
+            background: rgba(255,255,255,0.1);
+            border-color: #8b4513;
+            color: #c0a080;
+        }
+        .forge-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Rune Pool */
+        #rune-pool {
+            width: 100%;
+            padding: 20px;
+            background: rgba(139,69,19,0.2);
+            border: 2px solid #8b4513;
+            border-radius: 15px;
+        }
+        #rune-label {
+            font-size: 14px;
+            color: #a08060;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+        #runes-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .rune {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4a3728, #3d2817);
+            border: 2px solid #a08060;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #f4e4c1;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-shadow: 0 0 5px rgba(244, 228, 193, 0.3);
+        }
+        .rune:hover {
+            transform: translateY(-5px);
+            border-color: #ffd700;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+        }
+        .rune.common { border-color: #a08060; }
+        .rune.uncommon { border-color: #4ecdc4; box-shadow: 0 0 10px rgba(78, 205, 196, 0.3); }
+        .rune.rare { border-color: #9b59b6; box-shadow: 0 0 15px rgba(155, 89, 182, 0.4); }
+        .rune.legendary { border-color: #ffd700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+        
+        /* Combo Display */
+        #combo-display {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 48px;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            z-index: 100;
+            pointer-events: none;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        #combo-display.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        /* Damage Display */
+        .damage-popup {
+            position: absolute;
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff4444;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
+            pointer-events: none;
+            animation: damage-float 1s ease-out forwards;
+            z-index: 50;
+        }
+        @keyframes damage-float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-80px) scale(1.5); opacity: 0; }
+        }
+        
+        /* Spell Animation */
+        .spell-effect {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 120px;
+            pointer-events: none;
+            animation: spell-cast 1s ease-out forwards;
+            z-index: 200;
+        }
+        @keyframes spell-cast {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.5) rotate(180deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Inventory */
+        #inventory {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .inventory-item {
+            padding: 8px 15px;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid #ffd700;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #ffd700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .inventory-item:hover {
+            background: rgba(255,215,0,0.2);
+            transform: scale(1.05);
+        }
+        .inventory-item.used {
+            opacity: 0.3;
+            text-decoration: line-through;
+        }
+        
+        /* Game Over / Win screens */
+        #game-over, #win-screen, #victory-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(13,5,24,0.98);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        #game-over.show, #win-screen.show, #victory-screen.show { display: flex; }
+        #game-over h2 { 
+            font-size: 48px; 
+            color: #ff4444; 
+            margin-bottom: 20px;
+            font-family: 'Georgia', serif;
+        }
+        #victory-screen h2 {
+            font-size: 52px;
+            background: linear-gradient(90deg, #ffd700, #ff8c00, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-family: 'Georgia', serif;
+        }
+        
+        .final-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .final-stat {
+            background: rgba(255,215,0,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,215,0,0.3);
+            text-align: center;
+        }
+        .final-stat .value { 
+            font-size: 32px; 
+            font-weight: bold; 
+            color: #ffd700; 
+            font-family: 'Georgia', serif;
+        }
+        .final-stat .label { font-size: 12px; color: #a08060; margin-top: 5px; }
+        
+        .restart-btn, .continue-btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #2d1b4e;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        .restart-btn:hover, .continue-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        
+        /* Badges */
+        #badges-earned {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .badge {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,140,0,0.2));
+            border: 2px solid #ffd700;
+            border-radius: 25px;
+            font-size: 16px;
+            color: #ffd700;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            #instructions h1 { font-size: 36px; }
+            .rune, .forge-letter { width: 50px; height: 50px; font-size: 24px; }
+            #game-ui { flex-wrap: wrap; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Instructions Screen -->
+    <div id="instructions">
+        <h1>⚔️ WORD FORGE ⚔️</h1>
+        <p class="subtitle">Where Letters Become Legends</p>
+        <p class="how-to">
+            Combine <span>LETTER RUNES</span> to forge <span>WORDS OF POWER</span>!<br><br>
+            <span class="rune-demo">F</span> + <span class="rune-demo">I</span> + <span class="rune-demo">R</span> + <span class="rune-demo">E</span> = <span style="color:#ff6b35">🔥 FIREBALL</span><br>
+            <span class="rune-demo">H</span> + <span class="rune-demo">E</span> + <span class="rune-demo">A</span> + <span class="rune-demo">L</span> = <span style="color:#4ecdc4">💚 HEALING LIGHT</span><br><br>
+            Each word is a <span>SPELL</span> with unique effects. Discover combinations, defeat enemies, become the ultimate Word Smith!
+        </p>
+        <button id="start-btn" onclick="startGame()">🔥 IGNITE THE FORGE</button>
+    </div>
+    
+    <!-- Game UI -->
+    <div id="game-ui" style="display:none;">
+        <div class="stat-box">
+            <div class="stat-label">Level</div>
+            <div class="stat-value" id="level">1</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Score</div>
+            <div class="stat-value" id="score">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Words Cast</div>
+            <div class="stat-value" id="words-cast">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Health</div>
+            <div class="stat-value" id="health">❤️❤️❤️</div>
+        </div>
+    </div>
+    
+    <!-- Game Container -->
+    <div id="game-container" style="display:none;">
+        <!-- Challenge Area -->
+        <div id="challenge-area">
+            <div id="challenge-title">ENEMY APPROACHES</div>
+            <div id="challenge-enemy">👹</div>
+            <div id="challenge-description">Forge a spell to defeat the Goblin!</div>
+            <div id="enemy-health"><div id="enemy-health-fill" style="width: 100%"></div></div>
+        </div>
+        
+        <!-- Forge Area -->
+        <div id="forge-area">
+            <div id="forge-label">⚡ THE FORGE ⚡</div>
+            <div id="forge-word">
+                <div style="color: #666; font-style: italic;">Click runes to forge your spell...</div>
+            </div>
+            <div id="forge-result"></div>
+            <div id="forge-actions">
+                <button id="cast-btn" class="forge-btn" onclick="castSpell()" disabled>🔥 CAST SPELL</button>
+                <button id="clear-forge-btn" class="forge-btn" onclick="clearForge()">🔄 CLEAR</button>
+            </div>
+        </div>
+        
+        <!-- Inventory -->
+        <div id="inventory"></div>
+        
+        <!-- Rune Pool -->
+        <div id="rune-pool">
+            <div id="rune-label">📜 AVAILABLE RUNES 📜</div>
+            <div id="runes-container"></div>
+        </div>
+    </div>
+    
+    <!-- Combo Display -->
+    <div id="combo-display"></div>
+    
+    <!-- Level Complete Screen -->
+    <div id="win-screen">
+        <h2 style="font-size: 48px; color: #ffd700; margin-bottom: 20px;">⚔️ VICTORY ⚔️</h2>
+        <div id="win-enemy">👹</div>
+        <p style="font-size: 20px; color: #a08060; margin-bottom: 20px;">Enemy defeated!</p>
+        <div class="final-stats">
+            <div class="final-stat">
+                <div class="value" id="win-damage">0</div>
+                <div class="label">Damage Dealt</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="win-word">-</div>
+                <div class="label">Killing Word</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="win-score">0</div>
+                <div class="label">Score</div>
+            </div>
+        </div>
+        <button class="continue-btn" onclick="nextLevel()">NEXT BATTLE ▶</button>
+    </div>
+    
+    <!-- Victory Screen (Game Complete) -->
+    <div id="victory-screen">
+        <h2>👑 GRAND WORD SMITH 👑</h2>
+        <p style="font-size: 22px; color: #a08060; margin-bottom: 20px;">You have mastered the art of Letter Alchemy!</p>
+        <div class="final-stats">
+            <div class="final-stat">
+                <div class="value" id="final-score">0</div>
+                <div class="label">Final Score</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="final-words">0</div>
+                <div class="label">Words Forged</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="final-discovered">0</div>
+                <div class="label">Unique Spells</div>
+            </div>
+        </div>
+        <div id="final-badges"></div>
+        <button class="restart-btn" onclick="restartGame()">🔄 NEW ADVENTURE</button>
+    </div>
+    
+    <!-- Game Over Screen -->
+    <div id="game-over">
+        <h2>💀 FORGE EXTINGUISHED 💀</h2>
+        <p style="font-size: 20px; color: #888; margin-bottom: 20px;">Your runes have failed you...</p>
+        <div class="final-stats">
+            <div class="final-stat">
+                <div class="value" id="fail-level">1</div>
+                <div class="label">Level Reached</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="fail-score">0</div>
+                <div class="label">Final Score</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="fail-words">0</div>
+                <div class="label">Words Cast</div>
+            </div>
+        </div>
+        <button class="restart-btn" onclick="restartGame()">🔄 TRY AGAIN</button>
+    </div>
+
+    <script>
+        // Game state
+        let level = 1;
+        let score = 0;
+        let health = 3;
+        let wordsCast = 0;
+        let forgeLetters = [];
+        let currentEnemy = null;
+        let discoveredSpells = new Set();
+        let inventory = [];
+        let playerHealth = 3;
+        let gameActive = false;
+        
+        // Spell database
+        const spells = {
+            // Fire spells
+            'FIRE': { name: '🔥 Fireball', damage: 25, type: 'fire', desc: 'A ball of scorching flame', rarity: 'common' },
+            'FLAME': { name: '🔥🔥 Inferno', damage: 35, type: 'fire', desc: 'Engulfing flames', rarity: 'uncommon' },
+            'BURN': { name: '🔥 Blazing Strike', damage: 20, type: 'fire', desc: 'Searing attack', rarity: 'common' },
+            'HEAT': { name: '🌡️ Heat Wave', damage: 30, type: 'fire', desc: 'Intense thermal blast', rarity: 'uncommon' },
+            
+            // Ice spells
+            'ICE': { name: '❄️ Frost Bolt', damage: 25, type: 'ice', desc: 'Freezing projectile', rarity: 'common' },
+            'COLD': { name: '❄️❄️ Deep Freeze', damage: 35, type: 'ice', desc: 'Bone-chilling cold', rarity: 'uncommon' },
+            'SNOW': { name: '🌨️ Blizzard', damage: 30, type: 'ice', desc: 'Snow storm assault', rarity: 'uncommon' },
+            'FROST': { name: '🧊 Frostbite', damage: 40, type: 'ice', desc: 'Severe freezing damage', rarity: 'rare' },
+            
+            // Lightning spells
+            'ZAP': { name: '⚡ Zap', damage: 20, type: 'lightning', desc: 'Quick electric jolt', rarity: 'common' },
+            'SHOCK': { name: '⚡⚡ Lightning Strike', damage: 35, type: 'lightning', desc: 'Powerful thunderbolt', rarity: 'uncommon' },
+            'STORM': { name: '⛈️ Thunderstorm', damage: 45, type: 'lightning', desc: 'Devastating lightning storm', rarity: 'rare' },
+            
+            // Healing
+            'HEAL': { name: '💚 Healing Light', damage: -30, type: 'heal', desc: 'Restores 30 HP', rarity: 'uncommon' },
+            'CURE': { name: '💙 Cure Wounds', damage: -20, type: 'heal', desc: 'Restores 20 HP', rarity: 'common' },
+            
+            // Special
+            'DARK': { name: '🌑 Shadow Bolt', damage: 50, type: 'dark', desc: 'Dark magic attack', rarity: 'legendary' },
+            'STAR': { name: '⭐ Starfall', damage: 60, type: 'cosmic', desc: 'Celestial bombardment', rarity: 'legendary' },
+            'WIND': { name: '🌪️ Wind Blade', damage: 30, type: 'wind', desc: 'Cutting air strike', rarity: 'uncommon' },
+            'ROCK': { name: '🪨 Earth Spike', damage: 35, type: 'earth', desc: 'Earthen projectile', rarity: 'uncommon' },
+            'POISON': { name: '☠️ Toxic Cloud', damage: 15, type: 'poison', desc: 'Damage over time', rarity: 'uncommon' },
+        };
+        
+        // Enemy database
+        const enemies = [
+            { emoji: '👹', name: 'Goblin', health: 50, desc: 'Forge a spell to defeat the Goblin!', weakness: 'fire' },
+            { emoji: '🐺', name: 'Wolf', health: 75, desc: 'The wolf approaches! Use your words!', weakness: 'ice' },
+            { emoji: '🧟', name: 'Zombie', health: 100, desc: 'Undead horror! Cast it down!', weakness: 'fire' },
+            { emoji: '🦇', name: 'Vampire Bat', health: 80, desc: 'Flying menace! Strike true!', weakness: 'lightning' },
+            { emoji: '🐍', name: 'Serpent', health: 120, desc: 'Venomous foe! End it!', weakness: 'ice' },
+            { emoji: '🧙‍♂️', name: 'Dark Wizard', health: 150, desc: 'A fellow wordsmith! Prove your mastery!', weakness: 'lightning' },
+            { emoji: '👻', name: 'Specter', health: 130, desc: 'Ghostly terror! Banish it!', weakness: 'cosmic' },
+            { emoji: '🐉', name: 'Dragon', health: 200, desc: 'The ultimate test! Defeat the Dragon!', weakness: 'ice' }
+        ];
+        
+        // Rune frequencies
+        const runePool = [
+            // Common (vowels and common consonants)
+            { letter: 'A', weight: 8, rarity: 'common' },
+            { letter: 'E', weight: 8, rarity: 'common' },
+            { letter: 'I', weight: 7, rarity: 'common' },
+            { letter: 'O', weight: 7, rarity: 'common' },
+            { letter: 'R', weight: 6, rarity: 'common' },
+            { letter: 'T', weight: 6, rarity: 'common' },
+            { letter: 'N', weight: 6, rarity: 'common' },
+            { letter: 'S', weight: 6, rarity: 'common' },
+            { letter: 'L', weight: 5, rarity: 'common' },
+            { letter: 'C', weight: 5, rarity: 'common' },
+            { letter: 'U', weight: 5, rarity: 'common' },
+            { letter: 'D', weight: 4, rarity: 'common' },
+            { letter: 'P', weight: 4, rarity: 'common' },
+            { letter: 'M', weight: 4, rarity: 'common' },
+            { letter: 'H', weight: 4, rarity: 'common' },
+            { letter: 'G', weight: 3, rarity: 'common' },
+            { letter: 'B', weight: 3, rarity: 'common' },
+            { letter: 'F', weight: 3, rarity: 'common' },
+            { letter: 'Y', weight: 3, rarity: 'common' },
+            { letter: 'W', weight: 3, rarity: 'common' },
+            { letter: 'K', weight: 2, rarity: 'common' },
+            { letter: 'V', weight: 2, rarity: 'common' },
+            // Uncommon
+            { letter: 'Z', weight: 1, rarity: 'uncommon' },
+            { letter: 'X', weight: 1, rarity: 'uncommon' },
+            { letter: 'J', weight: 1, rarity: 'uncommon' },
+            { letter: 'Q', weight: 1, rarity: 'uncommon' }
+        ];
+        
+        function startGame() {
+            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('game-ui').style.display = 'flex';
+            document.getElementById('game-container').style.display = 'flex';
+            
+            resetGame();
+            loadLevel(1);
+        }
+        
+        function resetGame() {
+            level = 1;
+            score = 0;
+            health = 3;
+            playerHealth = 3;
+            wordsCast = 0;
+            forgeLetters = [];
+            discoveredSpells = new Set();
+            inventory = [];
+            updateUI();
+        }
+        
+        function loadLevel(lvl) {
+            level = lvl;
+            currentEnemy = { ...enemies[Math.min(lvl - 1, enemies.length - 1)] };
+            currentEnemy.maxHealth = currentEnemy.health;
+            
+            // Update challenge display
+            document.getElementById('challenge-enemy').textContent = currentEnemy.emoji;
+            document.getElementById('challenge-description').textContent = currentEnemy.desc;
+            document.getElementById('challenge-title').textContent = `LEVEL ${level} - ENEMY APPROACHES`;
+            document.getElementById('enemy-health-fill').style.width = '100%';
+            
+            // Generate rune pool based on level
+            generateRunePool();
+            
+            // Clear forge
+            clearForge();
+            
+            // Update inventory display
+            updateInventory();
+            
+            updateUI();
+            gameActive = true;
+        }
+        
+        function generateRunePool() {
+            const container = document.getElementById('runes-container');
+            container.innerHTML = '';
+            
+            // Generate 15-20 runes
+            const runeCount = 15 + Math.floor(level / 2);
+            
+            // Weighted random selection
+            const weightedPool = [];
+            runePool.forEach(r => {
+                for (let i = 0; i < r.weight; i++) {
+                    weightedPool.push(r);
+                }
+            });
+            
+            const selectedRunes = [];
+            // Guarantee some useful letters based on available spells
+            const usefulLetters = ['F', 'I', 'R', 'E', 'H', 'E', 'A', 'L', 'Z', 'A', 'P'];
+            for (let letter of usefulLetters.slice(0, 3)) {
+                selectedRunes.push({ letter, rarity: 'common' });
+            }
+            
+            // Fill rest randomly
+            while (selectedRunes.length < runeCount) {
+                const rune = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+                selectedRunes.push(rune);
+            }
+            
+            // Shuffle
+            selectedRunes.sort(() => Math.random() - 0.5);
+            
+            selectedRunes.forEach(rune => {
+                const div = document.createElement('div');
+                div.className = `rune ${rune.rarity}`;
+                div.textContent = rune.letter;
+                div.onclick = () => addToForge(rune.letter, rune.rarity);
+                container.appendChild(div);
+            });
+        }
+        
+        function addToForge(letter, rarity) {
+            if (forgeLetters.length >= 8) {
+                showFeedback('Forge is full!', 400, 300, '#ff4444');
+                return;
+            }
+            
+            forgeLetters.push({ letter, rarity });
+            updateForgeDisplay();
+            
+            // Check if forms a valid spell
+            checkSpell();
+        }
+        
+        function removeFromForge(index) {
+            forgeLetters.splice(index, 1);
+            updateForgeDisplay();
+            checkSpell();
+        }
+        
+        function updateForgeDisplay() {
+            const container = document.getElementById('forge-word');
+            
+            if (forgeLetters.length === 0) {
+                container.innerHTML = '<div style="color: #666; font-style: italic;">Click runes to forge your spell...</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            forgeLetters.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'forge-letter';
+                div.textContent = item.letter;
+                div.style.borderColor = getRarityColor(item.rarity);
+                div.onclick = () => removeFromForge(index);
+                container.appendChild(div);
+            });
+        }
+        
+        function getRarityColor(rarity) {
+            const colors = {
+                common: '#a08060',
+                uncommon: '#4ecdc4',
+                rare: '#9b59b6',
+                legendary: '#ffd700'
+            };
+            return colors[rarity] || '#a08060';
+        }
+        
+        function checkSpell() {
+            const word = forgeLetters.map(l => l.letter).join('');
+            const resultDiv = document.getElementById('forge-result');
+            const castBtn = document.getElementById('cast-btn');
+            
+            if (spells[word]) {
+                const spell = spells[word];
+                resultDiv.innerHTML = `
+                    <div id="spell-name">${spell.name}</div>
+                    <div id="spell-effect">${spell.desc} | Damage: ${spell.damage > 0 ? spell.damage : 'HEAL ' + Math.abs(spell.damage)}</div>
+                `;
+                castBtn.disabled = false;
+                discoveredSpells.add(word);
+            } else if (word.length >= 3) {
+                resultDiv.innerHTML = `
+                    <div id="spell-name" style="color: #888;">Unknown Incantation</div>
+                    <div id="spell-effect">This word has no magical power...</div>
+                `;
+                castBtn.disabled = true;
+            } else {
+                resultDiv.innerHTML = '';
+                castBtn.disabled = true;
+            }
+        }
+        
+        function castSpell() {
+            const word = forgeLetters.map(l => l.letter).join('');
+            const spell = spells[word];
+            
+            if (!spell || !gameActive) return;
+            
+            wordsCast++;
+            
+            // Show spell animation
+            const spellAnim = document.createElement('div');
+            spellAnim.className = 'spell-effect';
+            spellAnim.textContent = spell.name.split(' ')[0];
+            document.body.appendChild(spellAnim);
+            setTimeout(() => spellAnim.remove(), 1000);
+            
+            // Apply damage or healing
+            if (spell.damage > 0) {
+                // Damage enemy
+                let damage = spell.damage;
+                
+                // Weakness bonus
+                if (spell.type === currentEnemy.weakness) {
+                    damage = Math.floor(damage * 1.5);
+                    showCombo('WEAKNESS! x1.5');
+                }
+                
+                currentEnemy.health -= damage;
+                showDamage(damage, 'enemy');
+                
+                // Score
+                score += damage * 10;
+                if (spell.type === currentEnemy.weakness) score += 100;
+                
+                // Create damage popup
+                const damagePopup = document.createElement('div');
+                damagePopup.className = 'damage-popup';
+                damagePopup.textContent = `-${damage}`;
+                damagePopup.style.left = '50%';
+                damagePopup.style.top = '30%';
+                document.body.appendChild(damagePopup);
+                setTimeout(() => damagePopup.remove(), 1000);
+                
+            } else {
+                // Heal player
+                playerHealth = Math.min(playerHealth + Math.abs(spell.damage) / 30, 3);
+                showFeedback(`Healed ${Math.abs(spell.damage)}!`, 400, 400, '#4ecdc4');
+                score += 50;
+            }
+            
+            // Update health bar
+            const healthPercent = Math.max(0, (currentEnemy.health / currentEnemy.maxHealth) * 100);
+            document.getElementById('enemy-health-fill').style.width = healthPercent + '%';
+            
+            // Check win/continue
+            if (currentEnemy.health <= 0) {
+                setTimeout(() => levelComplete(word), 1000);
+            } else {
+                // Enemy counter-attack
+                setTimeout(() => enemyAttack(), 800);
+            }
+            
+            // Clear forge
+            forgeLetters = [];
+            updateForgeDisplay();
+            document.getElementById('forge-result').innerHTML = '';
+            document.getElementById('cast-btn').disabled = true;
+            
+            // Refresh some runes
+            refreshRunes();
+            
+            updateUI();
+        }
+        
+        function enemyAttack() {
+            if (!gameActive) return;
+            
+            playerHealth -= 0.34; // Lose 1 heart every 3 hits
+            
+            if (playerHealth <= 0) {
+                playerHealth = 0;
+                gameOver();
+            } else {
+                showFeedback(`${currentEnemy.name} attacks!`, 400, 200, '#ff4444');
+            }
+            
+            updateUI();
+        }
+        
+        function refreshRunes() {
+            const container = document.getElementById('runes-container');
+            // Remove 2-3 random runes and add new ones
+            const toRemove = Math.min(3, container.children.length);
+            for (let i = 0; i < toRemove; i++) {
+                if (container.children[i]) {
+                    container.children[i].remove();
+                }
+            }
+            
+            // Add new runes
+            const weightedPool = [];
+            runePool.forEach(r => {
+                for (let i = 0; i < r.weight; i++) {
+                    weightedPool.push(r);
+                }
+            });
+            
+            for (let i = 0; i < toRemove; i++) {
+                const rune = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+                const div = document.createElement('div');
+                div.className = `rune ${rune.rarity}`;
+                div.textContent = rune.letter;
+                div.onclick = () => addToForge(rune.letter, rune.rarity);
+                container.appendChild(div);
+            }
+        }
+        
+        function clearForge() {
+            forgeLetters = [];
+            updateForgeDisplay();
+            document.getElementById('forge-result').innerHTML = '';
+            document.getElementById('cast-btn').disabled = true;
+        }
+        
+        function showCombo(text) {
+            const combo = document.getElementById('combo-display');
+            combo.textContent = text;
+            combo.classList.add('show');
+            setTimeout(() => combo.classList.remove('show'), 1500);
+        }
+        
+        function showDamage(amount, target) {
+            // Visual feedback already handled in castSpell
+        }
+        
+        function showFeedback(text, x, y, color) {
+            const popup = document.createElement('div');
+            popup.className = 'damage-popup';
+            popup.textContent = text;
+            popup.style.left = x + 'px';
+            popup.style.top = y + 'px';
+            popup.style.color = color;
+            document.body.appendChild(popup);
+            setTimeout(() => popup.remove(), 1000);
+        }
+        
+        function levelComplete(killingWord) {
+            gameActive = false;
+            
+            document.getElementById('win-enemy').textContent = currentEnemy.emoji + ' 💀';
+            document.getElementById('win-damage').textContent = (currentEnemy.maxHealth - currentEnemy.health);
+            document.getElementById('win-word').textContent = killingWord;
+            document.getElementById('win-score').textContent = score.toLocaleString();
+            
+            // Add loot to inventory
+            const loot = getLoot();
+            if (loot) {
+                inventory.push(loot);
+            }
+            
+            document.getElementById('win-screen').classList.add('show');
+        }
+        
+        function getLoot() {
+            const lootTable = [
+                { name: '🔥 Fire Gem', effect: 'bonus_fire', desc: '+10 fire damage' },
+                { name: '❄️ Ice Crystal', effect: 'bonus_ice', desc: '+10 ice damage' },
+                { name: '⚡ Lightning Shard', effect: 'bonus_lightning', desc: '+10 lightning damage' },
+                { name: '📜 Scroll of Wisdom', effect: 'reveal_spell', desc: 'Reveals one random spell' }
+            ];
+            return Math.random() < 0.5 ? lootTable[Math.floor(Math.random() * lootTable.length)] : null;
+        }
+        
+        function updateInventory() {
+            const container = document.getElementById('inventory');
+            container.innerHTML = '';
+            
+            inventory.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'inventory-item';
+                div.textContent = item.name;
+                div.title = item.desc;
+                div.onclick = () => useItem(index);
+                container.appendChild(div);
+            });
+        }
+        
+        function useItem(index) {
+            const item = inventory[index];
+            if (!item || item.used) return;
+            
+            // Apply effect
+            if (item.effect === 'reveal_spell') {
+                const unknownSpells = Object.keys(spells).filter(s => !discoveredSpells.has(s));
+                if (unknownSpells.length > 0) {
+                    const revealed = unknownSpells[Math.floor(Math.random() * unknownSpells.length)];
+                    showFeedback(`Discovered: ${revealed}!`, 400, 300, '#ffd700');
+                    discoveredSpells.add(revealed);
+                }
+            }
+            
+            item.used = true;
+            updateInventory();
+        }
+        
+        function nextLevel() {
+            document.getElementById('win-screen').classList.remove('show');
+            
+            if (level >= 8) {
+                showVictory();
+            } else {
+                loadLevel(level + 1);
+            }
+        }
+        
+        function showVictory() {
+            document.getElementById('final-score').textContent = score.toLocaleString();
+            document.getElementById('final-words').textContent = wordsCast;
+            document.getElementById('final-discovered').textContent = discoveredSpells.size + '/' + Object.keys(spells).length;
+            
+            // Generate badges
+            const badgesContainer = document.getElementById('final-badges');
+            badgesContainer.innerHTML = '';
+            
+            const badges = [];
+            if (discoveredSpells.size >= 10) badges.push('🧙 Spell Scholar');
+            if (wordsCast >= 20) badges.push('⚔️ Word Warrior');
+            if (score >= 5000) badges.push('💎 Treasure Hunter');
+            if (discoveredSpells.has('DARK') || discoveredSpells.has('STAR')) badges.push('🔮 Arcane Master');
+            if (inventory.length >= 5) badges.push('🎒 Collector');
+            
+            badges.forEach(badge => {
+                const div = document.createElement('div');
+                div.className = 'badge';
+                div.textContent = badge;
+                badgesContainer.appendChild(div);
+            });
+            
+            document.getElementById('victory-screen').classList.add('show');
+        }
+        
+        function gameOver() {
+            gameActive = false;
+            document.getElementById('fail-level').textContent = level;
+            document.getElementById('fail-score').textContent = score.toLocaleString();
+            document.getElementById('fail-words').textContent = wordsCast;
+            document.getElementById('game-over').classList.add('show');
+        }
+        
+        function restartGame() {
+            document.getElementById('game-over').classList.remove('show');
+            document.getElementById('victory-screen').classList.remove('show');
+            document.getElementById('win-screen').classList.remove('show');
+            resetGame();
+            loadLevel(1);
+        }
+        
+        function updateUI() {
+            document.getElementById('level').textContent = level;
+            document.getElementById('score').textContent = score.toLocaleString();
+            document.getElementById('words-cast').textContent = wordsCast;
+            document.getElementById('health').textContent = '❤️'.repeat(Math.ceil(playerHealth));
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Enter' && !document.getElementById('cast-btn').disabled) {
+                castSpell();
+            }
+            if (e.code === 'Escape') {
+                clearForge();
+            }
+            if (e.code === 'Space' && !gameActive && document.getElementById('instructions').style.display !== 'none') {
+                startGame();
+            }
+        });
+    </script>
+</body>
+</html>

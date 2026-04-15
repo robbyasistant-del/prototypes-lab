@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse Snap - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0d0d2b 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 42px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #ffe66d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .tagline { color: #888; font-size: 18px; }
+        h2 {
+            color: #4ecdc4;
+            font-size: 28px;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(78, 205, 196, 0.3);
+        }
+        h3 {
+            color: #ffe66d;
+            font-size: 20px;
+            margin: 25px 0 15px;
+        }
+        .section {
+            background: rgba(255,255,255,0.03);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(255, 230, 109, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #4ecdc4;
+            margin: 20px 0;
+        }
+        .risk-box {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #ff6b6b;
+            margin: 20px 0;
+        }
+        .keyword-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(78, 205, 196, 0.2);
+            border-radius: 15px;
+            font-size: 13px;
+            margin: 5px;
+            color: #4ecdc4;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .metric:last-child { border-bottom: none; }
+        .metric-label { color: #888; }
+        .metric-value { color: #4ecdc4; font-weight: bold; }
+        ul { padding-left: 20px; }
+        li { margin: 10px 0; color: #ccc; }
+        .ab-test {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .ab-test strong { color: #ffe66d; }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 SYNAPSE SNAP</h1>
+            <p class="tagline">Strategic Analysis & Market Positioning Report</p>
+            <a href="index.html" class="back-btn">▶ PLAY GAME</a>
+        </header>
+        
+        <div class="section">
+            <h2>🎯 Core Loop Explanation</h2>
+            <div class="highlight-box">
+                <strong>The Neuroplasticity Hook:</strong> Players must rapidly match a target pattern of neural nodes within a shrinking time window. Each successful match increases combo multipliers, while mistakes drain the timer and cost lives.
+            </div>
+            <h3>Loop Breakdown:</h3>
+            <ul>
+                <li><strong>Pattern Generation:</strong> System creates random 3-6 node sequences (increasing with level)</li>
+                <li><strong>Pattern Recognition:</strong> Player identifies target pattern type (Speed/Memory/Logic/Pattern)</li>
+                <li><strong>Execution Phase:</strong> Rapid clicking of correct nodes in exact order</li>
+                <li><strong>Feedback & Reward:</strong> Visual particles, combo multipliers, time bonuses, badges</li>
+                <li><strong>Escalation:</strong> Grid expands, timer shortens, sequences lengthen per level</li>
+                <li><strong>Win/Lose States:</strong> Reach Level 10 for victory, lose all lives or time for game over</li>
+            </ul>
+            <h3>Engagement Mechanics:</h3>
+            <ul>
+                <li><strong>Time Pressure:</strong> Creates urgency without being unfair</li>
+                <li><strong>Combo System:</strong> Rewards perfect execution with exponential scoring</li>
+                <li><strong>Progressive Difficulty:</strong> Smooth learning curve with visible challenge ramp</li>
+                <li><strong>Badge Collection:</strong> 5 distinct achievements for different play styles</li>
+                <li><strong>One More Try:</strong> Quick restart + visible progress metrics drive replayability</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>💰 Monetization Strategy</h2>
+            
+            <h3>Free-to-Play Model:</h3>
+            <div class="highlight-box">
+                <strong>Primary Revenue Streams:</strong>
+            </div>
+            <ul>
+                <li><strong>Rewarded Video Ads:</strong> Continue run after game over (1 per session)</li>
+                <li><strong>Interstitial Ads:</strong> Between levels every 3rd play session</li>
+                <li><strong>Banner Ads:</strong> Non-intrusive bottom banner during gameplay</li>
+                <li><strong>Battle Pass ($4.99):</strong> Monthly themed neural themes + exclusive badges</li>
+                <li><strong>Cosmetic Store:</strong> Node skins, particle effects, background themes ($0.99-$2.99)</li>
+            </ul>
+            
+            <h3>Premium Upgrade ($2.99):</h3>
+            <ul>
+                <li>Remove all ads permanently</li>
+                <li>3 exclusive "Neural Master" badges</li>
+                <li>Unlimited daily challenges</li>
+                <li>Custom pattern creator</li>
+            </ul>
+            
+            <h3>Whale Engagement:</h3>
+            <ul>
+                <li><strong>Energy System:</strong> Soft cap with premium currency refills</li>
+                <li><strong>Legendary Skins:</strong> Limited-time animated node themes ($4.99-$9.99)</li>
+                <li><strong>Leaderboard Boosts:</strong> Score multipliers for competitive seasons</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🔍 ASO/SEO Keywords</h2>
+            
+            <h3>Primary Keywords (High Volume):</h3>
+            <div>
+                <span class="keyword-tag">brain training</span>
+                <span class="keyword-tag">puzzle game</span>
+                <span class="keyword-tag">pattern matching</span>
+                <span class="keyword-tag">memory game</span>
+                <span class="keyword-tag">reflex test</span>
+                <span class="keyword-tag">cognitive training</span>
+            </div>
+            
+            <h3>Secondary Keywords (Niche Targeting):</h3>
+            <div>
+                <span class="keyword-tag">neuroplasticity</span>
+                <span class="keyword-tag">speed puzzle</span>
+                <span class="keyword-tag">mental workout</span>
+                <span class="keyword-tag">focus training</span>
+                <span class="keyword-tag">reaction game</span>
+                <span class="keyword-tag">quick reflexes</span>
+            </div>
+            
+            <h3>Long-tail Keywords:</h3>
+            <div>
+                <span class="keyword-tag">games to improve memory</span>
+                <span class="keyword-tag">brain exercises for adults</span>
+                <span class="keyword-tag">pattern recognition training</span>
+                <span class="keyword-tag">fast paced puzzle games</span>
+                <span class="keyword-tag">cognitive improvement games</span>
+            </div>
+            
+            <h3>App Store Description Hook:</h3>
+            <p style="color: #ccc; font-style: italic; margin-top: 15px;">
+                "Train your brain at the speed of thought! Synapse Snap is the ultimate neuroplasticity challenge - match patterns, build combos, and push your cognitive limits. The faster you think, the higher you score!"
+            </p>
+        </div>
+        
+        <div class="section">
+            <h2>👥 Target Audience</h2>
+            
+            <h3>Primary Demographics:</h3>
+            <ul>
+                <li><strong>Age:</strong> 18-45 (peak cognitive training interest)</li>
+                <li><strong>Gender:</strong> 55% Female, 45% Male (puzzle genre skew)</li>
+                <li><strong>Education:</strong> College-educated, knowledge workers</li>
+                <li><strong>Income:</strong> Middle to upper-middle class</li>
+            </ul>
+            
+            <h3>Psychographic Segments:</h3>
+            <ul>
+                <li><strong>The Optimizer:</strong> Uses apps for self-improvement, tracks metrics, wants measurable progress</li>
+                <li><strong>The Casual Competitor:</strong> Likes leaderboards, quick sessions, "just one more try" mentality</li>
+                <li><strong>The Brain Trainer:</strong> Explicitly seeking cognitive benefits, attracted by neuroplasticity angle</li>
+                <li><strong>The Puzzle Enthusiast:</strong> Plays multiple puzzle games, values mechanical depth</li>
+            </ul>
+            
+            <h3>Platform Priorities:</h3>
+            <ul>
+                <li>iOS (60%) - Higher monetization, premium perception</li>
+                <li>Android (35%) - Volume play, rewarded ad optimization</li>
+                <li>Web/HTML5 (5%) - Marketing funnel, advergames</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📊 KPIs to Track</h2>
+            
+            <div class="metric">
+                <span class="metric-label">Day 1 Retention</span>
+                <span class="metric-value">Target: 40%+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Day 7 Retention</span>
+                <span class="metric-value">Target: 15%+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Day 30 Retention</span>
+                <span class="metric-value">Target: 6%+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Average Session Length</span>
+                <span class="metric-value">Target: 8-12 minutes</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Sessions per User/Day</span>
+                <span class="metric-value">Target: 3.5+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">ARPU (Average Revenue Per User)</span>
+                <span class="metric-value">Target: $0.15+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Conversion to Premium</span>
+                <span class="metric-value">Target: 2%+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Ad View Rate</span>
+                <span class="metric-value">Target: 4+ per DAU</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Level 5 Completion Rate</span>
+                <span class="metric-value">Target: 15%+</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Average Patterns Matched/Session</span>
+                <span class="metric-value">Target: 12+</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🧪 A/B Test Ideas</h2>
+            
+            <div class="ab-test">
+                <strong>Test 1: Timer Visualization</strong>
+                <p>A) Current gradient bar | B) Circular countdown clock | C) Pulsing screen edge</p>
+                <p><em>Hypothesis: Circular timer reduces anxiety, increases session length</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 2: Rewarded Ad Placement</strong>
+                <p>A) Continue after game over | B) Double next pattern score | C) Bonus time refill</p>
+                <p><em>Hypothesis: Score doubling increases ad engagement 30%+</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 3: Tutorial Length</strong>
+                <p>A) Current 1-screen | B) Interactive 3-step | C) No tutorial, floating hints</p>
+                <p><em>Hypothesis: No tutorial + hints increases D1 retention in puzzle genre</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 4: Badge Visibility</strong>
+                <p>A) Popup on earn | B) Corner badge tracker | C) Full "Badge Wall" between levels</p>
+                <p><em>Hypothesis: Badge Wall increases collection completion 50%+</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 5: Difficulty Ramp</strong>
+                <p>A) Current: 5 patterns/level | B) 3 patterns/level (faster progression) | C) Adaptive based on performance</p>
+                <p><em>Hypothesis: Adaptive difficulty increases long-term retention</em></p>
+            </div>
+            
+            <div class="ab-test">
+                <strong>Test 6: Social Features</strong>
+                <p>A) Global leaderboard | B) Friend leaderboards | C) Weekly tournaments</p>
+                <p><em>Hypothesis: Tournaments increase session frequency 40%+</em></p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risk Assessment</h2>
+            
+            <div class="risk-box">
+                <strong>HIGH RISK: Market Saturation</strong>
+                <p>The brain training/memory game category is crowded (Lumosity, Peak, Elevate). Differentiation through "neuroplasticity" branding and speed mechanics is critical.</p>
+                <p><strong>Mitigation:</strong> Aggressive ASO on long-tail keywords; influencer partnerships with productivity YouTubers; emphasize speed + pattern vs. pure memorization.</p>
+            </div>
+            
+            <div class="risk-box">
+                <strong>MEDIUM RISK: Session Burnout</strong>
+                <p>Fast-paced gameplay can lead to fatigue. Players may drop off if difficulty spikes too aggressively.</p>
+                <p><strong>Mitigation:</strong> Implement "Zen Mode" (no timer); daily challenge variety; clear difficulty choice at level start.</p>
+            </div>
+            
+            <div class="risk-box">
+                <strong>MEDIUM RISK: Monetization vs. Experience</strong>
+                <p>Ad interruptions can break flow state that the game design encourages.</p>
+                <p><strong>Mitigation:</strong> Only rewarded ads during natural breaks (game over); optional premium removes ALL interruptions; never show interstitials mid-pattern.</p>
+            </div>
+            
+            <div class="risk-box">
+                <strong>LOW RISK: Technical Performance</strong>
+                <p>Canvas particle effects may struggle on older devices.</p>
+                <p><strong>Mitigation:</strong> Particle count scaling based on device capability; option to disable effects in settings; progressive web app for better performance.</p>
+            </div>
+            
+            <div class="risk-box">
+                <strong>LOW RISK: Accessibility</strong>
+                <p>Color-based node differentiation may exclude colorblind players.</p>
+                <p><strong>Mitigation:</strong> Icon-first design (already implemented); shape mode option; high contrast toggle.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Launch Recommendations</h2>
+            
+            <h3>Soft Launch Markets:</h3>
+            <ul>
+                <li><strong>Phase 1:</strong> Canada, Australia (similar to US, lower CPI)</li>
+                <li><strong>Phase 2:</strong> UK, Netherlands (high puzzle engagement)</li>
+                <li><strong>Global:</strong> US, Germany, Japan (premium markets)</li>
+            </ul>
+            
+            <h3>Marketing Angles:</h3>
+            <ul>
+                <li>"The 5-minute brain workout scientists actually recommend"</li>
+                <li>"Pattern recognition is the #1 skill for [target profession]"</li>
+                <li>"Your daily dose of dopamine + cognitive gains"</li>
+                <li>Challenge format: "Can you reach Level 5? 95% fail."</li>
+            </ul>
+            
+            <h3>Post-Launch Content Roadmap:</h3>
+            <ul>
+                <li><strong>Month 1:</strong> Daily challenges, global leaderboard</li>
+                <li><strong>Month 2:</strong> New node types (Mirror, Wildcard), Season 1 Battle Pass</li>
+                <li><strong>Month 3:</strong> Multiplayer race mode, guild system</li>
+                <li><strong>Month 4:</strong> Level editor (UGC), community challenges</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>📊 Generated by Prototype Factory | April 15, 2026 Batch</p>
+            <p style="margin-top: 10px; font-size: 12px;">Confidential - Internal Use Only</p>
+        </footer>
+    </div>
+</body>
+</html>

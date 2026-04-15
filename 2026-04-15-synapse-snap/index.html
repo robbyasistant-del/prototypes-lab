@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse Snap - Neural Pattern Rush</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0d0d2b 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Instructions overlay */
+        #instructions {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+        #instructions h1 {
+            font-size: 48px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #ffe66d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        #instructions .how-to {
+            font-size: 20px;
+            color: #ccc;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        #instructions .how-to span { color: #4ecdc4; font-weight: bold; }
+        #start-btn {
+            padding: 20px 50px;
+            font-size: 24px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(78, 205, 196, 0.4);
+        }
+        #start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(78, 205, 196, 0.6);
+        }
+        
+        /* Game UI */
+        #game-ui {
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .stat-box {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .stat-label { font-size: 12px; color: #888; text-transform: uppercase; }
+        .stat-value { font-size: 28px; font-weight: bold; color: #4ecdc4; }
+        #combo-display { color: #ffe66d; font-size: 24px; }
+        
+        /* Target Pattern */
+        #target-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+        #target-label {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        #target-pattern {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            border: 2px solid rgba(78, 205, 196, 0.3);
+        }
+        .target-node {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px currentColor;
+        }
+        
+        /* Game Grid */
+        #game-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+        .synapse-node {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            border: 3px solid transparent;
+        }
+        .synapse-node:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .synapse-node.selected {
+            border-color: #fff;
+            box-shadow: 0 0 30px currentColor, inset 0 0 20px rgba(255,255,255,0.3);
+            animation: selected-pulse 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes selected-pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.15); }
+        }
+        .synapse-node.correct {
+            animation: correct-flash 0.5s ease-out;
+        }
+        @keyframes correct-flash {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); filter: brightness(2); }
+            100% { transform: scale(1); }
+        }
+        .synapse-node.wrong {
+            animation: wrong-shake 0.4s ease-out;
+            background: #ff4444 !important;
+        }
+        @keyframes wrong-shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        /* Timer bar */
+        #timer-container {
+            width: 100%;
+            max-width: 700px;
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        #timer-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d, #ffe66d, #ff6b6b);
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+        
+        /* Particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            animation: particle-float 1s ease-out forwards;
+        }
+        @keyframes particle-float {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+        
+        /* Badges notification */
+        #badge-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            padding: 30px 50px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 500;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        #badge-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        #badge-popup .badge-icon { font-size: 60px; margin-bottom: 10px; }
+        #badge-popup .badge-text { font-size: 24px; font-weight: bold; color: #333; }
+        
+        /* Game Over / Win */
+        #game-over, #win-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        #game-over.show, #win-screen.show { display: flex; }
+        #game-over h2 { font-size: 48px; color: #ff6b6b; margin-bottom: 20px; }
+        #win-screen h2 {
+            font-size: 48px;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        .final-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .final-stat {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .final-stat .value { font-size: 36px; font-weight: bold; color: #4ecdc4; }
+        .final-stat .label { font-size: 14px; color: #888; margin-top: 5px; }
+        .badges-earned {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .earned-badge {
+            background: rgba(255,215,0,0.2);
+            border: 2px solid #ffd700;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 20px;
+        }
+        .restart-btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        /* Progress to next level */
+        #level-progress {
+            font-size: 14px;
+            color: #888;
+            margin-top: 10px;
+        }
+        #level-progress span { color: #4ecdc4; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <!-- Instructions Screen -->
+    <div id="instructions">
+        <h1>🧠 SYNAPSE SNAP</h1>
+        <p class="how-to">
+            Your neural networks are firing! Match the <span>TARGET PATTERN</span> by clicking nodes in the correct order.<br><br>
+            🔴 <span>Red</span> = Speed | 🔵 <span>Blue</span> = Memory | 🟢 <span>Green</span> = Logic | 🟡 <span>Yellow</span> = Pattern<br><br>
+            Chain <span>combos</span> for bonus points. Race against the <span>neural timer</span>!
+        </p>
+        <button id="start-btn" onclick="startGame()">▶ START NEURAL LINK</button>
+    </div>
+    
+    <!-- Game UI -->
+    <div id="game-ui" style="display:none;">
+        <div class="stat-box">
+            <div class="stat-label">Score</div>
+            <div class="stat-value" id="score">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Level</div>
+            <div class="stat-value" id="level">1</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Combo</div>
+            <div class="stat-value" id="combo-display">x1</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Lives</div>
+            <div class="stat-value" id="lives">❤️❤️❤️</div>
+        </div>
+    </div>
+    
+    <!-- Target Pattern -->
+    <div id="target-section" style="display:none;">
+        <div id="target-label">⚡ TARGET PATTERN ⚡</div>
+        <div id="target-pattern"></div>
+    </div>
+    
+    <!-- Timer -->
+    <div id="timer-container" style="display:none;">
+        <div id="timer-bar" style="width: 100%;"></div>
+    </div>
+    
+    <!-- Game Grid -->
+    <div id="game-grid" style="display:none;"></div>
+    
+    <div id="level-progress" style="display:none;">Patterns completed: <span id="patterns-count">0</span> / <span id="patterns-needed">5</span> to advance</div>
+    
+    <!-- Badge Popup -->
+    <div id="badge-popup">
+        <div class="badge-icon" id="badge-icon">🏆</div>
+        <div class="badge-text" id="badge-text">Badge Unlocked!</div>
+    </div>
+    
+    <!-- Game Over Screen -->
+    <div id="game-over">
+        <h2>⚡ NEURAL COLLAPSE ⚡</h2>
+        <p style="font-size: 20px; color: #888;">Your synaptic pathways have overloaded!</p>
+        <div class="final-stats">
+            <div class="final-stat">
+                <div class="value" id="final-score">0</div>
+                <div class="label">Final Score</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="final-level">1</div>
+                <div class="label">Level Reached</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="final-patterns">0</div>
+                <div class="label">Patterns Matched</div>
+            </div>
+        </div>
+        <div class="badges-earned" id="badges-earned"></div>
+        <button class="restart-btn" onclick="restartGame()">🔄 RESTART NEURAL LINK</button>
+    </div>
+    
+    <!-- Win Screen -->
+    <div id="win-screen">
+        <h2>🌟 NEURAL MASTERY ACHIEVED 🌟</h2>
+        <p style="font-size: 20px; color: #888;">You have achieved perfect neural synchronization!</p>
+        <div class="final-stats">
+            <div class="final-stat">
+                <div class="value" id="win-score">0</div>
+                <div class="label">Final Score</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="win-max-combo">1</div>
+                <div class="label">Max Combo</div>
+            </div>
+            <div class="final-stat">
+                <div class="value" id="win-accuracy">100%</div>
+                <div class="label">Accuracy</div>
+            </div>
+        </div>
+        <div class="badges-earned" id="win-badges"></div>
+        <button class="restart-btn" onclick="restartGame()">🔄 PLAY AGAIN</button>
+    </div>
+
+    <script>
+        // Game State
+        let score = 0;
+        let level = 1;
+        let combo = 1;
+        let maxCombo = 1;
+        let lives = 3;
+        let patternsMatched = 0;
+        let patternsForNextLevel = 5;
+        let timer = 100;
+        let timerInterval;
+        let currentPattern = [];
+        let playerSequence = [];
+        let isProcessing = false;
+        let gameActive = false;
+        let correctPatterns = 0;
+        let totalAttempts = 0;
+        
+        // Node types
+        const nodeTypes = [
+            { type: 'speed', icon: '⚡', color: '#ff6b6b', gradient: 'linear-gradient(135deg, #ff6b6b, #ee5a5a)' },
+            { type: 'memory', icon: '🧠', color: '#4ecdc4', gradient: 'linear-gradient(135deg, #4ecdc4, #44a08d)' },
+            { type: 'logic', icon: '🔷', color: '#96e6a1', gradient: 'linear-gradient(135deg, #96e6a1, #7dd87d)' },
+            { type: 'pattern', icon: '🔮', color: '#ffe66d', gradient: 'linear-gradient(135deg, #ffe66d, #ffd93d)' }
+        ];
+        
+        // Badges
+        const badges = {
+            speedDemon: { name: '⚡ Speed Demon', condition: () => patternsMatched >= 10 && timer > 70, desc: 'Match 10 patterns with 70%+ time' },
+            comboMaster: { name: '🔥 Combo Master', condition: () => maxCombo >= 10, desc: 'Reach a 10x combo' },
+            perfectRun: { name: '💎 Perfect Run', condition: () => correctPatterns >= 20 && totalAttempts === correctPatterns, desc: '20 perfect matches' },
+            neuralLegend: { name: '🏆 Neural Legend', condition: () => level >= 5, desc: 'Reach level 5' },
+            survivor: { name: '🛡️ Survivor', condition: () => lives === 3 && patternsMatched >= 15, desc: '15 patterns without losing lives' }
+        };
+        let earnedBadges = [];
+        
+        function startGame() {
+            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('game-ui').style.display = 'flex';
+            document.getElementById('target-section').style.display = 'block';
+            document.getElementById('game-grid').style.display = 'grid';
+            document.getElementById('timer-container').style.display = 'block';
+            document.getElementById('level-progress').style.display = 'block';
+            
+            resetGameState();
+            generateLevel();
+            startTimer();
+            gameActive = true;
+        }
+        
+        function resetGameState() {
+            score = 0;
+            level = 1;
+            combo = 1;
+            maxCombo = 1;
+            lives = 3;
+            patternsMatched = 0;
+            patternsForNextLevel = 5;
+            timer = 100;
+            correctPatterns = 0;
+            totalAttempts = 0;
+            earnedBadges = [];
+            updateUI();
+        }
+        
+        function generateLevel() {
+            const gridSize = Math.min(5 + Math.floor(level / 2), 7);
+            const patternLength = Math.min(3 + Math.floor(level / 2), 6);
+            
+            // Generate random target pattern
+            currentPattern = [];
+            for (let i = 0; i < patternLength; i++) {
+                currentPattern.push(Math.floor(Math.random() * nodeTypes.length));
+            }
+            
+            // Create grid with guaranteed pattern nodes plus randoms
+            let gridNodes = [];
+            currentPattern.forEach(typeIndex => gridNodes.push(typeIndex));
+            
+            // Fill remaining slots
+            while (gridNodes.length < gridSize * gridSize) {
+                gridNodes.push(Math.floor(Math.random() * nodeTypes.length));
+            }
+            
+            // Shuffle
+            gridNodes.sort(() => Math.random() - 0.5);
+            
+            // Render target
+            const targetContainer = document.getElementById('target-pattern');
+            targetContainer.innerHTML = '';
+            currentPattern.forEach((typeIndex, i) => {
+                const node = document.createElement('div');
+                node.className = 'target-node';
+                node.style.background = nodeTypes[typeIndex].gradient;
+                node.style.color = '#fff';
+                node.textContent = nodeTypes[typeIndex].icon;
+                node.style.animationDelay = `${i * 0.1}s`;
+                targetContainer.appendChild(node);
+            });
+            
+            // Render grid
+            const gridContainer = document.getElementById('game-grid');
+            gridContainer.innerHTML = '';
+            gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+            
+            gridNodes.forEach((typeIndex, i) => {
+                const node = document.createElement('div');
+                node.className = 'synapse-node';
+                node.style.background = nodeTypes[typeIndex].gradient;
+                node.style.color = '#fff';
+                node.textContent = nodeTypes[typeIndex].icon;
+                node.dataset.type = typeIndex;
+                node.dataset.index = i;
+                node.onclick = () => selectNode(i, typeIndex, node);
+                gridContainer.appendChild(node);
+            });
+            
+            playerSequence = [];
+            isProcessing = false;
+            timer = Math.max(100 - (level - 1) * 5, 40); // Timer gets faster
+            updateUI();
+        }
+        
+        function selectNode(index, typeIndex, nodeElement) {
+            if (!gameActive || isProcessing) return;
+            
+            const expectedType = currentPattern[playerSequence.length];
+            
+            if (typeIndex === expectedType) {
+                // Correct!
+                playerSequence.push(typeIndex);
+                nodeElement.classList.add('selected', 'correct');
+                createParticles(nodeElement, nodeTypes[typeIndex].color);
+                playSound('correct');
+                
+                if (playerSequence.length === currentPattern.length) {
+                    // Pattern complete!
+                    isProcessing = true;
+                    patternComplete();
+                }
+            } else {
+                // Wrong!
+                nodeElement.classList.add('wrong');
+                playSound('wrong');
+                totalAttempts++;
+                combo = 1;
+                lives--;
+                timer = Math.max(timer - 10, 20);
+                
+                setTimeout(() => {
+                    nodeElement.classList.remove('wrong');
+                    if (lives <= 0) {
+                        gameOver();
+                    } else {
+                        playerSequence = [];
+                        document.querySelectorAll('.synapse-node').forEach(n => n.classList.remove('selected'));
+                        updateUI();
+                    }
+                }, 400);
+            }
+            updateUI();
+        }
+        
+        function patternComplete() {
+            correctPatterns++;
+            totalAttempts++;
+            patternsMatched++;
+            
+            // Score calculation with combo
+            const baseScore = 100 * currentPattern.length;
+            const comboBonus = combo > 1 ? (combo - 1) * 50 : 0;
+            const levelBonus = level * 20;
+            score += baseScore + comboBonus + levelBonus;
+            
+            combo++;
+            if (combo > maxCombo) maxCombo = combo;
+            
+            // Bonus time
+            timer = Math.min(timer + 15, 100);
+            
+            createConfetti();
+            playSound('complete');
+            
+            // Check badges
+            checkBadges();
+            
+            // Check level up
+            if (patternsMatched >= patternsForNextLevel) {
+                level++;
+                patternsMatched = 0;
+                patternsForNextLevel += 2;
+                showBadgePopup('🆙', `Level ${level}!`);
+            }
+            
+            // Check win condition (level 10)
+            if (level >= 10) {
+                winGame();
+                return;
+            }
+            
+            setTimeout(() => {
+                generateLevel();
+                isProcessing = false;
+            }, 800);
+            
+            updateUI();
+        }
+        
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (!gameActive) return;
+                timer -= 0.5;
+                if (timer <= 0) {
+                    timer = 0;
+                    gameOver();
+                }
+                document.getElementById('timer-bar').style.width = timer + '%';
+            }, 100);
+        }
+        
+        function checkBadges() {
+            Object.entries(badges).forEach(([key, badge]) => {
+                if (!earnedBadges.includes(key) && badge.condition()) {
+                    earnedBadges.push(key);
+                    showBadgePopup(badge.name.split(' ')[0], badge.name);
+                }
+            });
+        }
+        
+        function showBadgePopup(icon, text) {
+            const popup = document.getElementById('badge-popup');
+            document.getElementById('badge-icon').textContent = icon;
+            document.getElementById('badge-text').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => popup.classList.remove('show'), 2000);
+        }
+        
+        function createParticles(element, color) {
+            const rect = element.getBoundingClientRect();
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = rect.left + rect.width/2 + 'px';
+                particle.style.top = rect.top + rect.height/2 + 'px';
+                particle.style.width = '10px';
+                particle.style.height = '10px';
+                particle.style.background = color;
+                particle.style.borderRadius = '50%';
+                particle.style.setProperty('--tx', (Math.random() - 0.5) * 100 + 'px');
+                particle.style.setProperty('--ty', (Math.random() - 0.5) * 100 + 'px');
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+        
+        function createConfetti() {
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'particle';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.width = '8px';
+                confetti.style.height = '8px';
+                confetti.style.background = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#96e6a1'][Math.floor(Math.random() * 4)];
+                confetti.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+                confetti.style.setProperty('--ty', window.innerHeight + 'px');
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 1000);
+            }
+        }
+        
+        function playSound(type) {
+            // Visual feedback instead of audio (for compatibility)
+            const flash = document.createElement('div');
+            flash.style.position = 'fixed';
+            flash.style.top = '0'; flash.style.left = '0';
+            flash.style.right = '0'; flash.style.bottom = '0';
+            flash.style.pointerEvents = 'none';
+            flash.style.zIndex = '999';
+            
+            if (type === 'correct') {
+                flash.style.background = 'rgba(78, 205, 196, 0.2)';
+            } else if (type === 'wrong') {
+                flash.style.background = 'rgba(255, 107, 107, 0.3)';
+            } else if (type === 'complete') {
+                flash.style.background = 'rgba(255, 230, 109, 0.3)';
+            }
+            
+            document.body.appendChild(flash);
+            setTimeout(() => {
+                flash.style.transition = 'opacity 0.3s';
+                flash.style.opacity = '0';
+                setTimeout(() => flash.remove(), 300);
+            }, 100);
+        }
+        
+        function updateUI() {
+            document.getElementById('score').textContent = score.toLocaleString();
+            document.getElementById('level').textContent = level;
+            document.getElementById('combo-display').textContent = 'x' + combo;
+            document.getElementById('lives').textContent = '❤️'.repeat(Math.max(0, lives));
+            document.getElementById('patterns-count').textContent = patternsMatched;
+            document.getElementById('patterns-needed').textContent = patternsForNextLevel;
+        }
+        
+        function gameOver() {
+            gameActive = false;
+            clearInterval(timerInterval);
+            
+            document.getElementById('final-score').textContent = score.toLocaleString();
+            document.getElementById('final-level').textContent = level;
+            document.getElementById('final-patterns').textContent = patternsMatched;
+            
+            const badgesContainer = document.getElementById('badges-earned');
+            badgesContainer.innerHTML = '';
+            if (earnedBadges.length === 0) {
+                badgesContainer.innerHTML = '<span style="color: #666;">No badges earned this run</span>';
+            } else {
+                earnedBadges.forEach(key => {
+                    const badge = document.createElement('div');
+                    badge.className = 'earned-badge';
+                    badge.textContent = badges[key].name;
+                    badgesContainer.appendChild(badge);
+                });
+            }
+            
+            document.getElementById('game-over').classList.add('show');
+        }
+        
+        function winGame() {
+            gameActive = false;
+            clearInterval(timerInterval);
+            
+            document.getElementById('win-score').textContent = score.toLocaleString();
+            document.getElementById('win-max-combo').textContent = 'x' + maxCombo;
+            const accuracy = totalAttempts > 0 ? Math.round((correctPatterns / totalAttempts) * 100) : 100;
+            document.getElementById('win-accuracy').textContent = accuracy + '%';
+            
+            // Give all remaining badges
+            Object.keys(badges).forEach(key => {
+                if (!earnedBadges.includes(key)) earnedBadges.push(key);
+            });
+            
+            const badgesContainer = document.getElementById('win-badges');
+            badgesContainer.innerHTML = '';
+            earnedBadges.forEach(key => {
+                const badge = document.createElement('div');
+                badge.className = 'earned-badge';
+                badge.textContent = badges[key].name;
+                badgesContainer.appendChild(badge);
+            });
+            
+            document.getElementById('win-screen').classList.add('show');
+        }
+        
+        function restartGame() {
+            document.getElementById('game-over').classList.remove('show');
+            document.getElementById('win-screen').classList.remove('show');
+            startGame();
+        }
+        
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !gameActive && document.getElementById('instructions').style.display !== 'none') {
+                startGame();
+            }
+            if (e.code === 'KeyR' && !gameActive) {
+                restartGame();
+            }
+        });
+    </script>
+</body>
+</html>

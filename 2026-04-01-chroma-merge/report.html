@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chroma Merge - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            color: #e94560;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #e94560;
+        }
+        .subtitle { color: #533483; margin-bottom: 30px; }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+        }
+        h2 {
+            color: #e94560;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        h3 {
+            color: #ffd700;
+            margin: 15px 0 10px;
+            font-size: 1.1rem;
+        }
+        p, li {
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        ul { margin-left: 20px; }
+        .metric {
+            display: inline-block;
+            background: rgba(233, 69, 96, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin: 5px;
+            border: 1px solid #e94560;
+        }
+        .metric-label { color: #888; font-size: 0.8rem; }
+        .metric-value { color: #e94560; font-size: 1.3rem; font-weight: bold; }
+        .risk-high { color: #ff6b6b; }
+        .risk-medium { color: #f1c40f; }
+        .risk-low { color: #2ecc71; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th { color: #e94560; background: rgba(233, 69, 96, 0.1); }
+        .tag {
+            display: inline-block;
+            background: rgba(233, 69, 96, 0.2);
+            color: #e94560;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌈 Chroma Merge</h1>
+        <p class="subtitle">Reporte Estratégico - Fusión de Colores con Física</p>
+
+        <div class="section">
+            <h2>🎯 Concepto Core</h2>
+            <p><strong>Chroma Merge</strong> es un juego de fusión (merge) que combina la satisfacción de combinar elementos con física de colisiones realista. Los orbes caen por gravedad, rebotan entre sí y el jugador debe arrastrarlos estratégicamente para fusionar orbes del mismo nivel.</p>
+            
+            <h3>Mecánica Principal</h3>
+            <ul>
+                <li>10 niveles de orbes, cada uno más grande y valioso</li>
+                <li>Física real: gravedad, rebotes, fricción</li>
+                <li>Arrastra orbes del mismo nivel para fusionarlos</li>
+                <li>Nuevos orbes aparecen automáticamente cada 4 segundos</li>
+                <li>Game over si cualquier orbe toca la línea roja superior</li>
+            </ul>
+            
+            <h3>Progresión de Niveles</h3>
+            <table>
+                <tr><th>Nivel</th><th>Color</th><th>Puntos al fusionar</th></tr>
+                <tr><td>1</td><td>Rojo</td><td>200</td></tr>
+                <tr><td>2</td><td>Naranja</td><td>300</td></tr>
+                <tr><td>3</td><td>Amarillo</td><td>400</td></tr>
+                <tr><td>4</td><td>Verde</td><td>500</td></tr>
+                <tr><td>5</td><td>Cyan</td><td>600</td></tr>
+                <tr><td>6</td><td>Azul</td><td>700</td></tr>
+                <tr><td>7</td><td>Violeta</td><td>800</td></tr>
+                <tr><td>8</td><td>Magenta</td><td>900</td></tr>
+                <tr><td>9</td><td>Turquesa</td><td>1000</td></tr>
+                <tr><td>10</td><td>Oro</td><td>Victoria</td></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Game Loop</h2>
+            <table>
+                <tr>
+                    <th>Fase</th>
+                    <th>Duración</th>
+                    <th>Descripción</th>
+                </tr>
+                <tr>
+                    <td>Estrategia</td>
+                    <td>3-10s</td>
+                    <td>Observar layout, planear fusiones</td>
+                </tr>
+                <tr>
+                    <td>Ejecución</td>
+                    <td>2-5s</td>
+                    <td>Arrastrar orbe hacia objetivo</td>
+                </tr>
+                <tr>
+                    <td>Fusión</td>
+                    <td>1s</td>
+                    <td>Efectos visuales + puntos + nuevo orbe</td>
+                </tr>
+                <tr>
+                    <td>Reajuste</td>
+                    <td>2-4s</td>
+                    <td>Física estabiliza, nuevo orbe aparece</td>
+                </tr>
+            </table>
+            <p><strong>Dinámica:</strong> Estrategia + acción rápida. Satisfacción táctil de arrastrar y fusionar.</p>
+        </div>
+
+        <div class="section">
+            <h2>🎁 Sistema de Recompensas</h2>
+            <h3>Puntuación</h3>
+            <ul>
+                <li>Fusión: nivel_resultante × 100 puntos</li>
+                <li>Combo: +50% por fusión consecutiva en <3s</li>
+                <li>Combo x3: popup visual especial</li>
+            </ul>
+            
+            <h3>Insignias</h3>
+            <ul>
+                <li>🔰 Principiante: 500 puntos</li>
+                <li>⚗️ Fusionador: 10 fusiones</li>
+                <li>🎨 Maestro del Color: Orbe nivel 5</li>
+                <li>🌈 Cromático: Orbe nivel 8</li>
+                <li>👑 Legendario: Orbe nivel 10</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📊 KPIs Esperados</h2>
+            <div class="metric">
+                <div class="metric-label">D1 Retention</div>
+                <div class="metric-value">45-55%</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">D7 Retention</div>
+                <div class="metric-value">20-28%</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Sesión Promedio</div>
+                <div class="metric-value">12-18 min</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Fusiones/Sesión</div>
+                <div class="metric-value">30-60</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Win Rate</div>
+                <div class="metric-value">8-15%</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔍 SEO/ASO/SEM Strategy</h2>
+            
+            <h3>Keywords Primarias (ES)</h3>
+            <span class="tag">juego de fusión</span>
+            <span class="tag">merge game</span>
+            <span class="tag">2048</span>
+            <span class="tag">juego de física</span>
+            <span class="tag">puzzle</span>
+            <span class="tag">colores</span>
+            
+            <h3>Keywords Primarias (EN)</h3>
+            <span class="tag">merge game</span>
+            <span class="tag">physics puzzle</span>
+            <span class="tag">ball merge</span>
+            <span class="tag">color match</span>
+            <span class="tag">suika game</span>
+            
+            <h3>Título Optimizado</h3>
+            <p><strong>ES:</strong> "Chroma Merge - Juego de Fusión de Colores"</p>
+            <p><strong>EN:</strong> "Chroma Merge - Physics Color Puzzle"</p>
+            
+            <h3>Descripción Corta</h3>
+            <p>"🌈 Fusiona orbes de colores con física real. Arrastra, combina y crea el Orbe Dorado. ¡Adictivo y satisfactorio!"</p>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Experimentos A/B Propuestos</h2>
+            <table>
+                <tr>
+                    <th>Experimento</th>
+                    <th>Variante A</th>
+                    <th>Variante B</th>
+                    <th>Métrica</th>
+                </tr>
+                <tr>
+                    <td>Spawn rate</td>
+                    <td>Cada 4s</td>
+                    <td>Cada 3s</td>
+                    <td>Sesión duration</td>
+                </tr>
+                <tr>
+                    <td>Gravedad</td>
+                    <td>0.3</td>
+                    <td>0.5</td>
+                    <td>D1 Retention</td>
+                </tr>
+                <tr>
+                    <td>Victoria</td>
+                    <td>Nivel 10</td>
+                    <td>Nivel 12</td>
+                    <td>Win rate</td>
+                </tr>
+                <tr>
+                    <td>Undo</td>
+                    <td>Sin undo</td>
+                    <td>1 undo por anuncio</td>
+                    <td>Ad Revenue</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Riesgos y Mitigaciones</h2>
+            
+            <h3 class="risk-medium">Riesgo Medio: Similaridad con Suika Game</h3>
+            <p>Mecánica muy similar al hit japonés. <strong>Mitigación:</strong> Diferenciación visual fuerte, modos adicionales, temas personalizables.</p>
+            
+            <h3 class="risk-low">Riesgo Bajo: Dificultad de victoria</h3>
+            <p>Pocos jugadores llegan al nivel 10. <strong>Mitigación:</strong> Power-ups, modo práctica, logros intermedios.</p>
+            
+            <h3 class="risk-medium">Riesgo Medio: Performance</h3>
+            <p>Física con muchos orbes puede laggear. <strong>Mitigación:</strong> Optimización de colisiones, límite de orbes en pantalla.</p>
+        </div>
+
+        <div class="section">
+            <h2>📈 Roadmap Sugerido</h2>
+            <table>
+                <tr>
+                    <th>Fase</th>
+                    <th>Features</th>
+                    <th>Timeline</th>
+                </tr>
+                <tr>
+                    <td>MVP</td>
+                    <td>Juego base, física, 10 niveles</td>
+                    <td>Semana 1</td>
+                </tr>
+                <tr>
+                    <td>Modos</td>
+                    <td>Contrarreloj, Zen, Desafíos</td>
+                    <td>Semana 2</td>
+                </tr>
+                <tr>
+                    <td>Personalización</td>
+                    <td>Temas de orbes, fondos</td>
+                    <td>Semana 3</td>
+                </tr>
+                <tr>
+                    <td>Social</td>
+                    <td>Leaderboards, multijugador async</td>
+                    <td>Semana 4</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>📝 Notas de Implementación</h2>
+            <p><strong>Shipped:</strong> 2026-04-01</p>
+            <p><strong>Estado:</strong> ✅ Completo y jugable</p>
+            <p><strong>Riesgos identificados:</strong> Win rate puede ser muy bajo (<10%). Considerar añadir power-ups (bomba, shuffle) para ayudar a jugadores. Posible modo "endless" sin game over para práctica.</p>
+        </div>
+    </div>
+</body>
+</html>

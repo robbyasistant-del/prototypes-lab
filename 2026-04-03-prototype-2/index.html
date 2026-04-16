@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Chromatic Puzzle Core</title>
+  <style>
+    :root {
+      --bg1: #050816;
+      --bg2: #09162d;
+      --cyan: #7ef9ff;
+      --blue: #4d8cff;
+      --pink: #ff67d4;
+      --gold: #ffd166;
+      --danger: #ff5d73;
+      --good: #72ffb0;
+      --panel: rgba(8, 14, 32, 0.72);
+      --line: rgba(126, 249, 255, 0.18);
+      --text: #eaf7ff;
+      --muted: #9bb8cc;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 25%, rgba(77,140,255,0.18), transparent 30%),
+        radial-gradient(circle at 25% 15%, rgba(255,103,212,0.12), transparent 24%),
+        radial-gradient(circle at 75% 80%, rgba(126,249,255,0.1), transparent 28%),
+        linear-gradient(180deg, var(--bg2), var(--bg1));
+      color: var(--text);
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      touch-action: none;
+    }
+
+    #gameCanvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .hud {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      padding: 16px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: 0 0 32px rgba(0,0,0,0.3), inset 0 0 18px rgba(126,249,255,0.08);
+      border-radius: 18px;
+      backdrop-filter: blur(8px);
+    }
+
+    .score-panel {
+      padding: 12px 16px;
+      min-width: 180px;
+    }
+
+    .score-label {
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .score-value {
+      font-size: clamp(30px, 6vw, 42px);
+      font-weight: 800;
+      line-height: 1;
+      margin-top: 4px;
+      color: white;
+      text-shadow: 0 0 22px rgba(126,249,255,0.35);
+    }
+
+    .status-panel {
+      padding: 12px 16px;
+      display: grid;
+      gap: 8px;
+      min-width: 220px;
+      text-align: right;
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14px;
+    }
+
+    .badge {
+      position: fixed;
+      left: 50%;
+      top: 90px;
+      transform: translateX(-50%);
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255, 209, 102, 0.12);
+      border: 1px solid rgba(255, 209, 102, 0.4);
+      box-shadow: 0 0 24px rgba(255, 209, 102, 0.18);
+      color: #fff5d6;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none;
+    }
+
+    .badge.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .overlay,
+    .end-screen {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+    }
+
+    .overlay-card,
+    .end-card {
+      width: min(92vw, 720px);
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(6, 12, 28, 0.72);
+      border: 1px solid rgba(126, 249, 255, 0.18);
+      box-shadow: 0 0 36px rgba(0,0,0,0.45), inset 0 0 24px rgba(126,249,255,0.05);
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+
+    .overlay {
+      animation: fadeInstructions 2.2s ease forwards;
+    }
+
+    @keyframes fadeInstructions {
+      0%, 68% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+
+    .kicker {
+      color: var(--cyan);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    h1, h2 { margin: 0 0 12px; }
+    h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      text-shadow: 0 0 24px rgba(126,249,255,0.25);
+    }
+    h2 { font-size: clamp(24px, 4vw, 38px); }
+
+    .instructions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      text-align: left;
+      margin-top: 18px;
+    }
+
+    .instructions div,
+    .legend {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .legend small,
+    .instructions small,
+    .subtle {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .end-screen {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease;
+    }
+
+    .end-screen.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      pointer-events: auto;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 20px;
+      color: #001018;
+      background: linear-gradient(90deg, var(--cyan), #b7f6ff);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(126,249,255,0.22);
+    }
+
+    button.secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: none;
+    }
+
+    .bottom-help {
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(7, 13, 28, 0.65);
+      border: 1px solid rgba(126,249,255,0.16);
+      color: var(--muted);
+      font-size: 13px;
+      pointer-events: none;
+      text-align: center;
+      max-width: calc(100vw - 24px);
+    }
+
+    .color-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .status-panel { text-align: left; }
+      .instructions { grid-template-columns: 1fr; }
+      .badge { top: 132px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+
+  <div class="hud">
+    <div class="topbar">
+      <div class="panel score-panel">
+        <div class="score-label">Core Score</div>
+        <div class="score-value" id="scoreValue">0</div>
+      </div>
+      <div class="panel status-panel">
+        <div class="status-row"><span>Integrity</span><strong id="livesValue">3 / 3</strong></div>
+        <div class="status-row"><span>Time</span><strong id="timeValue">60.0s</strong></div>
+        <div class="status-row"><span>Badge</span><strong id="badgeValue">Unranked</strong></div>
+        <div class="status-row"><span>Combo</span><strong id="comboValue">x1</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="badge" id="badgeToast">Color Novice unlocked</div>
+
+  <div class="overlay" id="instructionsOverlay">
+    <div class="overlay-card panel">
+      <div class="kicker">Chromatic Puzzle Core</div>
+      <h1>Rotate. Match. Mix. Survive 60 seconds.</h1>
+      <div class="instructions">
+        <div>
+          <strong>Controls</strong><br>
+          <small>Desktop: ← / → rotate the core.<br>Mobile: swipe left or right anywhere.</small>
+        </div>
+        <div>
+          <strong>Goal</strong><br>
+          <small>Incoming asteroids hit from North, East, South, and West. Align the emitter facing that lane to the asteroid color.</small>
+        </div>
+        <div>
+          <strong>RYB Mix Bonus</strong><br>
+          <small>Red + Yellow = Orange, Blue + Yellow = Green, Red + Blue = Purple. Matching with a mixed beam earns a bigger payout.</small>
+        </div>
+        <div>
+          <strong>Fail State</strong><br>
+          <small>Miss 3 asteroids and the core collapses. Hold out for 60 seconds to win.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="end-screen" id="endScreen">
+    <div class="end-card panel">
+      <div class="kicker" id="endKicker">Simulation Ended</div>
+      <h2 id="endTitle">Victory</h2>
+      <p id="endText" class="subtle"></p>
+      <div class="btn-row">
+        <button id="restartBtn">Run Again</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-help">Swipe or press arrow keys to rotate · Mixed colors give bonus points · 3 hits = game over</div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const scoreValue = document.getElementById('scoreValue');
+    const livesValue = document.getElementById('livesValue');
+    const timeValue = document.getElementById('timeValue');
+    const badgeValue = document.getElementById('badgeValue');
+    const comboValue = document.getElementById('comboValue');
+    const badgeToast = document.getElementById('badgeToast');
+    const endScreen = document.getElementById('endScreen');
+    const endKicker = document.getElementById('endKicker');
+    const endTitle = document.getElementById('endTitle');
+    const endText = document.getElementById('endText');
+    const restartBtn = document.getElementById('restartBtn');
+
+    let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    function resize() {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const COLORS = {
+      red: '#ff5468',
+      yellow: '#ffd65c',
+      blue: '#5aa7ff',
+      orange: '#ff9b4f',
+      green: '#44f0a3',
+      purple: '#ca7cff'
+    };
+
+    const BASE_COLORS = ['red', 'yellow', 'blue'];
+    const MIXES = {
+      'red+yellow': 'orange',
+      'yellow+red': 'orange',
+      'blue+yellow': 'green',
+      'yellow+blue': 'green',
+      'red+blue': 'purple',
+      'blue+red': 'purple'
+    };
+
+    const LANES = [
+      { name: 'north', angle: -Math.PI / 2, dx: 0, dy: -1 },
+      { name: 'east', angle: 0, dx: 1, dy: 0 },
+      { name: 'south', angle: Math.PI / 2, dx: 0, dy: 1 },
+      { name: 'west', angle: Math.PI, dx: -1, dy: 0 }
+    ];
+
+    const state = {
+      running: true,
+      won: false,
+      lost: false,
+      score: 0,
+      combo: 0,
+      lives: 3,
+      elapsed: 0,
+      duration: 60,
+      rotationIndex: 0,
+      rotationVisual: 0,
+      rotationPulse: 0,
+      spawnTimer: 0,
+      asteroids: [],
+      particles: [],
+      stars: [],
+      shockwaves: [],
+      flashes: [],
+      badge: 'Unranked',
+      unlocked: new Set(),
+      lastTime: 0
+    };
+
+    function resetGame() {
+      state.running = true;
+      state.won = false;
+      state.lost = false;
+      state.score = 0;
+      state.combo = 0;
+      state.lives = 3;
+      state.elapsed = 0;
+      state.rotationIndex = 0;
+      state.rotationVisual = 0;
+      state.rotationPulse = 0;
+      state.spawnTimer = 0;
+      state.asteroids = [];
+      state.particles = [];
+      state.shockwaves = [];
+      state.flashes = [];
+      state.badge = 'Unranked';
+      state.unlocked = new Set();
+      endScreen.classList.remove('show');
+      syncHud();
+    }
+
+    function buildStars() {
+      state.stars = [];
+      const count = Math.floor((w * h) / 6000);
+      for (let i = 0; i < count; i++) {
+        state.stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 1.8 + 0.3,
+          a: Math.random() * Math.PI * 2,
+          s: Math.random() * 0.7 + 0.2
+        });
+      }
+    }
+    buildStars();
+    window.addEventListener('resize', buildStars);
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function beep(freq, duration, type, gain, glide) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+      if (glide) osc.frequency.linearRampToValueAtTime(glide, now + duration);
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(gain || 0.05, now + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      osc.connect(g).connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + duration + 0.02);
+    }
+
+    function playRotate() {
+      beep(360, 0.08, 'triangle', 0.04, 560);
+      state.rotationPulse = 1;
+      flash('#7ef9ff', 0.2);
+    }
+
+    function playMatch(mixed = false) {
+      beep(mixed ? 880 : 720, 0.12, 'sine', mixed ? 0.07 : 0.055, mixed ? 1120 : 980);
+      setTimeout(() => beep(mixed ? 1320 : 980, 0.09, 'triangle', mixed ? 0.05 : 0.04), 60);
+      flash(mixed ? '#ffd166' : '#72ffb0', mixed ? 0.28 : 0.18);
+    }
+
+    function playHit() {
+      beep(180, 0.16, 'sawtooth', 0.06, 90);
+      setTimeout(() => beep(120, 0.18, 'square', 0.05, 70), 40);
+      flash('#ff5d73', 0.35);
+    }
+
+    function playWin() {
+      [620, 820, 1040].forEach((f, i) => setTimeout(() => beep(f, 0.16, 'triangle', 0.06, f + 90), i * 120));
+    }
+
+    function flash(color, alpha) {
+      state.flashes.push({ color, alpha, life: 0.28, max: 0.28 });
+    }
+
+    function showBadge(text) {
+      badgeToast.textContent = text;
+      badgeToast.classList.add('show');
+      setTimeout(() => badgeToast.classList.remove('show'), 1800);
+    }
+
+    function updateBadge() {
+      let newBadge = 'Unranked';
+      if (state.score >= 1200) newBadge = 'Chromatic God';
+      else if (state.score >= 500) newBadge = 'Spectrum Weaver';
+      else if (state.score >= 150) newBadge = 'Color Novice';
+
+      if (newBadge !== state.badge) {
+        state.badge = newBadge;
+        if (newBadge !== 'Unranked' && !state.unlocked.has(newBadge)) {
+          state.unlocked.add(newBadge);
+          showBadge(newBadge + ' unlocked');
+        }
+      }
+    }
+
+    function syncHud() {
+      scoreValue.textContent = Math.floor(state.score);
+      livesValue.textContent = state.lives + ' / 3';
+      timeValue.textContent = Math.max(0, state.duration - state.elapsed).toFixed(1) + 's';
+      badgeValue.textContent = state.badge;
+      comboValue.textContent = 'x' + Math.max(1, state.combo + 1);
+    }
+
+    function emitterColors(rotationIndex) {
+      const base = ['red', 'yellow', 'blue', 'red'];
+      const out = [];
+      for (let i = 0; i < 4; i++) out.push(base[(i - rotationIndex + 4) % 4]);
+      return out;
+    }
+
+    function mixForLane(colors, laneIndex) {
+      const main = colors[laneIndex];
+      const left = colors[(laneIndex + 3) % 4];
+      const right = colors[(laneIndex + 1) % 4];
+      const mixed = MIXES[main + '+' + left] || MIXES[main + '+' + right];
+      return mixed || main;
+    }
+
+    function rotate(dir) {
+      if (!state.running) return;
+      state.rotationIndex = (state.rotationIndex + dir + 4) % 4;
+      playRotate();
+    }
+
+    function spawnAsteroid() {
+      const laneIndex = Math.floor(Math.random() * 4);
+      const weights = [0.38, 0.38, 0.16, 0.08];
+      const roll = Math.random();
+      let acc = 0;
+      let pick = 'red';
+      const pool = ['red', 'yellow', 'blue', 'orange'];
+      for (let i = 0; i < weights.length; i++) {
+        acc += weights[i];
+        if (roll <= acc) { pick = pool[i]; break; }
+      }
+      if (Math.random() < Math.min(0.28, state.elapsed / 150)) {
+        pick = ['green', 'purple', 'orange'][Math.floor(Math.random() * 3)];
+      }
+
+      const cx = w / 2, cy = h / 2;
+      const startDist = Math.min(w, h) * 0.62 + 120;
+      const lane = LANES[laneIndex];
+      state.asteroids.push({
+        laneIndex,
+        color: pick,
+        dist: startDist,
+        speed: 120 + state.elapsed * 1.4 + Math.random() * 24,
+        radius: 18 + Math.random() * 10,
+        spin: (Math.random() - 0.5) * 2.4,
+        rot: Math.random() * Math.PI * 2,
+        x: cx + lane.dx * startDist,
+        y: cy + lane.dy * startDist,
+        dead: false
+      });
+    }
+
+    function burst(x, y, color, amount, spread = 1) {
+      for (let i = 0; i < amount; i++) {
+        const ang = Math.random() * Math.PI * 2;
+        const speed = (Math.random() * 140 + 40) * spread;
+        state.particles.push({
+          x, y,
+          vx: Math.cos(ang) * speed,
+          vy: Math.sin(ang) * speed,
+          r: Math.random() * 3 + 1.5,
+          life: Math.random() * 0.55 + 0.35,
+          maxLife: 0,
+          color
+        });
+        state.particles[state.particles.length - 1].maxLife = state.particles[state.particles.length - 1].life;
+      }
+      state.shockwaves.push({ x, y, r: 10, life: 0.35, max: 0.35, color });
+    }
+
+    function endGame(win) {
+      state.running = false;
+      state.won = win;
+      state.lost = !win;
+      if (win) playWin();
+      endKicker.textContent = win ? 'Core Stabilized' : 'Core Collapse';
+      endTitle.textContent = win ? 'Victory' : 'Game Over';
+      endText.innerHTML = win
+        ? 'You survived the full 60-second surge.<br><br><strong>Final score:</strong> ' + Math.floor(state.score) + ' · <strong>Badge:</strong> ' + state.badge
+        : 'Three asteroids breached the defenses.<br><br><strong>Final score:</strong> ' + Math.floor(state.score) + ' · <strong>Badge:</strong> ' + state.badge;
+      endScreen.classList.add('show');
+    }
+
+    function update(dt) {
+      if (!state.lastTime) state.lastTime = performance.now();
+      state.rotationVisual += (((state.rotationIndex * Math.PI) / 2) - state.rotationVisual) * Math.min(1, dt * 11);
+      state.rotationPulse = Math.max(0, state.rotationPulse - dt * 3.5);
+
+      for (const s of state.stars) {
+        s.y += s.s * 10 * dt;
+        if (s.y > h + 2) { s.y = -2; s.x = Math.random() * w; }
+        s.a += dt * s.s;
+      }
+
+      for (let i = state.flashes.length - 1; i >= 0; i--) {
+        state.flashes[i].life -= dt;
+        if (state.flashes[i].life <= 0) state.flashes.splice(i, 1);
+      }
+
+      for (let i = state.shockwaves.length - 1; i >= 0; i--) {
+        const sw = state.shockwaves[i];
+        sw.life -= dt;
+        sw.r += 220 * dt;
+        if (sw.life <= 0) state.shockwaves.splice(i, 1);
+      }
+
+      for (let i = state.particles.length - 1; i >= 0; i--) {
+        const p = state.particles[i];
+        p.life -= dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.vx *= 0.985;
+        p.vy *= 0.985;
+        if (p.life <= 0) state.particles.splice(i, 1);
+      }
+
+      if (!state.running) return;
+
+      state.elapsed += dt;
+      if (state.elapsed >= state.duration) {
+        state.elapsed = state.duration;
+        syncHud();
+        endGame(true);
+        return;
+      }
+
+      const spawnInterval = Math.max(0.42, 1.18 - state.elapsed * 0.0095);
+      state.spawnTimer += dt;
+      if (state.spawnTimer >= spawnInterval) {
+        state.spawnTimer = 0;
+        spawnAsteroid();
+        if (Math.random() < Math.min(0.42, state.elapsed / 120)) {
+          setTimeout(() => { if (state.running) spawnAsteroid(); }, 160);
+        }
+      }
+
+      const colors = emitterColors(state.rotationIndex);
+      const coreRadius = Math.min(w, h) * 0.12;
+      const impactDistance = coreRadius + 28;
+      const cx = w / 2, cy = h / 2;
+
+      for (let i = state.asteroids.length - 1; i >= 0; i--) {
+        const a = state.asteroids[i];
+        a.rot += a.spin * dt;
+        a.dist -= a.speed * dt;
+        const lane = LANES[a.laneIndex];
+        a.x = cx + lane.dx * a.dist;
+        a.y = cy + lane.dy * a.dist;
+
+        if (a.dist <= impactDistance) {
+          const beamColor = mixForLane(colors, a.laneIndex);
+          const baseColor = colors[a.laneIndex];
+          const matched = (beamColor === a.color || baseColor === a.color);
+          const mixedMatch = (beamColor === a.color && beamColor !== baseColor);
+
+          if (matched) {
+            const gain = mixedMatch ? 70 : 40;
+            state.combo += 1;
+            state.score += gain + Math.min(180, state.combo * 6);
+            updateBadge();
+            playMatch(mixedMatch);
+            burst(a.x, a.y, COLORS[a.color], mixedMatch ? 28 : 18, mixedMatch ? 1.25 : 1);
+          } else {
+            state.lives -= 1;
+            state.combo = 0;
+            playHit();
+            burst(a.x, a.y, '#ff5d73', 24, 1.4);
+            if (state.lives <= 0) {
+              state.asteroids.splice(i, 1);
+              syncHud();
+              endGame(false);
+              return;
+            }
+          }
+
+          state.asteroids.splice(i, 1);
+        }
+      }
+
+      syncHud();
+    }
+
+    function drawBackground() {
+      const g = ctx.createRadialGradient(w / 2, h / 2, 20, w / 2, h / 2, Math.max(w, h) * 0.7);
+      g.addColorStop(0, 'rgba(20, 40, 74, 0.25)');
+      g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, w, h);
+
+      for (const s of state.stars) {
+        const twinkle = 0.5 + Math.sin(s.a * 2.5) * 0.4;
+        ctx.fillStyle = `rgba(170, 220, 255, ${0.2 + twinkle * 0.6})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.save();
+      ctx.strokeStyle = 'rgba(126,249,255,0.06)';
+      ctx.lineWidth = 1;
+      const step = Math.max(42, Math.min(w, h) * 0.08);
+      for (let x = 0; x < w; x += step) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = 0; y < h; y += step) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawAsteroid(a) {
+      ctx.save();
+      ctx.translate(a.x, a.y);
+      ctx.rotate(a.rot);
+
+      const color = COLORS[a.color];
+      ctx.shadowBlur = 22;
+      ctx.shadowColor = color;
+      const rg = ctx.createRadialGradient(-a.radius * 0.35, -a.radius * 0.35, 4, 0, 0, a.radius * 1.15);
+      rg.addColorStop(0, '#ffffff');
+      rg.addColorStop(0.18, color);
+      rg.addColorStop(0.68, shade(color, -30));
+      rg.addColorStop(1, '#101820');
+      ctx.fillStyle = rg;
+      polygon(0, 0, a.radius, 8, 0.18);
+      ctx.fill();
+
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      polygon(0, 0, a.radius, 8, 0.18);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function polygon(x, y, r, sides, variance) {
+      ctx.beginPath();
+      for (let i = 0; i < sides; i++) {
+        const ang = (i / sides) * Math.PI * 2;
+        const rr = r * (1 + Math.sin(i * 2.13) * variance);
+        const px = x + Math.cos(ang) * rr;
+        const py = y + Math.sin(ang) * rr;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+    }
+
+    function shade(hex, amt) {
+      const num = parseInt(hex.slice(1), 16);
+      let r = (num >> 16) + amt;
+      let g = ((num >> 8) & 0xff) + amt;
+      let b = (num & 0xff) + amt;
+      r = Math.max(0, Math.min(255, r));
+      g = Math.max(0, Math.min(255, g));
+      b = Math.max(0, Math.min(255, b));
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function drawCore() {
+      const cx = w / 2, cy = h / 2;
+      const radius = Math.min(w, h) * 0.12;
+      const outer = radius * 1.78;
+      const colors = emitterColors(state.rotationIndex);
+
+      ctx.save();
+      ctx.translate(cx, cy);
+
+      ctx.shadowBlur = 28;
+      ctx.shadowColor = 'rgba(126,249,255,0.35)';
+      ctx.strokeStyle = 'rgba(126,249,255,0.18)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(0, 0, outer, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(0, 0, outer * 0.72, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.stroke();
+
+      ctx.rotate(state.rotationVisual);
+      for (let i = 0; i < 4; i++) {
+        const ang = LANES[i].angle;
+        const color = COLORS[colors[i]];
+        const mixed = mixForLane(colors, i);
+        const beamColor = COLORS[mixed];
+
+        ctx.save();
+        ctx.rotate(ang);
+        ctx.shadowBlur = 20 + state.rotationPulse * 22;
+        ctx.shadowColor = beamColor;
+        ctx.fillStyle = 'rgba(255,255,255,0.05)';
+        roundedRect(radius * 0.15, -12, outer - radius * 0.05, 24, 12);
+        ctx.fill();
+
+        const lg = ctx.createLinearGradient(radius * 0.15, 0, outer, 0);
+        lg.addColorStop(0, color);
+        lg.addColorStop(1, beamColor);
+        ctx.strokeStyle = lg;
+        ctx.lineWidth = 8;
+        ctx.beginPath();
+        ctx.moveTo(radius * 0.25, 0);
+        ctx.lineTo(outer - 12, 0);
+        ctx.stroke();
+
+        ctx.fillStyle = beamColor;
+        ctx.beginPath();
+        ctx.arc(outer - 2, 0, 10 + state.rotationPulse * 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      const coreGradient = ctx.createRadialGradient(-radius * 0.25, -radius * 0.25, 10, 0, 0, radius * 1.2);
+      coreGradient.addColorStop(0, 'rgba(255,255,255,0.95)');
+      coreGradient.addColorStop(0.2, 'rgba(126,249,255,0.85)');
+      coreGradient.addColorStop(0.58, 'rgba(77,140,255,0.55)');
+      coreGradient.addColorStop(1, 'rgba(7,15,35,0.95)');
+      ctx.shadowBlur = 42;
+      ctx.shadowColor = 'rgba(126,249,255,0.35)';
+      ctx.fillStyle = coreGradient;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * 0.6, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function roundedRect(x, y, width, height, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + width, y, x + width, y + height, r);
+      ctx.arcTo(x + width, y + height, x, y + height, r);
+      ctx.arcTo(x, y + height, x, y, r);
+      ctx.arcTo(x, y, x + width, y, r);
+      ctx.closePath();
+    }
+
+    function drawLaneGuides() {
+      const cx = w / 2, cy = h / 2;
+      const radius = Math.min(w, h) * 0.12;
+      const guideLen = Math.min(w, h) * 0.36;
+      ctx.save();
+      for (let i = 0; i < 4; i++) {
+        const lane = LANES[i];
+        const x1 = cx + lane.dx * (radius + 8);
+        const y1 = cy + lane.dy * (radius + 8);
+        const x2 = cx + lane.dx * (radius + guideLen);
+        const y2 = cy + lane.dy * (radius + guideLen);
+        const lg = ctx.createLinearGradient(x1, y1, x2, y2);
+        lg.addColorStop(0, 'rgba(126,249,255,0.18)');
+        lg.addColorStop(1, 'rgba(126,249,255,0.02)');
+        ctx.strokeStyle = lg;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawParticles() {
+      for (const p of state.particles) {
+        const alpha = p.life / p.maxLife;
+        ctx.fillStyle = hexToRgba(p.color, alpha * 0.9);
+        ctx.shadowBlur = 16;
+        ctx.shadowColor = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * alpha, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      for (const sw of state.shockwaves) {
+        const alpha = sw.life / sw.max;
+        ctx.strokeStyle = hexToRgba(sw.color, alpha * 0.5);
+        ctx.lineWidth = 4 * alpha;
+        ctx.beginPath();
+        ctx.arc(sw.x, sw.y, sw.r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+
+    function drawFlashes() {
+      for (const fl of state.flashes) {
+        const a = (fl.life / fl.max) * fl.alpha;
+        ctx.fillStyle = hexToRgba(fl.color, a);
+        ctx.fillRect(0, 0, w, h);
+      }
+    }
+
+    function hexToRgba(hex, alpha) {
+      const num = parseInt(hex.replace('#', ''), 16);
+      const r = (num >> 16) & 255;
+      const g = (num >> 8) & 255;
+      const b = num & 255;
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, w, h);
+      drawBackground();
+      drawLaneGuides();
+      for (const a of state.asteroids) drawAsteroid(a);
+      drawCore();
+      drawParticles();
+      drawFlashes();
+    }
+
+    function loop(ts) {
+      if (!state.lastTime) state.lastTime = ts;
+      const dt = Math.min(0.033, (ts - state.lastTime) / 1000);
+      state.lastTime = ts;
+      update(dt);
+      render();
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') rotate(-1);
+      if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') rotate(1);
+      if (!state.running && (e.key === 'Enter' || e.key === ' ')) {
+        resetGame();
+      }
+    }, { passive: true });
+
+    let touchStartX = null;
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      if (touchStartX == null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 24) rotate(dx > 0 ? 1 : -1);
+      touchStartX = null;
+    }, { passive: true });
+
+    window.addEventListener('pointerdown', () => {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }, { passive: true });
+
+    restartBtn.addEventListener('click', () => {
+      state.lastTime = performance.now();
+      resetGame();
+    });
+
+    syncHud();
+  </script>
+</body>
+</html>

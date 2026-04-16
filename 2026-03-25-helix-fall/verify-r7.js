@@ -1,0 +1,24 @@
+const { chromium } = require('playwright');
+const path = require('path');
+(async() => {
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage({ viewport: { width: 430, height: 932 }, deviceScaleFactor: 1 });
+  const url = 'file:///' + path.resolve('C:/Users/robby/.openclaw/workspace/prototypes_html/2026-03-25-helix-fall/index.html').replace(/\\/g,'/');
+  const errors = [];
+  page.on('pageerror', e => errors.push(String(e)));
+  page.on('console', msg => { if(msg.type() === 'error') errors.push('console:'+msg.text()); });
+  await page.goto(url);
+  await page.screenshot({ path: 'C:/Users/robby/.openclaw/workspace/prototypes_html/2026-03-25-helix-fall/verify-menu-r7.png' });
+  await page.click('#playBtn');
+  await page.mouse.move(260, 650);
+  await page.mouse.down();
+  await page.mouse.move(360, 650, { steps: 8 });
+  await page.waitForTimeout(500);
+  await page.mouse.move(120, 650, { steps: 10 });
+  await page.waitForTimeout(700);
+  await page.mouse.up();
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'C:/Users/robby/.openclaw/workspace/prototypes_html/2026-03-25-helix-fall/verify-play-r7.png' });
+  console.log(JSON.stringify({ errors, url }));
+  await browser.close();
+})();

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chromaflow - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a0a2e, #2d1b4e);
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #888; font-size: 1.1em; margin-bottom: 30px; }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 0, 255, 0.2);
+        }
+        h2 {
+            color: #ff00ff;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        h3 { color: #00ffff; margin: 15px 0 10px; }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .metric {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        .metric-label { color: #888; font-size: 0.9em; }
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(255, 0, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 3px;
+        }
+        .risk { color: #ff6b6b; }
+        .opportunity { color: #00ff88; }
+        ul { margin-left: 20px; }
+        li { margin: 8px 0; }
+        .cta {
+            background: linear-gradient(135deg, #ff00ff, #aa00aa);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 CHROMAFLOW</h1>
+        <p class="subtitle">Strategy Report • Prototype 2026-04-02</p>
+        
+        <div class="section">
+            <h2>🎮 Game Overview</h2>
+            <p><strong>Genre:</strong> Puzzle / Physics / Color Mixing</p>
+            <p><strong>Core Mechanic:</strong> Drop colored blobs that merge when they touch. Same colors combine and grow; different colors mix to create new colors. Strategic placement creates satisfying cascade chains.</p>
+            <p><strong>Unique Hook:</strong> Combines the satisfaction of bubble merge games with color theory education. "Accidentally" learn color mixing while having fun.</p>
+            
+            <div style="margin-top: 15px;">
+                <span class="tag">#PhysicsPuzzle</span>
+                <span class="tag">#ColorMixing</span>
+                <span class="tag">#Casual</span>
+                <span class="tag">#Satisfying</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Core Loop & Engagement</h2>
+            
+            <div class="metric-grid">
+                <div class="metric">
+                    <div class="metric-value">2-5min</div>
+                    <div class="metric-label">Session Length</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">∞</div>
+                    <div class="metric-label">Levels (Procedural)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">High</div>
+                    <div class="metric-label">ASMR Potential</div>
+                </div>
+            </div>
+            
+            <h3>The "One More Try" Hooks:</h3>
+            <ul>
+                <li><strong>Chain Multiplier:</strong> Each consecutive merge increases score - risk/reward tension</li>
+                <li><strong>Visual Satisfaction:</strong> Glowing merges, particle explosions, smooth physics</li>
+                <li><strong>Color Discovery:</strong> Unlocking new colors feels like progression</li>
+                <li><strong>Daily Challenge:</strong> Same seed for all players = social competition</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>💰 Monetization Strategy</h2>
+            
+            <h3>Primary: Ad-Supported (Free)</h3>
+            <ul>
+                <li>Rewarded video: Extra anchor on difficult levels</li>
+                <li>Interstitial: Every 5 levels (non-intrusive)</li>
+                <li>Banner: Optional, can remove with premium</li>
+            </ul>
+            
+            <h3>Secondary: Premium ($1.99)</h3>
+            <ul>
+                <li>Remove all ads</li>
+                <li>Unlimited undo</li>
+                <li>Exclusive color themes (gold, neon, pastel)</li>
+                <li>Custom level editor</li>
+            </ul>
+            
+            <h3>Tertiary: Battle Pass ($4.99/season)</h3>
+            <ul>
+                <li>30-day themed challenges</li>
+                <li>Exclusive skins, effects, badges</li>
+                <li>Premium currency for cosmetics</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📱 ASO / SEO Strategy</h2>
+            
+            <h3>App Store Keywords:</h3>
+            <p>color puzzle, merge game, bubble pop, physics puzzle, color mixing, satisfying game, ASMR game, casual puzzle, offline game, no wifi game, relaxing puzzle</p>
+            
+            <h3>Long Description Hook:</h3>
+            <p style="font-style: italic; color: #aaa;">"Drop. Merge. Cascade. The most satisfying color puzzle you'll ever play. Watch colors blend in beautiful physics-driven chaos. No timers, no stress - just pure chromatic zen. Perfect for commutes, waiting rooms, or winding down."</p>
+            
+            <h3>Visual Strategy:</h3>
+            <ul>
+                <li>App Icon: Glowing orb with rainbow gradient explosion</li>
+                <li>Screenshots: Show massive chain reactions</li>
+                <li>Video: 15s of pure satisfying merges with ASMR audio</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📈 Viral Mechanics</h2>
+            
+            <p class="opportunity">🟢 HIGH POTENTIAL: Shareable moments</p>
+            
+            <ul>
+                <li><strong>Replay System:</strong> Auto-record last 10 seconds, one-tap share to TikTok/Instagram</li>
+                <li><strong>Challenge Mode:</strong> Send levels to friends, compete on same layout</li>
+                <li><strong>Daily Puzzle:</strong> Global leaderboard drives competition</li>
+                <li><strong>Color Combos:</strong> Rare "Rainbow Cascade" events worth sharing</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🔬 A/B Testing Roadmap</h2>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <tr style="border-bottom: 1px solid #333;">
+                    <th style="text-align: left; padding: 10px;">Experiment</th>
+                    <th style="text-align: left; padding: 10px;">Metric</th>
+                    <th style="text-align: left; padding: 10px;">Priority</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Physics speed (slow-mo vs normal)</td>
+                    <td style="padding: 10px;">Session Time</td>
+                    <td style="padding: 10px; color: #ffd93d;">HIGH</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Ad frequency (3 vs 5 vs 7 levels)</td>
+                    <td style="padding: 10px;">Retention vs Revenue</td>
+                    <td style="padding: 10px; color: #ffd93d;">HIGH</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Tutorial skip option</td>
+                    <td style="padding: 10px;">D1 Retention</td>
+                    <td style="padding: 10px; color: #64c8ff;">MEDIUM</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Haptic feedback intensity</td>
+                    <td style="padding: 10px;">Session Count</td>
+                    <td style="padding: 10px; color: #888;">LOW</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risks & Mitigations</h2>
+            
+            <p class="risk">🔴 HIGH: Market saturation (merge games everywhere)</p>
+            <p>→ Mitigation: Unique color-mixing angle, superior polish, ASMR audio</p>
+            
+            <p class="risk">🟡 MEDIUM: Physics can be frustrating (blobs don't go where intended)</p>
+            <p>→ Mitigation: Predictive trajectory line, generous hit boxes, undo button</p>
+            
+            <p class="risk">🟢 LOW: Battery drain from physics calculations</p>
+            <p>→ Mitigation: Optimize physics engine, frame rate cap option</p>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Go-to-Market KPIs</h2>
+            
+            <div class="metric-grid">
+                <div class="metric">
+                    <div class="metric-value">50%</div>
+                    <div class="metric-label">D1 Retention Target</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">8%</div>
+                    <div class="metric-label">Ad-to-Premium Conversion</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">25%</div>
+                    <div class="metric-label">Share Rate (D30)</div>
+                </div>
+            </div>
+        </div>
+        
+        <a href="index.html" class="cta">🎮 Play Prototype</a>
+    </div>
+</body>
+</html>

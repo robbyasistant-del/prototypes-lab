@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Garden - Game Design Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff88;
+            --neon-purple: #b76eff;
+            --neon-pink: #ff6eb4;
+            --neon-cyan: #00ffff;
+            --dark-bg: #0a0a1a;
+            --panel-bg: rgba(20, 20, 40, 0.95);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a2e 100%);
+            color: #fff;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(183, 110, 255, 0.1));
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-purple), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--neon-green);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 255, 136, 0.3);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--neon-purple);
+            margin: 25px 0 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(183, 110, 255, 0.1));
+            border-left: 4px solid var(--neon-green);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--neon-green);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+        }
+
+        ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--neon-green);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px 5px 5px 0;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .viral-hook {
+            background: linear-gradient(135deg, rgba(255, 110, 180, 0.1), rgba(183, 110, 255, 0.1));
+            border: 1px solid rgba(255, 110, 180, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .viral-hook h4 {
+            color: var(--neon-pink);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .play-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-purple));
+            color: #000;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.4rem; }
+            .section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌸 Neural Garden</h1>
+            <p class="subtitle">Game Design Report & Market Analysis</p>
+            <a href="index.html" class="play-button">▶ Play Now</a>
+        </header>
+
+        <div class="section">
+            <h2>🎮 Game Concept</h2>
+            <p><strong>Neural Garden</strong> is an original bio-digital puzzle game where players cultivate a living garden by creating synaptic connections between neural seed nodes. The game blends the organic beauty of botany with the futuristic aesthetic of neural networks, creating a unique "cyber-bio" visual experience.</p>
+            
+            <div class="highlight-box">
+                <strong>Core Innovation:</strong> Unlike traditional connection puzzles, Neural Garden introduces a hybrid blooming system where pathways of different colors intersect to create rare hybrid flowers. This creates emergent complexity from simple mechanics—players must strategically plan their garden layout to maximize hybrid blooms while managing limited "synapse energy."
+            </div>
+
+            <h3>Key Mechanics</h3>
+            <ul>
+                <li><strong>Seed Planting:</strong> Place colored neural seeds on a grid (costs energy)</li>
+                <li><strong>Pathway Creation:</strong> Drag between seeds to grow glowing neural connections</li>
+                <li><strong>Intersection Blooming:</strong> Flowers automatically bloom where pathways cross</li>
+                <li><strong>Hybrid System:</strong> Different colored pathways create rare, high-scoring hybrid flowers</li>
+                <li><strong>Energy Management:</strong> Strategic decisions required to complete objectives with limited resources</li>
+            </ul>
+
+            <h3>Visual Identity</h3>
+            <p>The game features a distinctive cyber-bio aesthetic combining:</p>
+            <span class="tag">Neon Greens</span>
+            <span class="tag">Electric Purples</span>
+            <span class="tag">Soft Pinks</span>
+            <span class="tag">Glowing Pathways</span>
+            <span class="tag">Particle Effects</span>
+            <span class="tag">Organic Blooms</span>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Target Audience</h2>
+            
+            <h3>Primary Demographics</h3>
+            <ul>
+                <li><strong>Casual Puzzle Gamers (25-45):</strong> Players who enjoy thoughtful, low-pressure puzzle experiences like Monument Valley, Mini Metro, or Gardenscapes</li>
+                <li><strong>Aesthetically-Minded Players:</strong> Those drawn to visually striking games with strong art direction and satisfying visual feedback</li>
+                <li><strong>Mobile-First Users:</strong> Players seeking engaging experiences during commutes, breaks, or while relaxing</li>
+            </ul>
+
+            <h3>Secondary Demographics</h3>
+            <ul>
+                <li><strong>Indie Game Enthusiasts:</strong> Players who appreciate unique mechanics and experimental gameplay</li>
+                <li><strong>ASMR/Satisfying Content Fans:</strong> The blooming animations and particle effects create inherently satisfying moments</li>
+                <li><strong>Science/Sci-Fi Interested:</strong> The neural/bio-digital theme appeals to those interested in neuroscience, biology, or cyberpunk aesthetics</li>
+            </ul>
+
+            <h3>Player Psychographics</h3>
+            <ul>
+                <li>Prefers creativity over competition</li>
+                <li>Values "zen" gaming experiences</li>
+                <li>Enjoys optimization and efficiency challenges</li>
+                <li>Appreciates games that can be played in short sessions</li>
+                <li>Shares impressive moments on social media</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>💰 Monetization Ideas</h2>
+
+            <h3>1. Free-to-Play with Premium Unlock</h3>
+            <ul>
+                <li>First 10 levels free as demo</li>
+                <li>One-time $4.99 purchase for full game (100+ levels)</li>
+                <li>No ads, no consumable purchases—ethical monetization</li>
+            </ul>
+
+            <h3>2. Cosmetics & Themes (Non-Essential)</h3>
+            <ul>
+                <li>Alternative color palettes (Sunset, Ocean, Monochrome)</li>
+                <li>Special seed designs (Crystalline, Organic, Geometric)</li>
+                <li>Background themes (Deep Space, Underwater, Cellular)</li>
+                <li>Pricing: $0.99 - $2.99 per pack</li>
+            </ul>
+
+            <h3>3. Expansion Packs</h3>
+            <ul>
+                <li><strong>Endless Garden Mode:</strong> Sandbox mode with no energy limits</li>
+                <li><strong>Daily Challenges:</strong> New puzzle each day with leaderboards</li>
+                <li><strong>Seasonal Events:</strong> Limited-time themes and special challenges</li>
+                <li>Pricing: $1.99 per expansion</li>
+            </ul>
+
+            <h3>4. Subscription Model (Optional)</h3>
+            <ul>
+                <li>$2.99/month "Garden Keeper" subscription</li>
+                <li>Unlimited daily challenges, exclusive cosmetics, ad-free experience</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📊 Key Metrics to Track</h2>
+
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value">D1/D7/D30</div>
+                    <div class="metric-label">Retention Rates</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">Level 5</div>
+                    <div class="metric-label">Completion Funnel</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">Session</div>
+                    <div class="metric-label">Length & Count</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">Hybrid %</div>
+                    <div class="metric-label">Bloom Discovery</div>
+                </div>
+            </div>
+
+            <h3>Critical KPIs</h3>
+            <ul>
+                <li><strong>Tutorial Completion:</strong> % of players who finish the first 3 levels (target: >80%)</li>
+                <li><strong>First Purchase Conversion:</strong> % of engaged players who buy premium (target: >5%)</li>
+                <li><strong>Hybrid Discovery Rate:</strong> % of players who create their first hybrid flower (target: >90%)</li>
+                <li><strong>Share Rate:</strong> % of players who use the share feature after achievements</li>
+                <li><strong>Level Replay Rate:</strong> % of players who replay levels for better medals</li>
+            </ul>
+
+            <h3>Engagement Metrics</h3>
+            <ul>
+                <li>Average blooms per session</li>
+                <li>Energy efficiency scores (how well players optimize)</li>
+                <li>Time spent in level select vs. playing</li>
+                <li>Most/least popular levels (for balancing)</li>
+                <li>Drop-off points in the level progression</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Viral Hooks & Shareability</h2>
+
+            <div class="viral-hook">
+                <h4>🎥 "Satisfying Bloom" Moments</h4>
+                <p>When players create a triple-hybrid rainbow flower, the explosion of particles and glowing effects creates perfect short-form video content. Include a one-tap "Share Bloom" button that captures the last 3 seconds as a GIF.</p>
+            </div>
+
+            <div class="viral-hook">
+                <h4>🏆 Medal Flexing</h4>
+                <p>Gold medals on all levels unlocks a special "Master Gardener" badge. Players can share their medal collection grid, creating FOMO and encouraging friends to compete.</p>
+            </div>
+
+            <div class="viral-hook">
+                <h4>🧬 "Impossible Garden" Seeds</h4>
+                <p>Daily procedurally-generated "Impossible Garden" challenges that are extremely difficult but possible. Players can challenge friends with the same seed—"Can you solve this layout?"</p>
+            </div>
+
+            <div class="viral-hook">
+                <h4>✨ Beauty Mode</h4>
+                <p>A screensaver-like mode that slowly animates a completed garden with ambient music. Players share their "living artwork" as relaxing background videos.</p>
+            </div>
+
+            <div class="viral-hook">
+                <h4>📸 Garden Showcase</h4>
+                <p>After completing a level, players can enter "Photo Mode" to position the camera, adjust lighting, and capture the perfect shot of their neural garden to share.</p>
+            </div>
+
+            <h3>Social Media Strategy</h3>
+            <ul>
+                <li><strong>TikTok/Reels:</strong> Short clips of satisfying bloom moments with ASMR-style audio</li>
+                <li><strong>Twitter/X:</strong> Daily "Impossible Garden" challenges with leaderboard</li>
+                <li><strong>Instagram:</strong> Shareable "Garden Gallery" of beautiful player creations</li>
+                <li><strong>Discord:</strong> Community challenges and custom level sharing</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎨 Unique Selling Points</h2>
+            
+            <div class="highlight-box">
+                <ol>
+                    <li><strong>Original IP:</strong> Not a clone—truly unique bio-digital aesthetic and hybrid blooming mechanic</li>
+                    <li><strong>Ethical Monetization:</strong> No predatory practices—premium unlock or cosmetic only</li>
+                    <li><strong>Accessibility:</strong> Simple one-touch controls work for all ages and abilities</li>
+                    <li><strong>Strategic Depth:</strong> Easy to learn, but mastery requires planning and optimization</li>
+                    <li><strong>Shareable Moments:</strong> Built for the short-form video era</li>
+                    <li><strong>Replayability:</strong> Medal system encourages replaying for perfect scores</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📈 Growth Strategy</h2>
+            
+            <h3>Launch Phase</h3>
+            <ul>
+                <li>Soft launch in smaller markets (Canada, Australia)</li>
+                <li>Partner with puzzle game YouTubers/streamers</li>
+                <li>Submit to Apple/Google feature consideration</li>
+            </ul>
+
+            <h3>Scale Phase</h3>
+            <ul>
+                <li>User-generated content: Level editor with community sharing</li>
+                <li>Seasonal events tied to real-world themes (Earth Day, Mental Health Awareness)</li>
+                <li>Collaboration with mental health apps—position as "mindful gaming"</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Neural Garden — Cultivate Your Mind 🌸</p>
+            <p style="font-size: 0.85rem; margin-top: 10px;">Created 2026 • Original Concept • All Rights Reserved</p>
+        </footer>
+    </div>
+</body>
+</html>

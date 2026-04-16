@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriftWord - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #001a33, #003d66);
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #00ccff, #66e0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #888; font-size: 1.1em; margin-bottom: 30px; }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 204, 255, 0.2);
+        }
+        h2 {
+            color: #00ccff;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        h3 { color: #ffff66; margin: 15px 0 10px; }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .metric {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        .metric-label { color: #888; font-size: 0.9em; }
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(0, 204, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 3px;
+        }
+        .risk { color: #ff6b6b; }
+        .opportunity { color: #00ff88; }
+        ul { margin-left: 20px; }
+        li { margin: 8px 0; }
+        .cta {
+            background: linear-gradient(135deg, #00ccff, #0088cc);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌊 DRIFTWORD</h1>
+        <p class="subtitle">Strategy Report • Prototype 2026-04-02</p>
+        
+        <div class="section">
+            <h2>🎮 Game Overview</h2>
+            <p><strong>Genre:</strong> Word Puzzle / Physics</p>
+            <p><strong>Core Mechanic:</strong> Letters drift in water currents. Drop anchors to redirect them into the collection zone in the correct order to spell the target word.</p>
+            <p><strong>Unique Hook:</strong> The only word game that combines physics simulation with spelling. Appeals to both puzzle gamers and word game fans.</p>
+            
+            <div style="margin-top: 15px;">
+                <span class="tag">#WordGame</span>
+                <span class="tag">#PhysicsPuzzle</span>
+                <span class="tag">#Strategic</span>
+                <span class="tag">#Educational</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Core Loop & Engagement</h2>
+            
+            <div class="metric-grid">
+                <div class="metric">
+                    <div class="metric-value">3-8min</div>
+                    <div class="metric-label">Session Length</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">500+</div>
+                    <div class="metric-label">Words (Launch)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">High</div>
+                    <div class="metric-label">Educational Value</div>
+                </div>
+            </div>
+            
+            <h3>The "One More Try" Hooks:</h3>
+            <ul>
+                <li><strong>Anchor Economy:</strong> Limited resources force careful planning</li>
+                <li><strong>Perfect Solutions:</strong> Use minimum anchors = 3 stars</li>
+                <li><strong>Vocabulary Growth:</strong> Learn new words through gameplay</li>
+                <li><strong>Daily Challenge:</strong> Special word of the day with rewards</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>💰 Monetization Strategy</h2>
+            
+            <h3>Primary: Energy System (Soft Cap)</h3>
+            <ul>
+                <li>5 energy, refills 1 per 15 minutes</li>
+                <li>Watch ad for +3 energy</li>
+                <li>Premium: Unlimited energy ($4.99)</li>
+            </ul>
+            
+            <h3>Secondary: Hint Pack IAP</h3>
+            <ul>
+                <li>10 hints: $0.99</li>
+                <li>50 hints: $2.99</li>
+                <li>Unlimited hints: $9.99</li>
+            </ul>
+            
+            <h3>Tertiary: Theme Packs</h3>
+            <ul>
+                <li>Ocean themes (reef, deep sea, arctic)</li>
+                <li>Letter skins (wood, metal, neon)</li>
+                <li>Special effects packs</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📱 ASO / SEO Strategy</h2>
+            
+            <h3>App Store Keywords:</h3>
+            <p>word puzzle, physics puzzle, spelling game, word game, educational game, brain training, vocabulary builder, word connect, letter puzzle, learn words, english learning</p>
+            
+            <h3>Long Description Hook:</h3>
+            <p style="font-style: italic; color: #aaa;">"Words float. Currents drift. Can you catch them all? DriftWord combines the satisfaction of physics puzzles with the joy of word discovery. Perfect for word nerds, puzzle lovers, and anyone who wants to expand their vocabulary while having fun."</p>
+            
+            <h3>Target Audiences:</h3>
+            <ul>
+                <li>Parents (educational value for kids)</li>
+                <li>ESL learners (vocabulary building)</li>
+                <li>Word game enthusiasts (crossword, scrabble fans)</li>
+                <li>Casual puzzle players</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📚 Educational Partnerships</h2>
+            
+            <p class="opportunity">🟢 HIGH POTENTIAL: Schools and language apps</p>
+            
+            <ul>
+                <li><strong>School Version:</strong> Word packs by grade level, teacher dashboard</li>
+                <li><strong>Language Learning:</strong> Partner with Duolingo, Babbel for word packs</li>
+                <li><strong>Special Needs:</strong> Dyslexia-friendly font option, colorblind modes</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🔬 A/B Testing Roadmap</h2>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <tr style="border-bottom: 1px solid #333;">
+                    <th style="text-align: left; padding: 10px;">Experiment</th>
+                    <th style="text-align: left; padding: 10px;">Metric</th>
+                    <th style="text-align: left; padding: 10px;">Priority</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Energy refill rate (10 vs 15 vs 20 min)</td>
+                    <td style="padding: 10px;">Retention vs Revenue</td>
+                    <td style="padding: 10px; color: #ffd93d;">HIGH</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Word difficulty curve</td>
+                    <td style="padding: 10px;">Level Completion Rate</td>
+                    <td style="padding: 10px; color: #ffd93d;">HIGH</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Hint button visibility</td>
+                    <td style="padding: 10px;">Hint Purchase Rate</td>
+                    <td style="padding: 10px; color: #64c8ff;">MEDIUM</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Daily reward amount</td>
+                    <td style="padding: 10px;">D7 Retention</td>
+                    <td style="padding: 10px; color: #888;">LOW</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risks & Mitigations</h2>
+            
+            <p class="risk">🔴 HIGH: Word game market is dominated by giants (Words With Friends, Wordle)</p>
+            <p>→ Mitigation: Unique physics angle, focus on underserved "educational puzzle" niche</p>
+            
+            <p class="risk">🟡 MEDIUM: Currents can frustrate players (letters go wrong way)</p>
+            <p>→ Mitigation: Predictive trajectory, current visualization, generous physics</p>
+            
+            <p class="risk">🟢 LOW: Content creation (need thousands of words)</p>
+            <p>→ Mitigation: Curated word lists, user-generated content, API integrations</p>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Go-to-Market KPIs</h2>
+            
+            <div class="metric-grid">
+                <div class="metric">
+                    <div class="metric-value">45%</div>
+                    <div class="metric-label">D1 Retention Target</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">4%</div>
+                    <div class="metric-label">Premium Conversion</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">15%</div>
+                    <div class="metric-label">Hint Purchase Rate</div>
+                </div>
+            </div>
+        </div>
+        
+        <a href="index.html" class="cta">🎮 Play Prototype</a>
+    </div>
+</body>
+</html>

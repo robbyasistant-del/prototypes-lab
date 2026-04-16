@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chromaflow - Color Cascade Puzzle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #1a0a2e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            width: 100%;
+            border-bottom: 2px solid #ff00ff;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+        }
+        
+        .instructions {
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid #ff00ff;
+            border-radius: 12px;
+            padding: 15px 25px;
+            margin: 15px;
+            max-width: 650px;
+            text-align: center;
+            animation: glow 2s infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(255, 0, 255, 0.6); }
+        }
+        
+        .instructions p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .instructions .highlight {
+            color: #ffff00;
+            font-weight: bold;
+        }
+        
+        .game-wrapper {
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        #gameCanvas {
+            border: 3px solid #ff00ff;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.4);
+            background: #0d0518;
+            cursor: crosshair;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 220px;
+        }
+        
+        .stat-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255, 0, 255, 0.3);
+        }
+        
+        .stat-box h3 {
+            color: #ff00ff;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .color-mixing {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        
+        .mix-rule {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .badge.locked {
+            background: #333;
+            color: #666;
+        }
+        
+        .badge.unlocked {
+            background: linear-gradient(135deg, #ffd700, #ff6b35);
+            color: #1a0a2e;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            animation: badgePop 0.5s ease;
+        }
+        
+        @keyframes badgePop {
+            0% { transform: scale(0) rotate(-10deg); }
+            50% { transform: scale(1.2) rotate(5deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        
+        .palette {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        .color-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-btn.selected {
+            border-color: #fff;
+            box-shadow: 0 0 20px currentColor;
+            transform: scale(1.15);
+        }
+        
+        .color-btn::after {
+            content: attr(data-color);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7em;
+            white-space: nowrap;
+            color: #aaa;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff00ff, #aa00aa);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 0, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a0a2e, #2d1b4e);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 60px rgba(255, 0, 255, 0.5);
+            max-width: 500px;
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-content h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .modal-content.win h2 {
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        
+        .modal-content.lose h2 {
+            color: #ff4444;
+            text-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+        }
+        
+        .chain-display {
+            font-size: 1.5em;
+            color: #ffff00;
+            margin-top: 10px;
+            min-height: 30px;
+        }
+        
+        .level-target {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+        
+        .target-colors {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        
+        .target-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 CHROMAFLOW</h1>
+        <p style="color: #888; margin-top: 5px;">Mix colors. Create cascades. Master the spectrum.</p>
+    </div>
+    
+    <div class="instructions">
+        <p>🖱️ <span class="highlight">CLICK</span> to drop color blobs • Same colors <span class="highlight">MERGE</span> and create chains!<br>
+        🌈 <span style="color:#ff4444">Red</span> + <span style="color:#4444ff">Blue</span> = <span style="color:#ff00ff">Purple</span> | <span style="color:#ffff00">Yellow</span> + <span style="color:#4444ff">Blue</span> = <span style="color:#00ff00">Green</span><br>
+        🎯 Fill the target zones with the required colors to win!</p>
+    </div>
+    
+    <div class="game-wrapper">
+        <canvas id="gameCanvas" width="500" height="700"></canvas>
+        
+        <div class="sidebar">
+            <div class="stat-box">
+                <h3>🎯 Score</h3>
+                <div class="stat-value" id="score">0</div>
+                <div class="chain-display" id="chainDisplay"></div>
+            </div>
+            
+            <div class="stat-box">
+                <h3>🎨 Select Color</h3>
+                <div class="palette" id="palette">
+                    <div class="color-btn selected" style="background: #ff4444;" data-color="Red" onclick="game.selectColor('red')"></div>
+                    <div class="color-btn" style="background: #4444ff;" data-color="Blue" onclick="game.selectColor('blue')"></div>
+                    <div class="color-btn" style="background: #ffff00;" data-color="Yellow" onclick="game.selectColor('yellow')"></div>
+                </div>
+            </div>
+            
+            <div class="stat-box">
+                <h3>🧪 Color Mixing</h3>
+                <div class="color-mixing">
+                    <div class="mix-rule">
+                        <span class="color-dot" style="background: #ff4444;"></span> +
+                        <span class="color-dot" style="background: #4444ff;"></span> =
+                        <span class="color-dot" style="background: #ff00ff;"></span> Purple
+                    </div>
+                    <div class="mix-rule">
+                        <span class="color-dot" style="background: #ffff00;"></span> +
+                        <span class="color-dot" style="background: #4444ff;"></span> =
+                        <span class="color-dot" style="background: #00ff00;"></span> Green
+                    </div>
+                    <div class="mix-rule">
+                        <span class="color-dot" style="background: #ff4444;"></span> +
+                        <span class="color-dot" style="background: #ffff00;"></span> =
+                        <span class="color-dot" style="background: #ff8800;"></span> Orange
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-box">
+                <h3>🏆 Badges</h3>
+                <div class="badges" id="badges">
+                    <span class="badge locked" id="badge-chain">⚡ Chain x10</span>
+                    <span class="badge locked" id="badge-rainbow">🌈 Rainbow</span>
+                    <span class="badge locked" id="badge-master">👑 Master</span>
+                </div>
+            </div>
+            
+            <div class="stat-box level-target">
+                <h3>🎯 Level Target</h3>
+                <p id="targetText" style="color: #aaa; margin-top: 5px;">Fill zones with required colors</p>
+                <div class="target-colors" id="targetColors"></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                </div>
+                <p style="margin-top: 5px; color: #888;"><span id="currentProgress">0</span>%</p>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-primary" onclick="game.resetGame()">🔄 New Game</button>
+                <button class="btn-secondary" onclick="game.togglePause()">⏸️ Pause</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="gameModal">
+        <div class="modal-content" id="modalContent">
+            <h2 id="modalTitle">Level Complete!</h2>
+            <p id="modalMessage">Great job!</p>
+            <div style="margin-top: 20px;">
+                <button class="btn-primary" onclick="game.nextLevel()" id="nextBtn">Next Level →</button>
+                <button class="btn-secondary" onclick="game.resetGame()">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const COLORS = {
+            red: { r: 255, g: 68, b: 68, hex: '#ff4444' },
+            blue: { r: 68, g: 68, b: 255, hex: '#4444ff' },
+            yellow: { r: 255, g: 255, b: 68, hex: '#ffff00' },
+            purple: { r: 255, g: 0, b: 255, hex: '#ff00ff' },
+            green: { r: 0, g: 255, b: 68, hex: '#00ff44' },
+            orange: { r: 255, g: 136, b: 0, hex: '#ff8800' }
+        };
+        
+        const LEVELS = [
+            {
+                name: "First Drop",
+                target: { red: 5 },
+                par: 1000,
+                message: "Drop 5 red blobs to fill the target zone!"
+            },
+            {
+                name: "Mix Master",
+                target: { purple: 3 },
+                par: 2000,
+                message: "Mix Red + Blue to make Purple!"
+            },
+            {
+                name: "Triple Threat",
+                target: { red: 3, blue: 3, yellow: 3 },
+                par: 3000,
+                message: "Create chains of all three primary colors!"
+            },
+            {
+                name: "Rainbow Rush",
+                target: { purple: 2, green: 2, orange: 2 },
+                par: 5000,
+                message: "Mix all secondary colors!"
+            },
+            {
+                name: "Chromatic Chaos",
+                target: { red: 2, blue: 2, yellow: 2, purple: 2, green: 2, orange: 2 },
+                par: 8000,
+                message: "The ultimate color challenge!"
+            }
+        ];
+        
+        class ChromaflowGame {
+            constructor() {
+                this.blobs = [];
+                this.particles = [];
+                this.selectedColor = 'red';
+                this.score = 0;
+                this.chainCount = 0;
+                this.levelIndex = 0;
+                this.gameState = 'playing';
+                this.badges = { chain: false, rainbow: false, master: false };
+                this.targetProgress = {};
+                
+                this.setupInput();
+                this.loadLevel(0);
+                this.gameLoop();
+            }
+            
+            setupInput() {
+                canvas.addEventListener('click', (e) => {
+                    if (this.gameState !== 'playing') return;
+                    
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    this.dropBlob(x, this.selectedColor);
+                });
+                
+                canvas.addEventListener('mousemove', (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    this.mouseX = e.clientX - rect.left;
+                });
+            }
+            
+            selectColor(color) {
+                this.selectedColor = color;
+                document.querySelectorAll('.color-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                event.target.classList.add('selected');
+            }
+            
+            dropBlob(x, color) {
+                const blob = {
+                    x: Math.max(25, Math.min(canvas.width - 25, x)),
+                    y: 30,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: 0,
+                    radius: 22,
+                    color: color,
+                    settled: false,
+                    merging: false
+                };
+                
+                this.blobs.push(blob);
+            }
+            
+            update() {
+                if (this.gameState !== 'playing') return;
+                
+                // Update blobs
+                for (let blob of this.blobs) {
+                    if (blob.merging) continue;
+                    
+                    if (!blob.settled) {
+                        blob.vy += 0.5; // Gravity
+                        blob.x += blob.vx;
+                        blob.y += blob.vy;
+                        
+                        // Wall collisions
+                        if (blob.x - blob.radius < 0) {
+                            blob.x = blob.radius;
+                            blob.vx *= -0.5;
+                        }
+                        if (blob.x + blob.radius > canvas.width) {
+                            blob.x = canvas.width - blob.radius;
+                            blob.vx *= -0.5;
+                        }
+                        
+                        // Floor collision
+                        if (blob.y + blob.radius > canvas.height) {
+                            blob.y = canvas.height - blob.radius;
+                            blob.vy = 0;
+                            blob.vx *= 0.9;
+                            blob.settled = true;
+                        }
+                        
+                        // Blob collisions
+                        for (let other of this.blobs) {
+                            if (other === blob || other.merging) continue;
+                            
+                            const dx = other.x - blob.x;
+                            const dy = other.y - blob.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            const minDist = blob.radius + other.radius;
+                            
+                            if (dist < minDist) {
+                                // Check for merge
+                                if (blob.color === other.color && blob.settled && !blob.merging && !other.merging) {
+                                    this.mergeBlobs(blob, other);
+                                } else if (!other.settled) {
+                                    // Bounce
+                                    const angle = Math.atan2(dy, dx);
+                                    const targetX = blob.x + Math.cos(angle) * minDist;
+                                    const targetY = blob.y + Math.sin(angle) * minDist;
+                                    
+                                    blob.vx -= (targetX - other.x) * 0.05;
+                                    blob.vy -= (targetY - other.y) * 0.05;
+                                    
+                                    if (Math.abs(blob.vy) < 0.5 && blob.y + blob.radius >= canvas.height - 5) {
+                                        blob.settled = true;
+                                    }
+                                } else {
+                                    blob.settled = true;
+                                    blob.vy = 0;
+                                    blob.vx *= 0.5;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Check color mixing
+                this.checkMixing();
+                
+                // Update particles
+                this.updateParticles();
+                
+                // Check win condition
+                this.checkWin();
+            }
+            
+            mergeBlobs(blob1, blob2) {
+                blob1.merging = true;
+                blob2.merging = true;
+                
+                // Create larger blob
+                const newBlob = {
+                    x: (blob1.x + blob2.x) / 2,
+                    y: (blob1.y + blob2.y) / 2,
+                    vx: 0,
+                    vy: 0,
+                    radius: Math.min(35, blob1.radius + 8),
+                    color: blob1.color,
+                    settled: true,
+                    merging: false
+                };
+                
+                this.blobs = this.blobs.filter(b => b !== blob1 && b !== blob2);
+                this.blobs.push(newBlob);
+                
+                // Score and chain
+                this.chainCount++;
+                const chainBonus = this.chainCount * 50;
+                this.score += 100 + chainBonus;
+                
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('chainDisplay').textContent = this.chainCount > 1 ? `CHAIN x${this.chainCount}!` : '';
+                
+                // Check chain badge
+                if (this.chainCount >= 10 && !this.badges.chain) {
+                    this.badges.chain = true;
+                    document.getElementById('badge-chain').classList.add('unlocked');
+                    document.getElementById('badge-chain').classList.remove('locked');
+                }
+                
+                // Particles
+                for (let i = 0; i < 15; i++) {
+                    this.createParticles(newBlob.x, newBlob.y, COLORS[blob1.color].hex);
+                }
+            }
+            
+            checkMixing() {
+                const mixRules = [
+                    { c1: 'red', c2: 'blue', result: 'purple' },
+                    { c1: 'blue', c2: 'red', result: 'purple' },
+                    { c1: 'yellow', c2: 'blue', result: 'green' },
+                    { c1: 'blue', c2: 'yellow', result: 'green' },
+                    { c1: 'red', c2: 'yellow', result: 'orange' },
+                    { c1: 'yellow', c2: 'red', result: 'orange' }
+                ];
+                
+                for (let rule of mixRules) {
+                    for (let i = 0; i < this.blobs.length; i++) {
+                        for (let j = i + 1; j < this.blobs.length; j++) {
+                            const b1 = this.blobs[i];
+                            const b2 = this.blobs[j];
+                            
+                            if (b1.merging || b2.merging) continue;
+                            
+                            if ((b1.color === rule.c1 && b2.color === rule.c2) ||
+                                (b1.color === rule.c2 && b2.color === rule.c1)) {
+                                const dx = b1.x - b2.x;
+                                const dy = b1.y - b2.y;
+                                const dist = Math.sqrt(dx * dx + dy * dy);
+                                
+                                if (dist < b1.radius + b2.radius - 5) {
+                                    b1.merging = true;
+                                    b2.merging = true;
+                                    
+                                    const newBlob = {
+                                        x: (b1.x + b2.x) / 2,
+                                        y: (b1.y + b2.y) / 2,
+                                        vx: 0,
+                                        vy: -2,
+                                        radius: 25,
+                                        color: rule.result,
+                                        settled: false,
+                                        merging: false
+                                    };
+                                    
+                                    this.blobs = this.blobs.filter(b => b !== b1 && b !== b2);
+                                    this.blobs.push(newBlob);
+                                    
+                                    this.score += 200;
+                                    this.chainCount++;
+                                    document.getElementById('score').textContent = this.score;
+                                    document.getElementById('chainDisplay').textContent = this.chainCount > 1 ? `CHAIN x${this.chainCount}!` : '';
+                                    
+                                    for (let k = 0; k < 20; k++) {
+                                        this.createParticles(newBlob.x, newBlob.y, COLORS[rule.result].hex);
+                                    }
+                                    
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            createParticles(x, y, color) {
+                for (let i = 0; i < 8; i++) {
+                    this.particles.push({
+                        x, y,
+                        vx: (Math.random() - 0.5) * 6,
+                        vy: (Math.random() - 0.5) * 6,
+                        life: 1,
+                        color,
+                        size: Math.random() * 5 + 3
+                    });
+                }
+            }
+            
+            updateParticles() {
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    const p = this.particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.2;
+                    p.life -= 0.02;
+                    
+                    if (p.life <= 0) {
+                        this.particles.splice(i, 1);
+                    }
+                }
+            }
+            
+            checkWin() {
+                const target = this.level.target;
+                let progress = 0;
+                let totalNeeded = 0;
+                
+                for (let color in target) {
+                    totalNeeded += target[color];
+                    const count = this.blobs.filter(b => b.color === color && b.settled && !b.merging).length;
+                    progress += Math.min(count, target[color]);
+                }
+                
+                const percentage = Math.floor((progress / totalNeeded) * 100);
+                document.getElementById('progressFill').style.width = percentage + '%';
+                document.getElementById('currentProgress').textContent = percentage;
+                
+                if (progress >= totalNeeded) {
+                    this.winLevel();
+                }
+                
+                // Check rainbow badge
+                const uniqueColors = new Set(this.blobs.map(b => b.color)).size;
+                if (uniqueColors >= 6 && !this.badges.rainbow) {
+                    this.badges.rainbow = true;
+                    document.getElementById('badge-rainbow').classList.add('unlocked');
+                    document.getElementById('badge-rainbow').classList.remove('locked');
+                }
+            }
+            
+            loadLevel(index) {
+                this.levelIndex = index;
+                this.level = LEVELS[index];
+                this.blobs = [];
+                this.particles = [];
+                this.chainCount = 0;
+                this.gameState = 'playing';
+                
+                document.getElementById('targetText').textContent = this.level.message;
+                document.getElementById('chainDisplay').textContent = '';
+                document.getElementById('modal').classList.remove('active');
+                
+                // Show target colors
+                const targetColorsDiv = document.getElementById('targetColors');
+                targetColorsDiv.innerHTML = '';
+                for (let color in this.level.target) {
+                    for (let i = 0; i < this.level.target[color]; i++) {
+                        const dot = document.createElement('div');
+                        dot.className = 'target-color';
+                        dot.style.background = COLORS[color].hex;
+                        targetColorsDiv.appendChild(dot);
+                    }
+                }
+            }
+            
+            winLevel() {
+                this.gameState = 'won';
+                
+                // Calculate score
+                const par = this.level.par;
+                const levelScore = Math.max(par, par + (this.chainCount * 100));
+                this.score += levelScore;
+                
+                if (this.levelIndex >= 4 && !this.badges.master) {
+                    this.badges.master = true;
+                    document.getElementById('badge-master').classList.add('unlocked');
+                    document.getElementById('badge-master').classList.remove('locked');
+                }
+                
+                document.getElementById('score').textContent = this.score;
+                
+                const modal = document.getElementById('gameModal');
+                const content = document.getElementById('modalContent');
+                const title = document.getElementById('modalTitle');
+                const message = document.getElementById('modalMessage');
+                const nextBtn = document.getElementById('nextBtn');
+                
+                content.className = 'modal-content win';
+                title.textContent = '🎨 Masterpiece!';
+                message.innerHTML = `
+                    <p>"${this.level.name}" complete!</p>
+                    <p style="margin-top: 10px;">Best chain: ${this.chainCount}x</p>
+                    <p style="color: #00ff88; font-size: 1.3em; margin-top: 10px;">+${levelScore} points!</p>
+                `;
+                
+                if (this.levelIndex < LEVELS.length - 1) {
+                    nextBtn.style.display = 'inline-block';
+                } else {
+                    nextBtn.style.display = 'none';
+                    message.innerHTML += '<p style="color: #ffd700; margin-top: 15px;">🏆 CHROMA MASTER! All levels conquered!</p>';
+                }
+                
+                modal.classList.add('active');
+                
+                // Celebration
+                for (let i = 0; i < 100; i++) {
+                    setTimeout(() => {
+                        this.createParticles(
+                            Math.random() * canvas.width,
+                            Math.random() * canvas.height,
+                            `hsl(${Math.random() * 360}, 100%, 50%)`
+                        );
+                    }, i * 20);
+                }
+            }
+            
+            resetGame() {
+                this.score = 0;
+                document.getElementById('score').textContent = '0';
+                this.loadLevel(this.levelIndex);
+            }
+            
+            nextLevel() {
+                if (this.levelIndex < LEVELS.length - 1) {
+                    this.loadLevel(this.levelIndex + 1);
+                }
+            }
+            
+            togglePause() {
+                if (this.gameState === 'playing') {
+                    this.gameState = 'paused';
+                } else if (this.gameState === 'paused') {
+                    this.gameState = 'playing';
+                }
+            }
+            
+            draw() {
+                // Clear with gradient
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#0d0518');
+                gradient.addColorStop(1, '#1a0a2e');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw target zones
+                const target = this.level.target;
+                let zoneX = 50;
+                for (let color in target) {
+                    ctx.fillStyle = COLORS[color].hex + '30';
+                    ctx.fillRect(zoneX - 30, canvas.height - 100, 60, 80);
+                    ctx.strokeStyle = COLORS[color].hex;
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(zoneX - 30, canvas.height - 100, 60, 80);
+                    
+                    const count = this.blobs.filter(b => 
+                        b.color === color && 
+                        b.y > canvas.height - 120 && 
+                        b.x > zoneX - 40 && 
+                        b.x < zoneX + 40
+                    ).length;
+                    
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '14px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`${count}/${target[color]}`, zoneX, canvas.height - 110);
+                    
+                    zoneX += 80;
+                    if (zoneX > canvas.width - 50) zoneX = 50;
+                }
+                
+                // Draw blobs
+                for (let blob of this.blobs) {
+                    if (blob.merging) continue;
+                    
+                    const color = COLORS[blob.color];
+                    
+                    // Glow
+                    ctx.shadowColor = color.hex;
+                    ctx.shadowBlur = 20;
+                    
+                    // Main blob
+                    ctx.fillStyle = color.hex;
+                    ctx.beginPath();
+                    ctx.arc(blob.x, blob.y, blob.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Shine
+                    ctx.shadowBlur = 0;
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.beginPath();
+                    ctx.arc(blob.x - blob.radius * 0.3, blob.y - blob.radius * 0.3, blob.radius * 0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Draw particles
+                for (let p of this.particles) {
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.globalAlpha = 1;
+                
+                // Draw drop preview
+                if (this.gameState === 'playing' && this.mouseX !== undefined) {
+                    const x = Math.max(25, Math.min(canvas.width - 25, this.mouseX));
+                    ctx.fillStyle = COLORS[this.selectedColor].hex + '50';
+                    ctx.beginPath();
+                    ctx.arc(x, 30, 22, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = COLORS[this.selectedColor].hex;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+                
+                // Pause overlay
+                if (this.gameState === 'paused') {
+                    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 40px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('⏸️ PAUSED', canvas.width/2, canvas.height/2);
+                }
+            }
+            
+            gameLoop() {
+                this.update();
+                this.draw();
+                requestAnimationFrame(() => this.gameLoop());
+            }
+        }
+        
+        const game = new ChromaflowGame();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pip Gambit - Tactical Dice Strategy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+        }
+        
+        #gameCanvas {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 0 100px rgba(139,90,43,0.1);
+        }
+        
+        .tutorial-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            z-index: 100;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .tutorial-overlay h2 {
+            color: #f59e0b;
+            font-size: 28px;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .tutorial-overlay p {
+            color: #e5e7eb;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .tutorial-overlay .highlight {
+            color: #3b82f6;
+            font-weight: bold;
+        }
+        
+        .tutorial-overlay .highlight-red {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background: linear-gradient(145deg, #f59e0b, #d97706);
+            color: #1f2937;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.4);
+            transition: all 0.2s;
+            font-family: 'Georgia', serif;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245,158,11,0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(145deg, #4b5563, #374151);
+            color: #e5e7eb;
+            box-shadow: 0 4px 15px rgba(75,85,99,0.4);
+        }
+        
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .diff-btn {
+            padding: 8px 16px;
+            font-size: 12px;
+            background: linear-gradient(145deg, #374151, #1f2937);
+            color: #9ca3af;
+            border: 2px solid #4b5563;
+        }
+        
+        .diff-btn.active {
+            background: linear-gradient(145deg, #f59e0b, #d97706);
+            color: #1f2937;
+            border-color: #f59e0b;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(145deg, #1f2937, #111827);
+            border: 3px solid #f59e0b;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            z-index: 200;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(245,158,11,0.3);
+            min-width: 280px;
+        }
+        
+        .modal h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .modal .win { color: #f59e0b; text-shadow: 0 0 20px rgba(245,158,11,0.5); }
+        .modal .lose { color: #ef4444; text-shadow: 0 0 20px rgba(239,68,68,0.5); }
+        
+        .score-breakdown {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            color: #e5e7eb;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .badge {
+            font-size: 48px;
+            margin: 10px 0;
+            animation: badgePop 0.5s ease-out;
+        }
+        
+        @keyframes badgePop {
+            0% { transform: scale(0) rotate(-180deg); }
+            70% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        .round-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #f59e0b;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="500" height="700"></canvas>
+        
+        <!-- Tutorial Overlay -->
+        <div id="tutorialOverlay" class="tutorial-overlay">
+            <h2>🎲 Pip Gambit</h2>
+            <p>Welcome to the tavern, gambler!</p>
+            <p>Outmaneuver your opponent on the <span class="highlight">5×5 grid</span>.</p>
+            <p>Each turn: <span class="highlight">Roll 2 dice</span> → Place one → AI takes the other</p>
+            <p>Place next to enemies to <span class="highlight-red">CAPTURE</span> them!</p>
+            <p>Adjacent same-color dice <span class="highlight">COMBINE</span> power!</p>
+            <div class="difficulty-selector">
+                <button class="btn diff-btn active" data-diff="easy">Easy</button>
+                <button class="btn diff-btn" data-diff="medium">Medium</button>
+                <button class="btn diff-btn" data-diff="hard">Hard</button>
+            </div>
+            <button class="btn" id="startBtn">Enter the Tavern</button>
+        </div>
+        
+        <!-- Game Over Modal -->
+        <div id="gameOverModal" class="modal hidden">
+            <h1 id="resultTitle">Victory!</h1>
+            <div id="badgeDisplay" class="badge"></div>
+            <div class="score-breakdown">
+                <div class="score-row"><span>Territory Value:</span><span id="terrScore">0</span></div>
+                <div class="score-row"><span>Captures:</span><span id="capScore">0</span></div>
+                <div class="score-row" style="border-top: 1px solid #4b5563; margin-top: 8px; padding-top: 8px; font-weight: bold; color: #f59e0b;"><span>Total Score:</span><span id="totalScore">0</span></div>
+                <div class="score-row"><span>Margin:</span><span id="marginScore">0</span></div>
+            </div>
+            <button class="btn" id="replayBtn">Play Again</button>
+        </div>
+        
+        <!-- Instructions Button -->
+        <button class="btn btn-secondary" id="helpBtn" style="position: absolute; top: 10px; left: 10px; padding: 6px 12px; font-size: 12px; display: none;">?</button>
+    </div>
+
+    <script>
+        // ==================== GAME CONSTANTS ====================
+        const CANVAS_WIDTH = 500;
+        const CANVAS_HEIGHT = 700;
+        const GRID_SIZE = 5;
+        const CELL_SIZE = 80;
+        const GRID_OFFSET_X = 50;
+        const GRID_OFFSET_Y = 180;
+        const DICE_SIZE = 60;
+        
+        const COLORS = {
+            woodDark: '#5D3A1A',
+            woodLight: '#8B5A2B',
+            woodHighlight: '#A67B5B',
+            felt: '#1F2937',
+            feltLight: '#2D3748',
+            player: '#3B82F6',
+            playerDark: '#1E40AF',
+            ai: '#EF4444',
+            aiDark: '#991B1B',
+            gold: '#F59E0B',
+            goldLight: '#FCD34D',
+            white: '#FFFFFF',
+            black: '#1F2937'
+        };
+        
+        // ==================== GAME STATE ====================
+        const state = {
+            board: [], // 5x5 grid, null or {player: 0|1, value: 1-6, combined: bool}
+            currentDice: [], // [playerVal, aiVal]
+            playerCaptures: 0,
+            aiCaptures: 0,
+            round: 1,
+            maxRounds: 12,
+            selectedDieIndex: 0, // 0 or 1 for which die player places
+            difficulty: 'easy',
+            gameOver: false,
+            animating: false,
+            aiThinking: false,
+            particles: [],
+            diceAnimating: [],
+            lastPlaced: null,
+            hoveredCell: null,
+            tutorialStep: 0,
+            showTutorial: true
+        };
+        
+        // ==================== CANVAS SETUP ====================
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // High DPI support
+        function setupCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = CANVAS_WIDTH * dpr;
+            canvas.height = CANVAS_HEIGHT * dpr;
+            canvas.style.width = CANVAS_WIDTH + 'px';
+            canvas.style.height = CANVAS_HEIGHT + 'px';
+            ctx.scale(dpr, dpr);
+        }
+        setupCanvas();
+        
+        // ==================== UTILITY FUNCTIONS ====================
+        function random(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+        
+        function clamp(val, min, max) {
+            return Math.max(min, Math.min(max, val));
+        }
+        
+        function getCombinedValue(board, row, col, player) {
+            const cell = board[row][col];
+            if (!cell || cell.player !== player) return 0;
+            
+            let total = cell.value;
+            const visited = new Set();
+            const queue = [[row, col]];
+            visited.add(`${row},${col}`);
+            
+            while (queue.length > 0) {
+                const [r, c] = queue.shift();
+                const neighbors = [[r-1,c], [r+1,c], [r,c-1], [r,c+1]];
+                
+                for (const [nr, nc] of neighbors) {
+                    if (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE) {
+                        const key = `${nr},${nc}`;
+                        if (!visited.has(key)) {
+                            const ncell = board[nr][nc];
+                            if (ncell && ncell.player === player) {
+                                total += ncell.value;
+                                visited.add(key);
+                                queue.push([nr, nc]);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return total;
+        }
+        
+        function getAdjacents(row, col) {
+            return [[row-1,col], [row+1,col], [row,col-1], [row,col+1]]
+                .filter(([r,c]) => r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE);
+        }
+        
+        // ==================== PARTICLE SYSTEM ====================
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.vx = random(-3, 3);
+                this.vy = random(-5, -2);
+                this.life = 1;
+                this.decay = random(0.02, 0.04);
+                this.color = color;
+                this.size = random(3, 6);
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.15; // gravity
+                this.life -= this.decay;
+                this.size *= 0.98;
+            }
+            
+            draw(ctx) {
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        function spawnParticles(x, y, color, count = 15) {
+            for (let i = 0; i < count; i++) {
+                state.particles.push(new Particle(x, y, color));
+            }
+        }
+        
+        // ==================== DICE ANIMATION ====================
+        class DieAnimation {
+            constructor(x, y, targetX, targetY, value, player) {
+                this.x = x;
+                this.y = y;
+                this.targetX = targetX;
+                this.targetY = targetY;
+                this.value = value;
+                this.player = player;
+                this.progress = 0;
+                this.speed = 0.08;
+                this.rotation = 0;
+                this.rotationSpeed = random(0.3, 0.5);
+                this.bounceHeight = 100;
+                this.done = false;
+            }
+            
+            update() {
+                this.progress += this.speed;
+                this.rotation += this.rotationSpeed;
+                
+                if (this.progress >= 1) {
+                    this.progress = 1;
+                    this.done = true;
+                }
+            }
+            
+            getPosition() {
+                const t = this.progress;
+                const x = this.x + (this.targetX - this.x) * t;
+                const baseY = this.y + (this.targetY - this.y) * t;
+                const bounceY = Math.sin(t * Math.PI) * this.bounceHeight * (1 - t);
+                return { x, y: baseY - bounceY };
+            }
+        }
+        
+        // ==================== GAME LOGIC ====================
+        function initBoard() {
+            state.board = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(null));
+            state.playerCaptures = 0;
+            state.aiCaptures = 0;
+            state.round = 1;
+            state.gameOver = false;
+            state.particles = [];
+            state.diceAnimating = [];
+            state.currentDice = [];
+            rollDice();
+        }
+        
+        function rollDice() {
+            state.currentDice = [
+                { value: Math.floor(Math.random() * 6) + 1, player: 0 },
+                { value: Math.floor(Math.random() * 6) + 1, player: 1 }
+            ];
+            state.selectedDieIndex = 0;
+            state.animating = false;
+        }
+        
+        function placeDie(row, col, dieIndex) {
+            if (state.board[row][col] !== null) return false;
+            
+            const die = state.currentDice[dieIndex];
+            const otherDie = state.currentDice[1 - dieIndex];
+            
+            // Animate player die placement
+            const startX = GRID_OFFSET_X + GRID_SIZE * CELL_SIZE / 2 - 30;
+            const startY = 80;
+            const targetX = GRID_OFFSET_X + col * CELL_SIZE + CELL_SIZE/2 - DICE_SIZE/2;
+            const targetY = GRID_OFFSET_Y + row * CELL_SIZE + CELL_SIZE/2 - DICE_SIZE/2;
+            
+            state.diceAnimating.push(new DieAnimation(startX, startY, targetX, targetY, die.value, die.player));
+            
+            // AI places its die
+            setTimeout(() => {
+                const aiMove = getAIMove(otherDie.value);
+                if (aiMove) {
+                    const aiStartX = GRID_OFFSET_X + GRID_SIZE * CELL_SIZE / 2 + 30;
+                    const aiTargetX = GRID_OFFSET_X + aiMove.col * CELL_SIZE + CELL_SIZE/2 - DICE_SIZE/2;
+                    const aiTargetY = GRID_OFFSET_Y + aiMove.row * CELL_SIZE + CELL_SIZE/2 - DICE_SIZE/2;
+                    state.diceAnimating.push(new DieAnimation(aiStartX, startY, aiTargetX, aiTargetY, otherDie.value, 1));
+                    
+                    // Place both after animation
+                    setTimeout(() => {
+                        finalizePlacement(row, col, die);
+                        finalizePlacement(aiMove.row, aiMove.col, otherDie);
+                        
+                        // Check captures for both
+                        checkCaptures(row, col, die.player);
+                        checkCaptures(aiMove.row, aiMove.col, otherDie.player);
+                        
+                        state.round++;
+                        if (state.round > state.maxRounds) {
+                            endGame();
+                        } else {
+                            rollDice();
+                        }
+                    }, 500);
+                }
+            }, 300);
+            
+            return true;
+        }
+        
+        function finalizePlacement(row, col, die) {
+            state.board[row][col] = {
+                player: die.player,
+                value: die.value,
+                pulse: 1
+            };
+            state.lastPlaced = {row, col};
+        }
+        
+        function checkCaptures(row, col, player) {
+            const cell = state.board[row][col];
+            if (!cell) return;
+            
+            const myPower = getCombinedValue(state.board, row, col, player);
+            const adjacents = getAdjacents(row, col);
+            const enemy = 1 - player;
+            
+            for (const [ar, ac] of adjacents) {
+                const adjCell = state.board[ar][ac];
+                if (adjCell && adjCell.player === enemy) {
+                    const enemyPower = getCombinedValue(state.board, ar, ac, enemy);
+                    
+                    // Capture if my combined power exceeds enemy combined power
+                    if (myPower > enemyPower) {
+                        // Capture!
+                        adjCell.player = player;
+                        adjCell.pulse = 1;
+                        
+                        const x = GRID_OFFSET_X + ac * CELL_SIZE + CELL_SIZE/2;
+                        const y = GRID_OFFSET_Y + ar * CELL_SIZE + CELL_SIZE/2;
+                        const color = player === 0 ? COLORS.player : COLORS.ai;
+                        spawnParticles(x, y, color, 20);
+                        
+                        if (player === 0) {
+                            state.playerCaptures += adjCell.value;
+                        } else {
+                            state.aiCaptures += adjCell.value;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // ==================== AI LOGIC ====================
+        function getAIMove(dieValue) {
+            const emptyCells = [];
+            for (let r = 0; r < GRID_SIZE; r++) {
+                for (let c = 0; c < GRID_SIZE; c++) {
+                    if (state.board[r][c] === null) {
+                        emptyCells.push({row: r, col: c});
+                    }
+                }
+            }
+            
+            if (emptyCells.length === 0) return null;
+            
+            // Score each move
+            const scored = emptyCells.map(cell => {
+                const score = evaluateMove(cell.row, cell.col, dieValue, 1);
+                return {...cell, score};
+            });
+            
+            scored.sort((a, b) => b.score - a.score);
+            
+            // Difficulty affects move selection
+            let pickIndex = 0;
+            if (state.difficulty === 'easy') {
+                pickIndex = Math.random() < 0.6 ? Math.floor(Math.random() * scored.length) : 0;
+            } else if (state.difficulty === 'medium') {
+                pickIndex = Math.random() < 0.3 ? Math.floor(Math.random() * Math.min(3, scored.length)) : 0;
+            } else {
+                pickIndex = Math.random() < 0.1 ? Math.floor(Math.random() * Math.min(2, scored.length)) : 0;
+            }
+            
+            return scored[pickIndex];
+        }
+        
+        function evaluateMove(row, col, value, player) {
+            let score = 0;
+            const enemy = 1 - player;
+            
+            // Simulate placing
+            const adjacents = getAdjacents(row, col);
+            
+            // Check for immediate captures
+            for (const [ar, ac] of adjacents) {
+                const adj = state.board[ar][ac];
+                if (adj && adj.player === enemy) {
+                    const enemyPower = getCombinedValue(state.board, ar, ac, enemy);
+                    const myPower = value; // Simplified - would need full connected check
+                    if (value > enemyPower) {
+                        score += 50 + adj.value * 5; // Big bonus for captures
+                    }
+                }
+                if (adj && adj.player === player) {
+                    score += 10; // Bonus for connecting
+                }
+            }
+            
+            // Center control bonus
+            const centerDist = Math.abs(row - 2) + Math.abs(col - 2);
+            score += (4 - centerDist) * 5;
+            
+            // Edge/corner penalties (harder to defend)
+            if (row === 0 || row === 4 || col === 0 || col === 4) {
+                score -= 5;
+            }
+            
+            // High value die protection
+            if (value >= 5) {
+                score += 15; // Protect high value
+            }
+            
+            return score + Math.random() * 10; // Small randomness
+        }
+        
+        // ==================== SCORING ====================
+        function calculateScore() {
+            let playerTerritory = 0;
+            let aiTerritory = 0;
+            
+            for (let r = 0; r < GRID_SIZE; r++) {
+                for (let c = 0; c < GRID_SIZE; c++) {
+                    const cell = state.board[r][c];
+                    if (cell) {
+                        if (cell.player === 0) {
+                            playerTerritory += cell.value;
+                        } else {
+                            aiTerritory += cell.value;
+                        }
+                    }
+                }
+            }
+            
+            const playerTotal = playerTerritory + state.playerCaptures * 2;
+            const aiTotal = aiTerritory + state.aiCaptures * 2;
+            
+            return {
+                playerTerritory,
+                aiTerritory,
+                playerTotal,
+                aiTotal,
+                margin: playerTotal - aiTotal
+            };
+        }
+        
+        function endGame() {
+            state.gameOver = true;
+            const scores = calculateScore();
+            
+            const modal = document.getElementById('gameOverModal');
+            const title = document.getElementById('resultTitle');
+            const badge = document.getElementById('badgeDisplay');
+            
+            if (scores.playerTotal > scores.aiTotal) {
+                title.textContent = 'Victory!';
+                title.className = 'win';
+                
+                if (scores.margin >= 26) {
+                    badge.textContent = '🥇';
+                } else if (scores.margin >= 11) {
+                    badge.textContent = '🥈';
+                } else {
+                    badge.textContent = '🥉';
+                }
+            } else {
+                title.textContent = 'Defeat...';
+                title.className = 'lose';
+                badge.textContent = '💀';
+            }
+            
+            document.getElementById('terrScore').textContent = scores.playerTerritory;
+            document.getElementById('capScore').textContent = state.playerCaptures * 2;
+            document.getElementById('totalScore').textContent = scores.playerTotal;
+            document.getElementById('marginScore').textContent = (scores.margin > 0 ? '+' : '') + scores.margin;
+            
+            modal.classList.remove('hidden');
+        }
+        
+        // ==================== RENDERING ====================
+        function drawWoodTexture() {
+            // Wood gradient background
+            const grad = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            grad.addColorStop(0, COLORS.woodDark);
+            grad.addColorStop(0.5, COLORS.woodLight);
+            grad.addColorStop(1, COLORS.woodDark);
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            
+            // Wood grain lines
+            ctx.strokeStyle = 'rgba(93, 58, 26, 0.3)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < CANVAS_WIDTH; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i + random(-20, 20), CANVAS_HEIGHT);
+                ctx.stroke();
+            }
+        }
+        
+        function drawGrid() {
+            // Felt background under grid
+            ctx.fillStyle = COLORS.felt;
+            ctx.fillRect(GRID_OFFSET_X - 10, GRID_OFFSET_Y - 10, 
+                        GRID_SIZE * CELL_SIZE + 20, GRID_SIZE * CELL_SIZE + 20);
+            
+            // Grid cells
+            for (let r = 0; r < GRID_SIZE; r++) {
+                for (let c = 0; c < GRID_SIZE; c++) {
+                    const x = GRID_OFFSET_X + c * CELL_SIZE;
+                    const y = GRID_OFFSET_Y + r * CELL_SIZE;
+                    
+                    // Cell background
+                    ctx.fillStyle = COLORS.feltLight;
+                    ctx.fillRect(x + 2, y + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+                    
+                    // Hover effect
+                    if (state.hoveredCell && state.hoveredCell.row === r && state.hoveredCell.col === c) {
+                        if (state.board[r][c] === null && !state.animating) {
+                            ctx.fillStyle = 'rgba(59, 130, 246, 0.3)';
+                            ctx.fillRect(x + 2, y + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+                        }
+                    }
+                    
+                    // Territory glow
+                    const cell = state.board[r][c];
+                    if (cell) {
+                        const glowColor = cell.player === 0 ? 
+                            'rgba(59, 130, 246, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+                        ctx.fillStyle = glowColor;
+                        ctx.fillRect(x + 2, y + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+                    }
+                }
+            }
+            
+            // Grid lines
+            ctx.strokeStyle = COLORS.woodHighlight;
+            ctx.lineWidth = 3;
+            for (let i = 0; i <= GRID_SIZE; i++) {
+                // Vertical
+                ctx.beginPath();
+                ctx.moveTo(GRID_OFFSET_X + i * CELL_SIZE, GRID_OFFSET_Y);
+                ctx.lineTo(GRID_OFFSET_X + i * CELL_SIZE, GRID_OFFSET_Y + GRID_SIZE * CELL_SIZE);
+                ctx.stroke();
+                
+                // Horizontal
+                ctx.beginPath();
+                ctx.moveTo(GRID_OFFSET_X, GRID_OFFSET_Y + i * CELL_SIZE);
+                ctx.lineTo(GRID_OFFSET_X + GRID_SIZE * CELL_SIZE, GRID_OFFSET_Y + i * CELL_SIZE);
+                ctx.stroke();
+            }
+        }
+        
+        function drawDie(x, y, size, value, player, pulse = 1) {
+            const color = player === 0 ? COLORS.player : COLORS.ai;
+            const darkColor = player === 0 ? COLORS.playerDark : COLORS.aiDark;
+            
+            const scaledSize = size * pulse;
+            const offset = (size - scaledSize) / 2;
+            x += offset;
+            y += offset;
+            
+            // Die shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.fillRect(x + 4, y + 4, scaledSize, scaledSize);
+            
+            // Die face gradient
+            const grad = ctx.createLinearGradient(x, y, x + scaledSize, y + scaledSize);
+            grad.addColorStop(0, color);
+            grad.addColorStop(1, darkColor);
+            ctx.fillStyle = grad;
+            
+            // Rounded rect
+            ctx.beginPath();
+            ctx.roundRect(x, y, scaledSize, scaledSize, 8);
+            ctx.fill();
+            
+            // Highlight
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.beginPath();
+            ctx.roundRect(x + 2, y + 2, scaledSize - 4, scaledSize * 0.4, 4);
+            ctx.fill();
+            
+            // Border
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(x, y, scaledSize, scaledSize, 8);
+            ctx.stroke();
+            
+            // Pips
+            ctx.fillStyle = COLORS.white;
+            const pipSize = scaledSize * 0.12;
+            const pipOffset = scaledSize * 0.22;
+            const center = scaledSize / 2;
+            
+            const pipPositions = {
+                1: [[center, center]],
+                2: [[pipOffset, pipOffset], [scaledSize - pipOffset, scaledSize - pipOffset]],
+                3: [[pipOffset, pipOffset], [center, center], [scaledSize - pipOffset, scaledSize - pipOffset]],
+                4: [[pipOffset, pipOffset], [scaledSize - pipOffset, pipOffset], 
+                    [pipOffset, scaledSize - pipOffset], [scaledSize - pipOffset, scaledSize - pipOffset]],
+                5: [[pipOffset, pipOffset], [scaledSize - pipOffset, pipOffset], [center, center],
+                    [pipOffset, scaledSize - pipOffset], [scaledSize - pipOffset, scaledSize - pipOffset]],
+                6: [[pipOffset, pipOffset], [scaledSize - pipOffset, pipOffset],
+                    [pipOffset, center], [scaledSize - pipOffset, center],
+                    [pipOffset, scaledSize - pipOffset], [scaledSize - pipOffset, scaledSize - pipOffset]]
+            };
+            
+            // Pip shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            for (const [px, py] of pipPositions[value]) {
+                ctx.beginPath();
+                ctx.arc(x + px + 1, y + py + 1, pipSize/2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Actual pips
+            const gradPip = ctx.createRadialGradient(x + center, y + center, 0, x + center, y + center, pipSize);
+            gradPip.addColorStop(0, COLORS.white);
+            gradPip.addColorStop(1, '#d1d5db');
+            ctx.fillStyle = gradPip;
+            
+            for (const [px, py] of pipPositions[value]) {
+                ctx.beginPath();
+                ctx.arc(x + px, y + py, pipSize/2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function drawDiceCup() {
+            // Cup shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.4)';
+            ctx.beginPath();
+            ctx.ellipse(250 + 8, 110 + 8, 70, 25, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Cup body
+            const grad = ctx.createLinearGradient(200, 50, 300, 120);
+            grad.addColorStop(0, '#5c3a21');
+            grad.addColorStop(0.5, '#8b5a2b');
+            grad.addColorStop(1, '#3d2412');
+            ctx.fillStyle = grad;
+            
+            ctx.beginPath();
+            ctx.moveTo(200, 60);
+            ctx.quadraticCurveTo(190, 110, 180, 110);
+            ctx.lineTo(320, 110);
+            ctx.quadraticCurveTo(310, 110, 300, 60);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Cup rim
+            ctx.fillStyle = '#4a3728';
+            ctx.beginPath();
+            ctx.ellipse(250, 60, 50, 15, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Inside
+            ctx.fillStyle = '#2d1f14';
+            ctx.beginPath();
+            ctx.ellipse(250, 60, 40, 10, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Leather texture dots
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            for (let i = 0; i < 20; i++) {
+                const dx = 220 + (i % 5) * 15;
+                const dy = 75 + Math.floor(i / 5) * 8;
+                ctx.beginPath();
+                ctx.arc(dx, dy, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function drawCurrentDice() {
+            if (state.currentDice.length === 0 || state.gameOver) return;
+            
+            // Player's die
+            const playerDie = state.currentDice[0];
+            const isSelected = state.selectedDieIndex === 0;
+            const pulse = isSelected ? 1 + Math.sin(Date.now() / 200) * 0.05 : 0.95;
+            const yOffset = isSelected ? -10 : 0;
+            
+            ctx.globalAlpha = 0.9;
+            drawDie(GRID_OFFSET_X + 50, 70 + yOffset, DICE_SIZE, playerDie.value, 0, pulse);
+            
+            if (isSelected) {
+                ctx.strokeStyle = COLORS.gold;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.roundRect(GRID_OFFSET_X + 50 - 4, 70 + yOffset - 4, DICE_SIZE + 8, DICE_SIZE + 8, 10);
+                ctx.stroke();
+            }
+            
+            // AI's die (showing what's coming)
+            const aiDie = state.currentDice[1];
+            ctx.globalAlpha = 0.5;
+            drawDie(GRID_OFFSET_X + GRID_SIZE * CELL_SIZE - 110, 70, DICE_SIZE, aiDie.value, 1, 0.95);
+            ctx.globalAlpha = 1;
+            
+            // Labels
+            ctx.fillStyle = COLORS.white;
+            ctx.font = 'bold 12px Georgia';
+            ctx.textAlign = 'center';
+            ctx.fillText('YOUR DIE', GRID_OFFSET_X + 80, 55);
+            ctx.fillStyle = '#9ca3af';
+            ctx.fillText('AI DIE', GRID_OFFSET_X + GRID_SIZE * CELL_SIZE - 80, 55);
+        }
+        
+        function drawBoardDice() {
+            for (let r = 0; r < GRID_SIZE; r++) {
+                for (let c = 0; c < GRID_SIZE; c++) {
+                    const cell = state.board[r][c];
+                    if (cell) {
+                        const x = GRID_OFFSET_X + c * CELL_SIZE + (CELL_SIZE - DICE_SIZE) / 2;
+                        const y = GRID_OFFSET_Y + r * CELL_SIZE + (CELL_SIZE - DICE_SIZE) / 2;
+                        
+                        let pulse = 1;
+                        if (cell.pulse && cell.pulse > 0) {
+                            pulse = 1 + Math.sin(cell.pulse * Math.PI) * 0.15;
+                            cell.pulse -= 0.05;
+                        }
+                        
+                        drawDie(x, y, DICE_SIZE, cell.value, cell.player, pulse);
+                    }
+                }
+            }
+        }
+        
+        function drawAnimatedDice() {
+            for (let i = state.diceAnimating.length - 1; i >= 0; i--) {
+                const anim = state.diceAnimating[i];
+                anim.update();
+                
+                const pos = anim.getPosition();
+                drawDie(pos.x, pos.y, DICE_SIZE, anim.value, anim.player, 1);
+                
+                if (anim.done) {
+                    spawnParticles(anim.targetX + DICE_SIZE/2, anim.targetY + DICE_SIZE/2, 
+                        anim.player === 0 ? COLORS.player : COLORS.ai, 10);
+                    state.diceAnimating.splice(i, 1);
+                }
+            }
+        }
+        
+        function drawUI() {
+            // Title
+            ctx.fillStyle = COLORS.gold;
+            ctx.font = 'bold 24px Georgia';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.shadowBlur = 4;
+            ctx.fillText('⚔️ Pip Gambit ⚔️', CANVAS_WIDTH / 2, 30);
+            ctx.shadowBlur = 0;
+            
+            // Round indicator
+            ctx.fillStyle = '#9ca3af';
+            ctx.font = '14px Georgia';
+            ctx.fillText(`Round ${state.round} / ${state.maxRounds}`, CANVAS_WIDTH / 2, 48);
+            
+            // Score panel
+            const panelY = GRID_OFFSET_Y + GRID_SIZE * CELL_SIZE + 20;
+            
+            // Player score
+            ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
+            ctx.fillRect(20, panelY, 130, 70);
+            ctx.strokeStyle = COLORS.player;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(20, panelY, 130, 70);
+            
+            ctx.fillStyle = COLORS.player;
+            ctx.font = 'bold 16px Georgia';
+            ctx.textAlign = 'left';
+            ctx.fillText('You', 30, panelY + 22);
+            
+            ctx.fillStyle = COLORS.white;
+            ctx.font = 'bold 28px Georgia';
+            const scores = calculateScore();
+            ctx.fillText(scores.playerTotal.toString(), 30, panelY + 55);
+            
+            ctx.fillStyle = '#9ca3af';
+            ctx.font = '12px Georgia';
+            ctx.fillText(`Captures: ${state.playerCaptures}`, 80, panelY + 40);
+            
+            // VS
+            ctx.fillStyle = COLORS.gold;
+            ctx.font = 'bold 20px Georgia';
+            ctx.textAlign = 'center';
+            ctx.fillText('VS', CANVAS_WIDTH / 2, panelY + 45);
+            
+            // AI score
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.2)';
+            ctx.fillRect(CANVAS_WIDTH - 150, panelY, 130, 70);
+            ctx.strokeStyle = COLORS.ai;
+            ctx.strokeRect(CANVAS_WIDTH - 150, panelY, 130, 70);
+            
+            ctx.fillStyle = COLORS.ai;
+            ctx.font = 'bold 16px Georgia';
+            ctx.textAlign = 'left';
+            ctx.fillText('AI', CANVAS_WIDTH - 140, panelY + 22);
+            
+            ctx.fillStyle = COLORS.white;
+            ctx.font = 'bold 28px Georgia';
+            ctx.fillText(scores.aiTotal.toString(), CANVAS_WIDTH - 140, panelY + 55);
+            
+            ctx.fillStyle = '#9ca3af';
+            ctx.font = '12px Georgia';
+            ctx.fillText(`Captures: ${state.aiCaptures}`, CANVAS_WIDTH - 90, panelY + 40);
+            
+            // AI thinking indicator
+            if (state.aiThinking) {
+                ctx.fillStyle = COLORS.gold;
+                ctx.font = 'italic 14px Georgia';
+                ctx.textAlign = 'center';
+                const dots = '.'.repeat(Math.floor(Date.now() / 500) % 4);
+                ctx.fillText(`AI thinking${dots}`, CANVAS_WIDTH / 2, GRID_OFFSET_Y - 20);
+            }
+            
+            // Instructions
+            ctx.fillStyle = '#6b7280';
+            ctx.font = '11px Georgia';
+            ctx.textAlign = 'center';
+            ctx.fillText('Click empty cell to place • Adjacent captures if higher', CANVAS_WIDTH / 2, CANVAS_HEIGHT - 15);
+        }
+        
+        function drawParticles() {
+            for (let i = state.particles.length - 1; i >= 0; i--) {
+                const p = state.particles[i];
+                p.update();
+                p.draw(ctx);
+                if (p.life <= 0) {
+                    state.particles.splice(i, 1);
+                }
+            }
+        }
+        
+        function draw() {
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            
+            drawWoodTexture();
+            drawDiceCup();
+            drawGrid();
+            drawBoardDice();
+            drawAnimatedDice();
+            drawCurrentDice();
+            drawParticles();
+            drawUI();
+            
+            requestAnimationFrame(draw);
+        }
+        
+        // ==================== INPUT HANDLING ====================
+        function getCellFromPoint(x, y) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            const canvasX = (x - rect.left) * scaleX / (window.devicePixelRatio || 1);
+            const canvasY = (y - rect.top) * scaleY / (window.devicePixelRatio || 1);
+            
+            const col = Math.floor((canvasX - GRID_OFFSET_X) / CELL_SIZE);
+            const row = Math.floor((canvasY - GRID_OFFSET_Y) / CELL_SIZE);
+            
+            if (row >= 0 && row < GRID_SIZE && col >= 0 && col < GRID_SIZE) {
+                return { row, col };
+            }
+            return null;
+        }
+        
+        function handleInput(x, y) {
+            if (state.gameOver || state.animating || state.diceAnimating.length > 0) return;
+            
+            const cell = getCellFromPoint(x, y);
+            if (cell && state.board[cell.row][cell.col] === null) {
+                state.animating = true;
+                placeDie(cell.row, cell.col, state.selectedDieIndex);
+            }
+        }
+        
+        canvas.addEventListener('click', (e) => {
+            handleInput(e.clientX, e.clientY);
+        });
+        
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            handleInput(touch.clientX, touch.clientY);
+        }, { passive: false });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            const cell = getCellFromPoint(e.clientX, e.clientY);
+            state.hoveredCell = cell;
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const cell = getCellFromPoint(touch.clientX, touch.clientY);
+            state.hoveredCell = cell;
+        }, { passive: false });
+        
+        // ==================== UI HANDLERS ====================
+        document.querySelectorAll('.diff-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.difficulty = btn.dataset.diff;
+            });
+        });
+        
+        document.getElementById('startBtn').addEventListener('click', () => {
+            document.getElementById('tutorialOverlay').classList.add('hidden');
+            document.getElementById('helpBtn').style.display = 'block';
+            initBoard();
+        });
+        
+        document.getElementById('replayBtn').addEventListener('click', () => {
+            document.getElementById('gameOverModal').classList.add('hidden');
+            initBoard();
+        });
+        
+        document.getElementById('helpBtn').addEventListener('click', () => {
+            document.getElementById('tutorialOverlay').classList.remove('hidden');
+        });
+        
+        // ==================== START ====================
+        draw();
+    </script>
+</body>
+</html>

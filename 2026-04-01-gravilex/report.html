@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravilex - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            color: #ff00a0;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #ff00a0;
+        }
+        .subtitle { color: #00f5ff; margin-bottom: 30px; }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,0,160,0.2);
+        }
+        h2 {
+            color: #ff00a0;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        h3 {
+            color: #ffd700;
+            margin: 15px 0 10px;
+            font-size: 1.1rem;
+        }
+        p, li {
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        ul { margin-left: 20px; }
+        .metric {
+            display: inline-block;
+            background: rgba(255,0,160,0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin: 5px;
+            border: 1px solid #ff00a0;
+        }
+        .metric-label { color: #888; font-size: 0.8rem; }
+        .metric-value { color: #ff00a0; font-size: 1.3rem; font-weight: bold; }
+        .risk-high { color: #ff6b6b; }
+        .risk-medium { color: #f1c40f; }
+        .risk-low { color: #2ecc71; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th { color: #ff00a0; background: rgba(255,0,160,0.1); }
+        .tag {
+            display: inline-block;
+            background: rgba(255,0,160,0.2);
+            color: #ff00a0;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🪐 Gravilex</h1>
+        <p class="subtitle">Reporte Estratégico - Palabras en Caída Gravitacional</p>
+
+        <div class="section">
+            <h2>🎯 Concepto Core</h2>
+            <p><strong>Gravilex</strong> combina la tensión de los juegos de caída de bloques con la satisfacción de formar palabras. Las letras caen por gravedad y el jugador debe seleccionarlas rápidamente para formar palabras antes de que toquen la zona de peligro.</p>
+            
+            <h3>Mecánica Principal</h3>
+            <ul>
+                <li>Letras caen desde arriba con física de gravedad real</li>
+                <li>Click para seleccionar letras (se iluminan en cyan)</li>
+                <li>Forma palabras válidas en español</li>
+                <li>La velocidad aumenta con el puntaje</li>
+                <li>Game over si cualquier letra toca la zona roja</li>
+            </ul>
+            
+            <h3>Power-ups</h3>
+            <ul>
+                <li>❄️ Congelar: Pausa la gravedad por 5 segundos (3 usos)</li>
+                <li>💎 Letras doradas: Doble puntos al usarlas</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Game Loop</h2>
+            <table>
+                <tr>
+                    <th>Fase</th>
+                    <th>Duración</th>
+                    <th>Descripción</th>
+                </tr>
+                <tr>
+                    <td>Observar</td>
+                    <td>1-3s</td>
+                    <td>Identificar letras disponibles y posibles palabras</td>
+                </tr>
+                <tr>
+                    <td>Seleccionar</td>
+                    <td>2-5s</td>
+                    <td>Clickear letras rápidamente para formar palabra</td>
+                </tr>
+                <tr>
+                    <td>Validar</td>
+                    <td>Instant</td>
+                    <td>Sistema verifica si es palabra válida</td>
+                </tr>
+                <tr>
+                    <td>Recompensa</td>
+                    <td>1-2s</td>
+                    <td>Puntos + eliminación de letras + efectos visuales</td>
+                </tr>
+            </table>
+            <p><strong>Dinámica:</strong> Tensión creciente + alivio satisfactorio al completar palabra. Loop de 5-15 segundos.</p>
+        </div>
+
+        <div class="section">
+            <h2>🎁 Sistema de Recompensas</h2>
+            <h3>Puntuación</h3>
+            <ul>
+                <li>Base: longitud × 10 puntos</li>
+                <li>Letra dorada: ×2 multiplicador</li>
+                <li>Combo 3+: +50% por combo acumulado</li>
+                <li>Palabra rara (6+ letras): +100 bonus</li>
+            </ul>
+            
+            <h3>Insignias</h3>
+            <ul>
+                <li>⭐ Novato: 100 puntos</li>
+                <li>📝 Letrista: 500 puntos</li>
+                <li>⚡ Veloz: 1000 puntos</li>
+                <li>📚 Lexicógrafo: 2000 puntos</li>
+                <li>🪐 Gravitador: 5000 puntos</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📊 KPIs Esperados</h2>
+            <div class="metric">
+                <div class="metric-label">D1 Retention</div>
+                <div class="metric-value">40-50%</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">D7 Retention</div>
+                <div class="metric-value">18-25%</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Sesión Promedio</div>
+                <div class="metric-value">10-15 min</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Palabras/Sesión</div>
+                <div class="metric-value">20-40</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">ARPU Estimado</div>
+                <div class="metric-value">$0.08-0.15</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔍 SEO/ASO/SEM Strategy</h2>
+            
+            <h3>Keywords Primarias (ES)</h3>
+            <span class="tag">juego de palabras</span>
+            <span class="tag">formar palabras</span>
+            <span class="tag">vocabulario</span>
+            <span class="tag">crucigrama</span>
+            <span class="tag">aprender español</span>
+            <span class="tag">juego educativo</span>
+            
+            <h3>Keywords Primarias (EN)</h3>
+            <span class="tag">word game</span>
+            <span class="tag">word puzzle</span>
+            <span class="tag">typing game</span>
+            <span class="tag">vocabulary</span>
+            <span class="tag">crossword</span>
+            
+            <h3>Título Optimizado</h3>
+            <p><strong>ES:</strong> "Gravilex - Palabras en Caída Libre"</p>
+            <p><strong>EN:</strong> "Gravilex - Falling Words Puzzle"</p>
+            
+            <h3>Descripción Corta</h3>
+            <p>"📝 Forma palabras con letras que caen por gravedad. ¡Rápido! Antes de que toquen el fondo. ¿Cuántas palabras sabes?"</p>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Experimentos A/B Propuestos</h2>
+            <table>
+                <tr>
+                    <th>Experimento</th>
+                    <th>Variante A</th>
+                    <th>Variante B</th>
+                    <th>Métrica</th>
+                </tr>
+                <tr>
+                    <td>Modo zen</td>
+                    <td>Sin modo zen</td>
+                    <td>Modo sin game over</td>
+                    <td>D1 Retention</td>
+                </tr>
+                <tr>
+                    <td>Diccionario</td>
+                    <td>Palabras comunes</td>
+                    <td>Incluir nombres propios</td>
+                    <td>Sesión duration</td>
+                </tr>
+                <tr>
+                    <td>Longitud mínima</td>
+                    <td>2 letras</td>
+                    <td>3 letras</td>
+                    <td>Palabras/Sesión</td>
+                </tr>
+                <tr>
+                    <td>Congelar</td>
+                    <td>3 usos gratis</td>
+                    <td>Comprar con monedas</td>
+                    <td>Ad Revenue</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Riesgos y Mitigaciones</h2>
+            
+            <h3 class="risk-medium">Riesgo Medio: Diccionario limitado</h3>
+            <p>Jugadores avanzados agotan palabras posibles. <strong>Mitigación:</strong> Actualizaciones mensuales de diccionario, modo multijugador.</p>
+            
+            <h3 class="risk-medium">Riesgo Medio: Curva de dificultad</h3>
+            <p>Demasiado rápido para algunos jugadores. <strong>Mitigación:</strong> Dificultad adaptativa basada en rendimiento.</p>
+            
+            <h3 class="risk-low">Riesgo Bajo: Competencia</h3>
+            <p>Existen juegos similares. <strong>Mitigación:</strong> Diferenciación por física de gravedad + estética espacial única.</p>
+        </div>
+
+        <div class="section">
+            <h2>📈 Roadmap Sugerido</h2>
+            <table>
+                <tr>
+                    <th>Fase</th>
+                    <th>Features</th>
+                    <th>Timeline</th>
+                </tr>
+                <tr>
+                    <td>MVP</td>
+                    <td>Juego base, diccionario 500 palabras</td>
+                    <td>Semana 1</td>
+                </tr>
+                <tr>
+                    <td>Expansión</td>
+                    <td>+2000 palabras, múltiples idiomas</td>
+                    <td>Semana 2</td>
+                </tr>
+                <tr>
+                    <td>Social</td>
+                    <td>Leaderboards, desafíos diarios</td>
+                    <td>Semana 3</td>
+                </tr>
+                <tr>
+                    <td>Monetización</td>
+                    <td>Pistas, temas, premium</td>
+                    <td>Semana 4</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>📝 Notas de Implementación</h2>
+            <p><strong>Shipped:</strong> 2026-04-01</p>
+            <p><strong>Estado:</strong> ✅ Completo y jugable</p>
+            <p><strong>Riesgos identificados:</strong> Diccionario actual ~300 palabras - necesita expansión a 2000+ para jugadores avanzados. Considerar integración con API de diccionario.</p>
+        </div>
+    </div>
+</body>
+</html>

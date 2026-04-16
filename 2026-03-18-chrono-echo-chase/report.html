@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chrono Echo Chase - Strategy Report</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+  color: #e0e6ed;
+  line-height: 1.6;
+  padding: 40px 20px;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 36px;
+  background: linear-gradient(90deg, #f093fb, #f5576c, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+.subtitle {
+  color: #a0aec0;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+.section {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+h2 {
+  color: #4facfe;
+  font-size: 22px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid rgba(79, 172, 254, 0.3);
+  padding-bottom: 10px;
+}
+h3 {
+  color: #f5576c;
+  font-size: 16px;
+  margin: 15px 0 10px;
+}
+p, li {
+  color: #c0c8d8;
+  margin-bottom: 10px;
+}
+ul {
+  margin-left: 20px;
+}
+.highlight {
+  background: rgba(245, 87, 108, 0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #f5576c;
+}
+.tag {
+  display: inline-block;
+  background: rgba(79, 172, 254, 0.2);
+  color: #4facfe;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  margin: 3px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+th, td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+th {
+  color: #4facfe;
+  font-weight: 600;
+}
+.metric {
+  display: inline-block;
+  background: rgba(245, 87, 108, 0.1);
+  border: 1px solid rgba(245, 87, 108, 0.3);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin: 5px;
+}
+.metric-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f5576c;
+}
+.metric-label {
+  font-size: 12px;
+  color: #a0aec0;
+}
+.back-link {
+  display: inline-block;
+  margin-top: 30px;
+  color: #4facfe;
+  text-decoration: none;
+  font-weight: 600;
+}
+.back-link:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>⏰ CHRONO ECHO CHASE</h1>
+  <p class="subtitle">Prototype Strategy Report • March 18, 2026</p>
+
+  <div class="section">
+    <h2>🎯 Core Concept</h2>
+    <p>A <strong>time-manipulation platformer</strong> where every movement creates an "echo" that replays indefinitely. Players must race against their own past to reach the exit, creating a <span class="highlight">unique self-competition mechanic</span> never seen in traditional platformers.</p>
+    
+    <h3>Unique Mechanics</h3>
+    <ul>
+      <li><strong>Echo Recording:</strong> Every frame of movement is recorded and replayed as a ghost</li>
+      <li><strong>Cumulative Difficulty:</strong> Each failed attempt adds another echo to dodge</li>
+      <li><strong>Speed Incentive:</strong> Faster completion = fewer echo frames to avoid</li>
+      <li><strong>Perfect Run Reward:</strong> Complete on first try for special recognition</li>
+      <li><strong>Best Time Tracking:</strong> Per-level local storage for speedrunning</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🎮 Engagement Loop</h2>
+    
+    <h3>The "One More Try" Hook</h3>
+    <ul>
+      <li><strong>Immediate Restart:</strong> No loading screens - instant retry with one click</li>
+      <li><strong>Visual Progress:</strong> Watch your echoes form a beautiful rainbow trail</li>
+      <li><strong>Near-Miss Feedback:</strong> Warning indicator when approaching echo collision</li>
+      <li><strong>Badge System:</strong> Perfect Run, Speed Demon, Echo Survivor achievements</li>
+    </ul>
+
+    <h3>Session Design</h3>
+    <ul>
+      <li><strong>Bite-sized Levels:</strong> 10-30 seconds optimal completion time</li>
+      <li><strong>Quick Iteration:</strong> Die and retry in under 1 second</li>
+      <li><strong>Progressive Challenge:</strong> 10 levels from tutorial to master</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📊 KPIs & Success Metrics</h2>
+    
+    <div>
+      <div class="metric">
+        <div class="metric-value">15+</div>
+        <div class="metric-label">Avg Attempts/Level</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">45%</div>
+        <div class="metric-label">D1 Retention Target</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">8m</div>
+        <div class="metric-label">Avg Session Length</div>
+      </div>
+    </div>
+
+    <table>
+      <tr>
+        <th>Metric</th>
+        <th>Target</th>
+        <th>Measurement</th>
+      </tr>
+      <tr>
+        <td>Attempts per Level</td>
+        <td>5-20</td>
+        <td>Engagement depth</td>
+      </tr>
+      <tr>
+        <td>Perfect Run Rate</td>
+        <td>5%+</td>
+        <td>Skill ceiling validation</td>
+      </tr>
+      <tr>
+        <td>Level 10 Reach</td>
+        <td>20%+</td>
+        <td>Content completion</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🔍 SEO/ASO Strategy</h2>
+    
+    <h3>Keywords</h3>
+    <div>
+      <span class="tag">platformer</span>
+      <span class="tag">action game</span>
+      <span class="tag">speedrun</span>
+      <span class="tag">avoid game</span>
+      <span class="tag">reflex game</span>
+      <span class="tag">time attack</span>
+      <span class="tag">hard games</span>
+      <span class="tag">challenging</span>
+    </div>
+
+    <h3>App Store Optimization</h3>
+    <ul>
+      <li><strong>Title:</strong> Chrono Echo Chase - Time Platformer</li>
+      <li><strong>Subtitle:</strong> Outrun Your Past, Master Time</li>
+      <li><strong>Screenshots:</strong> Show multiple echoes, speedrun timer, near-collision moments</li>
+      <li><strong>Preview Video:</strong> Fast cuts showing "impossible" dodges, growing echo trails</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🎬 Content Marketing Angles</h2>
+    
+    <ul>
+      <li><strong>TikTok/Shorts Hook:</strong> "The game that gets HARDER every time you fail"</li>
+      <li><strong>YouTube Content:</strong> "Can you beat this on your FIRST TRY?"</li>
+      <li><strong>Streamer Friendly:</strong> Instant rage moments, visible skill progression</li>
+      <li><strong>Social Share:</strong> Share best times with replay GIF generation</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🧪 A/B Test Experiments</h2>
+    
+    <table>
+      <tr>
+        <th>Experiment</th>
+        <th>Variant A</th>
+        <th>Variant B</th>
+        <th>Success Metric</th>
+      </tr>
+      <tr>
+        <td>Death Penalty</td>
+        <td>Keep all echoes</td>
+        <td>Remove oldest echo</td>
+        <td>Session length</td>
+      </tr>
+      <tr>
+        <td>Visual Style</td>
+        <td>Neon cyberpunk</td>
+        <td>Pixel art retro</td>
+        <td>CTR on creatives</td>
+      </tr>
+      <tr>
+        <td>Echo Visibility</td>
+        <td>Full opacity</td>
+        <td>Faded/pulse</td>
+        <td>Completion rate</td>
+      </tr>
+      <tr>
+        <td>Level Count</td>
+        <td>10 levels</td>
+        <td>25 shorter levels</td>
+        <td>Retention</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>⚠️ Risk Assessment</h2>
+    
+    <table>
+      <tr>
+        <th>Risk</th>
+        <th>Impact</th>
+        <th>Mitigation</th>
+      </tr>
+      <tr>
+        <td>Too difficult/frustrating</td>
+        <td>High</td>
+        <td>Skip level option after 10 attempts, practice mode</td>
+      </tr>
+      <tr>
+        <td>Content exhaustion</td>
+        <td>Medium</td>
+        <td>Level editor, daily challenges, infinite mode</td>
+      </tr>
+      <tr>
+        <td>Performance issues</td>
+        <td>Low</td>
+        <td>Echo capping (max 20), trail compression</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🚀 Monetization Path</h2>
+    
+    <ul>
+      <li><strong>Free Version:</strong> First 5 levels, interstitial ads every 3 attempts</li>
+      <li><strong>Premium ($3.99):</strong> All levels, no ads, custom echo colors, level editor</li>
+      <li><strong>Cosmetics:</strong> Character skins, echo trails, particle effects</li>
+      <li><strong>Battle Pass:</strong> Weekly challenge levels with exclusive rewards</li>
+    </ul>
+  </div>
+
+  <a href="../index.html" class="back-link">← Back to Prototype Catalog</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Locker Room Oracle - Prototype Report</title>
+  <style>
+    body { margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif; background:#08111f; color:#ecf5ff; line-height:1.6; }
+    .wrap { max-width:1000px; margin:0 auto; padding:24px; }
+    .hero, .panel { background:#0f1d34; border:1px solid #284e7a; border-radius:22px; padding:22px; box-shadow:0 18px 50px rgba(0,0,0,.28); }
+    .hero { margin-bottom:18px; background:linear-gradient(160deg,#12284d,#0c1422); }
+    h1,h2,h3 { margin-top:0; }
+    h1 { font-size:clamp(2rem,5vw,3.1rem); line-height:1.05; }
+    h2 { margin-top:18px; font-size:1.25rem; color:#ffd36c; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .pill { display:inline-block; margin:6px 8px 0 0; padding:7px 10px; border-radius:999px; background:#173156; border:1px solid #336596; font-weight:700; }
+    ul { padding-left:20px; }
+    .panel { margin-bottom:16px; }
+    .kpi { background:#132744; border-radius:16px; padding:14px; border:1px solid #274c77; }
+    .muted { color:#a4bfd9; }
+    @media (max-width: 720px) { .grid { grid-template-columns:1fr; } .wrap { padding:14px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Locker Room Oracle</h1>
+      <p>A fast browser puzzle-sport prototype built around live draft-board decisions instead of classic trivia prompts or arcade lane avoidance. Players arrange athlete sigils into a 3-node tactical formation and try to satisfy two visible chemistry forecasts before each wave collapses.</p>
+      <div>
+        <span class="pill">Original mechanic</span>
+        <span class="pill">Sports-flavored puzzle</span>
+        <span class="pill">Replayable randomized runs</span>
+        <span class="pill">Mobile-friendly no external assets</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>How trend signals influenced the concept</h2>
+      <p><strong>Connections Sports Edition</strong> suggested a useful mix of behaviors: same-day freshness, sports knowledge stickiness, low ambiguity, and a solver/discussion ecosystem. This prototype borrows the behavioral lesson without copying the game structure.</p>
+      <ul>
+        <li><strong>Same-day freshness:</strong> Forecast cards simulate “today’s board” energy. The system can easily rotate weekly sports themes, seasonal events, playoffs, rivalry packs, or live tournament templates.</li>
+        <li><strong>Sports trivia stickiness:</strong> The fantasy comes from reading form, momentum, roles, and chemistry—not answering isolated facts.</li>
+        <li><strong>Low ambiguity:</strong> Every scoring rule uses explicit visible tags and stat thresholds, so the player always knows why a build did or did not resolve.</li>
+        <li><strong>Solver ecosystem potential:</strong> Because each wave is deterministic and tag-based, players can share optimal lines, streak routes, badge hunts, and “daily board” solutions socially.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Core loop</h2>
+      <ol>
+        <li>Read the two visible forecast cards immediately on load.</li>
+        <li>Scan the randomized draft board of athlete/event sigils with clear stats and tags.</li>
+        <li>Drag or tap three sigils into a triangle formation.</li>
+        <li>Resolve before the 8-second chemistry wave ends.</li>
+        <li>Score from forecast hits plus bridge synergy.</li>
+        <li>Repeat across 6 waves, chasing 900+ points before stability breaks.</li>
+      </ol>
+      <p>The game is replayable because both the forecast combination and sigil board are randomized each run, creating lots of readable but time-pressured combinations.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Design strategy</h2>
+      <div class="grid">
+        <div class="kpi">
+          <h3>Why this feels original</h3>
+          <ul>
+            <li>It is not a quiz, word sort, dice game, or lane dodger.</li>
+            <li>The player is building a temporary sports theory under time pressure.</li>
+            <li>Success depends on linking visible sigil properties across two simultaneous demands.</li>
+            <li>The top slot and lower bridge create spatial meaning instead of a flat matching grid.</li>
+          </ul>
+        </div>
+        <div class="kpi">
+          <h3>Why it is readable</h3>
+          <ul>
+            <li>Rules are explicit and front-loaded in under 2 seconds.</li>
+            <li>Immediate feedback explains hit, partial hit, or miss.</li>
+            <li>Forecast cards highlight good/bad states visually.</li>
+            <li>The board uses clear tags like captain, rookie, tempo, anchor, home, away.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Rewards and retention hooks</h2>
+      <ul>
+        <li><strong>Score chase:</strong> Clear 900+ to win a run.</li>
+        <li><strong>Streak pressure:</strong> Consecutive double reads add bonus points.</li>
+        <li><strong>Badges:</strong> Double Read, Chain Reactor, Last-Second Prophet, Perfect Locker.</li>
+        <li><strong>Reroll economy:</strong> Spend points to redraw the board and rescue a bad spot.</li>
+        <li><strong>Shareable outcomes:</strong> Daily or themed boards could create social comparison and solver content.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>SEO / ASO / SEM plan</h2>
+      <div class="grid">
+        <div class="kpi">
+          <h3>SEO</h3>
+          <ul>
+            <li>Target terms like <em>sports puzzle game</em>, <em>daily sports strategy puzzle</em>, <em>draft board puzzle</em>, and <em>chemistry sports game</em>.</li>
+            <li>Create landing pages for themed editions: playoffs, derby week, clay season, trade deadline, opening day.</li>
+            <li>Publish explainers and solution breakdowns that mirror the solver community behavior seen in sports puzzle trends.</li>
+          </ul>
+        </div>
+        <div class="kpi">
+          <h3>ASO</h3>
+          <ul>
+            <li>App title variants: <em>Locker Room Oracle</em>, <em>Oracle Draft</em>, <em>Sports Chemistry Puzzle</em>.</li>
+            <li>Screenshots should emphasize the triangle formation, visible rule cards, and badge rewards.</li>
+            <li>Subtitle should sell “daily sports logic under pressure” rather than generic trivia.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="kpi" style="margin-top:16px;">
+        <h3>SEM</h3>
+        <ul>
+          <li>Bid around sports brain games, fantasy strategy games, daily puzzle sports, and team chemistry puzzle terms.</li>
+          <li>Creative angle: “Read the room before the wave hits.”</li>
+          <li>Retarget users with badge-completion and daily-board messaging.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>KPIs to watch</h2>
+      <div class="grid">
+        <div class="kpi">
+          <ul>
+            <li>Instruction comprehension rate in first run</li>
+            <li>Wave 1 completion rate</li>
+            <li>Average run length</li>
+            <li>Win rate at 900-point target</li>
+          </ul>
+        </div>
+        <div class="kpi">
+          <ul>
+            <li>Badge earn rate per session</li>
+            <li>Reroll usage rate</li>
+            <li>Replay rate within 10 minutes</li>
+            <li>Social share / solver-post rate for themed boards</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Experiment backlog</h2>
+      <ul>
+        <li><strong>Daily board mode:</strong> everyone gets the same 6-wave puzzle each day.</li>
+        <li><strong>Season packs:</strong> football Sundays, March tournament mode, transfer/trade week mode, rivalry mode.</li>
+        <li><strong>Forecast drafting:</strong> let players choose 1 of 3 forecast pairs before the wave.</li>
+        <li><strong>Meta progression:</strong> unlock sigil sets, announcer themes, badge shelves, weekly ladders.</li>
+        <li><strong>Hardcore mode:</strong> 6 seconds per wave, no rerolls, leaderboard ready.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Risks</h2>
+      <ul>
+        <li><strong>Complexity risk:</strong> too many tags could overwhelm first-time players. Mitigation: visible rules, small formation size, concise feedback.</li>
+        <li><strong>Balance risk:</strong> random boards can create too-easy or too-hard states. Mitigation: board curation, weighted sigil pools, guaranteed solvable daily boards.</li>
+        <li><strong>Theme drift:</strong> sports flavor could become generic if sigils lack contextual identity. Mitigation: seasonal packs and more event-specific archetypes.</li>
+        <li><strong>Session fatigue:</strong> if all runs feel equally abstract, retention may flatten. Mitigation: dailies, live ops, score ladders, richer modifiers.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Prototype checklist</h2>
+      <ul>
+        <li>Instructions visible instantly on load</li>
+        <li>Complete playable loop with timer, scoring, rewards, win and game-over states</li>
+        <li>Immediate visual feedback and polished UI motion</li>
+        <li>Mobile-friendly tap flow plus desktop drag/drop</li>
+        <li>No external assets, fonts, or libraries</li>
+      </ul>
+      <p class="muted">This prototype is positioned as a strong foundation for a daily sports puzzle product that feels contemporary without being derivative.</p>
+    </section>
+  </div>
+</body>
+</html>

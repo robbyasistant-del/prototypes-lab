@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Prototypes Catalog | Feb-Mar 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f0f1a;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #16213e;
+            --bg-card-hover: #1e2a4a;
+            --accent-primary: #e94560;
+            --accent-secondary: #0f3460;
+            --accent-gold: #ffd700;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-color: #2a2a4a;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 8px 30px rgba(233, 69, 96, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--accent-secondary) 100%);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Controls Section */
+        .controls {
+            background: var(--bg-secondary);
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.2);
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-header .count {
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Game Card */
+        .game-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-gold));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-primary);
+            background: var(--bg-card-hover);
+        }
+
+        .game-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .game-card.hidden {
+            display: none;
+        }
+
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .game-date {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .game-date::before {
+            content: "📅";
+        }
+
+        /* Rating Stars */
+        .rating-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .star {
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #444;
+            user-select: none;
+        }
+
+        .star:hover,
+        .star.active {
+            color: var(--accent-gold);
+            transform: scale(1.2);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .star:hover {
+            filter: brightness(1.3);
+        }
+
+        /* Play Button */
+        .play-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-primary), #ff6b6b);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.5);
+        }
+
+        .play-btn::before {
+            content: "▶";
+        }
+
+        /* 100 Jumps Special Styling */
+        .game-card.hundred-jumps::after {
+            content: "100 Jumps";
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            background: var(--accent-gold);
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.3rem 2rem;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        /* Scroll to Top */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats-bar {
+                gap: 1.5rem;
+                padding: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .filter-buttons {
+                gap: 0.3rem;
+            }
+
+            .filter-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .game-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Loading shimmer */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🎮 Game Prototypes Catalog</h1>
+        <p>February 25 - March 19, 2026 • 76 Prototypes</p>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-value" id="totalGames">76</div>
+            <div class="stat-label">Total Games</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="ratedCount">0</div>
+            <div class="stat-label">Rated</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="avgRating">-</div>
+            <div class="stat-label">Average</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="unratedCount">76</div>
+            <div class="stat-label">Unrated</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search games...">
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="100jumps">⭐ 100 Jumps</button>
+            <button class="filter-btn" data-filter="rated">Rated</button>
+            <button class="filter-btn" data-filter="unrated">Unrated</button>
+            <button class="filter-btn" data-filter="march">March</button>
+            <button class="filter-btn" data-filter="february">February</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <!-- 100 Jumps Series Section -->
+        <div class="section-header" id="hundredJumpsHeader">
+            <h2>🌟 100 Jumps Series</h2>
+            <span class="count" id="hundredJumpsCount">0</span>
+        </div>
+        <div class="games-grid" id="hundredJumpsGrid">
+            <!-- 100 Jumps games will be inserted here -->
+        </div>
+
+        <!-- February Games Section -->
+        <div class="section-header">
+            <h2>📅 February 2026</h2>
+            <span class="count" id="februaryCount">0</span>
+        </div>
+        <div class="games-grid" id="februaryGrid">
+            <!-- February games will be inserted here -->
+        </div>
+
+        <!-- March Games Section -->
+        <div class="section-header">
+            <h2>📅 March 2026</h2>
+            <span class="count" id="marchCount">0</span>
+        </div>
+        <div class="games-grid" id="marchGrid">
+            <!-- March games will be inserted here -->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>🎮 Game Prototypes Catalog • Feb-Mar 2026</p>
+        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Ratings are saved locally in your browser</p>
+    </footer>
+
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Game data - 76 prototypes from Feb 25 to Mar 19, 2026
+        const games = [
+            // February 25, 2026
+            { id: "2026-02-25-neon-dash", name: "Neon Dash", date: "2026-02-25", icon: "⚡", month: "february" },
+            { id: "2026-02-25-pixel-hop", name: "Pixel Hop", date: "2026-02-25", icon: "🦘", month: "february" },
+            { id: "2026-02-25-space-runner", name: "Space Runner", date: "2026-02-25", icon: "🚀", month: "february" },
+            
+            // February 26, 2026
+            { id: "2026-02-26-cube-adventure", name: "Cube Adventure", date: "2026-02-26", icon: "🎲", month: "february" },
+            { id: "2026-02-26-jungle-leap", name: "Jungle Leap", date: "2026-02-26", icon: "🌴", month: "february" },
+            { id: "2026-02-26-cyber-jump", name: "Cyber Jump", date: "2026-02-26", icon: "🤖", month: "february" },
+            { id: "2026-02-26-mystery-dungeon", name: "Mystery Dungeon", date: "2026-02-26", icon: "🏰", month: "february" },
+            
+            // February 27, 2026
+            { id: "2026-02-27-velocity-rush", name: "Velocity Rush", date: "2026-02-27", icon: "💨", month: "february" },
+            { id: "2026-02-27-gravity-flip", name: "Gravity Flip", date: "2026-02-27", icon: "🔄", month: "february" },
+            { id: "2026-02-27-astro-glide", name: "Astro Glide", date: "2026-02-27", icon: "🌌", month: "february" },
+            { id: "2026-02-27-ninja-climb", name: "Ninja Climb", date: "2026-02-27", icon: "🥷", month: "february" },
+            
+            // February 28, 2026
+            { id: "2026-02-28-lava-escape", name: "Lava Escape", date: "2026-02-28", icon: "🌋", month: "february" },
+            { id: "2026-02-28-ice-slide", name: "Ice Slide", date: "2026-02-28", icon: "❄️", month: "february" },
+            { id: "2026-02-28-dragon-flight", name: "Dragon Flight", date: "2026-02-28", icon: "🐉", month: "february" },
+            { id: "2026-02-28-temple-run", name: "Temple Run", date: "2026-02-28", icon: "⛩️", month: "february" },
+            
+            // March 1, 2026
+            { id: "2026-03-01-cosmic-bound", name: "Cosmic Bound", date: "2026-03-01", icon: "🪐", month: "march" },
+            { id: "2026-03-01-mecha-stomp", name: "Mecha Stomp", date: "2026-03-01", icon: "🦾", month: "march" },
+            { id: "2026-03-01-bubble-pop", name: "Bubble Pop", date: "2026-03-01", icon: "🫧", month: "march" },
+            { id: "2026-03-01-shadow-leap", name: "Shadow Leap", date: "2026-03-01", icon: "👤", month: "march" },
+            
+            // March 3, 2026
+            { id: "2026-03-03-sky-pirate", name: "Sky Pirate", date: "2026-03-03", icon: "🏴‍☠️", month: "march" },
+            { id: "2026-03-03-crystal-cave", name: "Crystal Cave", date: "2026-03-03", icon: "💎", month: "march" },
+            { id: "2026-03-03-wind-rider", name: "Wind Rider", date: "2026-03-03", icon: "🌪️", month: "march" },
+            { id: "2026-03-03-time-warp", name: "Time Warp", date: "2026-03-03", icon: "⏰", month: "march" },
+            
+            // March 4, 2026
+            { id: "2026-03-04-fire-dash", name: "Fire Dash", date: "2026-03-04", icon: "🔥", month: "march" },
+            { id: "2026-03-04-water-flow", name: "Water Flow", date: "2026-03-04", icon: "💧", month: "march" },
+            { id: "2026-03-04-earth-shake", name: "Earth Shake", date: "2026-03-04", icon: "🌍", month: "march" },
+            { id: "2026-03-04-air-drift", name: "Air Drift", date: "2026-03-04", icon: "☁️", month: "march" },
+            
+            // March 5, 2026
+            { id: "2026-03-05-neon-city", name: "Neon City", date: "2026-03-05", icon: "🌃", month: "march" },
+            { id: "2026-03-05-desert-storm", name: "Desert Storm", date: "2026-03-05", icon: "🌵", month: "march" },
+            { id: "2026-03-05-forest-spirit", name: "Forest Spirit", date: "2026-03-05", icon: "🌲", month: "march" },
+            { id: "2026-03-05-ocean-dive", name: "Ocean Dive", date: "2026-03-05", icon: "🌊", month: "march" },
+            
+            // March 6, 2026
+            { id: "2026-03-06-moon-jumper", name: "Moon Jumper", date: "2026-03-06", icon: "🌙", month: "march" },
+            { id: "2026-03-06-sun-runner", name: "Sun Runner", date: "2026-03-06", icon: "☀️", month: "march" },
+            { id: "2026-03-06-star-catcher", name: "Star Catcher", date: "2026-03-06", icon: "⭐", month: "march" },
+            { id: "2026-03-06-comet-chase", name: "Comet Chase", date: "2026-03-06", icon: "☄️", month: "march" },
+            
+            // March 7, 2026
+            { id: "2026-03-07-robot-rise", name: "Robot Rise", date: "2026-03-07", icon: "🦿", month: "march" },
+            { id: "2026-03-07-alien-escape", name: "Alien Escape", date: "2026-03-07", icon: "👽", month: "march" },
+            { id: "2026-03-07-zombie-dash", name: "Zombie Dash", date: "2026-03-07", icon: "🧟", month: "march" },
+            { id: "2026-03-07-ghost-float", name: "Ghost Float", date: "2026-03-07", icon: "👻", month: "march" },
+            
+            // March 8, 2026
+            { id: "2026-03-08-phoenix-fly", name: "Phoenix Fly", date: "2026-03-08", icon: "🐦‍🔥", month: "march" },
+            { id: "2026-03-08-unicorn-run", name: "Unicorn Run", date: "2026-03-08", icon: "🦄", month: "march" },
+            { id: "2026-03-08-kraken-sea", name: "Kraken Sea", date: "2026-03-08", icon: "🦑", month: "march" },
+            { id: "2026-03-08-yeti-mountain", name: "Yeti Mountain", date: "2026-03-08", icon: "🦍", month: "march" },
+            
+            // March 9, 2026
+            { id: "2026-03-09-thunder-strike", name: "Thunder Strike", date: "2026-03-09", icon: "⚡", month: "march" },
+            { id: "2026-03-09-blizzard-rush", name: "Blizzard Rush", date: "2026-03-09", icon: "🌨️", month: "march" },
+            { id: "2026-03-09-sand-slide", name: "Sand Slide", date: "2026-03-09", icon: "🏜️", month: "march" },
+            { id: "2026-03-09-rain-drop", name: "Rain Drop", date: "2026-03-09", icon: "🌧️", month: "march" },
+            
+            // March 10, 2026
+            { id: "2026-03-10-volcano-leap", name: "Volcano Leap", date: "2026-03-10", icon: "🌋", month: "march" },
+            { id: "2026-03-10-aurora-dance", name: "Aurora Dance", date: "2026-03-10", icon: "🌌", month: "march" },
+            { id: "2026-03-10-tornado-spin", name: "Tornado Spin", date: "2026-03-10", icon: "🌪️", month: "march" },
+            { id: "2026-03-10-meteor-fall", name: "Meteor Fall", date: "2026-03-10", icon: "🌠", month: "march" },
+            
+            // March 11, 2026
+            { id: "2026-03-11-eclipse-run", name: "Eclipse Run", date: "2026-03-11", icon: "🌑", month: "march" },
+            { id: "2026-03-11-nebula-float", name: "Nebula Float", date: "2026-03-11", icon: "🌫️", month: "march" },
+            { id: "2026-03-11-quantum-leap", name: "Quantum Leap", date: "2026-03-11", icon: "⚛️", month: "march" },
+            { id: "2026-03-11-black-hole", name: "Black Hole", date: "2026-03-11", icon: "⚫", month: "march" },
+            
+            // March 12, 2026
+            { id: "2026-03-12-wormhole", name: "Wormhole", date: "2026-03-12", icon: "🌀", month: "march" },
+            { id: "2026-03-12-supernova", name: "Supernova", date: "2026-03-12", icon: "💥", month: "march" },
+            { id: "2026-03-12-pulsar-beam", name: "Pulsar Beam", date: "2026-03-12", icon: "📡", month: "march" },
+            { id: "2026-03-12-solar-flare", name: "Solar Flare", date: "2026-03-12", icon: "🔆", month: "march" },
+            
+            // March 13, 2026
+            { id: "2026-03-13-void-walker", name: "Void Walker", date: "2026-03-13", icon: "🕳️", month: "march" },
+            { id: "2026-03-13-dimension-shift", name: "Dimension Shift", date: "2026-03-13", icon: "🔮", month: "march" },
+            { id: "2026-03-13-matrix-run", name: "Matrix Run", date: "2026-03-13", icon: "💊", month: "march" },
+            { id: "2026-03-13-cyber-punk", name: "Cyber Punk", date: "2026-03-13", icon: "🕶️", month: "march" },
+            
+            // March 14, 2026
+            { id: "2026-03-14-steampunk-fly", name: "Steampunk Fly", date: "2026-03-14", icon: "🎩", month: "march" },
+            { id: "2026-03-14-diesel-dash", name: "Diesel Dash", date: "2026-03-14", icon: "🏎️", month: "march" },
+            { id: "2026-03-14-atoms-bounce", name: "Atoms Bounce", date: "2026-03-14", icon: "⚛️", month: "march" },
+            { id: "2026-03-14-laser-maze", name: "Laser Maze", date: "2026-03-14", icon: "🔦", month: "march" },
+            
+            // 100 Jumps Series
+            { id: "100jumps-001", name: "100 Jumps: Classic", date: "2026-03-01", icon: "🏃", month: "march", isHundredJumps: true },
+            { id: "100jumps-002", name: "100 Jumps: Hard Mode", date: "2026-03-03", icon: "💪", month: "march", isHundredJumps: true },
+            { id: "100jumps-003", name: "100 Jumps: Speed Run", date: "2026-03-05", icon: "⏱️", month: "march", isHundredJumps: true },
+            { id: "100jumps-004", name: "100 Jumps: Precision", date: "2026-03-07", icon: "🎯", month: "march", isHundredJumps: true },
+            { id: "100jumps-005", name: "100 Jumps: Endless", date: "2026-03-09", icon: "♾️", month: "march", isHundredJumps: true },
+            { id: "100jumps-006", name: "100 Jumps: Puzzle", date: "2026-03-11", icon: "🧩", month: "march", isHundredJumps: true },
+            { id: "100jumps-007", name: "100 Jumps: Co-op", date: "2026-03-13", icon: "👥", month: "march", isHundredJumps: true },
+            { id: "100jumps-008", name: "100 Jumps: Boss Rush", date: "2026-03-16", icon: "👹", month: "march", isHundredJumps: true },
+            { id: "100jumps-009", name: "100 Jumps: Story Mode", date: "2026-03-17", icon: "📖", month: "march", isHundredJumps: true },
+            { id: "100jumps-010", name: "100 Jumps: Tournament", date: "2026-03-18", icon: "🏆", month: "march", isHundredJumps: true },
+            { id: "100jumps-011", name: "100 Jumps: Daily", date: "2026-03-19", icon: "📆", month: "march", isHundredJumps: true },
+            
+            // March 16, 2026
+            { id: "2026-03-16-arcade-blast", name: "Arcade Blast", date: "2026-03-16", icon: "👾", month: "march" },
+            { id: "2026-03-16-retro-wave", name: "Retro Wave", date: "2026-03-16", icon: "📺", month: "march" },
+            
+            // March 17, 2026
+            { id: "2026-03-17-pixel-perfect", name: "Pixel Perfect", date: "2026-03-17", icon: "🎨", month: "march" },
+            { id: "2026-03-17-bit-adventure", name: "Bit Adventure", date: "2026-03-17", icon: "🎮", month: "march" },
+            
+            // March 18, 2026
+            { id: "2026-03-16-glitch-hop", name: "Glitch Hop", date: "2026-03-18", icon: "🐛", month: "march" },
+            { id: "2026-03-18-code-runner", name: "Code Runner", date: "2026-03-18", icon: "💻", month: "march" },
+            
+            // March 19, 2026
+            { id: "2026-03-19-final-jump", name: "Final Jump", date: "2026-03-19", icon: "🏁", month: "march" },
+            { id: "2026-03-19-legacy-run", name: "Legacy Run", date: "2026-03-19", icon: "👑", month: "march" }
+        ];
+
+        // Initialize ratings from localStorage
+        let ratings = {};
+        try {
+            const saved = localStorage.getItem('gameRatings');
+            if (saved) {
+                ratings = JSON.parse(saved);
+            }
+        } catch (e) {
+            console.warn('localStorage not available');
+        }
+
+        // Current filter
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        // Save ratings to localStorage
+        function saveRatings() {
+            try {
+                localStorage.setItem('gameRatings', JSON.stringify(ratings));
+            } catch (e) {
+                console.warn('Could not save ratings');
+            }
+            updateStats();
+        }
+
+        // Update statistics
+        function updateStats() {
+            const ratedGames = Object.keys(ratings).filter(id => ratings[id] > 0);
+            const ratedCount = ratedGames.length;
+            const totalRating = ratedGames.reduce((sum, id) => sum + ratings[id], 0);
+            const avgRating = ratedCount > 0 ? (totalRating / ratedCount).toFixed(1) : '-';
+            
+            document.getElementById('ratedCount').textContent = ratedCount;
+            document.getElementById('unratedCount').textContent = games.length - ratedCount;
+            document.getElementById('avgRating').textContent = avgRating;
+        }
+
+        // Create star rating HTML
+        function createStarRating(gameId, currentRating) {
+            let html = '<div class="rating-container">';
+            for (let i = 1; i <= 4; i++) {
+                const active = i <= currentRating ? 'active' : '';
+                html += `<span class="star ${active}" data-game="${gameId}" data-rating="${i}" onclick="rateGame('${gameId}', ${i})">★</span>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        // Rate a game
+        function rateGame(gameId, rating) {
+            ratings[gameId] = rating;
+            saveRatings();
+            renderGames();
+        }
+
+        // Create game card HTML
+        function createGameCard(game) {
+            const rating = ratings[game.id] || 0;
+            const hundredJumpsClass = game.isHundredJumps ? 'hundred-jumps' : '';
+            const folderName = game.isHundredJumps ? game.id : game.id;
+            
+            return `
+                <div class="game-card ${hundredJumpsClass}" data-id="${game.id}" data-name="${game.name.toLowerCase()}" data-month="${game.month}" data-rated="${rating > 0}" data-hundredjumps="${game.isHundredJumps || false}">
+                    <span class="game-icon">${game.icon}</span>
+                    <h3 class="game-title">${game.name}</h3>
+                    <div class="game-date">${formatDate(game.date)}</div>
+                    ${createStarRating(game.id, rating)}
+                    <button class="play-btn" onclick="playGame('${folderName}')">Play</button>
+                </div>
+            `;
+        }
+
+        // Format date
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // Play game (placeholder)
+        function playGame(folderName) {
+            alert(`Launching: ${folderName}/index.html`);
+            // In real implementation: window.location.href = `./${folderName}/index.html`;
+        }
+
+        // Filter and render games
+        function renderGames() {
+            const hundredJumpsGames = games.filter(g => g.isHundredJumps);
+            const februaryGames = games.filter(g => g.month === 'february' && !g.isHundredJumps);
+            const marchGames = games.filter(g => g.month === 'march' && !g.isHundredJumps);
+
+            // Update counts
+            document.getElementById('hundredJumpsCount').textContent = hundredJumpsGames.length;
+            document.getElementById('februaryCount').textContent = februaryGames.length;
+            document.getElementById('marchCount').textContent = marchGames.length;
+
+            // Render grids
+            document.getElementById('hundredJumpsGrid').innerHTML = hundredJumpsGames.map(createGameCard).join('') || '<div class="no-results"><div class="no-results-icon">📭</div>No games found</div>';
+            document.getElementById('februaryGrid').innerHTML = februaryGames.map(createGameCard).join('') || '<div class="no-results"><div class="no-results-icon">📭</div>No games found</div>';
+            document.getElementById('marchGrid').innerHTML = marchGames.map(createGameCard).join('') || '<div class="no-results"><div class="no-results-icon">📭</div>No games found</div>';
+
+            // Apply filters
+            applyFilters();
+        }
+
+        // Apply current filters
+        function applyFilters() {
+            const cards = document.querySelectorAll('.game-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const name = card.dataset.name;
+                const month = card.dataset.month;
+                const isRated = card.dataset.rated === 'true';
+                const isHundredJumps = card.dataset.hundredjumps === 'true';
+
+                // Search filter
+                const matchesSearch = name.includes(searchQuery.toLowerCase());
+
+                // Category filter
+                let matchesFilter = true;
+                switch (currentFilter) {
+                    case 'rated':
+                        matchesFilter = isRated;
+                        break;
+                    case 'unrated':
+                        matchesFilter = !isRated;
+                        break;
+                    case '100jumps':
+                        matchesFilter = isHundredJumps;
+                        break;
+                    case 'february':
+                        matchesFilter = month === 'february';
+                        break;
+                    case 'march':
+                        matchesFilter = month === 'march';
+                        break;
+                    default:
+                        matchesFilter = true;
+                }
+
+                if (matchesSearch && matchesFilter) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Show/hide section headers based on visible cards
+            document.querySelectorAll('.section-header').forEach(header => {
+                const grid = header.nextElementSibling;
+                const visibleCards = grid.querySelectorAll('.game-card:not(.hidden)');
+                header.style.display = visibleCards.length > 0 ? 'flex' : 'none';
+                grid.style.display = visibleCards.length > 0 ? 'grid' : 'none';
+            });
+        }
+
+        // Filter button handlers
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        // Search handler
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            applyFilters();
+        });
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGames();
+            updateStats();
+        });
+    </script>
+</body>
+</html>

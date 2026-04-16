@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Starlink Raiders</title><style>
+:root{--bg:#060a19;--card:#111935;--ink:#eef3ff;--accent:#7cf6ff;--danger:#ff5a7a;--good:#7affad}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,system-ui;background:radial-gradient(circle at 20% 10%,#16295c 0,#060a19 55%);color:var(--ink)}
+.wrap{max-width:980px;margin:0 auto;padding:16px}.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.tile{background:linear-gradient(180deg,#1a2550,#0f1735);border:1px solid #314b87;border-radius:12px;padding:10px}
+.tile b{display:block;font-size:12px;color:#9cc3ff}.tile span{font-weight:700;font-size:24px}.instr{margin:10px 0;background:#10203e;border-left:4px solid var(--accent);padding:10px;border-radius:8px;animation:pulse 1.6s ease-in-out 2}
+@keyframes pulse{50%{transform:scale(1.01)}}canvas{width:100%;height:560px;background:linear-gradient(180deg,#050a1d,#0c1532);border:1px solid #2e487f;border-radius:14px;box-shadow:0 20px 60px #0008}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.badge{padding:6px 10px;border-radius:999px;background:#1b2d56;border:1px solid #3e619b;font-size:12px}.btn{background:#1f77ff;border:none;color:#fff;padding:10px 14px;border-radius:9px;font-weight:700;cursor:pointer}
+#overlay{position:fixed;inset:0;background:#0009;display:none;place-items:center}.panel{background:#111a3a;border:1px solid #4365a4;border-radius:14px;padding:20px;max-width:420px;text-align:center}
+</style></head><body><div class="wrap"><h1>? Starlink Raiders</h1><div class="instr"><b>How to play:</b> Drag between stars to close constellations. Every closed triangle shoots raiders. Score 1200 to WIN. If shield reaches 0 => GAME OVER.</div>
+<div class="hud"><div class="tile"><b>Score</b><span id="score">0</span></div><div class="tile"><b>Shield</b><span id="shield">100</span></div><div class="tile"><b>Wave</b><span id="wave">1</span></div><div class="tile"><b>Combo</b><span id="combo">x1</span></div></div>
+<canvas id="cv" width="960" height="560"></canvas><div class="badges" id="badges"></div><div style="margin-top:12px"><button class="btn" onclick="restart()">Restart</button></div></div><div id="overlay"><div class="panel"><h2 id="ovTitle"></h2><p id="ovText"></p><button class="btn" onclick="restart()">Play Again</button></div></div>
+<script>
+const c=document.getElementById('cv'),x=c.getContext('2d');let stars,links,raiders,score,shield,wave,combo,closed,badgeSet,lastSpawn,run;
+function resetStars(){stars=[...Array(12)].map((_,i)=>({x:80+(i%4)*220+Math.random()*80,y:90+Math.floor(i/4)*150+Math.random()*70,r:8+Math.random()*4,glow:0}));}
+function restart(){resetStars();links=[];raiders=[];score=0;shield=100;wave=1;combo=1;closed=new Set();badgeSet=new Set();lastSpawn=0;run=true;document.getElementById('overlay').style.display='none';tick(0)}
+let drag=null; c.onmousedown=e=>{if(!run)return;const p=pt(e);drag=near(p)}; c.onmouseup=e=>{if(!run||drag==null)return;const b=near(pt(e));if(b!=null&&b!==drag){const k=[Math.min(drag,b),Math.max(drag,b)].join('-');if(!links.includes(k)){links.push(k);feedback(stars[b].x,stars[b].y,'+link','#7cf6ff');checkTri()} } drag=null};
+function near(p){let bi=null,bd=24;stars.forEach((s,i)=>{const d=Math.hypot(s.x-p.x,s.y-p.y);if(d<bd){bd=d;bi=i}});return bi}
+function pt(e){const r=c.getBoundingClientRect();return{x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height}}
+const fx=[];function feedback(x0,y0,t,col){fx.push({x:x0,y:y0,t,col,a:1});}
+function checkTri(){for(let a=0;a<stars.length;a++)for(let b=a+1;b<stars.length;b++)for(let d=b+1;d<stars.length;d++){const ab=links.includes(a+'-'+b),ad=links.includes(a+'-'+d),bd=links.includes(b+'-'+d);if(ab&&ad&&bd){const key=[a,b,d].join('|');if(!closed.has(key)){closed.add(key);score+=60*combo;combo=Math.min(9,combo+1);spawnShot((stars[a].x+stars[b].x+stars[d].x)/3,(stars[a].y+stars[b].y+stars[d].y)/3);feedback((stars[a].x+stars[b].x+stars[d].x)/3,(stars[a].y+stars[b].y+stars[d].y)/3,'Constellation! +' + (60*combo),'#7affad');award();}}}}
+const shots=[]; function spawnShot(x,y){shots.push({x,y,vy:-6,a:1})}
+function award(){if(score>=300&&!badgeSet.has('Scout'))addBadge('Scout Mapper');if(score>=700&&!badgeSet.has('Warden'))addBadge('Void Warden');if(combo>=6&&!badgeSet.has('Combo'))addBadge('Combo Astral x6');}
+function addBadge(t){badgeSet.add(t.split(' ')[0]);const b=document.createElement('div');b.className='badge';b.textContent='?? '+t;document.getElementById('badges').appendChild(b)}
+function spawnRaider(t){if(t-lastSpawn>1400-Math.min(900,wave*80)){lastSpawn=t;raiders.push({x:Math.random()*920+20,y:-20,v:1.2+wave*0.13,hp:2+Math.floor(wave/3)});if(Math.random()<0.25)wave++;}}
+function hit(){for(let i=raiders.length-1;i>=0;i--)for(let j=shots.length-1;j>=0;j--){if(Math.hypot(raiders[i].x-shots[j].x,raiders[i].y-shots[j].y)<18){raiders[i].hp--;shots.splice(j,1);feedback(raiders[i].x,raiders[i].y,'Hit!','#ffd36e');if(raiders[i].hp<=0){score+=40;raiders.splice(i,1);}break}}}
+function end(win,msg){run=false;document.getElementById('ovTitle').textContent=win?'YOU WIN':'GAME OVER';document.getElementById('ovText').textContent=msg;document.getElementById('overlay').style.display='grid'}
+function ui(){score=Math.max(0,score);document.getElementById('score').textContent=score;document.getElementById('shield').textContent=shield;document.getElementById('wave').textContent=wave;document.getElementById('combo').textContent='x'+combo}
+function tick(t){if(!run)return;spawnRaider(t);x.clearRect(0,0,960,560);x.fillStyle='#fff2';for(const s of stars){s.glow=Math.max(0,s.glow-0.02);x.beginPath();x.arc(s.x,s.y,s.r+s.glow*5,0,7);x.fillStyle='rgba(124,246,255,.15)';x.fill();x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fillStyle='#b8e8ff';x.fill();}
+for(const l of links){const[a,b]=l.split('-').map(Number);x.strokeStyle='#73d9ff';x.lineWidth=3;x.beginPath();x.moveTo(stars[a].x,stars[a].y);x.lineTo(stars[b].x,stars[b].y);x.stroke()}
+for(const sh of shots){sh.y+=sh.vy;x.fillStyle='#7affad';x.fillRect(sh.x-2,sh.y-8,4,10)}for(let i=shots.length-1;i>=0;i--)if(shots[i].y<-10)shots.splice(i,1);
+for(const r of raiders){r.y+=r.v; x.beginPath(); x.fillStyle='hsl('+(350+r.hp*20)+',80%,60%)'; x.arc(r.x,r.y,11+r.hp*2,0,7); x.fill(); if(r.y>570){shield-=10;combo=1;feedback(r.x,540,'Shield -10', '#ff5a7a'); r.y=-20; r.x=Math.random()*920+20;}}
+hit(); for(let i=fx.length-1;i>=0;i--){const f=fx[i];f.y-=0.5;f.a-=0.02;x.fillStyle=f.col.replace(')',','+Math.max(0,f.a)+')').replace('rgb','rgba');x.fillStyle=f.col; x.globalAlpha=Math.max(0,f.a);x.fillText(f.t,f.x,f.y);x.globalAlpha=1;if(f.a<=0)fx.splice(i,1)}
+ui(); if(shield<=0)end(false,'Raiders breached your shield. Final score: '+score); if(score>=1200)end(true,'Galaxy secured with '+score+' points.'); requestAnimationFrame(tick)}
+restart();
+</script></body></html>

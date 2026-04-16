@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Locker Room Oracle</title>
+  <style>
+    :root {
+      --bg:#07111f;
+      --panel:#0f1d34cc;
+      --panel-solid:#101b31;
+      --line:#3ec7ff44;
+      --text:#edf6ff;
+      --muted:#9db9d7;
+      --gold:#ffd36c;
+      --teal:#59ffd0;
+      --hot:#ff6d8f;
+      --danger:#ff4f64;
+      --good:#67ff8b;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --slot:clamp(68px, 15vw, 108px);
+    }
+    * { box-sizing:border-box; }
+    html, body { height:100%; margin:0; font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif; background:radial-gradient(circle at top, #14305d 0%, #08111f 45%, #040914 100%); color:var(--text); overflow-x:hidden; }
+    body::before, body::after {
+      content:""; position:fixed; inset:auto; width:44vw; height:44vw; border-radius:50%; filter:blur(50px); opacity:.18; pointer-events:none;
+    }
+    body::before { background:#2d87ff; top:-10vw; left:-8vw; animation:float 13s ease-in-out infinite; }
+    body::after { background:#ff4f96; right:-10vw; bottom:-12vw; animation:float 15s ease-in-out infinite reverse; }
+    @keyframes float { 50% { transform:translateY(24px) translateX(20px) scale(1.06);} }
+
+    .app { max-width:1200px; margin:0 auto; padding:14px; display:grid; gap:14px; }
+    .hero, .panel { background:var(--panel); border:1px solid var(--line); backdrop-filter: blur(14px); border-radius:24px; box-shadow:var(--shadow); }
+    .hero { padding:16px 18px; display:grid; gap:10px; }
+    .titleRow { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; }
+    h1 { margin:0; font-size:clamp(1.55rem, 5vw, 3rem); line-height:1; letter-spacing:.02em; }
+    .tagline { color:var(--muted); font-size:clamp(.92rem, 2.4vw, 1rem); }
+    .pillbar, .stats { display:flex; flex-wrap:wrap; gap:10px; }
+    .pill, .stat, .badgeToken {
+      border:1px solid var(--line); background:rgba(255,255,255,.04); border-radius:999px; padding:8px 12px; font-weight:700; font-size:.92rem;
+    }
+    .stat strong { color:var(--gold); }
+    .layout { display:grid; grid-template-columns:1.1fr .9fr; gap:14px; }
+    .panel { padding:14px; }
+    .sectionTitle { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:12px; }
+    .sectionTitle h2, .sectionTitle h3 { margin:0; font-size:1rem; letter-spacing:.04em; text-transform:uppercase; }
+    .mini { color:var(--muted); font-size:.85rem; }
+
+    .forecastGrid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+    .forecast {
+      padding:12px; border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)); border:1px solid rgba(255,255,255,.08); position:relative; overflow:hidden;
+    }
+    .forecast::after { content:""; position:absolute; inset:auto -20% -40% auto; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(89,255,208,.2), transparent 65%); }
+    .forecast.good { box-shadow:0 0 0 1px rgba(103,255,139,.35), 0 0 28px rgba(103,255,139,.12); }
+    .forecast.bad { box-shadow:0 0 0 1px rgba(255,79,100,.35), 0 0 28px rgba(255,79,100,.12); animation:shake .25s linear 1; }
+    @keyframes shake { 25%{transform:translateX(-3px)} 50%{transform:translateX(3px)} 75%{transform:translateX(-2px)} }
+    .forecast .name { font-weight:800; margin-bottom:6px; }
+    .forecast ul { margin:8px 0 0 18px; padding:0; color:var(--muted); font-size:.9rem; }
+    .forecast .reward { margin-top:8px; color:var(--gold); font-weight:700; }
+
+    .arena { display:grid; gap:12px; }
+    .formation {
+      position:relative; min-height:330px; border-radius:24px; border:1px solid var(--line); overflow:hidden; background:
+        radial-gradient(circle at center, rgba(62,199,255,.13), transparent 34%),
+        linear-gradient(180deg, rgba(11,25,50,.95), rgba(8,17,31,.95));
+    }
+    .formation::before {
+      content:""; position:absolute; inset:10% 10%; border-radius:24px; border:1px dashed rgba(255,255,255,.08);
+      background:linear-gradient(transparent 49%, rgba(255,255,255,.05) 50%, transparent 51%);
+    }
+    .slotLine { position:absolute; inset:0; pointer-events:none; }
+    .slotLine svg { width:100%; height:100%; }
+    .slot {
+      position:absolute; width:var(--slot); height:var(--slot); transform:translate(-50%, -50%);
+      border-radius:50%; display:grid; place-items:center; border:2px dashed rgba(255,255,255,.28); background:rgba(255,255,255,.04); transition:.18s ease;
+      box-shadow: inset 0 0 30px rgba(255,255,255,.04);
+    }
+    .slot.active { border-color:var(--gold); box-shadow:0 0 0 4px rgba(255,211,108,.13), inset 0 0 35px rgba(255,211,108,.12); }
+    .slot .slotLabel { text-align:center; font-size:.8rem; color:var(--muted); width:75%; line-height:1.15; }
+    .slot.filled { border-style:solid; background:rgba(255,255,255,.06); }
+    .slot.top { left:50%; top:22%; }
+    .slot.left { left:26%; top:72%; }
+    .slot.right { left:74%; top:72%; }
+
+    .board { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
+    .sigil {
+      position:relative; padding:12px; border-radius:18px; border:1px solid rgba(255,255,255,.12); background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      cursor:grab; user-select:none; transition:transform .14s ease, border-color .14s ease, box-shadow .14s ease;
+      min-height:124px;
+    }
+    .sigil:hover, .sigil.selected { transform:translateY(-2px) scale(1.01); border-color:rgba(255,211,108,.6); box-shadow:0 12px 24px rgba(0,0,0,.24), 0 0 0 1px rgba(255,211,108,.18); }
+    .sigil.used { opacity:.38; filter:saturate(.7); }
+    .sigilHeader { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+    .glyph { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; font-size:1.25rem; font-weight:900; color:#07111f; }
+    .sportTag { font-size:.72rem; color:#07111f; padding:4px 8px; border-radius:999px; font-weight:900; background:rgba(255,255,255,.75); }
+    .sigilName { font-size:1rem; font-weight:800; }
+    .sigilRole { color:var(--muted); font-size:.84rem; margin-bottom:7px; }
+    .chips, .traits { display:flex; flex-wrap:wrap; gap:6px; }
+    .chip, .trait { font-size:.73rem; font-weight:800; padding:5px 8px; border-radius:999px; background:rgba(255,255,255,.07); color:#d9ecff; }
+    .bars { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:8px; }
+    .bar { background:rgba(255,255,255,.06); border-radius:999px; overflow:hidden; }
+    .bar span { display:block; height:7px; border-radius:999px; background:linear-gradient(90deg, var(--teal), var(--gold)); }
+    .barLabel { font-size:.68rem; color:var(--muted); margin-top:3px; text-align:center; }
+
+    .controls { display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; }
+    button {
+      appearance:none; border:none; border-radius:999px; padding:11px 16px; font-weight:900; letter-spacing:.02em; color:#06101d; background:linear-gradient(135deg, var(--gold), #fff4a8); cursor:pointer; box-shadow:0 10px 22px rgba(255,211,108,.2);
+    }
+    button.alt { background:linear-gradient(135deg, #6fd1ff, #c5f2ff); }
+    button.ghost { background:rgba(255,255,255,.06); color:var(--text); border:1px solid var(--line); box-shadow:none; }
+    button:disabled { opacity:.45; cursor:not-allowed; }
+
+    .messageBox {
+      min-height:56px; border-radius:18px; padding:12px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:var(--muted);
+    }
+    .messageBox.pop { animation:pop .28s ease; }
+    @keyframes pop { 0% { transform:scale(.98); opacity:.6;} 100% { transform:scale(1); opacity:1;} }
+
+    .badges { display:flex; flex-wrap:wrap; gap:8px; }
+    .badgeToken.locked { opacity:.5; }
+    .meterWrap { display:grid; gap:8px; }
+    .meter { height:12px; border-radius:999px; overflow:hidden; background:rgba(255,255,255,.07); }
+    .meter span { display:block; height:100%; background:linear-gradient(90deg, var(--danger), #ffcf75, var(--good)); transition:width .25s ease; }
+    .timeline { display:grid; grid-template-columns:repeat(6,1fr); gap:6px; }
+    .waveDot { height:12px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.08); }
+    .waveDot.done { background:linear-gradient(90deg, #5ef6c8, #79ff84); }
+    .waveDot.fail { background:linear-gradient(90deg, #ff738f, #ff4f64); }
+    .waveDot.now { box-shadow:0 0 0 3px rgba(255,211,108,.18); border-color:rgba(255,211,108,.55); }
+
+    .overlay {
+      position:fixed; inset:0; display:none; place-items:center; background:rgba(2,6,14,.74); backdrop-filter:blur(10px); padding:18px; z-index:30;
+    }
+    .overlay.show { display:grid; }
+    .card {
+      width:min(720px, 96vw); background:linear-gradient(180deg, #122446, #0b1526); border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow); padding:20px; text-align:center;
+    }
+    .card h2 { margin:0 0 8px; font-size:clamp(1.6rem, 6vw, 2.6rem); }
+    .scoreBurst { color:var(--gold); font-size:2rem; font-weight:900; margin:8px 0; }
+    .resultList { text-align:left; display:grid; gap:8px; margin:16px 0; color:var(--muted); }
+
+    .flash {
+      position:fixed; pointer-events:none; inset:auto 50% 100px auto; transform:translateX(50%); padding:10px 14px; border-radius:999px; font-weight:900; background:rgba(10,20,36,.95); border:1px solid var(--line); opacity:0; transition:.24s ease; z-index:40;
+    }
+    .flash.show { opacity:1; transform:translateX(50%) translateY(-8px); }
+
+    @media (max-width: 940px) {
+      .layout { grid-template-columns:1fr; }
+      .forecastGrid { grid-template-columns:1fr; }
+    }
+    @media (max-width: 640px) {
+      .app { padding:10px; }
+      .panel, .hero { border-radius:20px; }
+      .board { grid-template-columns:repeat(2, minmax(0,1fr)); }
+      .controls { flex-direction:column; align-items:stretch; }
+      button { width:100%; }
+      .formation { min-height:280px; }
+      .timeline { grid-template-columns:repeat(3,1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="hero">
+      <div class="titleRow">
+        <div>
+          <h1>Locker Room Oracle</h1>
+          <div class="tagline">Drag or tap sigils into a three-point formation. Match both forecast cards before the chemistry wave hits. Survive 6 waves and clear 900 points to win.</div>
+        </div>
+        <div class="pillbar">
+          <div class="pill">⚡ 8s per wave</div>
+          <div class="pill">🔗 Build links, not trivia guesses</div>
+          <div class="pill">🏆 Randomized runs = replayable</div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat">Score <strong id="score">0</strong></div>
+        <div class="stat">Stability <strong id="lives">3</strong></div>
+        <div class="stat">Wave <strong id="waveLabel">1 / 6</strong></div>
+        <div class="stat">Streak <strong id="streak">0</strong></div>
+        <div class="stat">Clock <strong id="clock">8.0</strong></div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="panel arena">
+        <div class="sectionTitle">
+          <h2>Formation Table</h2>
+          <div class="mini">Top slot amplifies style. Bottom pair defines chemistry bridge.</div>
+        </div>
+        <div class="formation" id="formation">
+          <div class="slotLine">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+              <path d="M50,22 L26,72 L74,72 Z" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="0.8" stroke-dasharray="2.6 2.2" />
+            </svg>
+          </div>
+          <div class="slot top" data-slot="0"><div class="slotLabel">Anchor</div></div>
+          <div class="slot left" data-slot="1"><div class="slotLabel">Bridge Left</div></div>
+          <div class="slot right" data-slot="2"><div class="slotLabel">Bridge Right</div></div>
+        </div>
+        <div class="controls">
+          <button id="resolveBtn">Resolve Now</button>
+          <button id="clearBtn" class="ghost">Clear Formation</button>
+          <button id="rerollBtn" class="alt">Spend 120: Redraw Board</button>
+        </div>
+        <div class="messageBox" id="messageBox">Pick 3 sigils. You want visible tags to satisfy both forecast cards at once. Strong chains score bonus points; misses crack team stability.</div>
+      </section>
+
+      <section class="panel">
+        <div class="sectionTitle">
+          <h2>Forecast Board</h2>
+          <div class="mini">Low ambiguity by design: every rule uses explicit visible tags.</div>
+        </div>
+        <div class="forecastGrid" id="forecastGrid"></div>
+        <div class="sectionTitle" style="margin-top:14px;">
+          <h3>Run Progress</h3>
+          <div class="mini">Need 900+ after wave 6</div>
+        </div>
+        <div class="meterWrap">
+          <div class="meter"><span id="scoreMeter" style="width:0%"></span></div>
+          <div class="timeline" id="timeline"></div>
+        </div>
+        <div class="sectionTitle" style="margin-top:14px;">
+          <h3>Badges</h3>
+          <div class="mini">Earn permanent bragging rights each run</div>
+        </div>
+        <div class="badges" id="badges"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="sectionTitle">
+        <h2>Draft Board</h2>
+        <div class="mini">Tap a sigil, then tap a slot. Desktop also supports drag & drop.</div>
+      </div>
+      <div class="board" id="board"></div>
+    </section>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="card">
+      <h2 id="resultTitle">You Called the Room</h2>
+      <div class="scoreBurst" id="resultScore">0 pts</div>
+      <div id="resultSummary">A sharp read of the board.</div>
+      <div class="resultList" id="resultList"></div>
+      <div class="controls" style="margin-top:10px; justify-content:center;">
+        <button id="playAgainBtn">Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flash" id="flash"></div>
+
+  <script>
+    const SIGIL_POOL = [
+      { id:'blitz-g', name:'Blitz Guard', sport:'Basketball', role:'Fast break caller', glyph:'⚡', color:'#67e8ff', stats:{pace:8,power:4,poise:6}, tags:['court','captain','clutch','rookie','tempo'] },
+      { id:'rim-titan', name:'Rim Titan', sport:'Basketball', role:'Paint dominator', glyph:'🛡', color:'#ffcc70', stats:{pace:3,power:9,poise:6}, tags:['court','power','veteran','anchor','home'] },
+      { id:'ice-striker', name:'Ice Striker', sport:'Hockey', role:'Breakaway finisher', glyph:'❄', color:'#a8e0ff', stats:{pace:7,power:6,poise:5}, tags:['ice','clutch','away','sniper','tempo'] },
+      { id:'blue-line', name:'Blue Line Wall', sport:'Hockey', role:'Counter suppressor', glyph:'🧊', color:'#9dd0ff', stats:{pace:4,power:8,poise:7}, tags:['ice','anchor','captain','veteran','defense'] },
+      { id:'smash-server', name:'Smash Server', sport:'Tennis', role:'First-strike ace', glyph:'🎾', color:'#c8ff8d', stats:{pace:6,power:7,poise:6}, tags:['racquet','solo','home','clutch','precision'] },
+      { id:'baseline-seer', name:'Baseline Seer', sport:'Tennis', role:'Angle reader', glyph:'👁', color:'#a7ffca', stats:{pace:5,power:4,poise:9}, tags:['racquet','solo','veteran','precision','calm'] },
+      { id:'gridiron-jet', name:'Gridiron Jet', sport:'Football', role:'Route burner', glyph:'🏈', color:'#ffb36c', stats:{pace:9,power:5,poise:4}, tags:['field','away','rookie','tempo','aerial'] },
+      { id:'trench-oracle', name:'Trench Oracle', sport:'Football', role:'Pocket reader', glyph:'🧠', color:'#ffdfa8', stats:{pace:4,power:8,poise:8}, tags:['field','captain','anchor','veteran','aerial'] },
+      { id:'track-comet', name:'Track Comet', sport:'Track', role:'Split destroyer', glyph:'☄', color:'#ff8fa3', stats:{pace:10,power:4,poise:4}, tags:['track','solo','rookie','away','tempo'] },
+      { id:'relay-weaver', name:'Relay Weaver', sport:'Track', role:'Smooth handoff engine', glyph:'🌀', color:'#ffacc5', stats:{pace:7,power:4,poise:8}, tags:['track','captain','precision','calm','home'] },
+      { id:'apex-keeper', name:'Apex Keeper', sport:'Soccer', role:'Last-line stopper', glyph:'🧤', color:'#72f6be', stats:{pace:5,power:7,poise:8}, tags:['pitch','anchor','home','defense','veteran'] },
+      { id:'wing-phantom', name:'Wing Phantom', sport:'Soccer', role:'Wide-space raider', glyph:'🌪', color:'#71ffd7', stats:{pace:8,power:5,poise:6}, tags:['pitch','away','clutch','tempo','rookie'] },
+      { id:'sand-viper', name:'Sand Viper', sport:'Volleyball', role:'Heat-check finisher', glyph:'🐍', color:'#ffd986', stats:{pace:6,power:8,poise:5}, tags:['court','solo','away','power','clutch'] },
+      { id:'net-architect', name:'Net Architect', sport:'Volleyball', role:'Set chain creator', glyph:'🕸', color:'#ffe8a8', stats:{pace:6,power:5,poise:8}, tags:['court','captain','precision','home','calm'] },
+      { id:'octane-cycler', name:'Octane Cycler', sport:'Cycling', role:'Break formation splitter', glyph:'🚴', color:'#d6ff6f', stats:{pace:8,power:6,poise:5}, tags:['road','away','tempo','solo','endurance'] },
+      { id:'summit-engine', name:'Summit Engine', sport:'Cycling', role:'Climb pace judge', glyph:'⛰', color:'#efff99', stats:{pace:5,power:7,poise:8}, tags:['road','veteran','precision','endurance','home'] }
+    ];
+
+    const FORECASTS = [
+      { name:'Fast Break Surge', desc:['Total pace ≥ 20','At least 2 sigils with tempo'], points:180, check: s => sum(s,'pace') >= 20 && countTag(s,'tempo') >= 2 },
+      { name:'Captain\'s Table', desc:['At least 2 captains','Total poise ≥ 19'], points:170, check: s => countTag(s,'captain') >= 2 && sum(s,'poise') >= 19 },
+      { name:'Anchor Lock', desc:['At least 1 anchor','Total power ≥ 19'], points:160, check: s => countTag(s,'anchor') >= 1 && sum(s,'power') >= 19 },
+      { name:'Home Pulse', desc:['At least 2 home sigils','At least 1 clutch or calm tag'], points:150, check: s => countTag(s,'home') >= 2 && (countTag(s,'clutch') + countTag(s,'calm') >= 1) },
+      { name:'Road Shock', desc:['At least 2 away sigils','Total pace ≥ 18'], points:160, check: s => countTag(s,'away') >= 2 && sum(s,'pace') >= 18 },
+      { name:'Rookie Riot', desc:['At least 2 rookies','Exactly 1 veteran'], points:170, check: s => countTag(s,'rookie') >= 2 && countTag(s,'veteran') === 1 },
+      { name:'Precision Web', desc:['At least 2 precision tags','Total poise ≥ 20'], points:180, check: s => countTag(s,'precision') >= 2 && sum(s,'poise') >= 20 },
+      { name:'Solo Star Burst', desc:['At least 2 solo sigils','Total power + pace ≥ 36'], points:170, check: s => countTag(s,'solo') >= 2 && (sum(s,'power') + sum(s,'pace')) >= 36 },
+      { name:'Defense Echo', desc:['At least 2 defense/anchor tags','Total poise ≥ 18'], points:160, check: s => (countTag(s,'defense') + countTag(s,'anchor')) >= 2 && sum(s,'poise') >= 18 },
+      { name:'Endurance Loop', desc:['At least 1 endurance sigil','Top anchor has poise ≥ 8'], points:150, check: (s, slots) => countTag(s,'endurance') >= 1 && slots[0] && slots[0].stats.poise >= 8 },
+      { name:'Cross-Sport Current', desc:['3 different sports','At least 1 captain or clutch'], points:190, check: s => new Set(s.map(x=>x.sport)).size === 3 && (countTag(s,'captain') + countTag(s,'clutch') >= 1) },
+      { name:'Mirror Chamber', desc:['Share exactly 1 common tag across all 3','Total stats ≥ 48'], points:220, check: s => commonTagsAll(s).length === 1 && totalStats(s) >= 48 }
+    ];
+
+    const BADGE_DEFS = [
+      { key:'double', name:'Double Read', hint:'Hit both forecast cards in one wave.' },
+      { key:'streak3', name:'Chain Reactor', hint:'Reach a 3-wave success streak.' },
+      { key:'clutch', name:'Last-Second Prophet', hint:'Resolve with under 2 seconds left and still succeed.' },
+      { key:'perfect', name:'Perfect Locker', hint:'Finish all 6 waves without losing stability.' }
+    ];
+
+    const state = {
+      board: [],
+      slots: [null, null, null],
+      selectedSigilId: null,
+      forecasts: [],
+      score: 0,
+      lives: 3,
+      wave: 1,
+      maxWaves: 6,
+      streak: 0,
+      timer: 8,
+      running: true,
+      ticks: null,
+      badges: new Set(),
+      waveResults: [],
+      spentReroll: false,
+      lastSecondSuccesses: 0,
+      lostLife: false
+    };
+
+    const $ = sel => document.querySelector(sel);
+    const boardEl = $('#board');
+    const forecastGrid = $('#forecastGrid');
+    const messageBox = $('#messageBox');
+    const overlay = $('#overlay');
+    const flash = $('#flash');
+    const timeline = $('#timeline');
+    const badgesEl = $('#badges');
+    const slotsEls = [...document.querySelectorAll('.slot')];
+
+    function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+    function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
+    function sum(sigils, key) { return sigils.reduce((a, s) => a + s.stats[key], 0); }
+    function totalStats(sigils) { return sigils.reduce((a, s) => a + s.stats.pace + s.stats.power + s.stats.poise, 0); }
+    function countTag(sigils, tag) { return sigils.filter(s => s.tags.includes(tag)).length; }
+    function commonTagsAll(sigils) {
+      if (sigils.length !== 3) return [];
+      return sigils[0].tags.filter(t => sigils[1].tags.includes(t) && sigils[2].tags.includes(t));
+    }
+    function currentFormation() { return state.slots.filter(Boolean); }
+
+    function generateBoard() {
+      state.board = shuffle(SIGIL_POOL).slice(0, 8).map(clone);
+      state.selectedSigilId = null;
+      renderBoard();
+    }
+
+    function generateForecasts() {
+      const pool = shuffle(FORECASTS);
+      state.forecasts = [pool[0], pool[1]];
+      renderForecasts();
+    }
+
+    function renderForecasts(feedback = []) {
+      forecastGrid.innerHTML = '';
+      state.forecasts.forEach((f, idx) => {
+        const card = document.createElement('div');
+        card.className = 'forecast ' + (feedback[idx] === true ? 'good' : feedback[idx] === false ? 'bad' : '');
+        card.innerHTML = `<div class="name">${f.name}</div><div>${f.desc.join(' · ')}</div><ul>${f.desc.map(d => `<li>${d}</li>`).join('')}</ul><div class="reward">+${f.points} points</div>`;
+        forecastGrid.appendChild(card);
+      });
+    }
+
+    function sigilCard(sigil, used = false) {
+      const intensity = Math.min(100, ((sigil.stats.pace + sigil.stats.power + sigil.stats.poise) / 27) * 100);
+      return `
+        <div class="sigil ${used ? 'used' : ''} ${state.selectedSigilId === sigil.id ? 'selected' : ''}" draggable="true" data-id="${sigil.id}" style="--sig:${sigil.color};">
+          <div class="sigilHeader">
+            <div class="glyph" style="background:${sigil.color}">${sigil.glyph}</div>
+            <div class="sportTag">${sigil.sport}</div>
+          </div>
+          <div class="sigilName">${sigil.name}</div>
+          <div class="sigilRole">${sigil.role}</div>
+          <div class="traits">${sigil.tags.slice(0,3).map(t => `<span class="trait">${t}</span>`).join('')}</div>
+          <div class="bars">
+            ${['pace','power','poise'].map(k => `<div><div class="bar"><span style="width:${(sigil.stats[k]/10)*100}%"></span></div><div class="barLabel">${k} ${sigil.stats[k]}</div></div>`).join('')}
+          </div>
+        </div>`;
+    }
+
+    function renderBoard() {
+      const usedIds = new Set(state.slots.filter(Boolean).map(s => s.id));
+      boardEl.innerHTML = state.board.map(s => sigilCard(s, usedIds.has(s.id))).join('');
+      boardEl.querySelectorAll('.sigil').forEach(card => {
+        const id = card.dataset.id;
+        card.addEventListener('click', () => selectSigil(id));
+        card.addEventListener('dragstart', ev => {
+          ev.dataTransfer.setData('text/plain', id);
+          selectSigil(id);
+        });
+      });
+    }
+
+    function renderSlots() {
+      slotsEls.forEach((el, idx) => {
+        const sigil = state.slots[idx];
+        el.classList.toggle('filled', !!sigil);
+        el.innerHTML = sigil
+          ? `<div style="width:88%; text-align:center;"><div class="glyph" style="margin:0 auto 6px;background:${sigil.color}">${sigil.glyph}</div><div style="font-size:.86rem; font-weight:800;">${sigil.name}</div><div style="font-size:.74rem; color:var(--muted); margin-top:2px;">${sigil.sport}</div></div>`
+          : `<div class="slotLabel">${idx===0 ? 'Anchor' : idx===1 ? 'Bridge Left' : 'Bridge Right'}</div>`;
+      });
+      renderBoard();
+    }
+
+    function renderHUD() {
+      $('#score').textContent = state.score;
+      $('#lives').textContent = state.lives;
+      $('#waveLabel').textContent = `${state.wave} / ${state.maxWaves}`;
+      $('#streak').textContent = state.streak;
+      $('#clock').textContent = state.timer.toFixed(1);
+      $('#scoreMeter').style.width = `${Math.min(100, (state.score / 900) * 100)}%`;
+      timeline.innerHTML = Array.from({ length: state.maxWaves }, (_, i) => {
+        const r = state.waveResults[i];
+        const cls = r === true ? 'done' : r === false ? 'fail' : '';
+        const now = i === state.wave - 1 && state.running ? 'now' : '';
+        return `<div class="waveDot ${cls} ${now}"></div>`;
+      }).join('');
+      badgesEl.innerHTML = BADGE_DEFS.map(b => `<div class="badgeToken ${state.badges.has(b.key) ? '' : 'locked'}">${state.badges.has(b.key) ? '🏅' : '🔒'} ${b.name}</div>`).join('');
+      $('#rerollBtn').disabled = state.score < 120;
+    }
+
+    function selectSigil(id) {
+      const used = state.slots.some(s => s && s.id === id);
+      if (used) return;
+      state.selectedSigilId = id;
+      renderBoard();
+      pulseMessage('Sigil primed. Tap a formation slot to place it.');
+    }
+
+    function placeSelected(slotIndex) {
+      const id = state.selectedSigilId;
+      if (!id || !state.running) return;
+      const sigil = state.board.find(s => s.id === id);
+      if (!sigil) return;
+      if (state.slots.some(s => s && s.id === id)) return;
+      state.slots[slotIndex] = sigil;
+      state.selectedSigilId = null;
+      renderSlots();
+      pulseMessage(`${sigil.name} slotted. Build for both forecast cards before the wave hits.`);
+    }
+
+    function clearFormation() {
+      state.slots = [null, null, null];
+      state.selectedSigilId = null;
+      renderSlots();
+      pulseMessage('Formation cleared. New read, new chain.');
+    }
+
+    function scoreBridge(sigils) {
+      if (sigils.length !== 3) return 0;
+      const common = commonTagsAll(sigils).length;
+      const sportMix = new Set(sigils.map(s => s.sport)).size;
+      const top = state.slots[0];
+      const bottom = [state.slots[1], state.slots[2]].filter(Boolean);
+      let bonus = common * 55 + (sportMix === 3 ? 40 : sportMix === 2 ? 20 : 0);
+      if (top && bottom.length === 2) {
+        const topMatch = bottom.filter(s => s.tags.some(t => top.tags.includes(t))).length;
+        bonus += topMatch * 25;
+      }
+      return bonus;
+    }
+
+    function resolveWave(auto = false) {
+      if (!state.running) return;
+      const sigils = currentFormation();
+      if (sigils.length < 3) {
+        state.lives -= 1;
+        state.streak = 0;
+        state.waveResults[state.wave - 1] = false;
+        state.lostLife = true;
+        flashText('Formation incomplete. Stability -1', true);
+        renderForecasts([false, false]);
+        pulseMessage('You sent an incomplete read into the room. Fill all 3 slots before the timer next time.');
+        afterWave();
+        return;
+      }
+
+      const results = state.forecasts.map(f => !!f.check(sigils, state.slots));
+      renderForecasts(results);
+      const hitCount = results.filter(Boolean).length;
+      const bridge = scoreBridge(sigils);
+      let gain = bridge;
+      if (results[0]) gain += state.forecasts[0].points;
+      if (results[1]) gain += state.forecasts[1].points;
+      if (hitCount === 2) {
+        gain += 80 + state.streak * 20;
+        state.streak += 1;
+        state.waveResults[state.wave - 1] = true;
+        flashText(`Double read! +${gain}`, false);
+        state.badges.add('double');
+        if (state.timer < 2.05 && auto === false) state.badges.add('clutch');
+      } else if (hitCount === 1) {
+        gain += 30;
+        state.streak = 0;
+        state.waveResults[state.wave - 1] = true;
+        flashText(`Partial hit +${gain}`, false);
+      } else {
+        state.lives -= 1;
+        state.streak = 0;
+        state.waveResults[state.wave - 1] = false;
+        state.lostLife = true;
+        flashText('Forecast whiff. Stability -1', true);
+      }
+      if (state.streak >= 3) state.badges.add('streak3');
+      state.score += Math.max(0, gain);
+      const commons = commonTagsAll(sigils);
+      const detail = hitCount === 2
+        ? `Both forecasts triggered. Bridge bonus ${bridge}. ${commons.length ? 'Shared all-tag thread: ' + commons.join(', ') + '.' : 'Cross-linking carried the score.'}`
+        : hitCount === 1
+          ? `One forecast landed. Bridge bonus ${bridge}. You kept the room alive.`
+          : `No forecast matched. Bridge bonus ${bridge} wasn't enough to calm the wave.`;
+      pulseMessage(detail);
+      afterWave();
+    }
+
+    function afterWave() {
+      renderHUD();
+      state.timer = 8;
+      if (state.lives <= 0) return finish(false);
+      if (state.wave >= state.maxWaves) {
+        if (!state.lostLife) state.badges.add('perfect');
+        return finish(state.score >= 900);
+      }
+      state.wave += 1;
+      state.slots = [null, null, null];
+      generateBoard();
+      generateForecasts();
+      renderSlots();
+      renderHUD();
+    }
+
+    function tick() {
+      if (!state.running) return;
+      state.timer = Math.max(0, state.timer - 0.1);
+      renderHUD();
+      if (state.timer <= 0.001) resolveWave(true);
+    }
+
+    function pulseMessage(text) {
+      messageBox.textContent = text;
+      messageBox.classList.remove('pop');
+      void messageBox.offsetWidth;
+      messageBox.classList.add('pop');
+    }
+
+    let flashTimer;
+    function flashText(text, danger = false) {
+      flash.textContent = text;
+      flash.style.borderColor = danger ? 'rgba(255,79,100,.45)' : 'rgba(103,255,139,.38)';
+      flash.style.color = danger ? '#ffd0d7' : '#dfffea';
+      flash.classList.add('show');
+      clearTimeout(flashTimer);
+      flashTimer = setTimeout(() => flash.classList.remove('show'), 1300);
+    }
+
+    function rerollBoard() {
+      if (state.score < 120 || !state.running) return;
+      state.score -= 120;
+      clearFormation();
+      generateBoard();
+      renderHUD();
+      flashText('Redraw deployed -120', false);
+      pulseMessage('Fresh sigils on the draft board. Recalculate the chemistry chain.');
+    }
+
+    function finish(win) {
+      state.running = false;
+      clearInterval(state.ticks);
+      renderHUD();
+      const badgeNames = BADGE_DEFS.filter(b => state.badges.has(b.key)).map(b => b.name);
+      $('#resultTitle').textContent = win ? 'You Called the Room' : 'The Locker Room Turned';
+      $('#resultScore').textContent = `${state.score} pts`;
+      $('#resultSummary').textContent = win
+        ? 'Forecasts aligned, chemistry held, and the room bought your read.'
+        : state.lives <= 0
+          ? 'Too many broken chemistry waves shattered team stability.'
+          : 'You survived, but the board wanted a sharper total than 900.';
+      $('#resultList').innerHTML = `
+        <div>• Outcome: <strong>${win ? 'Win' : 'Game Over'}</strong></div>
+        <div>• Waves cleared: <strong>${Math.min(state.wave, state.maxWaves)} / ${state.maxWaves}</strong></div>
+        <div>• Best streak: <strong>${Math.max(state.streak, state.badges.has('streak3') ? 3 : 0)}</strong></div>
+        <div>• Badges earned: <strong>${badgeNames.length ? badgeNames.join(', ') : 'None this run'}</strong></div>
+        <div>• Tip: Look for explicit overlapping tags first, then optimize total stats for the second forecast.</div>
+      `;
+      overlay.classList.add('show');
+    }
+
+    function resetGame() {
+      state.board = [];
+      state.slots = [null, null, null];
+      state.selectedSigilId = null;
+      state.forecasts = [];
+      state.score = 0;
+      state.lives = 3;
+      state.wave = 1;
+      state.streak = 0;
+      state.timer = 8;
+      state.running = true;
+      state.badges = new Set();
+      state.waveResults = [];
+      state.lostLife = false;
+      overlay.classList.remove('show');
+      generateBoard();
+      generateForecasts();
+      renderSlots();
+      renderHUD();
+      pulseMessage('New locker room, new whispers. Draft 3 sigils and satisfy both forecasts.');
+      clearInterval(state.ticks);
+      state.ticks = setInterval(tick, 100);
+    }
+
+    slotsEls.forEach((slot, idx) => {
+      slot.addEventListener('click', () => placeSelected(idx));
+      slot.addEventListener('dragover', ev => { ev.preventDefault(); slot.classList.add('active'); });
+      slot.addEventListener('dragleave', () => slot.classList.remove('active'));
+      slot.addEventListener('drop', ev => {
+        ev.preventDefault();
+        slot.classList.remove('active');
+        const id = ev.dataTransfer.getData('text/plain');
+        selectSigil(id);
+        placeSelected(idx);
+      });
+    });
+
+    $('#resolveBtn').addEventListener('click', () => resolveWave(false));
+    $('#clearBtn').addEventListener('click', clearFormation);
+    $('#rerollBtn').addEventListener('click', rerollBoard);
+    $('#playAgainBtn').addEventListener('click', resetGame);
+
+    resetGame();
+  </script>
+</body>
+</html>

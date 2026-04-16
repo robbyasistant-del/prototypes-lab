@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Memory Cascades</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: none;
+        }
+        
+        body {
+            background: #0a0a0f;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 3/5;
+        }
+        
+        #gameCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        #instructions {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+        
+        #instructions h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+            color: #00ffff;
+        }
+        
+        #instructions p {
+            font-size: 1rem;
+            margin: 10px 0;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        
+        #instructions .key {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            color: #000;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 0 3px;
+        }
+        
+        #instructions .lanes {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        #instructions .lane-demo {
+            width: 50px;
+            height: 80px;
+            border: 2px solid;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        #instructions.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            font-size: 1.2rem;
+            z-index: 50;
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        #score { color: #00ffff; }
+        #multiplier { color: #ff00ff; }
+        #misses { color: #ff0040; }
+        
+        #badge {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffff00;
+            font-size: 1rem;
+            font-weight: bold;
+            text-shadow: 0 0 15px #ffff00;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        #badge.show {
+            opacity: 1;
+            animation: badgePulse 0.5s ease;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.2); }
+        }
+        
+        #gameOver, #victory {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(10, 10, 15, 0.95);
+            z-index: 200;
+            color: #fff;
+            text-align: center;
+        }
+        
+        #gameOver h2 {
+            font-size: 2.5rem;
+            color: #ff0040;
+            text-shadow: 0 0 30px #ff0040;
+            margin-bottom: 20px;
+        }
+        
+        #victory h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00ffff, #ff00ff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+            margin-bottom: 20px;
+        }
+        
+        .final-score {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: #00ffff;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            color: #000;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.8);
+        }
+        
+        .touch-zones {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 25%;
+            display: flex;
+            z-index: 40;
+        }
+        
+        .touch-zone {
+            flex: 1;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.1s;
+        }
+        
+        .touch-zone:active, .touch-zone.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: currentColor;
+            color: #fff;
+            text-shadow: 0 0 20px currentColor;
+        }
+        
+        .touch-zone:nth-child(1) { color: #ff0040; }
+        .touch-zone:nth-child(2) { color: #00ff40; }
+        .touch-zone:nth-child(3) { color: #ffff00; }
+        .touch-zone:nth-child(4) { color: #0080ff; }
+        
+        .chain-indicator {
+            position: absolute;
+            top: 80px;
+            right: 10px;
+            color: #ffff00;
+            font-size: 0.9rem;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .chain-indicator.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="instructions">
+            <h1>⚡ NEON MEMORY CASCADES ⚡</h1>
+            <p>Tap the lanes when energy nodes hit the activation zone!</p>
+            <div class="lanes">
+                <div class="lane-demo" style="border-color: #ff0040; color: #ff0040;">←</div>
+                <div class="lane-demo" style="border-color: #00ff40; color: #00ff40;">↑</div>
+                <div class="lane-demo" style="border-color: #ffff00; color: #ffff00;">↓</div>
+                <div class="lane-demo" style="border-color: #0080ff; color: #0080ff;">→</div>
+            </div>
+            <p>Keyboard: <span class="key">←</span> <span class="key">↑</span> <span class="key">↓</span> <span class="key">→</span></p>
+            <p>Chain 3+ hits for <strong>MEGA MULTIPLIERS!</strong></p>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #888;">Starting in 2 seconds...</p>
+        </div>
+        
+        <div id="ui">
+            <span id="score">SCORE: 0</span>
+            <span id="multiplier">x1</span>
+            <span id="misses">♥♥♥</span>
+        </div>
+        
+        <div id="badge"></div>
+        <div id="chain-indicator" class="chain-indicator">CHAIN: 0</div>
+        
+        <div class="touch-zones">
+            <div class="touch-zone" data-lane="0">←</div>
+            <div class="touch-zone" data-lane="1">↑</div>
+            <div class="touch-zone" data-lane="2">↓</div>
+            <div class="touch-zone" data-lane="3">→</div>
+        </div>
+        
+        <div id="gameOver">
+            <h2>SYSTEM FAILURE</h2>
+            <p>The neon grid has collapsed...</p>
+            <div class="final-score">Final Score: <span id="finalScoreLose">0</span></div>
+            <button class="btn" onclick="game.restart()">REBOOT SYSTEM</button>
+        </div>
+        
+        <div id="victory">
+            <h2>⚡ INFINITY ACHIEVED ⚡</h2>
+            <p>You have mastered the neon cascades!</p>
+            <div class="final-score">Final Score: <span id="finalScoreWin">0</span></div>
+            <p id="earnedBadge" style="color: #ffff00; margin: 10px 0;"></p>
+            <button class="btn" onclick="game.restart()">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        // Audio Context for synthesized sounds
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+        }
+        
+        function playSound(type) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const now = audioCtx.currentTime;
+            
+            switch(type) {
+                case 'hit':
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.1);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                    break;
+                case 'chain':
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(1046.5, now + 0.15);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                    break;
+                case 'miss':
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(50, now + 0.3);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                    break;
+                case 'win':
+                    [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.frequency.value = freq;
+                        g.gain.setValueAtTime(0.2, now + i * 0.1);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.3);
+                        o.start(now + i * 0.1);
+                        o.stop(now + i * 0.1 + 0.3);
+                    });
+                    break;
+                case 'badge':
+                    osc.frequency.setValueAtTime(880, now);
+                    osc.frequency.exponentialRampToValueAtTime(1760, now + 0.2);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                    break;
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color, speed = 1) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.vx = (Math.random() - 0.5) * 8 * speed;
+                this.vy = (Math.random() - 0.5) * 8 * speed;
+                this.life = 1;
+                this.decay = 0.02 + Math.random() * 0.02;
+                this.size = 3 + Math.random() * 5;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.2;
+                this.life -= this.decay;
+                this.size *= 0.98;
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class EnergyNode {
+            constructor(lane, speed) {
+                this.lane = lane;
+                this.y = -50;
+                this.speed = speed;
+                this.radius = 25;
+                this.hit = false;
+                this.missed = false;
+                
+                const colors = ['#ff0040', '#00ff40', '#ffff00', '#0080ff'];
+                this.color = colors[lane];
+                this.glowColors = ['#ff8080', '#80ff80', '#ffff80', '#80c0ff'];
+            }
+            
+            update() {
+                this.y += this.speed;
+            }
+            
+            draw(ctx, laneWidth, activationY) {
+                const x = this.lane * laneWidth + laneWidth / 2;
+                
+                ctx.save();
+                
+                // Glow effect
+                ctx.shadowBlur = 30;
+                ctx.shadowColor = this.color;
+                
+                // Outer glow ring
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 3;
+                ctx.globalAlpha = 0.6;
+                ctx.beginPath();
+                ctx.arc(x, this.y, this.radius + 8, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // Main node
+                ctx.globalAlpha = 1;
+                const gradient = ctx.createRadialGradient(x, this.y, 0, x, this.y, this.radius);
+                gradient.addColorStop(0, '#ffffff');
+                gradient.addColorStop(0.4, this.glowColors[this.lane]);
+                gradient.addColorStop(1, this.color);
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Inner core
+                ctx.fillStyle = '#ffffff';
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.arc(x, this.y, 8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Trail effect
+                ctx.shadowBlur = 20;
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.3;
+                for (let i = 1; i <= 3; i++) {
+                    ctx.beginPath();
+                    ctx.arc(x, this.y - i * 15, this.radius * (1 - i * 0.2), 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                ctx.restore();
+            }
+        }
+
+        class Game {
+            constructor() {
+                this.canvas = document.getElementById('gameCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.resize();
+                
+                this.nodes = [];
+                this.particles = [];
+                this.score = 0;
+                this.multiplier = 1;
+                this.chain = 0;
+                this.misses = 0;
+                this.maxMisses = 3;
+                this.gameState = 'playing';
+                this.targetScore = 1000;
+                
+                this.laneColors = ['#ff0040', '#00ff40', '#ffff00', '#0080ff'];
+                this.laneGlowColors = ['#ff8080', '#80ff80', '#ffff80', '#80c0ff'];
+                this.laneKeys = ['ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight'];
+                this.activationY = this.canvas.height * 0.75;
+                
+                this.spawnTimer = 0;
+                this.spawnInterval = 60;
+                this.baseSpeed = 3;
+                this.speedMultiplier = 1;
+                
+                this.glitchEffect = 0;
+                this.cascadeEffect = 0;
+                
+                this.badges = {
+                    cascadeStarter: { name: 'Cascade Starter', threshold: 50, earned: false },
+                    neonMaster: { name: 'Neon Master', threshold: 500, earned: false },
+                    infinityChain: { name: 'Infinity Chain', threshold: 1000, earned: false }
+                };
+                
+                this.setupInputs();
+                this.hideInstructions();
+                this.loop();
+            }
+            
+            resize() {
+                const container = document.getElementById('gameContainer');
+                this.canvas.width = container.clientWidth;
+                this.canvas.height = container.clientHeight;
+            }
+            
+            setupInputs() {
+                // Keyboard
+                document.addEventListener('keydown', (e) => {
+                    if (this.gameState !== 'playing') return;
+                    const lane = this.laneKeys.indexOf(e.key);
+                    if (lane !== -1) {
+                        e.preventDefault();
+                        this.handleInput(lane);
+                        this.highlightTouchZone(lane);
+                    }
+                });
+                
+                // Touch/Mouse
+                const touchZones = document.querySelectorAll('.touch-zone');
+                touchZones.forEach((zone, lane) => {
+                    zone.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        if (this.gameState === 'playing') {
+                            this.handleInput(lane);
+                            zone.classList.add('active');
+                        }
+                    });
+                    zone.addEventListener('touchend', () => {
+                        zone.classList.remove('active');
+                    });
+                    zone.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        initAudio();
+                        if (this.gameState === 'playing') {
+                            this.handleInput(lane);
+                            zone.classList.add('active');
+                        }
+                    });
+                    zone.addEventListener('mouseup', () => {
+                        zone.classList.remove('active');
+                    });
+                    zone.addEventListener('mouseleave', () => {
+                        zone.classList.remove('active');
+                    });
+                });
+            }
+            
+            highlightTouchZone(lane) {
+                const zone = document.querySelector(`.touch-zone[data-lane="${lane}"]`);
+                if (zone) {
+                    zone.classList.add('active');
+                    setTimeout(() => zone.classList.remove('active'), 100);
+                }
+            }
+            
+            hideInstructions() {
+                setTimeout(() => {
+                    document.getElementById('instructions').classList.add('fade-out');
+                    initAudio();
+                }, 2000);
+            }
+            
+            handleInput(lane) {
+                const hitWindow = 60;
+                let hit = false;
+                
+                for (let node of this.nodes) {
+                    if (node.lane === lane && !node.hit && !node.missed) {
+                        const dist = Math.abs(node.y - this.activationY);
+                        if (dist < hitWindow) {
+                            node.hit = true;
+                            hit = true;
+                            this.onHit(node, dist);
+                            break;
+                        }
+                    }
+                }
+                
+                if (!hit) {
+                    this.onMiss();
+                }
+            }
+            
+            onHit(node, dist) {
+                const accuracy = 1 - (dist / 60);
+                const basePoints = Math.floor(10 * accuracy);
+                const points = basePoints * this.multiplier;
+                this.score += points;
+                
+                this.chain++;
+                if (this.chain >= 3) {
+                    this.multiplier = Math.min(8, Math.pow(2, Math.floor(this.chain / 3)));
+                    this.cascadeEffect = 10;
+                    playSound('chain');
+                } else {
+                    playSound('hit');
+                }
+                
+                // Spawn particles
+                const x = node.lane * (this.canvas.width / 4) + this.canvas.width / 8;
+                const particleCount = 10 + this.chain * 2;
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push(new Particle(x, node.y, node.color, 1 + this.chain * 0.2));
+                }
+                
+                this.checkBadges();
+                this.updateUI();
+                
+                if (this.score >= this.targetScore) {
+                    this.victory();
+                }
+            }
+            
+            onMiss() {
+                this.chain = 0;
+                this.multiplier = 1;
+                this.misses++;
+                this.glitchEffect = 20;
+                playSound('miss');
+                
+                this.updateUI();
+                
+                if (this.misses >= this.maxMisses) {
+                    this.gameOver();
+                }
+            }
+            
+            checkBadges() {
+                for (let key in this.badges) {
+                    const badge = this.badges[key];
+                    if (!badge.earned && this.score >= badge.threshold) {
+                        badge.earned = true;
+                        this.showBadge(badge.name);
+                        playSound('badge');
+                    }
+                }
+            }
+            
+            showBadge(name) {
+                const badgeEl = document.getElementById('badge');
+                badgeEl.textContent = `🏆 ${name} UNLOCKED!`;
+                badgeEl.classList.add('show');
+                setTimeout(() => badgeEl.classList.remove('show'), 2000);
+            }
+            
+            updateUI() {
+                document.getElementById('score').textContent = `SCORE: ${this.score}`;
+                document.getElementById('multiplier').textContent = `x${this.multiplier}`;
+                document.getElementById('misses').textContent = '♥'.repeat(Math.max(0, this.maxMisses - this.misses));
+                
+                const chainEl = document.getElementById('chain-indicator');
+                if (this.chain > 0) {
+                    chainEl.textContent = `CHAIN: ${this.chain}`;
+                    chainEl.classList.add('show');
+                } else {
+                    chainEl.classList.remove('show');
+                }
+            }
+            
+            spawnNode() {
+                const lane = Math.floor(Math.random() * 4);
+                const speed = this.baseSpeed * this.speedMultiplier * (1 + this.score / 2000);
+                this.nodes.push(new EnergyNode(lane, speed));
+            }
+            
+            update() {
+                if (this.gameState !== 'playing') return;
+                
+                // Spawn nodes
+                this.spawnTimer++;
+                if (this.spawnTimer >= this.spawnInterval) {
+                    this.spawnNode();
+                    this.spawnTimer = 0;
+                    this.spawnInterval = Math.max(30, 60 - this.score / 50);
+                }
+                
+                // Update nodes
+                for (let i = this.nodes.length - 1; i >= 0; i--) {
+                    const node = this.nodes[i];
+                    node.update();
+                    
+                    // Check miss
+                    if (node.y > this.canvas.height + 50 && !node.hit && !node.missed) {
+                        node.missed = true;
+                        this.onMiss();
+                    }
+                    
+                    // Remove old nodes
+                    if (node.y > this.canvas.height + 100 || node.hit) {
+                        this.nodes.splice(i, 1);
+                    }
+                }
+                
+                // Update particles
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    this.particles[i].update();
+                    if (this.particles[i].life <= 0) {
+                        this.particles.splice(i, 1);
+                    }
+                }
+                
+                // Effects decay
+                if (this.glitchEffect > 0) this.glitchEffect--;
+                if (this.cascadeEffect > 0) this.cascadeEffect--;
+            }
+            
+            draw() {
+                const ctx = this.ctx;
+                const w = this.canvas.width;
+                const h = this.canvas.height;
+                const laneWidth = w / 4;
+                
+                // Clear with trail effect
+                ctx.fillStyle = 'rgba(10, 10, 15, 0.3)';
+                ctx.fillRect(0, 0, w, h);
+                
+                // Glitch effect
+                if (this.glitchEffect > 0) {
+                    ctx.save();
+                    const offsetX = (Math.random() - 0.5) * 10;
+                    const offsetY = (Math.random() - 0.5) * 10;
+                    ctx.translate(offsetX, offsetY);
+                    ctx.globalCompositeOperation = 'difference';
+                }
+                
+                // Draw lane dividers
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.lineWidth = 2;
+                for (let i = 1; i < 4; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(i * laneWidth, 0);
+                    ctx.lineTo(i * laneWidth, h);
+                    ctx.stroke();
+                }
+                
+                // Draw activation zone
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.fillRect(0, this.activationY - 40, w, 80);
+                
+                // Draw lane indicators
+                const arrows = ['←', '↑', '↓', '→'];
+                ctx.font = 'bold 30px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                for (let i = 0; i < 4; i++) {
+                    const x = i * laneWidth + laneWidth / 2;
+                    ctx.fillStyle = this.laneColors[i];
+                    ctx.globalAlpha = 0.3;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = this.laneColors[i];
+                    ctx.fillText(arrows[i], x, this.activationY);
+                }
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+                
+                // Draw nodes
+                for (let node of this.nodes) {
+                    node.draw(ctx, laneWidth, this.activationY);
+                }
+                
+                // Draw particles
+                for (let particle of this.particles) {
+                    particle.draw(ctx);
+                }
+                
+                // Cascade effect
+                if (this.cascadeEffect > 0) {
+                    ctx.save();
+                    ctx.strokeStyle = '#ffff00';
+                    ctx.lineWidth = 3;
+                    ctx.shadowBlur = 30;
+                    ctx.shadowColor = '#ffff00';
+                    ctx.globalAlpha = this.cascadeEffect / 10 * 0.5;
+                    ctx.strokeRect(5, 5, w - 10, h - 10);
+                    ctx.restore();
+                }
+                
+                if (this.glitchEffect > 0) {
+                    ctx.restore();
+                }
+            }
+            
+            loop() {
+                this.update();
+                this.draw();
+                requestAnimationFrame(() => this.loop());
+            }
+            
+            gameOver() {
+                this.gameState = 'gameover';
+                document.getElementById('finalScoreLose').textContent = this.score;
+                document.getElementById('gameOver').style.display = 'flex';
+            }
+            
+            victory() {
+                this.gameState = 'victory';
+                playSound('win');
+                document.getElementById('finalScoreWin').textContent = this.score;
+                
+                let earnedBadges = [];
+                for (let key in this.badges) {
+                    if (this.badges[key].earned) earnedBadges.push(this.badges[key].name);
+                }
+                
+                document.getElementById('earnedBadge').textContent = earnedBadges.length > 0 
+                    ? 'Badges: ' + earnedBadges.join(', ')
+                    : '';
+                document.getElementById('victory').style.display = 'flex';
+            }
+            
+            restart() {
+                this.nodes = [];
+                this.particles = [];
+                this.score = 0;
+                this.multiplier = 1;
+                this.chain = 0;
+                this.misses = 0;
+                this.gameState = 'playing';
+                this.spawnTimer = 0;
+                this.spawnInterval = 60;
+                this.speedMultiplier = 1;
+                this.glitchEffect = 0;
+                this.cascadeEffect = 0;
+                
+                for (let key in this.badges) {
+                    this.badges[key].earned = false;
+                }
+                
+                document.getElementById('gameOver').style.display = 'none';
+                document.getElementById('victory').style.display = 'none';
+                document.getElementById('instructions').classList.remove('fade-out');
+                this.updateUI();
+                this.hideInstructions();
+            }
+        }
+
+        let game;
+        window.onload = () => {
+            game = new Game();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravilex - Caída de Letras</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            overflow: hidden;
+        }
+        .game-wrapper {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            z-index: 10;
+        }
+        h1 {
+            color: #00f5ff;
+            margin-top: 10px;
+            font-size: 2.2rem;
+            text-shadow: 0 0 20px #00f5ff;
+            z-index: 10;
+        }
+        .subtitle {
+            color: #ff00a0;
+            margin-bottom: 5px;
+            z-index: 10;
+            font-weight: bold;
+        }
+        .instructions {
+            color: #fff;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            z-index: 10;
+            text-align: center;
+            max-width: 600px;
+            padding: 8px 15px;
+            background: rgba(255,0,160,0.2);
+            border-radius: 20px;
+            border: 1px solid #ff00a0;
+        }
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 180px;
+        }
+        .panel-box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 15px;
+            border: 2px solid #00f5ff;
+        }
+        .panel-box h3 {
+            color: #00f5ff;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .score-display {
+            font-size: 2rem;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .word-display {
+            min-height: 60px;
+            background: rgba(0,245,255,0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 10px;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 3px;
+            border: 2px dashed #00f5ff;
+        }
+        .game-board {
+            width: 400px;
+            height: 500px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #ff00a0;
+            box-shadow: 0 0 30px rgba(255,0,160,0.5);
+        }
+        .danger-zone {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(transparent, rgba(255,0,0,0.3));
+            border-top: 3px dashed #ff0000;
+        }
+        .letter {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff00a0, #ff4d00);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255,0,160,0.5);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .letter:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px #ff00a0;
+        }
+        .letter.selected {
+            background: linear-gradient(135deg, #00f5ff, #00ff88);
+            transform: scale(1.15);
+            box-shadow: 0 0 30px #00f5ff;
+            z-index: 100;
+            animation: selected-pulse 0.5s infinite alternate;
+        }
+        @keyframes selected-pulse {
+            from { box-shadow: 0 0 20px #00f5ff; }
+            to { box-shadow: 0 0 40px #00f5ff, 0 0 60px #00ff88; }
+        }
+        .letter.frozen {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            box-shadow: 0 0 20px #4a90e2;
+        }
+        .letter.bonus {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            box-shadow: 0 0 25px #ffd700;
+            animation: bonus-glow 1s infinite alternate;
+        }
+        @keyframes bonus-glow {
+            from { box-shadow: 0 0 15px #ffd700; }
+            to { box-shadow: 0 0 35px #ffd700, 0 0 50px #ff8c00; }
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            z-index: 10;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #00f5ff, #00ff88);
+            color: #000;
+        }
+        .submit-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #00f5ff; }
+        .freeze-btn {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+        }
+        .clear-btn {
+            background: linear-gradient(135deg, #ff4d4d, #cc0000);
+            color: white;
+        }
+        .start-btn {
+            background: linear-gradient(135deg, #ff00a0, #ff4d00);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+        }
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+        }
+        .badge {
+            font-size: 1.5rem;
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+        .badge.earned { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 10px gold); }
+        .combo-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 30px #ffd700;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 200;
+        }
+        .combo-display.show {
+            opacity: 1;
+            animation: combo-pop 1s ease-out forwards;
+        }
+        @keyframes combo-pop {
+            0% { transform: translate(-50%, -50%) scale(0.5); }
+            50% { transform: translate(-50%, -50%) scale(1.3); }
+            100% { transform: translate(-50%, -50%) scale(1) translateY(-50px); opacity: 0; }
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: linear-gradient(135deg, #1a0a2e, #302b63);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 3px solid #ff00a0;
+            max-width: 450px;
+        }
+        .modal h2 {
+            color: #00f5ff;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .modal.lose h2 { color: #ff4d4d; }
+        .modal p { color: #fff; margin-bottom: 15px; font-size: 1.1rem; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .stat-value {
+            font-size: 2rem;
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .stat-label { color: #888; font-size: 0.9rem; }
+        .found-words {
+            max-height: 150px;
+            overflow-y: auto;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .found-words h4 {
+            color: #00f5ff;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+        }
+        .word-tag {
+            display: inline-block;
+            background: rgba(0,245,255,0.3);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin: 2px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🪐 GRAVILEX</h1>
+    <p class="subtitle">Forma palabras antes de que caigan</p>
+    <div class="instructions">
+        👆 Toca letras para seleccionar • 📝 Forma palabras válidas • ⏰ ¡Rápido! Tocan la zona roja = Game Over • 💎 Doble puntos si usas letra dorada
+    </div>
+    
+    <div class="game-wrapper">
+        <div class="side-panel">
+            <div class="panel-box">
+                <h3>🏆 PUNTUACIÓN</h3>
+                <div class="score-display" id="score">0</div>
+            </div>
+            <div class="panel-box">
+                <h3>🎯 PALABRA</h3>
+                <div class="word-display" id="currentWord"></div>
+            </div>
+            <div class="panel-box">
+                <h3>🏅 LOGROS</h3>
+                <div class="badges">
+                    <span class="badge" title="Novato: 100 pts">⭐</span>
+                    <span class="badge" title="Letrista: 500 pts">📝</span>
+                    <span class="badge" title="Veloz: 1000 pts">⚡</span>
+                    <span class="badge" title="Lexicógrafo: 2000 pts">📚</span>
+                    <span class="badge" title="Gravitador: 5000 pts">🪐</span>
+                </div>
+            </div>
+            <div class="panel-box">
+                <h3>📖 PALABRAS</h3>
+                <div class="found-words" id="foundWords">
+                    <h4>Encontradas:</h4>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-board" id="gameBoard">
+            <div class="danger-zone"></div>
+            <div class="combo-display" id="comboDisplay">¡COMBO x2!</div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button class="freeze-btn" id="freezeBtn">❄️ CONGELAR (3)</button>
+        <button class="submit-btn" id="submitBtn">✅ ENVIAR PALABRA</button>
+        <button class="clear-btn" id="clearBtn">🔄 LIMPIAR</button>
+    </div>
+    
+    <button class="start-btn" id="startBtn" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100;">🚀 JUGAR</button>
+
+    <div class="modal" id="gameModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">¡FELICIDADES!</h2>
+            <p id="modalMessage">¡Eres un maestro de las palabras gravitacionales!</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="finalScore">0</div>
+                    <div class="stat-label">PUNTOS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="finalWords">0</div>
+                    <div class="stat-label">PALABRAS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="finalBest">0</div>
+                    <div class="stat-label">MEJOR PALABRA</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="finalCombo">0</div>
+                    <div class="stat-label">MAX COMBO</div>
+                </div>
+            </div>
+            <button class="start-btn" onclick="resetGame()">🔄 JUGAR DE NUEVO</button>
+        </div>
+    </div>
+
+    <script>
+        // Palabras comunes en español (simplificado)
+        const commonWords = new Set([
+            'EL', 'LA', 'DE', 'QUE', 'Y', 'A', 'EN', 'UN', 'SER', 'SE', 'NO', 'HABER', 'POR', 'CON', 'SU', 'PARA', 'ES', 'AL', 'LO', 'LE', 'LO', 'TODO', 'PERO', 'MAS', 'O', 'DAR', 'COMO', 'ESTAR', 'TODO', 'NOS', 'SIN', 'SOBRE', 'DECIR', 'ESTE', 'IR', 'OTRO', 'YA', 'ME', 'HASTA', 'DESDE', 'NOS', 'DURANTE', 'NADA', 'PUE', 'ALGUN', 'TIEMPO', 'VER', 'PAIS', 'HACER', 'PARTE', 'ASI', 'MISMO', 'AHORA', 'MADERA', 'MUNDO', 'FIN', 'MANERA', 'CASO', 'NADIE', 'HORA', 'MEJOR', 'EMPRESA', 'LUGAR', 'PUNTO', 'MADRE', 'EUROPA', 'MISMO', 'MUCHO', 'NUNCA', 'LADO', 'UNO', 'MENOS', 'CAPACIDAD', 'HOMBRE', 'VIVIR', 'EJEMPLO', 'HISTORIA', 'TOTAL', 'TIPO', 'MEDIO', 'NUEVO', 'GRAN', 'UNO', 'CIERTO', 'PROGRAMA', 'ESO', 'LARGO', 'POCO', 'MES', 'INFORMAR', 'FORMA', 'DIA', 'TENER', 'LLEGAR', 'PODER', 'ENTRE', 'SIN', 'TRABAJO', 'GRANDE', 'CIUDAD', 'SOCIAL', 'AMOR', 'AGUA', 'FAMILIA', 'GENTE', 'VIDA', 'OJOS', 'MUNDO', 'CASA', 'TIERRA', 'MANO', 'COSA', 'MADRE', 'TIEMPO', 'MODO', 'NOMBRE', 'AÑO', 'COSA', 'MERCADO', 'DESARROLLO', 'SERVICIO', 'PROCESO', 'PERSONA', 'PARTIDO', 'CUERPO', 'GRUPO', 'PAPEL', 'CENTRO', 'RESULTADO', 'EQUIPO', 'SISTEMA', 'SEGURIDAD', 'PROYECTO', 'ACTIVIDAD', 'PRESIDENTE', 'CONCEPTO', 'ORDEN', 'NIVEL', 'ECONOMIA', 'PRODUCTO', 'ESTUDIO', 'LIBERTAD', 'NORMA', 'PAPEL', 'CONDICION', 'EFECTO', 'ACCION', 'FORMACION', 'DOCUMENTO', 'EDUCACION', 'RELACION', 'TECNOLOGIA', 'INFORMACION', 'COMUNICACION', 'APLICACION', 'ORGANIZACION', 'EVALUACION', 'CALIDAD', 'UNIVERSIDAD', 'REALIDAD', 'COMUNIDAD', 'OPORTUNIDAD', 'CAPACIDAD', 'POSIBILIDAD', 'RESPONSABILIDAD', 'PROBABILIDAD', 'FUNCION', 'CONEXION', 'NACION', 'SOLUCION', 'PRODUCCION', 'SITUACION', 'DIRECCION', 'CUESTION', 'PROTECCION', 'SECCION', 'EXPRESION', 'DISPOSICION', 'PROMOCION', 'VALOR', 'MEJOR', 'CONTAR', 'DINERO', 'LUZ', 'MAÑANA', 'MOMENTO', 'PADRE', 'PUERTA', 'RAZON', 'REGALO', 'SALUD', 'SEÑOR', 'TARDE', 'ULTIMO', 'VERDAD', 'ALMA', 'ALTO', 'AMIGO', 'AÑO', 'BRAZO', 'CALLE', 'CAMPO', 'CARA', 'CIELO', 'COLOR', 'CORAZON', 'CUENTO', 'DOLOR', 'ESCALA', 'ESCRITOR', 'ESFUERZO', 'ESPERA', 'ESPACIO', 'FALTA', 'FELICIDAD', 'FIESTA', 'FONDO', 'FRENTE', 'FUERZA', 'FUTURO', 'GANA', 'GANAR', 'GATO', 'GUSTO', 'HERMANO', 'HIJO', 'HOJA', 'HUMOR', 'IDEA', 'IGLESIA', 'IMAGEN', 'IMPACTO', 'IMPORTANTE', 'INGRESO', 'INSTANTE', 'INTENTO', 'INTERES', 'JUEGO', 'LETRA', 'LIBRO', 'LIMITE', 'LINEA', 'LLAVE', 'LUCHA', 'MAESTRO', 'MALA', 'MANANA', 'MAQUINA', 'MAR', 'MATERIAL', 'MEMORIA', 'MENTE', 'METRO', 'MILAGRO', 'MINUTO', 'MISIL', 'MODELO', 'MONEDA', 'MONTAÑA', 'MOVIMIENTO', 'MUJER', 'MURO', 'MUSICA', 'NACIMIENTO', 'NATURALEZA', 'NINGUNO', 'NIÑO', 'NOTA', 'NOCHE', 'NORTE', 'NUBE', 'NUMERO', 'OBJETIVO', 'OBJETO', 'OBRA', 'OCCIDENTE', 'OCEANO', 'ODIO', 'OFICIAL', 'OFICIO', 'OJO', 'OLA', 'OLOR', 'OPERACION', 'OPINION', 'ORIGEN', 'ORO', 'PAGO', 'PAISAJE', 'PALABRA', 'PALO', 'PAN', 'PAPEL', 'PAR', 'PARAISO', 'PARED', 'PARQUE', 'PARTE', 'PASADO', 'PASO', 'PASTO', 'PATA', 'PAZ', 'PECHO', 'PEDAZO', 'PELEA', 'PENAL', 'PENSAMIENTO', 'PERDIDA', 'PERIODO', 'PERRO', 'PESO', 'PIE', 'PIEDAD', 'PIEDRA', 'PIEL', 'PILA', 'PINCEL', 'PINTURA', 'PISTA', 'PLAN', 'PLATA', 'PLAYA', 'PLAZA', 'PLOT', 'POBLACION', 'POBRE', 'POCO', 'PODER', 'POETA', 'POLICIA', 'POLITICA', 'POLVO', 'PORQUE', 'POSICION', 'PRECIO', 'PREGUNTA', 'PRENSA', 'PRESENCIA', 'PRESENTE', 'PRESION', 'PRIMAVERA', 'PRIMO', 'PRINCIPIO', 'PROBLEMA', 'PROCESO', 'PROFESOR', 'PROGRAMA', 'PROGRESO', 'PROPIEDAD', 'PROPOSITO', 'PROVINCIA', 'PUBLICO', 'PUEBLO', 'PUESTA', 'PUESTO', 'PULSO', 'PUNTA', 'PUNTO', 'QUEJA', 'QUIMICA', 'RADIO', 'RAIZ', 'RAMA', 'RANGO', 'RAPIDO', 'RATO', 'RAYO', 'RAZA', 'REACCION', 'REALIDAD', 'REGLA', 'REINA', 'RELATO', 'RELOJ', 'RENTA', 'REPUBLICA', 'RESPIRACION', 'RESPUESTA', 'RESTO', 'RESULTADO', 'REY', 'REYNO', 'RIO', 'RIQUEZA', 'RITMO', 'ROPA', 'ROSA', 'ROSTRO', 'RUIDO', 'SABADO', 'SABOR', 'SAL', 'SALA', 'SALIDA', 'SALTO', 'SANGRE', 'SECRETO', 'SECTOR', 'SEGURO', 'SEMANA', 'SEÑAL', 'SENTIDO', 'SEÑOR', 'SERIE', 'SERVICIO', 'SEXO', 'SIGLO', 'SIGNIFICADO', 'SILENCIO', 'SIMBOLO', 'SISTEMA', 'SITIO', 'SOCIEDAD', 'SOL', 'SOLUCION', 'SOMBRA', 'SONIDO', 'SORPRESA', 'SUELO', 'SUEÑO', 'SUERTE', 'SUFICIENTE', 'SUR', 'TALLA', 'TAMAÑO', 'TARDE', 'TAREA', 'TEATRO', 'TECHO', 'TEMA', 'TEMPERATURA', 'TEMPO', 'TIEMPO', 'TIENDA', 'TIERRA', 'TIPO', 'TITULO', 'TOQUE', 'TRABAJO', 'TRADICION', 'TRATO', 'TRIUNFO', 'TROZO', 'UNIDAD', 'USO', 'VACACION', 'VALLE', 'VALOR', 'VELOCIDAD', 'VENTANA', 'VENTAJA', 'VERANO', 'VERBO', 'VERDAD', 'VESTIDO', 'VIA', 'VIAJE', 'VICTIMA', 'VIDA', 'VIENTO', 'VISTA', 'VOCAL', 'VOLUNTAD', 'VUELTA', 'YARD']);
+
+        const gameBoard = document.getElementById('gameBoard');
+        const currentWordEl = document.getElementById('currentWord');
+        const scoreEl = document.getElementById('score');
+        const comboDisplay = document.getElementById('comboDisplay');
+        const foundWordsEl = document.getElementById('foundWords');
+        
+        let score = 0;
+        let words = [];
+        let selectedLetters = [];
+        let fallingLetters = [];
+        let gameRunning = false;
+        let freezeCount = 3;
+        let combo = 0;
+        let maxCombo = 0;
+        let freezeActive = false;
+        let bestWord = '';
+        let spawnInterval;
+        let gameLoop;
+
+        const LETTERS = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+        const VOWELS = 'AEIOU';
+        const CONSONANTS = 'BCDFGHJKLMNÑPQRSTVWXYZ';
+
+        function getRandomLetter() {
+            // 40% vocales, 60% consonantes para facilitar formar palabras
+            if (Math.random() < 0.4) {
+                return VOWELS[Math.floor(Math.random() * VOWELS.length)];
+            }
+            return CONSONANTS[Math.floor(Math.random() * CONSONANTS.length)];
+        }
+
+        function spawnLetter() {
+            if (!gameRunning) return;
+            
+            const letter = document.createElement('div');
+            letter.className = 'letter';
+            letter.textContent = getRandomLetter();
+            letter.style.left = Math.floor(Math.random() * 7) * 50 + 25 + 'px';
+            letter.style.top = '-60px';
+            
+            // 10% chance de letra bonus (dorada)
+            if (Math.random() < 0.1) {
+                letter.classList.add('bonus');
+                letter.dataset.bonus = 'true';
+            }
+            
+            letter.dataset.id = Date.now() + Math.random();
+            letter.addEventListener('click', () => selectLetter(letter));
+            
+            gameBoard.appendChild(letter);
+            fallingLetters.push({
+                element: letter,
+                y: -60,
+                speed: 0.5 + (score / 5000),
+                frozen: false
+            });
+        }
+
+        function selectLetter(letterEl) {
+            if (!gameRunning) return;
+            
+            const id = letterEl.dataset.id;
+            const index = selectedLetters.findIndex(l => l.dataset.id === id);
+            
+            if (index >= 0) {
+                selectedLetters.splice(index, 1);
+                letterEl.classList.remove('selected');
+            } else {
+                selectedLetters.push(letterEl);
+                letterEl.classList.add('selected');
+            }
+            
+            updateCurrentWord();
+        }
+
+        function updateCurrentWord() {
+            currentWordEl.textContent = selectedLetters.map(l => l.textContent).join('');
+        }
+
+        function clearSelection() {
+            selectedLetters.forEach(l => l.classList.remove('selected'));
+            selectedLetters = [];
+            updateCurrentWord();
+        }
+
+        function submitWord() {
+            const word = selectedLetters.map(l => l.textContent).join('');
+            
+            if (word.length < 2) {
+                showCombo('¡Mínimo 2 letras!', '#ff6b6b');
+                return;
+            }
+            
+            if (commonWords.has(word)) {
+                // Palabra válida
+                let points = word.length * 10;
+                const isBonus = selectedLetters.some(l => l.dataset.bonus);
+                
+                if (isBonus) points *= 2;
+                
+                combo++;
+                if (combo > maxCombo) maxCombo = combo;
+                
+                if (combo >= 3) {
+                    points *= (1 + combo * 0.5);
+                    showCombo(`¡COMBO x${combo}!`, '#ffd700');
+                }
+                
+                score += Math.floor(points);
+                words.push(word);
+                if (word.length > bestWord.length) bestWord = word;
+                
+                // Eliminar letras usadas
+                selectedLetters.forEach(l => {
+                    const idx = fallingLetters.findIndex(fl => fl.element === l);
+                    if (idx >= 0) {
+                        l.remove();
+                        fallingLetters.splice(idx, 1);
+                    }
+                });
+                
+                selectedLetters = [];
+                updateCurrentWord();
+                updateScore();
+                updateBadges();
+                updateFoundWords();
+                
+                if (score >= 10000) {
+                    endGame(true);
+                }
+            } else {
+                // Palabra inválida
+                combo = 0;
+                showCombo('❌ No válida', '#ff6b6b');
+                clearSelection();
+            }
+        }
+
+        function showCombo(text, color) {
+            comboDisplay.textContent = text;
+            comboDisplay.style.color = color;
+            comboDisplay.classList.add('show');
+            setTimeout(() => comboDisplay.classList.remove('show'), 1000);
+        }
+
+        function updateScore() {
+            scoreEl.textContent = score;
+        }
+
+        function updateBadges() {
+            const badges = document.querySelectorAll('.badge');
+            const thresholds = [100, 500, 1000, 2000, 5000];
+            thresholds.forEach((t, i) => {
+                if (score >= t) badges[i].classList.add('earned');
+            });
+        }
+
+        function updateFoundWords() {
+            const tags = words.slice(-10).map(w => `<span class="word-tag">${w}</span>`).join('');
+            foundWordsEl.innerHTML = `<h4>Encontradas (${words.length}):</h4>${tags}`;
+        }
+
+        function freezeBoard() {
+            if (freezeCount <= 0 || freezeActive) return;
+            
+            freezeCount--;
+            freezeActive = true;
+            document.getElementById('freezeBtn').textContent = `❄️ CONGELAR (${freezeCount})`;
+            
+            fallingLetters.forEach(fl => {
+                fl.frozen = true;
+                fl.element.classList.add('frozen');
+            });
+            
+            setTimeout(() => {
+                freezeActive = false;
+                fallingLetters.forEach(fl => {
+                    fl.frozen = false;
+                    fl.element.classList.remove('frozen');
+                });
+            }, 5000);
+        }
+
+        function updateGame() {
+            if (!gameRunning) return;
+            
+            for (let i = fallingLetters.length - 1; i >= 0; i--) {
+                const fl = fallingLetters[i];
+                
+                if (!fl.frozen) {
+                    fl.y += fl.speed;
+                    fl.element.style.top = fl.y + 'px';
+                    
+                    // Game over si toca el fondo
+                    if (fl.y > 440) {
+                        endGame(false);
+                        return;
+                    }
+                }
+            }
+        }
+
+        function startGame() {
+            gameRunning = true;
+            score = 0;
+            words = [];
+            combo = 0;
+            maxCombo = 0;
+            bestWord = '';
+            freezeCount = 3;
+            freezeActive = false;
+            
+            fallingLetters.forEach(fl => fl.element.remove());
+            fallingLetters = [];
+            selectedLetters = [];
+            updateCurrentWord();
+            updateScore();
+            updateFoundWords();
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('freezeBtn').textContent = `❄️ CONGELAR (${freezeCount})`;
+            document.querySelectorAll('.badge').forEach(b => b.classList.remove('earned'));
+            
+            spawnInterval = setInterval(spawnLetter, 2000);
+            gameLoop = setInterval(updateGame, 16);
+        }
+
+        function endGame(win) {
+            gameRunning = false;
+            clearInterval(spawnInterval);
+            clearInterval(gameLoop);
+            
+            const modal = document.getElementById('gameModal');
+            const title = document.getElementById('modalTitle');
+            const message = document.getElementById('modalMessage');
+            
+            modal.classList.add('active');
+            if (!win) modal.classList.add('lose');
+            
+            title.textContent = win ? '🎉 ¡VICTORIA!' : '💥 GAME OVER';
+            message.textContent = win ? '¡Eres un maestro de las palabras!' : '¡Las letras te alcanzaron!';
+            
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalWords').textContent = words.length;
+            document.getElementById('finalBest').textContent = bestWord || '-';
+            document.getElementById('finalCombo').textContent = 'x' + maxCombo;
+        }
+
+        function resetGame() {
+            document.getElementById('gameModal').classList.remove('active', 'lose');
+            startGame();
+        }
+
+        document.getElementById('startBtn').addEventListener('click', startGame);
+        document.getElementById('submitBtn').addEventListener('click', submitWord);
+        document.getElementById('clearBtn').addEventListener('click', clearSelection);
+        document.getElementById('freezeBtn').addEventListener('click', freezeBoard);
+    </script>
+</body>
+</html>

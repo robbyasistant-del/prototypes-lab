@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Word Arrow Escape</title>
+<style>
+:root{--bg:#091125;--panel:#111c38;--line:#345184;--text:#edf4ff;--muted:#9ab0da;--ok:#22c55e;--bad:#fb7185;--accent:#38bdf8;--warn:#f59e0b}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui;background:radial-gradient(900px 500px at 20% -10%,#1d3263 0%,var(--bg) 60%);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:16px}
+.app{width:min(980px,100%);background:linear-gradient(180deg,#0d1732,var(--panel));border:1px solid #2f4a7c;border-radius:18px;padding:16px;box-shadow:0 20px 60px #0008}
+h1{margin:0 0 5px;font-size:1.45rem}.sub{color:var(--muted);font-size:.95rem;margin-bottom:12px}
+.layout{display:grid;grid-template-columns:330px 1fr;gap:14px}.card{background:#152347;border:1px solid var(--line);border-radius:14px;padding:12px}
+.instructions{font-size:.91rem;line-height:1.42;color:#dce8ff}.instructions b{color:#fff}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.pill{background:#0f1a35;border:1px solid #324f85;border-radius:10px;padding:8px}.k{font-size:.74rem;color:var(--muted);text-transform:uppercase}.v{font-size:1.12rem;font-weight:800}
+.target{margin-top:10px;background:#0d1834;border:1px solid #3a5f9f;border-radius:12px;padding:10px}.word{font-size:1.4rem;font-weight:900;letter-spacing:2px}.prog{font-size:.85rem;color:var(--muted);margin-top:5px}
+.badge{display:inline-block;margin-top:8px;padding:6px 10px;border-radius:999px;border:1px solid #547fcb;background:#0f1f44;font-weight:800}
+
+.bar{height:12px;background:#1f2f55;border:1px solid #335284;border-radius:999px;overflow:hidden}.fill{height:100%;width:100%;background:linear-gradient(90deg,#22d3ee,#3b82f6);transition:width .1s linear}.danger .fill{background:linear-gradient(90deg,#f59e0b,#ef4444)}
+.arena{margin-top:10px;display:grid;grid-template-columns:repeat(3,92px);grid-template-rows:repeat(3,92px);gap:8px;justify-content:center}
+.tile{border-radius:12px;border:1px solid #34588f;background:#101f40;display:grid;place-items:center;font-weight:900;font-size:1.8rem;user-select:none}
+.center{background:#183768;border-color:#73a5ff;font-size:2.2rem}
+.hint{font-size:.82rem;color:var(--muted);text-align:center;margin-top:6px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{padding:10px 12px;border-radius:10px;border:1px solid #486cae;background:#193261;color:#fff;font-weight:700;cursor:pointer}.btn.primary{border:none;background:linear-gradient(135deg,#22d3ee,#3b82f6);color:#041226}
+.status{min-height:28px;font-weight:700;margin-top:8px}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}.meta{font-size:.86rem;color:var(--muted);white-space:pre-wrap}
+@media (max-width:880px){.layout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Word Arrow Escape</h1>
+  <div class="sub">WORD + SPEED • pick the correct arrow to build each word letter-by-letter.</div>
+
+  <div class="layout">
+    <section class="card">
+      <div class="instructions">
+        <b>How to play</b><br>
+        - Your current letter is in the center.<br>
+        - The 4 arrows (up/right/down/left) show candidate next letters.<br>
+        - Press the direction that matches the <b>next required letter</b>.<br>
+        - Finish each word before the timer ends.<br><br>
+        <b>Immediate feedback:</b> green = correct, red = mistake.<br>
+        <b>Lives:</b> 3. Wrong arrow or timeout costs 1 life.<br>
+        <b>Win:</b> Clear all 8 words. <b>Game Over:</b> 0 lives.
+      </div>
+      <div class="stats">
+        <div class="pill"><div class="k">Word</div><div class="v" id="round">1 / 8</div></div>
+        <div class="pill"><div class="k">Score</div><div class="v" id="score">0</div></div>
+        <div class="pill"><div class="k">Lives</div><div class="v" id="lives">3</div></div>
+        <div class="pill"><div class="k">Combo</div><div class="v" id="combo">0</div></div>
+      </div>
+      <div class="target">
+        <div>Target Word</div>
+        <div class="word" id="targetWord">PRESS START</div>
+        <div class="prog" id="progress">Need: 0 / 0 letters</div>
+        <div id="badge" class="badge" hidden>🏅 Badge</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="bar" id="timeBar"><div class="fill" id="fill"></div></div>
+      <div class="arena" id="arena"></div>
+      <div class="hint">Use keyboard arrows or tap a direction</div>
+      <div class="row">
+        <button class="btn primary" id="startBtn">Start / Restart</button>
+        <button class="btn" id="simBtn">Run 1000 simulations</button>
+      </div>
+      <div class="status" id="status">Ready.</div>
+      <div class="meta" id="meta"></div>
+    </section>
+  </div>
+</div>
+
+<script>
+(() => {
+  const WORD_POOL = ["ARROW","ESCAPE","VECTOR","RHYTHM","QUICK","BLAZE","SPARK","SHIFT","GLYPH","TWIST","SWIFT","PUZZLE"];
+  const TOTAL_ROUNDS = 8;
+  const MAX_LIVES = 3;
+  const BASE_TIME = 5.8;
+  const PER_LETTER = 0.95;
+  const dirs = ["up","right","down","left"];
+
+  const el = {
+    round: q('#round'), score: q('#score'), lives: q('#lives'), combo: q('#combo'), targetWord: q('#targetWord'), progress: q('#progress'),
+    badge: q('#badge'), fill: q('#fill'), timeBar: q('#timeBar'), arena: q('#arena'), status: q('#status'), meta: q('#meta'),
+    startBtn: q('#startBtn'), simBtn: q('#simBtn')
+  };
+
+  let st = null, timer = null;
+  function q(s){return document.querySelector(s)}
+  function r(n){return Math.floor(Math.random()*n)}
+  function pick(arr){return arr.splice(r(arr.length),1)[0]}
+
+  function makeStepSet(expected){
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const map = {up: letters[r(26)], right: letters[r(26)], down: letters[r(26)], left: letters[r(26)]};
+    const correctDir = dirs[r(4)];
+    map[correctDir] = expected;
+    return {map,correctDir};
+  }
+
+  function newRound(){
+    if(st.round >= TOTAL_ROUNDS) return finish(true);
+    st.word = st.words[st.round];
+    st.index = 1; // first letter already active in center
+    st.current = st.word[0];
+    st.step = makeStepSet(st.word[st.index]);
+    st.timeMax = BASE_TIME + st.word.length * PER_LETTER;
+    st.time = st.timeMax;
+    st.round++;
+    draw();
+    setStatus(`Word ${st.round}: build ${st.word}`, 'warn');
+  }
+
+  function startGame(){
+    const pool = [...WORD_POOL];
+    st = {words:Array.from({length:TOTAL_ROUNDS},()=>pick(pool)), round:0, score:0, lives:MAX_LIVES, combo:0, word:'', index:0, current:'', step:null, time:0, timeMax:0, active:true};
+    el.meta.textContent='';
+    el.badge.hidden = true;
+    newRound();
+    clearInterval(timer);
+    timer = setInterval(tick, 100);
+  }
+
+  function draw(){
+    el.round.textContent = `${st.round} / ${TOTAL_ROUNDS}`;
+    el.score.textContent = st.score;
+    el.lives.textContent = st.lives;
+    el.combo.textContent = st.combo;
+    el.targetWord.textContent = st.word.split('').map((ch,i)=>i<st.index?'✓':ch).join(' ');
+    el.progress.textContent = `Need: ${st.index} / ${st.word.length} letters`;
+
+    const p = Math.max(0,(st.time/st.timeMax)*100);
+    el.fill.style.width = p.toFixed(1)+'%';
+    el.timeBar.classList.toggle('danger', p<33);
+
+    const map = st.step?.map || {up:'?',right:'?',down:'?',left:'?'};
+    const slots = [
+      ['up', map.up], ['none',''], ['right', map.right],
+      ['none',''], ['center', st.current], ['none',''],
+      ['left', map.left], ['none',''], ['down', map.down]
+    ];
+    el.arena.innerHTML = '';
+    slots.forEach(([kind,txt])=>{
+      const d = document.createElement('button');
+      d.className = `tile ${kind==='center'?'center':''}`.trim();
+      d.disabled = kind==='none' || kind==='center' || !st.active;
+      d.textContent = txt;
+      if(d.disabled) d.style.opacity = kind==='none'?0.15:1;
+      if(kind==='up'||kind==='right'||kind==='down'||kind==='left') d.onclick = () => move(kind);
+      el.arena.appendChild(d);
+    });
+  }
+
+  function setStatus(text,kind=''){ el.status.className = `status ${kind}`.trim(); el.status.textContent = text; }
+
+  function loseLife(reason){
+    st.lives--; st.combo = 0;
+    if(st.lives<=0){ finish(false,reason); return true; }
+    setStatus(`${reason} (-1 life)`, 'bad');
+    st.time = Math.max(0.7, st.time - 1.0);
+    draw();
+    return false;
+  }
+
+  function clearWord(){
+    const speedBonus = Math.round(st.time*24);
+    st.score += speedBonus;
+    setStatus(`Word clear! +${speedBonus} speed bonus`, 'ok');
+    if(st.score>=2600){ el.badge.hidden=false; el.badge.textContent='🏅 Escape Legend'; }
+    newRound();
+  }
+
+  function move(dir){
+    if(!st || !st.active) return;
+    const correct = st.step.correctDir;
+    if(dir===correct){
+      st.current = st.step.map[dir];
+      st.combo++;
+      const gain = 110 + st.combo*14;
+      st.score += gain;
+      st.index++;
+      setStatus(`Correct ${st.current}! +${gain}`, 'ok');
+      if(st.index >= st.word.length) return clearWord();
+      st.step = makeStepSet(st.word[st.index]);
+    } else {
+      const ended = loseLife(`Wrong arrow. Needed ${correct.toUpperCase()}`);
+      if(ended) return;
+    }
+    draw();
+  }
+
+  function tick(){
+    if(!st || !st.active) return;
+    st.time -= 0.1;
+    if(st.time<=0){
+      if(loseLife('Timeout')) return;
+      newRound();
+    }
+    draw();
+  }
+
+  function finish(win,reason=''){
+    st.active = false;
+    clearInterval(timer);
+    if(win){
+      setStatus('YOU WIN — all words escaped!', 'ok');
+      el.meta.textContent = `Final score: ${st.score}\nBadge: ${st.score>=2600?'🏅 Escape Legend':'🎯 Fast Learner'}`;
+    } else {
+      setStatus('GAME OVER — core collapsed.', 'bad');
+      el.meta.textContent = `Final score: ${st.score}\nReason: ${reason}\nBadge: ${st.score>=2600?'🏅 Escape Legend':'🎯 Keep training'}`;
+    }
+    draw();
+  }
+
+  function simulate(runs=100, skill=0.82){
+    let wins=0,total=0;
+    for(let n=0;n<runs;n++){
+      const pool=[...WORD_POOL];
+      let lives=MAX_LIVES,score=0,combo=0;
+      const words=Array.from({length:TOTAL_ROUNDS},()=>pick(pool));
+      let win=true;
+      for(let rd=0;rd<TOTAL_ROUNDS;rd++){
+        const w=words[rd];
+        let idx=1, time=BASE_TIME + w.length*PER_LETTER;
+        let step=makeStepSet(w[idx]);
+        while(idx<w.length && lives>0 && time>0){
+          time-=0.1;
+          const correct=step.correctDir;
+          const chooseCorrect = Math.random()<skill;
+          const dir = chooseCorrect ? correct : dirs[r(4)];
+          if(dir===correct){
+            combo++; score += 110 + combo*14; idx++;
+            if(idx<w.length) step=makeStepSet(w[idx]);
+          } else { lives--; combo=0; }
+        }
+        if(lives<=0){win=false;break;}
+        if(idx>=w.length) score += Math.round(Math.max(0,time)*24);
+        else { lives--; combo=0; if(lives<=0){win=false;break;} }
+      }
+      if(win && lives>0) wins++;
+      total += score;
+    }
+    return {runs,skill,winRate:+((wins/runs)*100).toFixed(1),avgScore:Math.round(total/runs)};
+  }
+
+  window.__simulateGames = simulate;
+
+  window.addEventListener('keydown',e=>{
+    if(e.key==='ArrowUp') move('up');
+    if(e.key==='ArrowRight') move('right');
+    if(e.key==='ArrowDown') move('down');
+    if(e.key==='ArrowLeft') move('left');
+  });
+
+  el.startBtn.onclick = startGame;
+  el.simBtn.onclick = () => {
+    const out = simulate(1000,0.82);
+    setStatus('Simulation complete.', 'warn');
+    el.meta.textContent = `Simulation QA\nRuns: ${out.runs}\nBot skill: ${out.skill}\nWin rate: ${out.winRate}%\nAvg score: ${out.avgScore}`;
+  };
+})();
+</script>
+</body>
+</html>

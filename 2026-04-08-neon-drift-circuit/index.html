@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Drift Circuit</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: none;
+        }
+        
+        body {
+            background: #0A0A1A;
+            overflow: hidden;
+            font-family: 'Orbitron', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 1200px;
+            max-height: 800px;
+        }
+        
+        #gameCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .neon-text {
+            text-shadow: 
+                0 0 5px currentColor,
+                0 0 10px currentColor,
+                0 0 20px currentColor,
+                0 0 40px currentColor;
+        }
+        
+        .score-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #00FFFF;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .lap-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #FF00FF;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .combo-display {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            color: #FFFF00;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .speed-display {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #FF0080;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .progress-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #00FFFF;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00FFFF, #FF00FF);
+            width: 0%;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px #00FFFF;
+        }
+        
+        .lives-display {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            color: #FF4444;
+            font-size: 24px;
+        }
+        
+        .beat-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .beat-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #00FFFF;
+            transition: all 0.1s;
+        }
+        
+        .beat-dot.active {
+            background: #00FFFF;
+            box-shadow: 0 0 15px #00FFFF, 0 0 30px #00FFFF;
+            transform: scale(1.5);
+        }
+        
+        .beat-dot.perfect {
+            background: #FFFF00;
+            border-color: #FFFF00;
+            box-shadow: 0 0 20px #FFFF00, 0 0 40px #FFFF00;
+        }
+        
+        #startScreen, #gameOverScreen, #winScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 26, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto;
+            z-index: 10;
+        }
+        
+        #gameOverScreen, #winScreen {
+            display: none;
+        }
+        
+        .title {
+            font-size: 48px;
+            color: #00FFFF;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 900;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: #FF00FF;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        
+        .instructions {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid #00FFFF;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+        
+        .instructions h3 {
+            color: #FFFF00;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .instructions p {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .instructions .key {
+            color: #00FFFF;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #FF00FF, #FF0080);
+            border: none;
+            padding: 15px 50px;
+            font-size: 24px;
+            color: white;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.8);
+        }
+        
+        .badge {
+            font-size: 72px;
+            margin: 20px 0;
+        }
+        
+        .badge.bronze { color: #CD7F32; }
+        .badge.silver { color: #C0C0C0; }
+        .badge.gold { color: #FFD700; }
+        
+        .final-score {
+            font-size: 36px;
+            color: #00FFFF;
+            margin-bottom: 20px;
+        }
+        
+        .combo-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: 900;
+            color: #FFFF00;
+            opacity: 0;
+            pointer-events: none;
+            text-shadow: 0 0 20px #FFFF00;
+        }
+        
+        .combo-popup.show {
+            animation: comboPop 0.5s ease-out;
+        }
+        
+        @keyframes comboPop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            50% { opacity: 1; transform: translate(-50%, -80%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -100%) scale(1); }
+        }
+        
+        #touchZones {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            display: none;
+            pointer-events: auto;
+        }
+        
+        .touch-zone {
+            position: absolute;
+            bottom: 20px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.2);
+            border: 3px solid #00FFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: #00FFFF;
+            user-select: none;
+        }
+        
+        .touch-zone.left { left: 30px; }
+        .touch-zone.right { right: 30px; }
+        .touch-zone.accelerate { 
+            left: 50%; 
+            transform: translateX(-50%);
+            background: rgba(255, 0, 255, 0.2);
+            border-color: #FF00FF;
+            color: #FF00FF;
+        }
+        
+        .touch-zone:active {
+            background: rgba(0, 255, 255, 0.5);
+        }
+        
+        .touch-zone.accelerate:active {
+            background: rgba(255, 0, 255, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .title { font-size: 32px; }
+            .subtitle { font-size: 14px; }
+            .score-display, .lap-display { font-size: 18px; }
+            .instructions { padding: 15px; }
+            #touchZones { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="ui">
+            <div class="score-display neon-text">SCORE: <span id="score">0</span></div>
+            <div class="lap-display neon-text">LAP <span id="currentLap">1</span>/3</div>
+            <div class="combo-display neon-text">COMBO: x<span id="combo">0</span></div>
+            <div class="speed-display neon-text"><span id="speed">0</span> KM/H</div>
+            <div class="lives-display neon-text">❤️ <span id="lives">3</span></div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="beat-indicator" id="beatIndicator">
+                <div class="beat-dot"></div>
+                <div class="beat-dot"></div>
+                <div class="beat-dot active"></div>
+                <div class="beat-dot"></div>
+                <div class="beat-dot"></div>
+            </div>
+            
+            <div class="combo-popup" id="comboPopup">PERFECT!</div>
+        </div>
+        
+        <div id="touchZones">
+            <div class="touch-zone left" id="touchLeft">◀ DRIFT</div>
+            <div class="touch-zone accelerate" id="touchAccel">BEAT!</div>
+            <div class="touch-zone right" id="touchRight">DRIFT ▶</div>
+        </div>
+        
+        <div id="startScreen">
+            <h1 class="title neon-text">NEON DRIFT CIRCUIT</h1>
+            <p class="subtitle">Rhythm Racing in the Cyberpunk Future</p>
+            
+            <div class="instructions">
+                <h3>🎮 HOW TO PLAY</h3>
+                <p><span class="key">SPACE</span> or <span class="key">TAP</span> on the BEAT to accelerate</p>
+                <p><span class="key">HOLD</span> arrow keys or <span class="key">DRAG</span> to drift through corners</p>
+                <p>🔥 Perfect timing = Speed Boost + Combo Multiplier</p>
+                <p>💀 Miss the beat = Lose speed</p>
+                <p>❤️ 3 crashes = Game Over</p>
+                <p>🏁 Complete 3 laps to win!</p>
+            </div>
+            
+            <button class="btn" id="startBtn">START RACE</button>
+        </div>
+        
+        <div id="gameOverScreen">
+            <h1 class="title neon-text" style="color: #FF4444;">CRASHED OUT!</h1>
+            <div class="final-score">FINAL SCORE: <span id="finalScoreLoss">0</span></div>
+            <p class="subtitle" id="lossReason">Too many crashes!</p>
+            <button class="btn" id="retryBtn">TRY AGAIN</button>
+        </div>
+        
+        <div id="winScreen">
+            <h1 class="title neon-text" style="color: #00FF00;">RACE COMPLETE!</h1>
+            <div class="badge" id="badge">🏆</div>
+            <div class="final-score">FINAL SCORE: <span id="finalScoreWin">0</span></div>
+            <div class="subtitle" id="badgeText">GOLD MEDAL!</div>
+            <button class="btn" id="playAgainBtn">RACE AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // NEON DRIFT CIRCUIT - Complete Game
+        // ============================================
+        
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Game State
+        const GAME = {
+            state: 'menu', // menu, playing, gameover, win
+            score: 0,
+            combo: 0,
+            lives: 3,
+            lap: 1,
+            lapProgress: 0,
+            speed: 0,
+            maxSpeed: 300,
+            baseSpeed: 150,
+            beatInterval: 500, // ms between beats
+            lastBeatTime: 0,
+            perfectWindow: 100, // ms window for perfect timing
+            goodWindow: 200,
+            trackDistance: 0,
+            totalTrackLength: 3000, // per lap
+            particles: [],
+            stars: [],
+            cameraShake: 0,
+            driftDirection: 0, // -1 left, 0 none, 1 right
+            isDrifting: false,
+            perfectStreak: 0
+        };
+        
+        // Audio Context
+        let audioCtx = null;
+        
+        // Beat tracking
+        let beatPhase = 0;
+        let beatPulse = 0;
+        
+        // Car physics
+        const car = {
+            x: 0.5, // 0-1 track position
+            y: 0.7, // vertical position on screen
+            angle: 0,
+            tilt: 0,
+            width: 40,
+            height: 60,
+            targetX: 0.5,
+            damage: 0
+        };
+        
+        // Track segments
+        let trackSegments = [];
+        const SEGMENT_LENGTH = 100;
+        
+        // Input state
+        const input = {
+            left: false,
+            right: false,
+            accelerate: false
+        };
+        
+        // Initialize
+        function init() {
+            resize();
+            window.addEventListener('resize', resize);
+            
+            // Generate stars for parallax
+            for (let i = 0; i < 100; i++) {
+                GAME.stars.push({
+                    x: Math.random(),
+                    y: Math.random() * 0.6,
+                    size: Math.random() * 2 + 0.5,
+                    speed: Math.random() * 0.5 + 0.1,
+                    color: Math.random() > 0.8 ? '#00FFFF' : Math.random() > 0.5 ? '#FF00FF' : '#FFFFFF'
+                });
+            }
+            
+            // Generate track
+            generateTrack();
+            
+            // Event listeners
+            setupInput();
+            
+            // Start loop
+            requestAnimationFrame(gameLoop);
+        }
+        
+        function resize() {
+            const container = document.getElementById('gameContainer');
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+        }
+        
+        function generateTrack() {
+            trackSegments = [];
+            let curve = 0;
+            
+            for (let i = 0; i < GAME.totalTrackLength / SEGMENT_LENGTH; i++) {
+                // Create varied track curves
+                if (i % 20 === 0) {
+                    curve = (Math.random() - 0.5) * 0.6;
+                }
+                
+                trackSegments.push({
+                    curve: curve,
+                    hasBarrier: Math.random() > 0.85 && Math.abs(curve) > 0.2,
+                    hasBoost: Math.random() > 0.9 && i > 5,
+                    type: Math.random() > 0.9 ? 'tunnel' : 'normal'
+                });
+            }
+        }
+        
+        function setupInput() {
+            // Keyboard
+            document.addEventListener('keydown', (e) => {
+                if (GAME.state !== 'playing') return;
+                
+                switch(e.code) {
+                    case 'ArrowLeft':
+                    case 'KeyA':
+                        input.left = true;
+                        break;
+                    case 'ArrowRight':
+                    case 'KeyD':
+                        input.right = true;
+                        break;
+                    case 'Space':
+                        if (!input.accelerate) {
+                            input.accelerate = true;
+                            onBeatHit();
+                        }
+                        break;
+                }
+            });
+            
+            document.addEventListener('keyup', (e) => {
+                switch(e.code) {
+                    case 'ArrowLeft':
+                    case 'KeyA':
+                        input.left = false;
+                        break;
+                    case 'ArrowRight':
+                    case 'KeyD':
+                        input.right = false;
+                        break;
+                    case 'Space':
+                        input.accelerate = false;
+                        break;
+                }
+            });
+            
+            // Touch controls
+            const touchAccel = document.getElementById('touchAccel');
+            const touchLeft = document.getElementById('touchLeft');
+            const touchRight = document.getElementById('touchRight');
+            
+            touchAccel.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (GAME.state === 'playing') {
+                    input.accelerate = true;
+                    onBeatHit();
+                }
+            });
+            
+            touchAccel.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                input.accelerate = false;
+            });
+            
+            touchLeft.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                input.left = true;
+            });
+            
+            touchLeft.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                input.left = false;
+            });
+            
+            touchRight.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                input.right = true;
+            });
+            
+            touchRight.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                input.right = false;
+            });
+            
+            // Mouse click for beat
+            canvas.addEventListener('mousedown', () => {
+                if (GAME.state === 'playing') {
+                    input.accelerate = true;
+                    onBeatHit();
+                }
+            });
+            
+            canvas.addEventListener('mouseup', () => {
+                input.accelerate = false;
+            });
+            
+            // UI buttons
+            document.getElementById('startBtn').addEventListener('click', startGame);
+            document.getElementById('retryBtn').addEventListener('click', resetGame);
+            document.getElementById('playAgainBtn').addEventListener('click', resetGame);
+        }
+        
+        function initAudio() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        
+        function playSound(type, frequency = 440, duration = 0.1) {
+            if (!audioCtx) return;
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const now = audioCtx.currentTime;
+            
+            switch(type) {
+                case 'beat':
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(50, now + 0.1);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                    break;
+                    
+                case 'perfect':
+                    osc.frequency.setValueAtTime(880, now);
+                    osc.frequency.exponentialRampToValueAtTime(1760, now + 0.2);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.type = 'sine';
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                    
+                    // Add harmony
+                    const osc2 = audioCtx.createOscillator();
+                    const gain2 = audioCtx.createGain();
+                    osc2.connect(gain2);
+                    gain2.connect(audioCtx.destination);
+                    osc2.frequency.setValueAtTime(1109, now);
+                    gain2.gain.setValueAtTime(0.2, now);
+                    gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc2.type = 'sine';
+                    osc2.start(now);
+                    osc2.stop(now + 0.3);
+                    break;
+                    
+                case 'crash':
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(100, now);
+                    osc.frequency.exponentialRampToValueAtTime(20, now + 0.5);
+                    gain.gain.setValueAtTime(0.5, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                    break;
+                    
+                case 'drift':
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(200, now);
+                    osc.frequency.linearRampToValueAtTime(150, now + duration);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + duration);
+                    osc.start(now);
+                    osc.stop(now + duration);
+                    break;
+                    
+                case 'boost':
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                    break;
+                    
+                case 'win':
+                    // Victory chord
+                    const freqs = [523.25, 659.25, 783.99, 1046.50];
+                    freqs.forEach((f, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.frequency.setValueAtTime(f, now + i * 0.1);
+                        g.gain.setValueAtTime(0.2, now + i * 0.1);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + 1 + i * 0.1);
+                        o.type = 'sine';
+                        o.start(now + i * 0.1);
+                        o.stop(now + 1.5 + i * 0.1);
+                    });
+                    break;
+            }
+        }
+        
+        function startGame() {
+            initAudio();
+            document.getElementById('startScreen').style.display = 'none';
+            GAME.state = 'playing';
+            GAME.lastBeatTime = Date.now();
+            resetGameData();
+        }
+        
+        function resetGame() {
+            document.getElementById('gameOverScreen').style.display = 'none';
+            document.getElementById('winScreen').style.display = 'none';
+            GAME.state = 'playing';
+            resetGameData();
+        }
+        
+        function resetGameData() {
+            GAME.score = 0;
+            GAME.combo = 0;
+            GAME.lives = 3;
+            GAME.lap = 1;
+            GAME.lapProgress = 0;
+            GAME.speed = GAME.baseSpeed;
+            GAME.trackDistance = 0;
+            GAME.perfectStreak = 0;
+            car.x = 0.5;
+            car.tilt = 0;
+            car.damage = 0;
+            GAME.particles = [];
+            generateTrack();
+            updateUI();
+        }
+        
+        function onBeatHit() {
+            const now = Date.now();
+            const timeSinceLastBeat = (now - GAME.lastBeatTime) % GAME.beatInterval;
+            const timeToNextBeat = GAME.beatInterval - timeSinceLastBeat;
+            const closestBeat = timeSinceLastBeat < timeToNextBeat ? timeSinceLastBeat : timeToNextBeat;
+            
+            // Check timing
+            if (closestBeat < GAME.perfectWindow / 2) {
+                // Perfect!
+                GAME.combo++;
+                GAME.perfectStreak++;
+                const multiplier = 1 + (GAME.combo * 0.1);
+                GAME.score += Math.floor(100 * multiplier);
+                GAME.speed = Math.min(GAME.speed + 20, GAME.maxSpeed + (GAME.combo * 10));
+                
+                playSound('perfect');
+                showComboPopup('PERFECT!', '#FFFF00');
+                createParticles(canvas.width / 2, canvas.height * 0.7, '#FFFF00', 15);
+                pulseBeatIndicator(true);
+                
+                if (GAME.perfectStreak % 10 === 0) {
+                    showComboPopup(`${GAME.perfectStreak} STREAK!`, '#FF00FF');
+                    createParticles(canvas.width / 2, canvas.height * 0.5, '#FF00FF', 30);
+                }
+            } else if (closestBeat < GAME.goodWindow / 2) {
+                // Good
+                GAME.combo = Math.max(0, GAME.combo - 1);
+                GAME.perfectStreak = 0;
+                GAME.score += 50;
+                GAME.speed = Math.min(GAME.speed + 10, GAME.maxSpeed);
+                
+                playSound('beat');
+                pulseBeatIndicator(false);
+            } else {
+                // Miss
+                GAME.combo = 0;
+                GAME.perfectStreak = 0;
+                GAME.speed = Math.max(GAME.baseSpeed, GAME.speed - 20);
+                
+                // Visual feedback for miss
+                car.damage = Math.min(car.damage + 0.1, 1);
+            }
+            
+            updateUI();
+        }
+        
+        function pulseBeatIndicator(perfect) {
+            const dots = document.querySelectorAll('.beat-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.remove('active', 'perfect');
+                if (i === 2) {
+                    dot.classList.add('active');
+                    if (perfect) dot.classList.add('perfect');
+                }
+            });
+            
+            setTimeout(() => {
+                dots.forEach(dot => dot.classList.remove('active', 'perfect'));
+            }, 150);
+        }
+        
+        function showComboPopup(text, color) {
+            const popup = document.getElementById('comboPopup');
+            popup.textContent = text;
+            popup.style.color = color;
+            popup.style.textShadow = `0 0 20px ${color}`;
+            popup.classList.remove('show');
+            void popup.offsetWidth; // Trigger reflow
+            popup.classList.add('show');
+        }
+        
+        function createParticles(x, y, color, count) {
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * i) / count;
+                const speed = Math.random() * 5 + 3;
+                GAME.particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1,
+                    color: color,
+                    size: Math.random() * 4 + 2
+                });
+            }
+        }
+        
+        function updateParticles() {
+            for (let i = GAME.particles.length - 1; i >= 0; i--) {
+                const p = GAME.particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.2; // gravity
+                p.life -= 0.02;
+                
+                if (p.life <= 0) {
+                    GAME.particles.splice(i, 1);
+                }
+            }
+        }
+        
+        function drawParticles() {
+            GAME.particles.forEach(p => {
+                ctx.save();
+                ctx.globalAlpha = p.life;
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            });
+        }
+        
+        function update(dt) {
+            if (GAME.state !== 'playing') return;
+            
+            const now = Date.now();
+            beatPhase = ((now - GAME.lastBeatTime) % GAME.beatInterval) / GAME.beatInterval;
+            beatPulse = Math.sin(beatPhase * Math.PI * 2) * 0.5 + 0.5;
+            
+            // Update beat indicator
+            const dots = document.querySelectorAll('.beat-dot');
+            dots.forEach((dot, i) => {
+                const dotPhase = (i - 2) * 0.2 + beatPhase;
+                const dotPulse = Math.sin(dotPhase * Math.PI * 2) * 0.5 + 0.5;
+                dot.style.opacity = 0.3 + dotPulse * 0.7;
+                dot.style.transform = `scale(${0.8 + dotPulse * 0.4})`;
+            });
+            
+            // Car steering
+            GAME.isDrifting = false;
+            if (input.left) {
+                car.targetX -= 0.02;
+                car.tilt = -0.3;
+                GAME.isDrifting = true;
+            } else if (input.right) {
+                car.targetX += 0.02;
+                car.tilt = 0.3;
+                GAME.isDrifting = true;
+            } else {
+                car.tilt *= 0.9;
+            }
+            
+            car.targetX = Math.max(0.1, Math.min(0.9, car.targetX));
+            car.x += (car.targetX - car.x) * 0.1;
+            
+            // Drift sound
+            if (GAME.isDrifting && Math.random() < 0.1) {
+                playSound('drift', 200, 0.1);
+            }
+            
+            // Move forward
+            const speedFactor = GAME.speed / GAME.maxSpeed;
+            GAME.trackDistance += GAME.speed * dt * 0.1;
+            GAME.lapProgress = (GAME.trackDistance % GAME.totalTrackLength) / GAME.totalTrackLength;
+            
+            // Check lap completion
+            const newLap = Math.floor(GAME.trackDistance / GAME.totalTrackLength) + 1;
+            if (newLap > GAME.lap) {
+                GAME.lap = newLap;
+                if (GAME.lap > 3) {
+                    winGame();
+                    return;
+                }
+                showComboPopup(`LAP ${GAME.lap}!`, '#00FFFF');
+                createParticles(canvas.width / 2, canvas.height / 2, '#00FFFF', 50);
+                playSound('boost');
+            }
+            
+            // Get current segment
+            const segmentIndex = Math.floor((GAME.trackDistance % GAME.totalTrackLength) / SEGMENT_LENGTH);
+            const segment = trackSegments[segmentIndex] || trackSegments[0];
+            
+            // Check wall collisions
+            const roadWidth = 0.3; // 30% of screen width
+            const roadCenter = 0.5 + segment.curve * 0.2;
+            const relativePos = (car.x - roadCenter) / roadWidth;
+            
+            if (Math.abs(relativePos) > 0.8) {
+                // Off road / hitting wall
+                GAME.speed = Math.max(GAME.baseSpeed, GAME.speed - 50);
+                GAME.cameraShake = 10;
+                car.damage = Math.min(car.damage + 0.2, 1);
+                
+                if (Math.random() < 0.1) {
+                    GAME.lives--;
+                    playSound('crash');
+                    createParticles(car.x * canvas.width, car.y * canvas.height, '#FF4444', 20);
+                    
+                    if (GAME.lives <= 0) {
+                        gameOver('Too many crashes!');
+                        return;
+                    }
+                }
+            }
+            
+            // Check barrier collisions
+            if (segment.hasBarrier && Math.abs(relativePos) > 0.5 && Math.abs(relativePos) < 0.7) {
+                GAME.lives--;
+                GAME.speed = GAME.baseSpeed;
+                GAME.cameraShake = 20;
+                playSound('crash');
+                createParticles(car.x * canvas.width, car.y * canvas.height, '#FF4444', 30);
+                
+                if (GAME.lives <= 0) {
+                    gameOver('Crashed into a barrier!');
+                    return;
+                }
+            }
+            
+            // Collect boosts
+            if (segment.hasBoost && Math.abs(relativePos) < 0.2) {
+                GAME.score += 500;
+                GAME.speed = Math.min(GAME.speed + 50, GAME.maxSpeed * 1.5);
+                segment.hasBoost = false; // Consume boost
+                playSound('boost');
+                createParticles(car.x * canvas.width, car.y * canvas.height, '#00FF00', 20);
+                showComboPopup('BOOST!', '#00FF00');
+            }
+            
+            // Decelerate if not accelerating on beat
+            if (!input.accelerate && beatPulse > 0.8) {
+                GAME.speed = Math.max(GAME.baseSpeed, GAME.speed - 5);
+            }
+            
+            // Recover damage
+            car.damage = Math.max(0, car.damage - dt * 0.5);
+            
+            // Camera shake decay
+            GAME.cameraShake = Math.max(0, GAME.cameraShake - dt * 50);
+            
+            updateParticles();
+            updateUI();
+        }
+        
+        function draw() {
+            // Clear with trail effect
+            ctx.fillStyle = 'rgba(10, 10, 26, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Camera shake
+            const shakeX = (Math.random() - 0.5) * GAME.cameraShake;
+            const shakeY = (Math.random() - 0.5) * GAME.cameraShake;
+            ctx.save();
+            ctx.translate(shakeX, shakeY);
+            
+            // Draw stars (parallax)
+            GAME.stars.forEach(star => {
+                ctx.fillStyle = star.color;
+                ctx.globalAlpha = Math.random() * 0.5 + 0.5;
+                ctx.beginPath();
+                ctx.arc(
+                    star.x * canvas.width,
+                    star.y * canvas.height,
+                    star.size,
+                    0, Math.PI * 2
+                );
+                ctx.fill();
+                
+                // Move stars
+                if (GAME.state === 'playing') {
+                    star.y += star.speed * (GAME.speed / GAME.maxSpeed) * 0.01;
+                    if (star.y > 0.6) star.y = 0;
+                }
+            });
+            ctx.globalAlpha = 1;
+            
+            // Draw track
+            drawTrack();
+            
+            // Draw particles under car
+            drawParticles();
+            
+            // Draw car
+            drawCar();
+            
+            // Draw speed lines
+            if (GAME.speed > GAME.maxSpeed * 0.8) {
+                drawSpeedLines();
+            }
+            
+            ctx.restore();
+        }
+        
+        function drawTrack() {
+            const centerX = canvas.width / 2;
+            const roadWidth = canvas.width * 0.3;
+            
+            // Draw track segments
+            const visibleSegments = Math.ceil(canvas.height / 10);
+            const startSeg = Math.floor((GAME.trackDistance % GAME.totalTrackLength) / SEGMENT_LENGTH);
+            
+            for (let i = visibleSegments; i >= 0; i--) {
+                const segIndex = (startSeg + i) % trackSegments.length;
+                const segment = trackSegments[segIndex];
+                const z = i / visibleSegments; // 0 = far, 1 = near
+                const perspective = Math.pow(z, 2);
+                
+                const y = canvas.height * 0.3 + (1 - perspective) * canvas.height * 0.7;
+                const nextY = canvas.height * 0.3 + (1 - Math.pow((i + 1) / visibleSegments, 2)) * canvas.height * 0.7;
+                
+                // Road curve offset
+                const curveOffset = segment.curve * (1 - perspective) * canvas.width * 0.3;
+                const nextCurveOffset = segment.curve * (1 - Math.pow((i + 1) / visibleSegments, 2)) * canvas.width * 0.3;
+                
+                // Draw road segment
+                const segWidth = roadWidth * (0.2 + perspective * 0.8);
+                const nextSegWidth = roadWidth * (0.2 + Math.pow((i + 1) / visibleSegments, 2) * 0.8);
+                
+                // Road base
+                ctx.fillStyle = '#1A1A3A';
+                ctx.beginPath();
+                ctx.moveTo(centerX - segWidth + curveOffset, y);
+                ctx.lineTo(centerX + segWidth + curveOffset, y);
+                ctx.lineTo(centerX + nextSegWidth + nextCurveOffset, nextY);
+                ctx.lineTo(centerX - nextSegWidth + nextCurveOffset, nextY);
+                ctx.closePath();
+                ctx.fill();
+                
+                // Neon edges
+                ctx.strokeStyle = i % 2 === 0 ? '#FF00FF' : '#00FFFF';
+                ctx.lineWidth = 3 + beatPulse * 2;
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = ctx.strokeStyle;
+                ctx.beginPath();
+                ctx.moveTo(centerX - segWidth + curveOffset, y);
+                ctx.lineTo(centerX - nextSegWidth + nextCurveOffset, nextY);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(centerX + segWidth + curveOffset, y);
+                ctx.lineTo(centerX + nextSegWidth + nextCurveOffset, nextY);
+                ctx.stroke();
+                
+                // Center line
+                if (i % 4 < 2) {
+                    ctx.strokeStyle = '#FFFF00';
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#FFFF00';
+                    ctx.beginPath();
+                    ctx.moveTo(centerX + curveOffset, y);
+                    ctx.lineTo(centerX + nextCurveOffset, nextY);
+                    ctx.stroke();
+                }
+                
+                // Barriers
+                if (segment.hasBarrier) {
+                    ctx.fillStyle = '#FF4444';
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = '#FF4444';
+                    const barrierX = centerX + curveOffset + (relativePos > 0 ? segWidth * 0.6 : -segWidth * 0.6);
+                    ctx.fillRect(barrierX - 5, y - 10, 10, 20);
+                }
+                
+                // Boost pads
+                if (segment.hasBoost) {
+                    ctx.fillStyle = '#00FF00';
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = '#00FF00';
+                    const boostY = y + (nextY - y) / 2;
+                    ctx.beginPath();
+                    ctx.arc(centerX + curveOffset, boostY, 10 * perspective + 5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                ctx.shadowBlur = 0;
+            }
+        }
+        
+        function drawCar() {
+            const x = car.x * canvas.width;
+            const y = car.y * canvas.height;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(car.tilt);
+            
+            // Damage flash
+            if (car.damage > 0) {
+                ctx.globalAlpha = 1 - car.damage * 0.5;
+            }
+            
+            // Car shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.beginPath();
+            ctx.ellipse(5, 5, car.width / 2, car.height / 2, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Car body (glow)
+            ctx.shadowBlur = 30;
+            ctx.shadowColor = GAME.combo > 10 ? '#FFFF00' : '#00FFFF';
+            
+            // Main body
+            ctx.fillStyle = '#0A0A1A';
+            ctx.strokeStyle = GAME.combo > 10 ? '#FFFF00' : '#00FFFF';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(0, -car.height / 2);
+            ctx.lineTo(car.width / 2, car.height / 3);
+            ctx.lineTo(0, car.height / 2);
+            ctx.lineTo(-car.width / 2, car.height / 3);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            
+            // Engine glow
+            ctx.fillStyle = '#FF0080';
+            ctx.shadowColor = '#FF0080';
+            ctx.shadowBlur = 20 + beatPulse * 10;
+            ctx.beginPath();
+            ctx.arc(0, car.height / 3, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Drift particles
+            if (GAME.isDrifting) {
+                const driftColor = input.left ? '#00FFFF' : '#FF00FF';
+                ctx.strokeStyle = driftColor;
+                ctx.lineWidth = 4;
+                ctx.shadowColor = driftColor;
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.moveTo(input.left ? -car.width / 2 : car.width / 2, car.height / 3);
+                ctx.lineTo(input.left ? -car.width : car.width, car.height / 2 + 10);
+                ctx.stroke();
+                
+                if (Math.random() < 0.3) {
+                    createParticles(
+                        x + (input.left ? -car.width / 2 : car.width / 2),
+                        y + car.height / 2,
+                        driftColor,
+                        2
+                    );
+                }
+            }
+            
+            ctx.restore();
+        }
+        
+        function drawSpeedLines() {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < 10; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const length = Math.random() * 50 + 20;
+                
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x, y + length);
+                ctx.stroke();
+            }
+        }
+        
+        function updateUI() {
+            document.getElementById('score').textContent = GAME.score.toLocaleString();
+            document.getElementById('combo').textContent = GAME.combo;
+            document.getElementById('currentLap').textContent = GAME.lap;
+            document.getElementById('lives').textContent = GAME.lives;
+            document.getElementById('speed').textContent = Math.floor(GAME.speed);
+            document.getElementById('progressBar').style.width = (GAME.lapProgress * 100) + '%';
+        }
+        
+        function gameOver(reason) {
+            GAME.state = 'gameover';
+            document.getElementById('finalScoreLoss').textContent = GAME.score.toLocaleString();
+            document.getElementById('lossReason').textContent = reason;
+            document.getElementById('gameOverScreen').style.display = 'flex';
+            playSound('crash');
+        }
+        
+        function winGame() {
+            GAME.state = 'win';
+            document.getElementById('finalScoreWin').textContent = GAME.score.toLocaleString();
+            
+            // Determine badge
+            const badge = document.getElementById('badge');
+            const badgeText = document.getElementById('badgeText');
+            
+            if (GAME.score >= 15000) {
+                badge.textContent = '🥇';
+                badge.className = 'badge gold';
+                badgeText.textContent = 'GOLD MEDAL! LEGENDARY!';
+            } else if (GAME.score >= 8000) {
+                badge.textContent = '🥈';
+                badge.className = 'badge silver';
+                badgeText.textContent = 'SILVER MEDAL! GREAT JOB!';
+            } else {
+                badge.textContent = '🥉';
+                badge.className = 'badge bronze';
+                badgeText.textContent = 'BRONZE MEDAL! GOOD EFFORT!';
+            }
+            
+            document.getElementById('winScreen').style.display = 'flex';
+            playSound('win');
+        }
+        
+        let lastTime = 0;
+        function gameLoop(timestamp) {
+            const dt = (timestamp - lastTime) / 1000;
+            lastTime = timestamp;
+            
+            update(dt);
+            draw();
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Start
+        init();
+    </script>
+</body>
+</html>

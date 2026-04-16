@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rift Racer - Game Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a15 0%, #1a0f2e 50%, #0a0a15 100%);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(180deg, rgba(255,107,53,0.2) 0%, transparent 100%);
+            border-bottom: 2px solid rgba(255,107,53,0.5);
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 56px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b35, #f7931e, #00d4ff, #9d4edd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #888;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        
+        .version {
+            display: inline-block;
+            background: rgba(0,212,255,0.2);
+            color: #00d4ff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 15px;
+            border: 1px solid #00d4ff;
+        }
+        
+        section {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        h2 {
+            color: #ff6b35;
+            font-size: 28px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255,107,53,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h3 {
+            color: #00d4ff;
+            font-size: 20px;
+            margin: 25px 0 15px 0;
+        }
+        
+        .icon {
+            font-size: 24px;
+        }
+        
+        p {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(0,212,255,0.1));
+            border-left: 4px solid #ff6b35;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        
+        .mechanic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .mechanic-card {
+            background: rgba(0,0,0,0.3);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        
+        .mechanic-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+        }
+        
+        .mechanic-card h4 {
+            color: #f7931e;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .audience-item {
+            background: rgba(157,78,221,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(157,78,221,0.3);
+        }
+        
+        .audience-item .percent {
+            font-size: 36px;
+            font-weight: bold;
+            color: #9d4edd;
+        }
+        
+        .monetization-list {
+            list-style: none;
+        }
+        
+        .monetization-list li {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #00d4ff;
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .monetization-list li::before {
+            content: attr(data-icon);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+        }
+        
+        .monetization-list li strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .metrics-table th,
+        .metrics-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .metrics-table th {
+            color: #ff6b35;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+        
+        .metrics-table tr:hover td {
+            background: rgba(255,255,255,0.03);
+        }
+        
+        .viral-hook {
+            background: linear-gradient(135deg, rgba(255,0,255,0.1), rgba(255,107,53,0.1));
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,0,255,0.3);
+        }
+        
+        .viral-hook h4 {
+            color: #ff00ff;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: #fff;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,107,53,0.5);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 40px;
+        }
+        
+        .usp-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0,212,255,0.1);
+            color: #00d4ff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            margin: 5px;
+            border: 1px solid rgba(0,212,255,0.3);
+        }
+        
+        .difficulty-curve {
+            background: linear-gradient(90deg, #00ff00, #ffff00, #ff0000);
+            height: 10px;
+            border-radius: 5px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .difficulty-curve::after {
+            content: 'Difficulty Ramp';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #888;
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 36px; }
+            .mechanic-grid { grid-template-columns: 1fr; }
+            .audience-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>RIFT RACER</h1>
+            <div class="subtitle">Dimensional Racing Prototype</div>
+            <div class="version">Prototype v1.0 | April 2026</div>
+        </header>
+
+        <section>
+            <h2><span class="icon">🎮</span> Game Concept</h2>
+            
+            <div class="highlight-box">
+                <strong>Core Vision:</strong> Rift Racer is a high-speed dimensional racing puzzle game where players "surf" between parallel realities, making split-second decisions to avoid obstacles and collect energy orbs in a visually stunning dual-dimension environment.
+            </div>
+            
+            <h3>Unique Selling Proposition</h3>
+            <p>
+                Unlike traditional endless runners, Rift Racer introduces a <strong>dual-layer phase shift mechanic</strong> that requires players to actively hold and release controls to exist between dimensions. This creates a unique rhythm-action feel where the "space between" becomes as important as the destinations.
+            </p>
+            
+            <div style="margin: 20px 0;">
+                <span class="usp-badge">⚡ Instant Phase Shifting</span>
+                <span class="usp-badge">🌓 Dual Reality Gameplay</span>
+                <span class="usp-badge">🎯 Risk/Reward Scoring</span>
+                <span class="usp-badge">🔥 Combo Boost System</span>
+            </div>
+            
+            <h3>Core Mechanics</h3>
+            <div class="mechanic-grid">
+                <div class="mechanic-card">
+                    <h4>🌀 Phase Shift</h4>
+                    <p>Hold SPACE or touch to shift into the Rift dimension. Release to return to Reality. Timing is everything.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h4>💎 Energy Orbs</h4>
+                    <p>Collect blue orbs in your current dimension. Chain 5 for a Rift Boost - temporary invincibility + hyper speed.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h4>⚠️ Obstacles</h4>
+                    <p>Red obstacles exist in both dimensions. Near-miss detection rewards risky close calls with bonus points.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h4>📈 Speed Progression</h4>
+                    <p>Speed naturally increases with distance traveled, creating an organic difficulty curve that tests reflexes.</p>
+                </div>
+            </div>
+            
+            <div class="difficulty-curve"></div>
+            
+            <h3>Win Condition</h3>
+            <p>
+                Players must survive and reach <strong>10,000 meters</strong> to achieve "Dimensional Mastery." This creates a concrete goal beyond endless survival, giving completionists a target to aim for while still allowing endless play for high-score chasers.
+            </p>
+        </section>
+
+        <section>
+            <h2><span class="icon">👥</span> Target Audience</h2>
+            
+            <div class="audience-grid">
+                <div class="audience-item">
+                    <div class="percent">35%</div>
+                    <div>Casual Mobile Gamers<br><small>Ages 13-25</small></div>
+                </div>
+                <div class="audience-item">
+                    <div class="percent">25%</div>
+                    <div>Endless Runner Fans<br><small>Subway Surfers, Temple Run</small></div>
+                </div>
+                <div class="audience-item">
+                    <div class="percent">20%</div>
+                    <div>Rhythm/Action Players<br><small>Geometry Dash, Thumper</small></div>
+                </div>
+                <div class="audience-item">
+                    <div class="percent">20%</div>
+                    <div>Score Attack Enthusiasts<br><small>High-score chasing</small></div>
+                </div>
+            </div>
+            
+            <h3>Psychographics</h3>
+            <ul style="color: #ccc; margin-left: 20px; line-height: 2;">
+                <li>Players who enjoy "one more try" gameplay loops</li>
+                <li>Fans of neon/retrowave aesthetic</li>
+                <li>People seeking short play sessions (2-5 minutes)</li>
+                <li>Competitive players who want to share high scores</li>
+                <li>Players attracted to skill-based progression</li>
+            </ul>
+            
+            <h3>Platform Strategy</h3>
+            <p>
+                <strong>Primary:</strong> Mobile (iOS/Android) - Touch controls are intuitive and sessions fit mobile play patterns.<br>
+                <strong>Secondary:</strong> Web/HTML5 - Instant play, viral sharing potential, Twitch streamer friendly.<br>
+                <strong>Tertiary:</strong> PC/Console - With controller support for the precision-focused audience.
+            </p>
+        </section>
+
+        <section>
+            <h2><span class="icon">💰</span> Monetization Strategy</h2>
+            
+            <ul class="monetization-list">
+                <li data-icon="🎨">
+                    <strong>Cosmetic Skins</strong>
+                    Player ship customization with different visual effects. "Neon Striker," "Void Walker," "Golden Surfer" skins. $0.99 - $4.99 per skin, or $9.99 for skin packs.
+                </li>
+                <li data-icon="🚀">
+                    <strong>Starter Packs</strong>
+                    "Dimensional Jumpstart" - 3 skins + 5 continues + double score multiplier for 24 hours. $4.99 entry point for new players.
+                </li>
+                <li data-icon="❤️">
+                    <strong>Continue Tokens</strong>
+                    Watch rewarded video or pay $0.99 to continue after crash. Limited to 3 per run to maintain fairness.
+                </li>
+                <li data-icon="🏆">
+                    <strong>Battle Pass (Seasonal)</strong>
+                    $9.99 seasonal pass with exclusive skins, trails, and dimension themes. Creates recurring revenue and FOMO.
+                </li>
+                <li data-icon="📺">
+                    <strong>Rewarded Video Ads</strong>
+                    Optional ads for: Double score on next run, Free continue, Bonus orb magnet for 30 seconds.
+                </li>
+                <li data-icon="🎵">
+                    <strong>Premium Music Packs</strong>
+                    Licensed synthwave/retrowave tracks. $1.99 per pack or $6.99 for premium soundtrack bundle.
+                </li>
+                <li data-icon="⚡">
+                    <strong>Energy System (Soft Cap)</strong>
+                    Free unlimited play, but "Dimensional Energy" refreshes daily for bonus multiplier. Energy refills via ads or $0.99.
+                </li>
+            </ul>
+            
+            <div class="highlight-box">
+                <strong>Revenue Projection:</strong> With proper execution, expect $0.08 - $0.15 ARPDAU (Average Revenue Per Daily Active User) on mobile, with whale spenders potentially reaching $50-100 lifetime value through seasonal content.
+            </div>
+        </section>
+
+        <section>
+            <h2><span class="icon">📊</span> Key Metrics to Track</h2>
+            
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Target</th>
+                        <th>Why It Matters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Day 1 Retention</strong></td>
+                        <td>40%+</td>
+                        <td>Core loop validation - are players coming back?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Day 7 Retention</strong></td>
+                        <td>15%+</td>
+                        <td>Long-term engagement indicator</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Session Length</strong></td>
+                        <td>4-7 minutes</td>
+                        <td>Sweet spot for mobile - not too short, not too long</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sessions Per Day</strong></td>
+                        <td>3-5</td>
+                        <td>Addictive loop validation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Average Run Distance</strong></td>
+                        <td>2,500m</td>
+                        <td>Difficulty balancing - is 10k achievable but challenging?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rift Boost Usage</strong></td>
+                        <td>2-3 per run</td>
+                        <td>Feature adoption - are players engaging with core mechanic?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Near Miss Rate</strong></td>
+                        <td>15-25%</td>
+                        <td>Risk/reward validation - are players attempting close calls?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Share Rate</strong></td>
+                        <td>5%+</td>
+                        <td>Viral coefficient - are players sharing scores?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ad Completion Rate</strong></td>
+                        <td>35%+</td>
+                        <td>Monetization health for rewarded videos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>10k Victory Rate</strong></td>
+                        <td>2-5%</td>
+                        <td>Achievement rarity - should feel special but possible</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2><span class="icon">🚀</span> Viral Hooks & Growth Strategy</h2>
+            
+            <div class="viral-hook">
+                <h4>🎬 "Impossible Run" Compilation Videos</h4>
+                <p>Create shareable clips of players achieving near-miss chains during Rift Boost. The visual chaos of switching dimensions at max speed is inherently shareable. Partner with TikTok/Shorts creators to showcase "impossible" dodges.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>🏆 Weekly Dimension Leaderboards</h4>
+                <p>Resetting weekly leaderboards with unique "Dimension Themes" (Neon Week, Void Week, etc.) create FOMO and recurring engagement hooks. Top 100 get exclusive skins.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>🎥 Twitch Integration</h4>
+                <p>"Chat Rift" mode where viewers can vote to spawn obstacles or orbs in the streamer's dimension. Creates interactive streaming moments and organic discovery.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>📱 "Phase Challenge" Social Campaign</h4>
+                <p>AR filter that shows users "phasing" between warm/cool dimensions. Challenge friends to beat your distance with the hashtag #RiftRacerChallenge.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>⚡ Speedrun.com Integration</h4>
+                <p>Official speedrun categories: "Any% to 10k", "No Boost", "All Orbs". Cultivates a competitive scene that generates organic content and longevity.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>🎵 Synthwave Collaboration</h4>
+                <p>Partner with retrowave artists for exclusive tracks. Artists promote to their fanbase, game gets authentic soundtrack and cross-promotion.</p>
+            </div>
+            
+            <h3>User-Generated Content Hooks</h3>
+            <ul style="color: #ccc; margin-left: 20px; line-height: 2;">
+                <li><strong>Auto-generated share cards:</strong> Every run creates a shareable image with stats and rank</li>
+                <li><strong>Replay system:</strong> Save and share your best runs as GIFs</li>
+                <li><strong>Custom dimension colors:</strong> Unlockable color schemes players can show off</li>
+                <li><strong>Clan system:</strong> Team-based leaderboards and "dimension wars"</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2><span class="icon">🎯</span> Next Steps</h2>
+            
+            <ol style="color: #ccc; margin-left: 20px; line-height: 2;">
+                <li><strong>Soft Launch</strong> - Release in 2-3 test markets (Canada, Philippines, New Zealand)</li>
+                <li><strong>Iterate on Retention</strong> - Use Day 1/7 data to refine difficulty curve</li>
+                <li><strong>Content Pipeline</strong> - Develop 3-month content calendar for battle pass</li>
+                <li><strong>Influencer Outreach</strong> - Seed with mobile gaming YouTubers and TikTok creators</li>
+                <li><strong>Global Launch</strong> - Full release with marketing push after metrics validation</li>
+            </ol>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="index.html" class="cta-button">Play Prototype</a>
+            </div>
+        </section>
+
+        <div class="footer">
+            <p>Rift Racer Prototype Report | Generated April 2026</p>
+            <p style="font-size: 12px; margin-top: 10px;">This document is confidential and for internal review purposes only.</p>
+        </div>
+    </div>
+</body>
+</html>

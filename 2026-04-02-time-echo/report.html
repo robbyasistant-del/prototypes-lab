@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Echo - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #888; font-size: 1.1em; margin-bottom: 30px; }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+        }
+        h2 {
+            color: #e94560;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        h3 { color: #64c8ff; margin: 15px 0 10px; }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .metric {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4ade80;
+        }
+        .metric-label { color: #888; font-size: 0.9em; }
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(233, 69, 96, 0.2);
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 3px;
+        }
+        .risk { color: #ff6b6b; }
+        .opportunity { color: #4ade80; }
+        ul { margin-left: 20px; }
+        li { margin: 8px 0; }
+        .cta {
+            background: linear-gradient(135deg, #e94560, #c73e54);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⏰ TIME ECHO</h1>
+        <p class="subtitle">Strategy Report • Prototype 2026-04-02</p>
+        
+        <div class="section">
+            <h2>🎮 Game Overview</h2>
+            <p><strong>Genre:</strong> Puzzle / Time Manipulation</p>
+            <p><strong>Core Mechanic:</strong> Your past moves create "echoes" that repeat your actions. Use them to hold buttons, block lasers, and solve puzzles collaboratively with your past selves.</p>
+            <p><strong>Unique Hook:</strong> The first puzzle game where you literally collaborate with your timeline. Every move matters twice.</p>
+            
+            <div style="margin-top: 15px;">
+                <span class="tag">#TimeManipulation</span>
+                <span class="tag">#Puzzle</span>
+                <span class="tag">#Strategic</span>
+                <span class="tag">#Minimalist</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Core Loop & Engagement</h2>
+            
+            <div class="metric-grid">
+                <div class="metric">
+                    <div class="metric-value">30-60s</div>
+                    <div class="metric-label">Session Length</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">5</div>
+                    <div class="metric-label">Levels (MVP)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">∞</div>
+                    <div class="metric-label">Replayability</div>
+                </div>
+            </div>
+            
+            <h3>The "One More Try" Hooks:</h3>
+            <ul>
+                <li><strong>Par System:</strong> Every level has optimal move count - perfectionists chase perfect runs</li>
+                <li><strong>Badge Collection:</strong> Speed, Echo, and Master badges for completionists</li>
+                <li><strong>Chain Reactions:</strong> Solving complex multi-echo puzzles creates dopamine hits</li>
+                <li><strong>Immediate Feedback:</strong> Visual particles, sound effects, clear win/lose states</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Monetization Strategy</h2>
+            
+            <h3>Primary: Premium Unlock ($2.99)</h3>
+            <ul>
+                <li>Free: First 10 levels + 1 echo slot</li>
+                <li>Premium: 100+ levels + 5 echo slots + Level Editor</li>
+                <li>No ads for premium players</li>
+            </ul>
+            
+            <h3>Secondary: Cosmetic IAP</h3>
+            <ul>
+                <li>Echo themes (neon, pixel, minimalist)</li>
+                <li>Player skins ($0.99 each)</li>
+                <li>Seasonal level packs ($0.99)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📱 ASO / SEO Strategy</h2>
+            
+            <h3>App Store Keywords:</h3>
+            <p>time puzzle, time travel game, echo puzzle, minimalist puzzle, brain teaser, logic puzzle, unique puzzle, innovative puzzle, solo dev, offline puzzle</p>
+            
+            <h3>Long Description Hook:</h3>
+            <p style="font-style: italic; color: #aaa;">"Every move you make... your past self repeats it. Welcome to Time Echo - the puzzle game where you collaborate with your own timeline. Guide echoes to hold buttons, block lasers, and solve mind-bending puzzles. Simple to learn, impossible to master."</p>
+            
+            <h3>Screenshot Strategy:</h3>
+            <ul>
+                <li>Screenshot 1: "Collaborate with your past" - show multiple echoes</li>
+                <li>Screenshot 2: Laser puzzle complexity</li>
+                <li>Screenshot 3: Clean, beautiful UI</li>
+                <li>Screenshot 4: Level complete celebration</li>
+                <li>Screenshot 5: Level editor (premium feature)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🔬 A/B Testing Roadmap</h2>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <tr style="border-bottom: 1px solid #333;">
+                    <th style="text-align: left; padding: 10px;">Experiment</th>
+                    <th style="text-align: left; padding: 10px;">Metric</th>
+                    <th style="text-align: left; padding: 10px;">Priority</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Tutorial length (3 vs 5 levels)</td>
+                    <td style="padding: 10px;">D1 Retention</td>
+                    <td style="padding: 10px; color: #ffd93d;">HIGH</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Premium price ($1.99 vs $2.99 vs $4.99)</td>
+                    <td style="padding: 10px;">Conversion Rate</td>
+                    <td style="padding: 10px; color: #ffd93d;">HIGH</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Echo visual style (ghost vs solid)</td>
+                    <td style="padding: 10px;">Session Time</td>
+                    <td style="padding: 10px; color: #64c8ff;">MEDIUM</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Win celebration intensity</td>
+                    <td style="padding: 10px;">Share Rate</td>
+                    <td style="padding: 10px; color: #888;">LOW</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risks & Mitigations</h2>
+            
+            <p class="risk">🔴 HIGH: Mechanic may confuse casual players</p>
+            <p>→ Mitigation: Extensive playtesting, optional hint system, video tutorials</p>
+            
+            <p class="risk">🟡 MEDIUM: Hard to convey in screenshots</p>
+            <p>→ Mitigation: Animated app preview, gameplay GIFs in description</p>
+            
+            <p class="risk">🟢 LOW: Similar games exist (Baba Is You, Patrick's Parabox)</p>
+            <p>→ Mitigation: Unique time-echo positioning, mobile-first design</p>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Go-to-Market KPIs</h2>
+            
+            <div class="metric-grid">
+                <div class="metric">
+                    <div class="metric-value">40%</div>
+                    <div class="metric-label">D1 Retention Target</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">3%</div>
+                    <div class="metric-label">Premium Conversion</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">15min</div>
+                    <div class="metric-label">Avg Session (D7)</div>
+                </div>
+            </div>
+        </div>
+        
+        <a href="index.html" class="cta">🎮 Play Prototype</a>
+    </div>
+</body>
+</html>

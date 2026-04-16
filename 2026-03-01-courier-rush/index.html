@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Courier Rush — 2‑Minute Dispatch</title>
+  <meta name="description" content="A tight dispatch management loop: triage orders, assign couriers, upgrade speed, and protect satisfaction in a 2‑minute shift." />
+  <meta name="theme-color" content="#0b1020" />
+  <style>
+    :root{
+      --bg:#0b1020;--card:#121b35;--card2:#0f1730;--ink:#ecf2ff;--muted:#a9b8dc;
+      --a:#5cf3ff;--b:#a38bff;--good:#3dffb1;--bad:#ff557a;--warn:#ffd36c;
+      --border:#2a3f74;--shadow:0 18px 60px rgba(0,0,0,.45);
+      --r:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Inter,Arial;background:
+      radial-gradient(900px 640px at 20% -10%, rgba(92,243,255,.14), transparent 60%),
+      radial-gradient(900px 620px at 95% 0%, rgba(163,139,255,.16), transparent 60%),
+      radial-gradient(1100px 760px at 30% 115%, rgba(61,255,177,.08), transparent 65%),
+      var(--bg);
+      color:var(--ink);}
+    a{color:var(--a)}
+    .wrap{max-width:1120px;margin:0 auto;padding:18px 14px 26px;display:grid;gap:12px;grid-template-columns:1.05fr .95fr}
+    @media (max-width: 980px){.wrap{grid-template-columns:1fr}}
+
+    .top{grid-column:1/-1;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    h1{margin:0;font-size:22px;letter-spacing:.2px}
+    .sub{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.35}
+    .pillrow{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{border:1px solid var(--border);background:rgba(18,27,53,.7);padding:7px 10px;border-radius:999px;color:var(--muted);font-size:12px}
+    .pill b{color:var(--ink)}
+
+    .card{border:1px solid var(--border);background:linear-gradient(180deg, rgba(18,27,53,.9), rgba(10,14,30,.9));border-radius:var(--r);box-shadow:var(--shadow)}
+    .hd{padding:12px;border-bottom:1px solid rgba(42,63,116,.55);display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .hd h2{margin:0;font-size:14px}
+    .hd .mut{color:var(--muted);font-size:12px;margin-top:2px}
+    .bd{padding:12px}
+
+    button{
+      appearance:none;border:1px solid rgba(92,243,255,.22);
+      background:linear-gradient(180deg, rgba(92,243,255,.16), rgba(92,243,255,.06));
+      color:var(--ink);border-radius:12px;padding:9px 11px;font-weight:700;cursor:pointer;
+      transition: transform .05s ease, filter .15s ease, border-color .15s ease;
+      white-space:nowrap;
+    }
+    button:active{transform:translateY(1px)}
+    button.secondary{border-color:rgba(163,139,255,.22);background:linear-gradient(180deg, rgba(163,139,255,.16), rgba(163,139,255,.06))}
+    button.ghost{background:transparent;border-color:rgba(42,63,116,.75);color:var(--muted)}
+    button.danger{border-color:rgba(255,85,122,.25);background:linear-gradient(180deg, rgba(255,85,122,.12), rgba(255,85,122,.04))}
+    button[disabled]{opacity:.45;cursor:not-allowed}
+
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width: 980px){.grid2{grid-template-columns:1fr}}
+
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    @media (max-width: 760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+    .tile{border:1px solid rgba(42,63,116,.6);background:rgba(8,12,26,.35);border-radius:14px;padding:10px}
+    .tile .l{color:var(--muted);font-size:12px}
+    .tile .v{margin-top:4px;font-size:18px;font-weight:800}
+
+    .bar{height:10px;border-radius:999px;background:rgba(42,63,116,.55);overflow:hidden;border:1px solid rgba(42,63,116,.65)}
+    .bar > i{display:block;height:100%;width:30%;background:linear-gradient(90deg, rgba(61,255,177,.85), rgba(92,243,255,.75));}
+
+    .orderList{display:flex;flex-direction:column;gap:10px}
+    .order{border:1px solid rgba(42,63,116,.6);background:rgba(8,12,26,.35);border-radius:14px;padding:10px;display:grid;gap:8px}
+    .orderTop{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+    .tag{font-size:12px;border:1px solid rgba(42,63,116,.75);border-radius:999px;padding:4px 8px;color:var(--muted);background:rgba(18,27,53,.55)}
+    .tag.hot{border-color:rgba(255,211,108,.45);color:#ffe6a6}
+    .tag.vip{border-color:rgba(92,243,255,.45);color:#c9fbff}
+    .orderName{font-weight:800}
+    .orderMeta{color:var(--muted);font-size:12px;margin-top:3px;line-height:1.35}
+    .orderBtns{display:flex;gap:8px;flex-wrap:wrap}
+
+    .couriers{display:flex;flex-direction:column;gap:10px}
+    .courier{border:1px solid rgba(42,63,116,.6);background:rgba(8,12,26,.35);border-radius:14px;padding:10px}
+    .courierHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .courierHead b{font-size:13px}
+    .courierHead span{color:var(--muted);font-size:12px}
+    .courier .mut{color:var(--muted);font-size:12px;line-height:1.45;margin-top:6px}
+
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);padding:10px 12px;border-radius:999px;border:1px solid rgba(42,63,116,.7);background:rgba(10,14,30,.86);color:var(--muted);font-size:12px;box-shadow:0 12px 40px rgba(0,0,0,.45);display:none;max-width:min(760px, calc(100% - 26px));text-align:center}
+    .toast.show{display:block}
+
+    .overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.62)}
+    .overlay.show{display:flex}
+    .modal{width:min(760px,100%);border-radius:18px;border:1px solid rgba(42,63,116,.75);background:linear-gradient(180deg, rgba(18,27,53,.95), rgba(10,14,30,.95));box-shadow:0 28px 90px rgba(0,0,0,.6)}
+    .mhd{padding:14px 14px 10px;border-bottom:1px solid rgba(42,63,116,.55);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .mhd h3{margin:0;font-size:16px}
+    .mhd p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+    .mbd{padding:14px}
+    .mbd ul{margin:8px 0 0;padding-left:18px;color:var(--muted);line-height:1.55}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Courier Rush</h1>
+        <p class="sub">A 2‑minute dispatch shift. Accept smart orders, assign couriers, upgrade speed, and protect satisfaction.</p>
+      </div>
+      <div class="pillrow">
+        <div class="pill">Shift: <b id="shiftLabel">—</b></div>
+        <div class="pill">Goal: <b>Profit + Reputation</b></div>
+        <div class="pill"><a href="./report.html">Report</a></div>
+      </div>
+    </div>
+
+    <section class="card" aria-label="dispatch">
+      <div class="hd">
+        <div>
+          <h2>Dispatch</h2>
+          <div class="mut">Orders arrive fast. Deadlines matter more than distance.</div>
+        </div>
+        <div class="pillrow">
+          <button id="btnHow" class="ghost" type="button">How to play</button>
+          <button id="btnPause" class="secondary" type="button" disabled>Pause</button>
+          <button id="btnStart" type="button">Start shift</button>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="kpis">
+          <div class="tile"><div class="l">Time left</div><div class="v" id="kTime">2:00</div><div class="bar" aria-hidden="true"><i id="timeBar"></i></div></div>
+          <div class="tile"><div class="l">Cash</div><div class="v" id="kCash">$0</div></div>
+          <div class="tile"><div class="l">Reputation</div><div class="v" id="kRep">100</div><div class="bar" aria-hidden="true"><i id="repBar"></i></div></div>
+          <div class="tile"><div class="l">Orders delivered</div><div class="v" id="kDone">0</div></div>
+        </div>
+
+        <div class="grid2" style="margin-top:12px">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap">
+              <div>
+                <h2 style="margin:0;font-size:13px">Incoming orders</h2>
+                <div class="mut">Queue limit: <b id="queueCap">6</b>. Overflow hurts rep.</div>
+              </div>
+              <div class="pillrow">
+                <button id="btnRejectAll" class="danger" type="button" disabled>Reject all</button>
+                <button id="btnUpgrade" type="button" disabled>Upgrade speed</button>
+              </div>
+            </div>
+
+            <div class="orderList" id="orders" style="margin-top:10px"></div>
+          </div>
+
+          <div>
+            <h2 style="margin:0;font-size:13px">Couriers</h2>
+            <div class="mut">Each courier can carry one order at a time. Choose the right job.</div>
+            <div class="couriers" id="couriers" style="margin-top:10px"></div>
+
+            <div class="card" style="margin-top:12px;box-shadow:none">
+              <div class="hd"><h2>Dispatch notes</h2><div class="pill">Prototype</div></div>
+              <div class="bd" style="color:var(--muted);font-size:12px;line-height:1.55">
+                <ul style="margin:0;padding-left:18px">
+                  <li><b>VIP</b> orders pay more but have tighter deadlines.</li>
+                  <li><b>Hot</b> orders decay: deliver late → cash penalty + rep hit.</li>
+                  <li>Upgrades increase courier speed and reduce average travel time.</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card" aria-label="summary">
+      <div class="hd">
+        <div>
+          <h2>Strategy</h2>
+          <div class="mut">Triage is the game. Don’t accept what you can’t deliver.</div>
+        </div>
+        <div class="pill" id="state">Ready</div>
+      </div>
+      <div class="bd">
+        <h2 style="margin:0 0 6px;font-size:13px">Best practice</h2>
+        <ul style="margin:0;padding-left:18px;color:var(--muted);line-height:1.55;font-size:12px">
+          <li>Keep queue under control: overflowing orders is the fastest way to lose.</li>
+          <li>Use upgrades when you can still complete the shift profitably.</li>
+          <li>Protect reputation: it multiplies end-of-shift bonus.</li>
+        </ul>
+
+        <div class="card" style="margin-top:12px;box-shadow:none">
+          <div class="hd"><h2>End-of-shift bonus</h2><div class="pill">Rep multiplier</div></div>
+          <div class="bd" style="color:var(--muted);font-size:12px;line-height:1.55">
+            Bonus = <b>Cash</b> × (<b>Reputation</b>/100). High rep makes every dollar matter.
+          </div>
+        </div>
+
+        <div class="pillrow" style="margin-top:12px">
+          <button id="btnRestart" class="ghost" type="button">Restart</button>
+          <a class="pill" href="../index.html" style="text-decoration:none">Back to catalog</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="overlay" id="ov">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+      <div class="mhd">
+        <div>
+          <h3 id="howTitle">How to play</h3>
+          <p>In 2 minutes, deliver as many profitable orders as possible without tanking your reputation.</p>
+        </div>
+        <button id="btnCloseHow" class="ghost" type="button">Close</button>
+      </div>
+      <div class="mbd">
+        <ul>
+          <li>Click <b>Start shift</b>. Orders will appear in the queue.</li>
+          <li>Assign an order to an <b>idle courier</b> (Bike or Van).</li>
+          <li>Each order has a <b>deadline</b> (seconds). Deliver late → penalty and rep hit.</li>
+          <li>Don’t let the queue overflow. Overflow causes immediate rep loss.</li>
+          <li>Spend cash on <b>Upgrade speed</b> to improve delivery reliability.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+  (()=>{
+    const $=(q)=>document.querySelector(q);
+    const ordersEl = $('#orders');
+    const couriersEl = $('#couriers');
+
+    // Daily label (fairness for later: deterministic order mix could be seeded)
+    const now=new Date();
+    const shiftLabel = now.toLocaleDateString(undefined,{year:'numeric',month:'2-digit',day:'2-digit'});
+    $('#shiftLabel').textContent = shiftLabel;
+
+    const state={
+      running:false, paused:false,
+      t:0, // elapsed
+      duration:120,
+      cash:0,
+      rep:100,
+      done:0,
+      queueCap:6,
+      orderId:0,
+      spawnTimer:0,
+      upgradeLevel:0,
+      couriers:[
+        {id:'bike', name:'Bike Courier', speed:1.0, busy:false, job:null, progress:0},
+        {id:'van', name:'Van Courier', speed:0.86, busy:false, job:null, progress:0},
+      ],
+      orders:[],
+      best:Number(localStorage.getItem('courierRushBest')||0),
+    };
+
+    function toast(msg){
+      const t=$('#toast');
+      t.textContent=msg;
+      t.classList.add('show');
+      clearTimeout(toast._to);
+      toast._to=setTimeout(()=>t.classList.remove('show'),1700);
+    }
+
+    function fmtTime(s){
+      s=Math.max(0, Math.ceil(s));
+      const m=Math.floor(s/60); const r=s%60;
+      return `${m}:${String(r).padStart(2,'0')}`;
+    }
+
+    function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+
+    function ui(){
+      $('#kTime').textContent = fmtTime(state.duration - state.t);
+      $('#kCash').textContent = '$' + Math.floor(state.cash);
+      $('#kRep').textContent = Math.floor(state.rep);
+      $('#kDone').textContent = state.done;
+      $('#queueCap').textContent = state.queueCap;
+      $('#timeBar').style.width = `${100*clamp(1 - state.t/state.duration,0,1)}%`;
+      $('#repBar').style.width = `${clamp(state.rep,0,100)}%`;
+      $('#repBar').style.background = state.rep>=70 ? 'linear-gradient(90deg, rgba(61,255,177,.85), rgba(92,243,255,.75))'
+        : (state.rep>=40 ? 'linear-gradient(90deg, rgba(255,211,108,.85), rgba(92,243,255,.55))'
+        : 'linear-gradient(90deg, rgba(255,85,122,.85), rgba(255,211,108,.55))');
+
+      $('#btnStart').disabled = state.running && !state.paused;
+      $('#btnPause').disabled = !state.running;
+      $('#btnPause').textContent = state.paused ? 'Resume' : 'Pause';
+      $('#btnRejectAll').disabled = !state.running || state.orders.length===0;
+      $('#btnUpgrade').disabled = !state.running || state.cash < upgradeCost();
+      $('#state').textContent = state.running ? (state.paused?'Paused':'Running') : 'Ready';
+
+      renderOrders();
+      renderCouriers();
+    }
+
+    function upgradeCost(){
+      return 60 + state.upgradeLevel*70;
+    }
+
+    function reset(){
+      state.running=false; state.paused=false; state.t=0;
+      state.cash=0; state.rep=100; state.done=0;
+      state.orderId=0; state.spawnTimer=0;
+      state.upgradeLevel=0;
+      state.orders=[];
+      for(const c of state.couriers){ c.busy=false; c.job=null; c.progress=0; c.speed = (c.id==='bike'?1.0:0.86); }
+      ordersEl.innerHTML='';
+      toast('Ready. Start the shift.');
+      ui();
+    }
+
+    function start(){
+      if(state.running && !state.paused) return;
+      if(!state.running){
+        reset();
+        state.running=true;
+        toast('Shift started. Triage quickly.');
+      }
+      state.paused=false;
+      last=performance.now();
+      requestAnimationFrame(loop);
+      ui();
+    }
+
+    function togglePause(){
+      if(!state.running) return;
+      state.paused=!state.paused;
+      if(!state.paused){ last=performance.now(); requestAnimationFrame(loop); }
+      ui();
+    }
+
+    function endShift(){
+      state.running=false; state.paused=false;
+      // end bonus
+      const bonus = state.cash * (state.rep/100);
+      const finalScore = Math.floor(bonus);
+      const prev = state.best;
+      if(finalScore>prev){ state.best=finalScore; localStorage.setItem('courierRushBest', String(finalScore)); toast('New best dispatch score: ' + finalScore); }
+      else toast('Shift complete. Dispatch score: ' + finalScore);
+      ui();
+    }
+
+    function newOrder(){
+      const id=++state.orderId;
+      const isVIP = Math.random() < 0.22;
+      const isHot = Math.random() < 0.45;
+      const zone = ['Old Town','Harbor','Uptown','Tech Park'][Math.floor(Math.random()*4)];
+      const baseDist = 16 + Math.random()*22; // seconds baseline travel
+      const deadline = isVIP ? (26 + Math.random()*10) : (32 + Math.random()*16);
+      const payout = (isVIP? 46: 28) + (isHot? 10:0) + Math.floor(Math.random()*10);
+      const lateFee = (isVIP? 22: 14) + (isHot? 6:0);
+      const repImpact = isVIP ? 9 : 6;
+
+      return {
+        id,
+        name: (isVIP?'VIP ':'') + (isHot?'Hot ':'') + 'Delivery #' + id,
+        zone,
+        baseDist,
+        ttl: deadline,
+        payout,
+        lateFee,
+        repImpact,
+        isVIP, isHot,
+        age:0,
+      };
+    }
+
+    function overflowCheck(){
+      if(state.orders.length <= state.queueCap) return;
+      // overflow: drop oldest orders until cap
+      const drop = state.orders.length - state.queueCap;
+      state.orders.sort((a,b)=>b.ttl-a.ttl); // keep tight deadlines; drop loose (or old)
+      const dropped = state.orders.splice(0, drop);
+      const repLoss = dropped.length * 5;
+      state.rep = clamp(state.rep - repLoss, 0, 100);
+      toast(`Queue overflow! Dropped ${dropped.length} order(s) (rep -${repLoss})`);
+    }
+
+    function assign(orderId, courierId){
+      const order = state.orders.find(o=>o.id===orderId);
+      const courier = state.couriers.find(c=>c.id===courierId);
+      if(!order || !courier || courier.busy) return;
+
+      // Lock order to courier
+      courier.busy=true;
+      courier.job = {
+        orderId: order.id,
+        zone: order.zone,
+        baseDist: order.baseDist,
+        ttlAtAssign: order.ttl,
+        payout: order.payout,
+        lateFee: order.lateFee,
+        repImpact: order.repImpact,
+        isVIP: order.isVIP,
+        isHot: order.isHot,
+        elapsed:0,
+        travel: effectiveTravelTime(order.baseDist, courier),
+      };
+      courier.progress=0;
+
+      // remove from queue
+      state.orders = state.orders.filter(o=>o.id!==orderId);
+      toast(`${courier.name} dispatched to ${order.zone}`);
+      ui();
+    }
+
+    function effectiveTravelTime(base, courier){
+      // upgrade improves speed (lower time). bike scales better than van.
+      const up = state.upgradeLevel;
+      const courierMult = courier.id==='bike' ? 1.0 : 1.12;
+      const upgradeMult = Math.pow(0.92, up); // each level ~8% faster
+      const jitter = 0.9 + Math.random()*0.25;
+      return base * courierMult * upgradeMult * jitter;
+    }
+
+    function reject(orderId){
+      const order = state.orders.find(o=>o.id===orderId);
+      if(!order) return;
+      state.orders = state.orders.filter(o=>o.id!==orderId);
+      state.rep = clamp(state.rep - (order.isVIP?3:1), 0, 100);
+      toast(`Rejected ${order.isVIP?'VIP ':''}order (rep -${order.isVIP?3:1})`);
+      ui();
+    }
+
+    function rejectAll(){
+      if(!state.orders.length) return;
+      const n=state.orders.length;
+      state.orders=[];
+      state.rep = clamp(state.rep - (2*n), 0, 100);
+      toast(`Rejected all (${n}) (rep -${2*n})`);
+      ui();
+    }
+
+    function upgrade(){
+      const cost = upgradeCost();
+      if(state.cash < cost) return;
+      state.cash -= cost;
+      state.upgradeLevel++;
+      toast(`Upgrade purchased. Courier speed +8% (lvl ${state.upgradeLevel})`);
+      ui();
+    }
+
+    function renderOrders(){
+      ordersEl.innerHTML='';
+      if(!state.orders.length){
+        const empty=document.createElement('div');
+        empty.className='order';
+        empty.innerHTML = `<div class="orderTop"><div><div class="orderName">No orders in queue</div><div class="orderMeta">Wait for the next ping. Keep your couriers ready.</div></div><span class="tag">queue</span></div>`;
+        ordersEl.appendChild(empty);
+        return;
+      }
+
+      // sort by urgency
+      const list=[...state.orders].sort((a,b)=>a.ttl-b.ttl);
+      for(const o of list){
+        const d=document.createElement('div');
+        d.className='order';
+        const urgency = o.ttl<=12;
+        const tags=[];
+        if(o.isVIP) tags.push('<span class="tag vip">VIP</span>');
+        if(o.isHot) tags.push('<span class="tag hot">Hot</span>');
+        tags.push(`<span class="tag ${urgency?'hot':''}">T‑${Math.ceil(o.ttl)}s</span>`);
+
+        // assign buttons based on courier availability
+        const bikeIdle = !state.couriers.find(c=>c.id==='bike').busy;
+        const vanIdle  = !state.couriers.find(c=>c.id==='van').busy;
+
+        d.innerHTML = `
+          <div class="orderTop">
+            <div>
+              <div class="orderName">${o.name}</div>
+              <div class="orderMeta">Zone: <b>${o.zone}</b> · Travel: ~${Math.ceil(o.baseDist)}s · Payout: <b>$${o.payout}</b> · Late fee: <b>$${o.lateFee}</b></div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${tags.join('')}</div>
+          </div>
+          <div class="orderBtns">
+            <button ${bikeIdle?'':'disabled'} data-act="bike">Assign Bike</button>
+            <button ${vanIdle?'':'disabled'} data-act="van" class="secondary">Assign Van</button>
+            <button data-act="reject" class="ghost">Reject</button>
+          </div>
+        `;
+        d.querySelector('[data-act="bike"]').addEventListener('click', ()=>assign(o.id,'bike'));
+        d.querySelector('[data-act="van"]').addEventListener('click', ()=>assign(o.id,'van'));
+        d.querySelector('[data-act="reject"]').addEventListener('click', ()=>reject(o.id));
+        ordersEl.appendChild(d);
+      }
+    }
+
+    function renderCouriers(){
+      couriersEl.innerHTML='';
+      for(const c of state.couriers){
+        const d=document.createElement('div');
+        d.className='courier';
+        const up = state.upgradeLevel;
+        const speedLabel = (Math.pow(0.92, up));
+        const header = `<div class="courierHead"><b>${c.name}</b><span>${c.busy?'On route':'Idle'} · upgrade lvl ${up}</span></div>`;
+
+        if(!c.busy){
+          d.innerHTML = header + `<div class="mut">Idle. Assign an order from the queue.</div>`;
+        } else {
+          const job=c.job;
+          const pct = Math.floor(100*clamp(c.progress,0,1));
+          const timeLeft = Math.max(0, Math.ceil(job.travel - job.elapsed));
+          d.innerHTML = header + `
+            <div class="mut">Destination: <b>${job.zone}</b> · Arrives in <b>${timeLeft}s</b></div>
+            <div class="bar" style="margin-top:8px"><i style="width:${pct}%;background:linear-gradient(90deg, rgba(92,243,255,.8), rgba(163,139,255,.7))"></i></div>
+            <div class="mut" style="margin-top:6px">Carrying: ${job.isVIP?'<b>VIP</b> ':''}${job.isHot?'<b>Hot</b> ':''}order #${job.orderId}</div>
+          `;
+        }
+        couriersEl.appendChild(d);
+      }
+    }
+
+    let last=performance.now();
+    function loop(now){
+      if(!state.running || state.paused) return;
+      const dt = Math.min(0.05, (now-last)/1000);
+      last=now;
+      tick(dt);
+      ui();
+      requestAnimationFrame(loop);
+    }
+
+    function tick(dt){
+      state.t += dt;
+      if(state.t >= state.duration){ endShift(); return; }
+
+      // spawn orders
+      state.spawnTimer -= dt;
+      const spawnRate = 2.0 - Math.min(0.7, state.t/120*0.7); // starts ~2.0s, down to ~1.3s
+      if(state.spawnTimer <= 0){
+        state.spawnTimer = spawnRate + Math.random()*0.7;
+        state.orders.push(newOrder());
+        overflowCheck();
+      }
+
+      // decrement order TTL
+      for(const o of state.orders){ o.ttl -= dt; o.age += dt; }
+      // expired orders: rep hit
+      const expired = state.orders.filter(o=>o.ttl <= 0);
+      if(expired.length){
+        state.orders = state.orders.filter(o=>o.ttl > 0);
+        const repLoss = expired.reduce((s,o)=>s + (o.isVIP?7:4), 0);
+        state.rep = clamp(state.rep - repLoss, 0, 100);
+        toast(`Missed ${expired.length} order(s)! (rep -${repLoss})`);
+      }
+
+      // courier progress
+      for(const c of state.couriers){
+        if(!c.busy) continue;
+        const job=c.job;
+        job.elapsed += dt;
+        c.progress = job.elapsed / job.travel;
+        if(job.elapsed >= job.travel){
+          // determine lateness based on TTL at assign
+          const late = Math.max(0, job.travel - job.ttlAtAssign);
+          let payout = job.payout;
+          let repDelta = +Math.max(1, Math.floor(job.repImpact*0.45)); // success gives some rep
+          if(late > 0.1){
+            payout = Math.max(0, payout - job.lateFee);
+            repDelta = -job.repImpact;
+          }
+          state.cash += payout;
+          state.rep = clamp(state.rep + repDelta, 0, 100);
+          state.done += 1;
+          c.busy=false; c.job=null; c.progress=0;
+          toast(late>0.1 ? `Late delivery… +$${payout} (rep ${repDelta})` : `Delivered! +$${payout} (rep +${repDelta})`);
+        }
+      }
+
+      // enable/disable buttons handled by ui()
+    }
+
+    // Buttons
+    $('#btnStart').addEventListener('click', start);
+    $('#btnPause').addEventListener('click', togglePause);
+    $('#btnRejectAll').addEventListener('click', rejectAll);
+    $('#btnUpgrade').addEventListener('click', upgrade);
+    $('#btnRestart').addEventListener('click', ()=>{ reset(); });
+
+    // How modal
+    const ov=$('#ov');
+    $('#btnHow').addEventListener('click', ()=>ov.classList.add('show'));
+    $('#btnCloseHow').addEventListener('click', ()=>ov.classList.remove('show'));
+    ov.addEventListener('click', (e)=>{ if(e.target===ov) ov.classList.remove('show'); });
+
+    // keyboard
+    window.addEventListener('keydown', (e)=>{
+      if(e.key===' '){ togglePause(); e.preventDefault(); }
+      if(e.key.toLowerCase()==='r'){ reset(); }
+      if(e.key.toLowerCase()==='u'){ upgrade(); }
+    }, {passive:false});
+
+    reset();
+  })();
+  </script>
+</body>
+</html>

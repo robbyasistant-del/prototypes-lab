@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Defender - Game Design Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(180deg, rgba(0,255,255,0.1) 0%, transparent 100%);
+            border-bottom: 2px solid rgba(0,255,255,0.3);
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 48px;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0,255,255,0.5), 0 0 40px rgba(0,255,255,0.3);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+        
+        .tagline {
+            font-size: 20px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px rgba(255,0,255,0.5);
+        }
+        
+        h2 {
+            color: #00ffff;
+            font-size: 28px;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0,255,255,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h3 {
+            color: #ff00ff;
+            font-size: 20px;
+            margin: 25px 0 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(255,0,255,0.1));
+            border-left: 4px solid #00ffff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .metric-card {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,255,255,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,255,255,0.2);
+        }
+        
+        .metric-card h4 {
+            color: #00ffff;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .metric-card p {
+            font-size: 14px;
+            color: #aaa;
+            margin: 0;
+        }
+        
+        .viral-hook {
+            background: linear-gradient(135deg, rgba(255,0,255,0.1), rgba(255,100,0,0.1));
+            border: 1px solid rgba(255,0,255,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .viral-hook h4 {
+            color: #ff00ff;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .play-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: #0a0a1a;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 30px;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0,255,255,0.5);
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .emoji {
+            font-size: 24px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 40px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        th {
+            color: #00ffff;
+            font-weight: bold;
+        }
+        
+        td {
+            color: #ccc;
+        }
+        
+        .revenue-stream {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .revenue-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+        
+        .revenue-content h4 {
+            color: #ffaa00;
+            margin-bottom: 5px;
+        }
+        
+        .revenue-content p {
+            margin: 0;
+            font-size: 14px;
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ PULSE DEFENDER ⚡</h1>
+            <p class="tagline">Rhythm Defense Game Design Report</p>
+        </header>
+        
+        <div class="section">
+            <h2><span class="emoji">🎮</span> Game Concept</h2>
+            
+            <div class="highlight-box">
+                <strong>Core Innovation:</strong> Pulse Defender fuses the precision timing of rhythm games with the strategic intensity of tower defense, creating a genre-bending experience where your musical timing directly translates to combat power.
+            </div>
+            
+            <h3>The Hook</h3>
+            <p>Players defend a glowing energy core at the center of a circular arena from waves of geometric invaders. But here's the twist: <strong>you don't just shoot—you groove.</strong> Every action is tied to an underlying beat. Tap on the pulse for devastating attacks. Miss the rhythm, and your shots become weak pitter-patters.</p>
+            
+            <h3>Unique Mechanics</h3>
+            <ul>
+                <li><strong>Beat-Sync Combat:</strong> A visual metronome shows the perfect moment to strike. Hit it for 3x damage and combo multipliers.</li>
+                <li><strong>Combo Cascade:</strong> String perfect hits to build multipliers (x2, x4, x8...) that reset on mistimed shots—creating constant risk/reward tension.</li>
+                <li><strong>Pulse Wave Ultimate:</strong> Build meter through rhythmic excellence to unleash a screen-clearing energy burst.</li>
+                <li><strong>360° Defense:</strong> Enemies spawn from all angles, demanding spatial awareness alongside rhythmic precision.</li>
+                <li><strong>Adaptive Difficulty:</strong> BPM increases each wave, challenging players to maintain composure as chaos accelerates.</li>
+            </ul>
+            
+            <h3>Visual Identity</h3>
+            <p>Neon-drenched synthwave aesthetic with pulsing arenas, particle explosions, and a cyberpunk color palette (electric cyan, hot magenta, deep purples). Every successful beat lands with satisfying visual feedback—screen shake, color flashes, and cascading particle effects.</p>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">👥</span> Target Audience</h2>
+            
+            <table>
+                <tr>
+                    <th>Segment</th>
+                    <th>Description</th>
+                    <th>Appeal</th>
+                </tr>
+                <tr>
+                    <td><strong>Casual Mobile Gamers</strong></td>
+                    <td>Ages 18-35, play during commutes/breaks</td>
+                    <td>Quick sessions, easy to learn, hard to master</td>
+                </tr>
+                <tr>
+                    <td><strong>Rhythm Game Fans</strong></td>
+                    <td>Beat Saber, osu!, Guitar Hero players</td>
+                    <td>Timing precision, flow state, high skill ceiling</td>
+                </tr>
+                <tr>
+                    <td><strong>Arcade Nostalgists</strong></td>
+                    <td>Grew up with Geometry Wars, Pac-Man</td>
+                    <td>High scores, "one more run" loop</td>
+                </tr>
+                <tr>
+                    <td><strong>Synthwave Aesthetes</strong></td>
+                    <td>Retrowave/outrun culture enthusiasts</td>
+                    <td>Visual style, atmosphere, electronic music</td>
+                </tr>
+                <tr>
+                    <td><strong>Hypercasual Players</strong></td>
+                    <td>Pick-up-and-play mobile users</td>
+                    <td>Simple controls, immediate feedback</td>
+                </tr>
+            </table>
+            
+            <div class="highlight-box">
+                <strong>Primary Demographic:</strong> 16-30 year olds who enjoy skill-based mobile games with strong visual identities. The game bridges casual accessibility with hardcore depth.
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">💰</span> Monetization Strategy</h2>
+            
+            <h3>Model: Hybrid Free-to-Play</h3>
+            
+            <div class="revenue-stream">
+                <div class="revenue-icon">🎨</div>
+                <div class="revenue-content">
+                    <h4>Cosmetic Skins & Themes</h4>
+                    <p>Core visual variants (neon green matrix, hot pink cyberpunk, golden retro), projectile effects, explosion styles. $0.99 - $4.99 per pack. Purely cosmetic—no pay-to-win.</p>
+                </div>
+            </div>
+            
+            <div class="revenue-stream">
+                <div class="revenue-icon">🎵</div>
+                <div class="revenue-content">
+                    <h4>Music Packs</h4>
+                    <p>Licensed synthwave tracks and original OST expansions that change the background rhythm and BPM patterns. $1.99 - $3.99 per pack.</p>
+                </div>
+            </div>
+            
+            <div class="revenue-stream">
+                <div class="revenue-icon">⚡</div>
+                <div class="revenue-content">
+                    <h4>Continue Tokens</h4>
+                    <p>Watch ad or spend token to continue a run after death. Tokens regenerate over time or $0.99 for 5 tokens. Balanced so skill still matters—just softens frustration.</p>
+                </div>
+            </div>
+            
+            <div class="revenue-stream">
+                <div class="revenue-icon">🏆</div>
+                <div class="revenue-content">
+                    <h4>Season Pass</h4>
+                    <p>Monthly $4.99 pass with exclusive skins, profile badges, and challenge modes. Creates recurring revenue and engagement loops.</p>
+                </div>
+            </div>
+            
+            <div class="revenue-stream">
+                <div class="revenue-icon">📺</div>
+                <div class="revenue-content">
+                    <h4>Rewarded Video Ads</h4>
+                    <p>Optional ads for: Double score for next run, free continue, bonus coins, unlock trial of premium skin. Non-intrusive, player-initiated.</p>
+                </div>
+            </div>
+            
+            <div class="revenue-stream">
+                <div class="revenue-icon">🎁</div>
+                <div class="revenue-content">
+                    <h4>Starter Pack</h4>
+                    <p>$2.99 one-time offer for new players: 3 exclusive skins, 500 coins, remove banner ads. High conversion expected.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">📊</span> Key Metrics to Track</h2>
+            
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <h4>📈 D1/D7/D30 Retention</h4>
+                    <p>Core health indicator. Target: 40% / 20% / 10% for hypercasual mobile. The "one more run" loop should drive strong D1.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>🎮 Session Length</h4>
+                    <p>Average play time per session. Target: 5-8 minutes. Tracks if the game loop is engaging enough.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>🔄 Sessions per Day</h4>
+                    <p>How often players return. Target: 3+ for engaged users. Indicates habit formation.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>💀 Death Wave Distribution</h4>
+                    <p>Which wave do players die on? Identifies difficulty spikes and balancing issues.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>🎯 Accuracy Rate</h4>
+                    <p>Percentage of shots with Perfect/Great timing. Low rates suggest tutorial issues or BPM too high.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>💥 Combo Break Rate</h4>
+                    <p>How often players lose combos. High frustration indicator if too frequent.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>💵 Conversion Rate</h4>
+                    <p>% of players making any purchase. Target: 2-5% for mobile F2P.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>💰 ARPDAU</h4>
+                    <p>Average Revenue Per Daily Active User. Target: $0.05 - $0.15 for hypercasual games.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>📺 Ad Engagement</h4>
+                    <p>% of players watching rewarded videos. Target: 30%+ if rewards are well-designed.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>🏆 High Score Submissions</h4>
+                    <p>Social feature usage. Indicates competitive engagement and shareability.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>⚡ Pulse Wave Usage</h4>
+                    <p>How often players use the ultimate ability. Low usage = visibility issue.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <h4>📉 Churn Points</h4>
+                    <p>Where in the funnel do players drop off? Critical for onboarding optimization.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">🔥</span> Viral Hooks & Growth Strategies</h2>
+            
+            <div class="viral-hook">
+                <h4>🎬 "Satisfying Gameplay" Shorts</h4>
+                <p>Perfect for TikTok/YouTube Shorts/Reels. Clip shows player hitting 20+ perfect beats in a row with massive combo multipliers, screen filled with explosions. Caption: "POV: You found the flow state 🎵⚡"</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>🏆 "Impossible Wave" Challenges</h4>
+                <p>Create special ultra-hard waves that even developers struggle with. Challenge influencers to beat them. Bragging rights + leaderboard status for victors.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>🎵 Music Sync Moments</h4>
+                <p>Allow players to import/share custom tracks. Viral potential when players sync to popular songs (copyright permitting) or original viral sounds.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>💀 "How Did I Die?!" Clips</h4>
+                <p>Death replay feature with dramatic slow-mo. Players share unbelievable near-misses or tragic combo breaks at wave 9. Relatable fail content performs well.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>🌈 Skin Showcase</h4>
+                <p>Visual-heavy cosmetics are inherently shareable. Limited-time "galaxy" or "glitch" skins create FOMO and social proof.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>👥 Beat Your Friends</h4>
+                <p>Weekly friend leaderboard resets. Notification when someone beats your score. Social competition drives re-engagement.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>🎁 "Secret Code" Drops</h4>
+                <p>Hide redeemable codes in social posts, Discord, or during streams. Creates community scavenger hunts and drives follows.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>📊 "How Good Is Your Rhythm?" Quiz</h4>
+                <p>Web-based rhythm test that assigns players a rank (Bronze → Diamond → Pulse God). Shareable results card drives traffic to download.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>🎤 Influencer "Beat Challenge"</h4>
+                <p>Partner with rhythm game streamers. They attempt to beat the game while commentating. Their skill expression = organic content.</p>
+            </div>
+            
+            <div class="viral-hook">
+                <h4>✨ "First Perfect Run" Moments</h4>
+                <p>Celebrate player milestones with shareable achievement cards. "I just got my first PERFECT WAVE!" with animated GIF export.</p>
+            </div>
+        </div>
+        
+        <div class="section center">
+            <h2><span class="emoji">🚀</span> Ready to Play?</h2>
+            <p>Experience the fusion of rhythm and defense. Can you master the pulse?</p>
+            <a href="./index.html" class="play-btn">▶ PLAY PULSE DEFENDER</a>
+        </div>
+        
+        <footer>
+            <p>Pulse Defender Prototype • Built 2026-04-13</p>
+            <p style="margin-top: 10px; font-size: 12px;">A rhythm-action defense experiment</p>
+        </footer>
+    </div>
+</body>
+</html>

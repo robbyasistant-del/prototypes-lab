@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Void Drifter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            overflow: hidden;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            touch-action: none;
+        }
+
+        #gameCanvas {
+            display: block;
+            cursor: none;
+        }
+
+        #ui {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        #topBar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            color: white;
+        }
+
+        #score {
+            font-size: clamp(24px, 5vw, 48px);
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        #lives {
+            display: flex;
+            gap: 10px;
+        }
+
+        .life {
+            width: clamp(15px, 3vw, 25px);
+            height: clamp(15px, 3vw, 25px);
+            border-radius: 50%;
+            background: #ff4757;
+            box-shadow: 0 0 15px #ff4757;
+            transition: all 0.3s ease;
+        }
+
+        .life.lost {
+            background: #333;
+            box-shadow: none;
+        }
+
+        #colorIndicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #currentColor {
+            width: clamp(40px, 8vw, 60px);
+            height: clamp(40px, 8vw, 60px);
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.3);
+            box-shadow: 0 0 30px currentColor;
+            transition: all 0.3s ease;
+        }
+
+        #colorTimer {
+            width: clamp(40px, 8vw, 60px);
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        #colorProgress {
+            height: 100%;
+            background: white;
+            width: 100%;
+            transition: width 0.1s linear;
+        }
+
+        #harmonyBar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: rgba(0,0,0,0.6);
+            padding: 10px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .harmony-node {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .harmony-node.active {
+            background: #f39c12;
+            box-shadow: 0 0 20px #f39c12;
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        #harmonyLabel {
+            color: #f39c12;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        #combo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(48px, 10vw, 80px);
+            font-weight: 900;
+            color: #f39c12;
+            text-shadow: 0 0 40px rgba(243, 156, 18, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #combo.show {
+            opacity: 1;
+            animation: comboPop 0.5s ease;
+        }
+
+        @keyframes comboPop {
+            0% { transform: translate(-50%, -50%) scale(0.5); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        #instructions {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            z-index: 100;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #instructions.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #instructions h1 {
+            font-size: clamp(32px, 8vw, 64px);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00d4ff, #ff00d4, #ffeb3b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #instructions p {
+            font-size: clamp(14px, 3vw, 18px);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            padding: 0 20px;
+            color: #aaa;
+        }
+
+        #instructions .key {
+            color: white;
+            font-weight: 600;
+        }
+
+        #badge {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(255,215,0,0.9), rgba(255,140,0,0.9));
+            color: #000;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: clamp(18px, 4vw, 28px);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 60px rgba(255,215,0,0.5);
+            z-index: 50;
+        }
+
+        #badge.show {
+            opacity: 1;
+            animation: badgePop 0.8s ease;
+        }
+
+        @keyframes badgePop {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(-180deg); }
+            50% { transform: translate(-50%, -50%) scale(1.1) rotate(10deg); }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        }
+
+        #gameOver, #victory {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.98);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            z-index: 200;
+        }
+
+        #gameOver.show, #victory.show {
+            display: flex;
+        }
+
+        #gameOver h2 {
+            font-size: clamp(36px, 8vw, 72px);
+            color: #ff4757;
+            margin-bottom: 20px;
+            text-shadow: 0 0 40px rgba(255, 71, 87, 0.5);
+        }
+
+        #victory h2 {
+            font-size: clamp(36px, 8vw, 72px);
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: clamp(24px, 5vw, 48px);
+            margin-bottom: 10px;
+        }
+
+        .badges-earned {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .earned-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: clamp(16px, 3vw, 20px);
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(102, 126, 234, 0.5);
+        }
+
+        #harmonyWave {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            border: 4px solid #f39c12;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 30;
+        }
+
+        #harmonyWave.active {
+            animation: waveExpand 0.8s ease-out;
+        }
+
+        @keyframes waveExpand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 200vmax;
+                height: 200vmax;
+                opacity: 0;
+            }
+        }
+
+        #startHint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    
+    <div id="ui">
+        <div id="topBar">
+            <div id="score">0</div>
+            <div id="colorIndicator">
+                <div id="currentColor"></div>
+                <div id="colorTimer">
+                    <div id="colorProgress"></div>
+                </div>
+            </div>
+            <div id="lives">
+                <div class="life"></div>
+                <div class="life"></div>
+                <div class="life"></div>
+            </div>
+        </div>
+        <div id="harmonyBar">
+            <div class="harmony-node" id="h1"></div>
+            <div class="harmony-node" id="h2"></div>
+            <div class="harmony-node" id="h3"></div>
+            <div class="harmony-node" id="h4"></div>
+            <div class="harmony-node" id="h5"></div>
+            <span id="harmonyLabel">HARMONY</span>
+        </div>
+    </div>
+
+    <div id="combo"></div>
+    <div id="badge"></div>
+    <div id="harmonyWave"></div>
+
+    <div id="instructions">
+        <h1>VOID DRIFTER</h1>
+        <p>Drift through the infinite void. Absorb <span class="key">matching colors</span>. Avoid <span class="key">wrong colors</span>.</p>
+        <p>🖱️ <span class="key">Mouse / Touch</span> to move your orb</p>
+        <p>💫 Collect <span class="key">5 matching particles</span> in a row to unleash a <span class="key">Harmony Wave</span></p>
+        <p>⚡ Your orb color shifts every <span class="key">5 seconds</span> — adapt quickly!</p>
+        <p>🏆 Reach <span class="key">2000 points</span> to become a Cosmic Dancer</p>
+        <div id="startHint">Game starts automatically...</div>
+    </div>
+
+    <div id="gameOver">
+        <h2>VOID CONSUMED</h2>
+        <div class="final-score">Score: <span id="finalScoreLoss">0</span></div>
+        <div class="badges-earned" id="badgesLoss"></div>
+        <button class="restart-btn" onclick="game.restart()">Drift Again</button>
+    </div>
+
+    <div id="victory">
+        <h2>COSMIC DANCER!</h2>
+        <div class="final-score">Final Score: <span id="finalScoreWin">0</span></div>
+        <p style="color: #aaa; margin-bottom: 20px;">You have mastered the void!</p>
+        <div class="badges-earned" id="badgesWin"></div>
+        <button class="restart-btn" onclick="game.restart()">Play Again</button>
+    </div>
+
+    <script>
+        // Audio Context for sound effects
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+
+        function playSound(type) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            switch(type) {
+                case 'collect':
+                    osc.frequency.setValueAtTime(880, now);
+                    osc.frequency.exponentialRampToValueAtTime(1760, now + 0.1);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                    break;
+                case 'harmony':
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.3);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                    break;
+                case 'damage':
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(50, now + 0.3);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                    break;
+                case 'shift':
+                    osc.frequency.setValueAtTime(523, now);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                    break;
+                case 'win':
+                    [523, 659, 784, 1047].forEach((freq, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.frequency.value = freq;
+                        g.gain.setValueAtTime(0.2, now + i * 0.1);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.3);
+                        o.start(now + i * 0.1);
+                        o.stop(now + i * 0.1 + 0.3);
+                    });
+                    break;
+            }
+        }
+
+        // Game Constants
+        const COLORS = {
+            CYAN: { hex: '#00d4ff', name: 'cyan' },
+            MAGENTA: { hex: '#ff00d4', name: 'magenta' },
+            YELLOW: { hex: '#ffeb3b', name: 'yellow' }
+        };
+
+        const COLOR_KEYS = ['CYAN', 'MAGENTA', 'YELLOW'];
+        const WIN_SCORE = 2000;
+        const MAX_LIVES = 3;
+        const COLOR_SWITCH_INTERVAL = 5000;
+        const HARMONY_THRESHOLD = 5;
+
+        // Particle Class
+        class Particle {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.radius = Math.random() * 8 + 6;
+                this.colorKey = COLOR_KEYS[Math.floor(Math.random() * COLOR_KEYS.length)];
+                this.color = COLORS[this.colorKey].hex;
+                
+                // Spawn from edges
+                const edge = Math.floor(Math.random() * 4);
+                const padding = 50;
+                switch(edge) {
+                    case 0: // Top
+                        this.x = Math.random() * canvas.width;
+                        this.y = -padding;
+                        break;
+                    case 1: // Right
+                        this.x = canvas.width + padding;
+                        this.y = Math.random() * canvas.height;
+                        break;
+                    case 2: // Bottom
+                        this.x = Math.random() * canvas.width;
+                        this.y = canvas.height + padding;
+                        break;
+                    case 3: // Left
+                        this.x = -padding;
+                        this.y = Math.random() * canvas.height;
+                        break;
+                }
+
+                // Velocity toward center with randomness
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const angle = Math.atan2(centerY - this.y, centerX - this.x);
+                const speed = Math.random() * 1.5 + 0.5;
+                this.vx = Math.cos(angle) * speed + (Math.random() - 0.5) * 1;
+                this.vy = Math.sin(angle) * speed + (Math.random() - 0.5) * 1;
+
+                this.pulsePhase = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.pulsePhase += 0.05;
+            }
+
+            draw(ctx) {
+                const pulse = Math.sin(this.pulsePhase) * 0.2 + 1;
+                const r = this.radius * pulse;
+
+                // Glow
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, r * 3);
+                gradient.addColorStop(0, this.color);
+                gradient.addColorStop(0.5, this.color + '80');
+                gradient.addColorStop(1, this.color + '00');
+
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, r * 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Core
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            isOffScreen() {
+                return this.x < -100 || this.x > this.canvas.width + 100 ||
+                       this.y < -100 || this.y > this.canvas.height + 100;
+            }
+        }
+
+        // Trail Particle Class
+        class TrailParticle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.life = 1;
+                this.decay = 0.03;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+            }
+
+            draw(ctx) {
+                ctx.globalAlpha = this.life * 0.5;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3 * this.life, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Floating Text Class
+        class FloatingText {
+            constructor(x, y, text, color) {
+                this.x = x;
+                this.y = y;
+                this.text = text;
+                this.color = color;
+                this.life = 1;
+                this.vy = -1;
+            }
+
+            update() {
+                this.y += this.vy;
+                this.life -= 0.02;
+            }
+
+            draw(ctx) {
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.font = 'bold 24px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(this.text, this.x, this.y);
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Main Game Class
+        class Game {
+            constructor() {
+                this.canvas = document.getElementById('gameCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.setupCanvas();
+
+                this.score = 0;
+                this.lives = MAX_LIVES;
+                this.harmonyCount = 0;
+                this.consecutiveMatches = 0;
+                this.currentColorIndex = 0;
+                this.colorTimer = COLOR_SWITCH_INTERVAL;
+                this.gameOver = false;
+                this.won = false;
+                this.badges = [];
+                this.started = false;
+
+                this.player = {
+                    x: this.canvas.width / 2,
+                    y: this.canvas.height / 2,
+                    targetX: this.canvas.width / 2,
+                    targetY: this.canvas.height / 2,
+                    radius: 25,
+                    trail: []
+                };
+
+                this.particles = [];
+                this.trailParticles = [];
+                this.floatingTexts = [];
+                this.lastTime = 0;
+                this.particleSpawnTimer = 0;
+
+                this.setupInputs();
+                this.updateColorUI();
+                
+                // Start after instructions fade
+                setTimeout(() => {
+                    document.getElementById('instructions').classList.add('fade-out');
+                    this.started = true;
+                    this.lastTime = performance.now();
+                    requestAnimationFrame((t) => this.loop(t));
+                }, 2000);
+            }
+
+            setupCanvas() {
+                const resize = () => {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                };
+                resize();
+                window.addEventListener('resize', resize);
+            }
+
+            setupInputs() {
+                const updateTarget = (x, y) => {
+                    this.player.targetX = x;
+                    this.player.targetY = y;
+                };
+
+                this.canvas.addEventListener('mousemove', (e) => {
+                    updateTarget(e.clientX, e.clientY);
+                });
+
+                this.canvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    updateTarget(touch.clientX, touch.clientY);
+                }, { passive: false });
+
+                this.canvas.addEventListener('touchstart', (e) => {
+                    const touch = e.touches[0];
+                    updateTarget(touch.clientX, touch.clientY);
+                }, { passive: true });
+            }
+
+            setupCanvas() {
+                const resize = () => {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                };
+                resize();
+                window.addEventListener('resize', resize);
+            }
+
+            update(dt) {
+                if (this.gameOver || this.won || !this.started) return;
+
+                // Update color timer
+                this.colorTimer -= dt;
+                if (this.colorTimer <= 0) {
+                    this.switchColor();
+                    this.colorTimer = COLOR_SWITCH_INTERVAL;
+                }
+
+                // Update color progress bar
+                const progress = (this.colorTimer / COLOR_SWITCH_INTERVAL) * 100;
+                document.getElementById('colorProgress').style.width = progress + '%';
+
+                // Smooth player movement
+                const lerp = 0.1;
+                this.player.x += (this.player.targetX - this.player.x) * lerp;
+                this.player.y += (this.player.targetY - this.player.y) * lerp;
+
+                // Add trail particles
+                if (Math.random() < 0.5) {
+                    this.trailParticles.push(new TrailParticle(
+                        this.player.x + (Math.random() - 0.5) * 20,
+                        this.player.y + (Math.random() - 0.5) * 20,
+                        COLORS[COLOR_KEYS[this.currentColorIndex]].hex
+                    ));
+                }
+
+                // Spawn particles
+                this.particleSpawnTimer += dt;
+                if (this.particleSpawnTimer > 800) {
+                    this.particles.push(new Particle(this.canvas));
+                    this.particleSpawnTimer = 0;
+                }
+
+                // Update particles
+                this.particles = this.particles.filter(p => {
+                    p.update();
+                    return !p.isOffScreen();
+                });
+
+                // Update trail particles
+                this.trailParticles = this.trailParticles.filter(p => {
+                    p.update();
+                    return p.life > 0;
+                });
+
+                // Update floating texts
+                this.floatingTexts = this.floatingTexts.filter(t => {
+                    t.update();
+                    return t.life > 0;
+                });
+
+                // Check collisions
+                this.checkCollisions();
+
+                // Check win condition
+                if (this.score >= WIN_SCORE) {
+                    this.win();
+                }
+            }
+
+            checkCollisions() {
+                const currentColorKey = COLOR_KEYS[this.currentColorIndex];
+
+                this.particles = this.particles.filter(p => {
+                    const dx = this.player.x - p.x;
+                    const dy = this.player.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < this.player.radius + p.radius) {
+                        if (p.colorKey === currentColorKey) {
+                            // Match!
+                            this.collectParticle(p);
+                            return false;
+                        } else {
+                            // Wrong color!
+                            this.takeDamage();
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+            }
+
+            collectParticle(p) {
+                playSound('collect');
+                
+                const basePoints = 10;
+                this.consecutiveMatches++;
+                const bonus = Math.min(this.consecutiveMatches - 1, 5) * 5;
+                const points = basePoints + bonus;
+                this.score += points;
+
+                // Floating text
+                const text = bonus > 0 ? `+${points}!` : `+${points}`;
+                this.floatingTexts.push(new FloatingText(p.x, p.y, text, '#fff'));
+
+                // Harmony system
+                if (this.harmonyCount < HARMONY_THRESHOLD) {
+                    this.harmonyCount++;
+                    this.updateHarmonyUI();
+
+                    if (this.harmonyCount >= HARMONY_THRESHOLD) {
+                        this.triggerHarmonyWave();
+                    }
+                }
+
+                // Check badges
+                this.checkBadges();
+                this.updateScoreUI();
+
+                // Combo display
+                if (this.consecutiveMatches >= 3) {
+                    this.showCombo(this.consecutiveMatches);
+                }
+            }
+
+            takeDamage() {
+                playSound('damage');
+                this.lives--;
+                this.consecutiveMatches = 0;
+                this.harmonyCount = 0;
+                this.updateHarmonyUI();
+                this.updateLivesUI();
+
+                // Screen shake effect
+                this.canvas.style.transform = `translate(${(Math.random()-0.5)*20}px, ${(Math.random()-0.5)*20}px)`;
+                setTimeout(() => {
+                    this.canvas.style.transform = '';
+                }, 100);
+
+                // Flash red
+                const flash = document.createElement('div');
+                flash.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,0,0,0.3);pointer-events:none;z-index:150;';
+                document.body.appendChild(flash);
+                setTimeout(() => flash.remove(), 100);
+
+                if (this.lives <= 0) {
+                    this.lose();
+                }
+            }
+
+            switchColor() {
+                this.currentColorIndex = (this.currentColorIndex + 1) % COLOR_KEYS.length;
+                this.consecutiveMatches = 0;
+                this.harmonyCount = 0;
+                this.updateHarmonyUI();
+                this.updateColorUI();
+                playSound('shift');
+
+                // Visual flash
+                const color = COLORS[COLOR_KEYS[this.currentColorIndex]].hex;
+                const flash = document.createElement('div');
+                flash.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:${color}20;pointer-events:none;z-index:40;transition:opacity 0.3s;`;
+                document.body.appendChild(flash);
+                setTimeout(() => {
+                    flash.style.opacity = '0';
+                    setTimeout(() => flash.remove(), 300);
+                }, 100);
+            }
+
+            triggerHarmonyWave() {
+                playSound('harmony');
+                
+                // Visual wave
+                const wave = document.getElementById('harmonyWave');
+                wave.classList.remove('active');
+                void wave.offsetWidth; // Trigger reflow
+                wave.classList.add('active');
+
+                // Clear nearby threats
+                const currentColorKey = COLOR_KEYS[this.currentColorIndex];
+                let cleared = 0;
+                
+                this.particles = this.particles.filter(p => {
+                    if (p.colorKey !== currentColorKey) {
+                        const dx = this.player.x - p.x;
+                        const dy = this.player.y - p.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist < 300) {
+                            cleared++;
+                            this.score += 5;
+                            this.floatingTexts.push(new FloatingText(p.x, p.y, '+5', '#f39c12'));
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
+                if (cleared > 0) {
+                    this.showCombo('HARMONY!');
+                    this.updateScoreUI();
+                }
+
+                this.harmonyCount = 0;
+                this.updateHarmonyUI();
+            }
+
+            checkBadges() {
+                const newBadges = [];
+                
+                if (this.score >= 500 && !this.badges.includes('Void Walker')) {
+                    newBadges.push('Void Walker');
+                }
+                if (this.score >= 1000 && !this.badges.includes('Harmonizer')) {
+                    newBadges.push('Harmonizer');
+                }
+                if (this.score >= 1500 && !this.badges.includes('Cosmic Dancer')) {
+                    newBadges.push('Cosmic Dancer');
+                }
+
+                newBadges.forEach(badge => {
+                    this.badges.push(badge);
+                    this.showBadge(badge);
+                });
+            }
+
+            showBadge(badge) {
+                const badgeEl = document.getElementById('badge');
+                badgeEl.textContent = `★ ${badge} ★`;
+                badgeEl.classList.add('show');
+                setTimeout(() => {
+                    badgeEl.classList.remove('show');
+                }, 2500);
+            }
+
+            showCombo(text) {
+                const comboEl = document.getElementById('combo');
+                comboEl.textContent = text;
+                comboEl.classList.remove('show');
+                void comboEl.offsetWidth;
+                comboEl.classList.add('show');
+                setTimeout(() => {
+                    comboEl.classList.remove('show');
+                }, 1000);
+            }
+
+            updateScoreUI() {
+                document.getElementById('score').textContent = this.score;
+            }
+
+            updateLivesUI() {
+                const lives = document.querySelectorAll('.life');
+                lives.forEach((el, i) => {
+                    el.classList.toggle('lost', i >= this.lives);
+                });
+            }
+
+            updateColorUI() {
+                const color = COLORS[COLOR_KEYS[this.currentColorIndex]];
+                const indicator = document.getElementById('currentColor');
+                indicator.style.background = color.hex;
+                indicator.style.boxShadow = `0 0 30px ${color.hex}`;
+                indicator.style.color = color.hex;
+            }
+
+            updateHarmonyUI() {
+                for (let i = 1; i <= 5; i++) {
+                    const node = document.getElementById(`h${i}`);
+                    node.classList.toggle('active', i <= this.harmonyCount);
+                }
+            }
+
+            draw() {
+                // Clear canvas
+                this.ctx.fillStyle = '#0a0a0f';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Draw stars
+                this.ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                for (let i = 0; i < 50; i++) {
+                    const x = (i * 137.5) % this.canvas.width;
+                    const y = (i * 293.1) % this.canvas.height;
+                    const size = (i % 3) + 1;
+                    this.ctx.beginPath();
+                    this.ctx.arc(x, y, size * 0.5, 0, Math.PI * 2);
+                    this.ctx.fill();
+                }
+
+                // Draw trail particles
+                this.trailParticles.forEach(p => p.draw(this.ctx));
+
+                // Draw particles
+                this.particles.forEach(p => p.draw(this.ctx));
+
+                // Draw player
+                const color = COLORS[COLOR_KEYS[this.currentColorIndex]];
+                
+                // Outer glow
+                const gradient = this.ctx.createRadialGradient(
+                    this.player.x, this.player.y, 0,
+                    this.player.x, this.player.y, this.player.radius * 4
+                );
+                gradient.addColorStop(0, color.hex + '80');
+                gradient.addColorStop(0.5, color.hex + '20');
+                gradient.addColorStop(1, color.hex + '00');
+                this.ctx.fillStyle = gradient;
+                this.ctx.beginPath();
+                this.ctx.arc(this.player.x, this.player.y, this.player.radius * 4, 0, Math.PI * 2);
+                this.ctx.fill();
+
+                // Inner orb
+                this.ctx.fillStyle = color.hex;
+                this.ctx.beginPath();
+                this.ctx.arc(this.player.x, this.player.y, this.player.radius, 0, Math.PI * 2);
+                this.ctx.fill();
+
+                // Core highlight
+                this.ctx.fillStyle = '#fff';
+                this.ctx.beginPath();
+                this.ctx.arc(this.player.x - 5, this.player.y - 5, this.player.radius * 0.3, 0, Math.PI * 2);
+                this.ctx.fill();
+
+                // Draw floating texts
+                this.floatingTexts.forEach(t => t.draw(this.ctx));
+            }
+
+            loop(timestamp) {
+                const dt = timestamp - this.lastTime;
+                this.lastTime = timestamp;
+
+                this.update(dt);
+                this.draw();
+
+                if (!this.gameOver && !this.won) {
+                    requestAnimationFrame((t) => this.loop(t));
+                }
+            }
+
+            lose() {
+                this.gameOver = true;
+                playSound('damage');
+                document.getElementById('finalScoreLoss').textContent = this.score;
+                
+                const badgesContainer = document.getElementById('badgesLoss');
+                badgesContainer.innerHTML = this.badges.map(b => 
+                    `<div class="earned-badge" style="border-color: ${COLORS[COLOR_KEYS[0]].hex}">${b}</div>`
+                ).join('');
+                
+                document.getElementById('gameOver').classList.add('show');
+            }
+
+            win() {
+                this.won = true;
+                playSound('win');
+                document.getElementById('finalScoreWin').textContent = this.score;
+                
+                const badgesContainer = document.getElementById('badgesWin');
+                badgesContainer.innerHTML = this.badges.map(b => 
+                    `<div class="earned-badge" style="border-color: #ffd700">${b}</div>`
+                ).join('');
+                
+                document.getElementById('victory').classList.add('show');
+            }
+
+            restart() {
+                document.getElementById('gameOver').classList.remove('show');
+                document.getElementById('victory').classList.remove('show');
+                
+                this.score = 0;
+                this.lives = MAX_LIVES;
+                this.harmonyCount = 0;
+                this.consecutiveMatches = 0;
+                this.currentColorIndex = 0;
+                this.colorTimer = COLOR_SWITCH_INTERVAL;
+                this.gameOver = false;
+                this.won = false;
+                this.badges = [];
+                this.particles = [];
+                this.trailParticles = [];
+                this.floatingTexts = [];
+
+                this.player.x = this.canvas.width / 2;
+                this.player.y = this.canvas.height / 2;
+                this.player.targetX = this.canvas.width / 2;
+                this.player.targetY = this.canvas.height / 2;
+
+                this.updateScoreUI();
+                this.updateLivesUI();
+                this.updateHarmonyUI();
+                this.updateColorUI();
+
+                this.lastTime = performance.now();
+                requestAnimationFrame((t) => this.loop(t));
+            }
+        }
+
+        // Start game
+        const game = new Game();
+    </script>
+</body>
+</html>

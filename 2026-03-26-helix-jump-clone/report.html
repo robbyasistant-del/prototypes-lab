@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Helix Jump Clone Report</title>
+<style>
+body{font-family:Inter,Segoe UI,Arial,sans-serif;background:#edf5ff;color:#102142;max-width:960px;margin:0 auto;padding:32px;line-height:1.65}
+section{background:#fff;border:1px solid #d7e2fb;border-radius:18px;padding:20px;margin:16px 0;box-shadow:0 12px 30px rgba(28,57,104,.08)}
+a{color:#225fe0}code{background:#eef4ff;padding:2px 6px;border-radius:6px}
+</style>
+</head>
+<body>
+<h1>Helix Jump Clone — Sprint 1 Report</h1>
+<p><a href="./index.html">Play the prototype</a></p>
+<section>
+  <h2>What this build delivers</h2>
+  <ul>
+    <li>Centered ball with camera anchored to the ball and the tower scrolling around it.</li>
+    <li>Swipe / drag rotation with touch, mouse, and keyboard fallback.</li>
+    <li>Initial safe-row bounce loop so the run starts alive before the player opens a gap.</li>
+    <li>Deterministic swept crossed-row detection: every row crossed during downward travel is checked in order.</li>
+    <li>Safe-platform bounce, squash/stretch, combo reset to <code>x1</code>.</li>
+    <li>Gap clears shatter the row, score points, play reward tones, and raise the combo for consecutive clears.</li>
+    <li>Platforms are now rendered as radial pie-slice wedges rather than donut bands, making the opening much easier to read in 2D.</li>
+  </ul>
+</section>
+<section>
+  <h2>r12 pie-slice render rework</h2>
+  <ul>
+    <li>Replaced the old annulus / donut presentation with large center-anchored wedge shapes that radiate outward from the pillar.</li>
+    <li>Long safe spans can visually split into two pieces, keeping each level readable while preserving the same collision arc underneath.</li>
+    <li>The gap is emphasized by a translucent drop-lane fan and bright boundary rails so the missing section reads instantly.</li>
+    <li>Front/back depth is still present, but it now comes from light back wedges and a restrained front shadow instead of heavy tube walls.</li>
+    <li>This remains a render-only rework: mechanics, physics, scoring, combo, controls, camera, and sound logic were intentionally left untouched.</li>
+  </ul>
+</section>
+<section>
+  <h2>Controls</h2>
+  <p>Drag or swipe left/right anywhere on screen to rotate the tower. Keyboard fallback: <code>←</code> <code>→</code> or <code>A</code> <code>D</code>. Press <code>R</code> or use the restart button to reset the run.</p>
+</section>
+<section>
+  <h2>Scoring and combo</h2>
+  <p>Each cleared row awards <code>10 × current combo</code>. The first clear after a bounce is <code>x1</code>; consecutive clears without touching a platform increase the multiplier to <code>x2</code>, <code>x3</code>, and beyond. Any safe bounce resets the chain back to <code>x1</code>.</p>
+</section>
+<section>
+  <h2>Known limits for next sprint</h2>
+  <ul>
+    <li>No fail-state/danger slices yet; this sprint stays focused on core descent feel.</li>
+    <li>Row generation is fair and varied, but difficulty ramp and special rows can be expanded.</li>
+    <li>Audio uses lightweight Web Audio tones instead of authored SFX assets.</li>
+  </ul>
+</section>
+<section>
+  <h2>Version</h2>
+  <p><code>v2026.03.27-r12</code></p>
+</section>
+</body>
+</html>

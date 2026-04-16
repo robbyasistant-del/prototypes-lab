@@ -1,0 +1,23 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Streakweaver Letters</title><style>
+body{margin:0;font-family:Inter,Segoe UI,sans-serif;background:#07101f;color:#e9f1ff}.wrap{max-width:980px;margin:0 auto;padding:20px}
+.panel{background:#111d35;border:1px solid #2e4576;border-radius:16px;padding:16px}h1{margin:.1em 0}p{line-height:1.45}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.pill{background:#18284a;border:1px solid #33518b;border-radius:999px;padding:6px 10px;font-size:12px}
+button{background:linear-gradient(145deg,#60a5fa,#22d3ee);border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+button.alt{background:#1a2a4c;color:#dbeafe;border:1px solid #365089}a{color:#9bd4ff;text-decoration:none}
+.grid{display:grid;gap:10px}.center{text-align:center}.big{font-size:28px;font-weight:800}
+input,select{background:#0f1a30;color:#eaf2ff;border:1px solid #355084;border-radius:8px;padding:8px}
+</style></head><body><div class="wrap"><div class="panel"><h1>Streakweaver Letters</h1><p><b>Instrucciones:</b> Forma 3 palabras objetivo (4-5 letras) en una rejilla 5x5 intercambiando letras adyacentes. Máx. 12 swaps por nivel, 3 niveles.</p>
+<div class="row"><div class="pill" id="level">Nivel 1/3</div><div class="pill" id="swaps">Swaps: 12</div><div class="pill" id="score">Score: 0</div><div class="pill" id="stars">Stars: 0</div><div class="pill" id="badge">Badge: Letter Rookie</div></div>
+<p>Objetivo actual: <b id="goal">-</b></p><div id="board" class="grid" style="grid-template-columns:repeat(5,58px);justify-content:start"></div>
+<div class="row"><button id="start">Start / Restart</button><button class="alt" id="check">Check Word</button></div><p id="feed">Pulsa Start para comenzar.</p>
+<div class="row"><a class="pill" href="./report.html">Ver report detallado</a></div></div></div><script>const goals=["STAR","WORD","TILE"];let level=0,swaps=12,score=0,stars=0,selected=null,done=false;const chars="AERSTWODILNMP";
+const $=id=>document.getElementById(id), board=$('board');
+function badge(){return stars>=8?'Streak Architect':stars>=4?'Word Weaver':'Letter Rookie'}
+function ui(){ $('level').textContent=`Nivel ${Math.min(level+1,3)}/3`; $('swaps').textContent=`Swaps: ${swaps}`; $('score').textContent=`Score: ${score}`; $('stars').textContent=`Stars: ${stars}`; $('badge').textContent='Badge: '+badge(); $('goal').textContent=goals[level]||'-';}
+function render(){ board.innerHTML=''; for(let i=0;i<25;i++){const b=document.createElement('button');b.className='alt';b.style.width='58px';b.style.height='58px';b.textContent=chars[Math.floor(Math.random()*chars.length)]; b.dataset.i=i;
+ b.onclick=()=>pick(b); board.appendChild(b);} }
+function neigh(a,b){const ar=Math.floor(a/5),ac=a%5,br=Math.floor(b/5),bc=b%5; return Math.abs(ar-br)+Math.abs(ac-bc)===1;}
+function pick(btn){if(done||swaps<=0)return; if(!selected){selected=btn; btn.style.outline='2px solid #22d3ee'; return;} const a=+selected.dataset.i,b=+btn.dataset.i; if(!neigh(a,b)){selected.style.outline=''; selected=null; $('feed').textContent='Solo swaps adyacentes'; return;} const t=selected.textContent; selected.textContent=btn.textContent; btn.textContent=t; selected.style.outline=''; selected=null; swaps--; ui(); if(swaps===0){$('feed').textContent='Sin swaps, checkea o perderás vida de nivel.';}}
+function currentLines(){const cells=[...board.querySelectorAll('button')].map(x=>x.textContent); let lines=[]; for(let r=0;r<5;r++){lines.push(cells.slice(r*5,r*5+5).join(''));} for(let c=0;c<5;c++){let s='';for(let r=0;r<5;r++)s+=cells[r*5+c];lines.push(s);} return lines;}
+$('check').onclick=()=>{ if(done)return; const g=goals[level]; const ok=currentLines().some(x=>x.includes(g)); if(ok){score+=25+swaps;stars+=Math.max(1,Math.ceil(swaps/4)); $('feed').textContent='Objetivo logrado!'; level++; swaps=12; if(level>=3){done=true; $('feed').innerHTML=`<b>WIN</b> completaste los 3 objetivos. Score ${score}. Badge ${badge()}`; ui(); return;} render();} else {score=Math.max(0,score-8); $('feed').textContent='No aparece la palabra aún. -8'; if(swaps<=0){done=true; $('feed').innerHTML=`<b>GAME OVER</b> te quedaste sin swaps. Score ${score}. Badge ${badge()}`;}} ui(); };
+$('start').onclick=()=>{level=0;swaps=12;score=0;stars=0;done=false;render();ui();$('feed').textContent='Haz swaps y pulsa Check Word';}; ui();</script></body></html>

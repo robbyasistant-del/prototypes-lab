@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Pulse Defender - Rhythm Defense</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        body {
+            background: #0a0a1a;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        canvas {
+            display: block;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+        }
+        
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .hud {
+            position: absolute;
+            color: #fff;
+            text-shadow: 0 0 10px currentColor;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        #scoreHud { top: 20px; left: 20px; color: #00ffff; }
+        #comboHud { top: 20px; right: 20px; color: #ff00ff; font-size: 18px; }
+        #waveHud { top: 50px; left: 20px; color: #ffff00; }
+        #healthHud { 
+            bottom: 18px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            color: #ff3366;
+            text-align: center;
+            width: 240px;
+        }
+
+        #healthBar {
+            width: 240px;
+            height: 14px;
+            margin-top: 6px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: inset 0 0 12px rgba(0,0,0,0.35);
+        }
+
+        #healthFill {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff3366, #ffaa00 45%, #00ff88 100%);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+            transform-origin: left center;
+            transition: width 0.12s ease, filter 0.12s ease;
+        }
+
+        #waveBadges {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 280px;
+        }
+
+        .waveBadge {
+            min-width: 48px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 0.6px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #7d8aa5;
+            text-shadow: none;
+        }
+
+        .waveBadge.good {
+            color: #ffaa00;
+            border-color: rgba(255,170,0,0.5);
+            box-shadow: 0 0 16px rgba(255,170,0,0.22);
+        }
+
+        .waveBadge.great {
+            color: #00ff88;
+            border-color: rgba(0,255,136,0.5);
+            box-shadow: 0 0 16px rgba(0,255,136,0.22);
+        }
+
+        .waveBadge.perfect {
+            color: #ffd700;
+            border-color: rgba(255,215,0,0.65);
+            box-shadow: 0 0 18px rgba(255,215,0,0.3);
+        }
+        
+        #startScreen, #gameOverScreen, #winScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 26, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto;
+            z-index: 100;
+        }
+        
+        #gameOverScreen, #winScreen { display: none; }
+        
+        h1 {
+            font-size: 48px;
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #ff00ff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        
+        .instructions {
+            color: #aaa;
+            font-size: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.6;
+            max-width: 400px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            color: #0a0a1a;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.8);
+        }
+        
+        .finalScore {
+            font-size: 24px;
+            color: #fff;
+            margin: 20px 0;
+        }
+        
+        .rating {
+            font-size: 36px;
+            margin: 10px 0;
+        }
+        
+        .perfect { color: #ffd700; text-shadow: 0 0 20px #ffd700; }
+        .great { color: #00ff88; text-shadow: 0 0 20px #00ff88; }
+        .good { color: #ffaa00; text-shadow: 0 0 20px #ffaa00; }
+        
+        #pulseMeter {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        #pulseFill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            box-shadow: 0 0 20px #ff00ff;
+            transition: width 0.1s;
+        }
+        
+        #pulseText {
+            position: absolute;
+            bottom: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #00ffff;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        #pulseText.ready {
+            opacity: 1;
+            animation: pulse 0.5s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { text-shadow: 0 0 5px #00ffff; }
+            to { text-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff; }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui">
+            <div class="hud" id="scoreHud">SCORE: 0</div>
+            <div class="hud" id="comboHud"></div>
+            <div class="hud" id="waveHud">WAVE 1/10</div>
+            <div id="waveBadges"></div>
+            <div class="hud" id="healthHud"><span id="healthLabel">CORE: 100%</span><div id="healthBar"><div id="healthFill"></div></div></div>
+            <div id="pulseMeter"><div id="pulseFill"></div></div>
+            <div id="pulseText">PULSE WAVE READY!</div>
+        </div>
+        
+        <div id="startScreen">
+            <h1>PULSE DEFENDER</h1>
+            <div class="subtitle">⚡ Rhythm Defense ⚡</div>
+            <div class="instructions">
+                <strong>Tap to the beat! Defend the core!</strong><br><br>
+                🎯 Click or tap to shoot energy blasts<br>
+                🎵 Time your shots with the PULSE<br>
+                ⭐ Perfect timing = stronger shots & combos<br>
+                💥 Build up PULSE meter for screen clear<br>
+                🛡️ Don't let enemies reach the core!
+            </div>
+            <button class="btn" onclick="startGame()">START DEFENDING</button>
+        </div>
+        
+        <div id="gameOverScreen">
+            <h1 style="color: #ff3366;">CORE BREACHED</h1>
+            <div class="subtitle">The pulse has fallen...</div>
+            <div class="finalScore" id="finalScoreGameOver"></div>
+            <div class="rating" id="ratingGameOver"></div>
+            <button class="btn" onclick="restartGame()">TRY AGAIN</button>
+        </div>
+        
+        <div id="winScreen">
+            <h1 style="color: #00ff88;">PULSE CHAMPION</h1>
+            <div class="subtitle">All waves destroyed!</div>
+            <div class="finalScore" id="finalScoreWin"></div>
+            <div class="rating" id="ratingWin"></div>
+            <button class="btn" onclick="restartGame()">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Game state
+        let gameState = 'START'; // START, PLAYING, GAMEOVER, WIN
+        let score = 0;
+        let combo = 0;
+        let maxCombo = 0;
+        let wave = 1;
+        let maxWaves = 10;
+        let coreHealth = 100;
+        let pulseMeter = 0;
+        let pulseMax = 100;
+        let pulseWaveReady = false;
+        
+        // Rhythm system
+        let bpm = 120;
+        let beatInterval = 60000 / bpm;
+        let lastBeatTime = 0;
+        let nextBeatTime = 0;
+        let beatPhase = 0; // 0 to 1
+        let beatNumber = 0;
+        
+        // Timing windows (ms)
+        const TIMING_PERFECT = 50;
+        const TIMING_GREAT = 120;
+        const TIMING_GOOD = 200;
+        
+        // Entities
+        let enemies = [];
+        let projectiles = [];
+        let particles = [];
+        let damageTexts = [];
+        
+        // Canvas sizing
+        function resizeCanvas() {
+            const size = Math.min(window.innerWidth, window.innerHeight) * 0.95;
+            canvas.width = size;
+            canvas.height = size;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Utility functions
+        function dist(x1, y1, x2, y2) {
+            return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+        }
+        
+        function angle(x1, y1, x2, y2) {
+            return Math.atan2(y2 - y1, x2 - x1);
+        }
+        
+        function randomRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+        
+        // Classes
+        class Enemy {
+            constructor(waveNum) {
+                const angle = randomRange(0, Math.PI * 2);
+                const spawnRadius = canvas.width / 2 - 20;
+                this.x = canvas.width / 2 + Math.cos(angle) * spawnRadius;
+                this.y = canvas.height / 2 + Math.sin(angle) * spawnRadius;
+                this.angle = angle + Math.PI; // Face center
+                
+                // Difficulty scaling
+                const speedBase = 1 + waveNum * 0.15;
+                const healthBase = 20 + waveNum * 8;
+                
+                this.speed = speedBase * randomRange(0.8, 1.2);
+                this.maxHealth = Math.floor(healthBase * randomRange(0.8, 1.5));
+                this.health = this.maxHealth;
+                this.radius = 12 + waveNum * 1.5;
+                
+                // Shape type: 0=triangle, 1=square, 2=pentagon
+                this.type = Math.floor(randomRange(0, 3));
+                this.rotation = 0;
+                this.rotationSpeed = randomRange(-0.05, 0.05);
+                
+                this.flash = 0;
+            }
+            
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.rotation += this.rotationSpeed;
+                
+                // Check collision with core
+                const d = dist(this.x, this.y, canvas.width / 2, canvas.height / 2);
+                if (d < 40 + this.radius) {
+                    return 'hit'; // Hit core
+                }
+                
+                if (this.flash > 0) this.flash--;
+                return null;
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                
+                // Glow
+                ctx.shadowBlur = 15;
+                
+                // Color based on type
+                let color;
+                switch(this.type) {
+                    case 0: color = '#ff3366'; ctx.shadowColor = '#ff3366'; break;
+                    case 1: color = '#ff00ff'; ctx.shadowColor = '#ff00ff'; break;
+                    case 2: color = '#aa00ff'; ctx.shadowColor = '#aa00ff'; break;
+                }
+                
+                if (this.flash > 0) {
+                    color = '#fff';
+                    ctx.shadowColor = '#fff';
+                }
+                
+                ctx.fillStyle = color;
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                
+                ctx.beginPath();
+                const sides = 3 + this.type;
+                for (let i = 0; i < sides; i++) {
+                    const a = (i / sides) * Math.PI * 2;
+                    const px = Math.cos(a) * this.radius;
+                    const py = Math.sin(a) * this.radius;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                
+                // Health indicator
+                const healthPct = this.health / this.maxHealth;
+                ctx.fillStyle = `rgba(255, 255, 255, ${0.5 * healthPct})`;
+                ctx.beginPath();
+                ctx.arc(0, 0, this.radius * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.restore();
+            }
+            
+            takeDamage(dmg) {
+                this.health -= dmg;
+                this.flash = 5;
+                return this.health <= 0;
+            }
+        }
+        
+        class Projectile {
+            constructor(targetX, targetY, power, isPulseWave = false) {
+                this.x = canvas.width / 2;
+                this.y = canvas.height / 2;
+                this.angle = angle(this.x, this.y, targetX, targetY);
+                this.speed = isPulseWave ? 15 : 12;
+                this.power = power;
+                this.isPulseWave = isPulseWave;
+                this.radius = isPulseWave ? 40 : 8 + power * 2;
+                this.life = 100;
+                this.trail = [];
+            }
+            
+            update() {
+                // Store trail
+                this.trail.push({x: this.x, y: this.y});
+                if (this.trail.length > 8) this.trail.shift();
+                
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.life--;
+                
+                // Check bounds
+                if (this.x < 0 || this.x > canvas.width || 
+                    this.y < 0 || this.y > canvas.height || this.life <= 0) {
+                    return 'dead';
+                }
+                
+                return null;
+            }
+            
+            draw() {
+                ctx.save();
+                
+                // Trail
+                for (let i = 0; i < this.trail.length; i++) {
+                    const t = this.trail[i];
+                    const alpha = (i / this.trail.length) * 0.5;
+                    const size = this.radius * (i / this.trail.length);
+                    ctx.fillStyle = this.isPulseWave ? 
+                        `rgba(0, 255, 255, ${alpha})` : 
+                        `rgba(0, 255, 200, ${alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(t.x, t.y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Main projectile
+                ctx.shadowBlur = this.isPulseWave ? 30 : 20;
+                ctx.shadowColor = this.isPulseWave ? '#00ffff' : '#00ffaa';
+                ctx.fillStyle = this.isPulseWave ? '#00ffff' : '#aaffff';
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Core
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * 0.4, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.restore();
+            }
+        }
+        
+        class Particle {
+            constructor(x, y, color, speed, size) {
+                this.x = x;
+                this.y = y;
+                this.angle = randomRange(0, Math.PI * 2);
+                this.speed = randomRange(1, speed);
+                this.life = 30 + Math.random() * 20;
+                this.maxLife = this.life;
+                this.color = color;
+                this.size = size;
+            }
+            
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.life--;
+                this.speed *= 0.95;
+                return this.life <= 0;
+            }
+            
+            draw() {
+                const alpha = this.life / this.maxLife;
+                ctx.fillStyle = this.color.replace(')', `, ${alpha})`).replace('rgb', 'rgba');
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * alpha, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        class DamageText {
+            constructor(x, y, text, color, size = 16) {
+                this.x = x;
+                this.y = y;
+                this.text = text;
+                this.color = color;
+                this.size = size;
+                this.life = 40;
+                this.vy = -1;
+            }
+            
+            update() {
+                this.y += this.vy;
+                this.life--;
+                return this.life <= 0;
+            }
+            
+            draw() {
+                const alpha = this.life / 40;
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = this.color;
+                ctx.font = `bold ${this.size}px Courier New`;
+                ctx.textAlign = 'center';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fillText(this.text, this.x, this.y);
+                ctx.restore();
+            }
+        }
+        
+        // Audio context for rhythm
+        let audioCtx = null;
+        
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        
+        function playBeatSound(quality) {
+            if (!audioCtx) return;
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const now = audioCtx.currentTime;
+            
+            if (quality === 'perfect') {
+                osc.frequency.setValueAtTime(880, now);
+                osc.frequency.exponentialRampToValueAtTime(440, now + 0.1);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } else if (quality === 'great') {
+                osc.frequency.setValueAtTime(660, now);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (quality === 'beat') {
+                osc.frequency.setValueAtTime(220, now);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            }
+        }
+        
+        function playExplosion() {
+            if (!audioCtx) return;
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const now = audioCtx.currentTime;
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(100, now);
+            osc.frequency.exponentialRampToValueAtTime(20, now + 0.2);
+            gain.gain.setValueAtTime(0.2, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+            osc.start(now);
+            osc.stop(now + 0.2);
+        }
+        
+        function playDamage() {
+            if (!audioCtx) return;
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const now = audioCtx.currentTime;
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(150, now);
+            osc.frequency.linearRampToValueAtTime(80, now + 0.3);
+            gain.gain.setValueAtTime(0.3, now);
+            gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+            osc.start(now);
+            osc.stop(now + 0.3);
+        }
+        
+        function playPulseWave() {
+            if (!audioCtx) return;
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const now = audioCtx.currentTime;
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(440, now);
+            osc.frequency.exponentialRampToValueAtTime(880, now + 0.5);
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.4, now + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+            osc.start(now);
+            osc.stop(now + 0.8);
+        }
+        
+        // Rhythm timing
+        function getTimingQuality() {
+            const now = Date.now();
+            const timeToNext = nextBeatTime - now;
+            const timeFromLast = now - lastBeatTime;
+            const nearestBeat = Math.min(Math.abs(timeToNext), Math.abs(timeFromLast));
+            
+            if (nearestBeat < TIMING_PERFECT) return 'perfect';
+            if (nearestBeat < TIMING_GREAT) return 'great';
+            if (nearestBeat < TIMING_GOOD) return 'good';
+            return 'miss';
+        }
+        
+        function updateRhythm() {
+            const now = Date.now();
+            
+            if (now >= nextBeatTime) {
+                lastBeatTime = nextBeatTime;
+                nextBeatTime += beatInterval;
+                beatNumber++;
+                playBeatSound('beat');
+            }
+            
+            beatPhase = (now - lastBeatTime) / beatInterval;
+        }
+        
+        // Wave management
+        let enemiesToSpawn = 0;
+        let spawnTimer = 0;
+        let enemiesSpawned = 0;
+        let waveComplete = false;
+        let waveStats = { perfect: 0, great: 0, good: 0, miss: 0, kills: 0 };
+        let waveRatings = [];
+        
+        function startWave(waveNum) {
+            wave = waveNum;
+            enemiesToSpawn = 4 + waveNum * 2;
+            enemiesSpawned = 0;
+            spawnTimer = 0;
+            waveComplete = false;
+            waveStats = { perfect: 0, great: 0, good: 0, miss: 0, kills: 0 };
+            
+            // Increase BPM slightly each wave
+            bpm = 118 + waveNum * 3;
+            beatInterval = 60000 / bpm;
+            
+            document.getElementById('waveHud').textContent = `WAVE ${wave}/${maxWaves}`;
+        }
+        
+        function updateWave() {
+            if (enemiesToSpawn > 0) {
+                spawnTimer++;
+                const spawnDelay = Math.max(30, 90 - wave * 5);
+                
+                if (spawnTimer >= spawnDelay) {
+                    enemies.push(new Enemy(wave));
+                    enemiesSpawned++;
+                    enemiesToSpawn--;
+                    spawnTimer = 0;
+                }
+            } else if (enemies.length === 0 && !waveComplete) {
+                waveComplete = true;
+                
+                // Wave complete bonus
+                const waveBonus = wave * 500;
+                score += waveBonus;
+                damageTexts.push(new DamageText(
+                    canvas.width / 2, 
+                    canvas.height / 2 - 50,
+                    `WAVE ${wave} COMPLETE! +${waveBonus}`,
+                    '#00ff88',
+                    24
+                ));
+                
+                // Show wave rating
+                const accuracyTotal = waveStats.perfect + waveStats.great + waveStats.good + waveStats.miss;
+                const accuracyScore = accuracyTotal === 0 ? 0 : (waveStats.perfect * 1 + waveStats.great * 0.7 + waveStats.good * 0.4) / accuracyTotal;
+                let waveRating = 'GOOD';
+                let ratingColor = '#ffaa00';
+                let ratingClass = 'good';
+                if (accuracyScore >= 0.82 && waveStats.miss <= 2) {
+                    waveRating = 'PERFECT!';
+                    ratingColor = '#ffd700';
+                    ratingClass = 'perfect';
+                } else if (accuracyScore >= 0.58) {
+                    waveRating = 'GREAT!';
+                    ratingColor = '#00ff88';
+                    ratingClass = 'great';
+                }
+                waveRatings[wave - 1] = ratingClass;
+                renderWaveBadges();
+                
+                damageTexts.push(new DamageText(
+                    canvas.width / 2,
+                    canvas.height / 2 + 20,
+                    waveRating,
+                    ratingColor,
+                    32
+                ));
+                
+                // Next wave or win
+                if (wave < maxWaves) {
+                    setTimeout(() => startWave(wave + 1), 2000);
+                } else {
+                    gameWin();
+                }
+            }
+        }
+        
+        // Input handling
+        function handleInput(e) {
+            if (gameState !== 'PLAYING') return;
+            
+            e.preventDefault();
+            
+            let clientX, clientY;
+            if (e.type.includes('touch')) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            
+            // Check for pulse wave activation (click on core or special area)
+            const centerDist = dist(x, y, canvas.width / 2, canvas.height / 2);
+            if (pulseWaveReady && centerDist < 60) {
+                activatePulseWave();
+                return;
+            }
+            
+            // Normal shot
+            shoot(x, y);
+        }
+        
+        function shoot(targetX, targetY) {
+            const timing = getTimingQuality();
+            let power = 1;
+            let multiplier = 1;
+            
+            switch(timing) {
+                case 'perfect':
+                    power = 4;
+                    multiplier = 3;
+                    combo++;
+                    waveStats.perfect++;
+                    pulseMeter = Math.min(pulseMax, pulseMeter + 15);
+                    playBeatSound('perfect');
+                    damageTexts.push(new DamageText(
+                        canvas.width / 2, canvas.height / 2 - 80,
+                        'PERFECT!', '#ffd700', 20
+                    ));
+                    break;
+                case 'great':
+                    power = 2.5;
+                    multiplier = 2;
+                    combo++;
+                    waveStats.great++;
+                    pulseMeter = Math.min(pulseMax, pulseMeter + 10);
+                    playBeatSound('great');
+                    damageTexts.push(new DamageText(
+                        canvas.width / 2, canvas.height / 2 - 80,
+                        'GREAT!', '#00ff88', 18
+                    ));
+                    break;
+                case 'good':
+                    power = 1.5;
+                    multiplier = 1.5;
+                    combo = 0;
+                    waveStats.good++;
+                    pulseMeter = Math.min(pulseMax, pulseMeter + 5);
+                    damageTexts.push(new DamageText(
+                        canvas.width / 2, canvas.height / 2 - 80,
+                        'GOOD', '#ffaa00', 16
+                    ));
+                    break;
+                case 'miss':
+                    power = 0.8;
+                    multiplier = 1;
+                    combo = 0;
+                    waveStats.miss++;
+                    pulseMeter = Math.min(pulseMax, pulseMeter + 2);
+                    damageTexts.push(new DamageText(
+                        canvas.width / 2, canvas.height / 2 - 80,
+                        'MISS', '#ff3366', 16
+                    ));
+                    break;
+            }
+            
+            maxCombo = Math.max(maxCombo, combo);
+            
+            // Spawn multiple projectiles for high combo
+            const numProjectiles = Math.min(1 + Math.floor(combo / 10), 5);
+            for (let i = 0; i < numProjectiles; i++) {
+                const spread = (i - numProjectiles / 2) * 0.15;
+                const proj = new Projectile(targetX, targetY, power);
+                proj.angle += spread;
+                projectiles.push(proj);
+            }
+            
+            updateUI();
+        }
+        
+        function activatePulseWave() {
+            if (!pulseWaveReady) return;
+            
+            playPulseWave();
+            pulseMeter = 0;
+            pulseWaveReady = false;
+            document.getElementById('pulseText').classList.remove('ready');
+            
+            // Create radial burst
+            for (let i = 0; i < 24; i++) {
+                const angle = (i / 24) * Math.PI * 2;
+                const proj = new Projectile(
+                    canvas.width / 2 + Math.cos(angle) * 100,
+                    canvas.height / 2 + Math.sin(angle) * 100,
+                    10, true
+                );
+                proj.angle = angle;
+                projectiles.push(proj);
+            }
+            
+            // Massive particles
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle(
+                    canvas.width / 2, canvas.height / 2,
+                    '#00ffff', 8, randomRange(3, 8)
+                ));
+            }
+            
+            damageTexts.push(new DamageText(
+                canvas.width / 2, canvas.height / 2,
+                'PULSE WAVE!', '#00ffff', 32
+            ));
+        }
+        
+        function updateUI() {
+            document.getElementById('scoreHud').textContent = `SCORE: ${score}`;
+            
+            const comboHud = document.getElementById('comboHud');
+            if (combo > 1) {
+                const mult = Math.pow(2, Math.floor(combo / 5));
+                comboHud.textContent = `COMBO x${combo} (${mult}X)`;
+                comboHud.style.textShadow = `0 0 ${10 + combo}px #ff00ff`;
+            } else {
+                comboHud.textContent = '';
+            }
+            
+            document.getElementById('healthLabel').textContent = `CORE: ${Math.max(0, Math.ceil(coreHealth))}%`;
+            document.getElementById('healthHud').style.color = 
+                coreHealth > 60 ? '#00ff88' : coreHealth > 30 ? '#ffaa00' : '#ff3366';
+            const healthPct = Math.max(0, coreHealth);
+            const healthFill = document.getElementById('healthFill');
+            healthFill.style.width = `${healthPct}%`;
+            healthFill.style.filter = screenShake > 0 ? 'brightness(1.6)' : 'brightness(1)';
+            
+            // Pulse meter
+            const pulsePct = (pulseMeter / pulseMax) * 100;
+            document.getElementById('pulseFill').style.width = `${pulsePct}%`;
+            
+            if (pulseMeter >= pulseMax && !pulseWaveReady) {
+                pulseWaveReady = true;
+                document.getElementById('pulseText').classList.add('ready');
+            }
+        }
+        
+        // Game loop
+        let screenShake = 0;
+        
+        function update() {
+            if (gameState !== 'PLAYING') return;
+            
+            updateRhythm();
+            updateWave();
+            
+            // Update enemies
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const enemy = enemies[i];
+                const result = enemy.update();
+                
+                if (result === 'hit') {
+                    // Enemy hit core
+                    coreHealth -= 15;
+                    screenShake = 10;
+                    playDamage();
+                    enemies.splice(i, 1);
+                    
+                    // Damage particles
+                    for (let j = 0; j < 15; j++) {
+                        particles.push(new Particle(
+                            canvas.width / 2, canvas.height / 2,
+                            '#ff3366', 6, randomRange(2, 5)
+                        ));
+                    }
+                    
+                    if (coreHealth <= 0) {
+                        gameOver();
+                    }
+                }
+            }
+            
+            // Update projectiles
+            for (let i = projectiles.length - 1; i >= 0; i--) {
+                const proj = projectiles[i];
+                if (proj.update() === 'dead') {
+                    projectiles.splice(i, 1);
+                    continue;
+                }
+                
+                // Check collisions
+                for (let j = enemies.length - 1; j >= 0; j--) {
+                    const enemy = enemies[j];
+                    const d = dist(proj.x, proj.y, enemy.x, enemy.y);
+                    
+                    if (d < proj.radius + enemy.radius) {
+                        // Hit!
+                        const comboMult = Math.pow(2, Math.floor(combo / 5));
+                        const baseDamage = proj.power * 10;
+                        const damage = Math.floor(baseDamage * comboMult);
+                        
+                        if (enemy.takeDamage(damage)) {
+                            // Enemy destroyed
+                            const killScore = Math.floor((enemy.maxHealth + wave * 10) * comboMult);
+                            score += killScore;
+                            waveStats.kills++;
+                            
+                            playExplosion();
+                            
+                            // Explosion particles
+                            let color = '#ff3366';
+                            if (enemy.type === 1) color = '#ff00ff';
+                            if (enemy.type === 2) color = '#aa00ff';
+                            
+                            for (let k = 0; k < 12; k++) {
+                                particles.push(new Particle(
+                                    enemy.x, enemy.y,
+                                    color, 5, randomRange(2, 4)
+                                ));
+                            }
+                            
+                            damageTexts.push(new DamageText(
+                                enemy.x, enemy.y,
+                                `+${killScore}`,
+                                '#00ffff', 14
+                            ));
+                            
+                            enemies.splice(j, 1);
+                        } else {
+                            // Damage text
+                            damageTexts.push(new DamageText(
+                                enemy.x, enemy.y - 10,
+                                `${damage}`,
+                                '#fff', 12
+                            ));
+                        }
+                        
+                        if (!proj.isPulseWave) {
+                            projectiles.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // Update particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                if (particles[i].update()) {
+                    particles.splice(i, 1);
+                }
+            }
+            
+            // Update damage texts
+            for (let i = damageTexts.length - 1; i >= 0; i--) {
+                if (damageTexts[i].update()) {
+                    damageTexts.splice(i, 1);
+                }
+            }
+            
+            // Decay screen shake
+            if (screenShake > 0) screenShake *= 0.9;
+            if (screenShake < 0.5) screenShake = 0;
+            
+            updateUI();
+        }
+        
+        function draw() {
+            // Clear with trail effect
+            ctx.fillStyle = 'rgba(10, 10, 26, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.save();
+            
+            // Screen shake
+            if (screenShake > 0) {
+                ctx.translate(
+                    randomRange(-screenShake, screenShake),
+                    randomRange(-screenShake, screenShake)
+                );
+            }
+            
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const arenaRadius = canvas.width / 2 - 30;
+            
+            // Draw arena grid
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 1; i <= 4; i++) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, arenaRadius * (i / 4), 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Draw arena border
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.3)';
+            ctx.lineWidth = 3;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = '#00ffff';
+            ctx.beginPath();
+            ctx.arc(cx, cy, arenaRadius, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+            
+            // Draw rhythm pulse rings
+            const pulseRingCount = 3;
+            for (let i = 0; i < pulseRingCount; i++) {
+                const ringPhase = (beatPhase + i / pulseRingCount) % 1;
+                const ringRadius = 20 + ringPhase * 100;
+                const alpha = 1 - ringPhase;
+                
+                ctx.strokeStyle = `rgba(255, 0, 255, ${alpha * 0.3})`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, ringRadius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Draw beat indicator (metronome bar)
+            const barWidth = 200;
+            const barHeight = 8;
+            const barX = cx - barWidth / 2;
+            const barY = 30;
+            
+            // Bar background
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fillRect(barX, barY, barWidth, barHeight);
+            
+            // Beat markers
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            for (let i = 0; i < 4; i++) {
+                const mx = barX + (barWidth / 4) * i;
+                ctx.fillRect(mx, barY - 3, 2, barHeight + 6);
+            }
+            
+            // Beat cursor
+            const cursorX = barX + beatPhase * barWidth;
+            const timing = getTimingQuality();
+            let cursorColor = '#fff';
+            if (timing === 'perfect') cursorColor = '#ffd700';
+            else if (timing === 'great') cursorColor = '#00ff88';
+            else if (timing === 'good') cursorColor = '#ffaa00';
+            
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = cursorColor;
+            ctx.fillStyle = cursorColor;
+            ctx.fillRect(cursorX - 4, barY - 4, 8, barHeight + 8);
+            ctx.shadowBlur = 0;
+            
+            // Draw core
+            const corePulse = 0.8 + Math.sin(Date.now() / 100) * 0.2;
+            const coreRadius = 25 + beatPhase * 5 * corePulse;
+            
+            // Core glow
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreRadius * 3);
+            gradient.addColorStop(0, 'rgba(0, 255, 255, 0.8)');
+            gradient.addColorStop(0.5, 'rgba(255, 0, 255, 0.3)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(cx, cy, coreRadius * 3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Core body
+            ctx.shadowBlur = 30;
+            ctx.shadowColor = pulseWaveReady ? '#ff00ff' : '#00ffff';
+            ctx.fillStyle = pulseWaveReady ? '#ff00ff' : '#00ffff';
+            ctx.beginPath();
+            ctx.arc(cx, cy, coreRadius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Core inner
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(cx, cy, coreRadius * 0.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            // Pulse wave indicator on core
+            if (pulseWaveReady) {
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.arc(cx, cy, coreRadius + 10 + Math.sin(Date.now() / 100) * 5, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            
+            // Draw entities
+            for (const enemy of enemies) enemy.draw();
+            for (const proj of projectiles) proj.draw();
+            for (const p of particles) p.draw();
+            for (const dt of damageTexts) dt.draw();
+            
+            ctx.restore();
+            
+            requestAnimationFrame(draw);
+        }
+        
+        // Game control
+        function startGame() {
+            initAudio();
+            document.getElementById('startScreen').style.display = 'none';
+            gameState = 'PLAYING';
+            
+            // Reset state
+            score = 0;
+            combo = 0;
+            maxCombo = 0;
+            coreHealth = 100;
+            pulseMeter = 0;
+            pulseWaveReady = false;
+            waveRatings = [];
+            waveStats = { perfect: 0, great: 0, good: 0, miss: 0, kills: 0 };
+            enemies = [];
+            projectiles = [];
+            particles = [];
+            damageTexts = [];
+            
+            // Start rhythm
+            const now = Date.now();
+            lastBeatTime = now;
+            nextBeatTime = now + beatInterval;
+            
+            renderWaveBadges();
+            updateUI();
+            startWave(1);
+        }
+
+        function renderWaveBadges() {
+            const container = document.getElementById('waveBadges');
+            container.innerHTML = '';
+            for (let i = 0; i < maxWaves; i++) {
+                const badge = document.createElement('div');
+                const cls = waveRatings[i] || '';
+                badge.className = `waveBadge ${cls}`.trim();
+                badge.textContent = waveRatings[i] ? `W${i + 1} ${waveRatings[i].toUpperCase()}` : `W${i + 1}`;
+                container.appendChild(badge);
+            }
+        }
+        
+        function gameOver() {
+            gameState = 'GAMEOVER';
+            document.getElementById('gameOverScreen').style.display = 'flex';
+            document.getElementById('finalScoreGameOver').textContent = `Final Score: ${score}`;
+            
+            let rating = 'GOOD';
+            let ratingClass = 'good';
+            if (score >= 20000) {
+                rating = 'PULSE GOD!';
+                ratingClass = 'perfect';
+            } else if (score >= 10000) {
+                rating = 'EXCELLENT!';
+                ratingClass = 'great';
+            }
+            
+            const ratingEl = document.getElementById('ratingGameOver');
+            ratingEl.textContent = rating;
+            ratingEl.className = `rating ${ratingClass}`;
+        }
+        
+        function gameWin() {
+            gameState = 'WIN';
+            document.getElementById('winScreen').style.display = 'flex';
+            document.getElementById('finalScoreWin').textContent = `Final Score: ${score}`;
+            
+            let rating = 'VICTORY';
+            let ratingClass = 'good';
+            if (score >= 25000) {
+                rating = 'LEGENDARY!';
+                ratingClass = 'perfect';
+            } else if (score >= 15000) {
+                rating = 'MASTERY!';
+                ratingClass = 'great';
+            }
+            
+            const ratingEl = document.getElementById('ratingWin');
+            ratingEl.textContent = rating;
+            ratingEl.className = `rating ${ratingClass}`;
+        }
+        
+        function restartGame() {
+            document.getElementById('gameOverScreen').style.display = 'none';
+            document.getElementById('winScreen').style.display = 'none';
+            startGame();
+        }
+        
+        // Event listeners
+        canvas.addEventListener('mousedown', handleInput);
+        canvas.addEventListener('touchstart', handleInput, {passive: false});
+        
+        // Space bar for pulse wave
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && gameState === 'PLAYING' && pulseWaveReady) {
+                activatePulseWave();
+            }
+        });
+        
+        // Start loops
+        setInterval(update, 1000 / 60);
+        draw();
+    </script>
+</body>
+</html>

@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Helix Jump Clone</title>
+<style>
+:root{
+  --bg1:#dff3ff;--bg2:#b7d0ff;--bg3:#7c8fe3;--panel:rgba(255,255,255,.18);--line:rgba(255,255,255,.32);
+  --ink:#0d1b3a;--muted:#35507d;--pill:#eef6ff;--accent:#ff8f57;--accent2:#ffcf6e;--tower:#cfd6ef;--towerShade:#a9b4d8;
+  --ball:#fffbff;--ballCore:#ff8c73;--combo:#ffd35a;--good:#7ce7ff;--shadow:rgba(21,45,89,.18);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:none}
+html,body{margin:0;height:100%;overflow:hidden;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--bg1),var(--bg2) 45%,var(--bg3));}
+canvas{display:block;width:100vw;height:100vh}
+button{font:inherit}
+.ui{position:fixed;inset:0;pointer-events:none}
+.top{position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.cluster{display:flex;gap:10px;flex-wrap:wrap}
+.stat,.badge,.action,.help,.combo-pop{background:var(--panel);backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:0 12px 28px var(--shadow)}
+.stat,.badge{border-radius:18px;padding:10px 14px}
+.stat .label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-size:24px;font-weight:900;line-height:1.05;margin-top:3px}
+.action{pointer-events:auto;border:none;border-radius:16px;padding:12px 16px;font-weight:800;color:var(--ink);cursor:pointer;background:rgba(255,255,255,.48)}
+.help{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);padding:10px 16px;border-radius:999px;color:var(--muted);font-size:13px;text-align:center;max-width:min(94vw,760px)}
+.version{position:fixed;left:50%;bottom:72px;transform:translateX(-50%);font-size:12px;color:var(--muted)}
+.overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(225,237,255,.26);pointer-events:auto}
+.card{width:min(94vw,520px);padding:22px;border-radius:28px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.58);box-shadow:0 18px 50px rgba(23,41,78,.22)}
+.card h1,.card h2{margin:0 0 8px;line-height:1.04;letter-spacing:-.04em}.card h1{font-size:40px}.card h2{font-size:30px}.card p{color:var(--muted);line-height:1.55}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.badge b{display:block;font-size:19px}.badge span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.actions>*{flex:1}
+.hidden{display:none!important}.combo-pop{position:fixed;left:50%;top:92px;transform:translateX(-50%);padding:10px 18px;border-radius:999px;color:#7d4700;font-weight:900;background:rgba(255,211,90,.9);opacity:0;transition:opacity .18s ease, transform .18s ease}
+.combo-pop.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (max-width:720px){
+  .top{top:88px}.cluster{width:100%}.cluster .stat{flex:1}.grid{grid-template-columns:1fr}.card h1{font-size:34px}.help{left:12px;right:12px;transform:none;border-radius:18px}.version{bottom:66px}
+}
+</style>
+</head>
+<body>
+<canvas id="game" aria-label="Helix Jump clone canvas"></canvas>
+<div class="ui">
+  <div class="top">
+    <div class="cluster">
+      <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
+      <div class="stat"><div class="label">Best</div><div class="value" id="best">0</div></div>
+      <div class="stat"><div class="label">Rows</div><div class="value" id="rows">0</div></div>
+    </div>
+    <div class="cluster">
+      <div class="stat"><div class="label">Combo</div><div class="value" id="combo">x1</div></div>
+      <button class="action" id="restartBtn">↻ Restart</button>
+    </div>
+  </div>
+  <div class="combo-pop" id="comboPop">Combo x2</div>
+  <div class="version badge">v2026.03.27-r12</div>
+</div>
+
+<div class="overlay" id="menu">
+  <div class="card">
+    <h1>Helix Jump Clone</h1>
+    <p>A clean Sprint 1 prototype: the ball stays centered, the tower rotates under swipe, safe wedge slices bounce, gap clears shatter rows, and combo climbs only on consecutive drops.</p>
+    <div class="grid">
+      <div class="badge"><b>Centered ball</b><span>World scroll illusion</span></div>
+      <div class="badge"><b>Swept rows</b><span>No tunnel-through solids</span></div>
+      <div class="badge"><b>Pie-slice read</b><span>Clearer 2D openings</span></div>
+    </div>
+    <div class="actions">
+      <button class="action" id="startBtn" style="background:linear-gradient(135deg,#ffcf6e,#ff8f57);color:#201200">Play</button>
+      <button class="action" id="howBtn">How it works</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay hidden" id="pauseCard">
+  <div class="card">
+    <h2>Run paused</h2>
+    <p>Every safe bounce resets your combo back to x1. To climb the multiplier, keep threading the next gaps without touching another platform.</p>
+    <div class="actions">
+      <button class="action" id="resumeBtn" style="background:linear-gradient(135deg,#ffcf6e,#ff8f57);color:#201200">Resume</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const $ = id => document.getElementById(id);
+const ui = {score:$('score'), best:$('best'), rows:$('rows'), combo:$('combo'), comboPop:$('comboPop')};
+const menu = $('menu');
+const pauseCard = $('pauseCard');
+const TAU = Math.PI * 2;
+const anchorYFactor = 0.42;
+const storageKey = 'helix-jump-clone-best-v1';
+let best = Number(localStorage.getItem(storageKey) || 0) || 0;
+
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp = (a,b,t)=>a + (b-a)*t;
+const rand = (a,b)=>a + Math.random() * (b-a);
+const wrap = a => ((a % TAU) + TAU) % TAU;
+function angleInArc(angle,start,end){ const span = wrap(end - start); const rel = wrap(angle - start); return rel >= 0 && rel <= span; }
+
+const game = {
+  running:false,
+  score:0,
+  towerAngle:0,
+  cameraY:0,
+  clearStreak:0,
+  comboDisplay:1,
+  rowsCleared:0,
+  particles:[],
+  ringRows:[],
+  nextRowId:0,
+  gravityBase:1520,
+  gravityRamp:240,
+  rotationSpeed:0,
+  flash:0,
+  comboTimer:0,
+  wobble:0
+};
+
+const input = {pointer:false,lastX:0,keyDir:0};
+const ball = {
+  screenX:0,
+  screenY:0,
+  worldY:0,
+  radius:18,
+  vy:-260,
+  stretch:1,
+  squash:1,
+  bounceVisual:0,
+  idleTimer:0
+};
+
+const view = {w:0,h:0,dpr:1,pillarRadius:58,ringRadius:150,rowSpacing:118,rowThickness:26,frontScale:0.26,backScale:0.12,contactAngle:Math.PI*0.5};
+
+function resize(){
+  view.dpr = Math.min(window.devicePixelRatio || 1, 2);
+  view.w = innerWidth; view.h = innerHeight;
+  canvas.width = Math.floor(view.w * view.dpr); canvas.height = Math.floor(view.h * view.dpr);
+  canvas.style.width = view.w + 'px'; canvas.style.height = view.h + 'px';
+  ctx.setTransform(view.dpr,0,0,view.dpr,0,0);
+  view.pillarRadius = clamp(view.w * 0.108, 48, 84);
+  view.ringRadius = clamp(view.w * 0.235, 118, 200);
+  view.rowSpacing = clamp(view.h * 0.14, 100, 126);
+  view.rowThickness = clamp(view.w * 0.032, 20, 30);
+  ball.radius = clamp(view.w * 0.032, 14, 22);
+  ball.screenX = view.w * 0.5;
+  ball.screenY = view.h * anchorYFactor;
+}
+addEventListener('resize', resize, {passive:true});
+resize();
+
+function paletteForDepth(i){
+  const hues = [18, 42, 190, 156, 275, 336];
+  const hue = hues[i % hues.length];
+  return {
+    top:`hsl(${hue} 96% 76%)`,
+    top2:`hsl(${hue} 98% 86%)`,
+    side:`hsl(${hue} 76% 58%)`,
+    sideDark:`hsl(${hue} 68% 42%)`,
+    back:`hsl(${hue} 56% 64%)`,
+    backDark:`hsl(${hue} 48% 46%)`,
+    rim:`hsla(${hue} 96% 98% / .94)`,
+    shadow:`hsla(${hue} 72% 24% / .28)`
+  };
+}
+
+function createSegments(gapCenter, gapWidth){
+  const gapStart = wrap(gapCenter - gapWidth * 0.5);
+  const gapEnd = wrap(gapCenter + gapWidth * 0.5);
+  const safeStart = gapEnd;
+  const safeEnd = gapStart;
+  return {
+    gapStart,
+    gapEnd,
+    segments:[{start:safeStart,end:safeEnd}]
+  };
+}
+
+function makeRow(index, worldY, isSpawn=false){
+  const gapWidth = isSpawn ? 1.18 : (index < 5 ? rand(1.18, 1.42) : rand(1.08, 1.32));
+  const gapCenter = isSpawn ? Math.PI * 1.45 : rand(0, TAU);
+  const pattern = createSegments(gapCenter, gapWidth);
+  return {
+    id: game.nextRowId++,
+    index,
+    worldY,
+    baseAngle: rand(-0.55, 0.55),
+    cleared:false,
+    breakAge:0,
+    clearClaimed:false,
+    color: paletteForDepth(index),
+    ...pattern
+  };
+}
+
+function resetRun(){
+  game.running = false;
+  game.score = 0;
+  game.towerAngle = 0;
+  game.cameraY = 0;
+  game.clearStreak = 0;
+  game.comboDisplay = 1;
+  game.rowsCleared = 0;
+  game.particles = [];
+  game.ringRows = [];
+  game.nextRowId = 0;
+  game.flash = 0;
+  game.comboTimer = 0;
+  game.wobble = 0;
+  ball.worldY = 0;
+  ball.vy = -260;
+  ball.stretch = 1;
+  ball.squash = 1;
+  ball.bounceVisual = 1;
+  ball.idleTimer = 0;
+  for(let i=0;i<20;i++) game.ringRows.push(makeRow(i, 88 + i * view.rowSpacing, i === 0));
+  syncUi();
+}
+
+function startRun(){
+  resetRun();
+  game.running = true;
+  menu.classList.add('hidden');
+  pauseCard.classList.add('hidden');
+}
+
+function syncUi(){
+  ui.score.textContent = Math.floor(game.score);
+  ui.best.textContent = best;
+  ui.rows.textContent = game.rowsCleared;
+  ui.combo.textContent = 'x' + game.comboDisplay;
+}
+
+function showCombo(mult){
+  ui.comboPop.textContent = mult > 1 ? `Combo x${mult}` : 'Combo x1';
+  ui.comboPop.classList.add('show');
+  game.comboTimer = 0.55;
+}
+
+function playTone(freq, duration, type='sine', gain=0.035){
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if(!AudioCtx) return;
+  if(!playTone.ctx) playTone.ctx = new AudioCtx();
+  const ac = playTone.ctx;
+  if(ac.state === 'suspended') ac.resume();
+  const o = ac.createOscillator();
+  const g = ac.createGain();
+  o.type = type; o.frequency.value = freq;
+  g.gain.value = gain; g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + duration);
+  o.connect(g).connect(ac.destination);
+  o.start(); o.stop(ac.currentTime + duration);
+}
+function playBounce(){ playTone(210, 0.12, 'triangle', 0.05); }
+function playClear(mult){ playTone(460 + mult * 36, 0.12, 'square', 0.04); setTimeout(()=>playTone(620 + mult * 40, 0.12, 'triangle', 0.03), 45); }
+
+function addDust(x,y,color,count=12,force=1){
+  for(let i=0;i<count;i++) game.particles.push({kind:'dust',x,y,vx:rand(-55,55)*force,vy:rand(-90,10)*force,life:rand(.25,.55),age:0,size:rand(3,7),color});
+}
+function shatterRow(row){
+  for(const seg of row.segments){
+    const span = wrap(seg.end - seg.start);
+    const pieces = Math.max(3, Math.round(span / 0.38));
+    for(let i=0;i<pieces;i++){
+      const t0 = i / pieces, t1 = (i + 1) / pieces;
+      const a0 = wrap(seg.start + span * t0 + game.towerAngle + row.baseAngle);
+      const a1 = wrap(seg.start + span * t1 + game.towerAngle + row.baseAngle);
+      const mid = wrap((a0 + a1) * 0.5);
+      const radial = lerp(view.pillarRadius + 28, view.ringRadius * 0.92, 0.72);
+      game.particles.push({
+        kind:'shard', x:ball.screenX + Math.cos(mid) * radial, y:ball.screenY + (row.worldY - game.cameraY) + Math.sin(mid) * view.rowThickness * 0.15,
+        vx:Math.cos(mid) * rand(70,180), vy:rand(-60,150), life:rand(.6,1.2), age:0, spin:rand(-4,4), angle:rand(0,TAU),
+        w:rand(18,28), h:rand(8,14), color:row.color.top
+      });
+    }
+  }
+}
+
+function ensureRows(){
+  while(game.ringRows.length < 28){
+    const last = game.ringRows[game.ringRows.length - 1];
+    const idx = last ? last.index + 1 : 0;
+    const y = last ? last.worldY + view.rowSpacing : 88;
+    game.ringRows.push(makeRow(idx, y));
+  }
+  game.ringRows = game.ringRows.filter(row => row.worldY > ball.worldY - view.h * 0.6 && !(row.cleared && row.breakAge > 1.35));
+}
+
+function rowStateAt(row, towerAngle){
+  const relative = wrap(view.contactAngle - (towerAngle + row.baseAngle));
+  return row.segments.some(seg => angleInArc(relative, seg.start, seg.end)) ? 'solid' : 'gap';
+}
+
+function onBounce(row){
+  ball.worldY = row.worldY - ball.radius - 0.4;
+  ball.vy = -clamp(410 + game.rowsCleared * 4, 410, 520);
+  ball.squash = 1.32;
+  ball.stretch = 0.82;
+  ball.bounceVisual = 1;
+  game.clearStreak = 0;
+  game.comboDisplay = 1;
+  game.wobble = 1;
+  addDust(ball.screenX, ball.screenY + ball.radius, 'rgba(255,255,255,.85)', 10, 1);
+  playBounce();
+  showCombo(1);
+  syncUi();
+}
+
+function clearRow(row){
+  if(row.clearClaimed) return;
+  row.clearClaimed = true;
+  row.cleared = true;
+  row.breakAge = 0.01;
+  game.clearStreak += 1;
+  game.comboDisplay = Math.max(1, game.clearStreak);
+  const reward = 10 * game.comboDisplay;
+  game.score += reward;
+  game.rowsCleared += 1;
+  game.flash = 1;
+  shatterRow(row);
+  playClear(game.comboDisplay);
+  showCombo(game.comboDisplay);
+  syncUi();
+}
+
+function sweepRows(prevBottom, nextBottom, prevAngle, nextAngle){
+  if(nextBottom <= prevBottom) return false;
+  const crossed = game.ringRows.filter(row => !row.cleared && row.worldY >= prevBottom && row.worldY <= nextBottom).sort((a,b)=>a.worldY-b.worldY);
+  for(const row of crossed){
+    const t = clamp((row.worldY - prevBottom) / Math.max(0.0001, nextBottom - prevBottom), 0, 1);
+    const angleAt = prevAngle + (nextAngle - prevAngle) * t;
+    const state = rowStateAt(row, angleAt);
+    if(state === 'solid'){
+      onBounce(row);
+      return true;
+    }
+    clearRow(row);
+  }
+  return false;
+}
+
+function step(dt){
+  const rotationInput = input.keyDir * 3.2;
+  if(rotationInput) game.rotationSpeed += rotationInput * dt;
+  game.rotationSpeed *= Math.pow(0.83, dt * 60);
+  game.rotationSpeed = clamp(game.rotationSpeed, -3.4, 3.4);
+  const prevAngle = game.towerAngle;
+  game.towerAngle += game.rotationSpeed * dt;
+
+  ball.idleTimer += dt;
+  const prevY = ball.worldY;
+  const gravity = game.gravityBase + Math.min(880, game.rowsCleared * game.gravityRamp);
+  ball.vy += gravity * dt;
+  ball.vy = Math.min(ball.vy, 1200);
+  ball.worldY += ball.vy * dt;
+
+  const prevBottom = prevY + ball.radius;
+  const nextBottom = ball.worldY + ball.radius;
+  sweepRows(prevBottom, nextBottom, prevAngle, game.towerAngle);
+
+  ball.squash = lerp(ball.squash, 1, 0.18);
+  ball.stretch = lerp(ball.stretch, 1, 0.16);
+  ball.bounceVisual = Math.max(0, ball.bounceVisual - dt * 2.4);
+  game.flash = Math.max(0, game.flash - dt * 2.5);
+  game.wobble = Math.max(0, game.wobble - dt * 2.8);
+  if(game.comboTimer > 0){
+    game.comboTimer -= dt;
+    if(game.comboTimer <= 0) ui.comboPop.classList.remove('show');
+  }
+
+  for(let i=game.particles.length-1;i>=0;i--){
+    const p = game.particles[i];
+    p.age += dt;
+    if(p.age >= p.life){ game.particles.splice(i,1); continue; }
+    p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 240 * dt;
+    if(p.kind === 'shard') p.angle += p.spin * dt;
+  }
+  for(const row of game.ringRows){ if(row.cleared) row.breakAge += dt; }
+
+  ensureRows();
+  const targetCamera = ball.worldY;
+  game.cameraY = lerp(game.cameraY, targetCamera, 0.16);
+  best = Math.max(best, Math.floor(game.score));
+  localStorage.setItem(storageKey, String(best));
+  syncUi();
+}
+
+function drawBackground(){
+  const g = ctx.createLinearGradient(0,0,0,view.h);
+  g.addColorStop(0,'#e7f7ff'); g.addColorStop(.45,'#bfd6ff'); g.addColorStop(1,'#7f92e7');
+  ctx.fillStyle = g; ctx.fillRect(0,0,view.w,view.h);
+  ctx.fillStyle = 'rgba(255,255,255,.28)';
+  for(let i=0;i<6;i++){
+    ctx.beginPath();
+    const x = view.w * (0.12 + i * 0.17) + Math.sin(performance.now()*0.00012 + i)*22;
+    const y = 70 + i * 60;
+    ctx.ellipse(x,y,68,20,0,0,TAU); ctx.fill();
+  }
+}
+
+function worldToScreenY(worldY){ return ball.screenY + (worldY - game.cameraY); }
+
+function drawPillar(){
+  const wob = game.wobble * 6 * Math.sin(performance.now()*0.03);
+  const x = ball.screenX + wob;
+  const top = -120, h = view.h + 240;
+  const left = x - view.pillarRadius;
+  const width = view.pillarRadius * 2;
+  const grad = ctx.createLinearGradient(left,0,left + width,0);
+  grad.addColorStop(0,'#f4f7ff');
+  grad.addColorStop(.18,'#dde5fb');
+  grad.addColorStop(.45,'#bcc8ea');
+  grad.addColorStop(.72,'#a6b3db');
+  grad.addColorStop(1,'#dfe9ff');
+  ctx.fillStyle = grad;
+  ctx.fillRect(left, top, width, h);
+  ctx.fillStyle = 'rgba(255,255,255,.45)';
+  ctx.fillRect(x - view.pillarRadius * .42, top, view.pillarRadius * .22, h);
+  ctx.fillStyle = 'rgba(58,76,124,.18)';
+  ctx.fillRect(x + view.pillarRadius * .24, top, view.pillarRadius * .34, h);
+  ctx.strokeStyle = 'rgba(77,94,137,.18)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(left, top); ctx.lineTo(left, top + h);
+  ctx.moveTo(left + width, top); ctx.lineTo(left + width, top + h);
+  ctx.stroke();
+}
+
+function angleLerp(start, end, t){ return wrap(start + wrap(end - start) * t); }
+function partitionArc(start, end){
+  const span = wrap(end - start);
+  if(span <= 1.5) return [{start, end}];
+  const split = clamp(span * 0.18, 0.22, 0.42);
+  return [
+    {start, end:angleLerp(start, end, 0.5 - split * 0.5 / span)},
+    {start:angleLerp(start, end, 0.5 + split * 0.5 / span), end}
+  ];
+}
+function isFrontAngle(angle){ return Math.sin(angle) >= 0; }
+function visibleSubArcs(start, end, wantFront){
+  const span = wrap(end - start);
+  const steps = Math.max(12, Math.ceil(span / 0.08));
+  const arcs = [];
+  let active = null;
+  for(let i=0;i<=steps;i++){
+    const t = i / steps;
+    const a = angleLerp(start, end, t);
+    const match = isFrontAngle(a) === wantFront;
+    if(match && active == null) active = a;
+    if((!match || i===steps) && active != null){
+      const closeT = i===steps && match ? t : Math.max(0, (i-1) / steps);
+      const closeA = angleLerp(start, end, closeT);
+      if(wrap(closeA - active) > 0.03) arcs.push({start:active, end:closeA});
+      active = null;
+    }
+  }
+  return arcs;
+}
+function traceWedge(cx, cy, aStart, aEnd, innerR, outerR, squish, tipBias=0.06){
+  const tipAngle = angleLerp(aStart, aEnd, 0.5);
+  const tipR = innerR + (outerR - innerR) * tipBias;
+  const tipX = cx + Math.cos(tipAngle) * tipR;
+  const tipY = cy + Math.sin(tipAngle) * outerR * squish * 0.14;
+  const span = wrap(aEnd - aStart);
+  const steps = Math.max(6, Math.ceil(span / 0.12));
+  ctx.beginPath();
+  ctx.moveTo(tipX, tipY);
+  for(let i=0;i<=steps;i++){
+    const a = angleLerp(aStart, aEnd, i / steps);
+    ctx.lineTo(cx + Math.cos(a) * outerR, cy + Math.sin(a) * outerR * squish);
+  }
+  ctx.closePath();
+}
+function drawWedgeShadow(cx, cy, aStart, aEnd, innerR, outerR, squish, drop, color, alpha=1){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  traceWedge(cx, cy + drop, aStart, aEnd, innerR, outerR, squish, 0.08);
+  const grad = ctx.createLinearGradient(cx, cy - outerR * squish, cx, cy + outerR * squish + drop);
+  grad.addColorStop(0, 'rgba(255,255,255,.08)');
+  grad.addColorStop(1, color);
+  ctx.fillStyle = grad;
+  ctx.fill();
+  ctx.restore();
+}
+function drawWedgeFace(cx, cy, aStart, aEnd, innerR, outerR, squish, palette, alpha=1){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  traceWedge(cx, cy, aStart, aEnd, innerR, outerR, squish, 0.08);
+  const grad = ctx.createLinearGradient(cx, cy - outerR * squish, cx, cy + outerR * squish);
+  grad.addColorStop(0, palette.top);
+  grad.addColorStop(.55, palette.mid);
+  grad.addColorStop(1, palette.bottom);
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  ctx.beginPath();
+  const span = wrap(aEnd - aStart);
+  const steps = Math.max(6, Math.ceil(span / 0.11));
+  for(let i=0;i<=steps;i++){
+    const a = angleLerp(aStart, aEnd, i / steps);
+    const x = cx + Math.cos(a) * outerR;
+    const y = cy + Math.sin(a) * outerR * squish;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle = palette.rim;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  ctx.strokeStyle = palette.edge;
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(cx + Math.cos(aStart) * (innerR + (outerR-innerR)*0.1), cy + Math.sin(aStart) * outerR * squish * 0.2);
+  ctx.lineTo(cx + Math.cos(aStart) * outerR, cy + Math.sin(aStart) * outerR * squish);
+  ctx.moveTo(cx + Math.cos(aEnd) * (innerR + (outerR-innerR)*0.1), cy + Math.sin(aEnd) * outerR * squish * 0.2);
+  ctx.lineTo(cx + Math.cos(aEnd) * outerR, cy + Math.sin(aEnd) * outerR * squish);
+  ctx.stroke();
+  ctx.restore();
+}
+function drawGapGuide(cx, cy, start, end, innerR, outerR, squish, drop, alpha=1){
+  const span = wrap(end - start);
+  if(span < 0.08) return;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  const mid = angleLerp(start, end, 0.5);
+  const tipR = innerR * 0.26;
+  ctx.beginPath();
+  ctx.moveTo(cx + Math.cos(mid) * tipR, cy + Math.sin(mid) * outerR * squish * 0.06);
+  const steps = Math.max(8, Math.ceil(span / 0.1));
+  for(let i=0;i<=steps;i++){
+    const a = angleLerp(start, end, i / steps);
+    ctx.lineTo(cx + Math.cos(a) * outerR * 1.03, cy + Math.sin(a) * outerR * squish + drop * 0.15);
+  }
+  ctx.closePath();
+  const g = ctx.createLinearGradient(cx, cy - outerR * squish, cx, cy + outerR * squish + drop);
+  g.addColorStop(0,'rgba(255,255,255,.40)');
+  g.addColorStop(.45,'rgba(153,196,255,.18)');
+  g.addColorStop(1,'rgba(41,71,135,.03)');
+  ctx.fillStyle = g;
+  ctx.fill();
+
+  for(const boundary of [start, end]){
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(boundary) * tipR, cy + Math.sin(boundary) * outerR * squish * 0.06);
+    ctx.lineTo(cx + Math.cos(boundary) * outerR * 1.03, cy + Math.sin(boundary) * outerR * squish + drop * 0.08);
+    ctx.strokeStyle = 'rgba(255,255,255,.72)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+function drawRow(row, layer='front'){
+  if(row.cleared && row.breakAge > 0.06) return;
+  const y = worldToScreenY(row.worldY);
+  if(y < -120 || y > view.h + 120) return;
+
+  const cx = ball.screenX;
+  const rotation = game.towerAngle + row.baseAngle;
+  const outerR = view.ringRadius;
+  const innerR = view.pillarRadius + 10;
+  const isFront = layer === 'front';
+  const squish = isFront ? 0.36 : 0.18;
+  const drop = view.rowThickness * (isFront ? 0.3 : 0.12);
+  const alpha = row.cleared ? clamp(1 - row.breakAge * 2.2, 0, 1) : 1;
+  const clipPad = outerR + 48;
+
+  ctx.save();
+  ctx.beginPath();
+  if(isFront) ctx.rect(cx - clipPad, y - 12, clipPad * 2, view.h + view.rowThickness + 120);
+  else ctx.rect(cx - clipPad, -120, clipPad * 2, y + drop + 120);
+  ctx.clip();
+
+  for(const seg of row.segments){
+    for(const part of partitionArc(seg.start + rotation, seg.end + rotation)){
+      const visibleParts = visibleSubArcs(part.start, part.end, isFront);
+      for(const vis of visibleParts){
+        const facePalette = isFront
+          ? {top:row.color.top2, mid:row.color.top, bottom:row.color.side, rim:'rgba(255,255,255,.9)', edge:'rgba(255,255,255,.58)'}
+          : {top:'rgba(255,255,255,.92)', mid:row.color.back, bottom:row.color.backDark, rim:'rgba(255,255,255,.42)', edge:'rgba(255,255,255,.24)'};
+        if(isFront) drawWedgeShadow(cx, y, vis.start, vis.end, innerR, outerR, squish, drop, row.color.shadow, alpha * 0.95);
+        drawWedgeFace(cx, y, vis.start, vis.end, innerR, outerR, squish, facePalette, alpha * (isFront ? 1 : 0.9));
+      }
+    }
+  }
+
+  if(isFront) drawGapGuide(cx, y, row.gapStart + rotation, row.gapEnd + rotation, innerR, outerR, squish, drop, alpha * 0.95);
+  ctx.restore();
+}
+
+function drawBall(){
+  const shadowY = ball.screenY + ball.radius * 1.62;
+  ctx.fillStyle = 'rgba(24,45,92,.15)';
+  ctx.beginPath(); ctx.ellipse(ball.screenX, shadowY, ball.radius * 1.1, ball.radius * .42, 0, 0, TAU); ctx.fill();
+  ctx.save();
+  ctx.translate(ball.screenX, ball.screenY);
+  ctx.scale(ball.stretch, ball.squash);
+  const grad = ctx.createRadialGradient(-ball.radius*.35,-ball.radius*.45,ball.radius*.18,0,0,ball.radius*1.2);
+  grad.addColorStop(0,'#ffffff'); grad.addColorStop(.38,'#ffe1dc'); grad.addColorStop(1,'#ff8c73');
+  ctx.fillStyle = grad;
+  ctx.beginPath(); ctx.arc(0,0,ball.radius,0,TAU); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.74)';
+  ctx.beginPath(); ctx.ellipse(-ball.radius*.28,-ball.radius*.38,ball.radius*.34,ball.radius*.22,-.5,0,TAU); ctx.fill();
+  ctx.restore();
+}
+
+function drawParticles(){
+  for(const p of game.particles){
+    const t = 1 - p.age / p.life;
+    ctx.save();
+    ctx.globalAlpha = t;
+    ctx.translate(p.x, p.y);
+    if(p.kind === 'shard'){
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    } else {
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(0,0,p.size * t,0,TAU); ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+function drawFlash(){
+  if(game.flash <= 0) return;
+  ctx.fillStyle = `rgba(255,211,90,${game.flash * 0.16})`;
+  ctx.fillRect(0,0,view.w,view.h);
+}
+
+function render(){
+  drawBackground();
+  for(const row of game.ringRows) drawRow(row, 'back');
+  drawPillar();
+  for(const row of game.ringRows) drawRow(row, 'front');
+  drawBall();
+  drawParticles();
+  drawFlash();
+}
+
+let last = performance.now();
+let acc = 0;
+const stepDt = 1 / 120;
+function frame(now){
+  const dt = Math.min(0.033, (now - last) / 1000); last = now;
+  acc += dt;
+  if(game.running){
+    while(acc >= stepDt){ step(stepDt); acc -= stepDt; }
+  } else {
+    acc = 0;
+  }
+  render();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+function pointerX(ev){ return ev.touches ? ev.touches[0].clientX : ev.clientX; }
+function onPointerDown(ev){ input.pointer = true; input.lastX = pointerX(ev); if(playTone.ctx && playTone.ctx.state === 'suspended') playTone.ctx.resume(); }
+function onPointerMove(ev){ if(!input.pointer) return; const x = pointerX(ev); const dx = x - input.lastX; input.lastX = x; game.rotationSpeed = dx * 0.028; game.towerAngle += dx * 0.0115; }
+function onPointerUp(){ input.pointer = false; }
+window.addEventListener('pointerdown', onPointerDown, {passive:true});
+window.addEventListener('pointermove', onPointerMove, {passive:true});
+window.addEventListener('pointerup', onPointerUp, {passive:true});
+window.addEventListener('pointercancel', onPointerUp, {passive:true});
+window.addEventListener('keydown', ev=>{
+  if(ev.key === 'ArrowLeft' || ev.key.toLowerCase() === 'a') input.keyDir = -1;
+  if(ev.key === 'ArrowRight' || ev.key.toLowerCase() === 'd') input.keyDir = 1;
+  if(ev.key.toLowerCase() === 'r') startRun();
+});
+window.addEventListener('keyup', ev=>{
+  if(['ArrowLeft','ArrowRight','a','A','d','D'].includes(ev.key)) input.keyDir = 0;
+});
+$('restartBtn').addEventListener('click', startRun);
+$('startBtn').addEventListener('click', startRun);
+$('resumeBtn').addEventListener('click', ()=>pauseCard.classList.add('hidden'));
+$('howBtn').addEventListener('click', ()=>{ menu.classList.add('hidden'); pauseCard.classList.remove('hidden'); });
+
+if(new URLSearchParams(location.search).get('autostart') === '1') startRun();
+else {
+  resetRun();
+  syncUi();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+You are reworking a small HTML game prototype.
+Project root: C:/Users/robby/.openclaw/workspace/prototypes_html/2026-03-25-helix-fall
+Public docs mirror: C:/Users/robby/.openclaw/workspace/docs/prototypes_html/2026-03-25-helix-fall
+
+Task: Rework the mechanics/rendering so it feels closer to Helix Jump with a visually centered ball and the tower/platforms rotating around the pillar in response to horizontal input.
+
+Hard requirements:
+1) The ball stays visibly centered on screen during play.
+2) The pillar/tower visibly rotates in response to left/right input.
+3) Swipe/drag right => tower rotates right and platforms visually hide/move around the right side; swipe left => reverse.
+4) Gameplay remains readable and playable on mobile.
+5) Controls feel natural. Prefer drag/swipe to rotate tower, with keyboard support too.
+6) Update visible version text.
+7) Sync docs public mirror files so docs copy matches prototype copy.
+8) Verify locally before finishing.
+9) If first pass still feels wrong, iterate before stopping.
+10) Write a short note describing the mechanical change.
+
+Implementation guidance:
+- Keep it simple/playable, not overengineered.
+- Reframe the game around tower rotation angle and platform angular segments rather than moving the ball horizontally.
+- The ball should render near the center over a central pillar while the stack rotates beneath it.
+- Safe segments, gaps, and danger segments should read clearly in perspective.
+- Preserve the basic bounce/fall/death loop.
+- Update REBUILD_NOTE.md and report.html to reflect the new rotation-centered mechanics.
+- Create or refresh local verification artifacts if useful, but at minimum run a local verification workflow and report what you checked.
+
+After code changes:
+- run any local static verification you can,
+- git status,
+- commit with a clear message,
+- push.
+
+When completely finished, run this command to notify me:
+openclaw system event --text "Done: helix rotation rework completed, verified, committed, and pushed" --mode now

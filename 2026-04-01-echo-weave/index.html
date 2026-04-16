@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Weave - Ritmo Cósmico</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            overflow: hidden;
+        }
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        h1 {
+            color: #00d4ff;
+            margin-top: 20px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff;
+            z-index: 10;
+        }
+        .subtitle {
+            color: #a0a0ff;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+        .instructions {
+            color: #ffdd44;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            z-index: 10;
+            text-align: center;
+            max-width: 500px;
+            padding: 10px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 10px;
+            border: 1px solid #ffdd44;
+        }
+        .score-board {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 15px;
+            z-index: 10;
+        }
+        .score-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 25px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            border: 2px solid #00d4ff;
+        }
+        .score-item span {
+            color: #00ff88;
+            font-size: 1.3rem;
+        }
+        .badges {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            z-index: 10;
+        }
+        .badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+        .badge.earned {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px currentColor;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(3, 120px);
+            gap: 15px;
+            z-index: 10;
+        }
+        .node {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+            border: 4px solid rgba(255,255,255,0.2);
+        }
+        .node:hover { transform: scale(1.05); }
+        .node:active { transform: scale(0.95); }
+        .node.red { background: radial-gradient(circle at 30% 30%, #ff6b6b, #c92a2a); box-shadow: 0 0 30px #ff6b6b; }
+        .node.blue { background: radial-gradient(circle at 30% 30%, #4dabf7, #1864ab); box-shadow: 0 0 30px #4dabf7; }
+        .node.green { background: radial-gradient(circle at 30% 30%, #51cf66, #2b8a3e); box-shadow: 0 0 30px #51cf66; }
+        .node.yellow { background: radial-gradient(circle at 30% 30%, #ffd43b, #f59f00); box-shadow: 0 0 30px #ffd43b; }
+        .node.purple { background: radial-gradient(circle at 30% 30%, #da77f2, #862e9c); box-shadow: 0 0 30px #da77f2; }
+        .node.orange { background: radial-gradient(circle at 30% 30%, #ff922b, #d9480f); box-shadow: 0 0 30px #ff922b; }
+        .node.lit { animation: pulse 0.4s ease-out; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); filter: brightness(1.5); }
+            100% { transform: scale(1); }
+        }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: ripple-effect 0.8s ease-out forwards;
+        }
+        @keyframes ripple-effect {
+            0% { width: 0; height: 0; opacity: 0.8; }
+            100% { width: 300px; height: 300px; opacity: 0; }
+        }
+        .controls {
+            margin-top: 20px;
+            z-index: 10;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        .start-btn {
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            color: #0a0a1a;
+        }
+        .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #00ff88; }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a3e, #2a1a4e);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #00d4ff;
+            max-width: 400px;
+        }
+        .modal h2 {
+            color: #00ff88;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .modal.lose h2 { color: #ff6b6b; }
+        .modal p { color: white; margin-bottom: 20px; }
+        .final-score {
+            font-size: 3rem;
+            color: #ffd43b;
+            margin: 20px 0;
+        }
+        .level-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #00d4ff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="level-indicator">NIVEL <span id="level">1</span></div>
+    <h1>🌌 ECHO WEAVE</h1>
+    <p class="subtitle">Repite el patrón cósmico</p>
+    <div class="instructions">
+        👁️ Memoriza la secuencia de colores • 👆 Toca los nodos en el mismo orden • 🎯 Cada acierto = +100 pts • 🔥 Racha de 5 = ¡multiplicador!
+    </div>
+    <div class="score-board">
+        <div class="score-item">PUNTOS: <span id="score">0</span></div>
+        <div class="score-item">RACHA: <span id="streak">0</span></div>
+    </div>
+    <div class="badges">
+        <div class="badge" style="background: #cd7f32; color: white;" title="Bronce: 500 pts">🥉</div>
+        <div class="badge" style="background: #c0c0c0; color: black;" title="Plata: 1000 pts">🥈</div>
+        <div class="badge" style="background: #ffd700; color: black;" title="Oro: 2000 pts">🥇</div>
+        <div class="badge" style="background: #00d4ff; color: white;" title="Diamante: 5000 pts">💎</div>
+    </div>
+    <div class="game-container" id="gameBoard">
+        <div class="node red" data-color="0"></div>
+        <div class="node blue" data-color="1"></div>
+        <div class="node green" data-color="2"></div>
+        <div class="node yellow" data-color="3"></div>
+        <div class="node purple" data-color="4"></div>
+        <div class="node orange" data-color="5"></div>
+    </div>
+    <div class="controls">
+        <button class="start-btn" id="startBtn">🚀 INICIAR JUEGO</button>
+    </div>
+
+    <div class="modal" id="gameModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">¡GANASTE!</h2>
+            <p id="modalMessage">¡Secuencia perfecta!</p>
+            <div class="final-score" id="finalScore">0</div>
+            <button class="start-btn" onclick="resetGame()">🔄 JUGAR DE NUEVO</button>
+        </div>
+    </div>
+
+    <script>
+        // Crear estrellas de fondo
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        const nodes = document.querySelectorAll('.node');
+        const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
+        let sequence = [];
+        let playerSequence = [];
+        let score = 0;
+        let streak = 0;
+        let level = 1;
+        let isPlaying = false;
+        let canClick = false;
+
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const frequencies = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
+
+        function playTone(index, duration = 200) {
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.frequency.value = frequencies[index];
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+            osc.start();
+            osc.stop(audioContext.currentTime + duration / 1000);
+        }
+
+        function createRipple(x, y, color) {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.border = `3px solid ${getComputedStyle(nodes[color]).background}`;
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 800);
+        }
+
+        function lightNode(index) {
+            nodes[index].classList.add('lit');
+            playTone(index);
+            setTimeout(() => nodes[index].classList.remove('lit'), 400);
+        }
+
+        async function playSequence() {
+            canClick = false;
+            await sleep(500);
+            for (let i = 0; i < sequence.length; i++) {
+                lightNode(sequence[i]);
+                await sleep(600);
+            }
+            canClick = true;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function addToSequence() {
+            sequence.push(Math.floor(Math.random() * 6));
+        }
+
+        function updateBadges() {
+            const badges = document.querySelectorAll('.badge');
+            if (score >= 500) badges[0].classList.add('earned');
+            if (score >= 1000) badges[1].classList.add('earned');
+            if (score >= 2000) badges[2].classList.add('earned');
+            if (score >= 5000) badges[3].classList.add('earned');
+        }
+
+        function showModal(win, message) {
+            const modal = document.getElementById('gameModal');
+            const title = document.getElementById('modalTitle');
+            const msg = document.getElementById('modalMessage');
+            const finalScore = document.getElementById('finalScore');
+            
+            modal.classList.add('active');
+            if (!win) modal.classList.add('lose');
+            
+            title.textContent = win ? '🎉 ¡VICTORIA!' : '💥 GAME OVER';
+            msg.textContent = message;
+            finalScore.textContent = score;
+        }
+
+        function resetGame() {
+            document.getElementById('gameModal').classList.remove('active', 'lose');
+            sequence = [];
+            playerSequence = [];
+            score = 0;
+            streak = 0;
+            level = 1;
+            updateDisplay();
+            document.querySelectorAll('.badge').forEach(b => b.classList.remove('earned'));
+            startGame();
+        }
+
+        function updateDisplay() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak;
+            document.getElementById('level').textContent = level;
+        }
+
+        async function startGame() {
+            isPlaying = true;
+            document.getElementById('startBtn').style.display = 'none';
+            addToSequence();
+            await playSequence();
+        }
+
+        nodes.forEach((node, index) => {
+            node.addEventListener('click', async (e) => {
+                if (!isPlaying || !canClick) return;
+                
+                lightNode(index);
+                createRipple(e.pageX, e.pageY, index);
+                
+                if (sequence[playerSequence.length] === index) {
+                    playerSequence.push(index);
+                    
+                    if (playerSequence.length === sequence.length) {
+                        // Secuencia completada correctamente
+                        streak++;
+                        const multiplier = Math.floor(streak / 5) + 1;
+                        const points = 100 * multiplier;
+                        score += points;
+                        
+                        if (streak % 5 === 0) {
+                            // Nuevo nivel cada 5 rachas
+                            level++;
+                        }
+                        
+                        updateDisplay();
+                        updateBadges();
+                        
+                        if (score >= 10000) {
+                            showModal(true, '¡Eres un maestro del ritmo cósmico!');
+                            isPlaying = false;
+                            return;
+                        }
+                        
+                        playerSequence = [];
+                        await sleep(500);
+                        addToSequence();
+                        await playSequence();
+                    }
+                } else {
+                    // Error - Game Over
+                    playTone(index, 400);
+                    node.style.border = '4px solid #ff0000';
+                    await sleep(300);
+                    node.style.border = '4px solid rgba(255,255,255,0.2)';
+                    showModal(false, `Racha perdida en nivel ${level}`);
+                    isPlaying = false;
+                }
+            });
+        });
+
+        document.getElementById('startBtn').addEventListener('click', startGame);
+    </script>
+</body>
+</html>

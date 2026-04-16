@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Pips Pressure Parlor</title>
+<style>
+  :root{
+    --bg:#130f1f;
+    --bg2:#23163f;
+    --panel:rgba(23,18,39,.86);
+    --gold:#ffcb6b;
+    --hot:#ff7d7d;
+    --mint:#69f0cf;
+    --sky:#7ac7ff;
+    --lav:#c7b0ff;
+    --ink:#f5f0ff;
+    --dim:#ac9fc8;
+    --good:#87f18e;
+    --bad:#ff7b96;
+    --shadow:0 20px 60px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:none}
+  html,body{height:100%;margin:0;background:radial-gradient(circle at top,#37235f 0%,var(--bg) 45%,#080611 100%);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif;overflow:hidden}
+  body:before, body:after{content:"";position:fixed;inset:auto;pointer-events:none;border-radius:50%;filter:blur(60px);opacity:.45}
+  body:before{width:38vmax;height:38vmax;left:-8vmax;top:-10vmax;background:#6d3cff}
+  body:after{width:32vmax;height:32vmax;right:-8vmax;bottom:-8vmax;background:#0099ff}
+  #app{position:relative;display:flex;flex-direction:column;height:100%;padding:12px;gap:10px;max-width:1100px;margin:0 auto}
+  .hud{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.3fr;gap:10px;z-index:5}
+  .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(14px);border-radius:18px;box-shadow:var(--shadow)}
+  .hud .card{padding:10px 12px;min-height:76px}
+  .title{font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-size:12px}
+  .big{font-size:27px;font-weight:900;line-height:1.05}
+  .sub{color:var(--dim);font-size:12px}
+  .center{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+  .contract{padding:14px 16px;display:grid;grid-template-columns:1.15fr .95fr;gap:12px;align-items:stretch;min-height:148px}
+  .vip{display:flex;flex-direction:column;gap:8px}
+  .vip h1{margin:0;font-size:clamp(22px,4vw,34px);line-height:1}
+  .vip .flair{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:rgba(255,203,107,.12);width:max-content;color:#ffe0a0;font-weight:700;font-size:12px}
+  .bullets{display:grid;gap:8px}
+  .rule{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:13px;background:rgba(255,255,255,.04);font-weight:700;font-size:14px}
+  .rule strong{color:white}
+  .playfield{position:relative;flex:1;display:grid;grid-template-columns:1fr 280px;gap:12px;min-height:0}
+  .tableWrap{position:relative;padding:10px;overflow:hidden}
+  .instructions{position:absolute;top:14px;left:14px;right:14px;z-index:8;display:flex;gap:10px;flex-wrap:wrap;pointer-events:none}
+  .pill{padding:8px 12px;border-radius:999px;background:rgba(10,9,18,.62);border:1px solid rgba(255,255,255,.08);font-size:12px;font-weight:700;color:#f5eaff}
+  #table{position:relative;height:100%;min-height:290px;border-radius:26px;overflow:hidden;background:
+    radial-gradient(circle at 50% 45%, rgba(255,255,255,.07), transparent 22%),
+    radial-gradient(circle at 50% 50%, rgba(122,199,255,.18), transparent 56%),
+    linear-gradient(135deg,#281a43,#161123 60%,#0f0b18);
+    border:1px solid rgba(255,255,255,.08)}
+  .feltGlow{position:absolute;inset:10% 17%;border-radius:50%;background:radial-gradient(circle,#9f7bff22 0,#57d3ff18 35%,transparent 68%);filter:blur(8px)}
+  .padGrid{position:absolute;inset:14% 9% 24%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px}
+  .pad{position:relative;border-radius:22px;border:2px dashed rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:.2s transform,.2s border-color,.2s background}
+  .pad.active{transform:scale(1.03);border-color:rgba(255,203,107,.9);background:rgba(255,203,107,.08)}
+  .pad .label{position:absolute;top:10px;left:12px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#ddd2ff;font-weight:800}
+  .pad .mult{font-size:34px;font-weight:900;opacity:.92}
+  .pad .effect{position:absolute;inset:auto 10px 10px auto;color:#96f6da;font-size:12px;font-weight:800}
+  .slotDie{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%) scale(.98)}
+  .lounge{position:absolute;left:10px;right:10px;bottom:12px;min-height:96px;padding:10px;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08)}
+  .loungeTitle{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#ddcffc;font-weight:800;margin-bottom:6px}
+  .diceRow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;min-height:70px}
+  .die{width:64px;height:64px;border-radius:18px;position:absolute;display:grid;place-items:center;background:linear-gradient(180deg,#fffefc,#ece9ff);box-shadow:0 16px 24px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.9);color:#241c38;font-weight:900;user-select:none;cursor:grab;transition:transform .12s ease, box-shadow .12s ease}
+  .die.free{position:relative;left:auto!important;top:auto!important;transform:none!important}
+  .die.dragging{z-index:20;cursor:grabbing;transform:scale(1.08) rotate(4deg);box-shadow:0 18px 30px rgba(0,0,0,.45)}
+  .die .face{position:absolute;inset:0;display:grid;place-items:center}
+  .die .mood{position:absolute;bottom:5px;right:7px;font-size:12px}
+  .pips{width:40px;height:40px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:2px}
+  .pip{width:8px;height:8px;border-radius:50%;background:#2a2341;align-self:center;justify-self:center;opacity:0}
+  .pip.on{opacity:1}
+  .die.odd{outline:3px solid #7ae8ff55}.die.even{outline:3px solid #ffcf6c55}
+  .die.perfect{animation:pop .35s ease}
+  @keyframes pop{0%{transform:scale(.75)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .side{padding:12px;display:flex;flex-direction:column;gap:10px}
+  .scoreBreakdown{padding:12px;border-radius:16px;background:rgba(255,255,255,.04)}
+  .btns{display:grid;gap:10px}
+  button{border:none;border-radius:16px;padding:14px 14px;font-weight:900;font-size:15px;color:#140e22;background:linear-gradient(180deg,#ffe198,#ffbe58);box-shadow:0 10px 20px rgba(255,190,88,.25);cursor:pointer}
+  button.alt{background:rgba(255,255,255,.08);color:var(--ink);box-shadow:none;border:1px solid rgba(255,255,255,.08)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .badges{display:grid;gap:8px}
+  .badge{padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:#d7cff0}
+  .badge.on{background:linear-gradient(90deg,rgba(135,241,142,.2),rgba(122,199,255,.12));color:white;border:1px solid rgba(135,241,142,.4)}
+  #toast,#overlay{position:absolute;left:50%;transform:translateX(-50%);z-index:30}
+  #toast{top:18px;padding:12px 16px;border-radius:999px;background:rgba(7,9,15,.86);border:1px solid rgba(255,255,255,.08);font-weight:800;opacity:0;pointer-events:none;transition:.25s opacity,.25s transform}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #overlay{top:50%;transform:translate(-50%,-50%) scale(.96);width:min(92vw,560px);padding:20px;border-radius:24px;background:rgba(14,12,25,.94);border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.2s}
+  #overlay.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+  #overlay h2{margin:0 0 8px;font-size:30px}.overlayScore{font-size:44px;font-weight:900;color:var(--gold)}
+  .meter{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#78efff,#ffcf6a,#ff8da9)}
+  .hearts{font-size:26px;letter-spacing:2px}
+  .small{font-size:12px;color:var(--dim)}
+  .flash{animation:flash .4s ease}
+  @keyframes flash{0%,100%{filter:none}50%{filter:brightness(1.4)}}
+  .badgeBurst{position:absolute;right:16px;top:16px;z-index:12;padding:12px 14px;border-radius:16px;background:rgba(16,13,28,.92);border:1px solid rgba(135,241,142,.36);font-weight:900;box-shadow:var(--shadow);animation:badgeIn 2.4s ease forwards}
+  @keyframes badgeIn{0%{opacity:0;transform:translateY(-8px) scale(.92)}10%,82%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-14px) scale(.96)}}
+  @media (max-width: 860px){
+    #app{padding:8px}
+    .hud{grid-template-columns:repeat(2,1fr)}
+    .contract{grid-template-columns:1fr}
+    .playfield{grid-template-columns:1fr}
+    .side{order:-1}
+  }
+  @media (max-width: 560px){
+    .hud{grid-template-columns:1fr 1fr}
+    .hud .card{min-height:72px}
+    .big{font-size:22px}
+    .padGrid{inset:16% 5% 28%;gap:9px}
+    .die{width:56px;height:56px;border-radius:16px}
+    .pips{width:34px;height:34px}
+    .pad .mult{font-size:28px}
+    button{padding:13px;font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="toast"></div>
+  <div id="overlay"></div>
+  <div class="hud">
+    <div class="card">
+      <div class="title">Score</div>
+      <div class="big" id="score">0</div>
+      <div class="sub">Nail contracts, keep the streak alive.</div>
+    </div>
+    <div class="card">
+      <div class="title">Composure</div>
+      <div class="hearts" id="hearts">❤❤❤</div>
+      <div class="sub">Lose all hearts and the parlor closes.</div>
+    </div>
+    <div class="card">
+      <div class="title">Streak</div>
+      <div class="big" id="streak">0</div>
+      <div class="meter"><i id="streakMeter"></i></div>
+    </div>
+    <div class="card center">
+      <div>
+        <div class="title">Contracts Cleared</div>
+        <div class="big"><span id="cleared">0</span>/5</div>
+      </div>
+      <div class="sub">Win the room at 5 clears.</div>
+    </div>
+  </div>
+
+  <div class="card contract">
+    <div class="vip">
+      <div class="flair" id="vipTag">VIP contract live</div>
+      <h1 id="vipName">Madame Meridian</h1>
+      <div class="sub" id="vipFlavor">The room wants exact pressure and elegant balance.</div>
+      <div class="small">Place up to <strong>3 dice</strong> on the pressure table, then lock the deal.</div>
+    </div>
+    <div class="bullets">
+      <div class="rule" id="ruleTotal">🎯 Target pressure: <strong>0</strong></div>
+      <div class="rule" id="ruleDiff">⚖️ Balance gap: <strong>≤ 0</strong></div>
+      <div class="rule" id="ruleClause">✨ Clause: <strong>-</strong></div>
+    </div>
+  </div>
+
+  <div class="playfield">
+    <div class="card tableWrap">
+      <div class="instructions">
+        <div class="pill">Drag or flick dice from the lounge onto glowing pads.</div>
+        <div class="pill">Pressure = die value × pad multiplier.</div>
+        <div class="pill">Clear 5 VIPs before you lose 3 hearts.</div>
+      </div>
+      <div id="table">
+        <div class="feltGlow"></div>
+        <div class="padGrid" id="padGrid"></div>
+        <div class="lounge">
+          <div class="loungeTitle">Dice lounge — choose your pressure crew</div>
+          <div class="diceRow" id="diceRow"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card side">
+      <div class="scoreBreakdown">
+        <div class="title">Current Layout</div>
+        <div id="layoutText" class="sub" style="margin-top:6px;line-height:1.5">No dice placed yet. Toss some bone into the felt.</div>
+      </div>
+      <div class="scoreBreakdown">
+        <div class="title">Badges</div>
+        <div class="badges" id="badges"></div>
+      </div>
+      <div class="btns">
+        <button id="lockBtn">Lock Deal</button>
+        <button id="recallBtn" class="alt">Recall Dice</button>
+        <button id="newBtn" class="alt">New Run</button>
+      </div>
+      <div class="small">Pads: Ember ×1 • Velvet ×2 • Crown ×3 • hush = no 6s • spark = odd likes it • mirror = even likes it</div>
+    </div>
+  </div>
+</div>
+<script>
+(() => {
+  const pads = [
+    {id:'ember', label:'Ember', mult:1, fx:'safe base', type:'neutral'},
+    {id:'velvet', label:'Velvet', mult:2, fx:'rich lift', type:'neutral'},
+    {id:'crown', label:'Crown', mult:3, fx:'high risk', type:'neutral'},
+    {id:'hush', label:'Hush', mult:2, fx:'no 6s', type:'noSix'},
+    {id:'spark', label:'Spark', mult:1, fx:'+2 if odd', type:'oddBonus'},
+    {id:'mirror', label:'Mirror', mult:1, fx:'+2 if even', type:'evenBonus'},
+  ];
+  const vipNames = ['Madame Meridian','Velvet Comet','Saint Static','Count Prism','Lucky Nocturne','The Gilded Twin','Iris Blackjack','Duke Afterglow'];
+  const flavors = [
+    'The room wants exact pressure and elegant balance.',
+    'A picky whale wants numbers that feel lucky, not sloppy.',
+    'This table rewards calm arithmetic and clean reads.',
+    'High society loves drama, but only within tolerance.'
+  ];
+  const badgeDefs = [
+    {id:'perfect3', name:'Crystal Closer', desc:'3 perfect contracts', check:s=>s.perfects>=3},
+    {id:'snake', name:'Snake Eyes Savior', desc:'Win using double ones', check:s=>s.snakeEyesWins>=1},
+    {id:'heater', name:'High Roller', desc:'Score 90+ on one deal', check:s=>s.maxDeal>=90},
+    {id:'streak4', name:'VIP Whisperer', desc:'Reach 4 streak', check:s=>s.bestStreak>=4},
+  ];
+  const state = {
+    score:0, streak:0, bestStreak:0, hearts:3, cleared:0, contract:null, dice:[], placements:{}, usedIds:new Set(), perfects:0, snakeEyesWins:0, maxDeal:0, badges:new Set(), gameOver:false
+  };
+  const $ = sel => document.querySelector(sel);
+  const padGrid = $('#padGrid');
+  const diceRow = $('#diceRow');
+  const overlay = $('#overlay');
+  let drag = null;
+
+  function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  function sample(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  function buildPads(){
+    padGrid.innerHTML='';
+    pads.forEach(p=>{
+      const el=document.createElement('div');
+      el.className='pad'; el.dataset.pad=p.id;
+      el.innerHTML=`<div class="label">${p.label}</div><div class="mult">×${p.mult}</div><div class="effect">${p.fx}</div>`;
+      padGrid.appendChild(el);
+    });
+  }
+
+  function pipPattern(v){
+    const on = {1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]}[v];
+    return Array.from({length:9},(_,i)=>`<span class="pip ${on.includes(i)?'on':''}"></span>`).join('');
+  }
+
+  function genDice(){
+    state.dice = Array.from({length:5},(_,i)=>({
+      id:'d'+Date.now()+i,
+      value:rand(1,6),
+      mood: sample(['😼','🫦','🫧','🔥','✨','🎲']),
+    }));
+    state.placements = {};
+    renderDice();
+    updateLayoutText();
+  }
+
+  function renderDice(){
+    diceRow.innerHTML='';
+    state.dice.forEach(d=>{
+      if(state.placements[d.id]) return;
+      const die=makeDie(d,true);
+      diceRow.appendChild(die);
+    });
+    Object.entries(state.placements).forEach(([dieId,padId])=>{
+      const d=state.dice.find(x=>x.id===dieId); if(!d) return;
+      const padEl=[...document.querySelectorAll('.pad')].find(p=>p.dataset.pad===padId);
+      if(!padEl) return;
+      const die=makeDie(d,false);
+      die.classList.add('slotDie');
+      padEl.appendChild(die);
+    });
+  }
+
+  function makeDie(d, free){
+    const el=document.createElement('div');
+    el.className=`die ${free?'free':''} ${d.value%2?'odd':'even'}`;
+    el.dataset.id=d.id;
+    el.innerHTML=`<div class="face"><div class="pips">${pipPattern(d.value)}</div></div><div class="mood">${d.mood}</div>`;
+    if(!state.gameOver) attachDrag(el);
+    return el;
+  }
+
+  function attachDrag(el){
+    el.addEventListener('pointerdown', e=>{
+      if(state.gameOver) return;
+      const id=el.dataset.id;
+      const originPlacement=state.placements[id]||null;
+      drag={id,el,offsetX:e.clientX - el.getBoundingClientRect().left, offsetY:e.clientY - el.getBoundingClientRect().top, originPlacement};
+      if(originPlacement) delete state.placements[id];
+      renderDice();
+      const ghost=makeDie(state.dice.find(x=>x.id===id),false);
+      ghost.classList.add('dragging');
+      ghost.style.left=e.clientX-32+'px';
+      ghost.style.top=e.clientY-32+'px';
+      ghost.style.position='fixed';
+      document.body.appendChild(ghost);
+      drag.el=ghost;
+      document.querySelectorAll('.pad').forEach(p=>p.classList.remove('active'));
+      e.preventDefault();
+    });
+  }
+
+  window.addEventListener('pointermove', e=>{
+    if(!drag) return;
+    drag.el.style.left=(e.clientX-drag.offsetX)+'px';
+    drag.el.style.top=(e.clientY-drag.offsetY)+'px';
+    highlightPadAt(e.clientX,e.clientY);
+  });
+
+  window.addEventListener('pointerup', e=>{
+    if(!drag) return;
+    const pad = padAt(e.clientX,e.clientY);
+    if(pad && Object.keys(state.placements).length < 3 && !Object.values(state.placements).includes(pad.dataset.pad)){
+      state.placements[drag.id]=pad.dataset.pad;
+      feedback(`Placed on ${pads.find(x=>x.id===pad.dataset.pad).label}`,'good');
+      pad.classList.add('flash'); setTimeout(()=>pad.classList.remove('flash'),420);
+    } else if(drag.originPlacement){
+      state.placements[drag.id]=drag.originPlacement;
+    }
+    cleanupDrag();
+    renderDice();
+    updateLayoutText();
+  });
+
+  function cleanupDrag(){
+    if(drag?.el) drag.el.remove();
+    document.querySelectorAll('.pad').forEach(p=>p.classList.remove('active'));
+    drag=null;
+  }
+
+  function padAt(x,y){
+    return [...document.querySelectorAll('.pad')].find(p=>{
+      const r=p.getBoundingClientRect();
+      return x>=r.left && x<=r.right && y>=r.top && y<=r.bottom;
+    });
+  }
+  function highlightPadAt(x,y){
+    document.querySelectorAll('.pad').forEach(p=>p.classList.toggle('active',p===padAt(x,y)));
+  }
+
+  function makeContract(){
+    const clauseMap = {
+      odd2:'Exactly 2 odd dice',
+      even2:'At least 2 even dice',
+      no1:'No 1s on the table',
+      sumHigh:'At least one pad pressure 10+',
+      double:'Any matching pair of values',
+    };
+    const combos = [];
+    const dice = state.dice;
+    for(let a=0;a<dice.length;a++){
+      for(let b=0;b<pads.length;b++){
+        combos.push([{die:dice[a], pad:pads[b]}]);
+        for(let c=a+1;c<dice.length;c++){
+          for(let d=0;d<pads.length;d++) if(d!==b){
+            combos.push([{die:dice[a], pad:pads[b]},{die:dice[c], pad:pads[d]}]);
+            for(let e=c+1;e<dice.length;e++){
+              for(let f=0;f<pads.length;f++) if(f!==b && f!==d){
+                combos.push([{die:dice[a], pad:pads[b]},{die:dice[c], pad:pads[d]},{die:dice[e], pad:pads[f]}]);
+              }
+            }
+          }
+        }
+      }
+    }
+    const viable = combos.map(entries=>{
+      const placed = entries.map(({die,pad})=>{
+        let pressure = die.value*pad.mult;
+        if(pad.type==='oddBonus' && die.value%2===1) pressure+=2;
+        if(pad.type==='evenBonus' && die.value%2===0) pressure+=2;
+        return {value:die.value,padId:pad.id,pad,pressure};
+      });
+      const hushOk = placed.every(p=>!(p.pad.type==='noSix' && p.value===6));
+      if(!hushOk) return null;
+      const total = placed.reduce((a,b)=>a+b.pressure,0);
+      const left = placed.filter(p=>['ember','hush','spark'].includes(p.padId)).reduce((a,b)=>a+b.pressure,0);
+      const right = placed.filter(p=>['velvet','crown','mirror'].includes(p.padId)).reduce((a,b)=>a+b.pressure,0);
+      const gap = Math.abs(left-right);
+      const clauseOptions = [];
+      if(placed.filter(p=>p.value%2===1).length===2) clauseOptions.push('odd2');
+      if(placed.filter(p=>p.value%2===0).length>=2) clauseOptions.push('even2');
+      if(placed.every(p=>p.value!==1)) clauseOptions.push('no1');
+      if(placed.some(p=>p.pressure>=10)) clauseOptions.push('sumHigh');
+      if(new Set(placed.map(p=>p.value)).size < placed.length) clauseOptions.push('double');
+      if(!clauseOptions.length) return null;
+      return {placed,total,gap,clauseType:sample(clauseOptions)};
+    }).filter(Boolean);
+    const chosen = sample(viable.length ? viable : [{total:18,gap:6,clauseType:'no1'}]);
+    state.contract = {
+      target: chosen.total,
+      gap: Math.min(6, chosen.gap + rand(0,2)),
+      clauseType: chosen.clauseType,
+      clauseText: clauseMap[chosen.clauseType],
+      name: sample(vipNames),
+      flavor: sample(flavors)
+    };
+    $('#vipName').textContent=state.contract.name;
+    $('#vipFlavor').textContent=state.contract.flavor;
+    $('#vipTag').textContent = `VIP contract ${state.cleared+1} of 5`;
+    $('#ruleTotal').innerHTML = `🎯 Target pressure: <strong>${state.contract.target}</strong>`;
+    $('#ruleDiff').innerHTML = `⚖️ Balance gap: <strong>≤ ${state.contract.gap}</strong>`;
+    $('#ruleClause').innerHTML = `✨ Clause: <strong>${state.contract.clauseText}</strong>`;
+  }
+
+  function evaluate(){
+    const placed = Object.entries(state.placements).map(([id,padId])=>{
+      const die=state.dice.find(d=>d.id===id); const pad=pads.find(p=>p.id===padId);
+      let pressure=die.value*pad.mult;
+      if(pad.type==='oddBonus' && die.value%2===1) pressure+=2;
+      if(pad.type==='evenBonus' && die.value%2===0) pressure+=2;
+      return {id, value:die.value, padId, pad, pressure};
+    });
+    const total = placed.reduce((a,b)=>a+b.pressure,0);
+    const left = placed.filter(p=>['ember','hush','spark'].includes(p.padId)).reduce((a,b)=>a+b.pressure,0);
+    const right = placed.filter(p=>['velvet','crown','mirror'].includes(p.padId)).reduce((a,b)=>a+b.pressure,0);
+    const gap=Math.abs(left-right);
+    let clauseOk=false;
+    switch(state.contract.clauseType){
+      case 'odd2': clauseOk=placed.filter(p=>p.value%2===1).length===2; break;
+      case 'even2': clauseOk=placed.filter(p=>p.value%2===0).length>=2; break;
+      case 'no1': clauseOk=placed.every(p=>p.value!==1); break;
+      case 'sumHigh': clauseOk=placed.some(p=>p.pressure>=10); break;
+      case 'double': clauseOk=new Set(placed.map(p=>p.value)).size < placed.length; break;
+    }
+    const hushOk = placed.every(p=>!(p.pad.type==='noSix' && p.value===6));
+    const exact = total===state.contract.target;
+    const balance = gap<=state.contract.gap;
+    const success = placed.length>0 && exact && balance && clauseOk && hushOk;
+    return {placed,total,left,right,gap,clauseOk,hushOk,exact,balance,success};
+  }
+
+  function scoreDeal(ev){
+    const accuracy = 40;
+    const style = 12 + state.streak*5;
+    const bonus = ev.placed.length*6;
+    const totalScore = accuracy + style + bonus + (ev.placed.some(p=>p.pressure>=12)?10:0);
+    return totalScore;
+  }
+
+  function updateLayoutText(){
+    const ev = evaluate();
+    if(ev.placed.length===0){
+      $('#layoutText').innerHTML='No dice placed yet. Toss some bone into the felt.';
+      return;
+    }
+    const line = ev.placed.map(p=>`${p.value} on ${p.pad.label} = ${p.pressure}`).join(' • ');
+    $('#layoutText').innerHTML = `${line}<br>Total <strong>${ev.total}</strong> • Left ${ev.left} / Right ${ev.right} • Gap ${ev.gap}<br>${ev.exact?'✅ exact target':'❌ miss target'} • ${ev.balance?'✅ balanced':'❌ unbalanced'} • ${ev.clauseOk?'✅ clause':'❌ clause'} • ${ev.hushOk?'✅ table rules':'❌ hush broke'}`;
+  }
+
+  function refreshHud(){
+    $('#score').textContent=state.score;
+    $('#streak').textContent=state.streak;
+    $('#cleared').textContent=state.cleared;
+    $('#hearts').textContent='❤'.repeat(state.hearts)+'🖤'.repeat(3-state.hearts);
+    $('#streakMeter').style.width=Math.min(100,state.streak*25)+'%';
+    renderBadges();
+  }
+
+  function renderBadges(){
+    const wrap=$('#badges'); wrap.innerHTML='';
+    badgeDefs.forEach(b=>{
+      const on=state.badges.has(b.id);
+      const el=document.createElement('div');
+      el.className='badge'+(on?' on':'');
+      el.innerHTML=`<span>${b.name}</span><span>${on?'Unlocked':'Locked'}</span>`;
+      wrap.appendChild(el);
+    });
+  }
+
+  function unlockBadges(){
+    badgeDefs.forEach(b=>{
+      if(!state.badges.has(b.id) && b.check(state)){
+        state.badges.add(b.id);
+        const burst=document.createElement('div');
+        burst.className='badgeBurst';
+        burst.textContent=`Badge unlocked: ${b.name}`;
+        document.body.appendChild(burst);
+        setTimeout(()=>burst.remove(),2400);
+      }
+    });
+  }
+
+  function feedback(msg,type='good'){
+    const t=$('#toast'); t.textContent=msg; t.className='show';
+    t.style.borderColor= type==='good' ? 'rgba(135,241,142,.4)' : 'rgba(255,123,150,.4)';
+    t.style.color= type==='good' ? '#c8ffd4' : '#ffd1dd';
+    clearTimeout(feedback._timer); feedback._timer=setTimeout(()=>t.className='',1600);
+  }
+
+  function nextContract(){
+    if(state.cleared>=5) return endGame(true);
+    genDice();
+    makeContract();
+    refreshHud();
+  }
+
+  function recallDice(){ state.placements={}; renderDice(); updateLayoutText(); }
+
+  function endGame(win){
+    state.gameOver=true;
+    overlay.className='show';
+    overlay.innerHTML = `<h2>${win?'Parlor Conquered':'Game Over'}</h2>
+      <div class="overlayScore">${state.score}</div>
+      <p>${win?'You cleared five VIP contracts and owned the room.':'The VIP room lost faith before your table did.'}</p>
+      <p class="small">Best streak: ${state.bestStreak} • Perfect clears: ${state.perfects} • Badges: ${state.badges.size}/${badgeDefs.length}</p>
+      <div class="btns"><button id="playAgain">Play Again</button></div>`;
+    document.querySelector('#playAgain').onclick=resetGame;
+  }
+
+  function resetGame(){
+    state.score=0; state.streak=0; state.bestStreak=0; state.hearts=3; state.cleared=0; state.perfects=0; state.snakeEyesWins=0; state.maxDeal=0; state.badges=new Set(); state.gameOver=false;
+    overlay.className=''; overlay.innerHTML='';
+    buildPads(); nextContract();
+  }
+
+  $('#lockBtn').addEventListener('click', ()=>{
+    if(state.gameOver) return;
+    const ev=evaluate();
+    if(ev.placed.length===0){ feedback('Place at least one die first.','bad'); return; }
+    if(ev.success){
+      const dealScore = scoreDeal(ev);
+      state.score += dealScore;
+      state.maxDeal=Math.max(state.maxDeal,dealScore);
+      state.streak++; state.bestStreak=Math.max(state.bestStreak,state.streak); state.cleared++;
+      if(ev.exact && ev.balance && ev.clauseOk && ev.hushOk) state.perfects++;
+      const values=ev.placed.map(p=>p.value).sort((a,b)=>a-b).join(',');
+      if(values.includes('1,1')) state.snakeEyesWins++;
+      feedback(`Contract cleared! +${dealScore}`,'good');
+      unlockBadges();
+      refreshHud();
+      setTimeout(nextContract,700);
+    } else {
+      state.hearts--; state.streak=0;
+      feedback('Contract rejected. The room goes cold.','bad');
+      refreshHud();
+      if(state.hearts<=0) setTimeout(()=>endGame(false),600);
+      else setTimeout(()=>{ genDice(); makeContract(); updateLayoutText(); },650);
+    }
+  });
+  $('#recallBtn').addEventListener('click', recallDice);
+  $('#newBtn').addEventListener('click', resetGame);
+
+  buildPads();
+  renderBadges();
+  nextContract();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Report — Photon Rally</title>
+  <meta name="description" content="Prototype report: Photon Rally daily lane drift loops, KPIs, ASO plan, and experiments." />
+  <style>
+    :root{--bg:#050714;--card:#111628;--border:rgba(255,255,255,.08);--ink:#f4f7ff;--muted:#96a2c8;--accent:#5cf3ff;}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,-apple-system,sans-serif;}
+    main{max-width:900px;margin:0 auto;padding:32px 24px 60px;display:flex;flex-direction:column;gap:28px}
+    header{display:flex;flex-direction:column;gap:6px}
+    h1{margin:0;font-size:32px}
+    h2{margin:0 0 6px;font-size:20px}
+    section{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 18px 45px rgba(0,0,0,.45)}
+    ul{margin:8px 0 0;padding-left:20px;color:var(--muted);line-height:1.6}
+    li{margin-bottom:6px}
+    .pill{display:inline-flex;padding:4px 12px;border-radius:999px;border:1px solid var(--accent);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+    .link-row{display:flex;gap:14px;font-size:14px;flex-wrap:wrap}
+    .link-row a{color:var(--accent)}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="pill">Prototype 01</div>
+      <h1>Photon Rally · Pulse Lane Drift report</h1>
+      <p style="color:var(--muted);margin:0">Daily 90-second sprints where three neon lanes demand combo timing, buffer trade-offs, and reactor stability.</p>
+      <div class="link-row">
+        <a href="index.html">Back to hero</a>
+        <a href="../index.html">Catalog</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Strategy</h2>
+      <ul>
+        <li>Position as a “micro-burst runner” — 90-second sessions that can be completed between meetings while still feeling layered.</li>
+        <li>Highlight lane balancing decisions over pure tapping to justify the “quality-first” tag and offset hyper-casual comparisons.</li>
+        <li>A/B test gating deeper combos behind streaks so that power players unlock new lanes while casual players still feel rewarded.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>SEO / ASO / SEM</h2>
+      <ul>
+        <li>Primary keywords: "photon runner", "neon puzzle runner", "90-second combos", "daily lane drift".</li>
+        <li>App Store preview: "Triage three glowing lanes, trigger overdrive, and keep the reactor stable in short timed sprints." Add video showing lane toggles + combo multiplier jumps.</li>
+        <li>SEM: spend small budget on appeal terms like "daily energy challenge" with CTA “Tap to stabilize the reactor in under 2 minutes”.</li>
+        <li>Cross-promote via trend article about "meditative focusing games", linking to prototype index and encouraging Discord/Reddit feedback loops.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Loop</h2>
+      <ul>
+        <li>Start: 90-second timer, lane priorities refresh, tutorial overlay for two combo tiers.</li>
+        <li>Mid: tap to route photons, chain combos to keep energy buffer up, and optionally trigger overdrive with collected reactor samples.</li>
+        <li>End: calculate score (cash + stability), convert combos into progress toward streaks, and unlock a lane story or daily modifier.</li>
+    </ul>
+    </section>
+
+    <section>
+      <h2>Rewards</h2>
+      <ul>
+        <li>Flavorful Reactor Samples (collect 18 per day) -> cosmetic skins for lane outlines and a daily summary badge.</li>
+        <li>Weekly streak path that unlocks “Momentum Echo” glimpses showing future lane patterns.</li>
+        <li>Shadow runs: replay a high-score session to practice lane weaving and compare combos.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>KPIs</h2>
+      <ul>
+        <li>D1 retention target 42% / D7 21% driven by short-run gating + pushable streak reminders.</li>
+        <li>Session length 90-110s; aim for 2.7 runs per day per active user via quick restart CTA.</li>
+        <li>Combo completion: want ≥75% of players scoring 18+ combos to validate depth vs. fatigue.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Experiments</h2>
+      <ul>
+        <li>Experiment A: Lane cooldown (1.2× combo) vs. steady drift (flat 1.05×) to see which lifts Royce retention.</li>
+        <li>Experiment B: Visual aura feedback tied to stability (color-coded outline) to test clarity of lane health.</li>
+        <li>Experiment C: “Silent run” mode that hides timers and uses haptics for combos → measure engagement vs. clarity.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Risks</h2>
+      <ul>
+        <li>Touch latency: lane swaps require precise taps; poor responsiveness will make drift feel unfair.</li>
+        <li>Communication: without a strong story, players may not understand why stability matters, reducing retention.</li>
+        <li>Overdrive clarity: if multipliers feel opaque, players may threaten stability just to chase scores, hurting KPI goals.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

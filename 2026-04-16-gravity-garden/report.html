@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gravity Garden - Strategy Report</title>
+<style>
+  body { margin: 0; font-family: Inter, system-ui, sans-serif; background: #07101d; color: #eef6ff; }
+  main { max-width: 960px; margin: 0 auto; padding: 32px 20px 70px; }
+  h1, h2, h3 { color: #aaf7ff; }
+  section { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 20px; margin: 18px 0; }
+  p, li { line-height: 1.55; color: #d7e7ff; }
+  code { color: #ffd77a; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .card { background: rgba(255,255,255,0.04); border-radius: 14px; padding: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Gravity Garden - Full Strategy Report</h1>
+  <p>This report documents the design, systems, progression, and implementation choices behind the <strong>Gravity Garden</strong> HTML5 prototype.</p>
+
+  <section>
+    <h2>1. Game Summary</h2>
+    <p><strong>Gravity Garden</strong> is a cosmic placement-strategy game. The player plants a limited number of gravity seeds in the lower garden. These seeds grow into gravity wells that attract falling star-seeds. When stars enter a well, they bloom into luminous stellar flowers, creating score and occasionally chain reactions. The feel is meditative, but the strategy is tight: every planted seed matters.</p>
+  </section>
+
+  <section>
+    <h2>2. Core Mechanics</h2>
+    <div class="grid">
+      <div class="card"><h3>Planting Phase</h3><p>The player can only plant on the bottom “ground” region. This anchors strategy to a readable spatial rule and creates meaningful placement tradeoffs.</p></div>
+      <div class="card"><h3>Gravity Wells</h3><p>Each planted seed grows into a well with animated radius and simplified inverse-square attraction. Multiple wells can combine to create star funnels.</p></div>
+      <div class="card"><h3>Blooming</h3><p>Stars convert into flowers when they enter a well’s core. Each bloom emits particles and cosmic pollen.</p></div>
+      <div class="card"><h3>Chain Reactions</h3><p>If 3 or more blooms happen inside a 2-second window, the chain multiplier rises and a supernova event triggers bonus score plus spectacle.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. Star Types</h2>
+    <ul>
+      <li><strong>White stars:</strong> Standard targets and baseline scoring.</li>
+      <li><strong>Gold stars:</strong> Worth 2x score, helping advanced players recover a shaky run.</li>
+      <li><strong>Comets:</strong> Faster and harder to bend, but valuable when captured.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Level Progression</h2>
+    <p>The prototype includes <strong>6 levels</strong> with increasing pressure:</p>
+    <ul>
+      <li>Higher star spawn rates</li>
+      <li>Stricter seed budgets</li>
+      <li>Growing wind intensity</li>
+      <li>More floating obstacles that deflect stars</li>
+      <li>Higher comet frequency</li>
+    </ul>
+    <p><strong>Win:</strong> Reach the target bloom count.<br /><strong>Lose:</strong> Run out of seeds and fail to hit target after all stars resolve.</p>
+  </section>
+
+  <section>
+    <h2>5. Scoring Model</h2>
+    <p>Score is driven by this structure:</p>
+    <ul>
+      <li><code>Base bloom score = 100</code></li>
+      <li><code>Total = Base × chain multiplier × star-type bonus</code></li>
+      <li>Supernova adds a large flat bonus</li>
+      <li>Pollen interactions add small trickle score for satisfying after-effects</li>
+    </ul>
+    <p>This creates a strong risk-reward loop: safe isolated catches are steady, but clustered catches create explosive scoring.</p>
+  </section>
+
+  <section>
+    <h2>6. Wind, Obstacles, and Pollen</h2>
+    <ul>
+      <li><strong>Wind gusts</strong> periodically push stars laterally, forcing adaptive layouts.</li>
+      <li><strong>Obstacles</strong> bounce stars and make late levels less deterministic.</li>
+      <li><strong>Cosmic pollen</strong> drifts from flowers and energizes nearby blooms, making the garden feel alive even after a catch.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Badges</h2>
+    <p>The game includes <strong>5 unlockable celestial badges</strong> to support replay motivation:</p>
+    <ul>
+      <li>First Bloom</li>
+      <li>Supernova</li>
+      <li>Golden Hand</li>
+      <li>Level Keeper</li>
+      <li>Celestial Zenith</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>8. Visual Direction</h2>
+    <p>The visual target was “<em>cosmic greenhouse</em>” rather than generic sci-fi. The presentation combines:</p>
+    <ul>
+      <li>Layered nebula gradients</li>
+      <li>Glowing wells with soft radial falloff</li>
+      <li>Star trails for motion readability</li>
+      <li>Flower petals with hue-shifted gradients</li>
+      <li>Particle bursts for blooms and supernovas</li>
+      <li>Glassmorphism UI to keep HUD readable without flattening the atmosphere</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>9. Technical Notes</h2>
+    <ul>
+      <li>Single self-contained <code>index.html</code></li>
+      <li>Canvas-based rendering and animation loop</li>
+      <li>Simplified inverse-square gravity model</li>
+      <li>Touch + mouse support</li>
+      <li>Responsive HUD and readable mobile interaction</li>
+      <li>Designed for smooth browser performance at 60fps on typical hardware</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>10. Strategy Tips for Players</h2>
+    <ul>
+      <li>Use early seeds to create broad catch coverage.</li>
+      <li>Place at least one center-biased well to recover wind-drifted stars.</li>
+      <li>In later levels, cluster one or two wells closer together to fish for chain reactions.</li>
+      <li>Do not over-commit all seeds to one side unless wind strongly favors it.</li>
+      <li>Comets are hard to catch directly, so use overlapping pull fields.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>11. Possible Next Iterations</h2>
+    <ul>
+      <li>Constellation-based meta progression</li>
+      <li>Special seed powers (repulse, split, delayed bloom)</li>
+      <li>Level editor / daily challenge seeds</li>
+      <li>Ambient soundtrack + bloom chimes</li>
+      <li>Accessibility mode with stronger visual contrast and reduced motion</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

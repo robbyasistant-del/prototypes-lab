@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cipher Stack - Pattern Matching Puzzle</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --color-teal: #2DD4BF;
+            --color-teal-dark: #14B8A6;
+            --color-coral: #F87171;
+            --color-coral-dark: #EF4444;
+            --color-lavender: #A78BFA;
+            --color-lavender-dark: #8B5CF6;
+            --color-amber: #FBBF24;
+            --color-amber-dark: #F59E0B;
+            --color-bg-dark: #0F172A;
+            --color-bg-mid: #1E293B;
+            --color-bg-light: #334155;
+            --color-text: #F1F5F9;
+            --color-text-muted: #94A3B8;
+            --glow-teal: 0 0 20px rgba(45, 212, 191, 0.5);
+            --glow-coral: 0 0 20px rgba(248, 113, 113, 0.5);
+            --glow-lavender: 0 0 20px rgba(167, 139, 250, 0.5);
+            --glow-amber: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #1E293B 100%);
+            min-height: 100vh;
+            color: var(--color-text);
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+        
+        /* Background grid pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(45, 212, 191, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 212, 191, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Screen management */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Header */
+        .game-header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+        
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--color-teal), var(--color-lavender));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--color-text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* Level info bar */
+        .level-info {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .level-number {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .attempts-display {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        
+        .attempt-star {
+            font-size: 1.2rem;
+            color: #334155;
+            transition: color 0.3s;
+        }
+        
+        .attempt-star.earned {
+            color: var(--color-amber);
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+        
+        .attempt-star.lost {
+            color: #475569;
+            opacity: 0.5;
+        }
+        
+        .score-display {
+            font-weight: 600;
+            color: var(--color-teal);
+        }
+        
+        /* Rules section */
+        .rules-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 15px;
+        }
+        
+        .rules-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-text-muted);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .rules-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .rule-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            transition: all 0.3s;
+        }
+        
+        .rule-item.revealed {
+            background: rgba(45, 212, 191, 0.15);
+            border-color: var(--color-teal);
+            color: var(--color-teal);
+            animation: ruleReveal 0.5s ease;
+        }
+        
+        .rule-item.broken {
+            background: rgba(248, 113, 113, 0.2);
+            border-color: var(--color-coral);
+            color: var(--color-coral);
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes ruleReveal {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        /* Game board */
+        .game-board {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            margin-bottom: 15px;
+            min-height: 320px;
+            position: relative;
+        }
+        
+        .column {
+            flex: 1;
+            max-width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            min-height: 280px;
+            position: relative;
+        }
+        
+        .column-slot {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 2px dashed rgba(255,255,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .column:hover .column-slot:empty {
+            border-color: rgba(45, 212, 191, 0.3);
+            background: rgba(45, 212, 191, 0.05);
+        }
+        
+        .tile {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        
+        .tile:hover {
+            transform: translateY(-2px);
+        }
+        
+        .tile.teal {
+            background: linear-gradient(145deg, var(--color-teal), var(--color-teal-dark));
+            box-shadow: 0 4px 15px rgba(45, 212, 191, 0.4), var(--glow-teal);
+        }
+        
+        .tile.coral {
+            background: linear-gradient(145deg, var(--color-coral), var(--color-coral-dark));
+            box-shadow: 0 4px 15px rgba(248, 113, 113, 0.4), var(--glow-coral);
+        }
+        
+        .tile.lavender {
+            background: linear-gradient(145deg, var(--color-lavender), var(--color-lavender-dark));
+            box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4), var(--glow-lavender);
+        }
+        
+        .tile.amber {
+            background: linear-gradient(145deg, var(--color-amber), var(--color-amber-dark));
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4), var(--glow-amber);
+        }
+        
+        .tile.highlight-error {
+            animation: errorPulse 0.5s ease infinite alternate;
+        }
+        
+        @keyframes errorPulse {
+            from { box-shadow: 0 0 5px var(--color-coral), inset 0 0 10px rgba(248, 113, 113, 0.5); }
+            to { box-shadow: 0 0 20px var(--color-coral), inset 0 0 20px rgba(248, 113, 113, 0.8); }
+        }
+        
+        .tile-inner {
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Color-blind patterns */
+        .tile.teal .tile-inner::after { content: '●'; }
+        .tile.coral .tile-inner::after { content: '▲'; }
+        .tile.lavender .tile-inner::after { content: '■'; }
+        .tile.amber .tile-inner::after { content: '★'; }
+        
+        .tile.drop-animation {
+            animation: dropBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes dropBounce {
+            0% { transform: translateY(-200px) scale(0.8); opacity: 0; }
+            60% { transform: translateY(10px) scale(1.05); }
+            80% { transform: translateY(-5px) scale(0.98); }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        
+        /* Tile queue */
+        .queue-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .queue-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+        }
+        
+        .queue-tiles {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            overflow-x: auto;
+            padding: 5px;
+        }
+        
+        .queue-tiles .tile {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        
+        .queue-tiles .tile:first-child {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(45, 212, 191, 0.5);
+        }
+        
+        /* Controls */
+        .controls {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-teal), var(--color-teal-dark));
+            color: #0F172A;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--color-text);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        /* Hint cost indicator */
+        .hint-cost {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            display: block;
+            margin-top: 2px;
+        }
+        
+        /* Win/Fail modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: linear-gradient(145deg, #1E293B, #0F172A);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+        
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .modal.win .modal-title { color: var(--color-teal); }
+        .modal.fail .modal-title { color: var(--color-coral); }
+        
+        .modal-message {
+            color: var(--color-text-muted);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .modal-stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .modal-stars .star {
+            color: #334155;
+            transition: all 0.3s;
+        }
+        
+        .modal-stars .star.earned {
+            color: var(--color-amber);
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+            animation: starPop 0.4s ease;
+        }
+        
+        @keyframes starPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .modal-buttons .btn {
+            min-width: 140px;
+        }
+        
+        /* Celebration animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 999;
+        }
+        
+        /* Main Menu */
+        .main-menu {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 500px;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--color-teal), var(--color-lavender), var(--color-coral));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .tagline {
+            color: var(--color-text-muted);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .menu-btn {
+            padding: 18px 32px;
+            font-size: 1.1rem;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        
+        .menu-btn.primary {
+            background: linear-gradient(135deg, var(--color-teal), var(--color-teal-dark));
+            color: #0F172A;
+        }
+        
+        .menu-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--color-text);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        /* Level Select */
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
+        }
+        
+        .level-card {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .level-card:hover:not(.locked) {
+            transform: translateY(-3px);
+            border-color: var(--color-teal);
+            background: rgba(45, 212, 191, 0.1);
+        }
+        
+        .level-card.locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .level-card.completed {
+            border-color: var(--color-teal);
+            background: rgba(45, 212, 191, 0.1);
+        }
+        
+        .level-number-card {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .level-stars {
+            font-size: 0.7rem;
+            display: flex;
+            gap: 2px;
+        }
+        
+        .level-stars .star {
+            color: #334155;
+        }
+        
+        .level-stars .star.earned {
+            color: var(--color-amber);
+        }
+        
+        .lock-icon {
+            position: absolute;
+            font-size: 1.5rem;
+        }
+        
+        /* Instructions */
+        .instructions {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+            max-width: 500px;
+        }
+        
+        .instructions h3 {
+            color: var(--color-teal);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .instructions ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .instructions li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+        
+        .instructions li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--color-teal);
+        }
+        
+        /* Tutorial highlight */
+        .tutorial-highlight {
+            position: relative;
+        }
+        
+        .tutorial-highlight::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid var(--color-teal);
+            border-radius: 16px;
+            animation: pulse 1.5s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.02); }
+        }
+        
+        .tutorial-tooltip {
+            position: fixed;
+            background: var(--color-bg-mid);
+            border: 1px solid var(--color-teal);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            max-width: 250px;
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        .tutorial-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--color-teal);
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .game-title { font-size: 1.2rem; }
+            .logo { font-size: 2rem; }
+            .column { max-width: 60px; }
+            .tile { font-size: 0.9rem; }
+            .btn { padding: 12px 16px; font-size: 0.9rem; }
+            .level-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        
+        /* Touch feedback */
+        @media (hover: none) {
+            .tile:active { transform: scale(0.95); }
+            .btn:active { transform: scale(0.95); }
+            .level-card:active:not(.locked) { transform: scale(0.95); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Menu Screen -->
+    <div class="screen active" id="menuScreen">
+        <div class="main-menu">
+            <h1 class="logo">🔐 CIPHER STACK</h1>
+            <p class="tagline">Decode the pattern. Stack the truth.</p>
+            
+            <div class="instructions">
+                <h3>🎮 How to Play</h3>
+                <ul>
+                    <li>Stack colored tiles into columns following hidden rules</li>
+                    <li>Each level has 2-4 secret pattern rules to discover</li>
+                    <li>Rules are revealed one at a time when you make mistakes</li>
+                    <li>Use logic to figure out all rules and solve the puzzle</li>
+                    <li>Earn up to 3 stars based on attempts used</li>
+                </ul>
+            </div>
+            
+            <div class="menu-buttons">
+                <button class="menu-btn primary" onclick="showLevelSelect()">▶ Play</button>
+                <button class="menu-btn secondary" onclick="resetProgress()">🔄 Reset Progress</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Level Select Screen -->
+    <div class="screen" id="levelSelectScreen">
+        <div class="main-menu">
+            <h1 class="logo">Select Level</h1>
+            <p class="tagline">Choose your challenge</p>
+            <div class="level-grid" id="levelGrid"></div>
+            <button class="back-btn" onclick="showMenu()" style="margin-top: 30px;">← Back</button>
+        </div>
+    </div>
+    
+    <!-- Game Screen -->
+    <div class="screen" id="gameScreen">
+        <div class="game-header">
+            <button class="back-btn" onclick="showLevelSelect()">← Levels</button>
+            <h1 class="game-title">Cipher Stack</h1>
+            <div class="score-display">Score: <span id="scoreValue">0</span></div>
+        </div>
+        
+        <div class="level-info">
+            <div class="level-number">Level <span id="currentLevel">1</span></div>
+            <div class="attempts-display" id="attemptsDisplay">
+                <span class="attempt-star">★</span>
+                <span class="attempt-star">★</span>
+                <span class="attempt-star">★</span>
+            </div>
+        </div>
+        
+        <div class="rules-container">
+            <div class="rules-title">
+                <span>📜 Rules Discovered</span>
+            </div>
+            <div class="rules-list" id="rulesList">
+                <div class="rule-item">Hidden rules will appear here...</div>
+            </div>
+        </div>
+        
+        <div class="game-board" id="gameBoard">
+            <!-- Columns generated by JS -->
+        </div>
+        
+        <div class="queue-container">
+            <span class="queue-label">Queue</span>
+            <div class="queue-tiles" id="queueTiles"></div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-secondary" id="hintBtn" onclick="useHint()">
+                💡 Hint
+                <span class="hint-cost">-50 pts</span>
+            </button>
+            <button class="btn btn-secondary" onclick="clearBoard()">🗑️ Clear</button>
+            <button class="btn btn-primary" onclick="checkSolution()">✓ Check Stack</button>
+        </div>
+    </div>
+    
+    <!-- Win/Fail Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <div class="modal-icon" id="modalIcon">🏆</div>
+            <h2 class="modal-title" id="modalTitle">Level Complete!</h2>
+            <div class="modal-stars" id="modalStars">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+            </div>
+            <p class="modal-message" id="modalMessage">Great job solving the puzzle!</p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="retryLevel()" id="retryBtn">↻ Retry</button>
+                <button class="btn btn-primary" onclick="nextLevel()" id="nextBtn">Next Level →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        let gameState = {
+            currentLevel: 1,
+            score: 0,
+            attempts: 0,
+            board: [], // 2D array: columns of tiles
+            queue: [], // Queue of tiles to place
+            revealedRules: new Set(),
+            levelProgress: {},
+            isProcessing: false
+        };
+        
+        // Level Definitions
+        const levels = [
+            // Level 1: Tutorial - Simple color restriction
+            {
+                id: 1,
+                name: "First Steps",
+                columns: 4,
+                rows: 3,
+                tiles: ['teal', 'teal', 'teal', 'coral', 'coral', 'coral', 'teal', 'coral', 'teal', 'coral', 'teal', 'coral'],
+                rules: [
+                    { id: 'r1', text: '⚠️ Coral tiles cannot touch each other (even diagonally)', check: checkNoAdjacentCoral },
+                    { id: 'r2', text: '📊 Each column must have at least 1 Teal tile', check: checkMinTealPerColumn }
+                ],
+                tutorial: true,
+                tutorialText: "Welcome! Click a column to place the next tile. Follow the hidden rules!"
+            },
+            // Level 2: Balanced columns
+            {
+                id: 2,
+                name: "Balance",
+                columns: 4,
+                rows: 3,
+                tiles: ['teal', 'teal', 'teal', 'teal', 'lavender', 'lavender', 'lavender', 'lavender', 'teal', 'lavender', 'teal', 'lavender'],
+                rules: [
+                    { id: 'r1', text: '⚖️ All columns must have the same number of tiles', check: checkEqualColumnHeight },
+                    { id: 'r2', text: '🚫 No column can have 2 Lavender tiles together', check: checkNoAdjacentLavender }
+                ]
+            },
+            // Level 3: Color pairs
+            {
+                id: 3,
+                name: "Pairing",
+                columns: 4,
+                rows: 4,
+                tiles: ['amber', 'amber', 'amber', 'amber', 'teal', 'teal', 'teal', 'teal', 'amber', 'amber', 'teal', 'teal', 'amber', 'teal', 'amber', 'teal'],
+                rules: [
+                    { id: 'r1', text: '👯 Amber tiles must be placed in pairs (2 together)', check: checkAmberPairs },
+                    { id: 'r2', text: '📏 Column 1 must have exactly 2 tiles', check: checkColumn1Height },
+                    { id: 'r3', text: '🎯 Teal cannot be on top of Amber', check: checkTealNotOnAmber }
+                ]
+            },
+            // Level 4: Column diversity
+            {
+                id: 4,
+                name: "Diversity",
+                columns: 5,
+                rows: 3,
+                tiles: ['teal', 'coral', 'lavender', 'teal', 'coral', 'lavender', 'amber', 'teal', 'coral', 'lavender', 'amber', 'teal', 'coral', 'lavender', 'amber'],
+                rules: [
+                    { id: 'r1', text: '🎨 Every column must have different colors only', check: checkUniqueColorsPerColumn },
+                    { id: 'r2', text: '📍 Amber can only be in columns 2 or 4', check: checkAmberPosition },
+                    { id: 'r3', text: '🔢 Column 3 must have exactly 3 tiles', check: checkColumn3Height }
+                ]
+            },
+            // Level 5: The Wall
+            {
+                id: 5,
+                name: "The Wall",
+                columns: 4,
+                rows: 4,
+                tiles: ['teal', 'teal', 'teal', 'teal', 'teal', 'coral', 'coral', 'coral', 'coral', 'coral', 'teal', 'coral', 'teal', 'coral', 'teal', 'coral'],
+                rules: [
+                    { id: 'r1', text: '🧱 Teal must form a continuous vertical wall in one column', check: checkTealWall },
+                    { id: 'r2', text: '🚫 Coral cannot be in the same column as Teal', check: checkCoralSeparateFromTeal },
+                    { id: 'r3', text: '📊 No column can be empty', check: checkNoEmptyColumns }
+                ]
+            },
+            // Level 6: Rainbow
+            {
+                id: 6,
+                name: "Rainbow",
+                columns: 4,
+                rows: 4,
+                tiles: ['teal', 'coral', 'lavender', 'amber', 'teal', 'coral', 'lavender', 'amber', 'teal', 'coral', 'lavender', 'amber', 'teal', 'coral', 'lavender', 'amber'],
+                rules: [
+                    { id: 'r1', text: '🌈 Every column must have all 4 colors', check: checkAllColorsPerColumn },
+                    { id: 'r2', text: '🎯 No two columns can have the same color on top', check: checkUniqueTopColors },
+                    { id: 'r3', text: '⚠️ Coral and Amber cannot touch', check: checkCoralAmberNoTouch }
+                ]
+            },
+            // Level 7: Symmetry
+            {
+                id: 7,
+                name: "Mirror",
+                columns: 5,
+                rows: 3,
+                tiles: ['teal', 'teal', 'teal', 'teal', 'teal', 'lavender', 'lavender', 'lavender', 'lavender', 'lavender', 'amber', 'amber', 'amber', 'amber', 'amber'],
+                rules: [
+                    { id: 'r1', text: '🪞 Columns must be symmetric (1=5, 2=4)', check: checkSymmetry },
+                    { id: 'r2', text: '📏 Center column (3) must have exactly 3 tiles', check: checkCenterColumn },
+                    { id: 'r3', text: '🎨 Teal and Lavender must alternate in each column', check: checkAlternateTealLavender }
+                ]
+            },
+            // Level 8: The Sequence
+            {
+                id: 8,
+                name: "Sequence",
+                columns: 4,
+                rows: 4,
+                tiles: ['amber', 'amber', 'amber', 'amber', 'amber', 'amber', 'coral', 'coral', 'coral', 'coral', 'coral', 'coral', 'teal', 'teal', 'teal', 'teal'],
+                rules: [
+                    { id: 'r1', text: '📶 Colors must be in order: Amber → Coral → Teal (bottom to top)', check: checkColorSequence },
+                    { id: 'r2', text: '🔢 Each column must have exactly one of each color', check: checkOneEachColor },
+                    { id: 'r3', text: '🎯 Amber must always be at the bottom', check: checkAmberAtBottom }
+                ]
+            },
+            // Level 9: The Pyramid
+            {
+                id: 9,
+                name: "Pyramid",
+                columns: 5,
+                rows: 5,
+                tiles: ['teal', 'teal', 'teal', 'teal', 'teal', 'teal', 'teal', 'teal', 'teal', 'lavender', 'lavender', 'lavender', 'lavender', 'lavender', 'coral', 'coral', 'coral', 'coral', 'coral', 'amber', 'amber', 'amber', 'amber', 'amber', 'amber'],
+                rules: [
+                    { id: 'r1', text: '🔺 Columns form a pyramid: heights 1-2-3-2-1', check: checkPyramidShape },
+                    { id: 'r2', text: '🎨 Each color can only appear in specific columns', check: checkColorColumnRestriction },
+                    { id: 'r3', text: '⚠️ No two same colors can be adjacent', check: checkNoSameColorAdjacent },
+                    { id: 'r4', text: '🎯 Center column must have Teal on top', check: checkCenterTopTeal }
+                ]
+            },
+            // Level 10: Master Cipher
+            {
+                id: 10,
+                name: "Master Cipher",
+                columns: 5,
+                rows: 4,
+                tiles: ['teal', 'teal', 'teal', 'coral', 'coral', 'coral', 'lavender', 'lavender', 'lavender', 'amber', 'amber', 'amber', 'teal', 'coral', 'lavender', 'amber', 'teal', 'coral', 'lavender', 'amber'],
+                rules: [
+                    { id: 'r1', text: '📊 Odd columns (1,3,5) must have odd number of tiles', check: checkOddColumnsOddTiles },
+                    { id: 'r2', text: '📊 Even columns (2,4) must have even number of tiles', check: checkEvenColumnsEvenTiles },
+                    { id: 'r3', text: '🚫 No column can have 2 tiles of same color', check: checkNoDuplicateColorsPerColumn },
+                    { id: 'r4', text: '🎨 Column 3 must contain all 4 colors', check: checkColumn3AllColors }
+                ]
+            }
+        ];
+        
+        // Rule checking functions
+        function checkNoAdjacentCoral(board) {
+            for (let col = 0; col < board.length; col++) {
+                for (let row = 0; row < board[col].length; row++) {
+                    if (board[col][row] === 'coral') {
+                        // Check vertical
+                        if (row > 0 && board[col][row-1] === 'coral') return false;
+                        if (row < board[col].length - 1 && board[col][row+1] === 'coral') return false;
+                        // Check horizontal
+                        if (col > 0 && board[col-1][row] === 'coral') return false;
+                        if (col < board.length - 1 && board[col+1] && board[col+1][row] === 'coral') return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
+        function checkMinTealPerColumn(board) {
+            for (let col of board) {
+                let tealCount = col.filter(t => t === 'teal').length;
+                if (tealCount < 1) return false;
+            }
+            return true;
+        }
+        
+        function checkEqualColumnHeight(board) {
+            let heights = board.map(col => col.length);
+            return heights.every(h => h === heights[0]) && heights[0] > 0;
+        }
+        
+        function checkNoAdjacentLavender(board) {
+            for (let col of board) {
+                for (let i = 0; i < col.length - 1; i++) {
+                    if (col[i] === 'lavender' && col[i+1] === 'lavender') return false;
+                }
+            }
+            return true;
+        }
+        
+        function checkAmberPairs(board) {
+            let amberPositions = [];
+            for (let col = 0; col < board.length; col++) {
+                for (let row = 0; row < board[col].length; row++) {
+                    if (board[col][row] === 'amber') amberPositions.push({col, row});
+                }
+            }
+            if (amberPositions.length % 2 !== 0) return false;
+            // Check they're in pairs (adjacent vertically)
+            let visited = new Set();
+            for (let pos of amberPositions) {
+                if (visited.has(`${pos.col},${pos.row}`)) continue;
+                let hasPair = false;
+                for (let other of amberPositions) {
+                    if (pos.col === other.col && Math.abs(pos.row - other.row) === 1) {
+                        visited.add(`${pos.col},${pos.row}`);
+                        visited.add(`${other.col},${other.row}`);
+                        hasPair = true;
+                        break;
+                    }
+                }
+                if (!hasPair) return false;
+            }
+            return true;
+        }
+        
+        function checkColumn1Height(board) {
+            return board[0].length === 2;
+        }
+        
+        function checkTealNotOnAmber(board) {
+            for (let col of board) {
+                for (let i = 1; i < col.length; i++) {
+                    if (col[i] === 'teal' && col[i-1] === 'amber') return false;
+                }
+            }
+            return true;
+        }
+        
+        function checkUniqueColorsPerColumn(board) {
+            for (let col of board) {
+                let colors = new Set(col);
+                if (colors.size !== col.length) return false;
+            }
+            return true;
+        }
+        
+        function checkAmberPosition(board) {
+            for (let col = 0; col < board.length; col++) {
+                if (board[col].includes('amber') && col !== 1 && col !== 3) return false;
+            }
+            return true;
+        }
+        
+        function checkColumn3Height(board) {
+            return board[2] && board[2].length === 3;
+        }
+        
+        function checkTealWall(board) {
+            let fullTealCol = board.findIndex(col => col.length === 4 && col.every(t => t === 'teal'));
+            return fullTealCol !== -1;
+        }
+        
+        function checkCoralSeparateFromTeal(board) {
+            for (let col of board) {
+                let hasTeal = col.includes('teal');
+                let hasCoral = col.includes('coral');
+                if (hasTeal && hasCoral) return false;
+            }
+            return true;
+        }
+        
+        function checkNoEmptyColumns(board) {
+            return board.every(col => col.length > 0);
+        }
+        
+        function checkAllColorsPerColumn(board) {
+            const allColors = ['teal', 'coral', 'lavender', 'amber'];
+            for (let col of board) {
+                let colColors = new Set(col);
+                if (colColors.size !== 4) return false;
+            }
+            return true;
+        }
+        
+        function checkUniqueTopColors(board) {
+            let topColors = [];
+            for (let col of board) {
+                if (col.length > 0) topColors.push(col[col.length - 1]);
+            }
+            return topColors.length === new Set(topColors).size;
+        }
+        
+        function checkCoralAmberNoTouch(board) {
+            for (let col = 0; col < board.length; col++) {
+                for (let row = 0; row < board[col].length; row++) {
+                    if (board[col][row] === 'coral') {
+                        if (row > 0 && board[col][row-1] === 'amber') return false;
+                        if (row < board[col].length - 1 && board[col][row+1] === 'amber') return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
+        function checkSymmetry(board) {
+            for (let i = 0; i < Math.floor(board.length / 2); i++) {
+                let left = board[i].join(',');
+                let right = board[board.length - 1 - i].join(',');
+                if (left !== right) return false;
+            }
+            return true;
+        }
+        
+        function checkCenterColumn(board) {
+            let center = Math.floor(board.length / 2);
+            return board[center].length === 3;
+        }
+        
+        function checkAlternateTealLavender(board) {
+            for (let col of board) {
+                for (let i = 1; i < col.length; i++) {
+                    let colors = [col[i-1], col[i]];
+                    if (colors.includes('teal') && colors.includes('lavender')) continue;
+                    if (col[i] === col[i-1] && (col[i] === 'teal' || col[i] === 'lavender')) return false;
+                }
+            }
+            return true;
+        }
+        
+        function checkColorSequence(board) {
+            for (let col of board) {
+                for (let i = 1; i < col.length; i++) {
+                    let order = {amber: 0, coral: 1, teal: 2};
+                    if (order[col[i]] <= order[col[i-1]]) return false;
+                }
+            }
+            return true;
+        }
+        
+        function checkOneEachColor(board) {
+            for (let col of board) {
+                let counts = {teal: 0, coral: 0, amber: 0};
+                for (let tile of col) counts[tile]++;
+                if (counts.teal !== 1 || counts.coral !== 1 || counts.amber !== 1) return false;
+            }
+            return true;
+        }
+        
+        function checkAmberAtBottom(board) {
+            for (let col of board) {
+                if (col.length > 0 && col[0] !== 'amber') return false;
+            }
+            return true;
+        }
+        
+        function checkPyramidShape(board) {
+            let expected = [1, 2, 3, 2, 1];
+            for (let i = 0; i < board.length; i++) {
+                if (board[i].length !== expected[i]) return false;
+            }
+            return true;
+        }
+        
+        function checkColorColumnRestriction(board) {
+            // Teal: 1,2 | Lavender: 2,3,4 | Coral: 3,4,5 | Amber: 1,5
+            for (let col = 0; col < board.length; col++) {
+                for (let tile of board[col]) {
+                    if (tile === 'teal' && col > 1) return false;
+                    if (tile === 'lavender' && (col < 1 || col > 3)) return false;
+                    if (tile === 'coral' && (col < 2 || col > 4)) return false;
+                    if (tile === 'amber' && col !== 0 && col !== 4) return false;
+                }
+            }
+            return true;
+        }
+        
+        function checkNoSameColorAdjacent(board) {
+            for (let col = 0; col < board.length; col++) {
+                for (let row = 0; row < board[col].length; row++) {
+                    let color = board[col][row];
+                    if (row > 0 && board[col][row-1] === color) return false;
+                    if (col > 0 && board[col-1][row] === color) return false;
+                    if (col < board.length - 1 && board[col+1][row] === color) return false;
+                }
+            }
+            return true;
+        }
+        
+        function checkCenterTopTeal(board) {
+            let center = Math.floor(board.length / 2);
+            return board[center][board[center].length - 1] === 'teal';
+        }
+        
+        function checkOddColumnsOddTiles(board) {
+            for (let i = 0; i < board.length; i += 2) {
+                if (board[i].length % 2 === 0) return false;
+            }
+            return true;
+        }
+        
+        function checkEvenColumnsEvenTiles(board) {
+            for (let i = 1; i < board.length; i += 2) {
+                if (board[i].length % 2 !== 0) return false;
+            }
+            return true;
+        }
+        
+        function checkNoDuplicateColorsPerColumn(board) {
+            for (let col of board) {
+                let colors = new Set(col);
+                if (colors.size !== col.length) return false;
+            }
+            return true;
+        }
+        
+        function checkColumn3AllColors(board) {
+            let colors = new Set(board[2]);
+            return colors.size === 4;
+        }
+        
+        // Initialize game
+        function init() {
+            loadProgress();
+            updateScoreDisplay();
+        }
+        
+        function loadProgress() {
+            const saved = localStorage.getItem('cipherStackProgress');
+            if (saved) {
+                gameState.levelProgress = JSON.parse(saved);
+            }
+        }
+        
+        function saveProgress() {
+            localStorage.setItem('cipherStackProgress', JSON.stringify(gameState.levelProgress));
+        }
+        
+        function resetProgress() {
+            if (confirm('Reset all progress? This cannot be undone.')) {
+                gameState.levelProgress = {};
+                gameState.score = 0;
+                saveProgress();
+                updateScoreDisplay();
+                alert('Progress reset!');
+            }
+        }
+        
+        // Screen navigation
+        function showMenu() {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('menuScreen').classList.add('active');
+        }
+        
+        function showLevelSelect() {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('levelSelectScreen').classList.add('active');
+            renderLevelGrid();
+        }
+        
+        function renderLevelGrid() {
+            const grid = document.getElementById('levelGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 1; i <= 10; i++) {
+                const progress = gameState.levelProgress[i];
+                const isUnlocked = i === 1 || gameState.levelProgress[i-1]?.completed;
+                const isCompleted = progress?.completed;
+                const stars = progress?.stars || 0;
+                
+                const card = document.createElement('div');
+                card.className = `level-card ${isCompleted ? 'completed' : ''} ${isUnlocked ? '' : 'locked'}`;
+                card.onclick = () => isUnlocked && startLevel(i);
+                
+                if (isUnlocked) {
+                    card.innerHTML = `
+                        <div class="level-number-card">${i}</div>
+                        <div class="level-stars">
+                            <span class="star ${stars >= 1 ? 'earned' : ''}">★</span>
+                            <span class="star ${stars >= 2 ? 'earned' : ''}">★</span>
+                            <span class="star ${stars >= 3 ? 'earned' : ''}">★</span>
+                        </div>
+                    `;
+                } else {
+                    card.innerHTML = '<div class="lock-icon">🔒</div>';
+                }
+                
+                grid.appendChild(card);
+            }
+        }
+        
+        function startLevel(levelNum) {
+            gameState.currentLevel = levelNum;
+            gameState.attempts = 0;
+            gameState.revealedRules = new Set();
+            
+            const level = levels.find(l => l.id === levelNum);
+            gameState.board = Array(level.columns).fill(null).map(() => []);
+            gameState.queue = [...level.tiles];
+            
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('gameScreen').classList.add('active');
+            
+            document.getElementById('currentLevel').textContent = levelNum;
+            updateAttemptsDisplay();
+            renderRules();
+            renderBoard();
+            renderQueue();
+            updateScoreDisplay();
+            
+            // Show tutorial for first level
+            if (level.tutorial) {
+                setTimeout(() => showTutorial(level.tutorialText), 500);
+            }
+        }
+        
+        function showTutorial(text) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tutorial-tooltip';
+            tooltip.textContent = text;
+            tooltip.style.top = '200px';
+            tooltip.style.left = '50%';
+            tooltip.style.transform = 'translateX(-50%)';
+            document.body.appendChild(tooltip);
+            
+            setTimeout(() => tooltip.remove(), 5000);
+        }
+        
+        function renderRules() {
+            const container = document.getElementById('rulesList');
+            const level = levels.find(l => l.id === gameState.currentLevel);
+            
+            if (gameState.revealedRules.size === 0) {
+                container.innerHTML = '<div class="rule-item">❓ Hidden rules will be revealed as you play...</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            for (let ruleId of gameState.revealedRules) {
+                const rule = level.rules.find(r => r.id === ruleId);
+                if (rule) {
+                    const div = document.createElement('div');
+                    div.className = 'rule-item revealed';
+                    div.textContent = rule.text;
+                    container.appendChild(div);
+                }
+            }
+        }
+        
+        function renderBoard() {
+            const container = document.getElementById('gameBoard');
+            const level = levels.find(l => l.id === gameState.currentLevel);
+            
+            container.innerHTML = '';
+            for (let col = 0; col < gameState.board.length; col++) {
+                const column = document.createElement('div');
+                column.className = 'column';
+                column.onclick = () => placeTile(col);
+                
+                // Render tiles in column (bottom to top)
+                for (let row = 0; row < level.rows; row++) {
+                    const slot = document.createElement('div');
+                    slot.className = 'column-slot';
+                    
+                    if (gameState.board[col][row]) {
+                        const tile = document.createElement('div');
+                        tile.className = `tile ${gameState.board[col][row]}`;
+                        tile.innerHTML = '<div class="tile-inner"></div>';
+                        slot.appendChild(tile);
+                    }
+                    
+                    column.appendChild(slot);
+                }
+                
+                container.appendChild(column);
+            }
+        }
+        
+        function renderQueue() {
+            const container = document.getElementById('queueTiles');
+            container.innerHTML = '';
+            
+            for (let tile of gameState.queue.slice(0, 8)) {
+                const div = document.createElement('div');
+                div.className = `tile ${tile}`;
+                div.innerHTML = '<div class="tile-inner"></div>';
+                container.appendChild(div);
+            }
+        }
+        
+        function placeTile(colIndex) {
+            if (gameState.isProcessing || gameState.queue.length === 0) return;
+            
+            const level = levels.find(l => l.id === gameState.currentLevel);
+            if (gameState.board[colIndex].length >= level.rows) return;
+            
+            const tile = gameState.queue.shift();
+            gameState.board[colIndex].push(tile);
+            
+            renderBoard();
+            renderQueue();
+            
+            // Add drop animation to last placed tile
+            setTimeout(() => {
+                const columns = document.querySelectorAll('.column');
+                const slots = columns[colIndex].querySelectorAll('.column-slot');
+                const placedSlot = slots[level.rows - gameState.board[colIndex].length];
+                const tileEl = placedSlot.querySelector('.tile');
+                if (tileEl) tileEl.classList.add('drop-animation');
+            }, 10);
+        }
+        
+        function clearBoard() {
+            if (gameState.isProcessing) return;
+            
+            const level = levels.find(l => l.id === gameState.currentLevel);
+            gameState.queue = [...level.tiles];
+            gameState.board = Array(level.columns).fill(null).map(() => []);
+            renderBoard();
+            renderQueue();
+        }
+        
+        function checkSolution() {
+            if (gameState.isProcessing || gameState.queue.length > 0) {
+                showModal('fail', 'Place all tiles first!', 'Continue placing tiles from the queue.', 0);
+                return;
+            }
+            
+            gameState.isProcessing = true;
+            gameState.attempts++;
+            updateAttemptsDisplay();
+            
+            const level = levels.find(l => l.id === gameState.currentLevel);
+            let brokenRules = [];
+            let passedRules = [];
+            
+            for (let rule of level.rules) {
+                if (!rule.check(gameState.board)) {
+                    brokenRules.push(rule);
+                } else {
+                    passedRules.push(rule);
+                }
+            }
+            
+            if (brokenRules.length === 0) {
+                // Win!
+                let stars = gameState.attempts <= 1 ? 3 : gameState.attempts <= 3 ? 2 : 1;
+                let points = 100 * stars;
+                gameState.score += points;
+                
+                // Save progress
+                gameState.levelProgress[gameState.currentLevel] = {
+                    completed: true,
+                    stars: Math.max(stars, gameState.levelProgress[gameState.currentLevel]?.stars || 0),
+                    bestAttempts: Math.min(gameState.attempts, gameState.levelProgress[gameState.currentLevel]?.bestAttempts || 999)
+                };
+                saveProgress();
+                updateScoreDisplay();
+                
+                createConfetti();
+                showModal('win', 'Level Complete!', `Perfect! You solved it in ${gameState.attempts} attempt${gameState.attempts > 1 ? 's' : ''}.`, stars);
+            } else {
+                // Fail - reveal first broken rule
+                const firstBroken = brokenRules[0];
+                gameState.revealedRules.add(firstBroken.id);
+                renderRules();
+                
+                // Highlight problematic tiles
+                highlightErrors();
+                
+                // Also reveal any passed rules
+                for (let rule of passedRules) {
+                    if (!gameState.revealedRules.has(rule.id)) {
+                        gameState.revealedRules.add(rule.id);
+                    }
+                }
+                renderRules();
+                
+                showModal('fail', 'Rule Broken!', firstBroken.text, 0);
+            }
+            
+            gameState.isProcessing = false;
+        }
+        
+        function highlightErrors() {
+            // Add error highlight to all tiles temporarily
+            document.querySelectorAll('.tile').forEach(tile => {
+                tile.classList.add('highlight-error');
+                setTimeout(() => tile.classList.remove('highlight-error'), 1000);
+            });
+        }
+        
+        function updateAttemptsDisplay() {
+            const stars = document.querySelectorAll('.attempt-star');
+            let remainingStars = 3;
+            
+            if (gameState.attempts > 1) remainingStars = 2;
+            if (gameState.attempts > 3) remainingStars = 1;
+            if (gameState.attempts > 5) remainingStars = 0;
+            
+            stars.forEach((star, i) => {
+                star.className = 'attempt-star';
+                if (i < remainingStars) star.classList.add('earned');
+                else star.classList.add('lost');
+            });
+        }
+        
+        function updateScoreDisplay() {
+            const scoreEl = document.getElementById('scoreValue');
+            if (scoreEl) scoreEl.textContent = gameState.score;
+        }
+        
+        function showModal(type, title, message, stars) {
+            const overlay = document.getElementById('modalOverlay');
+            const modal = document.getElementById('modal');
+            
+            modal.className = `modal ${type}`;
+            document.getElementById('modalIcon').textContent = type === 'win' ? '🏆' : '❌';
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            
+            const starsContainer = document.getElementById('modalStars');
+            starsContainer.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                const star = document.createElement('span');
+                star.className = `star ${i < stars ? 'earned' : ''}`;
+                star.textContent = '★';
+                starsContainer.appendChild(star);
+            }
+            
+            // Show/hide appropriate buttons
+            document.getElementById('nextBtn').style.display = type === 'win' ? 'block' : 'none';
+            document.getElementById('retryBtn').style.display = 'block';
+            
+            overlay.classList.add('active');
+        }
+        
+        function hideModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+        
+        function retryLevel() {
+            hideModal();
+            startLevel(gameState.currentLevel);
+        }
+        
+        function nextLevel() {
+            hideModal();
+            if (gameState.currentLevel < 10) {
+                startLevel(gameState.currentLevel + 1);
+            } else {
+                showMenu();
+            }
+        }
+        
+        function useHint() {
+            if (gameState.score < 50) {
+                alert('Not enough points! You need 50 points for a hint.');
+                return;
+            }
+            
+            const level = levels.find(l => l.id === gameState.currentLevel);
+            const hiddenRules = level.rules.filter(r => !gameState.revealedRules.has(r.id));
+            
+            if (hiddenRules.length === 0) {
+                alert('All rules already revealed!');
+                return;
+            }
+            
+            gameState.score -= 50;
+            updateScoreDisplay();
+            
+            // Reveal a random hidden rule
+            const rule = hiddenRules[Math.floor(Math.random() * hiddenRules.length)];
+            gameState.revealedRules.add(rule.id);
+            renderRules();
+        }
+        
+        function createConfetti() {
+            const colors = ['#2DD4BF', '#F87171', '#A78BFA', '#FBBF24'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    confetti.style.animation = `dropBounce ${0.5 + Math.random()}s ease forwards`;
+                    document.body.appendChild(confetti);
+                    
+                    // Animate falling
+                    let pos = -10;
+                    let vel = 0;
+                    let rot = 0;
+                    const interval = setInterval(() => {
+                        vel += 0.5;
+                        pos += vel;
+                        rot += 5;
+                        confetti.style.top = pos + 'px';
+                        confetti.style.transform = `rotate(${rot}deg)`;
+                        
+                        if (pos > window.innerHeight) {
+                            clearInterval(interval);
+                            confetti.remove();
+                        }
+                    }, 20);
+                }, i * 30);
+            }
+        }
+        
+        // Start the game
+        init();
+    </script>
+</body>
+</html>

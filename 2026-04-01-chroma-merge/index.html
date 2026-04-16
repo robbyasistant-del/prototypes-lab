@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chroma Merge - Fusión de Colores</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            overflow: hidden;
+        }
+        h1 {
+            color: #e94560;
+            margin-top: 15px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 20px #e94560, 0 0 40px #e94560;
+            z-index: 10;
+        }
+        .subtitle {
+            color: #533483;
+            margin-bottom: 10px;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .instructions {
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            z-index: 10;
+            text-align: center;
+            max-width: 550px;
+            padding: 10px 20px;
+            background: rgba(233, 69, 96, 0.2);
+            border-radius: 20px;
+            border: 1px solid #e94560;
+        }
+        .top-bar {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 15px;
+            z-index: 10;
+            align-items: center;
+        }
+        .score-box {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 25px;
+            border-radius: 15px;
+            color: white;
+            border: 2px solid #e94560;
+        }
+        .score-box span {
+            color: #00fff5;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .next-orb {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 0 20px currentColor;
+        }
+        .level-info {
+            color: #fff;
+            text-align: center;
+        }
+        .level-info .level {
+            color: #ffd700;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .game-container {
+            position: relative;
+            z-index: 10;
+        }
+        .game-board {
+            width: 420px;
+            height: 560px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #533483;
+            box-shadow: 0 0 40px rgba(83, 52, 131, 0.5);
+        }
+        .danger-line {
+            position: absolute;
+            top: 80px;
+            width: 100%;
+            height: 3px;
+            background: repeating-linear-gradient(
+                90deg,
+                #ff0000,
+                #ff0000 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            animation: danger-pulse 1s infinite;
+        }
+        @keyframes danger-pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.1s;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.3), 0 0 20px currentColor;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+        .orb:active { cursor: grabbing; transform: scale(0.95); }
+        .orb.dragging {
+            z-index: 1000;
+            transform: scale(1.1);
+        }
+        .orb.level-1 { background: radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b); width: 50px; height: 50px; font-size: 14px; }
+        .orb.level-2 { background: radial-gradient(circle at 30% 30%, #f39c12, #d68910); width: 60px; height: 60px; font-size: 16px; }
+        .orb.level-3 { background: radial-gradient(circle at 30% 30%, #f1c40f, #f39c12); width: 70px; height: 70px; font-size: 18px; }
+        .orb.level-4 { background: radial-gradient(circle at 30% 30%, #2ecc71, #27ae60); width: 80px; height: 80px; font-size: 20px; }
+        .orb.level-5 { background: radial-gradient(circle at 30% 30%, #1abc9c, #16a085); width: 90px; height: 90px; font-size: 22px; }
+        .orb.level-6 { background: radial-gradient(circle at 30% 30%, #3498db, #2980b9); width: 100px; height: 100px; font-size: 24px; }
+        .orb.level-7 { background: radial-gradient(circle at 30% 30%, #9b59b6, #8e44ad); width: 110px; height: 110px; font-size: 26px; }
+        .orb.level-8 { background: radial-gradient(circle at 30% 30%, #e91e63, #c2185b); width: 120px; height: 120px; font-size: 28px; }
+        .orb.level-9 { background: radial-gradient(circle at 30% 30%, #00bcd4, #0097a7); width: 130px; height: 130px; font-size: 30px; }
+        .orb.level-10 { background: radial-gradient(circle at 30% 30%, #ffd700, #ff8c00); width: 140px; height: 140px; font-size: 32px; box-shadow: 0 0 40px #ffd700, inset -5px -5px 15px rgba(0,0,0,0.3); }
+        .merge-effect {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: merge-burst 0.5s ease-out forwards;
+        }
+        @keyframes merge-burst {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+        .score-popup {
+            position: absolute;
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.5rem;
+            pointer-events: none;
+            animation: score-float 1s ease-out forwards;
+            z-index: 500;
+            text-shadow: 0 0 10px #ffd700;
+        }
+        @keyframes score-float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+        .controls {
+            margin-top: 15px;
+            z-index: 10;
+            display: flex;
+            gap: 15px;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        .start-btn {
+            background: linear-gradient(135deg, #e94560, #533483);
+            color: white;
+        }
+        .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #e94560; }
+        .badges {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            z-index: 10;
+        }
+        .badge {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            opacity: 0.3;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #533483;
+        }
+        .badge.earned {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px currentColor;
+            border-color: #ffd700;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 3px solid #e94560;
+            max-width: 450px;
+        }
+        .modal h2 {
+            color: #00fff5;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .modal.lose h2 { color: #ff0000; }
+        .modal p { color: #fff; margin-bottom: 15px; }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .stat-value {
+            font-size: 2rem;
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .stat-label { color: #888; }
+        .combo-bar {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .combo-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #ffd700);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .combo-text {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌈 CHROMA MERGE</h1>
+    <p class="subtitle">Fusión de colores cósmicos</p>
+    <div class="instructions">
+        👆 Arrastra y suelta orbes del mismo color para fusionar • 🎯 Crea orbes de nivel 10 para ganar • ⚠️ No dejes que toquen la línea roja
+    </div>
+    
+    <div class="top-bar">
+        <div class="score-box">PUNTOS: <span id="score">0</span></div>
+        <div>
+            <div style="color: #888; font-size: 0.8rem; margin-bottom: 5px;">SIGUIENTE</div>
+            <div class="next-orb level-1" id="nextOrb">1</div>
+        </div>
+        <div class="level-info">
+            <div class="level" id="level">NIVEL 1</div>
+            <div style="color: #888; font-size: 0.8rem;">MEJOR ORBE</div>
+        </div>
+    </div>
+    
+    <div class="game-container">
+        <div class="game-board" id="gameBoard">
+            <div class="danger-line"></div>
+            <div class="combo-bar"><div class="combo-fill" id="comboFill"></div></div>
+            <div class="combo-text" id="comboText"></div>
+        </div>
+    </div>
+    
+    <div class="badges">
+        <div class="badge" title="Principiante">🔰</div>
+        <div class="badge" title="Fusionador">⚗️</div>
+        <div class="badge" title="Maestro del Color">🎨</div>
+        <div class="badge" title="Cromático">🌈</div>
+        <div class="badge" title="Legendario">👑</div>
+    </div>
+    
+    <div class="controls">
+        <button class="start-btn" id="startBtn">🚀 INICIAR</button>
+    </div>
+
+    <div class="modal" id="gameModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">¡VICTORIA!</h2>
+            <p id="modalMessage">¡Has dominado los colores!</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="finalScore">0</div>
+                    <div class="stat-label">PUNTOS</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="finalLevel">0</div>
+                    <div class="stat-label">MEJOR ORBE</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="finalMerges">0</div>
+                    <div class="stat-label">FUSIONES</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="finalMaxCombo">0</div>
+                    <div class="stat-label">MAX COMBO</div>
+                </div>
+            </div>
+            <button class="start-btn" onclick="resetGame()">🔄 JUGAR DE NUEVO</button>
+        </div>
+    </div>
+
+    <script>
+        const gameBoard = document.getElementById('gameBoard');
+        const scoreEl = document.getElementById('score');
+        const nextOrbEl = document.getElementById('nextOrb');
+        const levelEl = document.getElementById('level');
+        const comboFill = document.getElementById('comboFill');
+        const comboText = document.getElementById('comboText');
+        
+        let orbs = [];
+        let score = 0;
+        let gameRunning = false;
+        let nextLevel = 1;
+        let maxLevel = 1;
+        let merges = 0;
+        let combo = 0;
+        let maxCombo = 0;
+        let comboTimer = null;
+        let spawnTimer = null;
+        let physicsTimer = null;
+        
+        const GRAVITY = 0.3;
+        const BOUNCE = 0.6;
+        const FRICTION = 0.98;
+        
+        function createOrb(x, y, level, isNext = false) {
+            const orb = document.createElement('div');
+            orb.className = `orb level-${level}`;
+            orb.textContent = level;
+            orb.style.left = x + 'px';
+            orb.style.top = y + 'px';
+            
+            if (!isNext) {
+                orb.addEventListener('mousedown', startDrag);
+                orb.addEventListener('touchstart', startDrag, {passive: false});
+            }
+            
+            return {
+                element: orb,
+                x: x,
+                y: y,
+                vx: 0,
+                vy: 0,
+                level: level,
+                radius: 25 + (level - 1) * 5,
+                dragging: false
+            };
+        }
+        
+        function spawnOrb() {
+            if (!gameRunning) return;
+            
+            const level = Math.min(nextLevel, Math.floor(maxLevel * 0.7) + 1);
+            nextLevel = Math.max(1, Math.min(maxLevel, nextLevel + Math.floor(Math.random() * 3) - 1));
+            updateNextOrb();
+            
+            const x = 50 + Math.random() * 320;
+            const orb = createOrb(x, -60, level);
+            
+            gameBoard.appendChild(orb.element);
+            orbs.push(orb);
+            
+            // Check game over
+            setTimeout(() => checkGameOver(), 100);
+        }
+        
+        function updateNextOrb() {
+            nextOrbEl.className = `next-orb level-${nextLevel}`;
+            nextOrbEl.textContent = nextLevel;
+        }
+        
+        function startDrag(e) {
+            if (!gameRunning) return;
+            e.preventDefault();
+            
+            const orb = orbs.find(o => o.element === e.target);
+            if (!orb) return;
+            
+            orb.dragging = true;
+            orb.element.classList.add('dragging');
+            
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const rect = gameBoard.getBoundingClientRect();
+            
+            const offsetX = clientX - rect.left - orb.x;
+            const offsetY = clientY - rect.top - orb.y;
+            
+            function onMove(e) {
+                const cx = e.touches ? e.touches[0].clientX : e.clientX;
+                const cy = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                orb.x = Math.max(orb.radius, Math.min(420 - orb.radius, cx - rect.left - offsetX));
+                orb.y = Math.max(orb.radius, Math.min(560 - orb.radius, cy - rect.top - offsetY));
+                orb.vx = 0;
+                orb.vy = 0;
+                
+                updateOrbPosition(orb);
+            }
+            
+            function onEnd() {
+                orb.dragging = false;
+                orb.element.classList.remove('dragging');
+                
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', onEnd);
+                document.removeEventListener('touchmove', onMove);
+                document.removeEventListener('touchend', onEnd);
+                
+                checkMerge(orb);
+            }
+            
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onEnd);
+            document.addEventListener('touchmove', onMove, {passive: false});
+            document.addEventListener('touchend', onEnd);
+        }
+        
+        function updateOrbPosition(orb) {
+            orb.element.style.left = (orb.x - orb.radius) + 'px';
+            orb.element.style.top = (orb.y - orb.radius) + 'px';
+        }
+        
+        function checkMerge(orb) {
+            const mergeTarget = orbs.find(o => 
+                o !== orb && 
+                o.level === orb.level && 
+                !o.dragging &&
+                Math.hypot(o.x - orb.x, o.y - orb.y) < (o.radius + orb.radius) * 0.8
+            );
+            
+            if (mergeTarget && orb.level < 10) {
+                // Merge!
+                const newLevel = orb.level + 1;
+                const newX = (orb.x + mergeTarget.x) / 2;
+                const newY = (orb.y + mergeTarget.y) / 2;
+                
+                // Effects
+                createMergeEffect(newX, newY, orb.level);
+                showScorePopup(newX, newY, newLevel * 100);
+                
+                // Remove old orbs
+                orb.element.remove();
+                mergeTarget.element.remove();
+                orbs = orbs.filter(o => o !== orb && o !== mergeTarget);
+                
+                // Create new orb
+                const newOrb = createOrb(newX, newY, newLevel);
+                gameBoard.appendChild(newOrb.element);
+                orbs.push(newOrb);
+                
+                // Update stats
+                score += newLevel * 100;
+                merges++;
+                if (newLevel > maxLevel) maxLevel = newLevel;
+                
+                // Combo
+                combo++;
+                if (combo > maxCombo) maxCombo = combo;
+                updateCombo();
+                
+                // Update display
+                updateDisplay();
+                updateBadges();
+                
+                // Check win
+                if (newLevel >= 10) {
+                    setTimeout(() => endGame(true), 500);
+                }
+            }
+        }
+        
+        function createMergeEffect(x, y, level) {
+            const colors = ['#ff6b6b', '#f39c12', '#f1c40f', '#2ecc71', '#1abc9c', '#3498db', '#9b59b6', '#e91e63', '#00bcd4', '#ffd700'];
+            const effect = document.createElement('div');
+            effect.className = 'merge-effect';
+            effect.style.left = (x - 50) + 'px';
+            effect.style.top = (y - 50) + 'px';
+            effect.style.width = '100px';
+            effect.style.height = '100px';
+            effect.style.border = `4px solid ${colors[level - 1]}`;
+            gameBoard.appendChild(effect);
+            setTimeout(() => effect.remove(), 500);
+        }
+        
+        function showScorePopup(x, y, points) {
+            const popup = document.createElement('div');
+            popup.className = 'score-popup';
+            popup.textContent = '+' + points;
+            popup.style.left = x + 'px';
+            popup.style.top = y + 'px';
+            gameBoard.appendChild(popup);
+            setTimeout(() => popup.remove(), 1000);
+        }
+        
+        function updateCombo() {
+            comboFill.style.width = Math.min(100, combo * 10) + '%';
+            comboText.textContent = combo > 1 ? `COMBO x${combo}!` : '';
+            
+            if (comboTimer) clearTimeout(comboTimer);
+            comboTimer = setTimeout(() => {
+                combo = 0;
+                updateCombo();
+            }, 3000);
+        }
+        
+        function updateDisplay() {
+            scoreEl.textContent = score;
+            levelEl.textContent = 'NIVEL ' + maxLevel;
+        }
+        
+        function updateBadges() {
+            const badges = document.querySelectorAll('.badge');
+            if (score >= 500) badges[0].classList.add('earned');
+            if (merges >= 10) badges[1].classList.add('earned');
+            if (maxLevel >= 5) badges[2].classList.add('earned');
+            if (maxLevel >= 8) badges[3].classList.add('earned');
+            if (maxLevel >= 10) badges[4].classList.add('earned');
+        }
+        
+        function checkGameOver() {
+            const dangerOrbs = orbs.filter(o => o.y - o.radius < 80 && !o.dragging);
+            if (dangerOrbs.length > 0) {
+                endGame(false);
+            }
+        }
+        
+        function physics() {
+            if (!gameRunning) return;
+            
+            orbs.forEach(orb => {
+                if (orb.dragging) return;
+                
+                // Gravity
+                orb.vy += GRAVITY;
+                
+                // Apply velocity
+                orb.x += orb.vx;
+                orb.y += orb.vy;
+                
+                // Friction
+                orb.vx *= FRICTION;
+                orb.vy *= FRICTION;
+                
+                // Wall collisions
+                if (orb.x - orb.radius < 0) {
+                    orb.x = orb.radius;
+                    orb.vx *= -BOUNCE;
+                }
+                if (orb.x + orb.radius > 420) {
+                    orb.x = 420 - orb.radius;
+                    orb.vx *= -BOUNCE;
+                }
+                if (orb.y + orb.radius > 560) {
+                    orb.y = 560 - orb.radius;
+                    orb.vy *= -BOUNCE;
+                }
+                if (orb.y - orb.radius < 0) {
+                    orb.y = orb.radius;
+                    orb.vy *= -BOUNCE;
+                }
+                
+                // Orb collisions
+                orbs.forEach(other => {
+                    if (orb === other || orb.dragging || other.dragging) return;
+                    
+                    const dx = other.x - orb.x;
+                    const dy = other.y - orb.y;
+                    const dist = Math.hypot(dx, dy);
+                    const minDist = orb.radius + other.radius;
+                    
+                    if (dist < minDist) {
+                        const angle = Math.atan2(dy, dx);
+                        const push = (minDist - dist) / 2;
+                        
+                        orb.x -= Math.cos(angle) * push;
+                        orb.y -= Math.sin(angle) * push;
+                        other.x += Math.cos(angle) * push;
+                        other.y += Math.sin(angle) * push;
+                        
+                        // Exchange some velocity
+                        const tempVx = orb.vx;
+                        const tempVy = orb.vy;
+                        orb.vx = other.vx * 0.5;
+                        orb.vy = other.vy * 0.5;
+                        other.vx = tempVx * 0.5;
+                        other.vy = tempVy * 0.5;
+                    }
+                });
+                
+                updateOrbPosition(orb);
+            });
+            
+            checkGameOver();
+        }
+        
+        function startGame() {
+            gameRunning = true;
+            score = 0;
+            merges = 0;
+            maxLevel = 1;
+            combo = 0;
+            maxCombo = 0;
+            nextLevel = 1;
+            
+            orbs.forEach(o => o.element.remove());
+            orbs = [];
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.querySelectorAll('.badge').forEach(b => b.classList.remove('earned'));
+            
+            updateDisplay();
+            updateNextOrb();
+            updateCombo();
+            
+            spawnTimer = setInterval(spawnOrb, 4000);
+            physicsTimer = setInterval(physics, 16);
+        }
+        
+        function endGame(win) {
+            gameRunning = false;
+            clearInterval(spawnTimer);
+            clearInterval(physicsTimer);
+            
+            const modal = document.getElementById('gameModal');
+            const title = document.getElementById('modalTitle');
+            const message = document.getElementById('modalMessage');
+            
+            modal.classList.add('active');
+            if (!win) modal.classList.add('lose');
+            
+            title.textContent = win ? '🎉 ¡VICTORIA!' : '💥 GAME OVER';
+            message.textContent = win ? '¡Has creado el Orbe Legendario!' : '¡Los orbes han tocado la línea de peligro!';
+            
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalLevel').textContent = maxLevel;
+            document.getElementById('finalMerges').textContent = merges;
+            document.getElementById('finalMaxCombo').textContent = 'x' + maxCombo;
+        }
+        
+        function resetGame() {
+            document.getElementById('gameModal').classList.remove('active', 'lose');
+            startGame();
+        }
+        
+        document.getElementById('startBtn').addEventListener('click', startGame);
+    </script>
+</body>
+</html>

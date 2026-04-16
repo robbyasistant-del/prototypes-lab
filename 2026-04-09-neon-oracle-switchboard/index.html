@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Neon Oracle: Switchboard</title>
+<style>
+:root{
+  --bg:#060816;--panel:rgba(16,22,49,.78);--panel2:rgba(11,16,37,.92);--line:#1d295f;
+  --glow:#6cf3ff;--text:#eef5ff;--muted:#9bb0d7;--good:#68ff9c;--bad:#ff687d;--gold:#ffd86b;
+}
+*{box-sizing:border-box} html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:
+radial-gradient(circle at 20% 10%,rgba(89,84,255,.24),transparent 35%),
+radial-gradient(circle at 80% 20%,rgba(0,233,255,.2),transparent 30%),
+radial-gradient(circle at 50% 80%,rgba(255,0,120,.16),transparent 35%),
+linear-gradient(180deg,#050712,#0b1030 55%,#070913);color:var(--text);overflow:hidden}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(transparent 0 96%,rgba(255,255,255,.03) 96% 100%);background-size:100% 18px;pointer-events:none;opacity:.35}
+#app{max-width:1400px;margin:0 auto;padding:18px;display:grid;grid-template-columns:320px 1fr 300px;gap:16px;height:100%}
+.panel{background:var(--panel);border:1px solid rgba(140,170,255,.15);backdrop-filter:blur(10px);border-radius:22px;box-shadow:0 12px 40px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.06)}
+.left,.right{padding:18px;display:flex;flex-direction:column;gap:14px}.center{padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.logo{font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:12px;color:var(--glow)}
+.title{font-size:30px;line-height:1.02;font-weight:900;margin:0}.sub{color:var(--muted);font-size:14px;line-height:1.35}
+.quick{padding:12px 14px;border-radius:16px;background:rgba(108,243,255,.08);border:1px solid rgba(108,243,255,.18)}
+.quick b{color:#fff}.meterRow,.topStats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat,.mini{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:10px 12px}
+.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}.value{font-size:24px;font-weight:900;margin-top:4px}
+.boardWrap{position:relative;flex:1;min-height:520px;border-radius:26px;background:linear-gradient(180deg,rgba(14,19,43,.92),rgba(8,10,26,.92));border:1px solid rgba(155,176,215,.12);overflow:hidden}
+.boardWrap:before{content:"";position:absolute;inset:0;background:
+linear-gradient(90deg,transparent 0 8%,rgba(108,243,255,.12) 8% 8.2%,transparent 8.2% 91.8%,rgba(108,243,255,.12) 91.8% 92%,transparent 92%),
+radial-gradient(circle at center,rgba(108,243,255,.06),transparent 62%);pointer-events:none}
+svg.board{width:100%;height:100%;display:block}
+.node{cursor:pointer;transition:transform .15s ease,filter .2s ease}.node:hover{transform:scale(1.08)} .node.off .switchBody{fill:#1c2248;stroke:#5264b8} .node.on .switchBody{fill:#0d1736;stroke:#79f7ff;filter:drop-shadow(0 0 10px rgba(108,243,255,.55))}
+.node .beam{stroke-width:5;stroke-linecap:round;opacity:.86}.node.off .beam{stroke:#58639a}.node.on .beam{stroke:#79f7ff}
+.gateLbl,.laneLbl{font-size:14px;font-weight:800;fill:#dce8ff}.hint{fill:#8ea3cf;font-size:12px}.sourceOrb{filter:drop-shadow(0 0 8px currentColor)}
+.prophecyTitle{font-size:13px;text-transform:uppercase;letter-spacing:.15em;color:var(--gold);font-weight:900}.rules{display:flex;flex-direction:column;gap:10px}
+.rule{padding:12px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);font-size:14px;line-height:1.25}
+.rule.ok{border-color:rgba(104,255,156,.42);background:rgba(104,255,156,.08)} .rule.fail{border-color:rgba(255,104,125,.42);background:rgba(255,104,125,.08)}
+.rule .tag{display:inline-block;font-size:10px;padding:3px 7px;border-radius:999px;background:rgba(255,255,255,.08);margin-bottom:6px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.log{font-size:13px;color:#d7e6ff;min-height:46px;padding:12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+button{appearance:none;border:none;cursor:pointer;border-radius:14px;padding:12px 14px;font-weight:900;letter-spacing:.03em;color:#05101b;background:linear-gradient(135deg,#7cf6ff,#64ffc0);box-shadow:0 8px 20px rgba(68,255,220,.22)}
+button.secondary{background:rgba(255,255,255,.06);color:var(--text);box-shadow:none;border:1px solid rgba(255,255,255,.1)} button:active{transform:translateY(1px)}
+.badges{display:flex;flex-wrap:wrap;gap:8px}.badge{padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800;background:rgba(255,216,107,.1);border:1px solid rgba(255,216,107,.25);color:#ffe7a4}.badge.off{opacity:.45;filter:saturate(.6)}
+.overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,22,.25),rgba(5,8,22,.9));display:flex;align-items:center;justify-content:center;padding:24px;transition:opacity .25s ease}
+.overlay.hidden{opacity:0;pointer-events:none}.modal{max-width:640px;background:rgba(10,14,34,.92);border:1px solid rgba(255,255,255,.12);border-radius:26px;padding:24px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.modal h2{margin:0 0 10px;font-size:34px}.modal p{color:var(--muted);line-height:1.45}.finalGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.pulseText{position:absolute;pointer-events:none;font-weight:900;text-shadow:0 0 12px rgba(255,255,255,.4);animation:floatUp .9s ease forwards}
+@keyframes floatUp{from{transform:translateY(0) scale(.88);opacity:0}20%{opacity:1}to{transform:translateY(-26px) scale(1.08);opacity:0}}
+@keyframes pop{0%{transform:scale(.85)}60%{transform:scale(1.08)}100%{transform:scale(1)}} .pop{animation:pop .25s ease}
+@media (max-width:1180px){#app{grid-template-columns:1fr;overflow:auto;height:auto}.boardWrap{min-height:460px}.left,.right,.center{min-height:auto}}
+</style>
+</head>
+<body>
+<div id="app">
+  <section class="panel left">
+    <div class="logo">Oracle Relay // prototype 01</div>
+    <h1 class="title">Neon Oracle:<br>Switchboard</h1>
+    <div class="sub">Fast deduction + rerouting. Click glowing relays to rotate them. Satisfy every prophecy before the circuit charge runs dry.</div>
+    <div class="quick"><b>How to play:</b> each relay either keeps two lanes straight or crosses them. Every click spends 1 charge. When all prophecies glow green, hit <b>Seal Round</b>.</div>
+    <div class="meterRow">
+      <div class="stat"><div class="label">Round</div><div class="value" id="roundVal">1/4</div></div>
+      <div class="stat"><div class="label">Charge</div><div class="value" id="chargeVal">12</div></div>
+      <div class="stat"><div class="label">Score</div><div class="value" id="scoreVal">0</div></div>
+    </div>
+    <div>
+      <div class="prophecyTitle">Live Prophecies</div>
+      <div class="rules" id="rules"></div>
+    </div>
+    <div class="log" id="log">The board is humming. Try to satisfy every line of prophecy in as few flips as possible.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button id="sealBtn">Seal Round</button>
+      <button class="secondary" id="scrambleBtn">Scramble Board</button>
+    </div>
+  </section>
+
+  <main class="panel center">
+    <div class="topStats">
+      <div class="mini"><div class="label">Chain</div><div class="value" id="chainVal">x1</div></div>
+      <div class="mini"><div class="label">Solved</div><div class="value" id="solvedVal">0</div></div>
+      <div class="mini"><div class="label">Daily Badge Pace</div><div class="value" id="paceVal">Calm</div></div>
+    </div>
+    <div class="boardWrap" id="boardWrap">
+      <svg class="board" id="board" viewBox="0 0 900 620" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="overlay" id="overlay">
+        <div class="modal">
+          <div class="logo">Futureswitch Ritual</div>
+          <h2 id="overlayTitle">Boot the Oracle</h2>
+          <p id="overlayText">Four rounds. Short, spicy, replayable. Green means a prophecy is satisfied; red means the future still bites. Spend charge carefully, build a streak, unlock badges.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+            <button id="overlayBtn">Start Run</button>
+            <button class="secondary" id="overlaySecondary">Review Controls</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="panel right">
+    <div class="prophecyTitle">Signal Ledger</div>
+    <div id="ledger" class="sub">Outputs update live after every flip.</div>
+    <div class="prophecyTitle" style="margin-top:4px">Run Badges</div>
+    <div class="badges" id="badges"></div>
+    <div class="prophecyTitle" style="margin-top:4px">Why it bites</div>
+    <div class="sub">You are not solving a static puzzle. The board, sources, and prophecy mix shift every round, so the brain loop is: inspect → infer swaps → test → lock in → chase efficiency.</div>
+    <div class="prophecyTitle" style="margin-top:4px">Scoring</div>
+    <div class="sub">Round score = 100 + remaining charge×12 + streak bonus. Perfect rounds award extra badges and future pressure.</div>
+  </aside>
+</div>
+<script>
+const COLORS = [
+  {id:'sun',name:'SUN',hex:'#ffd166'},
+  {id:'void',name:'VOID',hex:'#8a7dff'},
+  {id:'mint',name:'MINT',hex:'#59f0c2'},
+  {id:'ember',name:'EMBER',hex:'#ff7a59'},
+  {id:'aqua',name:'AQUA',hex:'#63d6ff'}
+];
+const NODES = [
+  {a:0,b:1,x:250,y:120},{a:2,b:3,x:250,y:250},
+  {a:1,b:2,x:450,y:185},{a:3,b:4,x:450,y:315},
+  {a:0,b:1,x:650,y:120},{a:2,b:3,x:650,y:250},{a:1,b:2,x:650,y:380}
+];
+const GATE_NAMES = ['North','Zenith','Prism','Drift','Crown'];
+const state = {
+  round:1,totalRounds:4,charge:12,score:0,chain:1,solved:0,flips:0,
+  nodeStates:NODES.map(()=>Math.random()>.5),
+  order:[], prophecies:[], badges:new Set(), gameOver:false
+};
+const $ = id => document.getElementById(id);
+const board = $('board');
+const boardWrap = $('boardWrap');
+function shuffle(arr){const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a;}
+function choice(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function computeOrder(){
+  let arr = [...state.order];
+  NODES.forEach((n,idx)=>{ if(state.nodeStates[idx]) [arr[n.a],arr[n.b]]=[arr[n.b],arr[n.a]]; });
+  return arr;
+}
+function prophecyText(p, exits){
+  const c = id => COLORS.find(x=>x.id===id).name;
+  if(p.type==='exact') return `${c(p.color)} must reach Gate ${p.gate+1} · ${GATE_NAMES[p.gate]}`;
+  if(p.type==='forbid') return `${c(p.color)} must avoid Gate ${p.gate+1}`;
+  if(p.type==='adjacent') return `${c(p.a)} and ${c(p.b)} must end adjacent`;
+  if(p.type==='above') return `${c(p.a)} must finish above ${c(p.b)}`;
+  if(p.type==='parity') return `${c(p.color)} must land on an ${p.even?'even':'odd'} gate`;
+  return '';
+}
+function prophecyOK(p, exits){
+  const pos = id => exits.indexOf(id);
+  if(p.type==='exact') return exits[p.gate]===p.color;
+  if(p.type==='forbid') return exits[p.gate]!==p.color;
+  if(p.type==='adjacent') return Math.abs(pos(p.a)-pos(p.b))===1;
+  if(p.type==='above') return pos(p.a) < pos(p.b);
+  if(p.type==='parity') return ((pos(p.color)+1)%2===0)===p.even;
+  return false;
+}
+function generateRound(round){
+  state.order = shuffle(COLORS.map(c=>c.id));
+  state.charge = Math.max(11, 13 - round);
+  state.flips = 0;
+  state.nodeStates = NODES.map(()=>Math.random()>.5);
+  const exits = computeOrder();
+  const prophecies = [];
+  const exactColor = choice(exits);
+  prophecies.push({type:'exact',color:exactColor,gate:exits.indexOf(exactColor)});
+  let forbidColor = choice(COLORS.map(c=>c.id).filter(id=>id!==exits[4]));
+  prophecies.push({type:'forbid',color:forbidColor,gate:4});
+  const adjIndex = Math.floor(Math.random()*4);
+  const duo = [exits[adjIndex], exits[adjIndex+1]];
+  prophecies.push({type:'adjacent',a:duo[0],b:duo[1]});
+  const abovePair = [exits[1], exits[3]];
+  prophecies.push({type:'above',a:abovePair[0],b:abovePair[1]});
+  if(round>=3){
+    const pColor = choice(exits);
+    prophecies.push({type:'parity',color:pColor,even:((exits.indexOf(pColor)+1)%2===0)});
+  }
+  state.prophecies = shuffle(prophecies);
+}
+function renderBadges(){
+  const defs = [
+    ['first','First Seal'],['perfect','Perfect Circuit'],['streak3','Triple Streak'],['oracle','Oracle Whisperer'],['survivor','Last Spark']
+  ];
+  $('badges').innerHTML = defs.map(([k,n])=>`<div class="badge ${state.badges.has(k)?'':'off'}">${n}</div>`).join('');
+}
+function liveStatus(){
+  const exits = computeOrder();
+  const rules = $('rules');
+  rules.innerHTML = state.prophecies.map((p,i)=>{
+    const ok = prophecyOK(p, exits);
+    return `<div class="rule ${ok?'ok':'fail'}"><div class="tag">${ok?'Stable':'Broken'}</div>${prophecyText(p, exits)}</div>`;
+  }).join('');
+  const ledger = exits.map((id,i)=>{
+    const c = COLORS.find(x=>x.id===id);
+    return `<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span>Gate ${i+1} · ${GATE_NAMES[i]}</span><b style="color:${c.hex}">${c.name}</b></div>`;
+  }).join('');
+  $('ledger').innerHTML = ledger;
+  $('roundVal').textContent = `${state.round}/${state.totalRounds}`;
+  $('chargeVal').textContent = state.charge;
+  $('scoreVal').textContent = state.score;
+  $('chainVal').textContent = `x${state.chain}`;
+  $('solvedVal').textContent = state.solved;
+  $('paceVal').textContent = state.charge >= 8 ? 'Calm' : state.charge >= 4 ? 'Hot' : 'Critical';
+}
+function spawnPulse(text, color='#fff'){
+  const el = document.createElement('div'); el.className='pulseText'; el.textContent=text; el.style.color=color;
+  const r = boardWrap.getBoundingClientRect(); el.style.left=(r.width*0.5 + (Math.random()*120-60))+'px'; el.style.top=(r.height*0.18 + Math.random()*80)+'px';
+  boardWrap.appendChild(el); setTimeout(()=>el.remove(),900);
+}
+function setLog(msg){$('log').textContent = msg; $('log').classList.remove('pop'); void $('log').offsetWidth; $('log').classList.add('pop');}
+function renderBoard(){
+  const ys = [80,190,300,410,520];
+  const exits = computeOrder();
+  let html = `<defs><filter id="glow"><feGaussianBlur stdDeviation="5" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+  for(let i=0;i<5;i++){
+    html += `<line x1="100" y1="${ys[i]}" x2="800" y2="${ys[i]}" stroke="#24408d" stroke-width="4" opacity=".58"/>`;
+    const src = COLORS.find(c=>c.id===state.order[i]);
+    const dst = COLORS.find(c=>c.id===exits[i]);
+    html += `<circle cx="70" cy="${ys[i]}" r="18" fill="${src.hex}" class="sourceOrb" style="color:${src.hex}" filter="url(#glow)"/>`;
+    html += `<text x="70" y="38" text-anchor="middle" class="laneLbl">${src.name}</text>`;
+    html += `<circle cx="830" cy="${ys[i]}" r="18" fill="${dst.hex}" class="sourceOrb" style="color:${dst.hex}" filter="url(#glow)"/>`;
+    html += `<text x="830" y="38" text-anchor="middle" class="gateLbl">G${i+1}</text>`;
+    html += `<text x="830" y="62" text-anchor="middle" class="hint">${GATE_NAMES[i]}</text>`;
+  }
+  NODES.forEach((n,idx)=>{
+    const y1=ys[n.a], y2=ys[n.b], on=state.nodeStates[idx];
+    html += `<g class="node ${on?'on':'off'}" data-idx="${idx}">
+      <rect class="switchBody" x="${n.x-42}" y="${(y1+y2)/2-34}" rx="20" ry="20" width="84" height="68" stroke-width="3"/>
+      ${on
+        ? `<line class="beam" x1="${n.x-22}" y1="${y1}" x2="${n.x+22}" y2="${y2}"/><line class="beam" x1="${n.x-22}" y1="${y2}" x2="${n.x+22}" y2="${y1}"/>`
+        : `<line class="beam" x1="${n.x-22}" y1="${y1}" x2="${n.x+22}" y2="${y1}"/><line class="beam" x1="${n.x-22}" y1="${y2}" x2="${n.x+22}" y2="${y2}"/>`
+      }
+      <text x="${n.x}" y="${(y1+y2)/2+5}" text-anchor="middle" class="hint">${on?'CROSS':'STRAIGHT'}</text>
+    </g>`;
+  });
+  html += `<text x="100" y="585" class="hint">Input Sigils</text><text x="750" y="585" class="hint">Oracle Gates</text>`;
+  board.innerHTML = html;
+  [...board.querySelectorAll('.node')].forEach(el=>el.addEventListener('click',()=>flipNode(+el.dataset.idx)));
+  liveStatus();
+}
+function flipNode(idx){
+  if(state.gameOver) return;
+  if(state.charge<=0){ setLog('No charge left. Seal if somehow stable, or watch the board collapse.'); return; }
+  state.nodeStates[idx] = !state.nodeStates[idx];
+  state.charge--; state.flips++;
+  renderBoard();
+  const exits = computeOrder();
+  const okCount = state.prophecies.filter(p=>prophecyOK(p,exits)).length;
+  if(okCount===state.prophecies.length){ spawnPulse('PROPHECY STABLE', '#68ff9c'); setLog('Everything is green. Nice. Hit Seal Round before greed flips another relay.'); }
+  else if(okCount>=state.prophecies.length-1){ spawnPulse('ALMOST', '#ffd86b'); setLog('One line still bites. Follow the last mismatch.'); }
+  else { spawnPulse('-1 CHARGE', '#ff687d'); setLog('Signals rerouted. Read left to right: each CROSS swaps a pair of lanes.'); }
+  if(state.charge===0 && !state.prophecies.every(p=>prophecyOK(p, computeOrder()))) failRun('The switchboard burned through its final spark.');
+}
+function sealRound(){
+  if(state.gameOver) return;
+  const exits = computeOrder();
+  const solved = state.prophecies.every(p=>prophecyOK(p, exits));
+  if(!solved){
+    spawnPulse('FALSE SEAL', '#ff687d');
+    state.charge = Math.max(0,state.charge-2);
+    setLog('False seal. The Oracle punishes impatience: -2 charge.');
+    liveStatus();
+    if(state.charge===0) failRun('A false seal drained the last charge.');
+    return;
+  }
+  const perfect = state.flips <= Math.max(3, 6 - state.round);
+  const roundScore = 100 + state.charge*12 + (state.chain-1)*30 + (perfect?80:0);
+  state.score += roundScore; state.solved++; state.badges.add('first'); if(perfect) state.badges.add('perfect');
+  state.chain++; if(state.chain>=4) state.badges.add('streak3'); if(state.round===state.totalRounds && state.charge<=2) state.badges.add('survivor');
+  renderBadges();
+  spawnPulse(`+${roundScore}`, '#68ff9c');
+  if(state.round>=state.totalRounds){ state.badges.add('oracle'); return winRun(perfect); }
+  state.round++; generateRound(state.round); renderBoard();
+  setLog(perfect ? 'Perfect circuit. New prophecy uploaded.' : 'Round sealed. Next forecast is already shifting.');
+}
+function scrambleBoard(){
+  if(state.gameOver) return;
+  state.nodeStates = NODES.map(()=>Math.random()>.5);
+  state.charge = Math.max(0, state.charge-1);
+  renderBoard();
+  spawnPulse('SCRAMBLE', '#63d6ff');
+  setLog('Chaotic, but sometimes chaos is cheaper than overthinking. -1 charge.');
+  if(state.charge===0 && !state.prophecies.every(p=>prophecyOK(p, computeOrder()))) failRun('The scramble consumed your last charge.');
+}
+function failRun(reason){
+  state.gameOver = true; state.chain = 1; liveStatus(); renderBadges();
+  $('overlayTitle').textContent = 'Circuit Collapse';
+  $('overlayText').innerHTML = `${reason}<br><br>Final score: <b>${state.score}</b>. Solved rounds: <b>${state.solved}</b>. Tap reboot for another run.`;
+  $('overlayBtn').textContent = 'Reboot Run'; $('overlaySecondary').textContent = 'Study Board'; $('overlay').classList.remove('hidden');
+}
+function winRun(perfect){
+  state.gameOver = true; liveStatus(); renderBadges();
+  $('overlayTitle').textContent = perfect ? 'Oracle Dominated' : 'Future Secured';
+  $('overlayText').innerHTML = `Run complete. Final score: <b>${state.score}</b>.<br><br>You sealed ${state.solved}/${state.totalRounds} rounds, earned ${state.badges.size} badges, and built a reroute ritual with legit one-more-try energy.`;
+  $('overlayBtn').textContent = 'Play Again'; $('overlaySecondary').textContent = 'Admire Ledger'; $('overlay').classList.remove('hidden');
+}
+function newRun(){
+  state.round=1; state.score=0; state.chain=1; state.solved=0; state.badges=new Set(); state.gameOver=false;
+  generateRound(1); renderBadges(); renderBoard(); $('overlay').classList.add('hidden'); setLog('The first prophecy is live. Green all lines, then seal it.');
+}
+$('sealBtn').addEventListener('click', sealRound);
+$('scrambleBtn').addEventListener('click', scrambleBoard);
+$('overlayBtn').addEventListener('click', newRun);
+$('overlaySecondary').addEventListener('click', ()=>{
+  $('overlayTitle').textContent='Controls';
+  $('overlayText').innerHTML='Click a relay to toggle <b>Straight</b> ↔ <b>Cross</b>. Each click costs 1 charge. Read the resulting gate outputs on the right panel. When every prophecy turns green, hit <b>Seal Round</b>. False seals cost 2 charge. Four rounds wins the run.';
+});
+renderBadges();
+renderBoard();
+</script>
+</body>
+</html>

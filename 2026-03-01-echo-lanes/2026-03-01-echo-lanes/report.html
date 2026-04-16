@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Echo Lanes — Prototype Report</title>
+  <meta name="description" content="Strategy + growth + KPIs for Echo Lanes (daily seeded lane-runner)." />
+  <style>
+    :root{--bg:#0b1020;--card:#121b35;--ink:#ecf2ff;--muted:#a9b8dc;--a:#5cf3ff;--b:#a38bff;--good:#3dffb1;--bad:#ff557a;--border:#2a3f74}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Inter,Arial;background:radial-gradient(900px 640px at 20% -10%, rgba(92,243,255,.14), transparent 60%),radial-gradient(850px 620px at 95% 0%, rgba(163,139,255,.16), transparent 60%),var(--bg);color:var(--ink)}
+    a{color:var(--a)}
+    .wrap{max-width:980px;margin:0 auto;padding:22px 16px 44px}
+    h1{margin:0 0 6px;font-size:26px}
+    .sub{color:var(--muted);margin:0 0 16px;line-height:1.45}
+    .toplinks{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+    .pill{border:1px solid var(--border);background:rgba(18,27,53,.7);padding:7px 10px;border-radius:999px;color:var(--muted);font-size:12px}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .card{border:1px solid var(--border);background:linear-gradient(180deg, rgba(18,27,53,.9), rgba(10,14,30,.9));border-radius:16px;padding:14px}
+    h2{margin:0 0 8px;font-size:16px}
+    h3{margin:14px 0 6px;font-size:14px}
+    p,li{color:var(--muted);line-height:1.55}
+    ul{margin:8px 0 0;padding-left:18px}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width: 820px){.cols{grid-template-columns:1fr}}
+    .k{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+    .k .mini{border:1px solid rgba(42,63,116,.7);border-radius:14px;padding:10px;background:rgba(8,12,26,.35)}
+    .mini b{color:var(--ink)}
+    code{background:rgba(8,12,26,.55);padding:2px 6px;border-radius:8px;border:1px solid rgba(42,63,116,.5);color:#d9e7ff}
+    .callout{border-left:3px solid var(--b);padding:10px 12px;background:rgba(163,139,255,.08);border-radius:12px}
+    .risk{border-left:3px solid var(--bad);padding:10px 12px;background:rgba(255,85,122,.08);border-radius:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Echo Lanes — Prototype Report</h1>
+    <p class="sub">A daily-seeded, skill-forward runner built for 60–120s sessions. Core hook: <b>Echo orbs</b> offer score bursts + combo growth but spawn near hazards, creating meaningful micro-decisions.</p>
+
+    <div class="toplinks">
+      <span class="pill">Prototype date: <b>2026-03-01</b></span>
+      <span class="pill">Genre: <b>Reflex / Endless Runner / Daily challenge</b></span>
+      <span class="pill"><a href="./index.html">Play</a></span>
+      <span class="pill"><a href="../index.html">Catalog</a></span>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>1) Product Strategy</h2>
+        <div class="cols">
+          <div>
+            <h3>Target player</h3>
+            <ul>
+              <li>Mobile-first players who like <b>high-skill</b> micro-sessions (Subway Surfers-like pace) but want <b>fair daily</b> competition.</li>
+              <li>Players who respond to “one more try” loops and visible mastery.</li>
+            </ul>
+
+            <h3>Positioning</h3>
+            <ul>
+              <li><b>Daily-seeded runner</b>: the same patterns for everyone each day → shareable, fair.</li>
+              <li><b>Risk-orbs</b> (Echoes) replace bland coin lines with tactical choices.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Why it wins (unique value)</h3>
+            <ul>
+              <li><b>Fair seed</b> + tight scoring make it competitive without multiplayer infrastructure.</li>
+              <li>Combo system is <b>earned</b> (Echo pickups) and <b>fragile</b> (miss breaks combo) → tension.</li>
+              <li>Designed for content: “today’s seed” + replay attempts → short clips.</li>
+            </ul>
+
+            <h3>Scope for v1</h3>
+            <ul>
+              <li>Daily seed, leaderboard (local → later remote), 3–5 lane skins, mission ladder.</li>
+              <li>Simple IAP: remove ads + cosmetic trails.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2) Core Loop & Systems</h2>
+        <div class="callout">
+          <b>Loop:</b> Start run → dodge hazards → decide whether to take Echo risk → build combo → bank bonuses every 20s → die → retry to beat daily best.
+        </div>
+
+        <h3>Rewards</h3>
+        <ul>
+          <li><b>Immediate:</b> burst score, combo pop-ups, cash-out bonus.</li>
+          <li><b>Session:</b> “today best” stored locally; clear feedback on improvement.</li>
+          <li><b>Meta (planned):</b> daily streak rewards, cosmetic unlock track, weekly seed cups.</li>
+        </ul>
+
+        <h3>Difficulty model</h3>
+        <ul>
+          <li>Gentle ramp: speed scales up to ~+55% over ~2 minutes.</li>
+          <li>Echo spawn bias near hazards ensures decisions remain meaningful.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>3) SEO / ASO / SEM Plan</h2>
+        <div class="cols">
+          <div>
+            <h3>ASO (App Store / Play)</h3>
+            <ul>
+              <li>Primary keywords: <code>daily runner</code>, <code>reflex game</code>, <code>lane runner</code>, <code>daily challenge</code></li>
+              <li>Short description: “A daily-seeded runner where risky Echo pickups supercharge your combo.”</li>
+              <li>Creative set: 6-second gameplay clip emphasizing Echo risk near hazards + daily seed stamp.</li>
+              <li>Icon concept: glowing “eye/echo” orb with 3-lane streak.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>SEO (web)</h3>
+            <ul>
+              <li>Landing page: “Echo Lanes Daily Challenge” + playable web demo.</li>
+              <li>Blog posts: “How daily seeds create fair competition” + “risk-reward scoring in runners”.</li>
+            </ul>
+
+            <h3>SEM (paid)</h3>
+            <ul>
+              <li>Test small budget on TikTok/Reels-style ads: 8–12s clip showing a near-death Echo grab.</li>
+              <li>Search ads: “daily game”, “reflex runner”, “endless runner challenge”.</li>
+              <li>Creative angle: “Same pattern for everyone today. Can you top the seed?”</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>4) KPIs (Prototype → Production)</h2>
+        <div class="k">
+          <div class="mini"><b>D1 retention</b><div>Target 28–38% (daily challenge products can spike if streak + share loops land).</div></div>
+          <div class="mini"><b>Session length</b><div>Target 2.0–4.5 minutes/day (2–4 runs).</div></div>
+          <div class="mini"><b>Runs per DAU</b><div>Target 3–7 (high replay is core).</div></div>
+          <div class="mini"><b>Share rate</b><div>Target 2–6% (seed stamp + “beat my score” link).</div></div>
+          <div class="mini"><b>Fail point</b><div>Median death time 18–35s early → improve to 40–65s with mastery.</div></div>
+          <div class="mini"><b>Ad impressions/DAU</b><div>Target 1.5–3.0 (rewarded continue + interstitial after death).</div></div>
+        </div>
+
+        <h3>Instrumentation plan</h3>
+        <ul>
+          <li>Events: <code>run_start</code>, <code>lane_change</code>, <code>echo_pickup</code>, <code>echo_miss</code>, <code>death</code>(cause), <code>cashout</code>, <code>pause</code>.</li>
+          <li>Funnel: start → first 10s survived → first Echo pickup → first cash-out → first best improved.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>5) Experiments (Quality-first roadmap)</h2>
+        <h3>Gameplay</h3>
+        <ul>
+          <li><b>Echo magnet window:</b> small “forgiveness” radius vs strict collision; measure frustration vs skill ceiling.</li>
+          <li><b>Combo protection:</b> allow 1 missed Echo before reset (soft break) vs hard reset.</li>
+          <li><b>Cash-out cadence:</b> 15s vs 20s vs 25s; affects tension and perceived progress.</li>
+        </ul>
+
+        <h3>Retention</h3>
+        <ul>
+          <li><b>Daily mission:</b> “Pick up 8 Echoes” or “Survive 60s” → check D1/D3 lift.</li>
+          <li><b>Streak UI:</b> visible calendar streak + “freeze token” experiment.</li>
+        </ul>
+
+        <h3>Monetization</h3>
+        <ul>
+          <li><b>Rewarded continue</b> after crash (once/run) vs no-continue; measure LTV + churn.</li>
+          <li><b>Cosmetic trails</b> tied to week streak milestones.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>6) Risks & Mitigations</h2>
+        <div class="risk">
+          <ul>
+            <li><b>Risk:</b> Too punishing early → players churn before learning Echo value.<br/><b>Mitigation:</b> first-run tutorial seed + guaranteed early safe Echo pickups.</li>
+            <li><b>Risk:</b> Daily seed removes variety for binge players.<br/><b>Mitigation:</b> offer “practice seeds” + weekly cups + cosmetics/ladder.</li>
+            <li><b>Risk:</b> Skill gap discourages casuals.<br/><b>Mitigation:</b> add “assist mode” (reduce speed ramp, more forgiveness) with separate leaderboard.</li>
+            <li><b>Risk:</b> Accessibility (motion sensitivity).<br/><b>Mitigation:</b> reduce-motion toggle (prototype includes), optional static background.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</body>
+</html>

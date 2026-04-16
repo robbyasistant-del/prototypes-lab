@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom Replay - Die to Progress</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        #gameContainer {
+            position: relative;
+            margin-top: 20px;
+            box-shadow: 0 0 60px rgba(233, 69, 96, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            background: linear-gradient(180deg, #1a0a2e 0%, #2d1b4e 100%);
+        }
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #fff;
+            font-size: 14px;
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.8);
+            pointer-events: none;
+        }
+        #instructions {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+            text-align: center;
+            background: rgba(0,0,0,0.6);
+            padding: 8px 16px;
+            border-radius: 20px;
+            pointer-events: none;
+        }
+        #startScreen, #gameOverScreen, #winScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            z-index: 10;
+        }
+        #gameOverScreen, #winScreen { display: none; }
+        h1 {
+            color: #e94560;
+            font-size: 42px;
+            text-shadow: 0 0 30px rgba(233, 69, 96, 0.8);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .tagline {
+            color: #a0d2eb;
+            font-size: 16px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .btn {
+            background: linear-gradient(45deg, #e94560, #ff6b6b);
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(233, 69, 96, 0.8);
+        }
+        .tutorial {
+            color: #fff;
+            margin-top: 30px;
+            text-align: center;
+            line-height: 1.8;
+            max-width: 400px;
+        }
+        .key {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 0 3px;
+        }
+        #badges {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+            pointer-events: none;
+        }
+        .badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+        .badge.earned {
+            opacity: 1;
+            box-shadow: 0 0 15px currentColor;
+            animation: badgePop 0.5s ease;
+        }
+        @keyframes badgePop {
+            0% { transform: scale(0) rotate(-180deg); }
+            50% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        .stats {
+            margin-top: 20px;
+            color: #a0d2eb;
+            font-size: 14px;
+        }
+        .ghost-counter {
+            position: absolute;
+            top: 40px;
+            left: 10px;
+            color: #a0d2eb;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="game" width="800" height="500"></canvas>
+        <div id="ui">
+            <div>Level: <span id="level">1</span></div>
+            <div>Deaths: <span id="deaths">0</span></div>
+        </div>
+        <div class="ghost-counter">Ghosts Active: <span id="ghostCount">0</span>/10</div>
+        <div id="badges">
+            <div class="badge" id="badge1" style="background: #ffd700; color: #333;" title="First Blood">💀</div>
+            <div class="badge" id="badge2" style="background: #ff6b6b; color: white;" title="Ghost Master">👻</div>
+            <div class="badge" id="badge3" style="background: #4ecdc4; color: white;" title="Speed Demon">⚡</div>
+            <div class="badge" id="badge4" style="background: #a855f7; color: white;" title="Perfectionist">✨</div>
+        </div>
+        <div id="instructions">ARROWS to move • SPACE to jump • R to restart • Die strategically!</div>
+        
+        <div id="startScreen">
+            <h1>👻 PHANTOM REPLAY</h1>
+            <div class="tagline">"Death is not the end... it's your greatest tool"</div>
+            <button class="btn" onclick="startGame()">START GAME</button>
+            <div class="tutorial">
+                <p>Each time you <span style="color:#e94560">DIE</span>, you leave a GHOST.</p>
+                <p>Ghosts repeat your last actions.</p>
+                <p>Use them as platforms, triggers, and sacrifices!</p>
+                <br>
+                <p><span class="key">←</span><span class="key">→</span> Move <span class="key">SPACE</span> Jump <span class="key">R</span> Restart</p>
+            </div>
+        </div>
+        
+        <div id="gameOverScreen">
+            <h1 style="color: #ff6b6b;">GAME OVER</h1>
+            <div class="tagline">Your ghosts couldn't save you...</div>
+            <button class="btn" onclick="resetLevel()">TRY AGAIN</button>
+            <div class="stats">
+                Total Deaths: <span id="gameOverDeaths">0</span> | Ghosts Created: <span id="gameOverGhosts">0</span>
+            </div>
+        </div>
+        
+        <div id="winScreen">
+            <h1 style="color: #4ecdc4;">VICTORY!</h1>
+            <div class="tagline">You mastered the art of strategic sacrifice!</div>
+            <button class="btn" onclick="nextLevel()">NEXT LEVEL</button>
+            <div class="stats">
+                Deaths: <span id="winDeaths">0</span> | Time: <span id="winTime">0</span>s | Badges: <span id="winBadges">0</span>/4
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+        
+        // Game state
+        let gameState = 'start'; // start, playing, gameover, win
+        let currentLevel = 1;
+        let deaths = 0;
+        let ghostsCreated = 0;
+        let startTime = 0;
+        let earnedBadges = new Set();
+        let ghostTrails = []; // Stores ghost recordings
+        
+        // Player
+        const player = {
+            x: 50, y: 350, w: 24, h: 24,
+            vx: 0, vy: 0,
+            speed: 5, jumpPower: -12,
+            grounded: false,
+            recording: [],
+            facing: 1
+        };
+        
+        // Physics
+        const gravity = 0.5;
+        const friction = 0.85;
+        
+        // Input
+        const keys = {};
+        
+        // Level design
+        const levels = [
+            { // Level 1: Tutorial - Simple gap
+                platforms: [
+                    {x: 0, y: 400, w: 200, h: 100}, // Start platform
+                    {x: 300, y: 400, w: 500, h: 100}, // End platform
+                    {x: 200, y: 450, w: 100, h: 50, deadly: true} // Spikes in gap
+                ],
+                goal: {x: 720, y: 350, w: 40, h: 50},
+                startPos: {x: 50, y: 350}
+            },
+            { // Level 2: Ghost bridge
+                platforms: [
+                    {x: 0, y: 400, w: 150, h: 100},
+                    {x: 250, y: 350, w: 80, h: 20}, // Mid platform (ghosts needed)
+                    {x: 400, y: 300, w: 80, h: 20}, // Upper platform
+                    {x: 600, y: 250, w: 200, h: 250}
+                ],
+                goal: {x: 720, y: 200, w: 40, h: 50},
+                startPos: {x: 50, y: 350}
+            },
+            { // Level 3: Vertical ghost stairs
+                platforms: [
+                    {x: 0, y: 450, w: 100, h: 50},
+                    {x: 700, y: 100, w: 100, h: 400} // Goal platform
+                ],
+                walls: [
+                    {x: 350, y: 0, w: 50, h: 400} // Blocking wall
+                ],
+                goal: {x: 720, y: 50, w: 40, h: 50},
+                startPos: {x: 30, y: 400}
+            }
+        ];
+        
+        // Ghost class - replays recorded movements
+        class Ghost {
+            constructor(recording, color) {
+                this.recording = [...recording];
+                this.frame = 0;
+                this.color = color || `hsl(${180 + Math.random() * 60}, 70%, 60%)`;
+                this.x = this.recording[0]?.x || 0;
+                this.y = this.recording[0]?.y || 0;
+                this.active = true;
+                this.loop = true;
+            }
+            
+            update() {
+                if (!this.active || this.recording.length === 0) return;
+                
+                const frame = this.recording[this.frame];
+                this.x = frame.x;
+                this.y = frame.y;
+                this.facing = frame.facing || 1;
+                
+                this.frame++;
+                if (this.frame >= this.recording.length) {
+                    if (this.loop) {
+                        this.frame = 0;
+                    } else {
+                        this.active = false;
+                    }
+                }
+            }
+            
+            draw(ctx) {
+                if (!this.active) return;
+                
+                ctx.save();
+                ctx.globalAlpha = 0.6;
+                ctx.fillStyle = this.color;
+                
+                // Ghost body (slightly transparent player)
+                ctx.beginPath();
+                ctx.roundRect(this.x, this.y, 24, 24, 4);
+                ctx.fill();
+                
+                // Ghost eyes
+                ctx.fillStyle = 'white';
+                ctx.globalAlpha = 0.8;
+                const eyeOffset = this.facing > 0 ? 4 : -4;
+                ctx.beginPath();
+                ctx.arc(this.x + 8 + eyeOffset, this.y + 9, 3, 0, Math.PI * 2);
+                ctx.arc(this.x + 16 + eyeOffset, this.y + 9, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Ghost trail effect
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.globalAlpha = 0.3;
+                ctx.beginPath();
+                ctx.arc(this.x + 12, this.y + 12, 20, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                ctx.restore();
+            }
+            
+            getBounds() {
+                return {x: this.x, y: this.y, w: 24, h: 24};
+            }
+        }
+        
+        let ghosts = [];
+        
+        // Event listeners
+        window.addEventListener('keydown', (e) => {
+            keys[e.code] = true;
+            if (e.code === 'KeyR') resetLevel();
+            if (e.code === 'Space' && gameState === 'playing') e.preventDefault();
+        });
+        window.addEventListener('keyup', (e) => keys[e.code] = false);
+        
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            gameState = 'playing';
+            startTime = Date.now();
+            resetLevel();
+            gameLoop();
+        }
+        
+        function resetLevel() {
+            const level = levels[currentLevel - 1];
+            player.x = level.startPos.x;
+            player.y = level.startPos.y;
+            player.vx = 0;
+            player.vy = 0;
+            player.recording = [];
+            player.recording.push({x: player.x, y: player.y, facing: player.facing});
+            
+            // Keep ghosts from this level's attempts
+            ghosts = [];
+            ghostTrails = [];
+            
+            document.getElementById('gameOverScreen').style.display = 'none';
+            document.getElementById('winScreen').style.display = 'none';
+            gameState = 'playing';
+        }
+        
+        function die() {
+            deaths++;
+            ghostsCreated++;
+            
+            // Check badges
+            if (deaths === 1) earnBadge('badge1');
+            if (ghosts.length >= 4) earnBadge('badge2');
+            
+            // Create ghost from recording
+            if (player.recording.length > 5) {
+                const ghostColor = `hsl(${180 + ghosts.length * 30}, 70%, ${50 + Math.random() * 20}%)`;
+                const ghost = new Ghost(player.recording, ghostColor);
+                ghosts.push(ghost);
+                ghostTrails.push(player.recording);
+            }
+            
+            // Reset player
+            const level = levels[currentLevel - 1];
+            player.x = level.startPos.x;
+            player.y = level.startPos.y;
+            player.vx = 0;
+            player.vy = 0;
+            player.recording = [];
+            player.recording.push({x: player.x, y: player.y, facing: player.facing});
+            
+            updateUI();
+            
+            // Screen shake effect
+            canvas.style.transform = 'translate(2px, 2px)';
+            setTimeout(() => canvas.style.transform = 'none', 50);
+        }
+        
+        function earnBadge(badgeId) {
+            if (earnedBadges.has(badgeId)) return;
+            earnedBadges.add(badgeId);
+            document.getElementById(badgeId).classList.add('earned');
+        }
+        
+        function checkWin() {
+            const level = levels[currentLevel - 1];
+            if (player.x < level.goal.x + level.goal.w &&
+                player.x + player.w > level.goal.x &&
+                player.y < level.goal.y + level.goal.h &&
+                player.y + player.h > level.goal.y) {
+                
+                const time = Math.floor((Date.now() - startTime) / 1000);
+                if (time < 30) earnBadge('badge3');
+                if (deaths <= 3) earnBadge('badge4');
+                
+                document.getElementById('winDeaths').textContent = deaths;
+                document.getElementById('winTime').textContent = time;
+                document.getElementById('winBadges').textContent = earnedBadges.size;
+                document.getElementById('winScreen').style.display = 'flex';
+                gameState = 'win';
+            }
+        }
+        
+        function nextLevel() {
+            if (currentLevel < levels.length) {
+                currentLevel++;
+                deaths = 0;
+                ghosts = [];
+                ghostTrails = [];
+                earnedBadges.clear();
+                document.querySelectorAll('.badge').forEach(b => b.classList.remove('earned'));
+                startTime = Date.now();
+                resetLevel();
+            } else {
+                // Game complete - restart
+                currentLevel = 1;
+                deaths = 0;
+                ghosts = [];
+                ghostTrails = [];
+                earnedBadges.clear();
+                document.querySelectorAll('.badge').forEach(b => b.classList.remove('earned'));
+                startTime = Date.now();
+                resetLevel();
+            }
+        }
+        
+        function updateUI() {
+            document.getElementById('level').textContent = currentLevel;
+            document.getElementById('deaths').textContent = deaths;
+            document.getElementById('ghostCount').textContent = ghosts.length;
+            document.getElementById('gameOverDeaths').textContent = deaths;
+            document.getElementById('gameOverGhosts').textContent = ghostsCreated;
+        }
+        
+        function updatePlayer() {
+            // Input
+            if (keys['ArrowLeft']) {
+                player.vx -= 0.8;
+                player.facing = -1;
+            }
+            if (keys['ArrowRight']) {
+                player.vx += 0.8;
+                player.facing = 1;
+            }
+            if (keys['Space'] && player.grounded) {
+                player.vy = player.jumpPower;
+                player.grounded = false;
+            }
+            
+            // Physics
+            player.vx *= friction;
+            player.vy += gravity;
+            
+            player.x += player.vx;
+            player.y += player.vy;
+            
+            // Recording for ghost
+            if (gameState === 'playing') {
+                player.recording.push({
+                    x: player.x,
+                    y: player.y,
+                    facing: player.facing
+                });
+                if (player.recording.length > 600) player.recording.shift(); // Max 10 seconds at 60fps
+            }
+            
+            // Platform collisions
+            player.grounded = false;
+            const level = levels[currentLevel - 1];
+            
+            // Platforms
+            for (const plat of level.platforms) {
+                if (player.x < plat.x + plat.w &&
+                    player.x + player.w > plat.x &&
+                    player.y < plat.y + plat.h &&
+                    player.y + player.h > plat.y) {
+                    
+                    // Deadly platform (spikes)
+                    if (plat.deadly) {
+                        die();
+                        return;
+                    }
+                    
+                    // Top collision (landing)
+                    if (player.vy > 0 && player.y < plat.y) {
+                        player.y = plat.y - player.h;
+                        player.vy = 0;
+                        player.grounded = true;
+                    }
+                    // Bottom collision
+                    else if (player.vy < 0 && player.y > plat.y) {
+                        player.y = plat.y + plat.h;
+                        player.vy = 0;
+                    }
+                    // Side collisions
+                    else if (player.vx > 0) {
+                        player.x = plat.x - player.w;
+                        player.vx = 0;
+                    }
+                    else if (player.vx < 0) {
+                        player.x = plat.x + plat.w;
+                        player.vx = 0;
+                    }
+                }
+            }
+            
+            // Wall collisions
+            if (level.walls) {
+                for (const wall of level.walls) {
+                    if (player.x < wall.x + wall.w &&
+                        player.x + player.w > wall.x &&
+                        player.y < wall.y + wall.h &&
+                        player.y + player.h > wall.y) {
+                        
+                        if (player.vx > 0) {
+                            player.x = wall.x - player.w;
+                            player.vx = 0;
+                        }
+                        else if (player.vx < 0) {
+                            player.x = wall.x + wall.w;
+                            player.vx = 0;
+                        }
+                    }
+                }
+            }
+            
+            // Ghost collisions (can stand on ghosts!)
+            for (const ghost of ghosts) {
+                if (!ghost.active) continue;
+                const gb = ghost.getBounds();
+                if (player.x < gb.x + gb.w &&
+                    player.x + player.w > gb.x &&
+                    player.y < gb.y + gb.h &&
+                    player.y + player.h > gb.y) {
+                    
+                    // Top collision on ghost
+                    if (player.vy > 0 && player.y < gb.y) {
+                        player.y = gb.y - player.h;
+                        player.vy = 0;
+                        player.grounded = true;
+                    }
+                }
+            }
+            
+            // Fall death
+            if (player.y > canvas.height) {
+                die();
+            }
+            
+            // Bounds
+            player.x = Math.max(0, Math.min(canvas.width - player.w, player.x));
+        }
+        
+        function draw() {
+            // Clear with trail effect
+            ctx.fillStyle = 'rgba(26, 10, 46, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            const level = levels[currentLevel - 1];
+            
+            // Draw grid background
+            ctx.strokeStyle = 'rgba(160, 210, 235, 0.1)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+            
+            // Draw walls
+            if (level.walls) {
+                ctx.fillStyle = '#4a5568';
+                for (const wall of level.walls) {
+                    ctx.fillRect(wall.x, wall.y, wall.w, wall.h);
+                    // Wall pattern
+                    ctx.strokeStyle = '#2d3748';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(wall.x, wall.y, wall.w, wall.h);
+                }
+            }
+            
+            // Draw platforms
+            for (const plat of level.platforms) {
+                if (plat.deadly) {
+                    // Spikes
+                    ctx.fillStyle = '#e53e3e';
+                    ctx.beginPath();
+                    for (let x = plat.x; x < plat.x + plat.w; x += 20) {
+                        ctx.moveTo(x, plat.y + plat.h);
+                        ctx.lineTo(x + 10, plat.y);
+                        ctx.lineTo(x + 20, plat.y + plat.h);
+                    }
+                    ctx.fill();
+                } else {
+                    // Normal platform
+                    const gradient = ctx.createLinearGradient(plat.x, plat.y, plat.x, plat.y + plat.h);
+                    gradient.addColorStop(0, '#4a5568');
+                    gradient.addColorStop(1, '#2d3748');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
+                    
+                    // Platform top highlight
+                    ctx.fillStyle = '#718096';
+                    ctx.fillRect(plat.x, plat.y, plat.w, 4);
+                }
+            }
+            
+            // Draw goal
+            ctx.fillStyle = '#4ecdc4';
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = '#4ecdc4';
+            ctx.fillRect(level.goal.x, level.goal.y, level.goal.w, level.goal.h);
+            ctx.shadowBlur = 0;
+            
+            // Goal flag
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(level.goal.x + 5, level.goal.y - 30, 2, 30);
+            ctx.fillStyle = '#ffd700';
+            ctx.beginPath();
+            ctx.moveTo(level.goal.x + 7, level.goal.y - 30);
+            ctx.lineTo(level.goal.x + 25, level.goal.y - 22);
+            ctx.lineTo(level.goal.x + 7, level.goal.y - 15);
+            ctx.fill();
+            
+            // Draw ghosts
+            ghosts.forEach(ghost => ghost.draw(ctx));
+            
+            // Draw player
+            ctx.fillStyle = '#e94560';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#e94560';
+            ctx.beginPath();
+            ctx.roundRect(player.x, player.y, player.w, player.h, 4);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            // Player eyes
+            ctx.fillStyle = 'white';
+            const eyeOffset = player.facing > 0 ? 4 : -4;
+            ctx.beginPath();
+            ctx.arc(player.x + 8 + eyeOffset, player.y + 9, 3, 0, Math.PI * 2);
+            ctx.arc(player.x + 16 + eyeOffset, player.y + 9, 3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw recording indicator
+            if (player.recording.length > 0) {
+                ctx.fillStyle = 'rgba(233, 69, 96, 0.5)';
+                const trailLength = Math.min(player.recording.length, 30);
+                for (let i = 0; i < trailLength; i++) {
+                    const frame = player.recording[player.recording.length - 1 - i];
+                    const alpha = (1 - i / trailLength) * 0.3;
+                    ctx.globalAlpha = alpha;
+                    ctx.fillRect(frame.x + 10, frame.y + 10, 4, 4);
+                }
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        function gameLoop() {
+            if (gameState === 'playing') {
+                updatePlayer();
+                ghosts.forEach(ghost => ghost.update());
+                checkWin();
+                updateUI();
+            }
+            
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Start animation
+        canvas.style.transform = 'scale(0.95)';
+        setTimeout(() => canvas.style.transform = 'scale(1)', 100);
+    </script>
+</body>
+</html>

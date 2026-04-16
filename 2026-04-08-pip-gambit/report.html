@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pip Gambit - Game Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wood-dark: #5D3A1A;
+            --wood-medium: #8B5A2B;
+            --wood-light: #A67B5B;
+            --felt-bg: #1F2937;
+            --felt-light: #2D3748;
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --dice-blue: #3B82F6;
+            --dice-red: #EF4444;
+            --cream: #FEF3C7;
+            --text-light: #E5E7EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(135deg, var(--felt-bg) 0%, #111827 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 30px;
+            background: linear-gradient(180deg, var(--wood-dark) 0%, var(--wood-medium) 50%, var(--wood-dark) 100%);
+            border: 4px solid var(--gold);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 2px 10px rgba(245,158,11,0.2);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 20px,
+                rgba(0,0,0,0.1) 20px,
+                rgba(0,0,0,0.1) 22px
+            );
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 20px rgba(245,158,11,0.3);
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--cream);
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .dice-icon {
+            display: inline-flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .die {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4), inset 0 -2px 0 rgba(0,0,0,0.3);
+        }
+
+        .die-blue {
+            background: linear-gradient(135deg, var(--dice-blue) 0%, #2563EB 100%);
+            color: white;
+        }
+
+        .die-red {
+            background: linear-gradient(135deg, var(--dice-red) 0%, #DC2626 100%);
+            color: white;
+        }
+
+        section {
+            background: linear-gradient(180deg, var(--felt-light) 0%, var(--felt-bg) 100%);
+            border: 2px solid var(--wood-medium);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.5;
+        }
+
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-number {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--wood-dark);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 6px rgba(245,158,11,0.4);
+        }
+
+        p {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .keyword {
+            background: linear-gradient(135deg, rgba(139,90,43,0.6) 0%, rgba(93,58,26,0.8) 100%);
+            border: 1px solid var(--wood-light);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--cream);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 640px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .column h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            font-size: 1rem;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--wood-medium);
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 6px 0 6px 24px;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        ul li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .monetization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .monetization-card {
+            background: linear-gradient(135deg, rgba(139,90,43,0.3) 0%, rgba(93,58,26,0.5) 100%);
+            border: 1px solid var(--wood-medium);
+            border-radius: 10px;
+            padding: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .monetization-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(245,158,11,0.15);
+        }
+
+        .monetization-card h4 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .monetization-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .loop-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .loop-step {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 18px;
+            background: linear-gradient(90deg, rgba(139,90,43,0.2) 0%, transparent 100%);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .loop-step-number {
+            background: var(--wood-medium);
+            color: var(--gold);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .loop-arrow {
+            text-align: center;
+            color: var(--gold);
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        .kpis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .kpi-card {
+            background: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(59,130,246,0.05) 100%);
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .kpi-card:nth-child(even) {
+            background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(239,68,68,0.05) 100%);
+            border-color: rgba(239,68,68,0.3);
+        }
+
+        .kpi-card:nth-child(3n) {
+            background: linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.05) 100%);
+            border-color: rgba(245,158,11,0.3);
+        }
+
+        .kpi-name {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .kpi-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            opacity: 0.85;
+        }
+
+        .ab-test {
+            display: flex;
+            gap: 16px;
+            padding: 14px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid var(--wood-medium);
+        }
+
+        .ab-test-variant {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .ab-test-variant.a {
+            background: rgba(59,130,246,0.2);
+            border: 1px solid var(--dice-blue);
+        }
+
+        .ab-test-variant.b {
+            background: rgba(239,68,68,0.2);
+            border: 1px solid var(--dice-red);
+        }
+
+        .ab-test-label {
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            opacity: 0.8;
+        }
+
+        .ab-test-variant.a .ab-test-label { color: var(--dice-blue); }
+        .ab-test-variant.b .ab-test-label { color: var(--dice-red); }
+
+        .risk-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: linear-gradient(90deg, rgba(239,68,68,0.1) 0%, transparent 100%);
+            border-left: 3px solid var(--dice-red);
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 14px;
+        }
+
+        .risk-header {
+            flex-shrink: 0;
+            min-width: 120px;
+        }
+
+        .risk-title {
+            font-family: 'Cinzel', serif;
+            color: var(--dice-red);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .risk-level {
+            font-size: 0.75rem;
+            color: var(--gold);
+            margin-top: 4px;
+        }
+
+        .risk-content {
+            flex: 1;
+        }
+
+        .risk-issue {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .risk-mitigation {
+            font-size: 0.85rem;
+            color: var(--cream);
+            opacity: 0.9;
+            padding: 8px 12px;
+            background: rgba(34,197,94,0.15);
+            border-radius: 6px;
+            border-left: 2px solid #22C55E;
+        }
+
+        .risk-mitigation::before {
+            content: '✓ ';
+            color: #22C55E;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--wood-light);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--wood-medium);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚔️ Pip Gambit</h1>
+            <p class="subtitle">Strategic Dice Combat in the Tavern</p>
+            <div class="dice-icon">
+                <div class="die die-blue">6</div>
+                <div class="die die-red">4</div>
+                <div class="die die-blue">2</div>
+            </div>
+        </header>
+
+        <!-- Section 1: Game Concept Overview -->
+        <section>
+            <h2><span class="section-number">1</span>Game Concept Overview</h2>
+            <p>Pip Gambit is a tactical dice-based strategy game inspired by NYT Pips, where players engage in intense territory battles on a 5x5 grid. Each turn, players roll dice and strategically place them to capture opponent territory, with dice face values determining attack power. Adjacent dice of the same color combine their powers, creating deep tactical decisions around positioning, timing, and risk management against an increasingly challenging AI opponent.</p>
+        </section>
+
+        <!-- Section 2: ASO/SEO Keywords -->
+        <section>
+            <h2><span class="section-number">2</span>ASO/SEO Keywords</h2>
+            <div class="keywords">
+                <span class="keyword">dice strategy game</span>
+                <span class="keyword">tactical board game</span>
+                <span class="keyword">grid combat</span>
+                <span class="keyword">territory capture</span>
+                <span class="keyword">puzzle dice</span>
+                <span class="keyword">turn-based strategy</span>
+                <span class="keyword">PvE dice battle</span>
+                <span class="keyword">daily puzzle game</span>
+                <span class="keyword">NYT Pips alternative</span>
+                <span class="keyword">brain training dice</span>
+                <span class="keyword">casual strategy</span>
+                <span class="keyword">offline dice game</span>
+                <span class="keyword">quick match game</span>
+                <span class="keyword">medieval dice battle</span>
+            </div>
+        </section>
+
+        <!-- Section 3: Target Audience -->
+        <section>
+            <h2><span class="section-number">3</span>Target Audience</h2>
+            <div class="two-column">
+                <div class="column">
+                    <h3>📊 Demographics</h3>
+                    <ul>
+                        <li><strong>Age:</strong> 18-45 (core), 25-35 (sweet spot)</li>
+                        <li><strong>Gender:</strong> 55% Male, 45% Female</li>
+                        <li><strong>Location:</strong> US, UK, Canada, Germany, Australia</li>
+                        <li><strong>Device:</strong> Mid-to-high end Android phones</li>
+                        <li><strong>Income:</strong> $40k-$80k household</li>
+                        <li><strong>Education:</strong> College-educated preferred</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>🧠 Psychographics</h3>
+                    <ul>
+                        <li>Enjoys strategic thinking and pattern recognition</li>
+                        <li>Plays NYT Games, Wordle, or similar daily puzzles</li>
+                        <li>Prefers short session games (5-15 min matches)</li>
+                        <li>Values skill over pure luck in games</li>
+                        <li>Appreciates polished, thematic aesthetics</li>
+                        <li>Willing to pay for cosmetic upgrades</li>
+                        <li>Engages with game communities on Reddit/Discord</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Monetization Hooks -->
+        <section>
+            <h2><span class="section-number">4</span>Monetization Hooks</h2>
+            <div class="monetization-grid">
+                <div class="monetization-card">
+                    <h4>🎲 Premium Dice Skins</h4>
+                    <p>Unlock exclusive dice sets: Dragon Scale, Royal Gold, Ice Crystal, Neon Cyber. Each skin features unique roll animations and sound effects.</p>
+                </div>
+                <div class="monetization-card">
+                    <h4>🗺️ Board Themes</h4>
+                    <p>Tavern (default), Castle Throne Room, Forest Clearing, Volcanic Forge. Themes include ambient sounds and particle effects.</p>
+                </div>
+                <div class="monetization-card">
+                    <h4>⚡ Energy & Undos</h4>
+                    <p>Free energy refills daily; purchase instant refills or unlimited energy pass. Buy undo moves for perfecting strategy.</p>
+                </div>
+                <div class="monetization-card">
+                    <h4>🏆 Battle Pass</h4>
+                    <p>Monthly seasonal pass with exclusive dice, boards, and titles. Tracks progress through daily/weekly challenges.</p>
+                </div>
+                <div class="monetization-card">
+                    <h4>🎭 Character Avatars</h4>
+                    <p>Unlock tavern patrons as player profiles: Rogue, Knight, Wizard, Barkeep. Each with unique taunts and victory animations.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Engagement Loop Analysis -->
+        <section>
+            <h2><span class="section-number">5</span>Engagement Loop Analysis</h2>
+            <div class="loop-flow">
+                <div class="loop-step">
+                    <span class="loop-step-number">1</span>
+                    <div>
+                        <strong>Hook:</strong> Quick daily match notification — "Your daily gambit awaits, challenger!"
+                    </div>
+                </div>
+                <div class="loop-arrow">▼</div>
+                <div class="loop-step">
+                    <span class="loop-step-number">2</span>
+                    <div>
+                        <strong>Core Loop:</strong> Roll → Strategize → Place → Capture → Victory/Retry. 3-5 minute matches fit commute/break times.
+                    </div>
+                </div>
+                <div class="loop-arrow">▼</div>
+                <div class="loop-step">
+                    <span class="loop-step-number">3</span>
+                    <div>
+                        <strong>Progression:</strong> Unlock new AI difficulty tiers, collect achievement badges, climb seasonal leaderboard.
+                    </div>
+                </div>
+                <div class="loop-arrow">▼</div>
+                <div class="loop-step">
+                    <span class="loop-step-number">4</span>
+                    <div>
+                        <strong>Retention:</strong> Daily rewards streak, weekly tournaments, new dice/board rotation in shop, community challenges.
+                    </div>
+                </div>
+                <div class="loop-arrow">▼</div>
+                <div class="loop-step">
+                    <span class="loop-step-number">5</span>
+                    <div>
+                        <strong>Social:</strong> Share high scores, challenge friends via link, spectate top player replays.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: KPIs to Track -->
+        <section>
+            <h2><span class="section-number">6</span>KPIs to Track</h2>
+            <div class="kpis-grid">
+                <div class="kpi-card">
+                    <div class="kpi-name">D1/D7/D30 Retention</div>
+                    <div class="kpi-desc">% users returning after 1/7/30 days. Target: 40%/20%/10%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-name">Session Length</div>
+                    <div class="kpi-desc">Average time per session. Target: 8-12 minutes</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-name">Matches per User</div>
+                    <div class="kpi-desc">Daily average matches played. Target: 3+ matches/day</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-name">Win Rate Distribution</div>
+                    <div class="kpi-desc">Balance check: 45-55% vs AI for player satisfaction</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-name">ARPU / ARPDAU</div>
+                    <div class="kpi-desc">Revenue per user and daily active user</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-name">Conversion Rate</div>
+                    <div class="kpi-desc">% free users making any purchase. Target: 2-5%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-name">Tutorial Drop-off</div>
+                    <div class="kpi-desc">% completing first match after tutorial. Target: >80%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: A/B Test Ideas -->
+        <section>
+            <h2><span class="section-number">7</span>A/B Test Ideas</h2>
+            
+            <div class="ab-test">
+                <div class="ab-test-variant a">
+                    <div class="ab-test-label">Variant A</div>
+                    <div>Fixed 5x5 grid with static rules</div>
+                </div>
+                <div class="ab-test-variant b">
+                    <div class="ab-test-label">Variant B</div>
+                    <div>Dynamic board sizes (3x3 quick, 5x5 standard, 7x7 epic)</div>
+                </div>
+            </div>
+            <p style="font-size:0.85rem; opacity:0.8; margin-bottom:20px;"><strong>Hypothesis:</strong> Multiple board sizes increase session variety and D7 retention by 15%.</p>
+
+            <div class="ab-test">
+                <div class="ab-test-variant a">
+                    <div class="ab-test-label">Variant A</div>
+                    <div>AI opponent with no personality/dialogue</div>
+                </div>
+                <div class="ab-test-variant b">
+                    <div class="ab-test-label">Variant B</div>
+                    <div>AI "Tavern Master" character with taunts, praise, and lore snippets</div>
+                </div>
+            </div>
+            <p style="font-size:0.85rem; opacity:0.8; margin-bottom:20px;"><strong>Hypothesis:</strong> Characterized AI increases emotional investment and IAP conversion by 10%.</p>
+
+            <div class="ab-test">
+                <div class="ab-test-variant a">
+                    <div class="ab-test-label">Variant A</div>
+                    <div>Standard energy system (5 matches, 20 min recharge)</div>
+                </div>
+                <div class="ab-test-variant b">
+                    <div class="ab-test-label">Variant B</div>
+                    <div>Ad-supported unlimited play with optional energy skip for rewards</div>
+                </div>
+            </div>
+            <p style="font-size:0.85rem; opacity:0.8; margin-bottom:20px;"><strong>Hypothesis:</strong> Ad-supported model increases DAU and ad revenue without hurting retention.</p>
+
+            <div class="ab-test">
+                <div class="ab-test-variant a">
+                    <div class="ab-test-label">Variant A</div>
+                    <div>Simple win/loss screen</div>
+                </div>
+                <div class="ab-test-variant b">
+                    <div class="ab-test-label">Variant B</div>
+                    <div>"Victory Spread" shareable image with stats and dice layout</div>
+                </div>
+            </div>
+            <p style="font-size:0.85rem; opacity:0.8;"><strong>Hypothesis:</strong> Shareable victory screens increase organic installs via social sharing by 25%.</p>
+        </section>
+
+        <!-- Section 8: Risk Assessment -->
+        <section>
+            <h2><span class="section-number">8</span>Risk Assessment</h2>
+            
+            <div class="risk-item">
+                <div class="risk-header">
+                    <div class="risk-title">Market Saturation</div>
+                    <div class="risk-level">⚠️ Medium-High</div>
+                </div>
+                <div class="risk-content">
+                    <p class="risk-issue">Dice and puzzle games are highly competitive. Standing out against established titles like NYT Games requires strong differentiation.</p>
+                    <p class="risk-mitigation">Double down on unique "adjacent dice combo" mechanic and tavern fantasy theme to create memorable brand identity.</p>
+                </div>
+            </div>
+
+            <div class="risk-item">
+                <div class="risk-header">
+                    <div class="risk-title">AI Difficulty Balance</div>
+                    <div class="risk-level">⚠️ Medium</div>
+                </div>
+                <div class="risk-content">
+                    <p class="risk-issue">AI that's too easy causes boredom; too hard causes frustration and churn. Finding the right curve is critical.</p>
+                    <p class="risk-mitigation">Implement dynamic difficulty adjustment (DDA) based on player win rate, plus explicit difficulty selection after tutorial.</p>
+                </div>
+            </div>
+
+            <div class="risk-item">
+                <div class="risk-header">
+                    <div class="risk-title">Monetization Friction</div>
+                    <div class="risk-level">⚠️ Medium</div>
+                </div>
+                <div class="risk-content">
+                    <p class="risk-issue">Energy systems can annoy players seeking unlimited play. Poor monetization timing harms reviews and retention.</p>
+                    <p class="risk-mitigation">Offer "ad for energy" alternative, front-load cosmetic value (free starter skin), and delay energy caps until Day 3+.</p>
+                </div>
+            </div>
+
+            <div class="risk-item">
+                <div class="risk-header">
+                    <div class="risk-title">Learning Curve</div>
+                    <div class="risk-level">⚠️ Low-Medium</div>
+                </div>
+                <div class="risk-content">
+                    <p class="risk-issue">The adjacent dice combo mechanic may confuse casual players unfamiliar with strategy games.</p>
+                    <p class="risk-mitigation">Interactive tutorial with animated demonstrations, plus "suggested move" helper for first 10 matches.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Pip Gambit Strategic Report • Generated for Game Development Pipeline</p>
+        </footer>
+    </div>
+</body>
+</html>

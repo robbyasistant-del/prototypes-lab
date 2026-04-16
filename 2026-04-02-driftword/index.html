@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriftWord - Words in the Current</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #001a33 0%, #003d66 50%, #001a33 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            width: 100%;
+            border-bottom: 2px solid #00ccff;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #00ccff, #66e0ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 204, 255, 0.5);
+        }
+        
+        .instructions {
+            background: rgba(0, 204, 255, 0.1);
+            border: 1px solid #00ccff;
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin: 10px;
+            max-width: 700px;
+            text-align: center;
+            animation: wave 2s infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 204, 255, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(0, 204, 255, 0.6); }
+        }
+        
+        .instructions p {
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        
+        .instructions .highlight {
+            color: #ffff66;
+            font-weight: bold;
+        }
+        
+        .game-wrapper {
+            display: flex;
+            gap: 20px;
+            padding: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        #gameCanvas {
+            border: 3px solid #00ccff;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0, 204, 255, 0.4);
+            background: linear-gradient(180deg, #000d1a 0%, #001a33 100%);
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 200px;
+        }
+        
+        .stat-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(0, 204, 255, 0.3);
+        }
+        
+        .stat-box h3 {
+            color: #00ccff;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .word-display {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 8px;
+            min-height: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .word-letter {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #00ccff, #0088cc);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            animation: letterPop 0.3s ease;
+        }
+        
+        @keyframes letterPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .target-word {
+            font-size: 1.3em;
+            letter-spacing: 3px;
+            color: #ffff66;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+        
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .badge.locked {
+            background: #333;
+            color: #666;
+        }
+        
+        .badge.unlocked {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #001a33;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            animation: badgePop 0.5s ease;
+        }
+        
+        @keyframes badgePop {
+            0% { transform: scale(0) rotate(-10deg); }
+            50% { transform: scale(1.2) rotate(5deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #00ccff, #0088cc);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 204, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .anchors-info {
+            margin-top: 8px;
+            padding: 8px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 6px;
+        }
+        
+        .anchors-left {
+            color: #ffff66;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #001a33, #003d66);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #00ccff;
+            box-shadow: 0 0 60px rgba(0, 204, 255, 0.5);
+            max-width: 450px;
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-content h2 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+        }
+        
+        .modal-content.win h2 {
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        
+        .modal-content.lose h2 {
+            color: #ff6666;
+            text-shadow:  0 0 20px rgba(255, 102, 102, 0.5);
+        }
+        
+        .level-select {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .level-btn {
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #00ccff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #fff;
+        }
+        
+        .level-btn:hover {
+            background: rgba(0, 204, 255, 0.2);
+        }
+        
+        .level-btn.completed {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌊 DRIFTWORD</h1>
+        <p style="color: #888; margin-top: 5px;">Catch letters. Form words. Ride the current.</p>
+    </div>
+    
+    <div class="instructions">
+        <p>🖱️ <span class="highlight">CLICK</span> to drop anchors • Letters drift in water currents<br>
+        🎯 Guide letters to form the <span class="highlight">TARGET WORD</span> in the collection zone<br>
+        ⚓ You have limited anchors per level!</p>
+    </div>
+    
+    <div class="game-wrapper">
+        <canvas id="gameCanvas" width="550" height="650"></canvas>
+        
+        <div class="sidebar">
+            <div class="stat-box">
+                <h3>🎯 Target Word</h3>
+                <div class="target-word" id="targetWord">CAT</div>
+            </div>
+            
+            <div class="stat-box">
+                <h3>📝 Your Word</h3>
+                <div class="word-display" id="wordDisplay"></div>
+            </div>
+            
+            <div class="stat-box">
+                <h3>⚓ Anchors Left</h3>
+                <div class="anchors-left" id="anchorsLeft">5</div>
+                <div class="anchors-info">
+                    <small style="color: #888;">Drop anchors to redirect letters</small>
+                </div>
+            </div>
+            
+            <div class="stat-box">
+                <h3>⭐ Score</h3>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            
+            <div class="stat-box">
+                <h3>🏆 Badges</h3>
+                <div class="badges" id="badges">
+                    <span class="badge locked" id="badge-perfect">💎 Perfect</span>
+                    <span class="badge locked" id="badge-speed">⚡ Speed</span>
+                    <span class="badge locked" id="badge-master">👑 Master</span>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 8px;">
+                <button class="btn-primary" onclick="game.resetLevel()">🔄 Retry</button>
+                <button class="btn-secondary" onclick="game.togglePause()">⏸️ Pause</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="gameModal">
+        <div class="modal-content" id="modalContent">
+            <h2 id="modalTitle">Level Complete!</h2>
+            <p id="modalMessage">Great job!</p>
+            <div style="margin-top: 15px;">
+                <button class="btn-primary" onclick="game.nextLevel()" id="nextBtn">Next Level →</button>
+                <button class="btn-secondary" onclick="game.resetLevel()">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const LEVELS = [
+            { word: 'CAT', letters: ['C', 'A', 'T'], anchors: 3, currents: [{x: 200, y: 200, dir: 0, strength: 0.5}] },
+            { word: 'FISH', letters: ['F', 'I', 'S', 'H'], anchors: 4, currents: [{x: 150, y: 150, dir: 0.5, strength: 0.7}, {x: 350, y: 300, dir: -0.5, strength: 0.6}] },
+            { word: 'WATER', letters: ['W', 'A', 'T', 'E', 'R'], anchors: 5, currents: [{x: 100, y: 200, dir: 1, strength: 0.8}, {x: 400, y: 250, dir: -1, strength: 0.7}, {x: 250, y: 400, dir: 0, strength: 0.5}] },
+            { word: 'OCEAN', letters: ['O', 'C', 'E', 'A', 'N'], anchors: 6, currents: [{x: 180, y: 180, dir: 0.8, strength: 0.9}, {x: 350, y: 350, dir: -0.8, strength: 0.8}, {x: 100, y: 450, dir: 0.2, strength: 0.6}] },
+            { word: 'WAVES', letters: ['W', 'A', 'V', 'E', 'S'], anchors: 5, currents: [{x: 275, y: 200, dir: 1.5, strength: 1.0}, {x: 150, y: 350, dir: -0.3, strength: 0.7}, {x: 400, y: 300, dir: 2.5, strength: 0.8}] },
+            { word: 'CURRENT', letters: ['C', 'U', 'R', 'R', 'E', 'N', 'T'], anchors: 8, currents: [{x: 200, y: 150, dir: 0.5, strength: 1.1}, {x: 350, y: 250, dir: -0.5, strength: 1.0}, {x: 150, y: 400, dir: 2.0, strength: 0.9}, {x: 400, y: 450, dir: -2.0, strength: 0.8}] },
+            { word: 'FLOWING', letters: ['F', 'L', 'O', 'W', 'I', 'N', 'G'], anchors: 7, currents: [{x: 100, y: 200, dir: 1.2, strength: 1.2}, {x: 450, y: 200, dir: -1.2, strength: 1.1}, {x: 275, y: 350, dir: 0, strength: 0.8}, {x: 200, y: 500, dir: 0.5, strength: 0.9}] },
+            { word: 'WHIRLPOOL', letters: ['W', 'H', 'I', 'R', 'L', 'P', 'O', 'O', 'L'], anchors: 10, currents: [{x: 275, y: 325, dir: 3, strength: 1.5}] }
+        ];
+        
+        class DriftWordGame {
+            constructor() {
+                this.levelIndex = 0;
+                this.score = 0;
+                this.letters = [];
+                this.anchors = [];
+                this.collectedLetters = [];
+                this.particles = [];
+                this.gameState = 'playing';
+                this.startTime = 0;
+                this.badges = { perfect: false, speed: false, master: false };
+                this.levelsCompleted = [];
+                
+                this.setupInput();
+                this.loadLevel(0);
+                this.gameLoop();
+            }
+            
+            setupInput() {
+                canvas.addEventListener('click', (e) => {
+                    if (this.gameState !== 'playing') return;
+                    
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    if (this.anchorsLeft > 0) {
+                        this.dropAnchor(x, y);
+                    }
+                });
+            }
+            
+            loadLevel(index) {
+                this.levelIndex = index;
+                this.level = LEVELS[index];
+                this.letters = [];
+                this.anchors = [];
+                this.collectedLetters = [];
+                this.particles = [];
+                this.anchorsLeft = this.level.anchors;
+                this.gameState = 'playing';
+                this.startTime = Date.now();
+                
+                // Spawn letters at top with random positions
+                const levelLetters = [...this.level.letters];
+                for (let i = 0; i < levelLetters.length; i++) {
+                    this.letters.push({
+                        char: levelLetters[i],
+                        x: 80 + (canvas.width - 160) * (i / (levelLetters.length - 1 || 1)),
+                        y: 30 + Math.random() * 50,
+                        vx: 0,
+                        vy: 0.5,
+                        collected: false,
+                        radius: 22
+                    });
+                }
+                
+                document.getElementById('targetWord').textContent = this.level.word;
+                document.getElementById('anchorsLeft').textContent = this.anchorsLeft;
+                document.getElementById('modal').classList.remove('active');
+                this.updateWordDisplay();
+            }
+            
+            dropAnchor(x, y) {
+                // Can't place in collection zone
+                if (y > canvas.height - 120) return;
+                
+                this.anchors.push({ x, y, radius: 15 });
+                this.anchorsLeft--;
+                document.getElementById('anchorsLeft').textContent = this.anchorsLeft;
+                
+                // Ripple effect
+                for (let i = 0; i < 20; i++) {
+                    this.particles.push({
+                        x, y,
+                        vx: Math.cos(i * Math.PI / 10) * 3,
+                        vy: Math.sin(i * Math.PI / 10) * 3,
+                        life: 1,
+                        color: '#00ccff',
+                        size: 3
+                    });
+                }
+            }
+            
+            update() {
+                if (this.gameState !== 'playing') return;
+                
+                // Update letters
+                for (let letter of this.letters) {
+                    if (letter.collected) continue;
+                    
+                    // Apply gravity
+                    letter.vy += 0.02;
+                    
+                    // Apply currents
+                    for (let current of this.level.currents) {
+                        const dx = letter.x - current.x;
+                        const dy = letter.y - current.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist < 120) {
+                            const force = (1 - dist / 120) * current.strength;
+                            letter.vx += Math.cos(current.dir) * force * 0.1;
+                            letter.vy += Math.sin(current.dir) * force * 0.1;
+                        }
+                    }
+                    
+                    // Apply anchor attraction
+                    for (let anchor of this.anchors) {
+                        const dx = anchor.x - letter.x;
+                        const dy = anchor.y - letter.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist < 100 && dist > anchor.radius + letter.radius) {
+                            const force = (1 - dist / 100) * 0.5;
+                            letter.vx += (dx / dist) * force;
+                            letter.vy += (dy / dist) * force;
+                        }
+                    }
+                    
+                    // Damping
+                    letter.vx *= 0.99;
+                    letter.vy *= 0.99;
+                    
+                    // Update position
+                    letter.x += letter.vx;
+                    letter.y += letter.vy;
+                    
+                    // Wall collisions
+                    if (letter.x < letter.radius) {
+                        letter.x = letter.radius;
+                        letter.vx *= -0.5;
+                    }
+                    if (letter.x > canvas.width - letter.radius) {
+                        letter.x = canvas.width - letter.radius;
+                        letter.vx *= -0.5;
+                    }
+                    
+                    // Check if in collection zone
+                    if (letter.y > canvas.height - 100 && !letter.collected) {
+                        this.collectLetter(letter);
+                    }
+                    
+                    // Check if fell off screen
+                    if (letter.y > canvas.height + 50 && !letter.collected) {
+                        this.gameOver('Letter lost to the depths!');
+                    }
+                }
+                
+                // Update particles
+                this.updateParticles();
+                
+                // Check win
+                if (this.collectedLetters.length === this.level.word.length) {
+                    this.checkWord();
+                }
+            }
+            
+            collectLetter(letter) {
+                letter.collected = true;
+                letter.vx = 0;
+                letter.vy = 0;
+                this.collectedLetters.push(letter);
+                this.updateWordDisplay();
+                
+                // Effect
+                for (let i = 0; i < 15; i++) {
+                    this.particles.push({
+                        x: letter.x,
+                        y: canvas.height - 80,
+                        vx: (Math.random() - 0.5) * 5,
+                        vy: -Math.random() * 5,
+                        life: 1,
+                        color: '#ffff66',
+                        size: 4
+                    });
+                }
+            }
+            
+            updateWordDisplay() {
+                const display = document.getElementById('wordDisplay');
+                display.innerHTML = '';
+                
+                for (let letter of this.collectedLetters) {
+                    const div = document.createElement('div');
+                    div.className = 'word-letter';
+                    div.textContent = letter.char;
+                    display.appendChild(div);
+                }
+            }
+            
+            checkWord() {
+                const formed = this.collectedLetters.map(l => l.char).join('');
+                
+                if (formed === this.level.word) {
+                    this.winLevel();
+                } else {
+                    // Wrong order - shuffle back up
+                    setTimeout(() => {
+                        for (let letter of this.collectedLetters) {
+                            letter.collected = false;
+                            letter.y = canvas.height - 150;
+                            letter.vy = -2;
+                            letter.vx = (Math.random() - 0.5) * 2;
+                        }
+                        this.collectedLetters = [];
+                        this.updateWordDisplay();
+                    }, 500);
+                }
+            }
+            
+            updateParticles() {
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    const p = this.particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life -= 0.02;
+                    
+                    if (p.life <= 0) {
+                        this.particles.splice(i, 1);
+                    }
+                }
+            }
+            
+            winLevel() {
+                this.gameState = 'won';
+                this.levelsCompleted[this.levelIndex] = true;
+                
+                // Calculate score
+                const time = (Date.now() - this.startTime) / 1000;
+                const timeBonus = Math.max(0, 100 - Math.floor(time));
+                const anchorBonus = this.anchorsLeft * 50;
+                const levelScore = 1000 + timeBonus * 10 + anchorBonus;
+                this.score += levelScore;
+                
+                // Check badges
+                if (this.anchorsLeft >= this.level.anchors - 1) {
+                    this.badges.perfect = true;
+                    document.getElementById('badge-perfect').classList.add('unlocked');
+                    document.getElementById('badge-perfect').classList.remove('locked');
+                }
+                if (time < 20) {
+                    this.badges.speed = true;
+                    document.getElementById('badge-speed').classList.add('unlocked');
+                    document.getElementById('badge-speed').classList.remove('locked');
+                }
+                if (this.levelIndex >= 7) {
+                    this.badges.master = true;
+                    document.getElementById('badge-master').classList.add('unlocked');
+                    document.getElementById('badge-master').classList.remove('locked');
+                }
+                
+                document.getElementById('score').textContent = this.score;
+                
+                const modal = document.getElementById('gameModal');
+                const content = document.getElementById('modalContent');
+                const title = document.getElementById('modalTitle');
+                const message = document.getElementById('modalMessage');
+                const nextBtn = document.getElementById('nextBtn');
+                
+                content.className = 'modal-content win';
+                title.textContent = '🌊 Word Captured!';
+                message.innerHTML = `
+                    <p>"${this.level.word}" formed!</p>
+                    <p style="margin-top: 8px;">Time: ${Math.floor(time)}s | Anchors left: ${this.anchorsLeft}</p>
+                    <p style="color: #00ff88; font-size: 1.2em; margin-top: 8px;">+${levelScore} points!</p>
+                `;
+                
+                if (this.levelIndex < LEVELS.length - 1) {
+                    nextBtn.style.display = 'inline-block';
+                } else {
+                    nextBtn.style.display = 'none';
+                    message.innerHTML += '<p style="color: #ffd700; margin-top: 12px;">🏆 DRIFT MASTER! All words conquered!</p>';
+                }
+                
+                modal.classList.add('active');
+                
+                // Celebration
+                for (let i = 0; i < 80; i++) {
+                    setTimeout(() => {
+                        this.particles.push({
+                            x: Math.random() * canvas.width,
+                            y: Math.random() * canvas.height,
+                            vx: (Math.random() - 0.5) * 6,
+                            vy: (Math.random() - 0.5) * 6,
+                            life: 1,
+                            color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+                            size: Math.random() * 5 + 2
+                        });
+                    }, i * 20);
+                }
+            }
+            
+            gameOver(reason) {
+                this.gameState = 'lost';
+                
+                const modal = document.getElementById('gameModal');
+                const content = document.getElementById('modalContent');
+                const title = document.getElementById('modalTitle');
+                const message = document.getElementById('modalMessage');
+                const nextBtn = document.getElementById('nextBtn');
+                
+                content.className = 'modal-content lose';
+                title.textContent = '🌊 Washed Away!';
+                message.innerHTML = `<p>${reason}</p><p style="margin-top: 8px; color: #888;">Try a different anchor strategy!</p>`;
+                nextBtn.style.display = 'none';
+                
+                modal.classList.add('active');
+            }
+            
+            resetLevel() {
+                this.loadLevel(this.levelIndex);
+            }
+            
+            nextLevel() {
+                if (this.levelIndex < LEVELS.length - 1) {
+                    this.loadLevel(this.levelIndex + 1);
+                }
+            }
+            
+            togglePause() {
+                if (this.gameState === 'playing') {
+                    this.gameState = 'paused';
+                } else if (this.gameState === 'paused') {
+                    this.gameState = 'playing';
+                }
+            }
+            
+            draw() {
+                // Clear with deep ocean gradient
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#000d1a');
+                gradient.addColorStop(0.5, '#001a33');
+                gradient.addColorStop(1, '#002a4a');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw currents
+                for (let current of this.level.currents) {
+                    ctx.save();
+                    ctx.translate(current.x, current.y);
+                    ctx.rotate(current.dir);
+                    
+                    // Current visualization
+                    const time = Date.now() / 1000;
+                    for (let i = 0; i < 3; i++) {
+                        const offset = (time + i * 0.5) % 2;
+                        const alpha = 0.1 + Math.sin(offset * Math.PI) * 0.1;
+                        ctx.fillStyle = `rgba(0, 204, 255, ${alpha})`;
+                        ctx.fillRect(-60 + offset * 30, -20, 40, 40);
+                    }
+                    
+                    // Direction arrow
+                    ctx.strokeStyle = 'rgba(0, 204, 255, 0.3)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(-50, 0);
+                    ctx.lineTo(50, 0);
+                    ctx.lineTo(35, -10);
+                    ctx.moveTo(50, 0);
+                    ctx.lineTo(35, 10);
+                    ctx.stroke();
+                    
+                    ctx.restore();
+                }
+                
+                // Draw collection zone
+                ctx.fillStyle = 'rgba(255, 255, 102, 0.1)';
+                ctx.fillRect(50, canvas.height - 100, canvas.width - 100, 80);
+                ctx.strokeStyle = '#ffff66';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([10, 5]);
+                ctx.strokeRect(50, canvas.height - 100, canvas.width - 100, 80);
+                ctx.setLineDash([]);
+                
+                ctx.fillStyle = '#ffff66';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('COLLECTION ZONE', canvas.width/2, canvas.height - 110);
+                
+                // Draw anchors
+                for (let anchor of this.anchors) {
+                    // Anchor body
+                    ctx.fillStyle = '#888';
+                    ctx.beginPath();
+                    ctx.arc(anchor.x, anchor.y, anchor.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Anchor cross
+                    ctx.strokeStyle = '#444';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(anchor.x - 8, anchor.y);
+                    ctx.lineTo(anchor.x + 8, anchor.y);
+                    ctx.moveTo(anchor.x, anchor.y - 8);
+                    ctx.lineTo(anchor.x, anchor.y + 8);
+                    ctx.stroke();
+                    
+                    // Attraction radius
+                    ctx.strokeStyle = 'rgba(0, 204, 255, 0.2)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(anchor.x, anchor.y, 100, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                
+                // Draw letters
+                for (let letter of this.letters) {
+                    if (letter.collected) continue;
+                    
+                    // Glow
+                    ctx.shadowColor = '#00ccff';
+                    ctx.shadowBlur = 15;
+                    
+                    // Bubble
+                    ctx.fillStyle = 'rgba(0, 204, 255, 0.3)';
+                    ctx.beginPath();
+                    ctx.arc(letter.x, letter.y, letter.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = '#00ccff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    // Letter
+                    ctx.shadowBlur = 0;
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 20px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(letter.char, letter.x, letter.y);
+                    
+                    // Shine
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.beginPath();
+                    ctx.arc(letter.x - 7, letter.y - 7, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Draw particles
+                for (let p of this.particles) {
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.globalAlpha = 1;
+                
+                // Bubbles ambient
+                const time = Date.now() / 1000;
+                for (let i = 0; i < 5; i++) {
+                    const bx = 50 + (i * 100) % (canvas.width - 100);
+                    const by = canvas.height - ((time * 50 + i * 100) % canvas.height);
+                    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                    ctx.beginPath();
+                    ctx.arc(bx, by, 3 + Math.sin(time + i) * 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Pause overlay
+                if (this.gameState === 'paused') {
+                    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 40px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('⏸️ PAUSED', canvas.width/2, canvas.height/2);
+                }
+            }
+            
+            gameLoop() {
+                this.update();
+                this.draw();
+                requestAnimationFrame(() => this.gameLoop());
+            }
+        }
+        
+        const game = new DriftWordGame();
+    </script>
+</body>
+</html>

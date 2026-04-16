@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Weave - Strategy Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            color: #00d4ff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #00d4ff;
+        }
+        .subtitle { color: #a0a0ff; margin-bottom: 30px; }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,212,255,0.2);
+        }
+        h2 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        h3 {
+            color: #ffd700;
+            margin: 15px 0 10px;
+            font-size: 1.1rem;
+        }
+        p, li {
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        ul { margin-left: 20px; }
+        .metric {
+            display: inline-block;
+            background: rgba(0,212,255,0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin: 5px;
+            border: 1px solid #00d4ff;
+        }
+        .metric-label { color: #888; font-size: 0.8rem; }
+        .metric-value { color: #00d4ff; font-size: 1.3rem; font-weight: bold; }
+        .risk-high { color: #ff6b6b; }
+        .risk-medium { color: #f1c40f; }
+        .risk-low { color: #2ecc71; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th { color: #00d4ff; background: rgba(0,212,255,0.1); }
+        .tag {
+            display: inline-block;
+            background: rgba(0,212,255,0.2);
+            color: #00d4ff;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌌 Echo Weave</h1>
+        <p class="subtitle">Reporte Estratégico - Ritmo Cósmico de Memoria</p>
+
+        <div class="section">
+            <h2>🎯 Concepto Core</h2>
+            <p><strong>Echo Weave</strong> es un juego de memoria musical donde los jugadores deben repetir secuencias de colores que se iluminan en nodos cósmicos. Cada acierto aumenta la racha y multiplica los puntos, creando un loop adictivo de "una vez más".</p>
+            
+            <h3>Mecánica Principal</h3>
+            <ul>
+                <li>6 nodos de colores dispuestos en grid 3x2</li>
+                <li>Secuencia que aumenta en 1 elemento por nivel</li>
+                <li>Sistema de racha: cada 5 aciertos consecutivos = nuevo nivel</li>
+                <li>Multiplicador de puntos basado en racha actual</li>
+                <li>Game over al fallar una secuencia</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Game Loop</h2>
+            <table>
+                <tr>
+                    <th>Fase</th>
+                    <th>Duración</th>
+                    <th>Descripción</th>
+                </tr>
+                <tr>
+                    <td>Memorizar</td>
+                    <td>2-5s</td>
+                    <td>Secuencia de colores se ilumina con sonido</td>
+                </tr>
+                <tr>
+                    <td>Repetir</td>
+                    <td>2-10s</td>
+                    <td>Jugador toca los nodos en orden</td>
+                </tr>
+                <tr>
+                    <td>Recompensa</td>
+                    <td>1s</td>
+                    <td>+puntos, animación, posible subida de nivel</td>
+                </tr>
+                <tr>
+                    <td>Descanso</td>
+                    <td>0.5s</td>
+                    <td>Pausa antes de siguiente secuencia</td>
+                </tr>
+            </table>
+            <p><strong>Total loop:</strong> ~5-15 segundos por ronda. Loop corto = alta retención.</p>
+        </div>
+
+        <div class="section">
+            <h2>🎁 Sistema de Recompensas</h2>
+            <h3>Puntuación</h3>
+            <ul>
+                <li>Acierto base: 100 puntos</li>
+                <li>Multiplicador: 1x base, +0.5x cada 5 racha</li>
+                <li>Racha 5-9: 1.5x (150 pts)</li>
+                <li>Racha 10-14: 2x (200 pts)</li>
+                <li>Racha 15+: 2.5x+ (250+ pts)</li>
+            </ul>
+            
+            <h3>Insignias (Logros Visibles)</h3>
+            <ul>
+                <li>🥉 Bronce: 500 puntos</li>
+                <li>🥈 Plata: 1000 puntos</li>
+                <li>🥇 Oro: 2000 puntos</li>
+                <li>💎 Diamante: 5000 puntos</li>
+            </ul>
+            
+            <h3>Meta Victoria</h3>
+            <p>Llegar a 10,000 puntos desbloquea pantalla de victoria con celebración especial.</p>
+        </div>
+
+        <div class="section">
+            <h2>📊 KPIs Esperados</h2>
+            <div class="metric">
+                <div class="metric-label">D1 Retention</div>
+                <div class="metric-value">35-45%</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">D7 Retention</div>
+                <div class="metric-value">15-20%</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Sesión Promedio</div>
+                <div class="metric-value">8-12 min</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Partidas/Sesión</div>
+                <div class="metric-value">15-25</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">CTR Ads</div>
+                <div class="metric-value">3-5%</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔍 SEO/ASO/SEM Strategy</h2>
+            
+            <h3>Keywords Primarias (ES)</h3>
+            <span class="tag">juego de memoria</span>
+            <span class="tag">juego de ritmo</span>
+            <span class="tag">simon dice</span>
+            <span class="tag">memoria visual</span>
+            <span class="tag">arcade retro</span>
+            <span class="tag">juego offline</span>
+            
+            <h3>Keywords Primarias (EN)</h3>
+            <span class="tag">memory game</span>
+            <span class="tag">rhythm game</span>
+            <span class="tag">simon says</span>
+            <span class="tag">pattern game</span>
+            <span class="tag">brain training</span>
+            
+            <h3>Título Optimizado</h3>
+            <p><strong>ES:</strong> "Echo Weave - Juego de Memoria y Ritmo"</p>
+            <p><strong>EN:</strong> "Echo Weave - Memory Rhythm Game"</p>
+            
+            <h3>Descripción Corta (Google Play)</h3>
+            <p>"🎵 Memoriza patrones de colores y ritmo. Desafía tu memoria musical en este juego arcade adictivo. ¡Sin anuncios intrusivos!"</p>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Experimentos A/B Propuestos</h2>
+            <table>
+                <tr>
+                    <th>Experimento</th>
+                    <th>Variante A</th>
+                    <th>Variante B</th>
+                    <th>Métrica</th>
+                </tr>
+                <tr>
+                    <td>Velocidad secuencia</td>
+                    <td>Fija 600ms</td>
+                    <td>Aceleración progresiva</td>
+                    <td>D1 Retention</td>
+                </tr>
+                <tr>
+                    <td>Dificultad inicio</td>
+                    <td>2 colores</td>
+                    <td>3 colores</td>
+                    <td>Partidas/Sesión</td>
+                </tr>
+                <tr>
+                    <td>Recompensas</td>
+                    <td>Solo puntos</td>
+                    <td>Puntos + monedas</td>
+                    <td>Sesión duration</td>
+                </tr>
+                <tr>
+                    <td>Game over</td>
+                    <td>Instantáneo</td>
+                    <td>Continue con ad</td>
+                    <td>Ad Revenue</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Riesgos y Mitigaciones</h2>
+            
+            <h3 class="risk-medium">Riesgo Medio: Saturación de memoria</h3>
+            <p>El género de memoria es competitivo. <strong>Mitigación:</strong> Diferenciación visual cósmica + componente de ritmo musical.</p>
+            
+            <h3 class="risk-low">Riesgo Bajo: Curva de dificultad</h3>
+            <p>Jugadores casuales pueden frustrarse. <strong>Mitigación:</strong> Tutorial suave, modos de práctica, sistema de vidas.</p>
+            
+            <h3 class="risk-high">Riesgo Alto: Monetización</h3>
+            <p>Juego simple = pocas oportunidades de monetización profunda. <strong>Mitigación:</strong> Skins de nodos, temas de colores, modo premium sin anuncios.</p>
+        </div>
+
+        <div class="section">
+            <h2>📈 Roadmap Sugerido</h2>
+            <table>
+                <tr>
+                    <th>Fase</th>
+                    <th>Features</th>
+                    <th>Timeline</th>
+                </tr>
+                <tr>
+                    <td>MVP</td>
+                    <td>Juego base, 6 colores, puntuación</td>
+                    <td>Semana 1</td>
+                </tr>
+                <tr>
+                    <td>Polish</td>
+                    <td>Animaciones, sonidos, partículas</td>
+                    <td>Semana 2</td>
+                </tr>
+                <tr>
+                    <td>Monetización</td>
+                    <td>Anuncios recompensados, skins</td>
+                    <td>Semana 3</td>
+                </tr>
+                <tr>
+                    <td>Social</td>
+                    <td>Leaderboards, compartir puntuación</td>
+                    <td>Semana 4</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>📝 Notas de Implementación</h2>
+            <p><strong>Shipped:</strong> 2026-04-01</p>
+            <p><strong>Estado:</strong> ✅ Completo y jugable</p>
+            <p><strong>Riesgos identificados:</strong> Necesita más variedad de modos para retención a largo plazo. Considerar modo zen, contrarreloj, y desafíos diarios.</p>
+        </div>
+    </div>
+</body>
+</html>

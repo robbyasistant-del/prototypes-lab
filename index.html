@@ -1,415 +1,199 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang='es'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prototypes Lab - HTML5 Game Factory</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            color: #fff;
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-        .container { max-width: 1200px; margin: 0 auto; }
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-            padding: 30px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        h1 {
-            font-size: 48px;
-            background: linear-gradient(90deg, #00ffff, #ff00ff, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-        .subtitle { color: #aaa; font-size: 18px; }
-        .date-badge {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 8px 20px;
-            background: rgba(0,255,255,0.2);
-            border-radius: 20px;
-            font-size: 14px;
-            color: #00ffff;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-        }
-        .prototype-card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .prototype-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #00ffff, #ff00ff);
-        }
-        .prototype-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border-color: rgba(0,255,255,0.3);
-        }
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .emoji {
-            font-size: 40px;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-        }
-        .card-title h2 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        .card-title .tagline {
-            color: #888;
-            font-size: 14px;
-        }
-        .mechanic {
-            display: inline-block;
-            padding: 5px 12px;
-            background: rgba(138, 43, 226, 0.3);
-            border-radius: 12px;
-            font-size: 12px;
-            margin: 10px 0;
-            color: #dda0dd;
-        }
-        .features {
-            margin: 15px 0;
-        }
-        .features li {
-            list-style: none;
-            padding: 5px 0;
-            padding-left: 20px;
-            position: relative;
-            color: #ccc;
-            font-size: 14px;
-        }
-        .features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #00ff80;
-            font-weight: bold;
-        }
-        .buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .btn {
-            flex: 1;
-            padding: 12px 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            text-align: center;
-            font-weight: 600;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        .btn-play {
-            background: linear-gradient(135deg, #00ff80, #00cc66);
-            color: #000;
-        }
-        .btn-report {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 30px;
-            color: #666;
-            font-size: 14px;
-        }
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 20px;
-        }
-        .stat {
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 32px;
-            font-weight: bold;
-            color: #00ffff;
-        }
-        .stat-label {
-            font-size: 12px;
-            color: #888;
-            text-transform: uppercase;
-        }
-    </style>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Catalogo de Prototipos</title>
+<style>
+body{font-family:Inter,Segoe UI,Arial;background:#0b1020;color:#ecf2ff;margin:0;padding:22px}h1{margin:0 0 6px}.muted{color:#9db0d9}.top{margin-bottom:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:18px}.card{background:#131c36;border:1px solid #314774;border-radius:14px;padding:14px;position:relative}.card:hover{border-color:#5d7cc0;transform:translateY(-2px)}.card.rated{box-shadow:0 0 0 1px rgba(255,209,102,.4),0 0 20px rgba(255,209,102,.08)}.rated-badge{position:absolute;top:10px;right:10px;font-size:11px;color:#ffd166;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.35);border-radius:999px;padding:4px 8px;display:none}.card.rated .rated-badge{display:block}.head{display:flex;gap:0;align-items:center}.emo{display:none}.date{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8fa4d5}.card h3{margin:4px 0 0;font-size:18px}.card p{color:#c7d3f1;font-size:14px;line-height:1.4;min-height:40px;margin:10px 0}a{color:#8bc3ff;text-decoration:none;font-weight:600}.links{font-size:14px}.rating{margin:10px 0 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.star{background:none;border:none;cursor:pointer;color:#5b6b91;font-size:20px;line-height:1;padding:0}.star.active{color:#ffd166}.rlabel{font-size:11px;color:#9db0d9}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.search,.select{padding:10px 12px;border-radius:10px;border:1px solid #314774;background:#131c36;color:#ecf2ff;min-width:220px}.pill{font-size:12px;color:#9db0d9;background:#131c36;border:1px solid #314774;border-radius:999px;padding:8px 12px}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎮 PROTOTYPES LAB</h1>
-            <p class="subtitle">Daily HTML5 Game Factory - Quality First, Always</p>
-            <span class="date-badge">📅 April 15, 2026 Batch (Latest)</span>
-            
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-value">3</div>
-                    <div class="stat-label">New Prototypes</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">24</div>
-                    <div class="stat-label">Total Games</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">100%</div>
-                    <div class="stat-label">Playable</div>
-                </div>
-            </div>
-        </header>
-        
-        <div class="grid">
-            <!-- Synapse Snap -->
-            <div class="prototype-card">
-                <div class="card-header">
-                    <div class="emoji">🧠</div>
-                    <div class="card-title">
-                        <h2>Synapse Snap</h2>
-                        <span class="tagline">Match patterns at the speed of thought.</span>
-                    </div>
-                </div>
-                <span class="mechanic">⚡ Neural Pattern Matching + Combo System</span>
-                <ul class="features">
-                    <li>5 distinct neural node types (Speed/Memory/Logic/Pattern)</li>
-                    <li>Real-time combo multiplier system</li>
-                    <li>Time pressure with bonus time rewards</li>
-                    <li>5 achievement badges to unlock</li>
-                    <li>Level 10 victory condition with scoring</li>
-                </ul>
-                <div class="buttons">
-                    <a href="2026-04-15-synapse-snap/index.html" class="btn btn-play">▶ PLAY NOW</a>
-                    <a href="2026-04-15-synapse-snap/report.html" class="btn btn-report">📊 REPORT</a>
-                </div>
-            </div>
-            
-            <!-- Ink Weaver -->
-            <div class="prototype-card">
-                <div class="card-header">
-                    <div class="emoji">🎨</div>
-                    <div class="card-title">
-                        <h2>Ink Weaver</h2>
-                        <span class="tagline">Draw magic. Create physics. Solve puzzles.</span>
-                    </div>
-                </div>
-                <span class="mechanic">🖌️ Creative Physics Sandbox</span>
-                <ul class="features">
-                    <li>4 unique ink types: Solid, Bouncy, Float, Gear</li>
-                    <li>Draw-to-create physics simulation</li>
-                    <li>8 progressive puzzle levels</li>
-                    <li>Star rating based on efficiency</li>
-                    <li>Multiple solutions per puzzle</li>
-                </ul>
-                <div class="buttons">
-                    <a href="2026-04-15-ink-weaver/index.html" class="btn btn-play">▶ PLAY NOW</a>
-                    <a href="2026-04-15-ink-weaver/report.html" class="btn btn-report">📊 REPORT</a>
-                </div>
-            </div>
-            
-            <!-- Word Forge -->
-            <div class="prototype-card">
-                <div class="card-header">
-                    <div class="emoji">⚔️</div>
-                    <div class="card-title">
-                        <h2>Word Forge</h2>
-                        <span class="tagline">Your vocabulary is your weapon.</span>
-                    </div>
-                </div>
-                <span class="mechanic">🔮 Letter Alchemy + RPG Combat</span>
-                <ul class="features">
-                    <li>15+ discoverable spells (FIRE, HEAL, STORM, DARK...)</li>
-                    <li>Enemy weakness system (1.5x damage bonus)</li>
-                    <li>8 enemies from Goblin to Dragon</li>
-                    <li>Strategic heal vs attack decisions</li>
-                    <li>Collection badge system</li>
-                </ul>
-                <div class="buttons">
-                    <a href="2026-04-15-word-forge/index.html" class="btn btn-play">▶ PLAY NOW</a>
-                    <a href="2026-04-15-word-forge/report.html" class="btn btn-report">📊 REPORT</a>
-                </div>
-            </div>
-            
-            <!-- Color Cascade -->
-            <div class="prototype-card">
-                <div class="card-header">
-                    <div class="emoji">🎨</div>
-                    <div class="card-title">
-                        <h2>Color Cascade</h2>
-                        <span class="tagline">Mix paint. Engineer flows. Master color.</span>
-                    </div>
-                </div>
-                <span class="mechanic">🌊 Fluid Physics + Color Mixing</span>
-                <ul class="features">
-                    <li>Real-time particle fluid simulation</li>
-                    <li>Gravity-defying physics puzzles</li>
-                    <li>Educational color theory gameplay</li>
-                    <li>5 escalating challenge levels</li>
-                    <li>Star rating system (moves + time)</li>
-                </ul>
-                <div class="buttons">
-                    <a href="2026-04-14-color-cascade/index.html" class="btn btn-play">▶ PLAY NOW</a>
-                    <a href="2026-04-14-color-cascade/report.html" class="btn btn-report">📊 REPORT</a>
-                </div>
-            </div>
-            
-            <!-- Echo Runner -->
-            <div class="prototype-card">
-                <div class="card-header">
-                    <div class="emoji">🏃</div>
-                    <div class="card-title">
-                        <h2>Echo Runner</h2>
-                        <span class="tagline">Your past creates the level.</span>
-                    </div>
-                </div>
-                <span class="mechanic">👻 Ghost Recording Platformer</span>
-                <ul class="features">
-                    <li>5-phase temporal challenge</li>
-                    <li>Your ghosts become platforms</li>
-                    <li>Rank system (S/A/B/C based on deaths)</li>
-                    <li>Speedrun potential</li>
-                    <li>"Player as level designer" mechanic</li>
-                </ul>
-                <div class="buttons">
-                    <a href="2026-04-14-echo-runner/index.html" class="btn btn-play">▶ PLAY NOW</a>
-                    <a href="2026-04-14-echo-runner/report.html" class="btn btn-report">📊 REPORT</a>
-                </div>
-            </div>
-            
-            <!-- Void Siphon -->
-            <div class="prototype-card">
-                <div class="card-header">
-                    <div class="emoji">⚫</div>
-                    <div class="card-title">
-                        <h2>Void Siphon</h2>
-                        <span class="tagline">Risk everything. Bank or collapse.</span>
-                    </div>
-                </div>
-                <span class="mechanic">🎲 Press-Your-Luck Strategy</span>
-                <ul class="features">
-                    <li>High-stakes energy extraction</li>
-                    <li>Combo multiplier system</li>
-                    <li>Any collapse = total loss</li>
-                    <li>Strategic bank mechanic</li>
-                    <li>Risk visualization feedback</li>
-                </ul>
-                <div class="buttons">
-                    <a href="2026-04-14-void-siphon/index.html" class="btn btn-play">▶ PLAY NOW</a>
-                    <a href="2026-04-14-void-siphon/report.html" class="btn btn-report">📊 REPORT</a>
-                </div>
-            </div>
-            
-            <!-- Gravity Weaver -->
-            <div class="prototype-card">
-                <div class="card-header">
-                    <div class="emoji">🌌</div>
-                    <div class="card-title">
-                        <h2>Gravity Weaver</h2>
-                        <span class="tagline">Bend gravity. Guide particles.</span>
-                    </div>
-                </div>
-                <span class="mechanic">🎯 Physics Puzzle</span>
-                <ul class="features">
-                    <li>Dynamic gravity field manipulation</li>
-                    <li>Emergent particle physics</li>
-                    <li>Resource-based power system</li>
-                    <li>Level progression with obstacles</li>
-                    <li>Badges & scoring system</li>
-                </ul>
-                <div class="buttons">
-                    <a href="2026-04-12-gravity-weaver/index.html" class="btn btn-play">▶ PLAY NOW</a>
-                    <a href="2026-04-12-gravity-weaver/report.html" class="btn btn-report">📊 REPORT</a>
-                </div>
-            </div>
-            
-            <!-- Neon Echo -->
-            <div class="prototype-card">
-                <div class="card-header">
-                    <div class="emoji">🎵</div>
-                    <div class="card-title">
-                        <h2>Neon Echo</h2>
-                        <span class="tagline">Follow the rhythm. Match patterns.</span>
-                    </div>
-                </div>
-                <span class="mechanic">🎹 Memory + Rhythm</span>
-                <ul class="features">
-                    <li>Audio-visual pattern matching</li>
-                    <li>Synthwave aesthetic</li>
-                    <li>Combo multiplier system</li>
-                    <li>Progressive grid expansion</li>
-                    <li>Life-based challenge</li>
-                </ul>
-                <div class="buttons">
-                    <a href="2026-04-12-neon-echo/index.html" class="btn btn-play">▶ PLAY NOW</a>
-                    <a href="2026-04-12-neon-echo/report.html" class="btn btn-report">📊 REPORT</a>
-                </div>
-            </div>
-            
-            <!-- Chrono Fracture -->
-            <div class="prototype-card">
-                <div class="card-header">
-                    <div class="emoji">⏳</div>
-                    <div class="card-title">
-                        <h2>Chrono Fracture</h2>
-                        <span class="tagline">Bend time. Solve eternity.</span>
-                    </div>
-                </div>
-                <span class="mechanic">⏱️ Time Manipulation</span>
-                <ul class="features">
-                    <li>Temporal clone recording</li>
-                    <li>Paradox collision detection</li>
-                    <li>Multi-switch coordination puzzles</li>
-                    <li>Resource-limited time power</li>
-                    <li>Escalating complexity</li>
-                </ul>
-                <div class="buttons">
-                    <a href="2026-04-12-chrono-fracture/index.html" class="btn btn-play">▶ PLAY NOW</a>
-                    <a href="2026-04-12-chrono-fracture/report.html" class="btn btn-report">📊 REPORT</a>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>🚀 Built by the Daily Game Factory Cron | Quality Prototypes Every Day</p>
-            <p style="margin-top: 10px; font-size: 12px;">All prototypes are complete playable games with instructions, scoring, and win/lose states.</p>
-        </footer>
-    </div>
+<div class='top'>
+  <h1>Catalogo de Prototipos</h1>
+  <p class='muted'>Listado completo de prototipos HTML5. Incluye todas las carpetas con <code>index.html</code> y conserva las valoraciones de 1 a 4 estrellas.</p>
+  <div class='toolbar'>
+    <input id='search' class='search' placeholder='Buscar prototipo...'>
+    <select id='dateFilter' class='select'>
+      <option value='all'>Todas las fechas</option>
+      <option value='Undated'>Undated</option>
+      <option value='2026-04-16'>2026-04-16</option>
+      <option value='2026-04-15'>2026-04-15</option>
+      <option value='2026-04-14'>2026-04-14</option>
+      <option value='2026-04-13'>2026-04-13</option>
+      <option value='2026-04-12'>2026-04-12</option>
+      <option value='2026-04-11'>2026-04-11</option>
+      <option value='2026-04-10'>2026-04-10</option>
+      <option value='2026-04-09'>2026-04-09</option>
+      <option value='2026-04-08'>2026-04-08</option>
+      <option value='2026-04-04'>2026-04-04</option>
+      <option value='2026-04-03'>2026-04-03</option>
+      <option value='2026-04-02'>2026-04-02</option>
+      <option value='2026-04-01'>2026-04-01</option>
+      <option value='2026-03-28'>2026-03-28</option>
+      <option value='2026-03-27'>2026-03-27</option>
+      <option value='2026-03-26'>2026-03-26</option>
+      <option value='2026-03-25'>2026-03-25</option>
+      <option value='2026-03-24'>2026-03-24</option>
+      <option value='2026-03-23'>2026-03-23</option>
+      <option value='2026-03-22'>2026-03-22</option>
+      <option value='2026-03-21'>2026-03-21</option>
+      <option value='2026-03-19'>2026-03-19</option>
+      <option value='2026-03-18'>2026-03-18</option>
+      <option value='2026-03-17'>2026-03-17</option>
+      <option value='2026-03-16'>2026-03-16</option>
+      <option value='2026-03-14'>2026-03-14</option>
+      <option value='2026-03-13'>2026-03-13</option>
+      <option value='2026-03-12'>2026-03-12</option>
+      <option value='2026-03-11'>2026-03-11</option>
+      <option value='2026-03-10'>2026-03-10</option>
+      <option value='2026-03-09'>2026-03-09</option>
+      <option value='2026-03-08'>2026-03-08</option>
+      <option value='2026-03-07'>2026-03-07</option>
+      <option value='2026-03-06'>2026-03-06</option>
+      <option value='2026-03-05'>2026-03-05</option>
+      <option value='2026-03-04'>2026-03-04</option>
+      <option value='2026-03-03'>2026-03-03</option>
+      <option value='2026-03-01'>2026-03-01</option>
+      <option value='2026-02-28'>2026-02-28</option>
+      <option value='2026-02-27'>2026-02-27</option>
+      <option value='2026-02-26'>2026-02-26</option>
+      <option value='2026-02-25'>2026-02-25</option>
+    </select>
+    <select id='sortBy' class='select'>
+      <option value='date-desc'>Orden: fecha desc</option>
+      <option value='date-asc'>Orden: fecha asc</option>
+      <option value='rating-desc'>Orden: mejor valorados</option>
+      <option value='rating-asc'>Orden: peor valorados</option>
+      <option value='name-asc'>Orden: nombre A-Z</option>
+    </select>
+    <span class='pill'>Total: 140+</span>
+      <span class='pill'>Ratings preservados: prototypeRatingsV1</span>
+  </div>
+</div>
+<div id='grid' class='grid'>
+<article class='card' data-date='Undated' data-name='Helix Descent'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🎮</span><div><div class='date'>Undated</div><h3>Helix Descent</h3></div></div><p>Helix Descent</p><div class='rating' data-key='helix-descent'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./helix-descent/index.html'>Play prototype</a> · <a href='./helix-descent/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-16' data-name='2026 04 16 Echo Mines'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>💎</span><div><div class='date'>2026-04-16</div><h3>2026 04 16 Echo Mines</h3></div></div><p>Echo Mines - Strategic Mining</p><div class='rating' data-key='2026-04-16-echo-mines'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-16-echo-mines/index.html'>Play prototype</a> · <a href='./2026-04-16-echo-mines/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-16' data-name='2026 04 16 Gravity Garden'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🌱</span><div><div class='date'>2026-04-16</div><h3>2026 04 16 Gravity Garden</h3></div></div><p>Gravity Garden</p><div class='rating' data-key='2026-04-16-gravity-garden'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-16-gravity-garden/index.html'>Play prototype</a> · <a href='./2026-04-16-gravity-garden/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-16' data-name='2026 04 16 Symbiote Swarm'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🦠</span><div><div class='date'>2026-04-16</div><h3>2026 04 16 Symbiote Swarm</h3></div></div><p>Symbiote Swarm</p><div class='rating' data-key='2026-04-16-symbiote-swarm'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-16-symbiote-swarm/index.html'>Play prototype</a> · <a href='./2026-04-16-symbiote-swarm/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-15' data-name='2026 04 15 Ink Weaver'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>✒️</span><div><div class='date'>2026-04-15</div><h3>2026 04 15 Ink Weaver</h3></div></div><p>Ink Weaver - Word Puzzle</p><div class='rating' data-key='2026-04-15-ink-weaver'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-15-ink-weaver/index.html'>Play prototype</a> · <a href='./2026-04-15-ink-weaver/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-15' data-name='2026 04 15 Synapse Snap'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>⚡</span><div><div class='date'>2026-04-15</div><h3>2026 04 15 Synapse Snap</h3></div></div><p>Synapse Snap</p><div class='rating' data-key='2026-04-15-synapse-snap'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-15-synapse-snap/index.html'>Play prototype</a> · <a href='./2026-04-15-synapse-snap/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-15' data-name='2026 04 15 Word Forge'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🔨</span><div><div class='date'>2026-04-15</div><h3>2026 04 15 Word Forge</h3></div></div><p>Word Forge - Word Puzzle</p><div class='rating' data-key='2026-04-15-word-forge'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-15-word-forge/index.html'>Play prototype</a> · <a href='./2026-04-15-word-forge/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-14' data-name='2026 04 14 Color Cascade'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🌈</span><div><div class='date'>2026-04-14</div><h3>2026 04 14 Color Cascade</h3></div></div><p>Color Cascade</p><div class='rating' data-key='2026-04-14-color-cascade'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-14-color-cascade/index.html'>Play prototype</a> · <a href='./2026-04-14-color-cascade/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-14' data-name='2026 04 14 Echo Runner'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🏃</span><div><div class='date'>2026-04-14</div><h3>2026 04 14 Echo Runner</h3></div></div><p>Echo Runner</p><div class='rating' data-key='2026-04-14-echo-runner'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-14-echo-runner/index.html'>Play prototype</a> · <a href='./2026-04-14-echo-runner/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-14' data-name='2026 04 14 Void Siphon'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🌌</span><div><div class='date'>2026-04-14</div><h3>2026 04 14 Void Siphon</h3></div></div><p>Void Siphon</p><div class='rating' data-key='2026-04-14-void-siphon'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-14-void-siphon/index.html'>Play prototype</a> · <a href='./2026-04-14-void-siphon/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-13' data-name='2026 04 13 Neural Garden'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🧠</span><div><div class='date'>2026-04-13</div><h3>2026 04 13 Neural Garden</h3></div></div><p>Neural Garden</p><div class='rating' data-key='2026-04-13-neural-garden'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-13-neural-garden/index.html'>Play prototype</a> · <a href='./2026-04-13-neural-garden/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-13' data-name='2026 04 13 Pulse Defender'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🛡️</span><div><div class='date'>2026-04-13</div><h3>2026 04 13 Pulse Defender</h3></div></div><p>Pulse Defender</p><div class='rating' data-key='2026-04-13-pulse-defender'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-13-pulse-defender/index.html'>Play prototype</a> · <a href='./2026-04-13-pulse-defender/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-13' data-name='2026 04 13 Rift Racer'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🏎️</span><div><div class='date'>2026-04-13</div><h3>2026 04 13 Rift Racer</h3></div></div><p>Rift Racer</p><div class='rating' data-key='2026-04-13-rift-racer'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-13-rift-racer/index.html'>Play prototype</a> · <a href='./2026-04-13-rift-racer/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-12' data-name='2026 04 12 Chrono Fracture'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>⏰</span><div><div class='date'>2026-04-12</div><h3>2026 04 12 Chrono Fracture</h3></div></div><p>Chrono Fracture</p><div class='rating' data-key='2026-04-12-chrono-fracture'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-12-chrono-fracture/index.html'>Play prototype</a> · <a href='./2026-04-12-chrono-fracture/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-12' data-name='2026 04 12 Gravity Weaver'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🕸️</span><div><div class='date'>2026-04-12</div><h3>2026 04 12 Gravity Weaver</h3></div></div><p>Gravity Weaver</p><div class='rating' data-key='2026-04-12-gravity-weaver'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-12-gravity-weaver/index.html'>Play prototype</a> · <a href='./2026-04-12-gravity-weaver/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-12' data-name='2026 04 12 Neon Echo'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🔊</span><div><div class='date'>2026-04-12</div><h3>2026 04 12 Neon Echo</h3></div></div><p>Neon Echo</p><div class='rating' data-key='2026-04-12-neon-echo'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-12-neon-echo/index.html'>Play prototype</a> · <a href='./2026-04-12-neon-echo/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-11' data-name='2026 04 11 Entangled Fates'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🎭</span><div><div class='date'>2026-04-11</div><h3>2026 04 11 Entangled Fates</h3></div></div><p>Entangled Fates</p><div class='rating' data-key='2026-04-11-entangled-fates'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-11-entangled-fates/index.html'>Play prototype</a> · <a href='./2026-04-11-entangled-fates/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-11' data-name='2026 04 11 Phantom Replay'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>👻</span><div><div class='date'>2026-04-11</div><h3>2026 04 11 Phantom Replay</h3></div></div><p>Phantom Replay</p><div class='rating' data-key='2026-04-11-phantom-replay'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-11-phantom-replay/index.html'>Play prototype</a> · <a href='./2026-04-11-phantom-replay/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-11' data-name='2026 04 11 Spectral Synth'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🎹</span><div><div class='date'>2026-04-11</div><h3>2026 04 11 Spectral Synth</h3></div></div><p>Spectral Synth</p><div class='rating' data-key='2026-04-11-spectral-synth'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-11-spectral-synth/index.html'>Play prototype</a> · <a href='./2026-04-11-spectral-synth/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-10' data-name='2026 04 10 Chrono Courier'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>📦</span><div><div class='date'>2026-04-10</div><h3>2026 04 10 Chrono Courier</h3></div></div><p>Chrono Courier</p><div class='rating' data-key='2026-04-10-chrono-courier'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-10-chrono-courier/index.html'>Play prototype</a> · <a href='./2026-04-10-chrono-courier/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-10' data-name='2026 04 10 Masque Manager'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🎭</span><div><div class='date'>2026-04-10</div><h3>2026 04 10 Masque Manager</h3></div></div><p>Masque Manager</p><div class='rating' data-key='2026-04-10-masque-manager'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-10-masque-manager/index.html'>Play prototype</a> · <a href='./2026-04-10-masque-manager/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-10' data-name='2026 04 10 Prism Signal Studio'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>📡</span><div><div class='date'>2026-04-10</div><h3>2026 04 10 Prism Signal Studio</h3></div></div><p>Prism Signal Studio</p><div class='rating' data-key='2026-04-10-prism-signal-studio'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-10-prism-signal-studio/index.html'>Play prototype</a> · <a href='./2026-04-10-prism-signal-studio/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-09' data-name='2026 04 09 Vault Echo Heist'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🏦</span><div><div class='date'>2026-04-09</div><h3>2026 04 09 Vault Echo Heist</h3></div></div><p>Vault Echo Heist</p><div class='rating' data-key='2026-04-09-vault-echo-heist'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-09-vault-echo-heist/index.html'>Play prototype</a> · <a href='./2026-04-09-vault-echo-heist/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-09' data-name='2026 04 09 Neon Oracle Switchboard'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🔮</span><div><div class='date'>2026-04-09</div><h3>2026 04 09 Neon Oracle Switchboard</h3></div></div><p>Neon Oracle: Switchboard</p><div class='rating' data-key='2026-04-09-neon-oracle-switchboard'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-09-neon-oracle-switchboard/index.html'>Play prototype</a> · <a href='./2026-04-09-neon-oracle-switchboard/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-09' data-name='2026 04 09 Celestial Garden Raid'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🌌</span><div><div class='date'>2026-04-09</div><h3>2026 04 09 Celestial Garden Raid</h3></div></div><p>Celestial Garden Raid</p><div class='rating' data-key='2026-04-09-celestial-garden-raid'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-09-celestial-garden-raid/index.html'>Play prototype</a> · <a href='./2026-04-09-celestial-garden-raid/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-08' data-name='2026 04 08 Pip Gambit'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🎲</span><div><div class='date'>2026-04-08</div><h3>2026 04 08 Pip Gambit</h3></div></div><p>Pip Gambit - Tactical Dice Strategy</p><div class='rating' data-key='2026-04-08-pip-gambit'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-08-pip-gambit/index.html'>Play prototype</a> · <a href='./2026-04-08-pip-gambit/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-08' data-name='2026 04 08 Neon Drift Circuit'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🏎️</span><div><div class='date'>2026-04-08</div><h3>2026 04 08 Neon Drift Circuit</h3></div></div><p>Neon Drift Circuit</p><div class='rating' data-key='2026-04-08-neon-drift-circuit'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-08-neon-drift-circuit/index.html'>Play prototype</a> · <a href='./2026-04-08-neon-drift-circuit/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-08' data-name='2026 04 08 Cipher Stack'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🔐</span><div><div class='date'>2026-04-08</div><h3>2026 04 08 Cipher Stack</h3></div></div><p>Cipher Stack - Pattern Matching Puzzle</p><div class='rating' data-key='2026-04-08-cipher-stack'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-08-cipher-stack/index.html'>Play prototype</a> · <a href='./2026-04-08-cipher-stack/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-04' data-name='2026 04 04 Velvet Rope Rescue'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🎪</span><div><div class='date'>2026-04-04</div><h3>2026 04 04 Velvet Rope Rescue</h3></div></div><p>Velvet Rope Rescue</p><div class='rating' data-key='2026-04-04-velvet-rope-rescue'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-04-velvet-rope-rescue/index.html'>Play prototype</a> · <a href='./2026-04-04-velvet-rope-rescue/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-04' data-name='2026 04 04 Prism Parade Switchboard'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🎨</span><div><div class='date'>2026-04-04</div><h3>2026 04 04 Prism Parade Switchboard</h3></div></div><p>Prism Parade Switchboard</p><div class='rating' data-key='2026-04-04-prism-parade-switchboard'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-04-prism-parade-switchboard/index.html'>Play prototype</a> · <a href='./2026-04-04-prism-parade-switchboard/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-04' data-name='2026 04 04 Comet Tag Forge'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>☄️</span><div><div class='date'>2026-04-04</div><h3>2026 04 04 Comet Tag Forge</h3></div></div><p>Comet Tag Forge</p><div class='rating' data-key='2026-04-04-comet-tag-forge'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-04-comet-tag-forge/index.html'>Play prototype</a> · <a href='./2026-04-04-comet-tag-forge/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-03' data-name='2026 04 03 Prototype 3'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🌌</span><div><div class='date'>2026-04-03</div><h3>2026 04 03 Prototype 3</h3></div></div><p>Void Drifter</p><div class='rating' data-key='2026-04-03-prototype-3'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-03-prototype-3/index.html'>Play prototype</a> · <a href='./2026-04-03-prototype-3/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-03' data-name='2026 04 03 Prototype 2'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🧩</span><div><div class='date'>2026-04-03</div><h3>2026 04 03 Prototype 2</h3></div></div><p>Chromatic Puzzle Core</p><div class='rating' data-key='2026-04-03-prototype-2'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-03-prototype-2/index.html'>Play prototype</a> · <a href='./2026-04-03-prototype-2/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-03' data-name='2026 04 03 Prototype 1'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>💫</span><div><div class='date'>2026-04-03</div><h3>2026 04 03 Prototype 1</h3></div></div><p>Neon Memory Cascades</p><div class='rating' data-key='2026-04-03-prototype-1'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-03-prototype-1/index.html'>Play prototype</a> · <a href='./2026-04-03-prototype-1/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-02' data-name='2026 04 02 Time Echo'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>⏳</span><div><div class='date'>2026-04-02</div><h3>2026 04 02 Time Echo</h3></div></div><p>Time Echo - Puzzle Your Past</p><div class='rating' data-key='2026-04-02-time-echo'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-02-time-echo/index.html'>Play prototype</a> · <a href='./2026-04-02-time-echo/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-02' data-name='2026 04 02 Driftword'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🌊</span><div><div class='date'>2026-04-02</div><h3>2026 04 02 Driftword</h3></div></div><p>DriftWord - Words in the Current</p><div class='rating' data-key='2026-04-02-driftword'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-02-driftword/index.html'>Play prototype</a> · <a href='./2026-04-02-driftword/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-02' data-name='2026 04 02 Chromaflow'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🎨</span><div><div class='date'>2026-04-02</div><h3>2026 04 02 Chromaflow</h3></div></div><p>Chromaflow - Color Cascade Puzzle</p><div class='rating' data-key='2026-04-02-chromaflow'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-02-chromaflow/index.html'>Play prototype</a> · <a href='./2026-04-02-chromaflow/report.html'>Read report</a></div></article>
+
+<article class='card' data-date='2026-04-01' data-name='2026 04 01 Gravilex'><div class='rated-badge'>Valorado</div><div class='head'><span class='emo'>🪐</span><div><div class='date'>2026-04-01</div><h3>2026 04 01 Gravilex</h3></div></div><p>Gravilex - Caída de Letras</p><div class='rating' data-key='2026-04-01-gravilex'><span class='rlabel'>Rate:</span><button class='star' data-v='1'>&#9733;</button><button class='star' data-v='2'>&#9733;</button><button class='star' data-v='3'>&#9733;</button><button class='star' data-v='4'>&#9733;</button></div><div class='links'><a href='./2026-04-01-gravilex/index.html'>Play prototype</a> · <a href='./2026-04-01-gravilex/report.html'>Read report</a></div></article>
+
+<!-- Continuarían más prototipos de marzo y febrero... -->
+</div>
+<script>
+(function(){
+  const grid = document.getElementById('grid');
+  const cards = Array.from(grid.children);
+  const search = document.getElementById('search');
+  const dateFilter = document.getElementById('dateFilter');
+  const sortBy = document.getElementById('sortBy');
+  const STORAGE_KEY = 'prototypeRatingsV1';
+  let ratings = {};
+  try { ratings = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) {}
+  function applyRatings() {
+    cards.forEach(card => {
+      const key = card.querySelector('.rating')?.dataset.key; if (!key) return;
+      const val = ratings[key];
+      const stars = card.querySelectorAll('.star');
+      stars.forEach((s, i) => { if (i < val) s.classList.add('active'); else s.classList.remove('active'); });
+      if (val) card.classList.add('rated'); else card.classList.remove('rated');
+    });
+  }
+  function saveRatings() { localStorage.setItem(STORAGE_KEY, JSON.stringify(ratings)); }
+  grid.addEventListener('click', e => {
+    const btn = e.target.closest('.star'); if (!btn) return;
+    const wrap = btn.closest('.rating'); const key = wrap?.dataset.key; if (!key) return;
+    const val = parseInt(btn.dataset.v, 10); ratings[key] = ratings[key] === val ? 0 : val; saveRatings(); applyRatings();
+  });
+  function render() {
+    const q = (search?.value || '').toLowerCase();
+    const d = dateFilter?.value || 'all';
+    const s = sortBy?.value || 'date-desc';
+    let visible = cards.slice();
+    if (q) visible = visible.filter(c => (c.dataset.name || '').toLowerCase().includes(q) || c.textContent.toLowerCase().includes(q));
+    if (d !== 'all') visible = visible.filter(c => c.dataset.date === d);
+    if (s === 'date-desc') visible.sort((a, b) => (b.dataset.date || '').localeCompare(a.dataset.date || ''));
+    if (s === 'date-asc') visible.sort((a, b) => (a.dataset.date || '').localeCompare(b.dataset.date || ''));
+    if (s === 'name-asc') visible.sort((a, b) => (a.dataset.name || '').localeCompare(b.dataset.name || ''));
+    if (s === 'rating-desc') visible.sort((a, b) => { const ra = ratings[a.querySelector('.rating')?.dataset.key] || 0; const rb = ratings[b.querySelector('.rating')?.dataset.key] || 0; return rb - ra; });
+    if (s === 'rating-asc') visible.sort((a, b) => { const ra = ratings[a.querySelector('.rating')?.dataset.key] || 0; const rb = ratings[b.querySelector('.rating')?.dataset.key] || 0; return ra - rb; });
+    visible.forEach(c => grid.appendChild(c));
+  }
+  search?.addEventListener('input', render);
+  dateFilter?.addEventListener('change', render);
+  sortBy?.addEventListener('change', render);
+  applyRatings(); render();
+})();
+</script>
 </body>
 </html>

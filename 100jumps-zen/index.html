@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>100 Jumps - Zen Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: none;
+        }
+        body {
+            background: #0a0a12;
+            overflow: hidden;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        #gameCanvas {
+            display: block;
+        }
+        .ui-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .ui-overlay.interactive {
+            pointer-events: auto;
+        }
+        .zen-title {
+            position: absolute;
+            top: 15%;
+            text-align: center;
+            color: white;
+            opacity: 0;
+            animation: zenFadeIn 2s ease-out forwards;
+        }
+        .zen-title h1 {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            margin-bottom: 15px;
+            text-shadow: 0 0 40px rgba(255,255,255,0.3);
+        }
+        .zen-title p {
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            opacity: 0.6;
+            letter-spacing: 0.1em;
+        }
+        @keyframes zenFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .breathing-guide {
+            position: absolute;
+            bottom: 25%;
+            width: 120px;
+            height: 120px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            opacity: 0;
+            animation: breathePulse 4s ease-in-out infinite, fadeInGuide 2s 1s forwards;
+        }
+        @keyframes breathePulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; border-color: rgba(100, 200, 255, 0.3); }
+            50% { transform: scale(1.3); opacity: 0.6; border-color: rgba(100, 200, 255, 0.6); }
+        }
+        @keyframes fadeInGuide {
+            to { opacity: 1; }
+        }
+        .score-display {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+            pointer-events: none;
+        }
+        .score-display .number {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 200;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+        .score-display .label {
+            font-size: 0.9rem;
+            opacity: 0.5;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        .zen-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.9);
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+        .zen-message.show {
+            opacity: 1;
+        }
+        .controls-hint {
+            position: absolute;
+            bottom: 15%;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            text-align: center;
+            animation: fadeOut 4s forwards;
+            animation-delay: 5s;
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
+        .ambient-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .control-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            pointer-events: auto;
+            backdrop-filter: blur(10px);
+        }
+        .control-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .control-btn.active {
+            background: rgba(100, 200, 255, 0.2);
+            border-color: rgba(100, 200, 255, 0.4);
+            color: rgba(100, 200, 255, 0.9);
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    
+    <div class="zen-title" id="zenTitle">
+        <h1>ZEN JUMPS</h1>
+        <p>Find your flow</p>
+    </div>
+    
+    <div class="score-display">
+        <div class="number" id="scoreNumber">0</div>
+        <div class="label">Peaceful Jumps</div>
+    </div>
+    
+    <div class="breathing-guide" id="breathingGuide"></div>
+    
+    <div class="zen-message" id="zenMessage"></div>
+    
+    <div class="controls-hint">Hold to breathe • Release to flow</div>
+    
+    <div class="ambient-controls">
+        <button class="control-btn active" id="musicBtn" onclick="game.toggleMusic()">🎵</button>
+        <button class="control-btn active" id="soundBtn" onclick="game.toggleSound()">🎧</button>
+    </div>
+
+    <script>
+        // Ambient Audio Generator
+        class AmbientAudio {
+            constructor() {
+                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                this.musicEnabled = true;
+                this.soundEnabled = true;
+                this.oscillators = [];
+                this.gainNodes = [];
+                this.droneInterval = null;
+                this.setupDrone();
+            }
+            
+            setupDrone() {
+                // Create ambient drone
+                const frequencies = [110, 164.81, 196, 246.94]; // A2, E3, G3, B3
+                frequencies.forEach((freq, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.value = 0;
+                    osc.start();
+                    this.oscillators.push(osc);
+                    this.gainNodes.push(gain);
+                });
+            }
+            
+            startDrone() {
+                if (!this.musicEnabled) return;
+                this.gainNodes.forEach((gain, i) => {
+                    gain.gain.setTargetAtTime(0.03 + i * 0.01, this.ctx.currentTime, 2);
+                });
+                // Slowly modulate frequencies
+                this.droneInterval = setInterval(() => {
+                    if (!this.musicEnabled) return;
+                    this.oscillators.forEach(osc => {
+                        const drift = (Math.random() - 0.5) * 2;
+                        osc.frequency.setTargetAtTime(osc.frequency.value + drift, this.ctx.currentTime, 3);
+                    });
+                }, 5000);
+            }
+            
+            stopDrone() {
+                this.gainNodes.forEach(gain => {
+                    gain.gain.setTargetAtTime(0, this.ctx.currentTime, 1);
+                });
+                if (this.droneInterval) {
+                    clearInterval(this.droneInterval);
+                    this.droneInterval = null;
+                }
+            }
+            
+            playSoftJump() {
+                if (!this.soundEnabled) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                const filter = this.ctx.createBiquadFilter();
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.type = 'sine';
+                filter.type = 'lowpass';
+                filter.frequency.value = 800;
+                osc.frequency.setValueAtTime(300, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(450, this.ctx.currentTime + 0.5);
+                gain.gain.setValueAtTime(0, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.15, this.ctx.currentTime + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.8);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.8);
+            }
+            
+            playSoftLand() {
+                if (!this.soundEnabled) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(200, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + 0.4);
+                gain.gain.setValueAtTime(0, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.1, this.ctx.currentTime + 0.03);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.5);
+            }
+            
+            playChime() {
+                if (!this.soundEnabled) return;
+                [523.25, 659.25].forEach((freq, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0, this.ctx.currentTime + i * 0.1);
+                    gain.gain.linearRampToValueAtTime(0.12, this.ctx.currentTime + i * 0.1 + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + i * 0.1 + 2);
+                    osc.start(this.ctx.currentTime + i * 0.1);
+                    osc.stop(this.ctx.currentTime + i * 0.1 + 2);
+                });
+            }
+        }
+
+        // Soft Particles for Zen mode
+        class ZenParticle {
+            constructor(x, y, hue) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 1;
+                this.vy = (Math.random() - 0.5) * 1 - 0.5;
+                this.life = 1;
+                this.decay = 0.005 + Math.random() * 0.01;
+                this.hue = hue || 200 + Math.random() * 60;
+                this.size = 2 + Math.random() * 3;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.02;
+                this.life -= this.decay;
+            }
+            draw(ctx) {
+                ctx.save();
+                ctx.globalAlpha = this.life * 0.6;
+                ctx.fillStyle = `hsla(${this.hue}, 70%, 70%, 1)`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Floating Orbs for ambiance
+        class AmbientOrb {
+            constructor(canvasWidth, canvasHeight) {
+                this.x = Math.random() * canvasWidth;
+                this.y = Math.random() * canvasHeight;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.radius = 50 + Math.random() * 100;
+                this.hue = 200 + Math.random() * 60;
+                this.pulsePhase = Math.random() * Math.PI * 2;
+            }
+            update(canvasWidth, canvasHeight) {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.pulsePhase += 0.01;
+                if (this.x < -this.radius) this.x = canvasWidth + this.radius;
+                if (this.x > canvasWidth + this.radius) this.x = -this.radius;
+                if (this.y < -this.radius) this.y = canvasHeight + this.radius;
+                if (this.y > canvasHeight + this.radius) this.y = -this.radius;
+            }
+            draw(ctx) {
+                const pulse = Math.sin(this.pulsePhase) * 0.3 + 0.7;
+                const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+                grad.addColorStop(0, `hsla(${this.hue}, 60%, 60%, ${0.1 * pulse})`);
+                grad.addColorStop(1, `hsla(${this.hue}, 60%, 60%, 0)`);
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const STATE = {
+            IDLE: 'idle',
+            CHARGING: 'charging',
+            JUMPING: 'jumping',
+            ZEN: 'zen'
+        };
+
+        const ZEN_MESSAGES = [
+            "Breathe in peace",
+            "Flow like water",
+            "Find your center",
+            "Harmony achieved",
+            "Serenity grows",
+            "Tranquil steps",
+            "Mindful moment",
+            "Peace within",
+            "Gentle journey",
+            "Stillness moves"
+        ];
+
+        class Game {
+            constructor() {
+                this.canvas = document.getElementById('gameCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.audio = new AmbientAudio();
+                this.resize();
+                
+                this.state = STATE.IDLE;
+                this.score = 0;
+                this.combo = 0;
+                this.camera = { x: 0, y: 0 };
+                this.platforms = [];
+                this.particles = [];
+                this.orbs = [];
+                this.ambientHue = 220;
+                
+                this.player = {
+                    x: 0, y: 0,
+                    vx: 0, vy: 0,
+                    width: 30, height: 30,
+                    charge: 0,
+                    onGround: false,
+                    scaleX: 1, scaleY: 1,
+                    breathPhase: 0
+                };
+                
+                this.charging = false;
+                this.chargeStartTime = 0;
+                this.currentPlatform = 0;
+                this.platformSeed = Date.now();
+                
+                // Create ambient orbs
+                for (let i = 0; i < 5; i++) {
+                    this.orbs.push(new AmbientOrb(this.canvas.width, this.canvas.height));
+                }
+                
+                this.setupInputs();
+                this.generatePlatforms();
+                this.resetPlayer();
+                this.audio.startDrone();
+                this.loop();
+            }
+            
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+                this.canvas.style.width = window.innerWidth + 'px';
+                this.canvas.style.height = window.innerHeight + 'px';
+                this.ctx.scale(this.dpr, this.dpr);
+            }
+            
+            generatePlatforms() {
+                this.platforms = [];
+                let x = 100;
+                let y = this.canvas.height / this.dpr - 150;
+                
+                this.platforms.push({ x: 50, y: y, width: 120, height: 12 });
+                
+                // Zen mode: gentler progression
+                for (let i = 1; i <= 1000; i++) {
+                    const gap = 80 + Math.random() * 60;
+                    const width = 70 - Math.min(30, i * 0.02);
+                    const yOffset = (Math.random() - 0.5) * 80;
+                    
+                    x += gap;
+                    y = Math.max(120, Math.min(this.canvas.height / this.dpr - 120, y + yOffset));
+                    
+                    this.platforms.push({ x, y, width, height: 12 });
+                }
+            }
+            
+            resetPlayer() {
+                const start = this.platforms[0];
+                this.player.x = start.x + start.width / 2 - this.player.width / 2;
+                this.player.y = start.y - this.player.height;
+                this.player.vx = 0;
+                this.player.vy = 0;
+                this.currentPlatform = 0;
+            }
+            
+            setupInputs() {
+                const startCharge = (e) => {
+                    if (this.state !== STATE.IDLE) return;
+                    e.preventDefault();
+                    this.charging = true;
+                    this.chargeStartTime = Date.now();
+                    this.state = STATE.CHARGING;
+                    if (this.audio.ctx.state === 'suspended') {
+                        this.audio.ctx.resume();
+                    }
+                };
+                
+                const endCharge = (e) => {
+                    if (!this.charging) return;
+                    e.preventDefault();
+                    this.charging = false;
+                    this.jump();
+                };
+                
+                this.canvas.addEventListener('mousedown', startCharge);
+                this.canvas.addEventListener('mouseup', endCharge);
+                this.canvas.addEventListener('touchstart', startCharge, { passive: false });
+                this.canvas.addEventListener('touchend', endCharge, { passive: false });
+                
+                window.addEventListener('keydown', (e) => {
+                    if (e.repeat) return;
+                    if (e.code === 'Space') startCharge(e);
+                });
+                
+                window.addEventListener('keyup', (e) => {
+                    if (e.code === 'Space') endCharge(e);
+                });
+                
+                window.addEventListener('resize', () => this.resize());
+            }
+            
+            jump() {
+                const chargeTime = Math.min(Date.now() - this.chargeStartTime, 1000);
+                const power = Math.min(chargeTime / 1000, 1);
+                
+                if (power < 0.1) {
+                    this.state = STATE.IDLE;
+                    return;
+                }
+                
+                this.audio.playSoftJump();
+                
+                const nextPlat = this.platforms[this.currentPlatform + 1];
+                const distance = nextPlat.x - this.platforms[this.currentPlatform].x;
+                
+                const angle = -Math.PI / 4;
+                const jumpPower = 7 + power * 10;
+                
+                this.player.vx = Math.cos(angle) * jumpPower * (1 + distance / 400);
+                this.player.vy = Math.sin(angle) * jumpPower;
+                this.state = STATE.JUMPING;
+                
+                this.player.scaleX = 0.75;
+                this.player.scaleY = 1.25;
+            }
+            
+            update() {
+                // Update orbs
+                this.orbs.forEach(orb => orb.update(this.canvas.width, this.canvas.height));
+                
+                // Update particles
+                this.particles = this.particles.filter(p => {
+                    p.update();
+                    return p.life > 0;
+                });
+                
+                // Slowly shift ambient hue
+                this.ambientHue += 0.1;
+                
+                // Player physics
+                if (this.state === STATE.JUMPING) {
+                    this.player.vy += 0.4;
+                    this.player.x += this.player.vx;
+                    this.player.y += this.player.vy;
+                    
+                    this.player.scaleX += (0.85 - this.player.scaleX) * 0.1;
+                    this.player.scaleY += (1.15 - this.player.scaleY) * 0.1;
+                    
+                    this.checkLanding();
+                    
+                    // In Zen mode, reset if fell
+                    if (this.player.y > this.canvas.height / this.dpr + 50) {
+                        this.resetToLastPlatform();
+                    }
+                }
+                
+                // Breathing animation
+                if (this.state === STATE.CHARGING) {
+                    this.player.breathPhase += 0.05;
+                    const breath = Math.sin(this.player.breathPhase) * 0.1 + 1;
+                    const chargeRatio = Math.min((Date.now() - this.chargeStartTime) / 1000, 1);
+                    this.player.scaleX = breath + chargeRatio * 0.3;
+                    this.player.scaleY = breath - chargeRatio * 0.3;
+                }
+                
+                // Smooth camera
+                const targetCamX = this.player.x - this.canvas.width / this.dpr / 3;
+                this.camera.x += (targetCamX - this.camera.x) * 0.08;
+                this.camera.x = Math.max(0, this.camera.x);
+                
+                // Return to normal scale
+                if (this.state === STATE.IDLE) {
+                    this.player.scaleX += (1 - this.player.scaleX) * 0.1;
+                    this.player.scaleY += (1 - this.player.scaleY) * 0.1;
+                }
+                
+                // Update score display
+                document.getElementById('scoreNumber').textContent = this.score;
+            }
+            
+            checkLanding() {
+                if (this.player.vy < 0) return;
+                
+                const nextPlat = this.platforms[this.currentPlatform + 1];
+                if (!nextPlat) return;
+                
+                const px = this.player.x + this.player.width / 2;
+                const py = this.player.y + this.player.height;
+                
+                if (px >= nextPlat.x && px <= nextPlat.x + nextPlat.width &&
+                    py >= nextPlat.y && py <= nextPlat.y + nextPlat.height + 10) {
+                    
+                    this.softLand(nextPlat);
+                }
+            }
+            
+            softLand(platform) {
+                this.player.y = platform.y - this.player.height;
+                this.player.vx = 0;
+                this.player.vy = 0;
+                this.currentPlatform++;
+                this.score++;
+                this.combo++;
+                
+                const centerX = platform.x + platform.width / 2;
+                const perfectZone = platform.width * 0.25;
+                const isGood = Math.abs(this.player.x + this.player.width / 2 - centerX) < perfectZone / 2;
+                
+                if (isGood) {
+                    this.audio.playChime();
+                    this.spawnZenParticles(this.player.x + this.player.width / 2, this.player.y + this.player.height, this.ambientHue);
+                    
+                    if (this.combo % 10 === 0) {
+                        this.showZenMessage();
+                    }
+                } else {
+                    this.audio.playSoftLand();
+                    this.combo = 0;
+                }
+                
+                this.state = STATE.IDLE;
+                this.player.scaleX = 1.1;
+                this.player.scaleY = 0.9;
+            }
+            
+            resetToLastPlatform() {
+                const plat = this.platforms[this.currentPlatform];
+                this.player.x = plat.x + plat.width / 2 - this.player.width / 2;
+                this.player.y = plat.y - this.player.height;
+                this.player.vx = 0;
+                this.player.vy = 0;
+                this.state = STATE.IDLE;
+                this.combo = 0;
+                
+                // Gentle feedback
+                this.spawnZenParticles(this.player.x + this.player.width / 2, this.player.y + this.player.height + 50, 0);
+            }
+            
+            spawnZenParticles(x, y, hue) {
+                for (let i = 0; i < 8; i++) {
+                    this.particles.push(new ZenParticle(x, y, hue));
+                }
+            }
+            
+            showZenMessage() {
+                const msg = ZEN_MESSAGES[Math.floor(Math.random() * ZEN_MESSAGES.length)];
+                const el = document.getElementById('zenMessage');
+                el.textContent = msg;
+                el.classList.add('show');
+                setTimeout(() => el.classList.remove('show'), 3000);
+            }
+            
+            toggleMusic() {
+                this.audio.musicEnabled = !this.audio.musicEnabled;
+                document.getElementById('musicBtn').classList.toggle('active');
+                if (this.audio.musicEnabled) {
+                    this.audio.startDrone();
+                } else {
+                    this.audio.stopDrone();
+                }
+            }
+            
+            toggleSound() {
+                this.audio.soundEnabled = !this.audio.soundEnabled;
+                document.getElementById('soundBtn').classList.toggle('active');
+            }
+            
+            draw() {
+                // Dynamic gradient background
+                const hue = (this.ambientHue % 60) + 200; // 200-260 range (blue to purple)
+                const grad = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+                grad.addColorStop(0, `hsl(${hue}, 40%, 8%)`);
+                grad.addColorStop(1, `hsl(${hue + 20}, 30%, 5%)`);
+                this.ctx.fillStyle = grad;
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw ambient orbs
+                this.orbs.forEach(orb => orb.draw(this.ctx));
+                
+                this.ctx.save();
+                this.ctx.translate(-this.camera.x, 0);
+                
+                // Draw platforms with soft glow
+                this.platforms.forEach((plat, i) => {
+                    if (plat.x - this.camera.x > this.canvas.width / this.dpr) return;
+                    if (plat.x + plat.width - this.camera.x < 0) return;
+                    
+                    // Soft glow
+                    const glowGrad = this.ctx.createRadialGradient(
+                        plat.x + plat.width / 2, plat.y + plat.height / 2, 0,
+                        plat.x + plat.width / 2, plat.y + plat.height / 2, plat.width
+                    );
+                    glowGrad.addColorStop(0, `hsla(${this.ambientHue}, 50%, 50%, 0.1)`);
+                    glowGrad.addColorStop(1, 'transparent');
+                    this.ctx.fillStyle = glowGrad;
+                    this.ctx.fillRect(plat.x - 20, plat.y - 20, plat.width + 40, plat.height + 40);
+                    
+                    // Platform
+                    this.ctx.fillStyle = `hsla(${this.ambientHue}, 30%, 35%, 0.6)`;
+                    this.ctx.fillRect(plat.x, plat.y, plat.width, plat.height);
+                    
+                    // Center highlight
+                    this.ctx.fillStyle = `hsla(${this.ambientHue}, 50%, 60%, 0.3)`;
+                    const centerW = plat.width * 0.25;
+                    this.ctx.fillRect(plat.x + plat.width / 2 - centerW / 2, plat.y, centerW, plat.height);
+                });
+                
+                // Draw player
+                this.ctx.save();
+                this.ctx.translate(this.player.x + this.player.width / 2, this.player.y + this.player.height / 2);
+                this.ctx.scale(this.player.scaleX, this.player.scaleY);
+                
+                // Soft glow
+                const playerGlow = this.ctx.createRadialGradient(0, 0, 0, 0, 0, 30);
+                playerGlow.addColorStop(0, `hsla(${this.ambientHue}, 70%, 70%, 0.5)`);
+                playerGlow.addColorStop(1, 'transparent');
+                this.ctx.fillStyle = playerGlow;
+                this.ctx.beginPath();
+                this.ctx.arc(0, 0, 30, 0, Math.PI * 2);
+                this.ctx.fill();
+                
+                // Player body
+                this.ctx.fillStyle = `hsl(${this.ambientHue}, 60%, 65%)`;
+                this.ctx.beginPath();
+                this.ctx.arc(0, 0, 12, 0, Math.PI * 2);
+                this.ctx.fill();
+                
+                // Inner light
+                this.ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                this.ctx.beginPath();
+                this.ctx.arc(-3, -3, 4, 0, Math.PI * 2);
+                this.ctx.fill();
+                
+                this.ctx.restore();
+                this.ctx.restore();
+                
+                // Draw particles
+                this.particles.forEach(p => p.draw(this.ctx));
+            }
+            
+            loop() {
+                this.update();
+                this.draw();
+                requestAnimationFrame(() => this.loop());
+            }
+        }
+
+        const game = new Game();
+    </script>
+</body>
+</html>

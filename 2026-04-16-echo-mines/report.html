@@ -1,0 +1,420 @@
+<style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+        }
+        h1 {
+            color: #00d4ff;
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #ffd700;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #00ff88;
+            margin-top: 20px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .highlight {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 15px;
+            border-left: 4px solid #00d4ff;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .danger {
+            background: rgba(255, 68, 68, 0.2);
+            border-left-color: #ff4444;
+        }
+        .success {
+            background: rgba(0, 255, 100, 0.2);
+            border-left-color: #00ff64;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+        }
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .mechanic {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #ffd700;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .code {
+            background: #0a0a0f;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            border: 1px solid #333;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #ffd700;
+            color: #1a1a2e;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 2px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .phase-diagram {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: monospace;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔥 ECHO MINES 🔥</h1>
+    <p class="subtitle">Complete Strategy Report & Technical Documentation</p>
+
+    <h2>📋 Executive Summary</h2>
+    <div class="highlight">
+        <strong>ECHO MINES</strong> is a memory-based puzzle game that challenges players to navigate a minefield after a brief 3-second memorization phase. The core tension comes from navigating "blind" based purely on memory, creating intense psychological pressure and rewarding spatial awareness.
+    </div>
+
+    <h2>🎮 Core Game Design Philosophy</h2>
+    
+    <h3>The "Memory Tension" Mechanic</h3>
+    <p>ECHO MINES is built around a unique psychological loop:</p>
+    <div class="phase-diagram">
+        🎯 MEMORY PHASE (3s) → 🧠 MENTAL MAPPING → ⚡ HIGH TENSION NAVIGATION → 🏆 REWARD/CONSEQUENCE
+    </div>
+    
+    <p>The game deliberately creates <strong>cognitive dissonance</strong> - players must hold spatial information in working memory while making high-stakes decisions. This creates:</p>
+    <ul>
+        <li><strong>Anticipation Anxiety:</strong> The countdown before mines disappear</li>
+        <li><strong>Confidence Crises:</strong> "Was the mine here or there?"</li>
+        <li><strong>Euphoric Relief:</strong> Successfully navigating close calls</li>
+        <li><strong>Genuine Fear:</strong> The explosion when you misremember</li>
+    </ul>
+
+    <h3>Why This Works</h3>
+    <div class="mechanic">
+        <strong>Risk vs. Reward Orbs:</strong> Orbs are often placed near mines, forcing players to decide: "Do I trust my memory enough to grab that orb?" This creates micro-tension moments within the larger navigation challenge.
+    </div>
+
+    <h2>⚙️ Technical Implementation</h2>
+
+    <h3>Procedural Level Generation</h3>
+    <p>Each level uses a guaranteed-solvable path generation algorithm:</p>
+    <div class="code">
+function generateSafePath() {
+    const path = [{ x: 0, y: 0 }];
+    let x = 0, y = 0;
+    
+    while (x < GRID_SIZE - 1 || y < GRID_SIZE - 1) {
+        const moves = [];
+        if (x < GRID_SIZE - 1) moves.push({ x: x + 1, y });
+        if (y < GRID_SIZE - 1) moves.push({ x, y: y + 1 });
+        
+        // Add backtracking for variety
+        if (Math.random() > 0.7 && x > 0) moves.push({ x: x - 1, y });
+        if (Math.random() > 0.7 && y > 0) moves.push({ x, y: y - 1 });
+        
+        const move = moves[Math.floor(Math.random() * moves.length)];
+        x = move.x;
+        y = move.y;
+        
+        if (!path.some(p => p.x === x && p.y === y)) {
+            path.push({ x, y });
+        }
+    }
+    return path;
+}
+    </div>
+
+    <h3>Phase State Machine</h3>
+    <table>
+        <tr>
+            <th>Phase</th>
+            <th>Duration</th>
+            <th>Player Action</th>
+            <th>Visual State</th>
+        </tr>
+        <tr>
+            <td>MEMORIZE</td>
+            <td>3 seconds</td>
+            <td>Observe only</td>
+            <td>Mines pulse RED</td>
+        </tr>
+        <tr>
+            <td>MOVE</td>
+            <td>Unlimited</td>
+            <td>Navigate grid</td>
+            <td>Mines invisible</td>
+        </tr>
+        <tr>
+            <td>SCANNER</td>
+            <td>1.5 seconds</td>
+            <td>Strategic reveal</td>
+            <td>Radius-based visibility</td>
+        </tr>
+    </table>
+
+    <h3>Progressive Difficulty Curve</h3>
+    <table>
+        <tr>
+            <th>Level</th>
+            <th>Mines</th>
+            <th>Orbs</th>
+            <th>Hints</th>
+            <th>Challenge Focus</th>
+        </tr>
+        <tr><td>1</td><td>8</td><td>3</td><td>✓</td><td>Learn the mechanic</td></tr>
+        <tr><td>2</td><td>12</td><td>4</td><td>✓</td><td>Build confidence</td></tr>
+        <tr><td>3</td><td>15</td><td>5</td><td>✓</td><td>Prepare for reality</td></tr>
+        <tr><td>4</td><td>20</td><td>5</td><td>✗</td><td>True memory test</td></tr>
+        <tr><td>5</td><td>25</td><td>6</td><td>✗</td><td>Density pressure</td></tr>
+        <tr><td>6</td><td>30</td><td>7</td><td>✗</td><td>Complex navigation</td></tr>
+        <tr><td>7</td><td>35</td><td>8</td><td>✗</td><td>Precision required</td></tr>
+        <tr><td>8</td><td>40</td><td>10</td><td>✗</td><td>Mastery challenge</td></tr>
+    </table>
+
+    <h2>🎯 Strategic Elements</h2>
+
+    <h3>Scanner Usage Strategy</h3>
+    <div class="highlight success">
+        <strong>Optimal Usage:</strong> Save scanners for when you're truly lost or at critical decision points. The 1.5-second duration reveals a 3-cell radius - enough to confirm a path but not enough to "cheat" the memory mechanic.
+    </div>
+
+    <h3>Memory Techniques</h3>
+    <ul>
+        <li><strong>Chunking:</strong> Group mines into patterns (lines, L-shapes, clusters)</li>
+        <li><strong>Anchor Points:</strong> Remember specific safe cells as reference points</li>
+        <li><strong>Path Visualization:</strong> Mentally trace your route before moving</li>
+        <li><strong>Risk Assessment:</strong> Identify high-reward orb positions vs. safe routes</li>
+    </ul>
+
+    <h3>3-Star Rating System</h3>
+    <table>
+        <tr>
+            <th>Criteria</th>
+            <th>Weight</th>
+            <th>Strategy</th>
+        </tr>
+        <tr>
+            <td>Completion Time</td>
+            <td>40%</td>
+            <td>Move quickly but confidently</td>
+        </tr>
+        <tr>
+            <td>Orbs Collected</td>
+            <td>60%</td>
+            <td>Risk/reward decisions near mines</td>
+        </tr>
+    </table>
+
+    <h2>🏆 Achievement Design</h2>
+
+    <table>
+        <tr>
+            <th>Achievement</th>
+            <th>Unlock Condition</th>
+            <th>Design Intent</th>
+        </tr>
+        <tr>
+            <td><span class="badge">💀 First Blood</span></td>
+            <td>Hit first mine</td>
+            <td>Normalize failure, reduce frustration</td>
+        </tr>
+        <tr>
+            <td><span class="badge">⚡ Speed Demon</span></td>
+            <td>Complete level < 10s</td>
+            <td>Reward confidence and memory</td>
+        </tr>
+        <tr>
+            <td><span class="badge">🔮 Orb Hunter</span></td>
+            <td>100% orb collection</td>
+            <td>Encourage risk-taking</td>
+        </tr>
+        <tr>
+            <td><span class="badge">⭐ Perfect Run</span></td>
+            <td>3 levels without dying</td>
+            <td>Reward consistency</td>
+        </tr>
+        <tr>
+            <td><span class="badge">🧠 Memory Master</span></td>
+            <td>Complete all 8 levels</td>
+            <td>Ultimate completion goal</td>
+        </tr>
+    </table>
+
+    <h2>🎨 Visual Design Decisions</h2>
+
+    <h3>Color Psychology</h3>
+    <ul>
+        <li><strong style="color: #ff4444;">Red (#ff4444):</strong> Mines - universal danger signal, triggers stress response</li>
+        <li><strong style="color: #00d4ff;">Cyan (#00d4ff):</strong> Orbs - cool, inviting, represents reward</li>
+        <li><strong style="color: #00ff64;">Green (#00ff64):</strong> Exit - safety, success, completion</li>
+        <li><strong style="color: #ffd700;">Gold (#ffd700):</strong> Player - precious, valuable, center of attention</li>
+    </ul>
+
+    <h3>Visual Feedback Systems</h3>
+    <div class="mechanic">
+        <strong>Screen Shake:</strong> Triggers on near-miss (adjacent to mine) and explosion. Intensity differs - 5px for near-miss (warning), 20px for explosion (consequence). Creates physical sensation of danger.
+    </div>
+
+    <div class="mechanic">
+        <strong>Footstep Ripples:</strong> Fading circles mark your path, helping with spatial orientation without revealing mines. Subtle blue glow provides reference points.
+    </div>
+
+    <h3>Progressive Hint System</h3>
+    <div class="highlight danger">
+        <strong>Training Wheels:</strong> Levels 1-3 display faint ghost outlines of mines even during movement phase. This reduces initial frustration while still requiring memory use. Removed at level 4 to create the "aha moment" of true difficulty.
+    </div>
+
+    <h2>📱 Mobile Optimization</h2>
+
+    <h3>Control Schemes</h3>
+    <ul>
+        <li><strong>Touch Swipe:</strong> On-screen canvas detects directional swipes</li>
+        <li><strong>D-Pad:</strong> Virtual directional buttons for precision</li>
+        <li><strong>Keyboard:</strong> Arrow keys and WASD support for desktop</li>
+        <li><strong>Scanner:</strong> Dedicated button or spacebar</li>
+    </ul>
+
+    <h3>Responsive Considerations</h3>
+    <p>Fixed 600x600 canvas ensures consistent gameplay across devices. Touch-action CSS prevents unwanted zoom/scroll behaviors during play.</p>
+
+    <h2>🔊 Audio Design</h2>
+
+    <p>Web Audio API generates procedural sound effects:</p>
+    <ul>
+        <li><strong>Move:</strong> Short 200Hz tone - subtle feedback</li>
+        <li><strong>Orb Collection:</strong> Ascending sine wave (800Hz → 1200Hz) - satisfying</li>
+        <li><strong>Explosion:</strong> Sawtooth with descending frequency - impact</li>
+        <li><strong>Win:</strong> Arpeggio chord (C-E-G-C) - celebration</li>
+        <li><strong>Scanner:</strong> Rising frequency sweep - tech feel</li>
+    </ul>
+
+    <h2>🧪 Player Psychology</h2>
+
+    <h3>The "Close Call" Effect</h3>
+    <p>The most engaging moments occur when players navigate adjacent to remembered mine positions. The game deliberately creates these moments by:</p>
+    <ul>
+        <li>Placing safe paths near (but not on) mine clusters</li>
+        <li>Positioning high-value orbs in risky locations</li>
+        <li>Screen shake feedback that triggers adrenaline without punishment</li>
+    </ul>
+
+    <h3>Loss Aversion Design</h3>
+    <div class="highlight danger">
+        One wrong step = immediate explosion. This creates genuine tension but risks frustration. Mitigated by:
+        <ul>
+            <li>Quick restart (no loading screens)</li>
+            <li>First Blood achievement normalizes failure</li>
+            <li>Progressive difficulty eases players in</li>
+        </ul>
+    </div>
+
+    <h2>🚀 Future Enhancement Opportunities</h2>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Priority</th>
+        </tr>
+        <tr>
+            <td>Time Trial Mode</td>
+            <td>Race against the clock across all levels</td>
+            <td>High</td>
+        </tr>
+        <tr>
+            <td>Daily Challenge</td>
+            <td>Same seed for all players, leaderboard</td>
+            <td>High</td>
+        </tr>
+        <tr>
+            <td>Custom Levels</td>
+            <td>Player-created minefield sharing</td>
+            <td>Medium</td>
+        </tr>
+        <tr>
+            <td>Sound Themes</td>
+            <td>Alternative audio packs (8-bit, ambient)</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td>Multiplayer Race</td>
+            <td>Same seed, who completes fastest?</td>
+            <td>Medium</td>
+        </tr>
+    </table>
+
+    <h2>📊 Success Metrics</h2>
+
+    <p>A successful ECHO MINES player experience should show:</p>
+    <ul>
+        <li><strong>Retention:</strong> Players attempt failed levels multiple times</li>
+        <li><strong>Engagement:</strong> Completion of all 8 levels (average 15-20 minutes)</li>
+        <li><strong>Skill Growth:</strong> Completion times decrease across attempts</li>
+        <li><strong>Emotional Response:</strong> Reports of genuine tension and satisfaction</li>
+    </ul>
+
+    <div class="highlight success">
+        <strong>Core Success Indicator:</strong> Players who complete level 3 and experience the "hints removed" moment at level 4 should continue playing. This is the critical conversion point where the game reveals its true challenge.
+    </div>
+
+    <h2>🎓 Conclusion</h2>
+
+    <p>ECHO MINES succeeds by taking a simple mechanic - memory - and wrapping it in high-stakes consequences. The 3-second memorization window is short enough to feel achievable but long enough to create genuine cognitive load. The result is a tense, engaging experience that rewards spatial awareness, risk assessment, and calm decision-making under pressure.</p>
+
+    <p>The game's visual polish, progressive difficulty, and multiple reward systems (stars, achievements, score) create a compelling loop that keeps players engaged through all 8 levels. The "blind navigation" mechanic is the standout feature - transforming a simple grid game into a genuinely thrilling experience.</p>
+
+    <div class="footer">
+        <p>ECHO MINES Strategy Report | Generated 2026-04-16</p>
+        <p>Built with HTML5 Canvas API | No external dependencies</p>
+    </div>
+</body>
+</html>

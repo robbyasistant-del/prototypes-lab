@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototypes Lab - HTML5 Game Experiments</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4em;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #888;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        .date-badge {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: rgba(131,56,236,0.2);
+            border: 1px solid rgba(131,56,236,0.5);
+            border-radius: 50px;
+            font-size: 0.9em;
+            color: #8338ec;
+        }
+        
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8em;
+            margin: 40px 0 25px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        h2::before {
+            content: '';
+            width: 40px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff006e, #8338ec);
+            border-radius: 2px;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .game-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(131,56,236,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .game-card:hover::before {
+            opacity: 1;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .game-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #fff;
+        }
+        
+        .game-date {
+            font-size: 0.75em;
+            color: #666;
+            background: rgba(0,0,0,0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+        
+        .game-desc {
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .game-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .tag {
+            font-size: 0.75em;
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            color: #888;
+        }
+        
+        .game-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #8338ec, #3a86ff);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(131,56,236,0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 40px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: 800;
+            color: #8338ec;
+        }
+        
+        .stat-label {
+            font-size: 0.8em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 PROTOTYPES LAB</h1>
+            <p class="subtitle">Experimental HTML5 Games</p>
+            <div class="date-badge">Latest Batch: April 18, 2026</div>
+        </header>
+        
+        <h2>April 18, 2026 Batch</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <div class="game-header">
+                    <h3 class="game-title">🧪 CHROMATIC SHIFT</h3>
+                    <span class="game-date">2026-04-18</span>
+                </div>
+                <p class="game-desc">Color fusion laboratory with time manipulation. Mix droplets, control reaction speed, and match target colors in this hypnotic physics puzzle.</p>
+                <div class="game-tags">
+                    <span class="tag">Physics</span>
+                    <span class="tag">Puzzle</span>
+                    <span class="tag">Time Control</span>
+                    <span class="tag">Color Mixing</span>
+                </div>
+                <div class="game-actions">
+                    <a href="2026-04-18-CHROMATIC-SHIFT/index.html" class="btn btn-primary">▶ Play Now</a>
+                    <a href="2026-04-18-CHROMATIC-SHIFT/report.html" class="btn btn-secondary">📊 Report</a>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-header">
+                    <h3 class="game-title">🎨 GRAVITY GRAFFITI</h3>
+                    <span class="game-date">2026-04-18</span>
+                </div>
+                <p class="game-desc">Paint gravity wells to guide a ball through obstacles. Spray attract and repel forces, create art, and solve physics puzzles with minimal paint.</p>
+                <div class="game-tags">
+                    <span class="tag">Physics</span>
+                    <span class="tag">Creative</span>
+                    <span class="tag">Gravity</span>
+                    <span class="tag">Optimization</span>
+                </div>
+                <div class="game-actions">
+                    <a href="2026-04-18-GRAVITY-GRAFFITI/index.html" class="btn btn-primary">▶ Play Now</a>
+                    <a href="2026-04-18-GRAVITY-GRAFFITI/report.html" class="btn btn-secondary">📊 Report</a>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-header">
+                    <h3 class="game-title">👻 ECHO RUNNER</h3>
+                    <span class="game-date">2026-04-18</span>
+                </div>
+                <p class="game-desc">Speed through a neon tunnel while avoiding echoes of your past self. Every move creates a temporal shadow that follows 3 seconds behind.</p>
+                <div class="game-tags">
+                    <span class="tag">Endless Runner</span>
+                    <span class="tag">Reflex</span>
+                    <span class="tag">Time Paradox</span>
+                    <span class="tag">Neon</span>
+                </div>
+                <div class="game-actions">
+                    <a href="2026-04-18-ECHO-RUNNER/index.html" class="btn btn-primary">▶ Play Now</a>
+                    <a href="2026-04-18-ECHO-RUNNER/report.html" class="btn btn-secondary">📊 Report</a>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Games</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Unique Mechanics</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Playable</div>
+                </div>
+            </div>
+            <p>Built with ❤️ using vanilla HTML5 Canvas</p>
+            <p style="margin-top: 10px; font-size: 0.85em;">robbyasistant-del/prototypes-lab</p>
+        </footer>
+    </div>
+</body>
+</html>

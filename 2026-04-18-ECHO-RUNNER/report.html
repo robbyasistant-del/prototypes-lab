@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHO RUNNER - Game Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0014; color: #fff; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-size: 3em; background: linear-gradient(90deg, #ff0066, #ff00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        h2 { color: #00ffff; margin: 30px 0 15px; font-size: 1.5em; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        h3 { color: #ffcc00; margin: 20px 0 10px; }
+        .meta { color: #888; margin-bottom: 30px; }
+        .section { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 15px; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .stat-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; border-left: 4px solid #ff00ff; }
+        .stat-box h4 { color: #888; font-size: 0.8em; text-transform: uppercase; margin-bottom: 5px; }
+        .stat-box .value { font-size: 1.8em; font-weight: 800; color: #fff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
+        th { color: #ff00ff; font-weight: 600; }
+        .tag { display: inline-block; padding: 4px 12px; background: rgba(255,0,255,0.2); border-radius: 20px; font-size: 0.85em; margin: 3px; }
+        .risk { padding: 15px; border-radius: 10px; margin: 10px 0; }
+        .risk.low { background: rgba(0,255,255,0.1); border-left: 4px solid #00ffff; }
+        .risk.medium { background: rgba(255,204,0,0.1); border-left: 4px solid #ffcc00; }
+        .risk.high { background: rgba(255,0,102,0.1); border-left: 4px solid #ff0066; }
+        ul { margin-left: 20px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ECHO RUNNER</h1>
+        <p class="meta">Temporal Evasion Thriller | April 18, 2026 | Prototype Batch</p>
+        
+        <div class="section">
+            <h2>🎯 Executive Summary</h2>
+            <p><strong>ECHO RUNNER</strong> is a high-speed reflex game with a unique twist: every move you make creates an "echo" that follows 3 seconds behind. Players must navigate a neon tunnel while avoiding collisions with their own past trajectory.</p>
+            <p><strong>Core Innovation:</strong> The echo mechanic creates a "self-PvP" experience where players compete against their own previous actions. This creates emergent gameplay where early cautious play becomes dangerous later.</p>
+        </div>
+        
+        <div class="section">
+            <h2>🎮 Core Game Loop</h2>
+            <ol>
+                <li><strong>Accelerate:</strong> Build speed while navigating obstacles</li>
+                <li><strong>Create Trail:</strong> Every position is recorded for echo generation</li>
+                <li><strong>Monitor:</strong> Watch the echo timer and minimap</li>
+                <li><strong>Evasion:</strong> Dodge echoes following your exact path</li>
+                <li><strong>Combo:</strong> Successfully dodge echoes to build multiplier</li>
+                <li><strong>Survive:</strong> Reach 5000m to escape</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>🏆 Rewards & Progression</h2>
+            <div class="grid">
+                <div class="stat-box">
+                    <h4>Combo System</h4>
+                    <div class="value">Up to 10×</div>
+                    <p>Dodging echoes increases multiplier. Hitting obstacles resets to 1×</p>
+                </div>
+                <div class="stat-box">
+                    <h4>Achievements</h4>
+                    <div class="value">4 Badges</div>
+                    <p>⚡ Speed (10+ velocity) | 🛡️ Survivor (30s+) | 👑 Master (5× combo) | 💎 Legend (Complete run)</p>
+                </div>
+                <div class="stat-box">
+                    <h4>Distance Goal</h4>
+                    <div class="value">5000m</div>
+                    <p>Escalating difficulty with more obstacles and echoes over time</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 KPIs & Success Metrics</h2>
+            <table>
+                <tr><th>Metric</th><th>Target</th><th>Measurement</th></tr>
+                <tr><td>Average Distance</td><td>1500m+</td><td>Mean survival distance</td></tr>
+                <tr><td>Completion Rate</td><td>8%</td><td>Players reaching 5000m</td></tr>
+                <tr><td>Session Count</td><td>5+ runs/session</td><td>"One more try" factor</td></tr>
+                <tr><td>Max Combo Achieved</td><td>30% get 5×+</td><td>Skill expression</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🧪 A/B Testing Roadmap</h2>
+            <table>
+                <tr><th>Experiment</th><th>Hypothesis</th><th>Impact</th></tr>
+                <tr><td>Echo Warning Timing</td><td>Earlier warning (1s vs 0.5s) improves dodge rate</td><td>High</td></tr>
+                <tr><td>Obstacle Density Curve</td><td>Slower ramp reduces early frustration</td><td>Medium</td></tr>
+                <tr><td>Echo Visual Clarity</td><td>Better differentiated echo colors improve tracking</td><td>High</td></tr>
+                <tr><td>Speed Cap</td><td>Unlimited vs capped speed affects engagement</td><td>Medium</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🔍 SEO/ASO/SEM Strategy</h2>
+            <h3>Keywords</h3>
+            <span class="tag">endless runner</span>
+            <span class="tag">reflex game</span>
+            <span class="tag">time paradox</span>
+            <span class="tag">neon game</span>
+            <span class="tag">speed run</span>
+            <span class="tag">cyberpunk game</span>
+            
+            <h3>Store Description Hook</h3>
+            <p>"Your past is chasing you. Literally. Dodge your own echoes in this mind-bending speed runner where every move comes back to haunt you."</p>
+            
+            <h3>Ad Copy Variants</h3>
+            <ul>
+                <li><strong>Intrigue:</strong> "The only game where you're chased by... yourself?"</li>
+                <li><strong>Challenge:</strong> "98% of players don't survive 30 seconds. Will you?"</li>
+                <li><strong>Aesthetic:</strong> "Neon. Speed. Paradox. The most stylish runner you'll play"</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risk Assessment</h2>
+            <div class="risk medium">
+                <strong>MEDIUM:</strong> Difficulty curve - May be too punishing early. Need better first-time user experience.
+            </div>
+            <div class="risk medium">
+                <strong>MEDIUM:</strong> Echo visibility - Multiple echoes could become visually cluttered
+            </div>
+            <div class="risk high">
+                <strong>HIGH:</strong> Novelty decay - Core mechanic may feel repetitive without variety (power-ups, different echo types)
+            </div>
+            <div class="risk low">
+                <strong>LOW:</strong> Performance - Simple canvas rendering, scales well
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Next Steps</h2>
+            <ol>
+                <li>Add power-ups (slow time, destroy echoes, shield)</li>
+                <li>Create different echo types (faster echoes, split echoes)</li>
+                <li>Implement daily runs with fixed seeds for competition</li>
+                <li>Add global leaderboards for distance and max combo</li>
+                <li>Design boss encounters where echoes become predictable patterns</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

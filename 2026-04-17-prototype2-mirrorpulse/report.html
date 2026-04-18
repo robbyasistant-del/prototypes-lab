@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirrorPulse - Product Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --neon-pink: #ff2a6d;
+            --neon-blue: #05d9e8;
+            --neon-purple: #d16dff;
+            --neon-green: #39ff14;
+            --neon-yellow: #ffee00;
+            --dark-bg: #0d0221;
+            --darker-bg: #070212;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Rajdhani', 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a0b2e 50%, var(--darker-bg) 100%);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(180deg, rgba(255,42,109,0.2) 0%, transparent 100%);
+            border-bottom: 2px solid var(--neon-pink);
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 40px rgba(255,42,109,0.5);
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            color: var(--neon-blue);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--neon-blue);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--neon-blue);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--neon-purple);
+            margin: 25px 0 15px;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(5,217,232,0.1), rgba(209,109,255,0.1));
+            border-left: 4px solid var(--neon-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: rgba(255,42,109,0.2);
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 5px;
+        }
+        
+        .tag.blue {
+            background: rgba(5,217,232,0.2);
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+        }
+        
+        .tag.green {
+            background: rgba(57,255,20,0.2);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+        
+        .tag.yellow {
+            background: rgba(255,238,0,0.2);
+            border-color: var(--neon-yellow);
+            color: var(--neon-yellow);
+        }
+        
+        /* Core Loop Diagram */
+        .loop-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            margin: 20px 0;
+        }
+        
+        .loop-step {
+            background: linear-gradient(135deg, rgba(5,217,232,0.2), rgba(209,109,255,0.2));
+            border: 2px solid var(--neon-blue);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            min-width: 150px;
+        }
+        
+        .loop-step h4 {
+            color: var(--neon-blue);
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .loop-step p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .loop-arrow {
+            font-size: 2rem;
+            color: var(--neon-pink);
+        }
+        
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .kpi-card {
+            background: linear-gradient(135deg, rgba(255,42,109,0.1), rgba(5,217,232,0.1));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neon-yellow);
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .kpi-label {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+        
+        /* Reward Tiers */
+        .reward-tiers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .tier-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid;
+        }
+        
+        .tier-card.bronze {
+            border-color: #cd7f32;
+            background: linear-gradient(135deg, rgba(205,127,50,0.2), rgba(205,127,50,0.05));
+        }
+        
+        .tier-card.silver {
+            border-color: #c0c0c0;
+            background: linear-gradient(135deg, rgba(192,192,192,0.2), rgba(192,192,192,0.05));
+        }
+        
+        .tier-card.gold {
+            border-color: #ffd700;
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.05));
+        }
+        
+        .tier-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .tier-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .tier-req {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* A/B Test Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        th {
+            background: rgba(5,217,232,0.2);
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        
+        tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        
+        /* Risk Assessment */
+        .risk-box {
+            background: linear-gradient(135deg, rgba(255,42,109,0.1), rgba(255,42,109,0.05));
+            border: 1px solid var(--neon-pink);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .risk-level {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .risk-high {
+            background: rgba(255,42,109,0.3);
+            color: var(--neon-pink);
+        }
+        
+        .risk-medium {
+            background: rgba(255,238,0,0.3);
+            color: var(--neon-yellow);
+        }
+        
+        .mitigation {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .mitigation strong {
+            color: var(--neon-green);
+        }
+        
+        /* Competitor Analysis */
+        .competitor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .competitor-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--neon-purple);
+        }
+        
+        .competitor-card h4 {
+            color: var(--neon-purple);
+            margin-bottom: 10px;
+        }
+        
+        .strength {
+            color: var(--neon-green);
+        }
+        
+        .weakness {
+            color: var(--neon-pink);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 40px;
+            color: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚡ MIRRORPULSE ⚡</h1>
+        <p class="tagline">Product Strategy Report - Rhythm Pattern Duel</p>
+    </header>
+    
+    <div class="container">
+        
+        <!-- Strategy Section -->
+        <div class="section">
+            <h2>📋 Product Strategy</h2>
+            
+            <div class="highlight-box">
+                <strong>Positioning:</strong> MirrorPulse is a "Musical Memory Duel" that combines the pattern memorization of Simon Says with the rhythm gameplay of Guitar Hero, wrapped in a competitive "mirror battle" framework.
+            </div>
+            
+            <h3>Unique Value Proposition</h3>
+            <p>Unlike traditional rhythm games that require external music or complex note highways, MirrorPulse creates an emergent musical experience through player-AI interaction. Each game session generates unique "songs" composed of pattern responses, creating infinite replayability without licensing costs.</p>
+            
+            <h3>Target Audience</h3>
+            <div style="margin: 15px 0;">
+                <span class="tag">Casual Gamers</span>
+                <span class="tag blue">Rhythm Game Fans</span>
+                <span class="tag green">Puzzle Enthusiasts</span>
+                <span class="tag yellow">Quick Session Players</span>
+                <span class="tag">Commuters</span>
+                <span class="tag blue">Hypercasual Market</span>
+            </div>
+            
+            <h3>Competitive Positioning</h3>
+            <div class="competitor-grid">
+                <div class="competitor-card">
+                    <h4>Simon Says / Memory Games</h4>
+                    <p><span class="strength">MirrorPulse advantage:</span> Adds rhythm timing, visual polish, progression system</p>
+                    <p><span class="weakness">Their strength:</span> Brand recognition, simplicity</p>
+                </div>
+                <div class="competitor-card">
+                    <h4>Guitar Hero / Rock Band</h4>
+                    <p><span class="strength">MirrorPulse advantage:</span> No music licensing, shorter sessions, mobile-first</p>
+                    <p><span class="weakness">Their strength:</span> Real music, social features</p>
+                </div>
+                <div class="competitor-card">
+                    <h4>Piano Tiles / Tap Games</h4>
+                    <p><span class="strength">MirrorPulse advantage:</span> Memorization element, AI vs Player framing, skill depth</p>
+                    <p><span class="weakness">Their strength:</span> Simpler onboarding, established audience</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SEO/ASO Section -->
+        <div class="section">
+            <h2>🔍 SEO & ASO Keywords</h2>
+            
+            <h3>Primary Keywords (High Priority)</h3>
+            <div style="margin: 15px 0;">
+                <span class="tag">rhythm game</span>
+                <span class="tag blue">memory game</span>
+                <span class="tag green">pattern game</span>
+                <span class="tag yellow">music game</span>
+                <span class="tag">reaction game</span>
+                <span class="tag blue">reflex game</span>
+            </div>
+            
+            <h3>Secondary Keywords (Long-tail)</h3>
+            <div style="margin: 15px 0;">
+                <span class="tag">simon says</span>
+                <span class="tag blue">color memory</span>
+                <span class="tag green">brain training</span>
+                <span class="tag yellow">quick reflexes</span>
+                <span class="tag">twitch game</span>
+                <span class="tag blue">flow state game</span>
+                <span class="tag green">adrenaline game</span>
+                <span class="tag yellow">focus training</span>
+            </div>
+            
+            <h3>Store Description Elements</h3>
+            <div class="highlight-box">
+                <strong>Short Description (80 chars):</strong><br>
+                "Can you mirror the pattern? The ultimate rhythm memory duel awaits!"
+            </div>
+            
+            <div class="highlight-box">
+                <strong>Key Features for Store Page:</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>🎵 Musical memory duel - AI vs Player</li>
+                    <li>⚡ 5 progressively harder levels with new mechanics</li>
+                    <li>🔥 Streak system with massive score multipliers</li>
+                    <li>🏆 Earn Bronze, Silver & Gold badges</li>
+                    <li>🎨 Synthwave aesthetic with neon visuals</li>
+                    <li>📱 One-hand play - perfect for commutes</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Core Loop Section -->
+        <div class="section">
+            <h2>🔄 Core Game Loop</h2>
+            
+            <div class="loop-diagram">
+                <div class="loop-step">
+                    <h4>1. WATCH</h4>
+                    <p>AI plays pattern<br>Colors + Sounds</p>
+                </div>
+                <span class="loop-arrow">→</span>
+                <div class="loop-step">
+                    <h4>2. MEMORIZE</h4>
+                    <p>Encode sequence<br>Feel the rhythm</p>
+                </div>
+                <span class="loop-arrow">→</span>
+                <div class="loop-step">
+                    <h4>3. MIRROR</h4>
+                    <p>Replicate exactly<br>Timing matters</p>
+                </div>
+                <span class="loop-arrow">→</span>
+                <div class="loop-step">
+                    <h4>4. REWARD</h4>
+                    <p>Score + Streak<br>Visual feedback</p>
+                </div>
+                <span class="loop-arrow">↺</span>
+                <div class="loop-step" style="border-color: var(--neon-pink);">
+                    <h4>5. ESCALATE</h4>
+                    <p>Faster patterns<br>New elements</p>
+                </div>
+            </div>
+            
+            <h3>Loop Psychology</h3>
+            <p><strong>The Memory Cliffhanger:</strong> Each round creates a "can I do this?" tension. The split-screen design reinforces the "duel" framing, making it feel like a real competition rather than a solitaire exercise.</p>
+            
+            <p><strong>Flow State Trigger:</strong> The speed curve is designed to push players into Csikszentmihalyi's flow state - challenging enough to require full attention, but not so hard as to cause frustration (in theory - monitored via A/B tests).</p>
+            
+            <h3>Session Arc</h3>
+            <table>
+                <tr>
+                    <th>Phase</th>
+                    <th>Rounds</th>
+                    <th>Player State</th>
+                    <th>Design Goal</th>
+                </tr>
+                <tr>
+                    <td>Warm-up</td>
+                    <td>1-4</td>
+                    <td>Learning, confidence building</td>
+                    <td>Teach mechanics, ensure success</td>
+                </tr>
+                <tr>
+                    <td>Flow</td>
+                    <td>5-15</td>
+                    <td>Engaged, developing rhythm</td>
+                    <td>Build streaks, create addiction</td>
+                </tr>
+                <tr>
+                    <td>Challenge</td>
+                    <td>16-30</td>
+                    <td>Focused, testing limits</td>
+                    <td>Unlock new mechanics, increase speed</td>
+                </tr>
+                <tr>
+                    <td>Intensity</td>
+                    <td>31-50</td>
+                    <td>High alert, adrenaline</td>
+                    <td>Pursuit of Gold Badge</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Rewards Section -->
+        <div class="section">
+            <h2>🎁 Reward System</h2>
+            
+            <h3>Badge Tiers</h3>
+            <div class="reward-tiers">
+                <div class="tier-card bronze">
+                    <div class="tier-icon">🥉</div>
+                    <div class="tier-name" style="color: #cd7f32;">BRONZE</div>
+                    <div class="tier-req">Survive 10 rounds</div>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 10px;">
+                        Early achiever badge<br>80% of players should unlock
+                    </p>
+                </div>
+                <div class="tier-card silver">
+                    <div class="tier-icon">🥈</div>
+                    <div class="tier-name" style="color: #c0c0c0;">SILVER</div>
+                    <div class="tier-req">Survive 25 rounds</div>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 10px;">
+                        Skill demonstration<br>40% of players should unlock
+                    </p>
+                </div>
+                <div class="tier-card gold">
+                    <div class="tier-icon">🥇</div>
+                    <div class="tier-name" style="color: #ffd700;">GOLD</div>
+                    <div class="tier-req">Survive 50 rounds</div>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 10px;">
+                        Elite mastery<br>10% of players should unlock
+                    </p>
+                </div>
+            </div>
+            
+            <h3>Score Multipliers</h3>
+            <table>
+                <tr>
+                    <th>Mechanic</th>
+                    <th>Multiplier</th>
+                    <th>Trigger</th>
+                </tr>
+                <tr>
+                    <td>Streak Bonus</td>
+                    <td>+50 pts × streak</td>
+                    <td>Consecutive perfect rounds</td>
+                </tr>
+                <tr>
+                    <td>Speed Bonus</td>
+                    <td>Up to +70 pts</td>
+                    <td>Faster patterns = higher bonus</td>
+                </tr>
+                <tr>
+                    <td>Round Bonus</td>
+                    <td>+10 pts × round</td>
+                    <td>Linear progression reward</td>
+                </tr>
+                <tr>
+                    <td>Perfect Mirror</td>
+                    <td>2× total</td>
+                    <td>Frame-perfect timing (rare)</td>
+                </tr>
+            </table>
+            
+            <h3>Psychological Hooks</h3>
+            <ul style="margin-left: 20px;">
+                <li><strong>Near-miss effect:</strong> Dying at round 24 creates "one more try" compulsion for Silver</li>
+                <li><strong>Streak loss aversion:</strong> Losing a 10+ streak feels worse than losing a life</li>
+                <li><strong>Progressive disclosure:</strong> New mechanics unlock create "just one more round" moments</li>
+                <li><strong>Visual dopamine:</strong> Particle effects, screen flash, sound rewards on success</li>
+            </ul>
+        </div>
+        
+        <!-- KPI Section -->
+        <div class="section">
+            <h2>📊 Key Performance Indicators</h2>
+            
+            <h3>Retention Targets</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">65%</div>
+                    <div class="kpi-label">D1 Retention Target</div>
+                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 10px;">
+                        Industry avg: 40%<br>Hypercasual target: 35%
+                    </p>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">25%</div>
+                    <div class="kpi-label">D7 Retention Target</div>
+                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 10px;">
+                        Industry avg: 15%<br>Target: Above-average
+                    </p>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">8%</div>
+                    <div class="kpi-label">D30 Retention Target</div>
+                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 10px;">
+                        Industry avg: 4%<br>Target: Double average
+                    </p>
+                </div>
+            </div>
+            
+            <h3>Session Metrics</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">4:30</div>
+                    <div class="kpi-label">Avg Session Length</div>
+                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 10px;">
+                        Target: 3-5 minutes<br>(3-5 game sessions)
+                    </p>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">3.2</div>
+                    <div class="kpi-label">Sessions Per Day</div>
+                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 10px;">
+                        Target: 3+ sessions<br>Indicates habit formation
+                    </p>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">45%</div>
+                    <div class="kpi-label">Retry Rate</div>
+                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 10px;">
+                        % who play again after Game Over<br>High = good engagement
+                    </p>
+                </div>
+            </div>
+            
+            <h3>Progression Funnel</h3>
+            <table>
+                <tr>
+                    <th>Milestone</th>
+                    <th>Target Conversion</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>Start → Complete Round 1</td>
+                    <td>95%</td>
+                    <td>Ensure first success</td>
+                </tr>
+                <tr>
+                    <td>Round 1 → Bronze (10)</td>
+                    <td>80%</td>
+                    <td>First achievement hook</td>
+                </tr>
+                <tr>
+                    <td>Bronze → Silver (25)</td>
+                    <td>50%</td>
+                    <td>Mid-game commitment</td>
+                </tr>
+                <tr>
+                    <td>Silver → Gold (50)</td>
+                    <td>20%</td>
+                    <td>Long-term goal for hardcore</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- A/B Testing Section -->
+        <div class="section">
+            <h2>🧪 A/B Testing Plan</h2>
+            
+            <h3>Priority Test: Speed Curve Variations</h3>
+            <div class="highlight-box">
+                <strong>Hypothesis:</strong> A gentler early speed curve will improve D1 retention, but may reduce long-term engagement if too easy.
+            </div>
+            
+            <table>
+                <tr>
+                    <th>Variant</th>
+                    <th>Speed Formula</th>
+                    <th>Primary Metric</th>
+                    <th>Secondary Metric</th>
+                </tr>
+                <tr>
+                    <td><strong>Control (Current)</strong></td>
+                    <td>speed = 800 - (round × 15)<br>min: 300ms, Level 5: ×0.6</td>
+                    <td>Baseline</td>
+                    <td>Baseline</td>
+                </tr>
+                <tr>
+                    <td><strong>Variant A: Gentle Start</strong></td>
+                    <td>speed = 900 - (round × 12)<br>min: 350ms, Level 5: ×0.7</td>
+                    <td>D1 Retention</td>
+                    <td>D7 Retention, Session Length</td>
+                </tr>
+                <tr>
+                    <td><strong>Variant B: Aggressive</strong></td>
+                    <td>speed = 700 - (round × 18)<br>min: 250ms, Level 5: ×0.5</td>
+                    <td>Session Count</td>
+                    <td>Retry Rate, Churn</td>
+                </tr>
+                <tr>
+                    <td><strong>Variant C: Adaptive</strong></td>
+                    <td>Base speed adjusts based on player accuracy<br>Slower if missing, faster if perfect</td>
+                    <td>Retention (All)</td>
+                    <td>Engagement Depth</td>
+                </tr>
+            </table>
+            
+            <h3>Secondary Tests</h3>
+            <table>
+                <tr>
+                    <th>Test</th>
+                    <th>Variants</th>
+                    <th>Success Metric</th>
+                </tr>
+                <tr>
+                    <td>Life System</td>
+                    <td>3 lives vs 5 lives vs regenerating</td>
+                    <td>Session length vs Challenge perception</td>
+                </tr>
+                <tr>
+                    <td>Pattern Preview</td>
+                    <td>Show full pattern vs reveal progressively</td>
+                    <td>Completion rate, Perceived difficulty</td>
+                </tr>
+                <tr>
+                    <td>Streak Emphasis</td>
+                    <td>High visibility vs subtle streak UI</td>
+                    <td>Retry rate after streak loss</td>
+                </tr>
+                <tr>
+                    <td>Level Unlocks</td>
+                    <td>Rounds 5/10/20/35 vs 3/8/15/25</td>
+                    <td>Long-term retention</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Risk Assessment Section -->
+        <div class="section">
+            <h2>⚠️ Risk Assessment</h2>
+            
+            <div class="risk-box">
+                <span class="risk-level risk-high">HIGH RISK</span>
+                <h4>Speed Spike Frustration</h4>
+                <p>The aggressive speed curve may create "unfair" deaths where players feel they failed due to speed, not skill. This can cause rage-quits and negative reviews.</p>
+                
+                <div class="mitigation">
+                    <strong>Mitigation Strategies:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>A/B test gentler curves (Variant A in testing plan)</li>
+                        <li>Consider "practice mode" with unlimited lives</li>
+                        <li>Add visual telegraphing before speed increases</li>
+                        <li>Implement adaptive difficulty that slows down after 2 consecutive misses</li>
+                        <li>Monitor round-by-round dropout rates to identify cliffs</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="risk-box">
+                <span class="risk-level risk-medium">MEDIUM RISK</span>
+                <h4>Pattern Repetition Fatigue</h4>
+                <p>After many sessions, players may feel patterns are repetitive. The 5 levels add variety, but the core 4-color system may feel limited.</p>
+                
+                <div class="mitigation">
+                    <strong>Mitigation Strategies:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Add more color variations in updates</li>
+                        <li>Consider procedural pattern generation with difficulty-weighted selection</li>
+                        <li>Add "daily challenge" with unique pattern seeds</li>
+                        <li>Post-launch: Consider themed level packs (shapes, numbers, emojis)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="risk-box">
+                <span class="risk-level risk-medium">MEDIUM RISK</span>
+                <h4>Audio Dependency</h4>
+                <p>Players with hearing impairments or playing muted may be at a disadvantage. The visual design assumes audio cues enhance pattern memory.</p>
+                
+                <div class="mitigation">
+                    <strong>Mitigation Strategies:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Add "visual sound" option (waveform bars, pulse rings)</li>
+                        <li>Ensure all patterns are completable visually alone</li>
+                        <li>Add accessibility settings for colorblind players (patterns/icons)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="risk-box">
+                <span class="risk-level risk-medium">MEDIUM RISK</span>
+                <h4>Monetization Uncertainty</h4>
+                <p>This report focuses on engagement but doesn't define monetization model. Over-monetization could kill the hypercasual appeal.</p>
+                
+                <div class="mitigation">
+                    <strong>Mitigation Strategies:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Start with ad-supported model (rewarded ads for continues)</li>
+                        <li>Consider cosmetic IAP (themes, pulse effects) rather than gameplay gates</li>
+                        <li>Monitor "pay to continue" impact on retry rates</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Technical Notes Section -->
+        <div class="section">
+            <h2>🔧 Technical Implementation Notes</h2>
+            
+            <h3>Audio System</h3>
+            <ul style="margin-left: 20px;">
+                <li>Web Audio API for synthesized sounds (no external assets needed)</li>
+                <li>Pentatonic scale mapping to colors for pleasant random "melodies"</li>
+                <li>Graceful fallback for browsers without Web Audio support</li>
+            </ul>
+            
+            <h3>Performance</h3>
+            <ul style="margin-left: 20px;">
+                <li>CSS animations preferred over JS for smooth 60fps</li>
+                <li>Particle pooling to avoid GC spikes</li>
+                <li>Passive event listeners for touch/mouse</li>
+                <li>Will-change hints for animated elements</li>
+            </ul>
+            
+            <h3>Analytics Integration Points</h3>
+            <table>
+                <tr>
+                    <th>Event</th>
+                    <th>Parameters</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>level_start</td>
+                    <td>round, level, speed</td>
+                    <td>Track progression funnel</td>
+                </tr>
+                <tr>
+                    <td>level_complete</td>
+                    <td>round, score, streak, time</td>
+                    <td>Success metrics</td>
+                </tr>
+                <tr>
+                    <td>level_fail</td>
+                    <td>round, expected, received, streak</td>
+                    <td>Identify difficulty spikes</td>
+                </tr>
+                <tr>
+                    <td>badge_earned</td>
+                    <td>badge_type, round</td>
+                    <td>Achievement tracking</td>
+                </tr>
+                <tr>
+                    <td>streak_milestone</td>
+                    <td>streak_count</td>
+                    <td>Engagement depth</td>
+                </tr>
+            </table>
+        </div>
+        
+        <footer>
+            <p>MirrorPulse Product Report - Prototype 2: Pattern Memorization + Real-Time Game</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Created: 2026-04-17 | Version: 1.0</p>
+        </footer>
+        
+    </div>
+</body>
+</html>

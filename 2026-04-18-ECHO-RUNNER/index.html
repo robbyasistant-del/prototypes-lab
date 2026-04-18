@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHO RUNNER - Outrun Your Past</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Share+Tech+Mono&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+            color: #fff;
+        }
+        
+        #gameCanvas {
+            display: block;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        #menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0a0014 0%, #1a0033 50%, #0a0014 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+        }
+        
+        .glitch {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 5em;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 
+                0 0 10px #ff00ff,
+                0 0 20px #ff00ff,
+                0 0 40px #ff00ff;
+            animation: glitch 2s infinite;
+            position: relative;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: 'ECHO RUNNER';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            color: #00ffff;
+            animation: glitch-1 0.3s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+            transform: translate(-2px, -2px);
+        }
+        
+        .glitch::after {
+            color: #ff0066;
+            animation: glitch-2 0.3s infinite;
+            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+            transform: translate(2px, 2px);
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        @keyframes glitch-1 {
+            0%, 100% { transform: translate(-2px, -2px); }
+            50% { transform: translate(2px, 0); }
+        }
+        
+        @keyframes glitch-2 {
+            0%, 100% { transform: translate(2px, 2px); }
+            50% { transform: translate(-2px, 0); }
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            color: #888;
+            margin: 20px 0 40px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+        
+        .concept-box {
+            background: rgba(255,0,255,0.1);
+            border: 1px solid rgba(255,0,255,0.3);
+            padding: 30px 50px;
+            border-radius: 20px;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+        
+        .concept-box p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #ccc;
+            margin: 10px 0;
+        }
+        
+        .concept-box .warning {
+            color: #ff0066;
+            font-weight: bold;
+        }
+        
+        .keys {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .key {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #330066, #6600cc);
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255,0,255,0.3);
+        }
+        
+        #startBtn {
+            padding: 20px 80px;
+            font-size: 1.8em;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff0066, #ff00ff);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 50px rgba(255,0,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+        
+        #startBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 80px rgba(255,0,255,0.8);
+        }
+        
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: auto;
+        }
+        
+        .hud-panel {
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,0,255,0.3);
+            padding: 15px 25px;
+            border-radius: 15px;
+        }
+        
+        .hud-label {
+            font-size: 0.7em;
+            color: #ff00ff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .hud-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        #distance { color: #00ffff; text-shadow: 0 0 20px #00ffff; }
+        #echoTimer { color: #ff0066; text-shadow: 0 0 20px #ff0066; }
+        
+        #echoWarning {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #ff0066;
+            text-shadow: 0 0 40px #ff0066;
+            animation: pulse 0.5s infinite;
+            display: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        #gameOver, #victory {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0,0,0,0.95);
+            padding: 50px;
+            border-radius: 30px;
+            display: none;
+            pointer-events: auto;
+            min-width: 500px;
+        }
+        
+        #gameOver {
+            border: 3px solid #ff0066;
+            box-shadow: 0 0 100px rgba(255,0,102,0.4);
+        }
+        
+        #victory {
+            border: 3px solid #00ffff;
+            box-shadow: 0 0 100px rgba(0,255,255,0.4);
+        }
+        
+        #gameOver h2 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 3em;
+            color: #ff0066;
+            margin-bottom: 20px;
+        }
+        
+        #victory h2 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 3em;
+            color: #00ffff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 40px #00ffff;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .stat-item .label {
+            font-size: 0.8em;
+            color: #888;
+        }
+        
+        .stat-item .value {
+            font-size: 1.5em;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .achievements {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .achievement {
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            opacity: 0.2;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .achievement.unlocked {
+            opacity: 1;
+            animation: achievementPulse 2s infinite;
+        }
+        
+        @keyframes achievementPulse {
+            0%, 100% { box-shadow: 0 0 20px currentColor; }
+            50% { box-shadow: 0 0 40px currentColor; }
+        }
+        
+        .achievement.speed { border: 2px solid #ff00ff; color: #ff00ff; }
+        .achievement.survivor { border: 2px solid #00ffff; color: #00ffff; }
+        .achievement.master { border: 2px solid #ffcc00; color: #ffcc00; }
+        .achievement.legend { border: 2px solid #fff; color: #fff; }
+        
+        .action-btn {
+            padding: 15px 50px;
+            font-size: 1.3em;
+            font-family: 'Syncopate', sans-serif;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .action-btn.primary {
+            background: linear-gradient(135deg, #ff0066, #ff00ff);
+            color: white;
+        }
+        
+        .action-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,0,255,0.5);
+        }
+        
+        #minimap {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 200px;
+            height: 150px;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid rgba(255,0,255,0.3);
+            border-radius: 15px;
+            display: none;
+        }
+        
+        #comboDisplay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            font-weight: bold;
+            color: #ffcc00;
+            text-shadow: 0 0 40px #ffcc00;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .combo-anim {
+            animation: comboPop 1s forwards;
+        }
+        
+        @keyframes comboPop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1) translateY(-50px); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    
+    <div id="ui">
+        <div id="menu">
+            <h1 class="glitch">ECHO RUNNER</h1>
+            <p class="subtitle">Outrun Your Past</p>
+            <div class="concept-box">
+                <p>Every move you make creates an <b>ECHO</b></p>
+                <p class="warning">Your echoes follow 3 seconds behind</p>
+                <p>Avoid colliding with your past self!</p>
+                <div class="keys">
+                    <div class="key">←</div>
+                    <div class="key">↑</div>
+                    <div class="key">↓</div>
+                    <div class="key">→</div>
+                </div>
+                <p>Navigate the neon tunnel. Don't look back.</p>
+            </div>
+            <button id="startBtn">Initialize Run</button>
+        </div>
+        
+        <div id="hud" style="display:none;">
+            <div class="hud-panel">
+                <div class="hud-label">Distance</div>
+                <div class="hud-value" id="distance">0m</div>
+            </div>
+            <div class="hud-panel">
+                <div class="hud-label">Echo Arrives In</div>
+                <div class="hud-value" id="echoTimer">3.0s</div>
+            </div>
+            <div class="hud-panel">
+                <div class="hud-label">Score</div>
+                <div class="hud-value" id="score">0</div>
+            </div>
+        </div>
+        
+        <div id="echoWarning">⚠ ECHO IMMINENT ⚠</div>
+        <div id="comboDisplay"></div>
+        
+        <canvas id="minimap"></canvas>
+        
+        <div id="gameOver">
+            <h2>CAUGHT BY ECHO</h2>
+            <p>Your past consumed you...</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="label">Distance</div>
+                    <div class="value" id="finalDistance">0m</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">Score</div>
+                    <div class="value" id="finalScore">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">Best Combo</div>
+                    <div class="value" id="finalCombo">x1</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">Time Alive</div>
+                    <div class="value" id="finalTime">0s</div>
+                </div>
+            </div>
+            <div class="achievements" id="finalAchievements">
+                <div class="achievement speed">⚡</div>
+                <div class="achievement survivor">🛡️</div>
+                <div class="achievement master">👑</div>
+                <div class="achievement legend">💎</div>
+            </div>
+            <button class="action-btn primary" id="retryBtn">Run Again</button>
+        </div>
+        
+        <div id="victory">
+            <h2>ESCAPE COMPLETE</h2>
+            <p>You outran your past!</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="label">Final Distance</div>
+                    <div class="value" id="winDistance">0m</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">Total Score</div>
+                    <div class="value" id="winScore">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">Max Combo</div>
+                    <div class="value" id="winCombo">x1</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">Echoes Dodged</div>
+                    <div class="value" id="winDodges">0</div>
+                </div>
+            </div>
+            <div class="achievements" id="winAchievements">
+                <div class="achievement speed">⚡</div>
+                <div class="achievement survivor">🛡️</div>
+                <div class="achievement master">👑</div>
+                <div class="achievement legend">💎</div>
+            </div>
+            <button class="action-btn primary" id="playAgainBtn">New Run</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const minimap = document.getElementById('minimap');
+        const mmCtx = minimap.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        minimap.width = 200;
+        minimap.height = 150;
+        
+        // Game state
+        let gameState = 'menu';
+        let player = { x: 100, y: canvas.height / 2, vx: 0, vy: 0, r: 8, trail: [] };
+        let echoes = []; // Array of echo objects
+        let obstacles = [];
+        let particles = [];
+        let distance = 0;
+        let score = 0;
+        let gameTime = 0;
+        let combo = 1;
+        let maxCombo = 1;
+        let dodges = 0;
+        let achievements = { speed: false, survivor: false, master: false, legend: false };
+        
+        const ECHO_DELAY = 3000; // 3 seconds
+        const ECHO_INTERVAL = 1000; // New echo every second
+        const GOAL_DISTANCE = 5000; // 5000 meters to win
+        
+        const keys = {};
+        
+        // Event listeners
+        document.getElementById('startBtn').addEventListener('click', startGame);
+        document.getElementById('retryBtn').addEventListener('click', resetGame);
+        document.getElementById('playAgainBtn').addEventListener('click', resetGame);
+        
+        window.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                e.preventDefault();
+            }
+        });
+        
+        window.addEventListener('keyup', (e) => keys[e.key] = false);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        function startGame() {
+            gameState = 'playing';
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('hud').style.display = 'flex';
+            document.getElementById('minimap').style.display = 'block';
+            document.getElementById('gameOver').style.display = 'none';
+            document.getElementById('victory').style.display = 'none';
+            
+            resetState();
+            gameLoop();
+        }
+        
+        function resetState() {
+            player = { 
+                x: 100, 
+                y: canvas.height / 2, 
+                vx: 5, 
+                vy: 0, 
+                r: 8, 
+                history: [], // Position history for echoes
+                color: '#00ffff'
+            };
+            echoes = [];
+            obstacles = [];
+            particles = [];
+            distance = 0;
+            score = 0;
+            gameTime = 0;
+            combo = 1;
+            maxCombo = 1;
+            dodges = 0;
+            achievements = { speed: false, survivor: false, master: false, legend: false };
+        }
+        
+        function resetGame() {
+            resetState();
+            startGame();
+        }
+        
+        function spawnObstacle() {
+            const types = ['block', 'narrow', 'split'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            if (type === 'block') {
+                obstacles.push({
+                    x: canvas.width + 50,
+                    y: Math.random() * (canvas.height - 100) + 50,
+                    w: 40,
+                    h: 40,
+                    type: 'block'
+                });
+            } else if (type === 'narrow') {
+                const gapY = Math.random() * (canvas.height - 200) + 100;
+                obstacles.push({
+                    x: canvas.width + 50,
+                    y: 0,
+                    w: 60,
+                    h: gapY - 80,
+                    type: 'wall'
+                });
+                obstacles.push({
+                    x: canvas.width + 50,
+                    y: gapY + 80,
+                    w: 60,
+                    h: canvas.height - gapY - 80,
+                    type: 'wall'
+                });
+            } else if (type === 'split') {
+                const centerY = canvas.height / 2;
+                obstacles.push({
+                    x: canvas.width + 50,
+                    y: centerY - 20,
+                    w: 100,
+                    h: 40,
+                    type: 'block'
+                });
+            }
+        }
+        
+        function update() {
+            if (gameState !== 'playing') return;
+            
+            gameTime += 16;
+            
+            // Player movement
+            const speed = 6;
+            if (keys['ArrowUp'] || keys['w']) player.vy -= 0.5;
+            if (keys['ArrowDown'] || keys['s']) player.vy += 0.5;
+            if (keys['ArrowLeft'] || keys['a']) player.vx -= 0.3;
+            if (keys['ArrowRight'] || keys['d']) player.vx += 0.3;
+            
+            // Friction and limits
+            player.vy *= 0.95;
+            player.vx = Math.max(3, Math.min(12, player.vx));
+            
+            // Update position
+            player.y += player.vy;
+            player.x += player.vx * 0.5; // Half speed for x to keep player on screen
+            
+            // Keep player on screen
+            player.y = Math.max(player.r, Math.min(canvas.height - player.r, player.y));
+            player.x = Math.max(50, Math.min(200, player.x));
+            
+            // Store history for echoes
+            player.history.push({ 
+                x: player.x, 
+                y: player.y, 
+                time: gameTime,
+                vx: player.vx,
+                vy: player.vy
+            });
+            
+            // Clean old history
+            const maxHistory = Math.ceil((ECHO_DELAY + 5000) / 16);
+            if (player.history.length > maxHistory) {
+                player.history.shift();
+            }
+            
+            // Spawn echoes
+            const echoSpawnTime = Math.floor(gameTime / ECHO_INTERVAL) * ECHO_INTERVAL;
+            if (!echoes.find(e => e.spawnTime === echoSpawnTime) && gameTime > ECHO_DELAY) {
+                echoes.push({
+                    spawnTime: echoSpawnTime,
+                    historyIndex: 0,
+                    active: false,
+                    color: `hsl(${Math.random() * 60 + 300}, 100%, 50%)`,
+                    r: 6
+                });
+            }
+            
+            // Update echoes
+            echoes.forEach((echo, i) => {
+                const activationTime = echo.spawnTime + ECHO_DELAY;
+                
+                if (gameTime >= activationTime) {
+                    echo.active = true;
+                    
+                    // Find position in history
+                    const historyTime = activationTime - ECHO_DELAY + (gameTime - activationTime);
+                    const historyIndex = player.history.findIndex(h => h.time >= historyTime);
+                    
+                    if (historyIndex > 0 && historyIndex < player.history.length) {
+                        const h = player.history[historyIndex];
+                        echo.x = h.x;
+                        echo.y = h.y;
+                        
+                        // Check collision with player
+                        const dx = echo.x - player.x;
+                        const dy = echo.y - player.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        
+                        if (dist < player.r + echo.r + 5) {
+                            gameOver();
+                        }
+                        
+                        // Check if dodged (echo passed player)
+                        if (echo.x < player.x - 50 && !echo.dodged) {
+                            echo.dodged = true;
+                            dodges++;
+                            combo = Math.min(combo + 1, 10);
+                            maxCombo = Math.max(maxCombo, combo);
+                            score += 100 * combo;
+                            showCombo(combo);
+                        }
+                    } else {
+                        // Echo has no more history, remove it
+                        echoes.splice(i, 1);
+                    }
+                }
+            });
+            
+            // Spawn obstacles
+            if (Math.random() < 0.02 + (distance / GOAL_DISTANCE) * 0.03) {
+                spawnObstacle();
+            }
+            
+            // Update obstacles
+            obstacles.forEach(obs => {
+                obs.x -= player.vx;
+                
+                // Check collision
+                if (player.x + player.r > obs.x && player.x - player.r < obs.x + obs.w &&
+                    player.y + player.r > obs.y && player.y - player.r < obs.y + obs.h) {
+                    // Bounce
+                    player.vx *= 0.5;
+                    combo = 1; // Reset combo on hit
+                    
+                    // Particle effect
+                    for (let i = 0; i < 10; i++) {
+                        particles.push({
+                            x: player.x,
+                            y: player.y,
+                            vx: (Math.random() - 0.5) * 10,
+                            vy: (Math.random() - 0.5) * 10,
+                            life: 30,
+                            color: '#ff0066',
+                            size: Math.random() * 4 + 2
+                        });
+                    }
+                }
+            });
+            
+            // Remove off-screen obstacles
+            obstacles = obstacles.filter(obs => obs.x > -100);
+            
+            // Update distance and score
+            distance += player.vx * 0.1;
+            score += Math.floor(player.vx * combo);
+            
+            // Check achievements
+            if (player.vx > 10) achievements.speed = true;
+            if (gameTime > 30000) achievements.survivor = true;
+            if (maxCombo >= 5) achievements.master = true;
+            if (distance >= GOAL_DISTANCE) achievements.legend = true;
+            
+            // Check win
+            if (distance >= GOAL_DISTANCE) {
+                victory();
+            }
+            
+            // Update particles
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life--;
+            });
+            particles = particles.filter(p => p.life > 0);
+            
+            // Update HUD
+            document.getElementById('distance').textContent = Math.floor(distance) + 'm';
+            document.getElementById('score').textContent = score;
+            
+            // Echo timer
+            const nextEcho = echoes.find(e => !e.active);
+            if (nextEcho) {
+                const timeUntil = Math.max(0, (nextEcho.spawnTime + ECHO_DELAY - gameTime) / 1000).toFixed(1);
+                document.getElementById('echoTimer').textContent = timeUntil + 's';
+                
+                if (timeUntil < 0.5) {
+                    document.getElementById('echoWarning').style.display = 'block';
+                } else {
+                    document.getElementById('echoWarning').style.display = 'none';
+                }
+            } else {
+                document.getElementById('echoTimer').textContent = '--';
+            }
+        }
+        
+        function showCombo(c) {
+            const el = document.getElementById('comboDisplay');
+            el.textContent = 'x' + c;
+            el.className = 'combo-anim';
+            setTimeout(() => el.className = '', 1000);
+        }
+        
+        function gameOver() {
+            gameState = 'gameover';
+            document.getElementById('gameOver').style.display = 'block';
+            document.getElementById('finalDistance').textContent = Math.floor(distance) + 'm';
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalCombo').textContent = 'x' + maxCombo;
+            document.getElementById('finalTime').textContent = Math.floor(gameTime / 1000) + 's';
+            
+            // Update achievements
+            const achContainer = document.getElementById('finalAchievements');
+            achContainer.children[0].classList.toggle('unlocked', achievements.speed);
+            achContainer.children[1].classList.toggle('unlocked', achievements.survivor);
+            achContainer.children[2].classList.toggle('unlocked', achievements.master);
+            achContainer.children[3].classList.toggle('unlocked', achievements.legend);
+        }
+        
+        function victory() {
+            gameState = 'victory';
+            document.getElementById('victory').style.display = 'block';
+            document.getElementById('winDistance').textContent = Math.floor(distance) + 'm';
+            document.getElementById('winScore').textContent = score;
+            document.getElementById('winCombo').textContent = 'x' + maxCombo;
+            document.getElementById('winDodges').textContent = dodges;
+            
+            // Update achievements
+            const achContainer = document.getElementById('winAchievements');
+            achContainer.children[0].classList.toggle('unlocked', achievements.speed);
+            achContainer.children[1].classList.toggle('unlocked', achievements.survivor);
+            achContainer.children[2].classList.toggle('unlocked', achievements.master);
+            achContainer.children[3].classList.toggle('unlocked', achievements.legend);
+        }
+        
+        function draw() {
+            // Clear with fade
+            ctx.fillStyle = 'rgba(10, 0, 20, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid
+            ctx.strokeStyle = 'rgba(255, 0, 255, 0.1)';
+            ctx.lineWidth = 1;
+            const gridOffset = (distance * 10) % 50;
+            
+            for (let x = -gridOffset; x < canvas.width; x += 50) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += 50) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+            
+            // Draw distance markers
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.font = '20px Share Tech Mono';
+            for (let d = Math.floor(distance / 500) * 500; d < distance + canvas.width / 10; d += 500) {
+                const x = 100 + (d - distance) * 10;
+                if (x > -100 && x < canvas.width + 100) {
+                    ctx.fillText(d + 'm', x, canvas.height - 50);
+                }
+            }
+            
+            // Draw obstacles
+            obstacles.forEach(obs => {
+                const gradient = ctx.createLinearGradient(obs.x, obs.y, obs.x + obs.w, obs.y + obs.h);
+                gradient.addColorStop(0, '#ff0066');
+                gradient.addColorStop(1, '#ff00ff');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+                
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(obs.x, obs.y, obs.w, obs.h);
+            });
+            
+            // Draw echoes
+            echoes.forEach(echo => {
+                if (echo.active && echo.x !== undefined) {
+                    // Echo trail
+                    ctx.beginPath();
+                    ctx.arc(echo.x, echo.y, echo.r + 5, 0, Math.PI * 2);
+                    ctx.fillStyle = echo.color;
+                    ctx.globalAlpha = 0.5;
+                    ctx.fill();
+                    
+                    // Echo core
+                    ctx.beginPath();
+                    ctx.arc(echo.x, echo.y, echo.r, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fff';
+                    ctx.globalAlpha = 1;
+                    ctx.fill();
+                    
+                    // Warning ring
+                    ctx.beginPath();
+                    ctx.arc(echo.x, echo.y, echo.r + 15, 0, Math.PI * 2);
+                    ctx.strokeStyle = echo.color;
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+            });
+            
+            // Draw player
+            const playerGradient = ctx.createRadialGradient(
+                player.x - 2, player.y - 2, 0,
+                player.x, player.y, player.r + 10
+            );
+            playerGradient.addColorStop(0, '#fff');
+            playerGradient.addColorStop(0.3, '#00ffff');
+            playerGradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
+            
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.r + 10, 0, Math.PI * 2);
+            ctx.fillStyle = playerGradient;
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.r, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            
+            // Player glow
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.r + 5, 0, Math.PI * 2);
+            ctx.strokeStyle = '#00ffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Draw particles
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * (p.life / 30), 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.life / 30;
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            
+            // Draw progress bar
+            const progress = distance / GOAL_DISTANCE;
+            ctx.fillStyle = 'rgba(255,255,255,0.1)';
+            ctx.fillRect(canvas.width / 2 - 200, 20, 400, 10);
+            ctx.fillStyle = progress >= 1 ? '#00ffff' : `hsl(${progress * 120}, 100%, 50%)`;
+            ctx.fillRect(canvas.width / 2 - 200, 20, 400 * Math.min(1, progress), 10);
+            
+            // Minimap
+            mmCtx.fillStyle = 'rgba(0,0,0,0.8)';
+            mmCtx.fillRect(0, 0, 200, 150);
+            
+            // Minimap player
+            mmCtx.fillStyle = '#00ffff';
+            mmCtx.fillRect(10, (player.y / canvas.height) * 150 - 3, 6, 6);
+            
+            // Minimap echoes
+            echoes.forEach(echo => {
+                if (echo.active && echo.x !== undefined) {
+                    const mmX = 10 + (echo.x - player.x) * 0.5 + 100;
+                    const mmY = (echo.y / canvas.height) * 150;
+                    if (mmX > 0 && mmX < 200) {
+                        mmCtx.fillStyle = echo.color;
+                        mmCtx.fillRect(mmX - 2, mmY - 2, 4, 4);
+                    }
+                }
+            });
+            
+            // Minimap obstacles
+            mmCtx.fillStyle = '#ff0066';
+            obstacles.forEach(obs => {
+                const mmX = 10 + (obs.x - player.x) * 0.5 + 100;
+                const mmY = (obs.y / canvas.height) * 150;
+                const mmW = obs.w * 0.5;
+                const mmH = (obs.h / canvas.height) * 150;
+                if (mmX + mmW > 0 && mmX < 200) {
+                    mmCtx.fillRect(mmX, mmY, mmW, mmH);
+                }
+            });
+        }
+        
+        function gameLoop() {
+            if (gameState === 'playing' || gameState === 'gameover' || gameState === 'victory') {
+                update();
+                draw();
+                if (gameState === 'playing') {
+                    requestAnimationFrame(gameLoop);
+                }
+            }
+        }
+        
+        // Initial draw
+        ctx.fillStyle = '#0a0014';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    </script>
+</body>
+</html>

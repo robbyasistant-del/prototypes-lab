@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoreMelt - Game Design Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(233, 69, 96, 0.3);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #e94560 0%, #ff6b6b 50%, #e94560 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #e94560;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #ff6b6b;
+            margin: 25px 0 15px 0;
+            padding-left: 15px;
+            border-left: 3px solid #e94560;
+        }
+
+        p, li {
+            margin-bottom: 12px;
+            color: #ccc;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            background: rgba(233, 69, 96, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .keyword-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .keyword {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .diagram {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .gauge-node {
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .temp-node {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+        }
+
+        .energy-node {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #000;
+        }
+
+        .stability-node {
+            background: linear-gradient(135deg, #16c79a 0%, #059669 100%);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: #888;
+            margin: 0 10px;
+        }
+
+        .loop-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .loop-step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .loop-arrow {
+            font-size: 1.5rem;
+            color: #e94560;
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin: 10px;
+            min-width: 250px;
+        }
+
+        .badge-icon {
+            font-size: 2rem;
+        }
+
+        .badge-info {
+            text-align: left;
+        }
+
+        .badge-name {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .badge-req {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .kpi-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #e94560;
+        }
+
+        .kpi-title {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .ab-test {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .ab-variant {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .ab-variant h4 {
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .risk-box {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .risk-title {
+            color: #dc2626;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .mitigation {
+            background: rgba(22, 199, 154, 0.1);
+            border: 1px solid rgba(22, 199, 154, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .mitigation-title {
+            color: #16c79a;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 15px;
+            border-radius: 8px;
+        }
+
+        .feature-check {
+            color: #16c79a;
+            font-weight: bold;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .ab-test { grid-template-columns: 1fr; }
+            .two-col { grid-template-columns: 1fr; }
+            .loop-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 CoreMelt 🔥</h1>
+            <p class="subtitle">Reactor Crisis Management Simulation</p>
+            <p style="margin-top: 15px; color: #666;">Prototype Design Report</p>
+        </header>
+
+        <!-- Strategy Section -->
+        <div class="section">
+            <h2>🎯 Strategy</h2>
+            <h3>"Tension Management" Genre Positioning</h3>
+            <p><span class="highlight">CoreMelt</span> occupies a unique space between resource management sims and survival games, creating a sub-genre we're calling <strong>"Tension Management"</strong>.</p>
+            
+            <p>Unlike traditional resource management games that focus on efficiency optimization, or survival games that emphasize exploration, CoreMelt delivers intense, <span class="highlight">time-pressured decision-making</span> where every choice has cascading consequences.</p>
+
+            <h3>Target Audience</h3>
+            <ul>
+                <li><strong>Casual Hardcore:</strong> Players who want depth without 100-hour time investments</li>
+                <li><strong>Speedrun Enthusiasts:</strong> Perfect for score-attack optimization</li>
+                <li><strong>RTS/FPS Players:</strong> Appeals to APM (actions-per-minute) skill expression</li>
+                <li><strong>Mobile-First:</strong> Quick session length (60-120 seconds) ideal for mobile</li>
+            </ul>
+
+            <h3>Unique Selling Proposition</h3>
+            <p><em>"The Dark Souls of resource management."</em> - Every run teaches you something. Death is expected, improvement is visible, mastery is earned.</p>
+        </div>
+
+        <!-- SEO/ASO Section -->
+        <div class="section">
+            <h2>🔍 SEO / ASO Strategy</h2>
+            
+            <h3>Primary Keywords</h3>
+            <div class="keyword-box">
+                <span class="keyword">Reactor Management</span>
+                <span class="keyword">Crisis Simulation</span>
+                <span class="keyword">Resource Balance</span>
+                <span class="keyword">Nuclear Core</span>
+                <span class="keyword">Pressure Game</span>
+                <span class="keyword">Survival Management</span>
+                <span class="keyword">Arcade Sim</span>
+                <span class="keyword">One-Handed Play</span>
+                <span class="keyword">Quick Sessions</span>
+                <span class="keyword">Score Attack</span>
+            </div>
+
+            <h3>Long-Tail Keywords</h3>
+            <ul>
+                <li>"Nuclear reactor simulator game"</li>
+                <li>"Crisis management mobile game"</li>
+                <li>"Resource balancing puzzle game"</li>
+                <li>"High pressure arcade game"</li>
+                <li>"Sci-fi control panel simulator"</li>
+                <li>"Short session games for commute"</li>
+                <li>"Skill-based score attack games"</li>
+                <li>"Incremental difficulty games"</li>
+            </ul>
+
+            <h3>App Store Optimization</h3>
+            <p><strong>Title:</strong> CoreMelt: Reactor Crisis</p>
+            <p><strong>Subtitle:</strong> Balance or Meltdown. 60 seconds to survive.</p>
+            <p><strong>Description Hook:</strong> "One reactor. Three gauges. Zero room for error. Can you keep the core stable when everything wants to spiral out of control?"</p>
+        </div>
+
+        <!-- Core Loop Section -->
+        <div class="section">
+            <h2>🔄 Core Loop & Gauge Relationships</h2>
+
+            <h3>The Triangular Tension System</h3>
+            <div class="diagram">
+                <div class="gauge-node temp-node">🔥 TEMPERATURE</div>
+                <br><br>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <span class="arrow">↙️</span>
+                    <span style="color: #666; font-style: italic;">each affects the others</span>
+                    <span class="arrow">↘️</span>
+                </div>
+                <br>
+                <div class="gauge-node energy-node">⚡ ENERGY</div>
+                <span class="arrow">↔️</span>
+                <div class="gauge-node stability-node">☢️ STABILITY</div>
+            </div>
+
+            <h3>Gauge Interactions</h3>
+            <ul>
+                <li><span class="highlight">High Temperature</span> → Drains Stability faster (thermal stress)</li>
+                <li><span class="highlight">Low Stability</span> → Random gauge fluctuations (unstable systems)</li>
+                <li><span class="highlight">Low Energy</span> → Automatic Fuel Injection (risky failsafe)</li>
+                <li><span class="highlight">High Energy</span> → Increases Temperature generation</li>
+                <li><span class="highlight">Events</span> → Force adaptation every 10-20 seconds</li>
+            </ul>
+
+            <h3>Gameplay Loop</h3>
+            <div class="loop-container">
+                <div class="loop-step">
+                    <strong>1. OBSERVE</strong><br>
+                    <small>Monitor 3 gauges</small>
+                </div>
+                <span class="loop-arrow">➡️</span>
+                <div class="loop-step">
+                    <strong>2. DECIDE</strong><br>
+                    <small>Prioritize threat</small>
+                </div>
+                <span class="loop-arrow">➡️</span>
+                <div class="loop-step">
+                    <strong>3. ACT</strong><br>
+                    <small>Deploy control</small>
+                </div>
+                <span class="loop-arrow">➡️</span>
+                <div class="loop-step">
+                    <strong>4. ADAPT</strong><br>
+                    <small>Handle events</small>
+                </div>
+                <span class="loop-arrow">➡️</span>
+                <div class="loop-step">
+                    <strong>5. SURVIVE</strong><br>
+                    <small>60s = Rank Up</small>
+                </div>
+            </div>
+
+            <h3>Control Actions</h3>
+            <div class="two-col">
+                <div>
+                    <p><strong>⛽ Add Fuel</strong></p>
+                    <ul>
+                        <li>Energy +15%</li>
+                        <li>Temperature +10%</li>
+                        <li>Stability -5%</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>❄️ Add Coolant</strong></p>
+                    <ul>
+                        <li>Temperature -15%</li>
+                        <li>Energy -10%</li>
+                        <li>Stability +8%</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>💨 Vent Heat</strong> (Emergency)</p>
+                    <ul>
+                        <li>Temperature -25%</li>
+                        <li>Energy -15%</li>
+                        <li>Stability -10%</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>🛡️ Stabilize</strong> (Slow Regen)</p>
+                    <ul>
+                        <li>Stability +15%</li>
+                        <li>Energy -5%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rewards Section -->
+        <div class="section">
+            <h2>🏆 Rewards & Progression</h2>
+
+            <h3>Rank Progression System</h3>
+            <p>Ranks are earned through cumulative survival time across all runs, creating long-term progression alongside per-session skill improvement.</p>
+            
+            <div style="margin: 20px 0;">
+                <div class="rank-badge">
+                    <span class="badge-icon">🥉</span>
+                    <div class="badge-info">
+                        <div class="badge-name">OPERATOR</div>
+                        <div class="badge-req">Starting Rank</div>
+                    </div>
+                </div>
+                <div class="rank-badge">
+                    <span class="badge-icon">🥈</span>
+                    <div class="badge-info">
+                        <div class="badge-name">ENGINEER</div>
+                        <div class="badge-req">Survive 60s total</div>
+                    </div>
+                </div>
+                <div class="rank-badge">
+                    <span class="badge-icon">🥇</span>
+                    <div class="badge-info">
+                        <div class="badge-name">CHIEF</div>
+                        <div class="badge-req">Survive 120s total</div>
+                    </div>
+                </div>
+                <div class="rank-badge">
+                    <span class="badge-icon">🏆</span>
+                    <div class="badge-info">
+                        <div class="badge-name">LEGEND</div>
+                        <div class="badge-req">Survive 180s total</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Score Multipliers</h3>
+            <ul>
+                <li><strong>Base Score:</strong> Seconds survived × 10</li>
+                <li><strong>Efficiency Bonus:</strong> Based on average gauge health (0-100%)</li>
+                <li><strong>Rank Multiplier:</strong> Higher ranks = higher score potential</li>
+                <li><strong>Perfect Run:</strong> 0 breaches = 2x multiplier</li>
+            </ul>
+
+            <h3>Session-Level Rewards</h3>
+            <ul>
+                <li><strong>Survival Badges:</strong> Bronze/Silver/Gold based on 60s performance</li>
+                <li><strong>Close Call Bonus:</strong> Surviving with <10% on any gauge</li>
+                <li><strong>Efficiency Master:</strong> Maintaining all gauges in green for 30s+</li>
+                <li><strong>Event Survivor:</strong> Handling 5+ events without breach</li>
+            </ul>
+        </div>
+
+        <!-- KPI Section -->
+        <div class="section">
+            <h2>📊 Key Performance Indicators</h2>
+
+            <h3>Primary Metrics</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Average Survival Time</div>
+                    <div class="kpi-value">Target: 35-45s</div>
+                    <p style="font-size: 0.85rem; margin-top: 8px;">Indicates difficulty balance. Too low = frustrating. Too high = boring.</p>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Retry Rate</div>
+                    <div class="kpi-value">Target: 70%+</div>
+                    <p style="font-size: 0.85rem; margin-top: 8px;">Players who play again within 5 minutes. Shows "just one more run" factor.</p>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">60s Completion Rate</div>
+                    <div class="kpi-value">Target: 15-25%</div>
+                    <p style="font-size: 0.85rem; margin-top: 8px;">Players who reach win state. Needs to feel achievable but earned.</p>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Sessions Per Day</div>
+                    <div class="kpi-value">Target: 8+</div>
+                    <p style="font-size: 0.85rem; margin-top: 8px;">Average sessions per active user. Short format should enable high frequency.</p>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Tutorial Skip Rate</div>
+                    <div class="kpi-value">Target: &lt;30%</div>
+                    <p style="font-size: 0.85rem; margin-top: 8px;">Low skip rate = instructions are engaging and quick enough.</p>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Control Usage Balance</div>
+                    <div class="kpi-value">Target: 25% each</div>
+                    <p style="font-size: 0.85rem; margin-top: 8px;">All 4 buttons should see roughly equal use across all players.</p>
+                </div>
+            </div>
+
+            <h3>Secondary Metrics</h3>
+            <ul>
+                <li><strong>Average Breaches per Run:</strong> Target 1.5 (shows learning curve)</li>
+                <li><strong>Time to First Breach:</strong> Target 20s (early game shouldn't be too punishing)</li>
+                <li><strong>Rank Progression Speed:</strong> Target 3-5 sessions to reach Engineer</li>
+                <li><strong>Session Length:</strong> Target 45-90 seconds (including retries)</li>
+            </ul>
+        </div>
+
+        <!-- A/B Testing Section -->
+        <div class="section">
+            <h2>🧪 A/B Testing Plan</h2>
+
+            <h3>Test 1: Event Frequency</h3>
+            <p>Events force adaptation and create tension, but too frequent feels unfair.</p>
+            <div class="ab-test">
+                <div class="ab-variant">
+                    <h4>Variant A: Conservative</h4>
+                    <p>Events every 15-25 seconds</p>
+                    <p><strong>Hypothesis:</strong> Lower frequency allows more strategic play, higher completion rate</p>
+                </div>
+                <div class="ab-variant">
+                    <h4>Variant B: Aggressive</h4>
+                    <p>Events every 8-15 seconds</p>
+                    <p><strong>Hypothesis:</strong> Higher tension drives more retries and "one more run" feeling</p>
+                </div>
+            </div>
+            <p><strong>Success Metric:</strong> Compare retry rates and session counts between variants.</p>
+
+            <h3>Test 2: Starting Difficulty</h3>
+            <p>First impression matters. Starting too hard causes early churn.</p>
+            <div class="ab-test">
+                <div class="ab-variant">
+                    <h4>Variant A: Gentle Start</h4>
+                    <p>Demand starts at 20%, first event at 20s</p>
+                    <p>+5 second "grace period" before any gauge can breach</p>
+                </div>
+                <div class="ab-variant">
+                    <h4>Variant B: Immediate Pressure</h4>
+                    <p>Demand starts at 35%, first event at 10s</p>
+                    <p>No grace period - immediate skill check</p>
+                </div>
+            </div>
+            <p><strong>Success Metric:</strong> D1 retention and second-session rate.</p>
+
+            <h3>Test 3: Visual Feedback Intensity</h3>
+            <div class="ab-test">
+                <div class="ab-variant">
+                    <h4>Variant A: Subtle</h4>
+                    <p>Minimal screen effects, gentle pulse on critical</p>
+                    <p>Audio warnings only at extreme values</p>
+                </div>
+                <div class="ab-variant">
+                    <h4>Variant B: Dramatic</h4>
+                    <p>Full screen shake, red flash, intense pulsing</p>
+                    <p>Escalating audio beeps starting at yellow zones</p>
+                </div>
+            </div>
+            <p><strong>Success Metric:</strong> Average survival time and subjective "excitement" ratings from playtest surveys.</p>
+
+            <h3>Test 4: Breach Recovery</h3>
+            <div class="ab-test">
+                <div class="ab-variant">
+                    <h4>Variant A: Forgiving</h4>
+                    <p>After breach, gauges reset to safe values</p>
+                    <p>5-second immunity from further breaches</p>
+                </div>
+                <div class="ab-variant">
+                    <h4>Variant B: Punishing</h4>
+                    <p>Gauges stay at breach values</p>
+                    <p>No immunity - chain breaches possible</p>
+                </div>
+            </div>
+            <p><strong>Success Metric:</strong> 3rd breach timing and "unfair" feedback from users.</p>
+        </div>
+
+        <!-- Risk Section -->
+        <div class="section">
+            <h2>⚠️ Risk Assessment</h2>
+
+            <div class="risk-box">
+                <div class="risk-title">🎲 CRITICAL: Randomness vs Skill Expression</div>
+                <p>The biggest risk to CoreMelt's success is the perception of randomness. If players feel events are arbitrary or unavoidable, the "git gud" motivation disappears. This destroys the core value proposition.</p>
+                
+                <div class="mitigation">
+                    <div class="mitigation-title">Mitigation Strategies:</div>
+                    <ul>
+                        <li><strong>Event Warning System:</strong> 2-second telegraph before events activate (visual + audio)</li>
+                        <li><strong>Predictable Event Types:</strong> Each event type always has the same effect - players learn patterns</li>
+                        <li><strong>Counter-Play:</strong> Every event has an optimal response (e.g., Coolant Leak → prepare Vent)</li>
+                        <li><strong>"Perfect Play" Possible:</strong> Theory-craft: skilled player can handle any event combination</li>
+                        <li><strong>Replays:</strong> Show what caused death with clear "You died because X" messaging</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="risk-box">
+                <div class="risk-title">📉 MAJOR: Session Length Fatigue</div>
+                <p>60 seconds is the target, but players may expect variety sooner. Repeating the same loop without new elements could cause boredom after 10-15 sessions.</p>
+                
+                <div class="mitigation">
+                    <div class="mitigation-title">Mitigation Strategies:</div>
+                    <ul>
+                        <li><strong>Shift Variations:</strong> Each "rank up" introduces slight rule changes (e.g., faster demand growth)</li>
+                        <li><strong>Daily Challenges:</strong> Special conditions ("No Coolant", "Double Events") for variety</li>
+                        <li><strong>Unlockable Cores:</strong> Different reactor types with unique gauge interactions</li>
+                        <li><strong>Leaderboards:</strong> Social competition extends engagement indefinitely</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="risk-box">
+                <div class="risk-title">🎨 MODERATE: Visual Clarity</div>
+                <p>Three moving gauges + events + controls + reactor core = visual overload. Players may miss critical information in the noise.</p>
+                
+                <div class="mitigation">
+                    <div class="mitigation-title">Mitigation Strategies:</div>
+                    <ul>
+                        <li><strong>Priority Color Coding:</strong> Most critical gauge pulses/prominent</li>
+                        <li><strong>Audio Hierarchy:</strong> Different warning tones for each gauge type</li>
+                        <li><strong>Simplify Mode:</strong> Optional setting for high-contrast, minimal UI</li>
+                        <li><strong>Playtest Eye-Tracking:</strong> Verify where attention goes during crisis moments</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="risk-box">
+                <div class="risk-title">💰 LOW: Monetization Fit</div>
+                <p>Tension-based gameplay may not naturally accommodate ads or IAP without breaking immersion.</p>
+                
+                <div class="mitigation">
+                    <div class="mitigation-title">Mitigation Strategies:</div>
+                    <ul>
+                        <li><strong>Continue System:</strong> Watch ad to continue run (1 per run, breaks tension appropriately)</li>
+                        <li><strong>Cosmetic Cores:</strong> Premium reactor visual themes (no gameplay impact)</li>
+                        <li><strong>Remove Ads:</strong> One-time purchase for premium experience</li>
+                        <li><strong>Battle Pass:</strong> Seasonal rank progression with cosmetic rewards</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Implementation Checklist -->
+        <div class="section">
+            <h2>✅ Implementation Verification</h2>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>3 animated gauges (Temperature, Energy, Stability)</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>4 control buttons with visible effects</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>Event system with 5 random events</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>Color-coded visual feedback (green/yellow/red)</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>Scoring with efficiency multiplier</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>3-life breach system</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>Win state at 60 seconds with rank progression</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>Lose state at 3 breaches with final score</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>Rank badge system (Operator → Legend)</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>Emergency effects: screen shake, red flash</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>Pulsing reactor core visualization</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✓</span>
+                    <span>Audio beep escalation system</span>
+                </div>
+            </div>
+
+            <h3>Technical Notes</h3>
+            <ul>
+                <li>Pure HTML/CSS/JS - no external dependencies</li>
+                <li>Web Audio API for synthesized sound effects</li>
+                <li>CSS animations for all visual effects</li>
+                <li>Responsive design for mobile/desktop</li>
+                <li>Session state managed in JavaScript (no server required)</li>
+            </ul>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="section">
+            <h2>🚀 Next Steps</h2>
+            <ol>
+                <li><strong>Soft Launch:</strong> Deploy to 100 beta users for initial KPI measurement</li>
+                <li><strong>Analytics Integration:</strong> Track all KPIs in real-time dashboard</li>
+                <li><strong>A/B Test #1:</strong> Event frequency variant test (2 weeks)</li>
+                <li><strong>Visual Polish:</strong> Add particle effects, improved animations</li>
+                <li><strong>Sound Design:</strong> Replace synthesized audio with professional SFX</li>
+                <li><strong>Monetization:</strong> Implement optional ad continue system</li>
+                <li><strong>Social Features:</strong> Add friend leaderboards and shareable replays</li>
+            </ol>
+        </div>
+
+        <footer style="text-align: center; padding: 40px; color: #666;">
+            <p>CoreMelt Prototype Report | Generated 2026-04-17</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Ready for playtesting and iteration</p>
+        </footer>
+    </div>
+</body>
+</html>

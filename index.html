@@ -256,7 +256,9 @@ body{font-family:Inter,Segoe UI,Arial,sans-serif;background:#0b1020;color:#ecf2f
     if (s === 'name-asc') visible.sort((a, b) => (a.dataset.name || '').localeCompare(b.dataset.name || ''));
     if (s === 'rating-desc') visible.sort((a, b) => { const ra = ratings[a.querySelector('.rating')?.dataset.key] || 0; const rb = ratings[b.querySelector('.rating')?.dataset.key] || 0; return rb - ra; });
     if (s === 'rating-asc') visible.sort((a, b) => { const ra = ratings[a.querySelector('.rating')?.dataset.key] || 0; const rb = ratings[b.querySelector('.rating')?.dataset.key] || 0; return ra - rb; });
-    visible.forEach(c => grid.appendChild(c));
+    // Hide all cards first, then show only visible ones
+    cards.forEach(c => c.style.display = 'none');
+    visible.forEach(c => { c.style.display = ''; grid.appendChild(c); });
   }
   search?.addEventListener('input', render);
   dateFilter?.addEventListener('change', render);

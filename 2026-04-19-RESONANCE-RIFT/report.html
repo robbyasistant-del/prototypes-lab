@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESONANCE RIFT - Game Design Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 50px 40px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3em;
+            font-weight: 700;
+            background: linear-gradient(90deg, #0ff, #f0f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #888;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+        }
+        
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #0ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h3 {
+            font-size: 1.1em;
+            color: #ff006e;
+            margin: 20px 0 10px;
+        }
+        
+        p, li {
+            color: #bbb;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        ul {
+            padding-left: 25px;
+        }
+        
+        li { margin-bottom: 8px; }
+        
+        .highlight {
+            background: rgba(0,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #0ff;
+            margin: 15px 0;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: 800;
+            color: #0ff;
+        }
+        
+        .metric-label {
+            font-size: 0.8em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #0ff, #0080ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0,255,255,0.4);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        th {
+            color: #0ff;
+            font-weight: 600;
+        }
+        
+        td { color: #bbb; }
+        
+        .risk-high { color: #ff006e; }
+        .risk-medium { color: #ffaa00; }
+        .risk-low { color: #0f0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔊 RESONANCE RIFT</h1>
+            <p class="subtitle">Game Design Report</p>
+        </header>
+        
+        <div class="section">
+            <h2>🎯 Concept Overview</h2>
+            <p><strong>RESONANCE RIFT</strong> is a sound-wave manipulation puzzle where players emit pulses that bounce off dimensional walls. The core twist is the <strong>phase-shifting mechanic</strong> - players can switch between Alpha (pink/red) and Beta (cyan/blue) phases, revealing different walls and targets in each dimension.</p>
+            
+            <div class="highlight">
+                <strong>Unique Selling Point:</strong> Dual-dimension puzzle solving where the same space contains different obstacles depending on your phase, requiring players to plan shots that may need to pass through "ghost" walls in one phase to hit targets in another.
+            </div>
+            
+            <h3>Core Mechanics</h3>
+            <ul>
+                <li><strong>Pulse Emission:</strong> Click/Space to fire a sound pulse from the emitter</li>
+                <li><strong>Phase Shifting:</strong> Shift/Right-click to toggle between Alpha and Beta dimensions</li>
+                <li><strong>Wall Bouncing:</strong> Pulses reflect off walls with realistic physics</li>
+                <li><strong>Resonator Activation:</strong> Hit all targets to open the rift and advance</li>
+                <li><strong>Limited Pulses:</strong> Strategic resource management - each level has limited shots</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🎮 Gameplay Loop</h2>
+            <ol style="color: #bbb; line-height: 2;">
+                <li><strong>ANALYZE</strong> - Observe wall layout and resonator positions in current phase</li>
+                <li><strong>SHIFT</strong> - Toggle phases to see hidden geometry and plan trajectory</li>
+                <li><strong>AIM</strong> - Position mouse to direct pulse angle</li>
+                <li><strong>FIRE</strong> - Emit pulse and watch it bounce through the environment</li>
+                <li><strong>ADAPT</strong> - Use remaining pulses to hit missed targets</li>
+                <li><strong>ADVANCE</strong> - Clear all resonators to unlock the next rift</li>
+            </ol>
+            
+            <h3>Progression System</h3>
+            <ul>
+                <li><strong>3 Hand-Crafted Tutorial Levels</strong> introducing mechanics gradually</li>
+                <li><strong>Procedural Generation</strong> for infinite replayability beyond level 3</li>
+                <li><strong>Increasing Complexity:</strong> More walls, more resonators, trickier layouts</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🏆 Reward Systems</h2>
+            
+            <h3>Scoring</h3>
+            <ul>
+                <li>Base hit: <strong>100 points</strong></li>
+                <li>Combo multiplier: <strong>x2, x3, x4...</strong> for consecutive hits with one pulse</li>
+                <li>Remaining pulse bonus: <strong>50 points</strong> per unused pulse on level clear</li>
+            </ul>
+            
+            <h3>Badge System</h3>
+            <ul>
+                <li>🔊 <strong>Bounce Master:</strong> Achieve 5+ bounces on a single pulse</li>
+                <li>🎯 <strong>Multi-Hit:</strong> Hit 3+ resonators with one pulse</li>
+                <li>⭐ <strong>Precision:</strong> Complete level on first attempt without retrying</li>
+            </ul>
+            
+            <h3>Visual Feedback</h3>
+            <ul>
+                <li>Trail effects showing pulse path history</li>
+                <li>Screen shake and glow on resonator activation</li>
+                <li>Combo popup animation for multi-hits</li>
+                <li>Phase shift visual transition</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Key Performance Indicators</h2>
+            
+            <div class="metric-grid">
+                <div class="metric">
+                    <div class="metric-value">3-5</div>
+                    <div class="metric-label">Min Session (min)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">15+</div>
+                    <div class="metric-label">Target Levels/Session</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">45%</div>
+                    <div class="metric-label">Retry Rate Target</div>
+                </div>
+            </div>
+            
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Target</th>
+                    <th>Measurement</th>
+                </tr>
+                <tr>
+                    <td>Day 1 Retention</td>
+                    <td>> 40%</td>
+                    <td>Players returning within 24h</td>
+                </tr>
+                <tr>
+                    <td>Session Length</td>
+                    <td>5-8 min</td>
+                    <td>Average time per play</td>
+                </tr>
+                <tr>
+                    <td>Level Completion</td>
+                    <td>> 70%</td>
+                    <td>First 3 tutorial levels</td>
+                </tr>
+                <tr>
+                    <td>Share Rate</td>
+                    <td>> 5%</td>
+                    <td>Social sharing of scores</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>💰 Monetization Strategy</h2>
+            
+            <h3>Premium Model (Recommended)</h3>
+            <p><strong>$2.99</strong> one-time purchase for full game with:</p>
+            <ul>
+                <li>Unlimited procedural levels</li>
+                <li>Level editor / custom rifts</li>
+                <li>Speedrun mode with leaderboards</li>
+                <li>Additional color themes</li>
+            </ul>
+            
+            <h3>Free-to-Play Alternative</h3>
+            <ul>
+                <li>Ad-supported (banner between levels)</li>
+                <li>Rewarded video: +3 pulses on tough levels</li>
+                <li>Cosmetic IAP: Emitter skins, particle effects</li>
+                <li>Premium currency for level skips</li>
+            </ul>
+            
+            <h3>Subscription (Long-term)</h3>
+            <p><strong>$4.99/month</strong> for "Rift Pass":</p>
+            <ul>
+                <li>Daily challenge levels</li>
+                <li>Exclusive badge collections</li>
+                <li>Multiplayer races</li>
+                <li>Cloud saves across devices</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ Risk Assessment</h2>
+            
+            <table>
+                <tr>
+                    <th>Risk</th>
+                    <th>Severity</th>
+                    <th>Mitigation</th>
+                </tr>
+                <tr>
+                    <td>Physics precision issues</td>
+                    <td class="risk-medium">Medium</td>
+                    <td>Extensive testing, generous hit boxes</td>
+                </tr>
+                <tr>
+                    <td>Difficulty curve too steep</td>
+                    <td class="risk-high">High</td>
+                    <td>Analytics on drop-off points, dynamic hints</td>
+                </tr>
+                <tr>
+                    <td>Audio autoplay blocked</td>
+                    <td class="risk-low">Low</td>
+                    <td>Visual-first design, optional sound</td>
+                </tr>
+                <tr>
+                    <td>Phase shift confusion</td>
+                    <td class="risk-medium">Medium</td>
+                    <td>Strong visual differentiation, tutorial</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Next Steps</h2>
+            <ul>
+                <li>Add 10+ hand-crafted levels before procedural kicks in</li>
+                <li>Implement localStorage for progress persistence</li>
+                <li>Add particle effects for resonator activation</li>
+                <li>Create tutorial overlay system</li>
+                <li>Mobile touch controls optimization</li>
+                <li>Social sharing integration for high scores</li>
+            </ul>
+            
+            <a href="index.html" class="btn">▶ PLAY THE PROTOTYPE</a>
+        </div>
+        
+        <footer style="text-align:center;padding:30px;color:#666;">
+            <p>RESONANCE RIFT | April 19, 2026 | Prototype v1.0</p>
+        </footer>
+    </div>
+</body>
+</html>

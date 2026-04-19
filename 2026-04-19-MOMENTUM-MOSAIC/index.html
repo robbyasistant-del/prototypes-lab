@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOMENTUM MOSAIC - World Rotation Physics</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #050508;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 800px;
+            height: 800px;
+            margin-top: 10px;
+            border: 3px solid #333;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 80px rgba(251,191,36,0.15), inset 0 0 120px rgba(0,0,0,0.6);
+        }
+        
+        canvas {
+            display: block;
+            background: radial-gradient(circle at center, #1a1510 0%, #0a0805 100%);
+        }
+        
+        #ui {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .center-hub {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(251,191,36,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hub-score {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251,191,36,0.8);
+        }
+        
+        .hub-label {
+            font-size: 0.7em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        #instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(5,5,8,0.98);
+            padding: 50px 60px;
+            border-radius: 30px;
+            border: 2px solid #fbbf24;
+            box-shadow: 0 0 60px rgba(251,191,36,0.3);
+            z-index: 100;
+            max-width: 550px;
+        }
+        
+        #instructions h1 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #ea580c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        #instructions p {
+            font-size: 1.1em;
+            color: #aaa;
+            margin: 12px 0;
+            line-height: 1.6;
+        }
+        
+        #instructions .key {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(251,191,36,0.15);
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            font-family: 'Exo 2', sans-serif;
+            color: #fbbf24;
+            margin: 0 5px;
+            font-weight: 700;
+        }
+        
+        #startBtn {
+            margin-top: 30px;
+            padding: 16px 50px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.2em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fbbf24, #ea580c);
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        #startBtn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 40px rgba(251,191,36,0.6);
+        }
+        
+        #gameOver, #levelComplete {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(5,5,8,0.98);
+            padding: 50px 70px;
+            border-radius: 25px;
+            border: 3px solid;
+            z-index: 100;
+            display: none;
+        }
+        
+        #gameOver {
+            border-color: #dc2626;
+            box-shadow: 0 0 60px rgba(220,38,38,0.4);
+        }
+        
+        #levelComplete {
+            border-color: #22c55e;
+            box-shadow: 0 0 60px rgba(34,197,94,0.4);
+        }
+        
+        #gameOver h2, #levelComplete h2 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        
+        #gameOver h2 { color: #dc2626; }
+        #levelComplete h2 { color: #22c55e; }
+        
+        .btn {
+            margin-top: 25px;
+            padding: 14px 35px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 10px;
+        }
+        
+        .btn-retry {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: #fff;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            color: #fff;
+        }
+        
+        .btn:hover { transform: scale(1.05); }
+        
+        #level-indicator {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.3em;
+            color: #fbbf24;
+            text-shadow: 0 0 10px rgba(251,191,36,0.5);
+            z-index: 20;
+        }
+        
+        #rotation-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            z-index: 20;
+        }
+        
+        .star-display {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            display: flex;
+            gap: 8px;
+            z-index: 20;
+        }
+        
+        .star {
+            font-size: 1.8em;
+            opacity: 0.2;
+            transition: all 0.3s;
+        }
+        
+        .star.earned {
+            opacity: 1;
+            animation: starPulse 1s ease-out;
+            text-shadow: 0 0 20px rgba(251,191,36,0.8);
+        }
+        
+        @keyframes starPulse {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="800"></canvas>
+        
+        <div id="ui">
+            <div class="center-hub">
+                <div class="hub-score" id="score">0</div>
+                <div class="hub-label">SCORE</div>
+            </div>
+        </div>
+        
+        <div id="level-indicator">MOSAIC <span id="levelNum">1</span></div>
+        
+        <div class="star-display">
+            <span class="star" id="star1">★</span>
+            <span class="star" id="star2">★</span>
+            <span class="star" id="star3">★</span>
+        </div>
+        
+        <div id="rotation-hint">← ROTATE WORLD →</div>
+        
+        <div id="instructions">
+            <h1>🌀 MOMENTUM MOSAIC</h1>
+            <p>Rotate the <strong>entire world</strong> to control gravity.</p>
+            <p>Guide the orb through the kaleidoscope to collect all shards.</p>
+            <br>
+            <p><span class="key">←</span> <span class="key">→</span> or <span class="key">A</span> <span class="key">D</span> to rotate</p>
+            <p><span class="key">SPACE</span> to boost (limited)</p>
+            <br>
+            <p style="font-size:0.9em;color:#666;">Physics are your paintbrush...</p>
+            <button id="startBtn">ENTER THE MAZE</button>
+        </div>
+        
+        <div id="gameOver">
+            <h2>MOMENTUM LOST</h2>
+            <p style="color:#aaa;margin:15px 0;">The orb shattered against the void.</p>
+            <p style="color:#dc2626;font-size:1.3em;">Final Score: <span id="finalScore">0</span></p>
+            <button class="btn btn-retry" onclick="game.restart()">RETRY</button>
+        </div>
+        
+        <div id="levelComplete">
+            <h2>MOSAIC COMPLETE!</h2>
+            <p style="color:#aaa;margin:15px 0;">All shards collected.</p>
+            <p style="color:#22c55e;font-size:1.2em;">Stars: <span id="starsEarned">0</span>/3</p>
+            <button class="btn btn-next" onclick="game.nextLevel()">NEXT MAZE</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const CENTER_X = canvas.width / 2;
+        const CENTER_Y = canvas.height / 2;
+        
+        // Audio
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        function playTone(freq, duration, type='sine') {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+        function playCollect() { 
+            [880, 1100, 1320].forEach((f, i) => setTimeout(() => playTone(f, 0.1), i * 50));
+        }
+        function playRotate() { playTone(200, 0.05, 'sawtooth'); }
+        function playWin() { 
+            [440, 554, 659, 880, 1100].forEach((f, i) => setTimeout(() => playTone(f, 0.15), i * 100));
+        }
+        function playCrash() { playTone(100, 0.4, 'sawtooth'); }
+        
+        class Vector {
+            constructor(x, y) { this.x = x; this.y = y; }
+            add(v) { return new Vector(this.x + v.x, this.y + v.y); }
+            sub(v) { return new Vector(this.x - v.x, this.y - v.y); }
+            mult(s) { return new Vector(this.x * s, this.y * s); }
+            mag() { return Math.sqrt(this.x * this.x + this.y * this.y); }
+            normalize() { const m = this.mag(); return m > 0 ? new Vector(this.x / m, this.y / m) : new Vector(0, 0); }
+            rotate(angle) {
+                const cos = Math.cos(angle);
+                const sin = Math.sin(angle);
+                return new Vector(this.x * cos - this.y * sin, this.x * sin + this.y * cos);
+            }
+        }
+        
+        class Player {
+            constructor(x, y) {
+                this.pos = new Vector(x, y);
+                this.vel = new Vector(0, 0);
+                this.acc = new Vector(0, 0);
+                this.radius = 12;
+                this.trail = [];
+                this.boosts = 3;
+                this.boosting = false;
+            }
+            
+            applyForce(force) {
+                this.acc = this.acc.add(force);
+            }
+            
+            update(worldRotation) {
+                // Gravity always pulls toward center relative to world rotation
+                const gravityDir = new Vector(0, 1).rotate(worldRotation);
+                const gravity = gravityDir.mult(0.25);
+                this.applyForce(gravity);
+                
+                // Boost
+                if (this.boosting) {
+                    const boostDir = this.vel.normalize().mult(-1);
+                    this.applyForce(boostDir.mult(0.5));
+                    this.boosting = false;
+                }
+                
+                // Physics
+                this.vel = this.vel.add(this.acc);
+                this.vel = this.vel.mult(0.98); // Friction
+                this.pos = this.pos.add(this.vel);
+                this.acc = new Vector(0, 0);
+                
+                // Trail
+                this.trail.push({x: this.pos.x, y: this.pos.y});
+                if (this.trail.length > 30) this.trail.shift();
+                
+                // Bounds check (circular world)
+                const distFromCenter = Math.sqrt(
+                    Math.pow(this.pos.x - CENTER_X, 2) + 
+                    Math.pow(this.pos.y - CENTER_Y, 2)
+                );
+                
+                if (distFromCenter > 380) {
+                    // Bounce off outer wall
+                    const normal = new Vector(CENTER_X - this.pos.x, CENTER_Y - this.pos.y).normalize();
+                    this.pos = new Vector(CENTER_X, CENTER_Y).add(normal.mult(-380));
+                    this.vel = this.vel.add(normal.mult(this.vel.mag() * 1.5));
+                }
+            }
+            
+            draw(ctx) {
+                // Trail
+                this.trail.forEach((p, i) => {
+                    const alpha = i / this.trail.length;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 4 + alpha * 6, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(251, 191, 36, ${alpha * 0.5})`;
+                    ctx.fill();
+                });
+                
+                // Orb
+                ctx.beginPath();
+                ctx.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
+                const gradient = ctx.createRadialGradient(
+                    this.pos.x - 3, this.pos.y - 3, 0,
+                    this.pos.x, this.pos.y, this.radius
+                );
+                gradient.addColorStop(0, '#fef3c7');
+                gradient.addColorStop(0.5, '#fbbf24');
+                gradient.addColorStop(1, '#d97706');
+                ctx.fillStyle = gradient;
+                ctx.shadowBlur = 25;
+                ctx.shadowColor = '#fbbf24';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                // Inner glow
+                ctx.beginPath();
+                ctx.arc(this.pos.x, this.pos.y, this.radius * 0.6, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                ctx.fill();
+            }
+            
+            boost() {
+                if (this.boosts > 0) {
+                    this.boosts--;
+                    this.boosting = true;
+                    playTone(600, 0.2, 'square');
+                }
+            }
+        }
+        
+        class Shard {
+            constructor(angle, distance) {
+                this.angle = angle;
+                this.distance = distance;
+                this.collected = false;
+                this.pulse = 0;
+            }
+            
+            getPosition(worldRotation) {
+                const totalAngle = this.angle + worldRotation;
+                return new Vector(
+                    CENTER_X + Math.cos(totalAngle) * this.distance,
+                    CENTER_Y + Math.sin(totalAngle) * this.distance
+                );
+            }
+            
+            draw(ctx, worldRotation) {
+                if (this.collected) return;
+                
+                const pos = this.getPosition(worldRotation);
+                
+                // Pulse effect
+                this.pulse += 0.05;
+                const pulseRadius = 3 + Math.sin(this.pulse) * 2;
+                
+                // Outer glow
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 18 + pulseRadius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(34, 197, 94, 0.2)';
+                ctx.fill();
+                
+                // Crystal
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y - 12);
+                ctx.lineTo(pos.x + 10, pos.y);
+                ctx.lineTo(pos.x, pos.y + 12);
+                ctx.lineTo(pos.x - 10, pos.y);
+                ctx.closePath();
+                ctx.fillStyle = '#22c55e';
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#22c55e';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                // Inner light
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y - 6);
+                ctx.lineTo(pos.x + 5, pos.y);
+                ctx.lineTo(pos.x, pos.y + 6);
+                ctx.lineTo(pos.x - 5, pos.y);
+                ctx.closePath();
+                ctx.fillStyle = '#86efac';
+                ctx.fill();
+            }
+            
+            checkCollision(player, worldRotation) {
+                if (this.collected) return false;
+                
+                const pos = this.getPosition(worldRotation);
+                const dx = player.pos.x - pos.x;
+                const dy = player.pos.y - pos.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist < player.radius + 15) {
+                    this.collected = true;
+                    return true;
+                }
+                return false;
+            }
+        }
+        
+        class Obstacle {
+            constructor(angle, distance, width, height) {
+                this.angle = angle;
+                this.distance = distance;
+                this.width = width;
+                this.height = height;
+            }
+            
+            getBounds(worldRotation) {
+                const totalAngle = this.angle + worldRotation;
+                const cx = CENTER_X + Math.cos(totalAngle) * this.distance;
+                const cy = CENTER_Y + Math.sin(totalAngle) * this.distance;
+                
+                // Calculate corners based on rotation
+                const cos = Math.cos(totalAngle + Math.PI/2);
+                const sin = Math.sin(totalAngle + Math.PI/2);
+                
+                return [
+                    new Vector(cx - this.width/2 * cos - this.height/2 * sin, cy - this.width/2 * sin + this.height/2 * cos),
+                    new Vector(cx + this.width/2 * cos - this.height/2 * sin, cy + this.width/2 * sin + this.height/2 * cos),
+                    new Vector(cx + this.width/2 * cos + this.height/2 * sin, cy + this.width/2 * sin - this.height/2 * cos),
+                    new Vector(cx - this.width/2 * cos + this.height/2 * sin, cy - this.width/2 * sin - this.height/2 * cos)
+                ];
+            }
+            
+            draw(ctx, worldRotation) {
+                const bounds = this.getBounds(worldRotation);
+                
+                ctx.beginPath();
+                ctx.moveTo(bounds[0].x, bounds[0].y);
+                bounds.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
+                ctx.closePath();
+                
+                ctx.fillStyle = 'rgba(220, 38, 38, 0.8)';
+                ctx.fill();
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#ef4444';
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+                
+                // Warning stripes
+                ctx.save();
+                ctx.clip();
+                ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+                ctx.lineWidth = 3;
+                for (let i = -50; i < 150; i += 10) {
+                    ctx.beginPath();
+                    ctx.moveTo(bounds[0].x + i, bounds[0].y - 50);
+                    ctx.lineTo(bounds[0].x + i + 50, bounds[0].y + 50);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+            
+            checkCollision(player, worldRotation) {
+                const bounds = this.getBounds(worldRotation);
+                
+                // Simple circle-rectangle collision
+                let closestX = player.pos.x;
+                let closestY = player.pos.y;
+                
+                // Find closest point on rectangle to circle center
+                // Simplified: check if player is within bounds
+                const centerX = (bounds[0].x + bounds[2].x) / 2;
+                const centerY = (bounds[0].y + bounds[2].y) / 2;
+                const dx = player.pos.x - centerX;
+                const dy = player.pos.y - centerY;
+                
+                if (Math.abs(dx) < this.width/2 + player.radius && 
+                    Math.abs(dy) < this.height/2 + player.radius) {
+                    return true;
+                }
+                return false;
+            }
+        }
+        
+        class Game {
+            constructor() {
+                this.worldRotation = 0;
+                this.targetRotation = 0;
+                this.rotationSpeed = 0;
+                this.player = new Player(CENTER_X, CENTER_Y - 100);
+                this.shards = [];
+                this.obstacles = [];
+                this.score = 0;
+                this.level = 1;
+                this.gameState = 'menu';
+                this.stars = 0;
+                this.keys = {};
+                
+                this.setupInput();
+                this.loadLevel(1);
+            }
+            
+            setupInput() {
+                document.addEventListener('keydown', (e) => {
+                    this.keys[e.code] = true;
+                    
+                    if (e.code === 'Space' && this.gameState === 'playing') {
+                        e.preventDefault();
+                        this.player.boost();
+                    }
+                });
+                
+                document.addEventListener('keyup', (e) => {
+                    this.keys[e.code] = false;
+                });
+                
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    initAudio();
+                    document.getElementById('instructions').style.display = 'none';
+                    this.gameState = 'playing';
+                    this.loop();
+                });
+            }
+            
+            loadLevel(lvl) {
+                this.level = lvl;
+                this.player = new Player(CENTER_X, CENTER_Y - 100);
+                this.player.vel = new Vector(0.5, 0);
+                this.shards = [];
+                this.obstacles = [];
+                this.worldRotation = 0;
+                this.stars = 0;
+                
+                // Level designs
+                if (lvl === 1) {
+                    // Tutorial - 3 shards in triangle
+                    this.shards.push(new Shard(0, 200));
+                    this.shards.push(new Shard(Math.PI * 2/3, 200));
+                    this.shards.push(new Shard(Math.PI * 4/3, 200));
+                } else if (lvl === 2) {
+                    // Introduce obstacles
+                    this.shards.push(new Shard(0, 150));
+                    this.shards.push(new Shard(Math.PI, 150));
+                    this.shards.push(new Shard(Math.PI/2, 250));
+                    this.shards.push(new Shard(-Math.PI/2, 250));
+                    this.obstacles.push(new Obstacle(0, 0, 80, 80));
+                } else if (lvl === 3) {
+                    // Complex layout
+                    for (let i = 0; i < 6; i++) {
+                        this.shards.push(new Shard(i * Math.PI / 3, 180 + (i % 2) * 80));
+                    }
+                    this.obstacles.push(new Obstacle(Math.PI/6, 0, 60, 300));
+                    this.obstacles.push(new Obstacle(Math.PI + Math.PI/6, 0, 60, 300));
+                } else {
+                    // Procedural generation
+                    const numShards = 4 + Math.floor(lvl / 2);
+                    const numObstacles = Math.floor(lvl / 2);
+                    
+                    for (let i = 0; i < numShards; i++) {
+                        this.shards.push(new Shard(
+                            Math.random() * Math.PI * 2,
+                            100 + Math.random() * 200
+                        ));
+                    }
+                    
+                    for (let i = 0; i < numObstacles; i++) {
+                        this.obstacles.push(new Obstacle(
+                            Math.random() * Math.PI * 2,
+                            0,
+                            40 + Math.random() * 60,
+                            100 + Math.random() * 200
+                        ));
+                    }
+                }
+                
+                this.updateUI();
+            }
+            
+            update() {
+                if (this.gameState !== 'playing') return;
+                
+                // Handle rotation input
+                let rotating = false;
+                if (this.keys['ArrowLeft'] || this.keys['KeyA']) {
+                    this.targetRotation -= 0.03;
+                    rotating = true;
+                }
+                if (this.keys['ArrowRight'] || this.keys['KeyD']) {
+                    this.targetRotation += 0.03;
+                    rotating = true;
+                }
+                
+                if (rotating && Math.random() < 0.1) playRotate();
+                
+                // Smooth rotation
+                this.worldRotation += (this.targetRotation - this.worldRotation) * 0.1;
+                
+                // Update player
+                this.player.update(this.worldRotation);
+                
+                // Check shard collection
+                this.shards.forEach(shard => {
+                    if (shard.checkCollision(this.player, this.worldRotation)) {
+                        playCollect();
+                        this.score += 100;
+                        this.updateUI();
+                    }
+                });
+                
+                // Check obstacle collision
+                for (const obs of this.obstacles) {
+                    if (obs.checkCollision(this.player, this.worldRotation)) {
+                        this.gameOver();
+                        return;
+                    }
+                }
+                
+                // Check level complete
+                if (this.shards.every(s => s.collected)) {
+                    this.levelComplete();
+                }
+                
+                // Check if player fell too far (safety)
+                const distFromCenter = Math.sqrt(
+                    Math.pow(this.player.pos.x - CENTER_X, 2) + 
+                    Math.pow(this.player.pos.y - CENTER_Y, 2)
+                );
+                if (distFromCenter > 390) {
+                    this.gameOver();
+                }
+            }
+            
+            draw() {
+                // Clear
+                ctx.fillStyle = '#0a0805';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw outer ring
+                ctx.beginPath();
+                ctx.arc(CENTER_X, CENTER_Y, 380, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(251, 191, 36, 0.2)';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // Draw decorative rings
+                for (let r = 100; r < 380; r += 50) {
+                    ctx.beginPath();
+                    ctx.arc(CENTER_X, CENTER_Y, r, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(255,255,255,${0.02 + (r/380) * 0.05})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+                
+                // Draw radial lines
+                for (let i = 0; i < 12; i++) {
+                    const angle = (i / 12) * Math.PI * 2 + this.worldRotation;
+                    ctx.beginPath();
+                    ctx.moveTo(CENTER_X, CENTER_Y);
+                    ctx.lineTo(
+                        CENTER_X + Math.cos(angle) * 380,
+                        CENTER_Y + Math.sin(angle) * 380
+                    );
+                    ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+                
+                // Draw obstacles
+                this.obstacles.forEach(obs => obs.draw(ctx, this.worldRotation));
+                
+                // Draw shards
+                this.shards.forEach(shard => shard.draw(ctx, this.worldRotation));
+                
+                // Draw player
+                this.player.draw(ctx);
+                
+                // Draw center hub
+                ctx.beginPath();
+                ctx.arc(CENTER_X, CENTER_Y, 60, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0,0,0,0.8)';
+                ctx.fill();
+                ctx.strokeStyle = '#fbbf24';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Rotation indicator
+                ctx.save();
+                ctx.translate(CENTER_X, CENTER_Y);
+                ctx.rotate(this.worldRotation);
+                ctx.beginPath();
+                ctx.moveTo(0, -45);
+                ctx.lineTo(-10, -35);
+                ctx.lineTo(10, -35);
+                ctx.closePath();
+                ctx.fillStyle = '#fbbf24';
+                ctx.fill();
+                ctx.restore();
+            }
+            
+            updateUI() {
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('levelNum').textContent = this.level;
+            }
+            
+            levelComplete() {
+                this.gameState = 'complete';
+                playWin();
+                
+                // Calculate stars
+                const timeBonus = Math.floor(this.player.boosts / 3 * 3);
+                this.stars = 1 + timeBonus;
+                if (this.stars > 3) this.stars = 3;
+                
+                // Update star display
+                for (let i = 1; i <= 3; i++) {
+                    const star = document.getElementById(`star${i}`);
+                    if (i <= this.stars) {
+                        star.classList.add('earned');
+                        star.style.color = '#fbbf24';
+                    } else {
+                        star.classList.remove('earned');
+                        star.style.color = '';
+                    }
+                }
+                
+                document.getElementById('starsEarned').textContent = this.stars;
+                document.getElementById('levelComplete').style.display = 'block';
+            }
+            
+            gameOver() {
+                this.gameState = 'over';
+                playCrash();
+                document.getElementById('finalScore').textContent = this.score;
+                document.getElementById('gameOver').style.display = 'block';
+            }
+            
+            nextLevel() {
+                document.getElementById('levelComplete').style.display = 'none';
+                
+                // Reset stars
+                for (let i = 1; i <= 3; i++) {
+                    document.getElementById(`star${i}`).classList.remove('earned');
+                }
+                
+                this.loadLevel(this.level + 1);
+                this.gameState = 'playing';
+            }
+            
+            restart() {
+                document.getElementById('gameOver').style.display = 'none';
+                this.score = 0;
+                this.loadLevel(1);
+                this.gameState = 'playing';
+            }
+            
+            loop() {
+                if (this.gameState === 'playing' || this.gameState === 'complete') {
+                    this.update();
+                    this.draw();
+                    requestAnimationFrame(() => this.loop());
+                }
+            }
+        }
+        
+        const game = new Game();
+    </script>
+</body>
+</html>

@@ -1,1 +1,0 @@
-Hay un submódulo Git que está causando problemas. Lo elimino y hago el commit.

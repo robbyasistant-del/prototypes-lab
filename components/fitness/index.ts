@@ -1,1 +1,0 @@
-export { FitnessCurvesChart } from './FitnessCurvesChart';

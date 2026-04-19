@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESONANCE RIFT - Sound Wave Manipulation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #050508;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 900px;
+            height: 600px;
+            margin-top: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,255,255,0.2), inset 0 0 100px rgba(0,0,0,0.5);
+        }
+        
+        canvas {
+            display: block;
+            background: linear-gradient(180deg, #0a0a12 0%, #151520 100%);
+        }
+        
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .score-panel {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #0ff;
+            text-shadow: 0 0 20px rgba(0,255,255,0.8);
+        }
+        
+        .stat-label {
+            font-size: 0.7em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .phase-indicator {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        
+        .phase-alpha {
+            background: linear-gradient(135deg, #ff006e, #ff4d00);
+            box-shadow: 0 0 20px rgba(255,0,110,0.5);
+        }
+        
+        .phase-beta {
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            box-shadow: 0 0 20px rgba(0,212,255,0.5);
+        }
+        
+        #instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0,0,0,0.9);
+            padding: 40px 60px;
+            border-radius: 20px;
+            border: 2px solid #0ff;
+            box-shadow: 0 0 50px rgba(0,255,255,0.3);
+            z-index: 100;
+        }
+        
+        #instructions h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #0ff, #f0f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        #instructions p {
+            font-size: 1.1em;
+            color: #aaa;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        #instructions .key {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            color: #0ff;
+            margin: 0 5px;
+        }
+        
+        #startBtn {
+            margin-top: 30px;
+            padding: 15px 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0ff, #0080ff);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        #startBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0,255,255,0.6);
+        }
+        
+        #gameOver, #levelComplete {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0,0,0,0.95);
+            padding: 50px 70px;
+            border-radius: 20px;
+            border: 2px solid;
+            z-index: 100;
+            display: none;
+        }
+        
+        #gameOver {
+            border-color: #ff006e;
+            box-shadow: 0 0 50px rgba(255,0,110,0.4);
+        }
+        
+        #levelComplete {
+            border-color: #0f0;
+            box-shadow: 0 0 50px rgba(0,255,0,0.4);
+        }
+        
+        #gameOver h2, #levelComplete h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        
+        #gameOver h2 { color: #ff006e; }
+        #levelComplete h2 { color: #0f0; }
+        
+        .btn {
+            margin-top: 25px;
+            padding: 12px 35px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 10px;
+        }
+        
+        .btn-retry {
+            background: linear-gradient(135deg, #ff006e, #ff4d00);
+            color: #fff;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #0f0, #00aa00);
+            color: #000;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        #badges {
+            position: absolute;
+            bottom: 15px;
+            left: 25px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .badge {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+        
+        .badge.earned {
+            opacity: 1;
+            animation: badgePulse 2s infinite;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .badge-bounce { background: linear-gradient(135deg, #ff006e, #ff4d00); }
+        .badge-multi { background: linear-gradient(135deg, #0ff, #0080ff); }
+        .badge-precision { background: linear-gradient(135deg, #0f0, #00aa00); }
+        
+        #combo-display {
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            color: #ff0;
+            text-shadow: 0 0 20px rgba(255,255,0,0.8);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        #combo-display.active {
+            opacity: 1;
+            animation: comboPulse 0.5s ease-out;
+        }
+        
+        @keyframes comboPulse {
+            0% { transform: scale(0.5); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="900" height="600"></canvas>
+        
+        <div id="ui">
+            <div class="score-panel">
+                <div class="stat">
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="level">1</div>
+                    <div class="stat-label">Level</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="pulses">5</div>
+                    <div class="stat-label">Pulses</div>
+                </div>
+            </div>
+            <div class="phase-indicator phase-alpha" id="phaseIndicator">ALPHA PHASE</div>
+        </div>
+        
+        <div id="badges">
+            <div class="badge badge-bounce" id="badgeBounce" title="Bounce Master: 5+ bounces">🔊</div>
+            <div class="badge badge-multi" id="badgeMulti" title="Multi-Hit: Hit 3+ targets">🎯</div>
+            <div class="badge badge-precision" id="badgePrecision" title="Precision: First try win">⭐</div>
+        </div>
+        
+        <div id="combo-display">COMBO x<span id="comboValue">2</span>!</div>
+        
+        <div id="instructions">
+            <h1>🔊 RESONANCE RIFT</h1>
+            <p>Emit sound pulses that <strong>bounce</strong> off dimensional walls.</p>
+            <p>Hit all <span style="color:#0f0">RESONATORS</span> to open the rift.</p>
+            <br>
+            <p><span class="key">SPACE</span> or <span class="key">CLICK</span> to emit pulse</p>
+            <p><span class="key">SHIFT</span> or <span class="key">RIGHT-CLICK</span> to phase shift</p>
+            <p>Aim with <span class="key">MOUSE</span></p>
+            <br>
+            <p style="font-size:0.9em;color:#666;">Phasing reveals hidden walls and targets...</p>
+            <button id="startBtn">INITIATE SEQUENCE</button>
+        </div>
+        
+        <div id="gameOver">
+            <h2>SIGNAL LOST</h2>
+            <p style="color:#aaa;margin:15px 0;">Your pulses faded into the void.</p>
+            <p style="color:#ff006e;font-size:1.3em;">Final Score: <span id="finalScore">0</span></p>
+            <button class="btn btn-retry" onclick="game.restart()">RETRY</button>
+        </div>
+        
+        <div id="levelComplete">
+            <h2>RIFT STABILIZED!</h2>
+            <p style="color:#aaa;margin:15px 0;">All resonators harmonized.</p>
+            <p style="color:#0f0;font-size:1.3em;">Level Score: <span id="levelScore">0</span></p>
+            <button class="btn btn-next" onclick="game.nextLevel()">NEXT RIFT</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Audio context for procedural sound
+        let audioCtx = null;
+        
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        
+        function playTone(freq, duration, type = 'sine') {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+        
+        function playBounce() { playTone(440, 0.1, 'square'); }
+        function playHit() { playTone(880, 0.2, 'sine'); }
+        function playPhase() { playTone(220, 0.3, 'sawtooth'); }
+        function playWin() { 
+            [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 0.3), i * 100));
+        }
+        
+        class Vector {
+            constructor(x, y) { this.x = x; this.y = y; }
+            add(v) { return new Vector(this.x + v.x, this.y + v.y); }
+            mult(s) { return new Vector(this.x * s, this.y * s); }
+            mag() { return Math.sqrt(this.x * this.x + this.y * y); }
+        }
+        
+        class Pulse {
+            constructor(x, y, angle, phase) {
+                this.x = x;
+                this.y = y;
+                this.vx = Math.cos(angle) * 8;
+                this.vy = Math.sin(angle) * 8;
+                this.phase = phase; // 'alpha' or 'beta'
+                this.bounces = 0;
+                this.maxBounces = 10;
+                this.radius = 6;
+                this.trail = [];
+                this.active = true;
+                this.hits = [];
+            }
+            
+            update() {
+                if (!this.active) return;
+                
+                // Store trail
+                this.trail.push({x: this.x, y: this.y});
+                if (this.trail.length > 15) this.trail.shift();
+                
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Bounds check
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.active = false;
+                }
+            }
+            
+            draw(ctx) {
+                if (!this.active) return;
+                
+                // Draw trail
+                ctx.beginPath();
+                for (let i = 0; i < this.trail.length; i++) {
+                    const p = this.trail[i];
+                    const alpha = i / this.trail.length;
+                    ctx.fillStyle = this.phase === 'alpha' 
+                        ? `rgba(255,0,110,${alpha * 0.5})`
+                        : `rgba(0,255,255,${alpha * 0.5})`;
+                    ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
+                }
+                
+                // Draw pulse
+                const color = this.phase === 'alpha' ? '#ff006e' : '#00ffff';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                // Glow ring
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius + 4, 0, Math.PI * 2);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.globalAlpha = 0.3;
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        class Resonator {
+            constructor(x, y, phase) {
+                this.x = x;
+                this.y = y;
+                this.phase = phase;
+                this.hit = false;
+                this.pulseRadius = 0;
+                this.pulseMax = 40;
+            }
+            
+            draw(ctx, currentPhase) {
+                const visible = this.phase === currentPhase || this.phase === 'both';
+                
+                if (this.hit) {
+                    // Activated resonator
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 20, 0, Math.PI * 2);
+                    ctx.fillStyle = '#0f0';
+                    ctx.fill();
+                    ctx.shadowBlur = 30;
+                    ctx.shadowColor = '#0f0';
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    
+                    // Checkmark
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(this.x - 8, this.y);
+                    ctx.lineTo(this.x - 2, this.y + 8);
+                    ctx.lineTo(this.x + 10, this.y - 6);
+                    ctx.stroke();
+                } else if (visible) {
+                    // Inactive resonator
+                    const color = this.phase === 'alpha' ? '#ff006e' : '#00ffff';
+                    
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 18, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(0,0,0,0.8)';
+                    ctx.fill();
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                    
+                    // Inner pulse
+                    this.pulseRadius += 0.5;
+                    if (this.pulseRadius > this.pulseMax) this.pulseRadius = 0;
+                    
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.pulseRadius, 0, Math.PI * 2);
+                    ctx.strokeStyle = color;
+                    ctx.globalAlpha = 1 - (this.pulseRadius / this.pulseMax);
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                    
+                    // Target rings
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 25, 0, Math.PI * 2);
+                    ctx.strokeStyle = color;
+                    ctx.globalAlpha = 0.3;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+            }
+            
+            checkHit(pulse) {
+                if (this.hit) return false;
+                if (this.phase !== pulse.phase && this.phase !== 'both') return false;
+                
+                const dx = this.x - pulse.x;
+                const dy = this.y - pulse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist < 25) {
+                    this.hit = true;
+                    return true;
+                }
+                return false;
+            }
+        }
+        
+        class Wall {
+            constructor(x1, y1, x2, y2, phase) {
+                this.x1 = x1;
+                this.y1 = y1;
+                this.x2 = x2;
+                this.y2 = y2;
+                this.phase = phase; // 'alpha', 'beta', or 'both'
+            }
+            
+            draw(ctx, currentPhase) {
+                const visible = this.phase === currentPhase || this.phase === 'both';
+                
+                ctx.beginPath();
+                ctx.moveTo(this.x1, this.y1);
+                ctx.lineTo(this.x2, this.y2);
+                
+                if (visible) {
+                    const color = this.phase === 'alpha' ? '#ff006e' : 
+                                  this.phase === 'beta' ? '#00ffff' : '#888';
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 4;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = color;
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                    
+                    // Glow effect
+                    ctx.globalAlpha = 0.3;
+                    ctx.lineWidth = 8;
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                } else {
+                    // Faded ghost wall
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+            }
+            
+            checkCollision(pulse) {
+                const visible = this.phase === pulse.phase || this.phase === 'both';
+                if (!visible) return false;
+                
+                // Line segment collision
+                const dx = this.x2 - this.x1;
+                const dy = this.y2 - this.y1;
+                const len = Math.sqrt(dx * dx + dy * dy);
+                const nx = -dy / len;
+                const ny = dx / len;
+                
+                // Distance from point to line
+                const dist = Math.abs((pulse.x - this.x1) * nx + (pulse.y - this.y1) * ny);
+                
+                if (dist < pulse.radius + 2) {
+                    // Check if within segment bounds
+                    const t = ((pulse.x - this.x1) * dx + (pulse.y - this.y1) * dy) / (len * len);
+                    if (t >= 0 && t <= 1) {
+                        // Reflect velocity
+                        const dot = pulse.vx * nx + pulse.vy * ny;
+                        pulse.vx -= 2 * dot * nx;
+                        pulse.vy -= 2 * dot * ny;
+                        pulse.bounces++;
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        
+        class Game {
+            constructor() {
+                this.phase = 'alpha';
+                this.pulses = [];
+                this.resonators = [];
+                this.walls = [];
+                this.score = 0;
+                this.level = 1;
+                this.pulsesLeft = 5;
+                this.combo = 0;
+                this.maxCombo = 0;
+                this.mouseX = canvas.width / 2;
+                this.mouseY = canvas.height / 2;
+                this.playerX = 80;
+                this.playerY = canvas.height / 2;
+                this.emitterAngle = 0;
+                this.badges = { bounce: false, multi: false, precision: false };
+                this.firstTry = true;
+                this.gameState = 'menu';
+                
+                this.setupInput();
+                this.loadLevel(1);
+            }
+            
+            setupInput() {
+                canvas.addEventListener('mousemove', (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    this.mouseX = e.clientX - rect.left;
+                    this.mouseY = e.clientY - rect.top;
+                });
+                
+                canvas.addEventListener('mousedown', (e) => {
+                    if (e.button === 0) this.emitPulse();
+                    if (e.button === 2) this.phaseShift();
+                });
+                
+                canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.emitPulse();
+                    }
+                    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+                        this.phaseShift();
+                    }
+                });
+                
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    initAudio();
+                    document.getElementById('instructions').style.display = 'none';
+                    this.gameState = 'playing';
+                    this.loop();
+                });
+            }
+            
+            phaseShift() {
+                this.phase = this.phase === 'alpha' ? 'beta' : 'alpha';
+                playPhase();
+                const indicator = document.getElementById('phaseIndicator');
+                indicator.textContent = this.phase === 'alpha' ? 'ALPHA PHASE' : 'BETA PHASE';
+                indicator.className = `phase-indicator phase-${this.phase}`;
+            }
+            
+            emitPulse() {
+                if (this.gameState !== 'playing' || this.pulsesLeft <= 0) return;
+                
+                this.pulsesLeft--;
+                this.updateUI();
+                
+                const angle = Math.atan2(this.mouseY - this.playerY, this.mouseX - this.playerX);
+                this.pulses.push(new Pulse(this.playerX, this.playerY, angle, this.phase));
+                
+                playTone(330, 0.15, 'sine');
+                
+                if (this.pulsesLeft === 0) {
+                    setTimeout(() => this.checkGameOver(), 2000);
+                }
+            }
+            
+            loadLevel(level) {
+                this.level = level;
+                this.pulsesLeft = 5 + Math.floor(level / 2);
+                this.pulses = [];
+                this.resonators = [];
+                this.walls = [];
+                this.firstTry = true;
+                this.combo = 0;
+                
+                // Generate level layout
+                if (level === 1) {
+                    // Tutorial level
+                    this.resonators.push(new Resonator(700, 300, 'alpha'));
+                    this.resonators.push(new Resonator(600, 200, 'alpha'));
+                    this.walls.push(new Wall(300, 100, 300, 500, 'alpha'));
+                } else if (level === 2) {
+                    // Introduce phase shifting
+                    this.resonators.push(new Resonator(750, 150, 'alpha'));
+                    this.resonators.push(new Resonator(750, 450, 'beta'));
+                    this.walls.push(new Wall(400, 0, 400, 250, 'alpha'));
+                    this.walls.push(new Wall(400, 350, 400, 600, 'beta'));
+                } else if (level === 3) {
+                    // Complex layout
+                    this.resonators.push(new Resonator(800, 100, 'alpha'));
+                    this.resonators.push(new Resonator(800, 300, 'beta'));
+                    this.resonators.push(new Resonator(800, 500, 'both'));
+                    this.walls.push(new Wall(250, 50, 250, 550, 'alpha'));
+                    this.walls.push(new Wall(500, 0, 500, 250, 'beta'));
+                    this.walls.push(new Wall(500, 350, 500, 600, 'beta'));
+                    this.walls.push(new Wall(350, 200, 450, 200, 'both'));
+                    this.walls.push(new Wall(350, 400, 450, 400, 'both'));
+                } else {
+                    // Procedural generation for higher levels
+                    const numResonators = 3 + Math.floor(level / 3);
+                    const numWalls = 4 + level;
+                    
+                    for (let i = 0; i < numResonators; i++) {
+                        const phase = Math.random() > 0.5 ? 'alpha' : 
+                                      Math.random() > 0.5 ? 'beta' : 'both';
+                        this.resonators.push(new Resonator(
+                            500 + Math.random() * 350,
+                            50 + Math.random() * 500,
+                            phase
+                        ));
+                    }
+                    
+                    for (let i = 0; i < numWalls; i++) {
+                        const phase = Math.random() > 0.5 ? 'alpha' : 
+                                      Math.random() > 0.3 ? 'beta' : 'both';
+                        const x1 = 200 + Math.random() * 600;
+                        const y1 = Math.random() * 600;
+                        const x2 = x1 + (Math.random() - 0.5) * 200;
+                        const y2 = y1 + (Math.random() - 0.5) * 200;
+                        this.walls.push(new Wall(x1, y1, x2, y2, phase));
+                    }
+                }
+                
+                this.updateUI();
+            }
+            
+            update() {
+                if (this.gameState !== 'playing') return;
+                
+                // Update emitter angle
+                this.emitterAngle = Math.atan2(this.mouseY - this.playerY, this.mouseX - this.playerX);
+                
+                // Update pulses
+                this.pulses = this.pulses.filter(p => {
+                    p.update();
+                    
+                    if (!p.active) return false;
+                    
+                    // Check wall collisions
+                    for (const wall of this.walls) {
+                        if (wall.checkCollision(p)) {
+                            playBounce();
+                            if (p.bounces >= 5) this.badges.bounce = true;
+                        }
+                    }
+                    
+                    // Check resonator hits
+                    for (const r of this.resonators) {
+                        if (r.checkHit(p)) {
+                            playHit();
+                            this.combo++;
+                            if (this.combo > this.maxCombo) this.maxCombo = this.combo;
+                            if (this.combo >= 2) {
+                                document.getElementById('comboValue').textContent = this.combo;
+                                document.getElementById('combo-display').classList.add('active');
+                                setTimeout(() => document.getElementById('combo-display').classList.remove('active'), 1000);
+                            }
+                            const points = 100 * this.combo;
+                            this.score += points;
+                            p.hits.push(r);
+                            if (p.hits.length >= 3) this.badges.multi = true;
+                        }
+                    }
+                    
+                    return p.active && p.bounces < p.maxBounces;
+                });
+                
+                // Check level complete
+                if (this.resonators.every(r => r.hit)) {
+                    this.levelComplete();
+                }
+                
+                // Check game over
+                if (this.pulsesLeft === 0 && this.pulses.length === 0 && 
+                    !this.resonators.every(r => r.hit)) {
+                    this.firstTry = false;
+                }
+                
+                this.updateUI();
+            }
+            
+            draw() {
+                // Clear with fade
+                ctx.fillStyle = 'rgba(10, 10, 18, 0.3)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw grid
+                ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x < canvas.width; x += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < canvas.height; y += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+                
+                // Draw walls
+                for (const wall of this.walls) {
+                    wall.draw(ctx, this.phase);
+                }
+                
+                // Draw resonators
+                for (const r of this.resonators) {
+                    r.draw(ctx, this.phase);
+                }
+                
+                // Draw pulses
+                for (const p of this.pulses) {
+                    p.draw(ctx);
+                }
+                
+                // Draw player emitter
+                this.drawEmitter();
+                
+                // Draw aim line
+                if (this.gameState === 'playing') {
+                    ctx.beginPath();
+                    ctx.moveTo(this.playerX, this.playerY);
+                    ctx.lineTo(this.mouseX, this.mouseY);
+                    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([5, 5]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+            }
+            
+            drawEmitter() {
+                const color = this.phase === 'alpha' ? '#ff006e' : '#00ffff';
+                
+                // Base
+                ctx.beginPath();
+                ctx.arc(this.playerX, this.playerY, 20, 0, Math.PI * 2);
+                ctx.fillStyle = '#000';
+                ctx.fill();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // Rotating indicator
+                const angle = this.emitterAngle;
+                ctx.beginPath();
+                ctx.moveTo(this.playerX, this.playerY);
+                ctx.lineTo(
+                    this.playerX + Math.cos(angle) * 30,
+                    this.playerY + Math.sin(angle) * 30
+                );
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                
+                // Glow
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = color;
+                ctx.beginPath();
+                ctx.arc(this.playerX, this.playerY, 15, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.globalAlpha = 0.3;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+            }
+            
+            updateUI() {
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('level').textContent = this.level;
+                document.getElementById('pulses').textContent = this.pulsesLeft;
+                
+                // Update badges
+                if (this.badges.bounce) document.getElementById('badgeBounce').classList.add('earned');
+                if (this.badges.multi) document.getElementById('badgeMulti').classList.add('earned');
+                if (this.badges.precision) document.getElementById('badgePrecision').classList.add('earned');
+            }
+            
+            checkGameOver() {
+                if (!this.resonators.every(r => r.hit)) {
+                    this.gameOver();
+                }
+            }
+            
+            levelComplete() {
+                this.gameState = 'complete';
+                playWin();
+                
+                if (this.firstTry) this.badges.precision = true;
+                
+                // Bonus for remaining pulses
+                const bonus = this.pulsesLeft * 50;
+                this.score += bonus;
+                
+                document.getElementById('levelScore').textContent = this.score;
+                document.getElementById('levelComplete').style.display = 'block';
+            }
+            
+            gameOver() {
+                this.gameState = 'over';
+                document.getElementById('finalScore').textContent = this.score;
+                document.getElementById('gameOver').style.display = 'block';
+            }
+            
+            nextLevel() {
+                document.getElementById('levelComplete').style.display = 'none';
+                this.loadLevel(this.level + 1);
+                this.gameState = 'playing';
+            }
+            
+            restart() {
+                document.getElementById('gameOver').style.display = 'none';
+                this.score = 0;
+                this.badges = { bounce: false, multi: false, precision: false };
+                document.getElementById('badgeBounce').classList.remove('earned');
+                document.getElementById('badgeMulti').classList.remove('earned');
+                document.getElementById('badgePrecision').classList.remove('earned');
+                this.loadLevel(1);
+                this.gameState = 'playing';
+            }
+            
+            loop() {
+                if (this.gameState === 'playing' || this.pulses.length > 0) {
+                    this.update();
+                    this.draw();
+                    requestAnimationFrame(() => this.loop());
+                }
+            }
+        }
+        
+        const game = new Game();
+    </script>
+</body>
+</html>

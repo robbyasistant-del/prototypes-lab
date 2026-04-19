@@ -1,0 +1,883 @@
+="width=device-width, initial-scale=1.0">
+    <title>QUANTUM TANGLER - Visual Programming Puzzle</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a12;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 1000px;
+            height: 650px;
+            margin-top: 15px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(138,43,226,0.2), inset 0 0 100px rgba(0,0,0,0.5);
+        }
+        
+        canvas {
+            display: block;
+            background: linear-gradient(135deg, #0d0d15 0%, #1a1025 100%);
+        }
+        
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .score-panel {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #a855f7;
+            text-shadow: 0 0 15px rgba(168,85,247,0.8);
+        }
+        
+        .stat-label {
+            font-size: 0.65em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        #instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(10,10,18,0.98);
+            padding: 40px 50px;
+            border-radius: 20px;
+            border: 2px solid #a855f7;
+            box-shadow: 0 0 50px rgba(168,85,247,0.3);
+            z-index: 100;
+            max-width: 600px;
+        }
+        
+        #instructions h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        #instructions p {
+            font-size: 1em;
+            color: #aaa;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        #instructions .key {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(168,85,247,0.2);
+            border: 1px solid #a855f7;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #a855f7;
+            margin: 0 3px;
+            font-size: 0.9em;
+        }
+        
+        .qubit-demo {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 25px 0;
+        }
+        
+        .qubit-state {
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
+        
+        .state-0 { background: rgba(59,130,246,0.2); border: 1px solid #3b82f6; color: #3b82f6; }
+        .state-1 { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #ef4444; }
+        .state-super { background: rgba(168,85,247,0.2); border: 1px solid #a855f7; color: #a855f7; }
+        
+        #startBtn {
+            margin-top: 25px;
+            padding: 14px 45px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        #startBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(168,85,247,0.6);
+        }
+        
+        #gameOver, #levelComplete {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(10,10,18,0.98);
+            padding: 45px 60px;
+            border-radius: 20px;
+            border: 2px solid;
+            z-index: 100;
+            display: none;
+        }
+        
+        #gameOver { border-color: #ef4444; box-shadow: 0 0 50px rgba(239,68,68,0.4); }
+        #levelComplete { border-color: #22c55e; box-shadow: 0 0 50px rgba(34,197,94,0.4); }
+        
+        #gameOver h2, #levelComplete h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        
+        #gameOver h2 { color: #ef4444; }
+        #levelComplete h2 { color: #22c55e; }
+        
+        .btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95em;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 8px;
+        }
+        
+        .btn-retry {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #fff;
+        }
+        
+        .btn:hover { transform: scale(1.05); }
+        
+        #palette {
+            position: absolute;
+            right: 15px;
+            top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .gate-btn {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #444;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.6);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7em;
+        }
+        
+        .gate-btn:hover {
+            border-color: #a855f7;
+            background: rgba(168,85,247,0.1);
+        }
+        
+        .gate-btn.selected {
+            border-color: #a855f7;
+            background: rgba(168,85,247,0.3);
+            box-shadow: 0 0 15px rgba(168,85,247,0.5);
+        }
+        
+        .gate-btn .gate-icon {
+            font-size: 1.4em;
+            margin-bottom: 2px;
+        }
+        
+        #tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.95);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #a855f7;
+            font-size: 0.8em;
+            color: #aaa;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 50;
+            max-width: 200px;
+        }
+        
+        #controls-help {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            font-size: 0.75em;
+            color: #666;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .efficiency-bar {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            width: 200px;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .efficiency-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        #efficiency-text {
+            position: absolute;
+            bottom: 28px;
+            right: 20px;
+            font-size: 0.7em;
+            color: #888;
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="1000" height="650"></canvas>
+        
+        <div id="ui">
+            <div class="score-panel">
+                <div class="stat">
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="level">1</div>
+                    <div class="stat-label">Level</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="cycles">0</div>
+                    <div class="stat-label">Cycles</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="palette">
+            <div class="gate-btn selected" data-gate="wire" title="Wire - Direct connection">
+                <span class="gate-icon">─</span>
+                <span>WIRE</span>
+            </div>
+            <div class="gate-btn" data-gate="x" title="X Gate - Flips qubit (0↔1)">
+                <span class="gate-icon">X</span>
+                <span>NOT</span>
+            </div>
+            <div class="gate-btn" data-gate="h" title="H Gate - Creates superposition">
+                <span class="gate-icon">H</span>
+                <span>HAD</span>
+            </div>
+            <div class="gate-btn" data-gate="z" title="Z Gate - Phase flip">
+                <span class="gate-icon">Z</span>
+                <span>PHASE</span>
+            </div>
+            <div class="gate-btn" data-gate="cnot" title="CNOT - Controlled NOT gate">
+                <span class="gate-icon">⊕</span>
+                <span>CNOT</span>
+            </div>
+            <div class="gate-btn" data-gate="swap" title="SWAP - Exchanges two qubits">
+                <span class="gate-icon">⇄</span>
+                <span>SWAP</span>
+            </div>
+            <div class="gate-btn" data-gate="measure" title="Measure - Collapses superposition">
+                <span class="gate-icon">M</span>
+                <span>MEAS</span>
+            </div>
+            <div class="gate-btn" data-gate="erase" title="Erase - Remove gate">
+                <span class="gate-icon">⌫</span>
+                <span>DEL</span>
+            </div>
+        </div>
+        
+        <div id="efficiency-text">CIRCUIT EFFICIENCY</div>
+        <div class="efficiency-bar">
+            <div class="efficiency-fill" id="efficiencyBar" style="width: 100%"></div>
+        </div>
+        
+        <div id="controls-help">[CLICK] Place Gate | [SPACE] Run | [R] Reset</div>
+        
+        <div id="tooltip"></div>
+        
+        <div id="instructions">
+            <h1>⚛️ QUANTUM TANGLER</h1>
+            <p>Guide qubits through quantum gates to match the target state.</p>
+            
+            <div class="qubit-demo">
+                <div class="qubit-state state-0">|0⟩</div>
+                <div class="qubit-state state-1">|1⟩</div>
+                <div class="qubit-state state-super">|+⟩</div>
+            </div>
+            
+            <p>Qubits can be <span class="state-0">0</span>, <span class="state-1">1</span>, or <span class="state-super">superposition</span></p>
+            <p>Build circuits by placing gates on the grid</p>
+            <p>Use <strong>minimum gates</strong> for maximum score</p>
+            
+            <br>
+            <p><span class="key">CLICK</span> to place selected gate</p>
+            <p><span class="key">SPACE</span> to run simulation</p>
+            <p><span class="key">R</span> to reset circuit</p>
+            
+            <button id="startBtn">INITIALIZE SYSTEM</button>
+        </div>
+        
+        <div id="gameOver">
+            <h2>DECOHERENCE!</h2>
+            <p style="color:#aaa;margin:15px 0;">Qubits collapsed to wrong state.</p>
+            <p style="color:#ef4444;font-size:1.2em;">Target not achieved</p>
+            <button class="btn btn-retry" onclick="game.restartLevel()">RETRY</button>
+        </div>
+        
+        <div id="levelComplete">
+            <h2>QUANTUM VICTORY!</h2>
+            <p style="color:#aaa;margin:15px 0;">Perfect state alignment achieved.</p>
+            <p style="color:#22c55e;font-size:1.2em;">Efficiency: <span id="efficiencyScore">100%</span></p>
+            <p style="color:#a855f7;font-size:1.1em;">Score: +<span id="levelScore">0</span></p>
+            <button class="btn btn-next" onclick="game.nextLevel()">NEXT CIRCUIT</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const CELL_SIZE = 50;
+        const GRID_W = 18;
+        const GRID_H = 11;
+        
+        // Audio
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        function playTone(freq, duration, type='sine') {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+        function playGate() { playTone(600, 0.08, 'sine'); }
+        function playRun() { playTone(440, 0.3, 'square'); }
+        function playSuccess() { 
+            [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 0.2), i * 80));
+        }
+        function playFail() { playTone(150, 0.5, 'sawtooth'); }
+        
+        class Qubit {
+            constructor(state = '0') {
+                this.state = state; // '0', '1', '+', '-', 'i', '-i'
+                this.probability0 = state === '0' ? 1 : state === '1' ? 0 : 0.5;
+                this.visualState = state;
+            }
+            
+            applyGate(gate) {
+                const transitions = {
+                    '0': { 'x': '1', 'h': '+', 'z': '0', 'measure': '0' },
+                    '1': { 'x': '0', 'h': '-', 'z': '1', 'measure': '1' },
+                    '+': { 'x': '+', 'h': '0', 'z': '-', 'measure': Math.random() > 0.5 ? '0' : '1' },
+                    '-': { 'x': '-', 'h': '1', 'z': '+', 'measure': Math.random() > 0.5 ? '0' : '1' }
+                };
+                
+                if (gate === 'measure') {
+                    const result = transitions[this.state]?.[gate] || this.state;
+                    this.state = result;
+                    this.visualState = result;
+                    return;
+                }
+                
+                this.state = transitions[this.state]?.[gate] || this.state;
+                this.visualState = this.state;
+            }
+            
+            getColor() {
+                const colors = {
+                    '0': '#3b82f6', '1': '#ef4444', '+': '#a855f7',
+                    '-': '#ec4899', 'i': '#f59e0b'
+                };
+                return colors[this.visualState] || '#888';
+            }
+            
+            clone() {
+                const q = new Qubit(this.state);
+                q.visualState = this.visualState;
+                return q;
+            }
+        }
+        
+        class Particle {
+            constructor(x, y, qubit) {
+                this.x = x;
+                this.y = y;
+                this.qubit = qubit;
+                this.targetX = x;
+                this.targetY = y;
+                this.progress = 0;
+                this.speed = 0.08;
+                this.history = [];
+            }
+            
+            setTarget(x, y) {
+                this.targetX = x;
+                this.targetY = y;
+                this.progress = 0;
+            }
+            
+            update() {
+                if (this.progress < 1) {
+                    this.progress += this.speed;
+                    if (this.progress >= 1) {
+                        this.x = this.targetX;
+                        this.y = this.targetY;
+                        this.progress = 1;
+                    }
+                }
+                
+                this.history.push({x: this.x, y: this.y, state: this.qubit.visualState});
+                if (this.history.length > 20) this.history.shift();
+            }
+            
+            draw(ctx) {
+                const x = this.x + (this.targetX - this.x) * this.progress;
+                const y = this.y + (this.targetY - this.y) * this.progress;
+                
+                // Trail
+                this.history.forEach((h, i) => {
+                    const alpha = i / this.history.length * 0.5;
+                    ctx.beginPath();
+                    ctx.arc(h.x * CELL_SIZE + CELL_SIZE/2, h.y * CELL_SIZE + CELL_SIZE/2, 8, 0, Math.PI*2);
+                    ctx.fillStyle = this.qubit.getColor();
+                    ctx.globalAlpha = alpha;
+                    ctx.fill();
+                });
+                ctx.globalAlpha = 1;
+                
+                // Particle
+                const px = x * CELL_SIZE + CELL_SIZE/2;
+                const py = y * CELL_SIZE + CELL_SIZE/2;
+                
+                ctx.beginPath();
+                ctx.arc(px, py, 12, 0, Math.PI*2);
+                ctx.fillStyle = this.qubit.getColor();
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = this.qubit.getColor();
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                // State text
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText(`|${this.qubit.visualState}⟩`, px, py + 4);
+                
+                // Glow ring for superposition
+                if (this.qubit.visualState === '+' || this.qubit.visualState === '-') {
+                    ctx.beginPath();
+                    ctx.arc(px, py, 18, 0, Math.PI*2);
+                    ctx.strokeStyle = this.qubit.getColor();
+                    ctx.lineWidth = 2;
+                    ctx.globalAlpha = 0.5;
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+            }
+        }
+        
+        class Game {
+            constructor() {
+                this.grid = Array(GRID_H).fill(null).map(() => Array(GRID_W).fill(null));
+                this.particles = [];
+                this.level = 1;
+                this.score = 0;
+                this.cycles = 0;
+                this.selectedGate = 'wire';
+                this.gameState = 'menu';
+                this.currentLevel = null;
+                this.gatesPlaced = 0;
+                this.minGates = 1;
+                
+                this.setupInput();
+                this.loadLevel(1);
+            }
+            
+            setupInput() {
+                // Gate palette selection
+                document.querySelectorAll('.gate-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.gate-btn').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        this.selectedGate = btn.dataset.gate;
+                        playGate();
+                    });
+                });
+                
+                // Grid interaction
+                canvas.addEventListener('click', (e) => {
+                    if (this.gameState !== 'playing') return;
+                    const rect = canvas.getBoundingClientRect();
+                    const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+                    const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+                    
+                    if (x >= 0 && x < GRID_W && y >= 0 && y < GRID_H) {
+                        if (x === 0 || x === GRID_W - 1) return; // Don't block input/output
+                        
+                        if (this.selectedGate === 'erase') {
+                            this.grid[y][x] = null;
+                        } else {
+                            this.grid[y][x] = this.selectedGate;
+                            this.gatesPlaced++;
+                        }
+                        playGate();
+                    }
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.runSimulation();
+                    }
+                    if (e.code === 'KeyR') {
+                        this.resetCircuit();
+                    }
+                });
+                
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    initAudio();
+                    document.getElementById('instructions').style.display = 'none';
+                    this.gameState = 'playing';
+                    this.loop();
+                });
+            }
+            
+            loadLevel(lvl) {
+                this.level = lvl;
+                this.grid = Array(GRID_H).fill(null).map(() => Array(GRID_W).fill(null));
+                this.particles = [];
+                this.cycles = 0;
+                this.gatesPlaced = 0;
+                
+                // Level configurations
+                const levels = [
+                    { // Level 1: Simple NOT
+                        input: [new Qubit('0')],
+                        target: ['1'],
+                        minGates: 1,
+                        available: ['x', 'wire']
+                    },
+                    { // Level 2: Hadamard to superposition
+                        input: [new Qubit('0')],
+                        target: ['+'],
+                        minGates: 1,
+                        available: ['h', 'x', 'wire']
+                    },
+                    { // Level 3: Double NOT
+                        input: [new Qubit('0')],
+                        target: ['0'],
+                        minGates: 2,
+                        available: ['x', 'wire']
+                    },
+                    { // Level 4: 1 to superposition
+                        input: [new Qubit('1')],
+                        target: ['-'],
+                        minGates: 1,
+                        available: ['h', 'x', 'wire']
+                    },
+                    { // Level 5: Two qubits, flip both
+                        input: [new Qubit('0'), new Qubit('1')],
+                        target: ['1', '0'],
+                        minGates: 2,
+                        available: ['x', 'wire']
+                    },
+                    { // Level 6: Superposition collapse
+                        input: [new Qubit('+')],
+                        target: ['0'],
+                        minGates: 2,
+                        available: ['h', 'measure', 'wire']
+                    }
+                ];
+                
+                this.currentLevel = levels[(lvl - 1) % levels.length];
+                this.minGates = this.currentLevel.minGates;
+                
+                // Create particles
+                this.currentLevel.input.forEach((q, i) => {
+                    const row = Math.floor(GRID_H / 2) + (i - this.currentLevel.input.length/2 + 0.5) * 2;
+                    this.particles.push(new Particle(0, Math.floor(row), q.clone()));
+                });
+                
+                this.updateUI();
+            }
+            
+            runSimulation() {
+                if (this.gameState !== 'playing') return;
+                this.gameState = 'running';
+                playRun();
+                
+                // Animate particles through the circuit
+                let step = 0;
+                const maxSteps = GRID_W - 1;
+                
+                const simInterval = setInterval(() => {
+                    step++;
+                    this.cycles++;
+                    
+                    this.particles.forEach(p => {
+                        const gate = this.grid[p.targetY]?.[step];
+                        if (gate && gate !== 'wire') {
+                            p.qubit.applyGate(gate);
+                        }
+                        p.setTarget(step, p.targetY);
+                    });
+                    
+                    if (step >= maxSteps) {
+                        clearInterval(simInterval);
+                        setTimeout(() => this.checkResult(), 500);
+                    }
+                }, 300);
+            }
+            
+            checkResult() {
+                const results = this.particles.map(p => p.qubit.state);
+                const success = results.every((r, i) => r === this.currentLevel.target[i]);
+                
+                if (success) {
+                    this.levelComplete();
+                } else {
+                    this.gameOver();
+                }
+            }
+            
+            levelComplete() {
+                this.gameState = 'complete';
+                playSuccess();
+                
+                // Calculate efficiency
+                const efficiency = Math.max(0, 100 - (this.gatesPlaced - this.minGates) * 20);
+                const bonus = efficiency * 10;
+                this.score += 100 + bonus;
+                
+                document.getElementById('efficiencyScore').textContent = efficiency + '%';
+                document.getElementById('efficiencyBar').style.width = efficiency + '%';
+                document.getElementById('levelScore').textContent = 100 + bonus;
+                document.getElementById('levelComplete').style.display = 'block';
+                this.updateUI();
+            }
+            
+            gameOver() {
+                this.gameState = 'over';
+                playFail();
+                document.getElementById('gameOver').style.display = 'block';
+            }
+            
+            resetCircuit() {
+                this.grid = Array(GRID_H).fill(null).map(() => Array(GRID_W).fill(null));
+                this.gatesPlaced = 0;
+                this.particles = [];
+                this.currentLevel.input.forEach((q, i) => {
+                    const row = Math.floor(GRID_H / 2) + (i - this.currentLevel.input.length/2 + 0.5) * 2;
+                    this.particles.push(new Particle(0, Math.floor(row), q.clone()));
+                });
+                this.gameState = 'playing';
+                document.getElementById('gameOver').style.display = 'none';
+            }
+            
+            restartLevel() {
+                document.getElementById('gameOver').style.display = 'none';
+                this.resetCircuit();
+                this.gameState = 'playing';
+            }
+            
+            nextLevel() {
+                document.getElementById('levelComplete').style.display = 'none';
+                this.loadLevel(this.level + 1);
+                this.gameState = 'playing';
+            }
+            
+            updateUI() {
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('level').textContent = this.level;
+                document.getElementById('cycles').textContent = this.cycles;
+            }
+            
+            draw() {
+                // Clear
+                ctx.fillStyle = '#0d0d15';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw grid
+                ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x <= GRID_W; x++) {
+                    ctx.beginPath();
+                    ctx.moveTo(x * CELL_SIZE, 0);
+                    ctx.lineTo(x * CELL_SIZE, canvas.height);
+                    ctx.stroke();
+                }
+                for (let y = 0; y <= GRID_H; y++) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y * CELL_SIZE);
+                    ctx.lineTo(canvas.width, y * CELL_SIZE);
+                    ctx.stroke();
+                }
+                
+                // Draw input zone
+                ctx.fillStyle = 'rgba(59,130,246,0.1)';
+                ctx.fillRect(0, 0, CELL_SIZE, canvas.height);
+                ctx.strokeStyle = '#3b82f6';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(0, 0, CELL_SIZE, canvas.height);
+                
+                // Draw output zone
+                ctx.fillStyle = 'rgba(34,197,94,0.1)';
+                ctx.fillRect((GRID_W-1) * CELL_SIZE, 0, CELL_SIZE, canvas.height);
+                ctx.strokeStyle = '#22c55e';
+                ctx.strokeRect((GRID_W-1) * CELL_SIZE, 0, CELL_SIZE, canvas.height);
+                
+                // Draw gates on grid
+                for (let y = 0; y < GRID_H; y++) {
+                    for (let x = 0; x < GRID_W; x++) {
+                        const gate = this.grid[y][x];
+                        if (gate) {
+                            this.drawGate(x, y, gate);
+                        }
+                    }
+                }
+                
+                // Draw targets
+                ctx.fillStyle = '#22c55e';
+                ctx.font = 'bold 14px JetBrains Mono';
+                ctx.textAlign = 'center';
+                this.currentLevel?.target.forEach((t, i) => {
+                    const row = Math.floor(GRID_H / 2) + (i - this.currentLevel.target.length/2 + 0.5) * 2;
+                    ctx.fillText(`|${t}⟩`, (GRID_W - 0.5) * CELL_SIZE, (row + 0.6) * CELL_SIZE);
+                });
+                
+                // Draw particles
+                this.particles.forEach(p => {
+                    p.update();
+                    p.draw(ctx);
+                });
+                
+                // Draw connection lines
+                ctx.strokeStyle = 'rgba(168,85,247,0.3)';
+                ctx.lineWidth = 2;
+                this.particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.moveTo(p.x * CELL_SIZE + CELL_SIZE/2, p.y * CELL_SIZE + CELL_SIZE/2);
+                    ctx.lineTo((GRID_W - 1) * CELL_SIZE, p.y * CELL_SIZE + CELL_SIZE/2);
+                    ctx.stroke();
+                });
+            }
+            
+            drawGate(x, y, gate) {
+                const px = x * CELL_SIZE;
+                const py = y * CELL_SIZE;
+                const colors = {
+                    'x': '#ef4444', 'h': '#a855f7', 'z': '#f59e0b',
+                    'cnot': '#ec4899', 'swap': '#3b82f6', 'measure': '#22c55e'
+                };
+                const color = colors[gate] || '#666';
+                
+                // Gate box
+                ctx.fillStyle = 'rgba(0,0,0,0.8)';
+                ctx.fillRect(px + 2, py + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(px + 2, py + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+                
+                // Gate symbol
+                ctx.fillStyle = color;
+                ctx.font = 'bold 16px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                const symbols = {
+                    'x': 'X', 'h': 'H', 'z': 'Z', 'cnot': '⊕', 'swap': '⇄', 'measure': 'M'
+                };
+                ctx.fillText(symbols[gate] || gate.toUpperCase(), px + CELL_SIZE/2, py + CELL_SIZE/2);
+            }
+            
+            loop() {
+                if (this.gameState === 'playing' || this.gameState === 'running') {
+                    this.draw();
+                    requestAnimationFrame(() => this.loop());
+                }
+            }
+        }
+        
+        const game = new Game();
+    </script>
+</body>
+</html>

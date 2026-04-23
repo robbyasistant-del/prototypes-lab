@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orbit Orchard</title>
+<style>
+:root{--bg1:#07111f;--bg2:#0f2240;--accent:#7ef9ff;--accent2:#ffd166;--good:#7dff9b;--bad:#ff7285;--panel:rgba(10,18,34,.74);--line:rgba(144,205,255,.22)}*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at top,#18305d,#07111f 58%);color:#eef6ff;overflow:hidden}canvas{display:block;width:100vw;height:100vh}.hud,.overlay,.toast{position:fixed;z-index:2}.hud{inset:18px 18px auto 18px;display:flex;justify-content:space-between;gap:16px;pointer-events:none}.panel{background:var(--panel);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 60px rgba(0,0,0,.28)}.left,.right{display:flex;gap:12px;flex-wrap:wrap}.chip{padding:10px 14px;min-width:92px}.label{font-size:11px;opacity:.72;text-transform:uppercase;letter-spacing:.14em}.value{font-weight:800;font-size:24px}.sub{font-size:12px;opacity:.82}.overlay{left:18px;right:18px;bottom:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px}.card{max-width:500px;padding:16px 18px}.card h1,.modal h2{margin:0 0 8px;font-size:28px}.card p,.modal p{margin:8px 0;line-height:1.45}.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.key{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-weight:700;font-size:12px}.btn{cursor:pointer;border:none;border-radius:14px;padding:12px 18px;font-weight:800;color:#07111f;background:linear-gradient(135deg,var(--accent),#b4fff5);box-shadow:0 12px 30px rgba(126,249,255,.26)}.btn.secondary{background:linear-gradient(135deg,#ffe28d,var(--accent2))}.modalWrap{position:fixed;inset:0;display:grid;place-items:center;background:rgba(3,8,18,.62);z-index:5}.modal{width:min(92vw,560px);padding:24px}.toast{left:50%;transform:translateX(-50%);top:20px;padding:10px 16px;border-radius:999px;background:rgba(12,23,44,.88);border:1px solid var(--line);opacity:0;transition:.2s}.toast.show{opacity:1}.progress{height:10px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,#8effc0,#ffe17e)}@media (max-width:760px){.overlay{flex-direction:column;align-items:stretch}.card{max-width:none}.hud{inset:12px}.value{font-size:20px}}
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div class="toast panel" id="toast"></div>
+<div class="hud">
+  <div class="left">
+    <div class="panel chip"><div class="label">Score</div><div class="value" id="score">0</div><div class="sub" id="streak">Streak x1</div></div>
+    <div class="panel chip"><div class="label">Lives</div><div class="value" id="lives">3</div><div class="sub">Avoid void pods</div></div>
+    <div class="panel chip"><div class="label">Goal</div><div class="value" id="goal">1200</div><div class="sub">Reach before dusk</div></div>
+  </div>
+  <div class="right">
+    <div class="panel chip"><div class="label">Time</div><div class="value" id="time">75</div><div class="sub">seconds</div></div>
+    <div class="panel chip"><div class="label">Badge</div><div class="value" id="badge">Seedling</div><div class="sub" id="comboBarText">Combo growing</div></div>
+  </div>
+</div>
+<div class="overlay">
+  <div class="panel card">
+    <h1>Orbit Orchard</h1>
+    <p>Catch glowing starfruit, chain colors for combo bonuses, and dodge the void pods. Instructions are visible instantly: move, catch, survive, hit the score goal.</p>
+    <div class="controls"><span class="key">← → move</span><span class="key">A / D move</span><span class="key">Space pause</span></div>
+    <p>Every 5 clean catches upgrades your <strong>harvest badge</strong>. Hit <strong>1200</strong> before the 75-second dusk countdown ends to win.</p>
+    <div class="progress"><span id="goalBar" style="width:0%"></span></div>
+  </div>
+  <button class="btn" id="cta">Start harvest</button>
+</div>
+<div id="modalRoot"></div>
+<script>
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+const els={score:score,lives:lives,goal,streak,time,badge,goalBar,comboBarText,cta,modalRoot,toast};
+let w=canvas.width=innerWidth,h=canvas.height=innerHeight;addEventListener('resize',()=>{w=canvas.width=innerWidth;h=canvas.height=innerHeight;player.y=h-110});
+const colors=['#7ef9ff','#ffd166','#ff8fab','#9effa5'];
+const badges=['Seedling','Planter','Harvester','Nova Keeper','Orchard Legend'];
+const state={running:false,ended:false,paused:false,score:0,lives:3,time:75,streak:1,catches:0,badge:0,spawn:0,best:+localStorage.orbitOrchardBest||0};
+const player={x:w/2,y:h-110,width:120,height:28,vx:0};
+let fruits=[],particles=[],last=0,keys={};
+function toastMsg(text){els.toast.textContent=text;els.toast.classList.add('show');clearTimeout(toastMsg.t);toastMsg.t=setTimeout(()=>els.toast.classList.remove('show'),1400)}
+function reset(){Object.assign(state,{running:false,ended:false,paused:false,score:0,lives:3,time:75,streak:1,catches:0,badge:0,spawn:0});fruits=[];particles=[];player.x=w/2;player.y=h-110;renderHud();showIntro()}
+function renderHud(){els.score.textContent=Math.floor(state.score);els.lives.textContent=state.lives;els.time.textContent=Math.ceil(state.time);els.goal.textContent='1200';els.streak.textContent=`Streak x${state.streak}`;els.badge.textContent=badges[state.badge];els.comboBarText.textContent=`Best ${state.best}`;els.goalBar.style.width=Math.min(100,state.score/12)+'%'}
+function start(){state.running=true;state.ended=false;els.modalRoot.innerHTML='';toastMsg('Harvest online')} 
+function end(win){state.running=false;state.ended=true;state.best=Math.max(state.best,Math.floor(state.score));localStorage.orbitOrchardBest=state.best;renderHud();els.modalRoot.innerHTML=`<div class="modalWrap"><div class="panel modal"><h2>${win?'Orbit Orchard cleared!':'Game over in the orchard'}</h2><p>${win?'You beat dusk and banked a premium haul.':''}${!win?'You ran out of time or lives before the haul target.':''}</p><p><strong>Score:</strong> ${Math.floor(state.score)} · <strong>Badge:</strong> ${badges[state.badge]} · <strong>Best:</strong> ${state.best}</p><p>${win?'Key outcome: the combo loop stayed hot enough to create a proper “one more run” finish.':'Tip: chain same-color fruit for big combo jumps and never chase a void pod near the edge.'}</p><div class="controls"><button class="btn" onclick="reset();start()">Play again</button><button class="btn secondary" onclick="reset()">Back to briefing</button></div></div></div>`}
+function showIntro(){els.modalRoot.innerHTML=`<div class="modalWrap"><div class="panel modal"><h2>Harvest briefing</h2><p><strong>Goal:</strong> score 1200 before dusk.</p><p><strong>How:</strong> move the skiff left and right, catch starfruit, dodge dark void pods, keep your streak alive, and level your badge every 5 clean catches.</p><p><strong>Win state:</strong> reach 1200. <strong>Lose state:</strong> 0 lives or time hits 0.</p><div class="controls"><button class="btn" onclick="start()">Start harvest</button></div></div></div>`}
+function spawnFruit(){const good=Math.random()>.18; const color=colors[(Math.random()*colors.length)|0]; fruits.push({x:40+Math.random()*(w-80),y:-30,r:16+Math.random()*10,vy:180+Math.random()*140,type:good?'fruit':'void',color,rot:Math.random()*6,spin:(Math.random()-.5)*2})}
+function burst(x,y,color,count){for(let i=0;i<count;i++)particles.push({x,y,vx:(Math.random()-.5)*260,vy:(Math.random()-.5)*260,life:.8+Math.random()*.6,color,size:2+Math.random()*4})}
+addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(e.code==='Space'&&state.running&&!state.ended){state.paused=!state.paused;toastMsg(state.paused?'Paused':'Back in orbit')}});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+els.cta.onclick=()=>state.running?reset():start();
+function update(dt){if(!state.running||state.paused||state.ended)return; state.time-=dt;if(state.time<=0)return end(state.score>=1200);
+const move=((keys.arrowleft||keys.a)?-1:0)+((keys.arrowright||keys.d)?1:0); player.vx=move*560; player.x=Math.max(player.width/2,Math.min(w-player.width/2,player.x+player.vx*dt)); state.spawn-=dt; if(state.spawn<=0){spawnFruit();state.spawn=.26-Math.min(.12,state.score/9000)}
+for(const f of fruits){f.y+=f.vy*dt;f.rot+=f.spin*dt; if(Math.abs(f.x-player.x)<player.width/2+f.r*.55&&Math.abs((player.y-10)-f.y)<player.height/2+f.r*.8){ if(f.type==='void'){state.lives--;state.streak=1;burst(f.x,f.y,'#ff7285',14);toastMsg('Void pod hit!'); if(state.lives<=0)return end(false)} else {state.catches++;const sameBonus=colors.indexOf(f.color)%2===state.catches%2?1.4:1; const gain=50*state.streak*sameBonus; state.score+=gain; state.streak=Math.min(8,state.streak+1); if(state.catches%5===0&&state.badge<badges.length-1){state.badge++;toastMsg('Badge upgraded: '+badges[state.badge]);state.score+=120} burst(f.x,f.y,f.color,12); if(state.score>=1200)return end(true)} f.dead=true; renderHud();} if(f.y>h+40){if(f.type==='fruit'){state.streak=1}f.dead=true}}
+fruits=fruits.filter(f=>!f.dead); for(const p of particles){p.life-=dt; p.x+=p.vx*dt; p.y+=p.vy*dt; p.vy+=40*dt} particles=particles.filter(p=>p.life>0); renderHud()}
+function drawBg(t){const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#102750');g.addColorStop(1,'#07111f');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);for(let i=0;i<90;i++){const x=(i*137+t*8)%w,y=(i*83)%h;ctx.fillStyle=`rgba(255,255,255,${.08+(i%5)*.03})`;ctx.beginPath();ctx.arc(x,y,(i%3)+1,0,7);ctx.fill()}ctx.fillStyle='rgba(125,195,255,.12)';for(let i=0;i<5;i++){ctx.beginPath();ctx.ellipse(w*(i/4),h*.8+Math.sin(t+i)*16,240,50,0,0,7);ctx.fill()}}
+function draw(){ctx.clearRect(0,0,w,h);const t=performance.now()/1000;drawBg(t);ctx.save();ctx.translate(player.x,player.y);ctx.fillStyle='#132540';ctx.beginPath();ctx.roundRect(-70,-18,140,40,18);ctx.fill();ctx.strokeStyle='rgba(126,249,255,.7)';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#7ef9ff';ctx.fillRect(-24,-28,48,16);ctx.shadowBlur=20;ctx.shadowColor='#7ef9ff';ctx.fillRect(-10,-8,20,8);ctx.restore();for(const f of fruits){ctx.save();ctx.translate(f.x,f.y);ctx.rotate(f.rot);if(f.type==='void'){ctx.fillStyle='#10131f';ctx.shadowColor='#ff7285';ctx.shadowBlur=20;ctx.beginPath();ctx.arc(0,0,f.r,0,7);ctx.fill();ctx.strokeStyle='#ff7285';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,f.r+4,0,7);ctx.stroke()}else{ctx.fillStyle=f.color;ctx.shadowColor=f.color;ctx.shadowBlur=24;ctx.beginPath();ctx.arc(0,0,f.r,0,7);ctx.fill();ctx.fillStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.arc(-f.r*.25,-f.r*.25,f.r*.35,0,7);ctx.fill()}ctx.restore()}for(const p of particles){ctx.fillStyle=p.color;ctx.globalAlpha=Math.max(0,p.life);ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,7);ctx.fill();ctx.globalAlpha=1}ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(0,h-70,w,70)}
+function loop(ts){const dt=Math.min(.033,(ts-last||16)/1000);last=ts;update(dt);draw();requestAnimationFrame(loop)}
+showIntro();renderHud();requestAnimationFrame(loop);
+</script>
+</body>
+</html>

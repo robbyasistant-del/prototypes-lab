@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Threadline Temple</title>
+<style>
+:root{--bg:#09121e;--bg2:#13253f;--panel:rgba(11,20,36,.82);--line:rgba(126,198,255,.18);--ink:#edf5ff;--muted:#a5bddf;--cyan:#8ce6ff;--gold:#ffd166;--pink:#ff8bc7;--green:#7dffb6;--bad:#ff6b7f}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at top,#1a3661,#08111d 60%);color:var(--ink);min-height:100vh}
+#app{max-width:1400px;margin:auto;padding:16px;display:grid;grid-template-columns:330px 1fr;gap:16px}.panel{background:var(--panel);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:24px;box-shadow:0 22px 70px rgba(0,0,0,.28)}aside{padding:18px}.tag{display:inline-block;padding:7px 11px;border-radius:999px;background:rgba(140,230,255,.12);color:var(--cyan);font-size:12px;letter-spacing:.08em;text-transform:uppercase}h1{margin:10px 0 8px;font-size:34px;line-height:.95}.lede,.help,.small{color:var(--muted);line-height:1.5;font-size:14px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0}.stat{padding:12px;border-radius:18px;background:rgba(255,255,255,.04)}.stat b{display:block;font-size:24px;margin-top:4px}button{border:0;border-radius:14px;padding:12px 16px;font-weight:800;cursor:pointer;color:#07111c;background:linear-gradient(135deg,var(--cyan),#c6fbff)}button.secondary{background:rgba(255,255,255,.08);color:var(--ink)}.badges{margin-top:12px;padding:12px;border-radius:18px;background:rgba(255,255,255,.04);font-size:13px}.badges .on{color:var(--green)}main{padding:14px;position:relative}.banner{padding:12px 16px;border-radius:16px;background:linear-gradient(90deg,rgba(140,230,255,.18),rgba(255,209,102,.16));font-size:14px}.feedback{position:absolute;right:24px;top:24px;z-index:3;padding:10px 14px;border-radius:14px;background:rgba(7,14,25,.8);color:var(--gold);font-weight:800}.boardWrap{margin-top:14px;display:grid;grid-template-columns:1fr 270px;gap:14px}.boardBox{padding:14px;border-radius:22px;background:rgba(255,255,255,.03)}#board{display:grid;grid-template-columns:repeat(6,minmax(60px,1fr));gap:10px;touch-action:none}.cell{aspect-ratio:1/1;border-radius:20px;display:grid;place-items:center;font-size:30px;font-weight:900;background:linear-gradient(180deg,#17304e,#0d1c2f);border:1px solid rgba(255,255,255,.08);position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 10px 20px rgba(0,0,0,.16)}.cell.active{transform:translateY(-3px);border-color:var(--cyan);box-shadow:0 0 0 2px rgba(140,230,255,.22),0 12px 24px rgba(0,0,0,.25)}.cell.done{background:linear-gradient(180deg,#224f48,#12322d);border-color:rgba(125,255,182,.3)}.cell.wrong{animation:shake .25s linear 1}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}.side{padding:14px;border-radius:22px;background:rgba(255,255,255,.03)}.targets{display:flex;flex-direction:column;gap:10px}.target{padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.target.done{border-color:rgba(125,255,182,.35);background:rgba(125,255,182,.08)}.target .theme{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--cyan)}.target b{display:block;margin-top:3px;font-size:20px}.progress{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:10px}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--gold))}.overlay{position:absolute;inset:0;background:rgba(4,9,16,.62);display:flex;align-items:center;justify-content:center}.overlay.hidden{display:none}.card{width:min(560px,92%);padding:28px;text-align:center}.card h2{margin:0 0 8px;font-size:38px}.card p{color:var(--muted);line-height:1.55}.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}.trailSvg{position:absolute;inset:0;pointer-events:none}.trailSvg polyline{fill:none;stroke:rgba(140,230,255,.8);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 8px rgba(140,230,255,.3))}
+@media(max-width:980px){#app{grid-template-columns:1fr}.boardWrap{grid-template-columns:1fr}#board{grid-template-columns:repeat(6,minmax(42px,1fr))}.feedback{position:static;margin-top:12px}}
+</style>
+</head>
+<body>
+<div id="app">
+<aside class="panel">
+<span class="tag">strand path / puzzle sprint</span>
+<h1>Threadline Temple</h1>
+<p class="lede">Draw glowing paths across the rune board to reveal 4 hidden trend-words. The theme is visible immediately. Win by finding all 4 before your <b>6 sparks</b> run out.</p>
+<div class="stats">
+  <div class="stat">Score<b id="score">0</b></div>
+  <div class="stat">Best<b id="best">0</b></div>
+  <div class="stat">Sparks<b id="lives">6</b></div>
+  <div class="stat">Found<b id="foundCount">0 / 4</b></div>
+</div>
+<div><button id="startBtn">Enter Temple</button> <button id="clearBtn" class="secondary">Clear Path</button></div>
+<div class="help" style="margin-top:14px"><b>How to play:</b> drag across adjacent tiles to spell a target word. Words are based on live market signals: word obsession, social heat, connection puzzles, and hidden-thread discovery.</div>
+<div class="badges">Badges:<br><span id="b1">• Smooth Finder</span><br><span id="b2">• Zero-Waste Mystic</span><br><span id="b3">• Temple Master</span></div>
+<p class="small" style="margin-top:14px">Immediate feedback, full win/lose states, persistent best score, no external assets.</p>
+</aside>
+<main class="panel">
+<div class="banner"><b>Goal:</b> Find <b>WORDLE</b>, <b>THREAD</b>, <b>SOCIAL</b>, and <b>LINKS</b>. Drag through neighboring tiles only. Wrong submit burns 1 spark. Long chains = more score.</div>
+<div class="feedback" id="feedback">Temple quiet. Your first path matters.</div>
+<div class="boardWrap">
+  <div class="boardBox" id="boardBox" style="position:relative">
+    <svg class="trailSvg" id="trailSvg"></svg>
+    <div id="board"></div>
+  </div>
+  <div class="side">
+    <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Trend relics</div>
+    <div class="targets" id="targets"></div>
+    <div class="progress"><span id="progressBar" style="width:0%"></span></div>
+    <div class="small" style="margin-top:12px">This is a tactile “trace the idea” loop inspired by Strands/Connections energy but played as a neon path ritual instead of a standard word grid.</div>
+  </div>
+</div>
+<div class="overlay" id="overlay"><div class="panel card"><h2 id="ovTitle">Threadline Temple</h2><p id="ovText">Ancient trend runes are tangled. Trace the hidden words by dragging across adjacent tiles. Find all 4 words to win; 6 failed invocations and the temple seals shut.</p><div class="cta"><button id="playBtn">Start tracing</button></div></div></div>
+</main>
+</div>
+<script>
+const level={grid:[['W','O','R','D','L','E'],['S','O','C','I','A','L'],['T','H','R','E','A','D'],['L','I','N','K','S','Y'],['P','U','L','S','E','R'],['G','L','O','W','U','P']],words:[{word:'WORDLE',theme:'Daily word obsession'},{word:'THREAD',theme:'Conversation gravity'},{word:'SOCIAL',theme:'X/Reddit/TikTok heat'},{word:'LINKS',theme:'Connections instinct'}]};
+const board=document.getElementById('board'), trailSvg=document.getElementById('trailSvg'), overlay=document.getElementById('overlay');
+const els={score:score,best:best,lives:lives,foundCount,feedback,targets,progressBar,ovTitle,ovText};
+let state={running:false,score:0,lives:6,found:new Set(),selected:[],pointerDown:false,best:+localStorage.threadlineTempleBest||0};
+const cells=[];
+function setFeedback(t){els.feedback.textContent=t}
+function renderTargets(){els.targets.innerHTML=''; for(const t of level.words){const done=state.found.has(t.word); const div=document.createElement('div'); div.className='target'+(done?' done':''); div.innerHTML=`<div class="theme">${t.theme}</div><b>${done?t.word:'??????'.slice(0,t.word.length)}</b>`; els.targets.appendChild(div);} }
+function renderHud(){els.score.textContent=state.score; els.best.textContent=state.best; els.lives.textContent=state.lives; els.foundCount.textContent=`${state.found.size} / ${level.words.length}`; els.progressBar.style.width=(state.found.size/level.words.length*100)+'%'; renderTargets();}
+function buildBoard(){board.innerHTML=''; cells.length=0; level.grid.forEach((row,r)=>row.forEach((letter,c)=>{const el=document.createElement('div'); el.className='cell'; el.textContent=letter; el.dataset.r=r; el.dataset.c=c; el.dataset.letter=letter; el.addEventListener('pointerdown',e=>{if(!state.running)return; state.pointerDown=true; beginCell(el);}); el.addEventListener('pointerenter',()=>{if(state.running&&state.pointerDown)addCell(el)}); el.addEventListener('pointerup',()=>{if(state.running)submitPath()}); board.appendChild(el); cells.push(el);})); updateTrail();}
+function cellKey(el){return el.dataset.r+','+el.dataset.c}
+function posOf(el){const a=el.getBoundingClientRect(), b=board.getBoundingClientRect(); return [a.left-b.left+a.width/2, a.top-b.top+a.height/2];}
+function updateTrail(){const box=board.getBoundingClientRect(); trailSvg.setAttribute('viewBox',`0 0 ${box.width||600} ${box.height||600}`); trailSvg.innerHTML=state.selected.length?`<polyline points="${state.selected.map(posOf).map(p=>p.join(',')).join(' ')}"></polyline>`:''; cells.forEach(c=>c.classList.toggle('active',state.selected.includes(c)));}
+function clearPath(){state.selected=[]; updateTrail();}
+function adjacent(a,b){const dr=Math.abs(+a.dataset.r-+b.dataset.r), dc=Math.abs(+a.dataset.c-+b.dataset.c); return dr<=1&&dc<=1&&(dr+dc>0)}
+function beginCell(el){clearPath(); state.selected=[el]; updateTrail(); setFeedback('Path started: '+el.dataset.letter)}
+function addCell(el){const last=state.selected[state.selected.length-1]; if(!last)return; if(state.selected.includes(el))return; if(adjacent(last,el)){ state.selected.push(el); updateTrail(); setFeedback(state.selected.map(x=>x.dataset.letter).join('')); }}
+function flashWrong(){for(const c of state.selected)c.classList.add('wrong'); setTimeout(()=>state.selected.forEach(c=>c.classList.remove('wrong')),250)}
+function submitPath(){if(!state.selected.length)return; const word=state.selected.map(c=>c.dataset.letter).join(''); const target=level.words.find(w=>w.word===word && !state.found.has(w.word)); if(target){ state.found.add(word); state.score+=120+word.length*15+Math.max(0,state.lives-1)*5; if(state.selected.length===word.length)document.getElementById('b1').classList.add('on'); for(const c of state.selected)c.classList.add('done'); setFeedback('Relic restored: '+word+' +'+(120+word.length*15)); if(state.found.size===level.words.length){ document.getElementById('b2').classList.toggle('on',state.lives===6); win(); return; } } else { state.lives--; flashWrong(); setFeedback('False thread. Spark lost.'); if(state.lives<=0){ lose('The temple seals after too many false traces.'); return; } }
+ clearPath(); renderHud(); }
+function start(){state={running:true,score:0,lives:6,found:new Set(),selected:[],pointerDown:false,best:+localStorage.threadlineTempleBest||0}; cells.forEach(c=>c.classList.remove('done')); clearPath(); renderHud(); overlay.classList.add('hidden'); setFeedback('Trace your first relic now.');}
+function finishOverlay(title,text){els.ovTitle.textContent=title; els.ovText.textContent=text; overlay.classList.remove('hidden');}
+function win(){state.running=false; state.best=Math.max(state.best,state.score); localStorage.threadlineTempleBest=state.best; document.getElementById('b3').classList.add('on'); renderHud(); finishOverlay('Temple Master','You restored all 4 relic-words with '+state.lives+' sparks left. One more try: can you do it flawlessly for a cleaner mastery run?');}
+function lose(text){state.running=false; state.best=Math.max(state.best,state.score); localStorage.threadlineTempleBest=state.best; renderHud(); finishOverlay('Game Over',text+' Final score: '+state.score+'.');}
+addEventListener('pointerup',()=>{state.pointerDown=false}); addEventListener('resize',updateTrail);
+document.getElementById('playBtn').onclick=start; document.getElementById('startBtn').onclick=start; document.getElementById('clearBtn').onclick=()=>{clearPath(); setFeedback('Path cleared.');};
+buildBoard(); renderHud();
+</script>
+</body>
+</html>

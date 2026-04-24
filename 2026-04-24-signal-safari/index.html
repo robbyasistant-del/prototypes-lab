@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Signal Safari</title>
+<style>
+:root{--bg:#120d08;--panel:rgba(36,21,12,.84);--ink:#fff3e7;--muted:#d7bfad;--gold:#ffd166;--green:#7dffb1;--red:#ff7285;--blue:#8edbff;--line:rgba(255,255,255,.08)}*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at top,#5d351c,#120804 60%);color:var(--ink)}#app{max-width:1400px;margin:auto;padding:16px;display:grid;grid-template-columns:320px 1fr;gap:16px}.panel{background:var(--panel);border:1px solid rgba(255,209,102,.16);border-radius:24px;backdrop-filter:blur(12px);box-shadow:0 22px 70px rgba(0,0,0,.28)}aside{padding:18px}.tag{display:inline-block;padding:7px 11px;border-radius:999px;background:rgba(255,209,102,.12);color:var(--gold);font-size:12px;letter-spacing:.08em;text-transform:uppercase}h1{margin:10px 0 8px;font-size:34px;line-height:.95}.lede,.help,.small{color:var(--muted);font-size:14px;line-height:1.5}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0}.stat{padding:12px;border-radius:18px;background:rgba(255,255,255,.04)}.stat b{display:block;font-size:24px;margin-top:4px}button{border:0;border-radius:14px;padding:12px 16px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--gold),#ff9d42);color:#2a1308}button.secondary{background:rgba(255,255,255,.08);color:var(--ink)}.badges{margin-top:12px;padding:12px;border-radius:18px;background:rgba(255,255,255,.04);font-size:13px}.badges .on{color:var(--green)}main{padding:14px;position:relative}.banner{padding:12px 16px;border-radius:16px;background:linear-gradient(90deg,rgba(255,209,102,.18),rgba(142,219,255,.14));font-size:14px}.feedback{position:absolute;right:24px;top:24px;padding:10px 14px;border-radius:14px;background:rgba(24,12,7,.82);color:var(--gold);font-weight:800;z-index:3}.arena{margin-top:14px;position:relative;height:74vh;border-radius:24px;overflow:hidden;background:linear-gradient(180deg,#3d2616,#1b0f08 65%,#120804)}.lane{position:absolute;top:0;bottom:0;width:33.333%;border-left:1px solid rgba(255,255,255,.08)}.lane:nth-child(1){left:0}.lane:nth-child(2){left:33.333%}.lane:nth-child(3){left:66.666%}.laneHead{position:absolute;top:12px;left:50%;transform:translateX(-50%);padding:8px 10px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.lane:nth-child(1) .laneHead{background:rgba(125,255,177,.16);color:var(--green)}.lane:nth-child(2) .laneHead{background:rgba(142,219,255,.16);color:var(--blue)}.lane:nth-child(3) .laneHead{background:rgba(255,114,133,.16);color:#ff9aa8}.jeep{position:absolute;bottom:22px;left:calc(16.666% - 46px);width:92px;height:52px;border-radius:18px;background:linear-gradient(180deg,#ffe2a3,#ffb44c);border:2px solid rgba(0,0,0,.15);box-shadow:0 14px 26px rgba(0,0,0,.22);transition:left .12s ease}.jeep:before,.jeep:after{content:'';position:absolute;bottom:-12px;width:22px;height:22px;border-radius:50%;background:#2f190f;box-shadow:inset 0 0 0 3px #6b4527}.jeep:before{left:10px}.jeep:after{right:10px}.crate{position:absolute;left:50%;transform:translateX(-50%);width:min(220px,78%);padding:14px 16px;border-radius:20px;background:rgba(19,10,6,.9);border:1px solid var(--line);text-align:center;box-shadow:0 16px 30px rgba(0,0,0,.22)}.crate .type{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}.crate b{display:block;margin-top:5px;font-size:24px}.flash{position:absolute;inset:auto 18px 18px auto;padding:10px 14px;border-radius:14px;background:rgba(19,10,6,.82);font-size:14px}.overlay{position:absolute;inset:0;background:rgba(8,3,1,.6);display:flex;align-items:center;justify-content:center}.overlay.hidden{display:none}.card{width:min(560px,92%);padding:28px;text-align:center}.card h2{margin:0 0 8px;font-size:38px}.card p{color:var(--muted);line-height:1.55}.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}.dust{position:absolute;width:8px;height:8px;border-radius:50%}
+@media(max-width:980px){#app{grid-template-columns:1fr}.arena{height:60vh}.feedback{position:static;margin-top:12px}}
+</style>
+</head>
+<body>
+<div id="app">
+<aside class="panel">
+<span class="tag">lane dodge / trend capture</span>
+<h1>Signal Safari</h1>
+<p class="lede">Drive a hype-jeep across three lanes and catch the right trend crates: <b>WORD</b>, <b>SOCIAL</b>, and <b>LINK</b>. Avoid the doom crates. Hit <b>1800 points</b> before 3 crashes to win.</p>
+<div class="stats"><div class="stat">Score<b id="score">0</b></div><div class="stat">Best<b id="best">0</b></div><div class="stat">Hull<b id="lives">3</b></div><div class="stat">Badges<b id="medals">0</b></div></div>
+<div><button id="startBtn">Start chase</button> <button class="secondary" id="pauseBtn">Pause</button></div>
+<div class="help" style="margin-top:14px"><b>How to play:</b> use ← ↓ → or tap a lane to move. Catch crates matching their lane color for combo rewards. Wrong capture or hazard hit removes hull instantly.</div>
+<div class="badges">Badges:<br><span id="b1">• Combo Rover</span><br><span id="b2">• Clean Driver</span><br><span id="b3">• Signal King</span></div>
+<p class="small" style="margin-top:14px">Trend inspiration: word-game dominance, social discovery heat, and connection logic — remixed as a kinetic survival collector instead of another static puzzle.</p>
+</aside>
+<main class="panel">
+<div class="banner"><b>Goal:</b> lane-match the right crates fast. Correct catches build combo score. Reach 1800 to WIN. Three hits = GAME OVER.</div>
+<div class="feedback" id="feedback">Dust settling. The chase begins when you move.</div>
+<div class="arena" id="arena">
+  <div class="lane"><div class="laneHead">WORD</div></div>
+  <div class="lane"><div class="laneHead">SOCIAL</div></div>
+  <div class="lane"><div class="laneHead">LINK</div></div>
+  <div class="jeep" id="jeep"></div>
+  <div class="flash" id="flash">Correct lane + correct crate = points.</div>
+  <div class="overlay" id="overlay"><div class="panel card"><h2 id="ovTitle">Signal Safari</h2><p id="ovText">A stream of trend crates is crashing through the dunes. Shift lanes, catch the right signal, and keep your hull intact. Wrong catch or hazard = pain.</p><div class="cta"><button id="playBtn">Start safari</button></div></div></div>
+</div>
+</main>
+</div>
+<script>
+const arena=document.getElementById('arena'), jeep=document.getElementById('jeep'), overlay=document.getElementById('overlay');
+const laneNames=['WORD','SOCIAL','LINK']; const laneColors=['#7dffb1','#8edbff','#ff98a7'];
+const els={score:score,best:best,lives:lives,medals,feedback,flash,ovTitle,ovText};
+let dust=[]; let crates=[]; let lane=0; let combo=0; let medalsCount=0; let timer=70; let state={running:false,paused:false,score:0,lives:3,best:+localStorage.signalSafariBest||0,spawn:0};
+function setFeedback(t){els.feedback.textContent=t; els.flash.textContent=t}
+function renderHud(){els.score.textContent=state.score; els.best.textContent=state.best; els.lives.textContent=state.lives; els.medals.textContent=medalsCount; jeep.style.left=`calc(${16.666+lane*33.333}% - 46px)`}
+function start(){state={running:true,paused:false,score:0,lives:3,best:+localStorage.signalSafariBest||0,spawn:0}; lane=1; combo=0; medalsCount=0; crates.forEach(c=>c.el.remove()); crates=[]; dust=[]; ['b1','b2','b3'].forEach(id=>document.getElementById(id).classList.remove('on')); overlay.classList.add('hidden'); renderHud(); setFeedback('Catch a crate now. Momentum matters.');}
+function spawnCrate(){const type=Math.random()<.18?'HAZARD':laneNames[(Math.random()*3)|0]; const laneIndex=(Math.random()*3)|0; const el=document.createElement('div'); el.className='crate'; el.style.top='-90px'; el.style.left=(16.666+laneIndex*33.333)+'%'; el.innerHTML=`<div class="type">${type==='HAZARD'?'do not catch':'trend crate'}</div><b>${type==='HAZARD'?'DOOM':type}</b>`; if(type!=='HAZARD'){ el.style.boxShadow=`0 16px 30px rgba(0,0,0,.22),0 0 0 1px ${laneColors[laneIndex]}55`; } arena.appendChild(el); crates.push({el,type,lane:laneIndex,y:-90,speed:230+Math.random()*120});}
+function addDust(x,y,col){for(let i=0;i<14;i++)dust.push({x,y,vx:(Math.random()-.5)*3,vy:Math.random()*-3-1,life:34,col});}
+function hitGood(name){combo++; const gain=90+combo*12; state.score+=gain; if(combo>=4)document.getElementById('b1').classList.add('on'); if(state.lives===3&&state.score>=800)document.getElementById('b2').classList.add('on'); if(state.score>=1800){ win(); return; } if(Math.floor(state.score/450)>medalsCount){medalsCount=Math.floor(state.score/450);} setFeedback('Captured '+name+' +'+gain+' | combo x'+combo);}
+function hitBad(text){state.lives--; combo=0; setFeedback(text); if(state.lives<=0)lose('Your jeep lost all hull integrity.');}
+function win(){state.running=false; document.getElementById('b3').classList.add('on'); state.best=Math.max(state.best,state.score); localStorage.signalSafariBest=state.best; renderHud(); overlay.classList.remove('hidden'); els.ovTitle.textContent='Signal King'; els.ovText.textContent='You reached '+state.score+' points and dominated the trend dunes. Strong “one more try” lever: chase a flawless 3-hull win.';}
+function lose(text){state.running=false; state.best=Math.max(state.best,state.score); localStorage.signalSafariBest=state.best; renderHud(); overlay.classList.remove('hidden'); els.ovTitle.textContent='Game Over'; els.ovText.textContent=text+' Final score: '+state.score;}
+function moveTo(n){if(!state.running||state.paused)return; lane=Math.max(0,Math.min(2,n)); renderHud(); setFeedback('Lane '+laneNames[lane]+' locked.');}
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft')moveTo(lane-1); if(e.key==='ArrowRight')moveTo(lane+1); if(e.key==='ArrowDown')moveTo(1)});
+arena.addEventListener('pointerdown',e=>{const r=arena.getBoundingClientRect(); const x=e.clientX-r.left; moveTo(x<r.width/3?0:x<r.width*2/3?1:2)});
+document.getElementById('playBtn').onclick=start; document.getElementById('startBtn').onclick=start; document.getElementById('pauseBtn').onclick=()=>{if(!state.running)return; state.paused=!state.paused; setFeedback(state.paused?'Paused.':'Back in the dunes.');};
+function loop(){if(state.running && !state.paused){ state.spawn-=1/60; if(state.spawn<=0){spawnCrate(); state.spawn=.55-Math.min(.25,state.score/7000);} crates.forEach(c=>{c.y+=c.speed/60; c.el.style.top=c.y+'px'; if(c.y>arena.clientHeight-110 && !c.hit && c.y<arena.clientHeight-40 && c.lane===lane){ c.hit=true; } }); for(const c of crates){ const close=c.y>arena.clientHeight-130 && c.y<arena.clientHeight-40 && c.lane===lane; if(close && !c.done){ c.done=true; addDust(parseFloat(c.el.style.left)/100*arena.clientWidth,arena.clientHeight-70,c.type==='HAZARD'?'#ff7285':laneColors[c.lane]); if(c.type==='HAZARD')hitBad('Hazard crate! Hull damaged.'); else if(c.type===laneNames[lane])hitGood(c.type); else hitBad('Wrong lane catch. Combo broken.'); c.el.remove(); } else if(c.y>arena.clientHeight+10 && !c.done){ c.done=true; combo=0; if(c.type!=='HAZARD')setFeedback(c.type+' escaped.'); c.el.remove(); } }
+ crates=crates.filter(c=>!c.done); }
+ dust=dust.filter(d=>--d.life>0); document.querySelectorAll('.dust').forEach(n=>n.remove()); for(const d of dust){ d.x+=d.vx; d.y+=d.vy; d.vy+=.08; const el=document.createElement('div'); el.className='dust'; el.style.left=d.x+'px'; el.style.top=d.y+'px'; el.style.background=d.col; arena.appendChild(el); }
+ renderHud(); requestAnimationFrame(loop);} renderHud(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>

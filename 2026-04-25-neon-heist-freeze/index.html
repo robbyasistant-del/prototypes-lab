@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neon Heist Freeze</title>
+<style>
+:root{--bg:#09111f;--panel:rgba(11,19,36,.86);--line:rgba(133,205,255,.18);--ink:#eef6ff;--muted:#9eb3d8;--cyan:#8fe7ff;--pink:#ff87d2;--gold:#ffd166;--green:#7dffb1;--bad:#ff6e86}*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at top,#162f58,#070d18 65%);color:var(--ink)}#app{max-width:1420px;margin:auto;padding:16px;display:grid;grid-template-columns:330px 1fr;gap:16px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:0 24px 70px rgba(0,0,0,.28);backdrop-filter:blur(14px)}aside{padding:18px}main{padding:14px;position:relative}.tag{display:inline-block;padding:7px 11px;border-radius:999px;background:rgba(143,231,255,.12);color:var(--cyan);font-size:12px;letter-spacing:.08em;text-transform:uppercase}h1{margin:10px 0 8px;font-size:34px;line-height:.95}.lede,.help,.small{color:var(--muted);line-height:1.55;font-size:14px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0}.stat{padding:12px;border-radius:18px;background:rgba(255,255,255,.04)}.stat b{display:block;font-size:24px;margin-top:4px}button{border:0;border-radius:14px;padding:12px 16px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--cyan),#d6fbff);color:#07121b}button.secondary{background:rgba(255,255,255,.08);color:var(--ink)}.badges{margin-top:12px;padding:12px;border-radius:18px;background:rgba(255,255,255,.04);font-size:13px}.on{color:var(--gold)}.banner{padding:12px 16px;border-radius:16px;background:linear-gradient(90deg,rgba(143,231,255,.16),rgba(255,209,102,.14));font-size:14px}.feedback{position:absolute;right:24px;top:24px;padding:10px 14px;border-radius:14px;background:rgba(8,14,25,.82);color:var(--gold);font-weight:800;z-index:3}.play{margin-top:14px;display:grid;grid-template-columns:1fr 280px;gap:14px}.arenaBox,.side{padding:14px;border-radius:22px;background:rgba(255,255,255,.03)}canvas{width:100%;height:auto;display:block;border-radius:22px;background:linear-gradient(180deg,#0f1b31,#09101d)}.legend{display:grid;gap:8px;color:var(--muted);font-size:13px}.meter{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:8px}.meter span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink))}.overlay{position:absolute;inset:0;background:rgba(3,8,14,.62);display:flex;align-items:center;justify-content:center}.overlay.hidden{display:none}.card{width:min(560px,92%);padding:28px;text-align:center}.card h2{margin:0 0 8px;font-size:38px}.card p{color:var(--muted);line-height:1.55}.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}@media(max-width:980px){#app{grid-template-columns:1fr}.play{grid-template-columns:1fr}.feedback{position:static;margin-top:12px}}
+</style>
+</head>
+<body>
+<div id="app">
+<aside class="panel">
+<span class="tag">arcade stealth / time moves when you move</span>
+<h1>Neon Heist Freeze</h1>
+<p class="lede">Steal <b>4 data cores</b> and reach the exit. <b>Time only advances when you move</b>, so every step is a tactical action puzzle under arcade pressure.</p>
+<div class="stats"><div class="stat">Score<b id="score">0</b></div><div class="stat">Best<b id="best">0</b></div><div class="stat">Shield<b id="lives">3</b></div><div class="stat">Cores<b id="cores">0 / 4</b></div></div>
+<div><button id="startBtn">Start heist</button> <button class="secondary" id="pulseBtn">Pulse scan</button></div>
+<div class="help" style="margin-top:14px"><b>How to play:</b> WASD / arrows. Guards, lasers, and drones only animate when you move. Grab all 4 cores, then reach the exit. Touching danger costs shield. Zero shield = <b>GAME OVER</b>.</div>
+<div class="badges">Badges:<br><span id="b1">• Ghost Step</span><br><span id="b2">• Full Bag</span><br><span id="b3">• Frostbreaker</span></div>
+<p class="small" style="margin-top:14px">One-more-try hook: mistakes feel fair because every threat is readable, but greedy routes create delicious collapse chains.</p>
+</aside>
+<main class="panel">
+<div class="banner"><b>Goal:</b> think in frozen time. The moment you step, the whole vault reacts. Win by escaping with all data cores. Immediate pulse feedback shows safe vs dangerous timing.</div>
+<div class="feedback" id="feedback">Vault frozen. Plot your first move.</div>
+<div class="play"><div class="arenaBox"><canvas id="game" width="800" height="560"></canvas></div><div class="side"><div><b>Threat readout</b><div class="meter"><span id="dangerBar" style="width:0%"></span></div></div><div class="legend" style="margin-top:12px"><div>🟦 You</div><div>🟥 Guards patrol between nodes</div><div>🟪 Drones sweep diagonally</div><div>🟨 Cores boost score + freeze combo</div><div>🟩 Exit unlocks after all cores</div></div><div class="small" style="margin-top:12px">Pulse scan highlights current threat density without advancing time.</div></div></div>
+<div class="overlay" id="overlay"><div class="panel card"><h2 id="ovTitle">Neon Heist Freeze</h2><p id="ovText">A tiny cyber-vault where every step matters. Move carefully: the guards only wake when you do. Grab 4 glowing cores, unlock the exit, and escape.</p><div class="cta"><button id="playBtn">Begin run</button></div></div></div>
+</main>
+</div>
+<script>
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+const tile=40, cols=20, rows=14;
+const walls=new Set();
+for(let x=0;x<cols;x++){walls.add(`${x},0`);walls.add(`${x},${rows-1}`)}
+for(let y=0;y<rows;y++){walls.add(`0,${y}`);walls.add(`${cols-1},${y}`)}
+[[4,1,1,5],[4,8,1,5],[9,3,1,6],[14,1,1,5],[14,8,1,5],[6,6,3,1],[11,6,3,1],[2,10,4,1],[14,10,4,1]].forEach(([x,y,w,h])=>{for(let i=0;i<w;i++)for(let j=0;j<h;j++)walls.add(`${x+i},${y+j}`)});
+const coreSpawns=[[2,2],[17,2],[2,11],[17,11]];
+const guardDefs=[{path:[[6,2],[8,2],[8,4],[6,4]],i:0},{path:[[11,9],[13,9],[13,11],[11,11]],i:0},{path:[[16,6],[16,8],[17,8],[17,6]],i:0}];
+const droneDefs=[{x:10,y:2,dx:1,dy:1},{x:10,y:11,dx:-1,dy:-1}];
+const exit={x:18,y:6};
+const els={score:score,best:best,lives:lives,cores:cores,feedback,dangerBar,ovTitle,ovText};
+let state;
+function reset(){state={running:true,score:0,best:+localStorage.neonHeistFreezeBest||0,lives:3,cores:0,player:{x:1,y:6},guards:guardDefs.map(g=>({path:g.path.map(p=>({x:p[0],y:p[1]})),i:0,x:g.path[0][0],y:g.path[0][1]})),drones:droneDefs.map(d=>({...d})),coresLeft:coreSpawns.map(([x,y])=>({x,y,taken:false})),scan:0}; ['b1','b2','b3'].forEach(id=>document.getElementById(id).classList.remove('on')); overlay.classList.add('hidden'); setFeedback('Frozen. Move to wake the vault.'); renderHud(); draw();}
+function setFeedback(t){els.feedback.textContent=t}
+function renderHud(){els.score.textContent=state.score; els.best.textContent=state.best; els.lives.textContent=state.lives; els.cores.textContent=`${state.cores} / 4`; els.dangerBar.style.width=Math.min(100,threat()*25)+'%';}
+function blocked(x,y){return walls.has(`${x},${y}`)}
+function moveEnemies(){state.guards.forEach(g=>{g.i=(g.i+1)%g.path.length; g.x=g.path[g.i].x; g.y=g.path[g.i].y}); state.drones.forEach(d=>{d.x+=d.dx; d.y+=d.dy; if(blocked(d.x,d.y)){d.x-=d.dx; d.y-=d.dy; d.dx*=-1; d.dy*=-1; d.x+=d.dx; d.y+=d.dy;}})}
+function threat(){let n=0; state.guards.forEach(g=>{if(Math.abs(g.x-state.player.x)+Math.abs(g.y-state.player.y)<=2)n++}); state.drones.forEach(d=>{if(Math.abs(d.x-state.player.x)<=1&&Math.abs(d.y-state.player.y)<=1)n++}); return n}
+function hurt(reason){state.lives--; state.score=Math.max(0,state.score-120); setFeedback(reason+' Shield -1'); if(state.lives<=0)return lose('You were traced and locked out.');}
+function step(dx,dy){if(!state.running)return; const nx=state.player.x+dx, ny=state.player.y+dy; if(blocked(nx,ny)){setFeedback('Wall hit. Frozen time preserved.'); return;} state.player.x=nx; state.player.y=ny; moveEnemies(); let anyCore=false; state.coresLeft.forEach(c=>{if(!c.taken&&c.x===nx&&c.y===ny){c.taken=true; state.cores++; state.score+=250; anyCore=true; setFeedback('Data core stolen! +250'); if(state.cores===1&&state.lives===3)document.getElementById('b1').classList.add('on'); if(state.cores===4)document.getElementById('b2').classList.add('on');}}); state.score+=20; if(state.guards.some(g=>g.x===nx&&g.y===ny)||state.drones.some(d=>d.x===nx&&d.y===ny))hurt('Direct contact!'); if(exit.x===nx&&exit.y===ny){ if(state.cores===4) return win(); else setFeedback('Exit locked. Need all 4 cores.'); } if(!anyCore&&state.running)setFeedback(threat()? 'Vault stirring — danger nearby.' : 'Clean step. Keep slipping through.'); renderHud(); draw();}
+function pulse(){if(!state.running)return; state.scan=20; setFeedback('Pulse scan: threat level '+threat()); draw();}
+function finish(title,text){els.ovTitle.textContent=title; els.ovText.textContent=text; overlay.classList.remove('hidden');}
+function win(){state.running=false; state.score+=state.lives*200; document.getElementById('b3').classList.add('on'); state.best=Math.max(state.best,state.score); localStorage.neonHeistFreezeBest=state.best; renderHud(); draw(); finish('Heist Complete','You escaped with all 4 cores and '+state.lives+' shield left. Bonus style score locked in: '+state.score+'.');}
+function lose(text){state.running=false; state.best=Math.max(state.best,state.score); localStorage.neonHeistFreezeBest=state.best; renderHud(); draw(); finish('Game Over',text+' Final score: '+state.score+'.');}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height); for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){ctx.fillStyle=((x+y)%2)?'#0d1730':'#0b1327'; ctx.fillRect(x*tile,y*tile,tile,tile);} walls.forEach(k=>{const [x,y]=k.split(',').map(Number); ctx.fillStyle='#1b2946'; ctx.fillRect(x*tile,y*tile,tile,tile); ctx.strokeStyle='rgba(143,231,255,.08)'; ctx.strokeRect(x*tile,y*tile,tile,tile);}); state.coresLeft.forEach(c=>{if(c.taken)return; ctx.fillStyle='#ffd166'; ctx.beginPath(); ctx.arc(c.x*tile+tile/2,c.y*tile+tile/2,11,0,Math.PI*2); ctx.fill();}); ctx.fillStyle=state.cores===4?'#7dffb1':'#35556f'; ctx.fillRect(exit.x*tile+8,exit.y*tile+8,24,24); state.guards.forEach(g=>{ctx.fillStyle='#ff6e86'; ctx.fillRect(g.x*tile+7,g.y*tile+7,26,26); if(state.scan>0){ctx.strokeStyle='rgba(255,110,134,.22)'; ctx.beginPath(); ctx.arc(g.x*tile+20,g.y*tile+20,52,0,Math.PI*2); ctx.stroke();}}); state.drones.forEach(d=>{ctx.fillStyle='#c18aff'; ctx.beginPath(); ctx.arc(d.x*tile+20,d.y*tile+20,12,0,Math.PI*2); ctx.fill(); if(state.scan>0){ctx.strokeStyle='rgba(193,138,255,.18)'; ctx.beginPath(); ctx.arc(d.x*tile+20,d.y*tile+20,36,0,Math.PI*2); ctx.stroke();}}); ctx.fillStyle='#8fe7ff'; ctx.fillRect(state.player.x*tile+8,state.player.y*tile+8,24,24); if(state.scan>0)state.scan--;}
+addEventListener('keydown',e=>{if(['ArrowUp','w','W'].includes(e.key))step(0,-1); if(['ArrowDown','s','S'].includes(e.key))step(0,1); if(['ArrowLeft','a','A'].includes(e.key))step(-1,0); if(['ArrowRight','d','D'].includes(e.key))step(1,0); if(e.key===' ')pulse();});
+document.getElementById('playBtn').onclick=reset; document.getElementById('startBtn').onclick=reset; document.getElementById('pulseBtn').onclick=pulse; reset();
+</script>
+</body></html>

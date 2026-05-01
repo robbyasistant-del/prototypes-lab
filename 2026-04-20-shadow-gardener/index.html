@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadow Gardener</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0418;
+  color: #e0d5f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  user-select: none;
+}
+#gameCanvas {
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+}
+#uiLayer {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+}
+#uiLayer > * { pointer-events: auto; }
+
+/* Top HUD */
+#hud {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: linear-gradient(180deg, rgba(13,5,35,0.95) 0%, rgba(13,5,35,0.7) 100%);
+  border-bottom: 1px solid #3d2b5e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-size: 14px;
+  z-index: 10;
+}
+#hud .hud-group { display: flex; align-items: center; gap: 18px; }
+#hud .hud-item { display: flex; align-items: center; gap: 6px; }
+#hud .hud-label { color: #9b84c0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+#hud .hud-value { color: #fff; font-weight: 600; font-size: 16px; }
+#hud .stars { display: flex; gap: 3px; }
+#hud .star { font-size: 18px; color: #444; transition: color 0.3s; }
+#hud .star.lit { color: #ffd700; text-shadow: 0 0 8px #ffd700; }
+
+/* Tool Palette */
+#toolPalette {
+  position: absolute;
+  left: 12px;
+  top: 68px;
+  width: 64px;
+  background: rgba(18, 8, 40, 0.9);
+  border: 1px solid #3d2b5e;
+  border-radius: 10px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 10;
+}
+.tool-btn {
+  width: 52px; height: 52px;
+  background: rgba(60, 40, 100, 0.4);
+  border: 2px solid #5a3f8a;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  position: relative;
+}
+.tool-btn:hover { background: rgba(80, 60, 130, 0.6); border-color: #8b6fc7; }
+.tool-btn.selected { background: rgba(120, 80, 180, 0.5); border-color: #c9a8ff; box-shadow: 0 0 12px rgba(201,168,255,0.3); }
+.tool-btn .tool-icon { font-size: 22px; }
+.tool-btn .tool-count {
+  position: absolute; bottom: 2px; right: 4px;
+  font-size: 10px; font-weight: 700; color: #fff;
+  background: rgba(0,0,0,0.5); border-radius: 6px; padding: 0 4px;
+}
+.tool-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Bottom bar */
+#bottomBar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  background: linear-gradient(0deg, rgba(13,5,35,0.95) 0%, rgba(13,5,35,0.6) 100%);
+  border-top: 1px solid #3d2b5e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 10;
+  font-size: 12px;
+}
+#bottomBar button {
+  background: rgba(60, 40, 100, 0.5);
+  border: 1px solid #5a3f8a;
+  color: #d0c0f0;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.15s;
+}
+#bottomBar button:hover { background: rgba(90, 70, 140, 0.6); border-color: #8b6fc7; }
+#bottomBar .hint-text { color: #9b84c0; max-width: 400px; text-align: center; }
+
+/* Overlays */
+.overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(5, 2, 15, 0.88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+}
+.overlay.hidden { display: none; }
+
+.overlay-box {
+  background: linear-gradient(145deg, #150a2e 0%, #0d0520 100%);
+  border: 1px solid #4a3080;
+  border-radius: 16px;
+  padding: 36px 44px;
+  max-width: 520px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(80, 40, 150, 0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.overlay-box h1 {
+  font-size: 32px; font-weight: 700;
+  background: linear-gradient(90deg, #c9a8ff, #7df9ff);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+.overlay-box h2 {
+  font-size: 24px; color: #c9a8ff; margin-bottom: 16px;
+}
+.overlay-box p {
+  color: #a090c0; line-height: 1.6; margin-bottom: 12px; font-size: 15px;
+}
+.overlay-box .btn-row { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
+.overlay-box button {
+  background: linear-gradient(145deg, #5a3f8a, #3d2b5e);
+  border: 1px solid #7a5fb0;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.overlay-box button:hover {
+  background: linear-gradient(145deg, #7a5fb0, #5a3f8a);
+  box-shadow: 0 0 20px rgba(122, 95, 176, 0.4);
+  transform: translateY(-1px);
+}
+.overlay-box button.primary {
+  background: linear-gradient(145deg, #2a9d8f, #1d7066);
+  border-color: #4ecdc4;
+}
+.overlay-box button.primary:hover {
+  background: linear-gradient(145deg, #4ecdc4, #2a9d8f);
+  box-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
+}
+
+/* Level select grid */
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+.level-card {
+  background: rgba(30, 15, 60, 0.6);
+  border: 1px solid #4a3080;
+  border-radius: 10px;
+  padding: 14px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.level-card:hover { border-color: #8b6fc7; background: rgba(50, 30, 90, 0.6); }
+.level-card.locked { opacity: 0.4; cursor: not-allowed; }
+.level-card .lvl-num { font-size: 20px; font-weight: 700; color: #c9a8ff; }
+.level-card .lvl-stars { font-size: 14px; margin-top: 4px; }
+
+/* Badge display */
+.badge-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 12px 0; }
+.badge {
+  background: rgba(40, 20, 70, 0.7);
+  border: 1px solid #5a3f8a;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: #b0a0d0;
+}
+.badge.earned { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.1); }
+
+/* Instructions */
+.instr-step {
+  display: flex; align-items: flex-start; gap: 14px;
+  text-align: left; margin: 10px 0; padding: 10px;
+  background: rgba(255,255,255,0.03); border-radius: 8px;
+}
+.instr-step .instr-icon { font-size: 28px; width: 40px; text-align: center; flex-shrink: 0; }
+.instr-step .instr-text h4 { color: #c9a8ff; font-size: 15px; margin-bottom: 2px; }
+.instr-step .instr-text p { color: #9080b0; font-size: 13px; margin: 0; }
+
+/* Tooltip */
+#tooltip {
+  position: absolute;
+  background: rgba(20, 10, 45, 0.95);
+  border: 1px solid #5a3f8a;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #d0c0f0;
+  pointer-events: none;
+  z-index: 200;
+  display: none;
+  max-width: 200px;
+}
+</style>
+</head>
+<body>
+<canvas id="gameCanvas"></canvas>
+
+<div id="uiLayer">
+  <div id="hud" style="display:none;">
+    <div class="hud-group">
+      <div class="hud-item">
+        <span class="hud-label">Level</span>
+        <span class="hud-value" id="hudLevel">1</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Score</span>
+        <span class="hud-value" id="hudScore">0</span>
+      </div>
+    </div>
+    <div class="hud-group">
+      <div class="stars" id="hudStars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+    </div>
+    <div class="hud-group">
+      <div class="hud-item">
+        <span class="hud-label">Time</span>
+        <span class="hud-value" id="hudTime">0:00</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Moves</span>
+        <span class="hud-value" id="hudMoves">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Plants</span>
+        <span class="hud-value" id="hudPlants">0/0</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="toolPalette" style="display:none;"></div>
+
+  <div id="bottomBar" style="display:none;">
+    <button id="btnReset">↻ Reset</button>
+    <span class="hint-text" id="hintText"></span>
+    <button id="btnHeatmap">👁 Heatmap</button>
+    <button id="btnMenu">☰ Menu</button>
+  </div>
+
+  <div id="tooltip"></div>
+
+  <!-- Main Menu -->
+  <div id="menuOverlay" class="overlay">
+    <div class="overlay-box">
+      <h1>🌿 Shadow Gardener</h1>
+      <p>Tend to bioluminescent shadow-plants. Cast the perfect gloom.<br>Too much light burns. Too little starves. Find the balance.</p>
+      <div class="btn-row">
+        <button class="primary" id="btnPlay">Play</button>
+        <button id="btnHowTo">How To Play</button>
+      </div>
+      <div class="badge-row" id="menuBadges"></div>
+    </div>
+  </div>
+
+  <!-- Instructions -->
+  <div id="instrOverlay" class="overlay hidden">
+    <div class="overlay-box" style="max-width: 560px;">
+      <h2>How to Play</h2>
+      <div class="instr-step">
+        <div class="instr-icon">💡</div>
+        <div class="instr-text">
+          <h4>Light Beams</h4>
+          <p>Light streams from the edges. Plants need specific shadow levels to bloom.</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-icon">🌂</div>
+        <div class="instr-text">
+          <h4>Shadow Objects</h4>
+          <p>Drag umbrellas, clouds, and crystals onto the grid to create shadows.</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-icon">🌱</div>
+        <div class="instr-text">
+          <h4>Plant Care</h4>
+          <p>Red = burning (too much light). Blue = wilting (too little). Green = thriving!</p>
+        </div>
+      </div>
+      <div class="instr-step">
+        <div class="instr-icon">⭐</div>
+        <div class="instr-text">
+          <h4>Goals</h4>
+          <p>Bloom all plants to win. Earn stars for speed, score, and efficiency.</p>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button id="btnInstrBack">← Back</button>
+        <button class="primary" id="btnInstrStart">Start Playing</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Level Select -->
+  <div id="levelOverlay" class="overlay hidden">
+    <div class="overlay-box" style="max-width: 600px;">
+      <h2>Select Level</h2>
+      <div class="level-grid" id="levelGrid"></div>
+      <div class="btn-row">
+        <button id="btnLevelBack">← Main Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Win Overlay -->
+  <div id="winOverlay" class="overlay hidden">
+    <div class="overlay-box">
+      <h2 style="color:#4ecdc4;">🌸 Garden in Bloom! 🌸</h2>
+      <p id="winScore">Score: 0</p>
+      <div class="stars" id="winStars" style="font-size: 36px; margin: 10px 0;">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <div class="badge-row" id="winBadges"></div>
+      <p id="winDetails" style="font-size: 13px; color: #9080b0;"></p>
+      <div class="btn-row">
+        <button id="btnReplay">↻ Replay</button>
+        <button class="primary" id="btnNextLevel">Next Level →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Over Overlay -->
+  <div id="loseOverlay" class="overlay hidden">
+    <div class="overlay-box">
+      <h2 style="color:#e74c3c;">💀 A Plant Has Burned</h2>
+      <p id="loseReason">Too much light destroyed your plant.</p>
+      <p style="font-size: 13px; color: #9080b0; margin-top: 8px;">
+        Check the heatmap to see where shadows are needed.<br>
+        Each plant shows its preferred shadow range when you hover.
+      </p>
+      <div class="btn-row">
+        <button id="btnLoseMenu">☰ Menu</button>
+        <button class="primary" id="btnRetry">Try Again ↻</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ========== CONSTANTS & CONFIG ========== */
+const TILE = 44;
+const GRID_W = 14;
+const GRID_H = 11;
+const FPS = 60;
+
+const C_BG = '#0a0418';
+const C_GRID = '#140a28';
+const C_GRID_LINE = '#2a1648';
+const C_LIGHT_BEAM = 'rgba(255, 230, 120, 0.08)';
+const C_LIGHT_GLOW = 'rgba(255, 220, 80, 0.15)';
+
+const PLANT_TYPES = [
+  { name: 'Moonflower',  color: '#7df9ff', glow: '#00ffff', needMin: 35, needMax: 55, growth: 0.6, score: 100, icon: '🌼' },
+  { name: 'Nightshade',  color: '#b86afe', glow: '#d0a0ff', needMin: 55, needMax: 75, growth: 0.5, score: 150, icon: '🌺' },
+  { name: 'GloomOrchid', color: '#ff6b9d', glow: '#ff9ec0', needMin: 20, needMax: 40, growth: 0.55, score: 200, icon: '🌷' },
+  { name: 'VoidLily',    color: '#00fa9a', glow: '#5fffb5', needMin: 65, needMax: 85, growth: 0.45, score: 250, icon: '🪷' },
+  { name: 'EclipseRose', color: '#ff7b35', glow: '#ffb080', needMin: 40, needMax: 60, growth: 0.65, score: 300, icon: '🌹' },
+];
+
+const SHADOW_TYPES = [
+  { name: 'Umbrella',  w: 2, h: 2, block: 0.90, color: '#5a2d8a', icon: '🌂', desc: 'Blocks 90% · 2×2' },
+  { name: 'Cloud',     w: 3, h: 1, block: 0.70, color: '#4a6a8a', icon: '☁️', desc: 'Blocks 70% · 3×1' },
+  { name: 'Crystal',   w: 1, h: 3, block: 0.95, color: '#2a7a6a', icon: '💎', desc: 'Blocks 95% · 1×3' },
+  { name: 'Shade',     w: 2, h: 1, block: 0.80, color: '#6a4a3a', icon: '🪟', desc: 'Blocks 80% · 2×1' },
+];
+
+const LEVELS = [
+  {
+    id: 1, name: 'First Bloom',
+    lights: [
+      {x: 3, y: -1, dir: 2}, {x: 10, y: -1, dir: 2}
+    ],
+    plants: [{t: 0, x: 6, y: 5}],
+    tools: [{t: 0, n: 1}],
+    par: {time: 45, moves: 2},
+    hint: 'Place the umbrella so it shades the Moonflower from above.'
+  },
+  {
+    id: 2, name: 'Dual Shadows',
+    lights: [
+      {x: -1, y: 3, dir: 1}, {x: -1, y: 7, dir: 1},
+      {x: 14, y: 5, dir: 3}
+    ],
+    plants: [{t: 0, x: 4, y: 4}, {t: 1, x: 9, y: 4}],
+    tools: [{t: 0, n: 2}],
+    par: {time: 60, moves: 3},
+    hint: 'Nightshade needs MORE shadow than Moonflower. Position carefully.'
+  },
+  {
+    id: 3, name: 'Cross Light',
+    lights: [
+      {x: 3, y: -1, dir: 2}, {x: 10, y: -1, dir: 2},
+      {x: -1, y: 5, dir: 1}, {x: 14, y: 5, dir: 3}
+    ],
+    plants: [{t: 0, x: 3, y: 3}, {t: 1, x: 10, y: 3}, {t: 2, x: 6, y: 7}],
+    tools: [{t: 0, n: 1}, {t: 1, n: 1}, {t: 2, n: 1}],
+    par: {time: 90, moves: 5},
+    hint: 'Use the tall Crystal to block side light. Clouds cover a wide area.'
+  },
+  {
+    id: 4, name: 'Shade Garden',
+    lights: [
+      {x: 2, y: -1, dir: 2}, {x: 7, y: -1, dir: 2}, {x: 11, y: -1, dir: 2},
+      {x: -1, y: 2, dir: 1}, {x: 14, y: 8, dir: 3}
+    ],
+    plants: [{t: 2, x: 3, y: 4}, {t: 3, x: 8, y: 4}, {t: 0, x: 5, y: 8}, {t: 1, x: 10, y: 8}],
+    tools: [{t: 0, n: 2}, {t: 1, n: 1}, {t: 2, n: 1}, {t: 3, n: 1}],
+    par: {time: 120, moves: 7},
+    hint: 'Void Lily needs the deepest shadows. Use crystals near it.'
+  },
+  {
+    id: 5, name: 'Eclipse Garden',
+    lights: [
+      {x: 2, y: -1, dir: 2}, {x: 6, y: -1, dir: 2}, {x: 10, y: -1, dir: 2},
+      {x: -1, y: 3, dir: 1}, {x: -1, y: 7, dir: 1},
+      {x: 14, y: 3, dir: 3}, {x: 14, y: 7, dir: 3}
+    ],
+    plants: [{t: 4, x: 3, y: 3}, {t: 3, x: 10, y: 3}, {t: 2, x: 6, y: 5},
+             {t: 0, x: 3, y: 8}, {t: 1, x: 10, y: 8}],
+    tools: [{t: 0, n: 2}, {t: 1, n: 1}, {t: 2, n: 2}, {t: 3, n: 2}],
+    par: {time: 150, moves: 9},
+    hint: 'The master garden. Every tool matters. Plan your shadows.'
+  },
+];
+
+/* ========== GAME STATE ========== */
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+let gameState = 'MENU'; // MENU, LEVEL_SELECT, PLAYING, WIN, LOSE, INSTRUCTIONS
+let currentLevel = 0;
+let score = 0;
+let levelScore = 0;
+let timeElapsed = 0;
+let moveCount = 0;
+let showHeatmap = true;
+let firstLoad = true;
+
+let plants = [];
+let shadowObjs = [];
+let lightSources = [];
+let gridShadow = []; // [y][x] = 0..100 shadow percentage
+let particles = [];
+
+let selectedTool = -1;
+let draggedObj = null;
+let hoveredTile = null;
+let hoveredPlant = null;
+let mouseDown = false;
+let mouseX = 0, mouseY = 0;
+
+let camX = 0, camY = 0;
+let gridOffX = 0, gridOffY = 0;
+
+let animFrame = 0;
+let starsEarned = [0, 0, 0, 0, 0];
+let badgesEarned = [];
+
+/* ========== INIT ========== */
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  gridOffX = Math.max(84, (canvas.width - GRID_W * TILE) / 2);
+  gridOffY = Math.max(64, (canvas.height - GRID_H * TILE) / 2);
+}
+window.addEventListener('resize', resize);
+resize();
+
+function initGridShadow() {
+  gridShadow = [];
+  for (let y = 0; y < GRID_H; y++) {
+    gridShadow[y] = [];
+    for (let x = 0; x < GRID_W; x++) gridShadow[y][x] = 0;
+  }
+}
+
+/* ========== LEVEL LOADING ========== */
+function loadLevel(idx) {
+  currentLevel = idx;
+  const L = LEVELS[idx];
+  score = 0;
+  levelScore = 0;
+  timeElapsed = 0;
+  moveCount = 0;
+  particles = [];
+  shadowObjs = [];
+  initGridShadow();
+
+  lightSources = L.lights.map(l => ({
+    x: l.x, y: l.y, dir: l.dir,
+    worldX: l.x < 0 ? gridOffX - 20 : l.x >= GRID_W ? gridOffX + GRID_W * TILE + 20 : gridOffX + l.x * TILE + TILE/2,
+    worldY: l.y < 0 ? gridOffY - 20 : l.y >= GRID_H ? gridOffY + GRID_H * TILE + 20 : gridOffY + l.y * TILE + TILE/2
+  }));
+
+    plants = L.plants.map((p, i) => ({
+    id: i, type: p.t, gx: p.x, gy: p.y,
+    growth: 0, health: 100, bloomed: false,
+    state: 'grow',
+    pulse: 0, animOffset: Math.random() * Math.PI * 2,
+    graceTimer: 6 // 6 seconds of grace at level start
+  }));
+
+  buildToolPalette(L.tools);
+  document.getElementById('hintText').textContent = L.hint;
+  updateHUD();
+
+  gameState = 'PLAYING';
+  showGameUI(true);
+  hideOverlays();
+}
+
+function buildToolPalette(tools) {
+  const pal = document.getElementById('toolPalette');
+  pal.innerHTML = '';
+  tools.forEach((t, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'tool-btn' + (t.n <= 0 ? ' disabled' : '');
+    btn.dataset.tool = t.t;
+    btn.dataset.count = t.n;
+    btn.dataset.idx = i;
+    btn.innerHTML = `<span class="tool-icon">${SHADOW_TYPES[t.t].icon}</span><span class="tool-count">${t.n}</span>`;
+    btn.onclick = () => selectTool(i, t.t);
+    pal.appendChild(btn);
+  });
+}
+
+function selectTool(idx, type) {
+  const btns = document.querySelectorAll('.tool-btn');
+  btns.forEach(b => b.classList.remove('selected'));
+  const btn = btns[idx];
+  if (!btn || btn.classList.contains('disabled')) {
+    selectedTool = -1;
+    return;
+  }
+  btn.classList.add('selected');
+  selectedTool = type;
+}
+
+function getToolCount(type) {
+  const btn = document.querySelector(`.tool-btn[data-tool="${type}"]`);
+  return btn ? parseInt(btn.dataset.count) : 0;
+}
+
+function useTool(type) {
+  const btn = document.querySelector(`.tool-btn[data-tool="${type}"]`);
+  if (!btn) return false;
+  let n = parseInt(btn.dataset.count);
+  if (n <= 0) return false;
+  n--;
+  btn.dataset.count = n;
+  btn.querySelector('.tool-count').textContent = n;
+  if (n <= 0) btn.classList.add('disabled');
+  return true;
+}
+
+function returnTool(type) {
+  const btn = document.querySelector(`.tool-btn[data-tool="${type}"]`);
+  if (!btn) return;
+  let n = parseInt(btn.dataset.count);
+  n++;
+  btn.dataset.count = n;
+  btn.querySelector('.tool-count').textContent = n;
+  btn.classList.remove('disabled');
+}
+
+/* ========== SHADOW COMPUTATION ========== */
+function computeShadows() {
+  // Reset
+  for (let y = 0; y < GRID_H; y++) {
+    for (let x = 0; x < GRID_W; x++) gridShadow[y][x] = 0;
+  }
+
+  if (lightSources.length === 0) return;
+
+  // For each tile, trace to each light source
+  for (let y = 0; y < GRID_H; y++) {
+    for (let x = 0; x < GRID_W; x++) {
+      let totalBlock = 0;
+      const tx = gridOffX + x * TILE + TILE/2;
+      const ty = gridOffY + y * TILE + TILE/2;
+
+      for (const light of lightSources) {
+        let blocked = false;
+        let blockFactor = 0;
+
+        for (const so of shadowObjs) {
+          const st = SHADOW_TYPES[so.type];
+          const sx = gridOffX + so.gx * TILE;
+          const sy = gridOffY + so.gy * TILE;
+          const sw = (so.rot % 2 === 0 ? st.w : st.h) * TILE;
+          const sh = (so.rot % 2 === 0 ? st.h : st.w) * TILE;
+
+          if (lineRectIntersect(tx, ty, light.worldX, light.worldY, sx, sy, sw, sh)) {
+            blocked = true;
+            blockFactor = Math.max(blockFactor, st.block);
+          }
+        }
+
+        if (blocked) totalBlock += blockFactor;
+      }
+
+      gridShadow[y][x] = Math.min(100, (totalBlock / lightSources.length) * 100);
+    }
+  }
+}
+
+function lineRectIntersect(x1, y1, x2, y2, rx, ry, rw, rh) {
+  // Liang-Barsky or simple segment-rect intersection
+  const minX = Math.min(x1, x2), maxX = Math.max(x1, x2);
+  const minY = Math.min(y1, y2), maxY = Math.max(y1, y2);
+  if (maxX < rx || minX > rx + rw || maxY < ry || minY > ry + rh) return false;
+
+  // More precise check
+  const dx = x2 - x1, dy = y2 - y1;
+  const p = [-dx, dx, -dy, dy];
+  const q = [x1 - rx, rx + rw - x1, y1 - ry, ry + rh - y1];
+  let u1 = 0, u2 = 1;
+  for (let i = 0; i < 4; i++) {
+    if (p[i] === 0) { if (q[i] < 0) return false; }
+    else {
+      const t = q[i] / p[i];
+      if (p[i] < 0) u1 = Math.max(u1, t);
+      else u2 = Math.min(u2, t);
+    }
+  }
+  return u1 <= u2 && u2 > 0 && u1 < 1;
+}
+
+/* ========== PLANT SIMULATION ========== */
+function updatePlants(dt) {
+  let bloomedCount = 0;
+  for (const p of plants) {
+    if (p.bloomed) { bloomedCount++; continue; }
+
+    // Grace period at level start
+    if (p.graceTimer > 0) {
+      p.graceTimer -= dt;
+      continue; // No change during grace
+    }
+
+    const need = PLANT_TYPES[p.type];
+    const shadow = gridShadow[p.gy][p.gx];
+
+    if (shadow < need.needMin) {
+      // Too much light → burn
+      p.health -= 0.4 * dt * 60;
+      p.state = 'burn';
+      p.growth = Math.max(0, p.growth - 0.1 * dt * 60);
+    } else if (shadow > need.needMax) {
+      // Too little light → wilt
+      p.health -= 0.25 * dt * 60;
+      p.state = 'wilt';
+      p.growth = Math.max(0, p.growth - 0.05 * dt * 60);
+    } else {
+      // Just right → grow
+      p.growth += need.growth * dt * 60;
+      p.health = Math.min(100, p.health + 0.4 * dt * 60);
+      p.state = 'grow';
+    }
+
+    if (p.growth >= 100) {
+      p.growth = 100;
+      p.bloomed = true;
+      p.state = 'bloom';
+      levelScore += need.score;
+      spawnBloomParticles(p);
+    }
+
+    if (p.health <= 0) {
+      p.health = 0;
+      gameState = 'LOSE';
+      showLoseOverlay(p);
+      return;
+    }
+  }
+
+  if (bloomedCount === plants.length && plants.length > 0) {
+    gameState = 'WIN';
+    showWinOverlay();
+  }
+}
+
+/* ========== PARTICLES ========== */
+function spawnBloomParticles(plant) {
+  const px = gridOffX + plant.gx * TILE + TILE/2;
+  const py = gridOffY + plant.gy * TILE + TILE/2;
+  const need = PLANT_TYPES[plant.type];
+  for (let i = 0; i < 24; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 0.5 + Math.random() * 2;
+    particles.push({
+      x: px, y: py,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 1,
+      life: 60 + Math.random() * 40,
+      maxLife: 100,
+      color: need.glow,
+      size: 2 + Math.random() * 3
+    });
+  }
+}
+
+function updateParticles() {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const pt = particles[i];
+    pt.x += pt.vx;
+    pt.y += pt.vy;
+    pt.vy -= 0.02; // float up
+    pt.life--;
+    if (pt.life <= 0) particles.splice(i, 1);
+  }
+}
+
+/* ========== INPUT ========== */
+canvas.addEventListener('mousedown', onPointerDown);
+canvas.addEventListener('mousemove', onPointerMove);
+window.addEventListener('mouseup', onPointerUp);
+canvas.addEventListener('contextmenu', e => { e.preventDefault(); onRotate(); });
+window.addEventListener('keydown', onKey);
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  const t = e.touches[0];
+  onPointerDown({clientX: t.clientX, clientY: t.clientY});
+}, {passive: false});
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  const t = e.touches[0];
+  onPointerMove({clientX: t.clientX, clientY: t.clientY});
+}, {passive: false});
+window.addEventListener('touchend', onPointerUp);
+
+function screenToGrid(sx, sy) {
+  const gx = Math.floor((sx - gridOffX) / TILE);
+  const gy = Math.floor((sy - gridOffY) / TILE);
+  return {gx, gy, inGrid: gx >= 0 && gx < GRID_W && gy >= 0 && gy < GRID_H};
+}
+
+function onPointerDown(e) {
+  if (gameState !== 'PLAYING') return;
+  mouseDown = true;
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  const g = screenToGrid(mouseX, mouseY);
+  if (!g.inGrid) return;
+
+  // Check if clicking an existing shadow object
+  for (let i = shadowObjs.length - 1; i >= 0; i--) {
+    const so = shadowObjs[i];
+    const st = SHADOW_TYPES[so.type];
+    const sw = so.rot % 2 === 0 ? st.w : st.h;
+    const sh = so.rot % 2 === 0 ? st.h : st.w;
+    if (g.gx >= so.gx && g.gx < so.gx + sw && g.gy >= so.gy && g.gy < so.gy + sh) {
+      // Pick up existing object
+      draggedObj = so;
+      draggedObj.dragOffset = {x: g.gx - so.gx, y: g.gy - so.gy};
+      return;
+    }
+  }
+
+  // Place new object from selected tool
+  if (selectedTool >= 0 && getToolCount(selectedTool) > 0) {
+    const st = SHADOW_TYPES[selectedTool];
+    if (canPlace(selectedTool, g.gx, g.gy, 0)) {
+      const so = {type: selectedTool, gx: g.gx, gy: g.gy, rot: 0, id: Date.now()};
+      shadowObjs.push(so);
+      useTool(selectedTool);
+      moveCount++;
+      computeShadows();
+      updateHUD();
+    }
+  }
+}
+
+function onPointerMove(e) {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  const g = screenToGrid(mouseX, mouseY);
+  hoveredTile = g.inGrid ? g : null;
+
+  // Check plant hover
+  hoveredPlant = null;
+  if (g.inGrid) {
+    for (const p of plants) {
+      if (p.gx === g.gx && p.gy === g.gy) {
+        hoveredPlant = p;
+        break;
+      }
+    }
+  }
+
+  if (draggedObj && g.inGrid) {
+    const st = SHADOW_TYPES[draggedObj.type];
+    const sw = draggedObj.rot % 2 === 0 ? st.w : st.h;
+    const sh = draggedObj.rot % 2 === 0 ? st.h : st.w;
+    const nx = g.gx - (draggedObj.dragOffset ? draggedObj.dragOffset.x : 0);
+    const ny = g.gy - (draggedObj.dragOffset ? draggedObj.dragOffset.y : 0);
+    if (canPlaceAt(draggedObj.id, draggedObj.type, nx, ny, draggedObj.rot)) {
+      draggedObj.gx = nx;
+      draggedObj.gy = ny;
+      computeShadows();
+    }
+  }
+}
+
+function onPointerUp() {
+  if (draggedObj) {
+    moveCount++;
+    draggedObj = null;
+    computeShadows();
+    updateHUD();
+  }
+  mouseDown = false;
+}
+
+function onRotate() {
+  if (gameState !== 'PLAYING') return;
+  const g = screenToGrid(mouseX, mouseY);
+  if (!g.inGrid) return;
+  for (const so of shadowObjs) {
+    const st = SHADOW_TYPES[so.type];
+    const sw = so.rot % 2 === 0 ? st.w : st.h;
+    const sh = so.rot % 2 === 0 ? st.h : st.w;
+    if (g.gx >= so.gx && g.gx < so.gx + sw && g.gy >= so.gy && g.gy < so.gy + sh) {
+      const newRot = (so.rot + 1) % 4;
+      const nsw = newRot % 2 === 0 ? st.w : st.h;
+      const nsh = newRot % 2 === 0 ? st.h : st.w;
+      if (so.gx + nsw <= GRID_W && so.gy + nsh <= GRID_H && !objCollision(so.id, so.type, so.gx, so.gy, newRot)) {
+        so.rot = newRot;
+        moveCount++;
+        computeShadows();
+        updateHUD();
+      }
+      return;
+    }
+  }
+}
+
+function onKey(e) {
+  if (e.key === 'r' || e.key === 'R') onRotate();
+  if (e.key === 'Delete' || e.key === 'Backspace') onDelete();
+  if (e.key === 'h' || e.key === 'H') toggleHeatmap();
+}
+
+function onDelete() {
+  if (gameState !== 'PLAYING') return;
+  const g = screenToGrid(mouseX, mouseY);
+  if (!g.inGrid) return;
+  for (let i = shadowObjs.length - 1; i >= 0; i--) {
+    const so = shadowObjs[i];
+    const st = SHADOW_TYPES[so.type];
+    const sw = so.rot % 2 === 0 ? st.w : st.h;
+    const sh = so.rot % 2 === 0 ? st.h : st.w;
+    if (g.gx >= so.gx && g.gx < so.gx + sw && g.gy >= so.gy && g.gy < so.gy + sh) {
+      returnTool(so.type);
+      shadowObjs.splice(i, 1);
+      moveCount++;
+      computeShadows();
+      updateHUD();
+      return;
+    }
+  }
+}
+
+function canPlace(type, gx, gy, rot) {
+  return canPlaceAt(null, type, gx, gy, rot);
+}
+
+function canPlaceAt(excludeId, type, gx, gy, rot) {
+  const st = SHADOW_TYPES[type];
+  const w = rot % 2 === 0 ? st.w : st.h;
+  const h = rot % 2 === 0 ? st.h : st.w;
+  if (gx < 0 || gy < 0 || gx + w > GRID_W || gy + h > GRID_H) return false;
+  return !objCollision(excludeId, type, gx, gy, rot);
+}
+
+function objCollision(excludeId, type, gx, gy, rot) {
+  const st = SHADOW_TYPES[type];
+  const w = rot % 2 === 0 ? st.w : st.h;
+  const h = rot % 2 === 0 ? st.h : st.w;
+  for (const so of shadowObjs) {
+    if (so.id === excludeId) continue;
+    const ost = SHADOW_TYPES[so.type];
+    const ow = so.rot % 2 === 0 ? ost.w : ost.h;
+    const oh = so.rot % 2 === 0 ? ost.h : ost.w;
+    if (gx < so.gx + ow && gx + w > so.gx && gy < so.gy + oh && gy + h > so.gy) return true;
+  }
+  // Check plant collision
+  for (const p of plants) {
+    if (gx <= p.gx && gx + w > p.gx && gy <= p.gy && gy + h > p.gy) return true;
+  }
+  return false;
+}
+
+function toggleHeatmap() {
+  showHeatmap = !showHeatmap;
+}
+
+/* ========== HUD & UI ========== */
+function updateHUD() {
+  document.getElementById('hudLevel').textContent = currentLevel + 1;
+  document.getElementById('hudScore').textContent = levelScore;
+  const mins = Math.floor(timeElapsed / 60);
+  const secs = Math.floor(timeElapsed % 60);
+  document.getElementById('hudTime').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  document.getElementById('hudMoves').textContent = moveCount;
+  const bloomed = plants.filter(p => p.bloomed).length;
+  document.getElementById('hudPlants').textContent = `${bloomed}/${plants.length}`;
+
+  // Update stars preview
+  const stars = computeStarsPreview();
+  const starEls = document.querySelectorAll('#hudStars .star');
+  starEls.forEach((s, i) => s.classList.toggle('lit', i < stars));
+}
+
+function computeStarsPreview() {
+  const L = LEVELS[currentLevel];
+  let s = 0;
+  const bloomed = plants.filter(p => p.bloomed).length;
+  if (bloomed === plants.length) {
+    s++;
+    if (timeElapsed <= L.par.time) s++;
+    if (moveCount <= L.par.moves) s++;
+  }
+  return s;
+}
+
+function showGameUI(show) {
+  const ids = ['hud', 'toolPalette', 'bottomBar'];
+  ids.forEach(id => document.getElementById(id).style.display = show ? '' : 'none');
+}
+
+function hideOverlays() {
+  document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+}
+
+function showWinOverlay() {
+  const L = LEVELS[currentLevel];
+  const stars = computeStarsPreview();
+  if (stars > starsEarned[currentLevel]) starsEarned[currentLevel] = stars;
+
+  // Check badges
+  const newBadges = [];
+  if (plants.every(p => p.bloomed) && !badgesEarned.includes('green-thumb')) {
+    badgesEarned.push('green-thumb');
+    newBadges.push({id:'green-thumb', name:'🌿 Green Thumb', desc:'All plants bloomed'});
+  }
+  if (moveCount <= L.par.moves && !badgesEarned.includes('minimalist')) {
+    badgesEarned.push('minimalist');
+    newBadges.push({id:'minimalist', name:'✨ Minimalist', desc:'Used fewest objects'});
+  }
+  if (timeElapsed <= L.par.time && !badgesEarned.includes('speed-grower')) {
+    badgesEarned.push('speed-grower');
+    newBadges.push({id:'speed-grower', name:'⚡ Speed Grower', desc:'Under par time'});
+  }
+
+  document.getElementById('winScore').textContent = `Score: ${levelScore} (Time bonus: ${Math.max(0, Math.floor((L.par.time - timeElapsed) * 10))})`;
+  const winStars = document.querySelectorAll('#winStars .star');
+  winStars.forEach((s, i) => s.classList.toggle('lit', i < stars));
+
+  const badgeRow = document.getElementById('winBadges');
+  badgeRow.innerHTML = newBadges.map(b => `<div class="badge earned">${b.name}</div>`).join('');
+  if (newBadges.length === 0) badgeRow.innerHTML = '<div class="badge">No new badges</div>';
+
+  const details = [];
+  details.push(`Time: ${Math.floor(timeElapsed)}s (par: ${L.par.time}s)`);
+  details.push(`Moves: ${moveCount} (par: ${L.par.moves})`);
+  details.push(`Plants bloomed: ${plants.filter(p => p.bloomed).length}/${plants.length}`);
+  document.getElementById('winDetails').innerHTML = details.join('<br>');
+
+  document.getElementById('winOverlay').classList.remove('hidden');
+  updateMenuBadges();
+}
+
+function showLoseOverlay(plant) {
+  const need = PLANT_TYPES[plant.type];
+  const shadow = gridShadow[plant.gy][plant.gx];
+  let reason = '';
+  if (shadow < need.needMin) {
+    reason = `Your ${need.name} burned from too much light!`;
+  } else {
+    reason = `Your ${need.name} wilted from too little light!`;
+  }
+  reason += ` It needed ${need.needMin}-${need.needMax}% shadow but got ${Math.round(shadow)}%.`;
+  document.getElementById('loseReason').textContent = reason;
+  document.getElementById('loseOverlay').classList.remove('hidden');
+}
+
+function updateMenuBadges() {
+  const container = document.getElementById('menuBadges');
+  const allBadges = [
+    {id:'green-thumb', name:'🌿 Green Thumb'},
+    {id:'minimalist', name:'✨ Minimalist'},
+    {id:'speed-grower', name:'⚡ Speed Grower'}
+  ];
+  container.innerHTML = allBadges.map(b =>
+    `<div class="badge ${badgesEarned.includes(b.id)?'earned':''}">${b.name}</div>`
+  ).join('');
+}
+
+function buildLevelSelect() {
+  const grid = document.getElementById('levelGrid');
+  grid.innerHTML = '';
+  LEVELS.forEach((L, i) => {
+    const locked = i > 0 && starsEarned[i-1] === 0;
+    const card = document.createElement('div');
+    card.className = 'level-card' + (locked ? ' locked' : '');
+    const stars = '★'.repeat(starsEarned[i]) + '☆'.repeat(3 - starsEarned[i]);
+    card.innerHTML = `<div class="lvl-num">${i+1}</div><div class="lvl-stars">${stars}</div>`;
+    if (!locked) card.onclick = () => loadLevel(i);
+    grid.appendChild(card);
+  });
+}
+
+/* ========== RENDERING ========== */
+function draw() {
+  ctx.fillStyle = C_BG;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Background subtle vignette
+  const grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 100, canvas.width/2, canvas.height/2, Math.max(canvas.width, canvas.height));
+  grad.addColorStop(0, 'rgba(30, 15, 60, 0.3)');
+  grad.addColorStop(1, 'rgba(5, 2, 15, 0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  if (gameState === 'PLAYING' || gameState === 'WIN' || gameState === 'LOSE') {
+    drawGrid();
+    if (showHeatmap) drawHeatmap();
+    drawLightBeams();
+    drawShadowObjects();
+    drawPlants();
+    drawParticles();
+    drawHoverPreview();
+    drawPlantTooltips();
+  }
+}
+
+function drawGrid() {
+  ctx.strokeStyle = C_GRID_LINE;
+  ctx.lineWidth = 1;
+  for (let x = 0; x <= GRID_W; x++) {
+    ctx.beginPath();
+    ctx.moveTo(gridOffX + x * TILE, gridOffY);
+    ctx.lineTo(gridOffX + x * TILE, gridOffY + GRID_H * TILE);
+    ctx.stroke();
+  }
+  for (let y = 0; y <= GRID_H; y++) {
+    ctx.beginPath();
+    ctx.moveTo(gridOffX, gridOffY + y * TILE);
+    ctx.lineTo(gridOffX + GRID_W * TILE, gridOffY + y * TILE);
+    ctx.stroke();
+  }
+
+  // Grid background fill
+  ctx.fillStyle = C_GRID;
+  ctx.fillRect(gridOffX, gridOffY, GRID_W * TILE, GRID_H * TILE);
+
+  // Grid border glow
+  ctx.strokeStyle = '#3d2b5e';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(gridOffX - 1, gridOffY - 1, GRID_W * TILE + 2, GRID_H * TILE + 2);
+}
+
+function drawHeatmap() {
+  for (let y = 0; y < GRID_H; y++) {
+    for (let x = 0; x < GRID_W; x++) {
+      const shadow = gridShadow[y][x];
+      if (shadow > 5) {
+        const alpha = Math.min(0.35, shadow / 200);
+        // Deep purple for shadow
+        ctx.fillStyle = `rgba(60, 20, 100, ${alpha})`;
+        ctx.fillRect(gridOffX + x * TILE + 1, gridOffY + y * TILE + 1, TILE - 2, TILE - 2);
+      }
+      // Light areas get a subtle warm tint
+      if (shadow < 30) {
+        ctx.fillStyle = `rgba(255, 220, 100, ${0.03 * (1 - shadow/30)})`;
+        ctx.fillRect(gridOffX + x * TILE + 1, gridOffY + y * TILE + 1, TILE - 2, TILE - 2);
+      }
+    }
+  }
+}
+
+function drawLightBeams() {
+  ctx.save();
+  ctx.globalCompositeOperation = 'screen';
+  for (const light of lightSources) {
+    // Draw glow at source
+    const g = ctx.createRadialGradient(light.worldX, light.worldY, 2, light.worldX, light.worldY, 30);
+    g.addColorStop(0, 'rgba(255, 240, 150, 0.8)');
+    g.addColorStop(1, 'rgba(255, 220, 80, 0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(light.worldX, light.worldY, 30, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Draw faint rays to each tile
+    ctx.strokeStyle = C_LIGHT_BEAM;
+    ctx.lineWidth = 1;
+    for (let y = 0; y < GRID_H; y += 2) {
+      for (let x = 0; x < GRID_W; x += 2) {
+        const tx = gridOffX + x * TILE + TILE/2;
+        const ty = gridOffY + y * TILE + TILE/2;
+        ctx.beginPath();
+        ctx.moveTo(light.worldX, light.worldY);
+        ctx.lineTo(tx, ty);
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.restore();
+}
+
+function drawShadowObjects() {
+  for (const so of shadowObjs) {
+    const st = SHADOW_TYPES[so.type];
+    const w = (so.rot % 2 === 0 ? st.w : st.h) * TILE;
+    const h = (so.rot % 2 === 0 ? st.h : st.w) * TILE;
+    const x = gridOffX + so.gx * TILE;
+    const y = gridOffY + so.gy * TILE;
+
+    // Shadow cast (subtle below)
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fillRect(x + 4, y + 4, w, h);
+
+    // Object body
+    const grad = ctx.createLinearGradient(x, y, x, y + h);
+    grad.addColorStop(0, st.color);
+    grad.addColorStop(1, adjustColor(st.color, -30));
+    ctx.fillStyle = grad;
+    roundRect(ctx, x + 1, y + 1, w - 2, h - 2, 4);
+    ctx.fill();
+
+    // Border
+    ctx.strokeStyle = adjustColor(st.color, 40);
+    ctx.lineWidth = 2;
+    roundRect(ctx, x + 1, y + 1, w - 2, h - 2, 4);
+    ctx.stroke();
+
+    // Icon
+    ctx.font = `${Math.min(w, h) * 0.5}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(st.icon, x + w/2, y + h/2);
+
+    // Selection glow
+    if (draggedObj === so) {
+      ctx.strokeStyle = 'rgba(201, 168, 255, 0.6)';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([4, 4]);
+      roundRect(ctx, x - 2, y - 2, w + 4, h + 4, 6);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+}
+
+function drawPlants() {
+  for (const p of plants) {
+    const px = gridOffX + p.gx * TILE + TILE/2;
+    const py = gridOffY + p.gy * TILE + TILE/2;
+    const need = PLANT_TYPES[p.type];
+    const size = 0.3 + (p.growth / 100) * 0.5;
+    const baseSize = TILE * 0.7 * size;
+
+    // Pulse for bloomed
+    let pulse = 0;
+    if (p.bloomed) {
+      pulse = Math.sin(animFrame * 0.08 + p.animOffset) * 4;
+    }
+
+    // Glow
+    if (p.bloomed || p.state === 'grow') {
+      const glowAlpha = p.bloomed ? 0.5 : 0.25;
+      const glowSize = baseSize + 10 + pulse;
+      const g = ctx.createRadialGradient(px, py, baseSize * 0.3, px, py, glowSize);
+      g.addColorStop(0, need.glow + hexAlpha(glowAlpha));
+      g.addColorStop(1, need.glow + '00');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(px, py, glowSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Stem
+    ctx.strokeStyle = '#2d5a3d';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(px, py + baseSize * 0.4);
+    ctx.lineTo(px, py - baseSize * 0.2);
+    ctx.stroke();
+
+    // Flower / bloom
+    const petalCount = 5 + p.type;
+    ctx.save();
+    ctx.translate(px, py - baseSize * 0.1);
+    for (let i = 0; i < petalCount; i++) {
+      ctx.save();
+      ctx.rotate((Math.PI * 2 / petalCount) * i + p.animOffset * 0.3);
+      ctx.fillStyle = need.color;
+      ctx.globalAlpha = 0.7 + (p.growth / 200);
+      ctx.beginPath();
+      ctx.ellipse(0, -baseSize * 0.35, baseSize * 0.18, baseSize * 0.3, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    ctx.restore();
+
+    // Center
+    ctx.fillStyle = '#ffd700';
+    ctx.globalAlpha = 1;
+    ctx.beginPath();
+    ctx.arc(px, py - baseSize * 0.1, baseSize * 0.12, 0, Math.PI * 2);
+    ctx.fill();
+
+    // State indicator ring
+    let ringColor = '#2d5a3d';
+    if (p.state === 'burn') ringColor = '#e74c3c';
+    if (p.state === 'wilt') ringColor = '#3498db';
+    if (p.state === 'bloom') ringColor = need.glow;
+    ctx.strokeStyle = ringColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(px, py, baseSize * 0.55 + pulse * 0.3, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Grace period indicator
+    if (p.graceTimer > 0) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`GRACE: ${Math.ceil(p.graceTimer)}s`, px, py - TILE * 0.6);
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.arc(px, py, TILE * 0.45, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Health bar
+    const barW = TILE * 0.8;
+    const barH = 5;
+    const barX = px - barW / 2;
+    const barY = py - TILE * 0.55 - 8;
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.fillRect(barX, barY, barW, barH);
+    let healthColor = '#2ecc71';
+    if (p.health < 60) healthColor = '#f1c40f';
+    if (p.health < 30) healthColor = '#e74c3c';
+    ctx.fillStyle = healthColor;
+    ctx.fillRect(barX, barY, barW * (p.health / 100), barH);
+
+    // Growth bar (small, below health)
+    const gBarY = barY + barH + 2;
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.fillRect(barX, gBarY, barW, 3);
+    ctx.fillStyle = need.color;
+    ctx.fillRect(barX, gBarY, barW * (p.growth / 100), 3);
+
+    // Name label when hovered
+    if (hoveredPlant === p) {
+      ctx.fillStyle = 'rgba(10, 5, 25, 0.85)';
+      roundRect(ctx, barX - 4, barY - 22, barW + 8, 18, 4);
+      ctx.fill();
+      ctx.fillStyle = need.color;
+      ctx.font = 'bold 10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(need.name, px, barY - 10);
+    }
+  }
+}
+
+function drawParticles() {
+  for (const pt of particles) {
+    const alpha = pt.life / pt.maxLife;
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = pt.color;
+    ctx.beginPath();
+    ctx.arc(pt.x, pt.y, pt.size * alpha, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawHoverPreview() {
+  if (selectedTool < 0 || !hoveredTile) return;
+  const g = hoveredTile;
+  const st = SHADOW_TYPES[selectedTool];
+  const w = st.w * TILE;
+  const h = st.h * TILE;
+  const x = gridOffX + g.gx * TILE;
+  const y = gridOffY + g.gy * TILE;
+
+  const valid = canPlace(selectedTool, g.gx, g.gy, 0);
+  ctx.fillStyle = valid ? 'rgba(78, 205, 196, 0.2)' : 'rgba(231, 76, 60, 0.2)';
+  ctx.strokeStyle = valid ? 'rgba(78, 205, 196, 0.6)' : 'rgba(231, 76, 60, 0.6)';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([4, 4]);
+  roundRect(ctx, x, y, w, h, 4);
+  ctx.fill();
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Show predicted shadow value at this tile
+  ctx.fillStyle = '#fff';
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'center';
+  const cx = x + w/2;
+  const cy = y + h/2;
+  ctx.fillText(`${st.name}`, cx, cy - 6);
+  ctx.fillText(`${Math.round(st.block*100)}% block`, cx, cy + 8);
+}
+
+function drawPlantTooltips() {
+  if (!hoveredPlant) return;
+  const p = hoveredPlant;
+  const need = PLANT_TYPES[p.type];
+  const px = gridOffX + p.gx * TILE + TILE;
+  const py = gridOffY + p.gy * TILE;
+
+  const lines = [
+    `${need.name}`,
+    `Needs: ${need.needMin}-${need.needMax}% shadow`,
+    `Current: ${Math.round(gridShadow[p.gy][p.gx])}%`,
+    `Growth: ${Math.round(p.growth)}%`,
+    `Health: ${Math.round(p.health)}%`
+  ];
+
+  const lineH = 14;
+  const pad = 8;
+  const tw = 160;
+  const th = lines.length * lineH + pad * 2;
+
+  ctx.fillStyle = 'rgba(15, 8, 35, 0.95)';
+  ctx.strokeStyle = need.color;
+  ctx.lineWidth = 1;
+  roundRect(ctx, px, py, tw, th, 6);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#e0d5f5';
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'left';
+  lines.forEach((line, i) => {
+    if (i === 0) {
+      ctx.fillStyle = need.color;
+      ctx.font = 'bold 12px sans-serif';
+    } else {
+      ctx.fillStyle = '#b0a0d0';
+      ctx.font = '11px sans-serif';
+    }
+    ctx.fillText(line, px + pad, py + pad + (i + 1) * lineH - 2);
+  });
+}
+
+function drawWinCelebration() {
+  if (gameState !== 'WIN') return;
+  // Extra particles from all bloomed plants
+  if (animFrame % 10 === 0) {
+    for (const p of plants) {
+      if (p.bloomed) spawnBloomParticles(p);
+    }
+  }
+}
+
+/* ========== UTILS ========== */
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function adjustColor(hex, amt) {
+  let r = parseInt(hex.slice(1, 3), 16) + amt;
+  let g = parseInt(hex.slice(3, 5), 16) + amt;
+  let b = parseInt(hex.slice(5, 7), 16) + amt;
+  r = Math.max(0, Math.min(255, r));
+  g = Math.max(0, Math.min(255, g));
+  b = Math.max(0, Math.min(255, b));
+  return `rgb(${r},${g},${b})`;
+}
+
+function hexAlpha(a) {
+  const v = Math.round(Math.max(0, Math.min(1, a)) * 255);
+  return v.toString(16).padStart(2, '0');
+}
+
+/* ========== GAME LOOP ========== */
+let lastTime = 0;
+function loop(timestamp) {
+  const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
+  lastTime = timestamp;
+  animFrame++;
+
+  if (gameState === 'PLAYING') {
+    timeElapsed += dt;
+    computeShadows();
+    updatePlants(dt);
+    updateParticles();
+    drawWinCelebration();
+    if (Math.floor(animFrame) % 30 === 0) updateHUD();
+  }
+
+  draw();
+  requestAnimationFrame(loop);
+}
+
+/* ========== UI EVENT WIRING ========== */
+document.getElementById('btnPlay').onclick = () => {
+  if (firstLoad) {
+    firstLoad = false;
+    document.getElementById('instrOverlay').classList.remove('hidden');
+    document.getElementById('menuOverlay').classList.add('hidden');
+  } else {
+    document.getElementById('levelOverlay').classList.remove('hidden');
+    document.getElementById('menuOverlay').classList.add('hidden');
+    buildLevelSelect();
+  }
+};
+
+document.getElementById('btnHowTo').onclick = () => {
+  document.getElementById('instrOverlay').classList.remove('hidden');
+  document.getElementById('menuOverlay').classList.add('hidden');
+};
+
+document.getElementById('btnInstrBack').onclick = () => {
+  document.getElementById('instrOverlay').classList.add('hidden');
+  document.getElementById('menuOverlay').classList.remove('hidden');
+};
+
+document.getElementById('btnInstrStart').onclick = () => {
+  document.getElementById('instrOverlay').classList.add('hidden');
+  document.getElementById('levelOverlay').classList.remove('hidden');
+  buildLevelSelect();
+};
+
+document.getElementById('btnLevelBack').onclick = () => {
+  document.getElementById('levelOverlay').classList.add('hidden');
+  document.getElementById('menuOverlay').classList.remove('hidden');
+  updateMenuBadges();
+};
+
+document.getElementById('btnReset').onclick = () => loadLevel(currentLevel);
+document.getElementById('btnHeatmap').onclick = toggleHeatmap;
+document.getElementById('btnMenu').onclick = () => {
+  showGameUI(false);
+  document.getElementById('menuOverlay').classList.remove('hidden');
+  gameState = 'MENU';
+  updateMenuBadges();
+};
+
+document.getElementById('btnReplay').onclick = () => loadLevel(currentLevel);
+document.getElementById('btnNextLevel').onclick = () => {
+  if (currentLevel + 1 < LEVELS.length) {
+    loadLevel(currentLevel + 1);
+  } else {
+    hideOverlays();
+    document.getElementById('levelOverlay').classList.remove('hidden');
+    buildLevelSelect();
+    gameState = 'LEVEL_SELECT';
+  }
+};
+
+document.getElementById('btnRetry').onclick = () => loadLevel(currentLevel);
+document.getElementById('btnLoseMenu').onclick = () => {
+  showGameUI(false);
+  document.getElementById('menuOverlay').classList.remove('hidden');
+  gameState = 'MENU';
+  updateMenuBadges();
+};
+
+/* ========== FIRST RUN ========== */
+updateMenuBadges();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

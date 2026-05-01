@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resonance Vault — Sound-Stealth Puzzle</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:#060a14;color:#c8d4e8;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;user-select:none}
+  #gameCanvas{border:2px solid #1a2a4a;border-radius:8px;box-shadow:0 0 40px rgba(0,180,255,0.08);cursor:pointer;background:#040810}
+  #hud{position:absolute;top:12px;left:50%;transform:translateX(-50%);display:flex;gap:24px;background:rgba(4,8,16,0.85);padding:8px 20px;border-radius:20px;border:1px solid #1a3a5a;font-size:13px;pointer-events:none;z-index:10}
+  #hud span{display:flex;align-items:center;gap:6px}
+  #hud .gold{color:#ffd700}
+  #hud .stealth{color:#4ade80}
+  #hud .time{color:#60a5fa}
+  #overlay{position:fixed;inset:0;background:rgba(2,6,14,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;text-align:center;padding:40px}
+  #overlay h1{font-size:42px;margin-bottom:8px;background:linear-gradient(135deg,#00b4ff,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  #overlay h2{font-size:28px;margin-bottom:16px;color:#ffd700}
+  #overlay p{max-width:520px;line-height:1.7;margin-bottom:8px;font-size:15px;color:#a0b4d0}
+  #overlay .keys{background:#0a1a2e;padding:6px 14px;border-radius:6px;border:1px solid #1a3a5a;display:inline-block;margin:4px;font-family:monospace;font-size:13px;color:#4ade80}
+  #overlay button{margin-top:20px;padding:12px 36px;font-size:16px;background:linear-gradient(135deg,#0066aa,#004488);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:all .2s}
+  #overlay button:hover{background:linear-gradient(135deg,#0088cc,#0066aa);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,136,204,0.3)}
+  #badgeBar{position:absolute;top:52px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10;pointer-events:none}
+  .badge{padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600;opacity:0;transform:scale(0.8);transition:all .4s}
+  .badge.show{opacity:1;transform:scale(1)}
+  .badge.ghost{background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3)}
+  .badge.looter{background:rgba(255,215,0,0.15);color:#ffd700;border:1px solid rgba(255,215,0,0.3)}
+  .badge.speed{background:rgba(96,165,250,0.15);color:#60a5fa;border:1px solid rgba(96,165,250,0.3)}
+  #noiseMeter{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:320px;height:44px;background:rgba(4,8,16,0.9);border:1px solid #1a3a5a;border-radius:8px;overflow:hidden;z-index:10}
+  #noiseLabel{position:absolute;bottom:62px;left:50%;transform:translateX(-50%);font-size:11px;color:#6b8aaa;z-index:10;pointer-events:none}
+  .timeline-container{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);width:400px;background:rgba(4,8,16,0.95);border:1px solid #1a3a5a;border-radius:8px;padding:16px;z-index:50;display:none}
+  .timeline-container.show{display:block}
+  .timeline-container h4{color:#ff6b6b;margin-bottom:8px;font-size:14px}
+  .timeline-track{height:24px;background:#0a1a2e;border-radius:4px;position:relative;overflow:hidden;margin-bottom:8px}
+  .timeline-safe{position:absolute;top:0;height:100%;background:rgba(74,222,128,0.2);border-radius:4px}
+  .timeline-pulse{position:absolute;top:2px;width:4px;height:20px;background:#ff4444;border-radius:2px}
+  .timeline-pulse.safe{background:#4ade80}
+  .tip{font-size:12px;color:#a0b4d0}
+</style>
+</head>
+<body>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<div id="hud" style="display:none">
+  <span class="gold">💎 Loot: <b id="hudLoot">0</b> / <b id="hudTotal">0</b></span>
+  <span class="stealth">👁 Pulses: <b id="hudPulses">0</b></span>
+  <span class="time">⏱ <b id="hudTime">0</b>s</span>
+  <span>Level <b id="hudLevel">1</b>/5</span>
+</div>
+
+<div id="badgeBar" style="display:none">
+  <div class="badge ghost" id="badgeGhost">👻 Ghost</div>
+  <div class="badge looter" id="badgeLooter">💰 Looter King</div>
+  <div class="badge speed" id="badgeSpeed">⚡ Speed Thief</div>
+</div>
+
+<div id="noiseLabel" style="display:none">Ambient Noise — Pulse in <span style="color:#4ade80">GREEN</span> zones to stay hidden</div>
+<div id="noiseMeter" style="display:none">
+  <canvas id="noiseCanvas" width="318" height="42"></canvas>
+</div>
+
+<div class="timeline-container" id="timelineBox">
+  <h4>🔴 You were detected here — try pulsing in the green zones!</h4>
+  <div class="timeline-track" id="timelineTrack"></div>
+  <p class="tip" id="timelineTip">Wait for the green safe windows before pulsing.</p>
+</div>
+
+<div id="overlay">
+  <h1 id="title">🎵 Resonance Vault</h1>
+  <div id="content"></div>
+</div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const noiseCanvas = document.getElementById('noiseCanvas');
+const noiseCtx = noiseCanvas.getContext('2d');
+
+// ===================== GAME CONSTANTS =====================
+const GRID_W = 25, GRID_H = 18;
+const TILE = 32;
+const CANVAS_W = GRID_W * TILE;  // 800
+const CANVAS_H = GRID_H * TILE;  // 576
+const FOG_RADIUS = 2.5;
+const SONAR_REVEAL_TIME = 2000;
+const SONAR_MAX_RADIUS = 8;
+const GUARD_SPEED = 2.5; // tiles per second
+const GUARD_VISION_RANGE = 5;
+const GUARD_VISION_ANGLE = Math.PI / 3;
+const LEVEL_TIME = [90, 80, 75, 70, 65];
+const LEVEL_PAR_TIME = [60, 55, 50, 45, 40];
+const AMBIENT_CYCLE = 6000; // ms per full cycle
+
+// ===================== STATE =====================
+let gameState = 'INSTRUCTIONS';
+let currentLevel = 0;
+let levelTime = 0;
+let elapsedTime = 0;
+let totalLoot = 0;
+let collectedLoot = 0;
+let pulsesUsed = 0;
+let pulsesDetected = 0;
+let badges = { ghost: false, looter: false, speed: false };
+let player = { x: 1, y: 1 };
+let exit = { x: 0, y: 0 };
+let guards = [];
+let loots = [];
+let walls = [];
+let pulses = [];
+let particles = [];
+let revealed = []; // 2D array of reveal timestamps
+let lastTime = 0;
+let ambientCycle = 0;
+let safeWindows = [];
+let pulseTimeline = []; // { time, wasSafe }
+let guardPaths = []; // precomputed patrol paths
+let animFrame = 0;
+
+// ===================== LEVEL GENERATION =====================
+function generateLevel(lvl) {
+  // Seedable random-ish
+  const seed = 1337 + lvl * 997;
+  let rng = seed;
+  const rand = () => { rng = (rng * 16807) % 2147483647; return rng / 2147483647; };
+  
+  walls = [];
+  loots = [];
+  guards = [];
+  pulses = [];
+  particles = [];
+  pulseTimeline = [];
+  revealed = Array(GRID_H).fill(null).map(() => Array(GRID_W).fill(0));
+  
+  player = { x: 1, y: 1 };
+  exit = { x: GRID_W - 2, y: GRID_H - 2 };
+  
+  // Build border walls
+  for (let y = 0; y < GRID_H; y++) {
+    for (let x = 0; x < GRID_W; x++) {
+      if (x === 0 || x === GRID_W - 1 || y === 0 || y === GRID_H - 1) {
+        walls.push({ x, y });
+      }
+    }
+  }
+  
+  // Generate rooms and corridors
+  const roomCount = 4 + lvl;
+  const rooms = [];
+  
+  // Start room (always clear)
+  rooms.push({ x: 1, y: 1, w: 4, h: 4 });
+  // Exit room (always clear)
+  rooms.push({ x: GRID_W - 5, y: GRID_H - 5, w: 4, h: 4 });
+  
+  for (let i = 0; i < roomCount; i++) {
+    const rw = 3 + Math.floor(rand() * 4);
+    const rh = 3 + Math.floor(rand() * 4);
+    const rx = 2 + Math.floor(rand() * (GRID_W - rw - 4));
+    const ry = 2 + Math.floor(rand() * (GRID_H - rh - 4));
+    rooms.push({ x: rx, y: ry, w: rw, h: rh });
+  }
+  
+  // Carve rooms into walls (store walls, then remove room interiors)
+  const wallSet = new Set(walls.map(w => w.x + ',' + w.y));
+  
+  // Remove start and exit positions from walls
+  wallSet.delete('1,1');
+  wallSet.delete('1,2');
+  wallSet.delete('2,1');
+  wallSet.delete((GRID_W-2)+','+(GRID_H-2));
+  wallSet.delete((GRID_W-3)+','+(GRID_H-2));
+  wallSet.delete((GRID_W-2)+','+(GRID_H-3));
+  
+  // Carve rooms
+  rooms.forEach(r => {
+    for (let y = r.y; y < r.y + r.h && y < GRID_H - 1; y++) {
+      for (let x = r.x; x < r.x + r.w && x < GRID_W - 1; x++) {
+        wallSet.delete(x + ',' + y);
+      }
+    }
+  });
+  
+  // Carve corridors between rooms
+  for (let i = 0; i < rooms.length - 1; i++) {
+    const a = rooms[i];
+    const b = rooms[i + 1];
+    const ax = Math.floor(a.x + a.w / 2);
+    const ay = Math.floor(a.y + a.h / 2);
+    const bx = Math.floor(b.x + b.w / 2);
+    const by = Math.floor(b.y + b.h / 2);
+    
+    // Horizontal then vertical
+    const minX = Math.min(ax, bx), maxX = Math.max(ax, bx);
+    const minY = Math.min(ay, by), maxY = Math.max(ay, by);
+    for (let x = minX; x <= maxX; x++) wallSet.delete(x + ',' + ay);
+    for (let y = minY; y <= maxY; y++) wallSet.delete(bx + ',' + y);
+  }
+  
+  // Ensure path from start to exit using BFS-like corridor guarantee
+  let cx = 1, cy = 1;
+  while (cx < GRID_W - 2 || cy < GRID_H - 2) {
+    if (cx < GRID_W - 2 && rand() > 0.3) { cx++; wallSet.delete(cx + ',' + cy); }
+    else if (cy < GRID_H - 2) { cy++; wallSet.delete(cx + ',' + cy); }
+    else { cx++; wallSet.delete(cx + ',' + cy); }
+  }
+  
+  walls = Array.from(wallSet).map(s => { const [x, y] = s.split(',').map(Number); return { x, y }; });
+  
+  // Place loot (avoid start, exit, walls)
+  const lootCount = 3 + lvl;
+  for (let i = 0; i < lootCount; i++) {
+    let lx, ly, attempts = 0;
+    do {
+      lx = 2 + Math.floor(rand() * (GRID_W - 4));
+      ly = 2 + Math.floor(rand() * (GRID_H - 4));
+      attempts++;
+    } while (attempts < 50 && (isWall(lx, ly) || (lx === 1 && ly === 1) || (lx === exit.x && ly === exit.y)));
+    if (attempts < 50) {
+      loots.push({ x: lx, y: ly, value: 100 + Math.floor(rand() * 200), collected: false });
+    }
+  }
+  
+  // Place guards with patrol paths
+  const guardCount = 2 + Math.floor(lvl / 2);
+  guardPaths = [];
+  for (let i = 0; i < guardCount; i++) {
+    let gx, gy, attempts = 0;
+    do {
+      gx = 3 + Math.floor(rand() * (GRID_W - 6));
+      gy = 3 + Math.floor(rand() * (GRID_H - 6));
+      attempts++;
+    } while (attempts < 50 && (isWall(gx, gy) || Math.abs(gx - player.x) < 5 || Math.abs(gy - player.y) < 5));
+    if (attempts < 50) {
+      // Generate patrol path: a loop of 3-5 points
+      const pathLen = 3 + Math.floor(rand() * 3);
+      const path = [{ x: gx, y: gy }];
+      for (let p = 1; p < pathLen; p++) {
+        const last = path[path.length - 1];
+        const dirs = [[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+        dirs.sort(() => rand() - 0.5);
+        for (const [dx, dy] of dirs) {
+          const nx = last.x + dx * (2 + Math.floor(rand() * 3));
+          const ny = last.y + dy * (2 + Math.floor(rand() * 3));
+          if (nx > 1 && nx < GRID_W - 2 && ny > 1 && ny < GRID_H - 2 && !isWall(nx, ny)) {
+            path.push({ x: nx, y: ny });
+            break;
+          }
+        }
+      }
+      guardPaths.push(path);
+      guards.push({
+        x: gx, y: gy,
+        path: path,
+        pathIndex: 0,
+        state: 'CALM', // CALM, SUSPICIOUS, CHASING
+        alertTimer: 0,
+        targetX: gx, targetY: gy,
+        facing: Math.random() * Math.PI * 2,
+        pulseOrigin: null,
+        animOffset: rand() * 1000
+      });
+    }
+  }
+  
+  // Ambient noise safe windows (2-3 windows per cycle)
+  safeWindows = [];
+  const windowCount = 2 + Math.floor(rand() * 2);
+  for (let i = 0; i < windowCount; i++) {
+    const start = rand() * 0.7;
+    const len = 0.1 + rand() * 0.15;
+    safeWindows.push({ start, end: Math.min(start + len, 1) });
+  }
+  
+  levelTime = LEVEL_TIME[lvl];
+  elapsedTime = 0;
+  totalLoot = loots.length;
+  collectedLoot = 0;
+  pulsesUsed = 0;
+  pulsesDetected = 0;
+  badges = { ghost: false, looter: false, speed: false };
+}
+
+function isWall(x, y) {
+  return walls.some(w => w.x === x && w.y === y);
+}
+
+function canMove(x, y) {
+  return x >= 0 && x < GRID_W && y >= 0 && y < GRID_H && !isWall(x, y);
+}
+
+// ===================== INPUT =====================
+canvas.addEventListener('click', e => {
+  if (gameState !== 'PLAYING') return;
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const mx = Math.floor(((e.clientX - rect.left) * scaleX) / TILE);
+  const my = Math.floor(((e.clientY - rect.top) * scaleY) / TILE);
+  
+  const dx = Math.abs(mx - player.x);
+  const dy = Math.abs(my - player.y);
+  if (dx + dy === 1 && canMove(mx, my)) {
+    player.x = mx;
+    player.y = my;
+    checkLoot();
+    checkExit();
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (gameState !== 'PLAYING') return;
+  if (e.code === 'Space') {
+    e.preventDefault();
+    emitPulse();
+  }
+  if (['ArrowUp','KeyW'].includes(e.code) && canMove(player.x, player.y - 1)) { player.y--; checkLoot(); checkExit(); }
+  if (['ArrowDown','KeyS'].includes(e.code) && canMove(player.x, player.y + 1)) { player.y++; checkLoot(); checkExit(); }
+  if (['ArrowLeft','KeyA'].includes(e.code) && canMove(player.x - 1, player.y)) { player.x--; checkLoot(); checkExit(); }
+  if (['ArrowRight','KeyD'].includes(e.code) && canMove(player.x + 1, player.y)) { player.x++; checkLoot(); checkExit(); }
+});
+
+// ===================== GAME LOGIC =====================
+function emitPulse() {
+  pulsesUsed++;
+  pulses.push({
+    x: player.x,
+    y: player.y,
+    radius: 0,
+    maxRadius: SONAR_MAX_RADIUS,
+    opacity: 1,
+    birth: performance.now()
+  });
+  
+  // Reveal area
+  for (let dy = -SONAR_MAX_RADIUS; dy <= SONAR_MAX_RADIUS; dy++) {
+    for (let dx = -SONAR_MAX_RADIUS; dx <= SONAR_MAX_RADIUS; dx++) {
+      const tx = player.x + dx;
+      const ty = player.y + dy;
+      if (tx >= 0 && tx < GRID_W && ty >= 0 && ty < GRID_H) {
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist <= SONAR_MAX_RADIUS) {
+          revealed[ty][tx] = performance.now();
+        }
+      }
+    }
+  }
+  
+  // Check if pulse is in safe window
+  const cyclePos = (performance.now() % AMBIENT_CYCLE) / AMBIENT_CYCLE;
+  const isSafe = safeWindows.some(w => cyclePos >= w.start && cyclePos <= w.end);
+  pulseTimeline.push({ time: cyclePos, wasSafe: isSafe });
+  
+  if (!isSafe) {
+    pulsesDetected++;
+    // Alert nearby guards
+    guards.forEach(g => {
+      const dist = Math.sqrt((g.x - player.x)**2 + (g.y - player.y)**2);
+      if (dist <= 10) {
+        g.state = 'SUSPICIOUS';
+        g.pulseOrigin = { x: player.x, y: player.y };
+        g.alertTimer = 4000;
+      }
+    });
+  }
+  
+  // Spawn particles
+  for (let i = 0; i < 12; i++) {
+    const angle = (Math.PI * 2 * i) / 12;
+    particles.push({
+      x: player.x * TILE + TILE/2,
+      y: player.y * TILE + TILE/2,
+      vx: Math.cos(angle) * 1.5,
+      vy: Math.sin(angle) * 1.5,
+      life: 1,
+      decay: 0.03,
+      color: isSafe ? '#4ade80' : '#ff6b6b',
+      size: 2 + Math.random() * 3
+    });
+  }
+}
+
+function checkLoot() {
+  loots.forEach(l => {
+    if (!l.collected && l.x === player.x && l.y === player.y) {
+      l.collected = true;
+      collectedLoot++;
+      for (let i = 0; i < 8; i++) {
+        particles.push({
+          x: l.x * TILE + TILE/2,
+          y: l.y * TILE + TILE/2,
+          vx: (Math.random() - 0.5) * 3,
+          vy: (Math.random() - 0.5) * 3,
+          life: 1,
+          decay: 0.02,
+          color: '#ffd700',
+          size: 2 + Math.random() * 2
+        });
+      }
+    }
+  });
+}
+
+function checkExit() {
+  if (player.x === exit.x && player.y === exit.y) {
+    if (currentLevel < 4) {
+      currentLevel++;
+      generateLevel(currentLevel);
+    } else {
+      gameState = 'WIN';
+      checkBadges();
+      showOverlay('win');
+    }
+  }
+}
+
+function checkBadges() {
+  if (pulsesDetected === 0) badges.ghost = true;
+  if (collectedLoot === totalLoot && totalLoot > 0) badges.looter = true;
+  if (elapsedTime <= LEVEL_PAR_TIME[currentLevel]) badges.speed = true;
+}
+
+function updateGuards(dt) {
+  guards.forEach(g => {
+    const now = performance.now();
+    
+    // Update alert timer
+    if (g.alertTimer > 0) {
+      g.alertTimer -= dt * 1000;
+      if (g.alertTimer <= 0) {
+        g.state = 'CALM';
+        g.pulseOrigin = null;
+      }
+    }
+    
+    // Patrol or chase movement
+    let targetX, targetY;
+    if (g.state === 'CHASING') {
+      targetX = player.x;
+      targetY = player.y;
+    } else if (g.state === 'SUSPICIOUS' && g.pulseOrigin) {
+      targetX = g.pulseOrigin.x;
+      targetY = g.pulseOrigin.y;
+      // If reached pulse origin, go back to calm
+      if (Math.abs(g.x - targetX) < 0.1 && Math.abs(g.y - targetY) < 0.1) {
+        g.state = 'CALM';
+        g.pulseOrigin = null;
+      }
+    } else {
+      // Patrol along path
+      const target = g.path[g.pathIndex];
+      targetX = target.x;
+      targetY = target.y;
+      if (Math.abs(g.x - targetX) < 0.1 && Math.abs(g.y - targetY) < 0.1) {
+        g.pathIndex = (g.pathIndex + 1) % g.path.length;
+      }
+    }
+    
+    // Move toward target
+    const dx = targetX - g.x;
+    const dy = targetY - g.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist > 0.05) {
+      const moveSpeed = g.state === 'CHASING' ? GUARD_SPEED * 1.5 : GUARD_SPEED;
+      g.x += (dx / dist) * moveSpeed * dt;
+      g.y += (dy / dist) * moveSpeed * dt;
+      g.facing = Math.atan2(dy, dx);
+    }
+    
+    // Vision cone check for player
+    const gpx = g.x * TILE + TILE/2;
+    const gpy = g.y * TILE + TILE/2;
+    const ppx = player.x * TILE + TILE/2;
+    const ppy = player.y * TILE + TILE/2;
+    const pdx = ppx - gpx;
+    const pdy = ppy - gpy;
+    const pDist = Math.sqrt(pdx*pdx + pdy*pdy);
+    const pAngle = Math.atan2(pdy, pdx);
+    const angleDiff = Math.abs(normalizeAngle(pAngle - g.facing));
+    
+    // Check if player is in vision cone and within range
+    if (pDist <= GUARD_VISION_RANGE * TILE && angleDiff <= GUARD_VISION_ANGLE / 2) {
+      // Raycast check for wall obstruction
+      if (!lineHitsWall(g.x, g.y, player.x, player.y)) {
+        g.state = 'CHASING';
+        g.alertTimer = 10000;
+        gameOver('caught');
+      }
+    }
+  });
+}
+
+function normalizeAngle(a) {
+  while (a > Math.PI) a -= Math.PI * 2;
+  while (a < -Math.PI) a += Math.PI * 2;
+  return a;
+}
+
+function lineHitsWall(x0, y0, x1, y1) {
+  // Simple Bresenham-like check
+  const steps = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0)) * 2;
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const x = Math.round(x0 + (x1 - x0) * t);
+    const y = Math.round(y0 + (y1 - y0) * t);
+    if (isWall(x, y)) return true;
+  }
+  return false;
+}
+
+function gameOver(reason) {
+  gameState = 'GAMEOVER';
+  checkBadges();
+  showOverlay('gameover', reason);
+}
+
+function update(dt) {
+  if (gameState !== 'PLAYING') return;
+  
+  elapsedTime += dt;
+  levelTime -= dt;
+  
+  if (levelTime <= 0) {
+    gameOver('timeout');
+    return;
+  }
+  
+  ambientCycle = (performance.now() % AMBIENT_CYCLE) / AMBIENT_CYCLE;
+  
+  updateGuards(dt);
+  
+  // Update pulses
+  const now = performance.now();
+  pulses = pulses.filter(p => now - p.birth < 1500);
+  pulses.forEach(p => {
+    const age = (now - p.birth) / 1500;
+    p.radius = age * p.maxRadius;
+    p.opacity = 1 - age;
+  });
+  
+  // Update particles
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life -= p.decay;
+  });
+  particles = particles.filter(p => p.life > 0);
+  
+  // Check for ghost badge during play
+  if (pulsesDetected === 0 && pulsesUsed > 0) {
+    // Keep tracking
+  }
+  
+  updateHUD();
+  updateBadges();
+}
+
+// ===================== RENDERING =====================
+function render() {
+  const now = performance.now();
+  
+  // Clear
+  ctx.fillStyle = '#040810';
+  ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+  
+  if (gameState === 'INSTRUCTIONS' || gameState === 'MENU') {
+    // Background pattern
+    drawVaultPattern();
+    return;
+  }
+  
+  // Draw tiles
+  for (let y = 0; y < GRID_H; y++) {
+    for (let x = 0; x < GRID_W; x++) {
+      const isRevealed = revealed[y][x] > 0 && (now - revealed[y][x]) < SONAR_REVEAL_TIME;
+      const nearPlayer = Math.sqrt((x - player.x)**2 + (y - player.y)**2) <= FOG_RADIUS;
+      const visible = isRevealed || nearPlayer;
+      
+      const px = x * TILE;
+      const py = y * TILE;
+      
+      if (isWall(x, y)) {
+        if (visible) {
+          // Wall with vault aesthetic
+          ctx.fillStyle = '#0e1a2e';
+          ctx.fillRect(px, py, TILE, TILE);
+          ctx.strokeStyle = '#1a3050';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(px + 2, py + 2, TILE - 4, TILE - 4);
+          // Gold accent
+          ctx.fillStyle = '#1a3050';
+          ctx.fillRect(px + 6, py + 6, TILE - 12, 2);
+          ctx.fillRect(px + 6, py + TILE - 8, TILE - 12, 2);
+        } else {
+          ctx.fillStyle = '#060a12';
+          ctx.fillRect(px, py, TILE, TILE);
+        }
+      } else {
+        if (visible) {
+          ctx.fillStyle = '#0a1420';
+          ctx.fillRect(px, py, TILE, TILE);
+          // Subtle grid
+          ctx.strokeStyle = '#0e1a2e';
+          ctx.lineWidth = 0.5;
+          ctx.strokeRect(px, py, TILE, TILE);
+        } else {
+          ctx.fillStyle = '#040810';
+          ctx.fillRect(px, py, TILE, TILE);
+        }
+      }
+    }
+  }
+  
+  // Draw exit
+  const exitVisible = isVisible(exit.x, exit.y);
+  if (exitVisible) {
+    const ex = exit.x * TILE;
+    const ey = exit.y * TILE;
+    ctx.fillStyle = `rgba(0, 180, 255, ${0.3 + Math.sin(now / 300) * 0.2})`;
+    ctx.fillRect(ex, ey, TILE, TILE);
+    ctx.strokeStyle = '#00b4ff';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(ex + 2, ey + 2, TILE - 4, TILE - 4);
+    ctx.fillStyle = '#00b4ff';
+    ctx.font = '14px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('EXIT', ex + TILE/2, ey + TILE/2 + 5);
+  }
+  
+  // Draw loot
+  loots.forEach(l => {
+    if (l.collected) return;
+    const lv = isVisible(l.x, l.y);
+    if (lv) {
+      const lx = l.x * TILE + TILE/2;
+      const ly = l.y * TILE + TILE/2;
+      const sparkle = Math.sin(now / 200 + l.x * 3) * 0.3 + 0.7;
+      ctx.fillStyle = `rgba(255, 215, 0, ${sparkle})`;
+      ctx.beginPath();
+      ctx.arc(lx, ly, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = `rgba(255, 215, 0, ${sparkle * 0.5})`;
+      ctx.beginPath();
+      ctx.arc(lx, ly, 9, 0, Math.PI * 2);
+      ctx.fill();
+      // Sparkle lines
+      for (let i = 0; i < 4; i++) {
+        const a = now / 500 + (Math.PI / 2) * i;
+        ctx.strokeStyle = `rgba(255, 215, 0, ${sparkle * 0.6})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(lx + Math.cos(a) * 6, ly + Math.sin(a) * 6);
+        ctx.lineTo(lx + Math.cos(a) * 11, ly + Math.sin(a) * 11);
+        ctx.stroke();
+      }
+    }
+  });
+  
+  // Draw guards
+  guards.forEach(g => {
+    const gv = isVisible(Math.round(g.x), Math.round(g.y));
+    if (gv) {
+      const gx = g.x * TILE + TILE/2;
+      const gy = g.y * TILE + TILE/2;
+      
+      // Vision cone
+      ctx.save();
+      ctx.translate(gx, gy);
+      ctx.rotate(g.facing);
+      const coneGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, GUARD_VISION_RANGE * TILE);
+      if (g.state === 'CALM') {
+        coneGrad.addColorStop(0, 'rgba(255, 200, 50, 0.15)');
+        coneGrad.addColorStop(1, 'rgba(255, 200, 50, 0)');
+      } else if (g.state === 'SUSPICIOUS') {
+        coneGrad.addColorStop(0, 'rgba(255, 150, 0, 0.25)');
+        coneGrad.addColorStop(1, 'rgba(255, 150, 0, 0)');
+      } else {
+        coneGrad.addColorStop(0, 'rgba(255, 50, 50, 0.35)');
+        coneGrad.addColorStop(1, 'rgba(255, 50, 50, 0)');
+      }
+      ctx.fillStyle = coneGrad;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.arc(0, 0, GUARD_VISION_RANGE * TILE, -GUARD_VISION_ANGLE/2, GUARD_VISION_ANGLE/2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+      
+      // Guard body
+      let bodyColor;
+      if (g.state === 'CALM') bodyColor = '#8899aa';
+      else if (g.state === 'SUSPICIOUS') bodyColor = '#ffaa00';
+      else bodyColor = '#ff4444';
+      
+      ctx.fillStyle = bodyColor;
+      ctx.beginPath();
+      ctx.arc(gx, gy, 8, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Direction indicator
+      ctx.strokeStyle = bodyColor;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(gx, gy);
+      ctx.lineTo(gx + Math.cos(g.facing) * 12, gy + Math.sin(g.facing) * 12);
+      ctx.stroke();
+      
+      // State indicator
+      if (g.state !== 'CALM') {
+        ctx.fillStyle = g.state === 'CHASING' ? '#ff4444' : '#ffaa00';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(g.state === 'CHASING' ? '!' : '?', gx, gy - 14);
+      }
+    }
+  });
+  
+  // Draw player
+  const px = player.x * TILE + TILE/2;
+  const py = player.y * TILE + TILE/2;
+  ctx.fillStyle = '#00b4ff';
+  ctx.beginPath();
+  ctx.arc(px, py, 7, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#66ddff';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  
+  // Sonar pulses
+  pulses.forEach(p => {
+    const pr = p.radius * TILE;
+    ctx.strokeStyle = `rgba(0, 180, 255, ${p.opacity * 0.6})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(p.x * TILE + TILE/2, p.y * TILE + TILE/2, pr, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    // Inner glow
+    const grad = ctx.createRadialGradient(
+      p.x * TILE + TILE/2, p.y * TILE + TILE/2, 0,
+      p.x * TILE + TILE/2, p.y * TILE + TILE/2, pr
+    );
+    grad.addColorStop(0, `rgba(0, 180, 255, ${p.opacity * 0.1})`);
+    grad.addColorStop(1, 'rgba(0, 180, 255, 0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(p.x * TILE + TILE/2, p.y * TILE + TILE/2, pr, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  
+  // Particles
+  particles.forEach(p => {
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.life;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  });
+  
+  // Tension vignette
+  let nearestGuardDist = Infinity;
+  guards.forEach(g => {
+    const d = Math.sqrt((g.x - player.x)**2 + (g.y - player.y)**2);
+    if (d < nearestGuardDist) nearestGuardDist = d;
+  });
+  if (nearestGuardDist < 6) {
+    const intensity = Math.max(0, 1 - nearestGuardDist / 6) * 0.4;
+    const vigGrad = ctx.createRadialGradient(px, py, TILE * 3, px, py, Math.max(CANVAS_W, CANVAS_H));
+    vigGrad.addColorStop(0, 'rgba(0,0,0,0)');
+    vigGrad.addColorStop(1, `rgba(80, 0, 0, ${intensity})`);
+    ctx.fillStyle = vigGrad;
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+  }
+  
+  // Render noise meter
+  renderNoiseMeter();
+}
+
+function isVisible(x, y) {
+  const now = performance.now();
+  const isRevealed = revealed[y] && revealed[y][x] > 0 && (now - revealed[y][x]) < SONAR_REVEAL_TIME;
+  const nearPlayer = Math.sqrt((x - player.x)**2 + (y - player.y)**2) <= FOG_RADIUS;
+  return isRevealed || nearPlayer;
+}
+
+function renderNoiseMeter() {
+  const nw = noiseCanvas.width;
+  const nh = noiseCanvas.height;
+  noiseCtx.clearRect(0, 0, nw, nh);
+  
+  // Background
+  noiseCtx.fillStyle = '#0a1a2e';
+  noiseCtx.fillRect(0, 0, nw, nh);
+  
+  // Safe windows (green zones)
+  safeWindows.forEach(w => {
+    const sx = w.start * nw;
+    const sw = (w.end - w.start) * nw;
+    noiseCtx.fillStyle = 'rgba(74, 222, 128, 0.25)';
+    noiseCtx.fillRect(sx, 0, sw, nh);
+    noiseCtx.strokeStyle = 'rgba(74, 222, 128, 0.5)';
+    noiseCtx.lineWidth = 1;
+    noiseCtx.strokeRect(sx, 0, sw, nh);
+  });
+  
+  // Ambient noise waveform
+  noiseCtx.strokeStyle = 'rgba(100, 150, 200, 0.6)';
+  noiseCtx.lineWidth = 2;
+  noiseCtx.beginPath();
+  for (let x = 0; x < nw; x++) {
+    const t = x / nw;
+    const noise = Math.sin(t * Math.PI * 4) * 0.3 + Math.sin(t * Math.PI * 8) * 0.2 + Math.sin(t * Math.PI * 12) * 0.15;
+    const y = nh/2 + noise * nh/2 * 0.7;
+    if (x === 0) noiseCtx.moveTo(x, y);
+    else noiseCtx.lineTo(x, y);
+  }
+  noiseCtx.stroke();
+  
+  // Current position indicator
+  const cx = ambientCycle * nw;
+  noiseCtx.strokeStyle = '#00b4ff';
+  noiseCtx.lineWidth = 2;
+  noiseCtx.beginPath();
+  noiseCtx.moveTo(cx, 0);
+  noiseCtx.lineTo(cx, nh);
+  noiseCtx.stroke();
+  
+  // Indicator head
+  noiseCtx.fillStyle = '#00b4ff';
+  noiseCtx.beginPath();
+  noiseCtx.arc(cx, nh/2, 4, 0, Math.PI * 2);
+  noiseCtx.fill();
+}
+
+function drawVaultPattern() {
+  ctx.fillStyle = '#040810';
+  ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+  ctx.strokeStyle = '#0a1420';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < CANVAS_W; x += TILE) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, CANVAS_H);
+    ctx.stroke();
+  }
+  for (let y = 0; y < CANVAS_H; y += TILE) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(CANVAS_W, y);
+    ctx.stroke();
+  }
+}
+
+// ===================== UI / OVERLAY =====================
+function showOverlay(type, reason) {
+  const overlay = document.getElementById('overlay');
+  const title = document.getElementById('title');
+  const content = document.getElementById('content');
+  overlay.style.display = 'flex';
+  
+  if (type === 'instructions') {
+    title.innerHTML = '🎵 Resonance Vault';
+    content.innerHTML = `
+      <p style="font-size:16px;color:#ffd700;margin-bottom:16px">You are a thief infiltrating a music-themed vault.</p>
+      <p>🔦 The layout is <b>hidden in darkness</b>. Emit <b>SONAR PULSES</b> to reveal walls, guards, and loot.</p>
+      <p>⚠️ But pulses make <b>NOISE</b> that attracts guards! Time your pulses with the <b style="color:#4ade80">ambient rhythm</b>.</p>
+      <div style="margin:16px 0">
+        <span class="keys">Click</span> or <span class="keys">Arrows/WASD</span> to move
+        <span class="keys">Space</span> or click pulse button to emit sonar
+      </div>
+      <p>👁 Guards patrol with <b>vision cones</b>. Avoid detection. Collect loot. Reach the <b style="color:#00b4ff">EXIT</b>.</p>
+      <p style="color:#ff6b6b;margin-top:8px">💀 Visual contact = Game Over &nbsp;|&nbsp; ⏱ Time limit per level</p>
+      <button onclick="startGame()">▶ Start Mission</button>
+    `;
+  } else if (type === 'gameover') {
+    title.innerHTML = '💀 Mission Failed';
+    const reasonText = reason === 'caught' ? 'A guard spotted you!' : 'Time ran out!';
+    content.innerHTML = `
+      <p style="color:#ff6b6b;font-size:18px;margin-bottom:12px">${reasonText}</p>
+      <p>Level reached: <b>${currentLevel + 1}</b> / 5</p>
+      <p>Loot collected: <b>${collectedLoot}</b> / ${totalLoot}</p>
+      <p>Pulses used: <b>${pulsesUsed}</b> (detected: ${pulsesDetected})</p>
+      <div style="margin-top:16px">${getBadgesHTML()}</div>
+      ${getTimelineHTML()}
+      <div style="margin-top:20px;display:flex;gap:12px;justify-content:center">
+        <button onclick="retryLevel()">🔄 Retry Level</button>
+        <button onclick="restartGame()">📋 New Game</button>
+      </div>
+    `;
+    document.getElementById('timelineBox').classList.add('show');
+  } else if (type === 'win') {
+    title.innerHTML = '🏆 Vault Breached!';
+    const timeBonus = Math.floor(Math.max(0, levelTime) * 10);
+    const stealthBonus = Math.floor(Math.max(0, (totalLoot - pulsesDetected) * 50));
+    const lootScore = collectedLoot * 150;
+    const totalScore = lootScore + timeBonus + stealthBonus;
+    content.innerHTML = `
+      <p style="color:#ffd700;font-size:20px;margin-bottom:12px">All 5 levels completed!</p>
+      <p>Loot Score: <b>${lootScore}</b></p>
+      <p>Time Bonus: <b>${timeBonus}</b></p>
+      <p>Stealth Bonus: <b>${stealthBonus}</b></p>
+      <p style="color:#ffd700;font-size:22px;margin:12px 0">TOTAL: <b>${totalScore}</b></p>
+      <div style="margin-top:16px">${getBadgesHTML()}</div>
+      <div style="margin-top:20px;display:flex;gap:12px;justify-content:center">
+        <button onclick="restartGame()">🔄 Play Again</button>
+      </div>
+    `;
+  } else if (type === 'levelcomplete') {
+    title.innerHTML = `✅ Level ${currentLevel} Complete`;
+    content.innerHTML = `
+      <p>Proceeding to level ${currentLevel + 1}...</p>
+      <button onclick="resumeGame()">Continue</button>
+    `;
+  }
+}
+
+function getBadgesHTML() {
+  let html = '<div style="display:flex;gap:10px;justify-content:center;margin-top:8px">';
+  if (badges.ghost) html += '<span style="background:rgba(74,222,128,0.2);color:#4ade80;padding:6px 14px;border-radius:12px;font-size:12px;border:1px solid rgba(74,222,128,0.3)">👻 Ghost</span>';
+  if (badges.looter) html += '<span style="background:rgba(255,215,0,0.2);color:#ffd700;padding:6px 14px;border-radius:12px;font-size:12px;border:1px solid rgba(255,215,0,0.3)">💰 Looter King</span>';
+  if (badges.speed) html += '<span style="background:rgba(96,165,250,0.2);color:#60a5fa;padding:6px 14px;border-radius:12px;font-size:12px;border:1px solid rgba(96,165,250,0.3)">⚡ Speed Thief</span>';
+  if (!badges.ghost && !badges.looter && !badges.speed) html += '<span style="color:#6b8aaa;font-size:12px">No badges earned this run</span>';
+  html += '</div>';
+  return html;
+}
+
+function getTimelineHTML() {
+  if (pulseTimeline.length === 0) return '';
+  
+  let html = '<div style="margin-top:16px">';
+  html += '<p style="font-size:13px;color:#a0b4d0;margin-bottom:8px">📊 Pulse Timeline:</p>';
+  html += '<div style="width:100%;height:28px;background:#0a1a2e;border-radius:4px;position:relative;overflow:hidden;margin-bottom:8px">';
+  
+  // Safe windows
+  safeWindows.forEach(w => {
+    html += `<div style="position:absolute;top:0;left:${w.start*100}%;width:${(w.end-w.start)*100}%;height:100%;background:rgba(74,222,128,0.15);border-radius:4px"></div>`;
+  });
+  
+  // Pulses
+  pulseTimeline.forEach((p, i) => {
+    const color = p.wasSafe ? '#4ade80' : '#ff4444';
+    html += `<div style="position:absolute;top:3px;left:${p.time*100}%;width:3px;height:22px;background:${color};border-radius:2px" title="Pulse ${i+1}: ${p.wasSafe?'SAFE':'DETECTED'}"></div>`;
+  });
+  
+  html += '</div>';
+  html += '<p style="font-size:12px;color:#6b8aaa">🔴 Red = pulse was detected by guards &nbsp;|&nbsp; 🟢 Green = pulse was masked by ambient noise</p>';
+  html += '</div>';
+  return html;
+}
+
+function startGame() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('hud').style.display = 'flex';
+  document.getElementById('badgeBar').style.display = 'flex';
+  document.getElementById('noiseMeter').style.display = 'block';
+  document.getElementById('noiseLabel').style.display = 'block';
+  currentLevel = 0;
+  generateLevel(0);
+  gameState = 'PLAYING';
+  lastTime = performance.now();
+  requestAnimationFrame(gameLoop);
+}
+
+function restartGame() {
+  document.getElementById('timelineBox').classList.remove('show');
+  startGame();
+}
+
+function retryLevel() {
+  document.getElementById('timelineBox').classList.remove('show');
+  document.getElementById('overlay').style.display = 'none';
+  generateLevel(currentLevel);
+  gameState = 'PLAYING';
+  lastTime = performance.now();
+}
+
+function resumeGame() {
+  document.getElementById('overlay').style.display = 'none';
+  gameState = 'PLAYING';
+  lastTime = performance.now();
+}
+
+// ===================== HUD =====================
+function updateHUD() {
+  document.getElementById('hudLoot').textContent = collectedLoot;
+  document.getElementById('hudTotal').textContent = totalLoot;
+  document.getElementById('hudPulses').textContent = pulsesUsed;
+  document.getElementById('hudTime').textContent = Math.ceil(Math.max(0, levelTime));
+  document.getElementById('hudLevel').textContent = currentLevel + 1;
+}
+
+function updateBadges() {
+  document.getElementById('badgeGhost').classList.toggle('show', pulsesDetected === 0 && pulsesUsed > 0);
+  document.getElementById('badgeLooter').classList.toggle('show', collectedLoot === totalLoot && totalLoot > 0);
+  document.getElementById('badgeSpeed').classList.toggle('show', elapsedTime <= LEVEL_PAR_TIME[currentLevel] && elapsedTime > 0);
+}
+
+// ===================== GAME LOOP =====================
+function gameLoop(now) {
+  if (gameState === 'PLAYING') {
+    const dt = Math.min((now - lastTime) / 1000, 0.05);
+    lastTime = now;
+    update(dt);
+    render();
+    requestAnimationFrame(gameLoop);
+  } else if (gameState === 'GAMEOVER' || gameState === 'WIN') {
+    render();
+  }
+}
+
+// ===================== INIT =====================
+showOverlay('instructions');
+</script>
+</body>
+</html>

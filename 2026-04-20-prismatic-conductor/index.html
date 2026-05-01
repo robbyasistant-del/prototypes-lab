@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prismatic Conductor - Cosmic Light Puzzle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0221 50%, #000000 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #fff;
+        }
+        
+        #gameContainer {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #gameTitle {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+        
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+        
+        #gameInfo {
+            display: flex;
+            gap: 30px;
+            font-size: 1.1em;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-label {
+            color: #888;
+            font-size: 0.85em;
+        }
+        
+        .info-value {
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        #levelDisplay { color: #ff00ff; }
+        #scoreDisplay { color: #00ffff; }
+        #starsDisplay { color: #ffd700; }
+        
+        #canvasWrapper {
+            position: relative;
+            border: 3px solid transparent;
+            border-radius: 10px;
+            background: linear-gradient(#0d0221, #0d0221) padding-box,
+                        linear-gradient(135deg, #ff00ff, #00ffff) border-box;
+            box-shadow: 0 0 30px rgba(255,0,255,0.3), inset 0 0 30px rgba(0,0,0,0.5);
+        }
+        
+        #gameCanvas {
+            display: block;
+            cursor: crosshair;
+        }
+        
+        #palette {
+            display: flex;
+            gap: 15px;
+            padding: 15px 25px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .tool {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .tool:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+        
+        .tool.selected {
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0,255,255,0.5);
+            background: rgba(0,255,255,0.1);
+        }
+        
+        .tool-icon {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+        
+        .tool-name {
+            font-size: 0.7em;
+            color: #aaa;
+        }
+        
+        .tool-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff00ff;
+            color: #fff;
+            font-size: 0.75em;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .tool.infinite .tool-count {
+            display: none;
+        }
+        
+        #beatBar {
+            width: 600px;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        #beatProgress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+        
+        #phaseIndicator {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 10px 30px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        #phaseIndicator.planning {
+            background: rgba(255,165,0,0.2);
+            border: 2px solid #ffa500;
+            color: #ffa500;
+            text-shadow: 0 0 10px #ffa500;
+        }
+        
+        #phaseIndicator.execution {
+            background: rgba(0,255,255,0.2);
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.85);
+            border-radius: 10px;
+            z-index: 100;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .overlay.hidden {
+            display: none;
+        }
+        
+        .overlay h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px currentColor;
+        }
+        
+        .overlay p {
+            font-size: 1.1em;
+            color: #ccc;
+            margin-bottom: 15px;
+            max-width: 400px;
+            line-height: 1.6;
+        }
+        
+        .overlay button {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        #instructionsOverlay button {
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            color: #fff;
+        }
+        
+        #winOverlay h2 { color: #00ff88; }
+        #winOverlay button {
+            background: #00ff88;
+            color: #000;
+        }
+        
+        #loseOverlay h2 { color: #ff4444; }
+        #loseOverlay button {
+            background: #ff4444;
+            color: #fff;
+        }
+        
+        .overlay button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px currentColor;
+        }
+        
+        .badges {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+        
+        .badge.earned {
+            opacity: 1;
+            box-shadow: 0 0 15px currentColor;
+        }
+        
+        .badge.conductor { background: rgba(0,255,255,0.2); border: 1px solid #00ffff; color: #00ffff; }
+        .badge.minimalist { background: rgba(255,215,0,0.2); border: 1px solid #ffd700; color: #ffd700; }
+        .badge.chromatic { background: rgba(255,0,255,0.2); border: 1px solid #ff00ff; color: #ff00ff; }
+        
+        .star-rating {
+            font-size: 2em;
+            margin: 15px 0;
+        }
+        
+        .star {
+            color: #444;
+            text-shadow: 0 0 10px transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .star.earned {
+            color: #ffd700;
+            text-shadow: 0 0 20px #ffd700;
+        }
+        
+        #controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .control-btn {
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .instruction-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+        
+        .instruction-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+        
+        #failReason {
+            color: #ff6666;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: rgba(255,68,68,0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255,68,68,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <h1 id="gameTitle">🌈 PRISMATIC CONDUCTOR</h1>
+        
+        <div id="gameInfo">
+            <div class="info-item">
+                <span class="info-label">LEVEL</span>
+                <span class="info-value" id="levelDisplay">1/5</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">SCORE</span>
+                <span class="info-value" id="scoreDisplay">0</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">TOTAL STARS</span>
+                <span class="info-value" id="starsDisplay">⭐ 0</span>
+            </div>
+        </div>
+        
+        <div id="phaseIndicator" class="planning">⚡ PLANNING PHASE ⚡</div>
+        
+        <div id="beatBar">
+            <div id="beatProgress" style="width: 100%"></div>
+        </div>
+        
+        <div id="canvasWrapper">
+            <canvas id="gameCanvas" width="600" height="500"></canvas>
+            
+            <div id="instructionsOverlay" class="overlay">
+                <h2>🎵 Welcome to the Cosmic Disco! 🎵</h2>
+                <p>Guide colored light beams to their matching receivers in time with the beat!</p>
+                
+                <div class="instructions-grid">
+                    <div class="instruction-item">
+                        <div class="instruction-icon">🪞</div>
+                        <div>
+                            <strong>Mirror</strong><br>
+                            <small>Reflects beams 90°</small>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">💎</div>
+                        <div>
+                            <strong>Prism</strong><br>
+                            <small>Splits white into rainbow</small>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">🎨</div>
+                        <div>
+                            <strong>Filter</strong><br>
+                            <small>Blocks all but one color</small>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">⏱️</div>
+                        <div>
+                            <strong>Timing</strong><br>
+                            <small>Place devices before beat!</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="color: #ff00ff; font-weight: bold;">Plan quickly, execute perfectly!</p>
+                <button onclick="startGame()">START PLAYING</button>
+            </div>
+            
+            <div id="winOverlay" class="overlay hidden">
+                <h2>✨ LEVEL COMPLETE! ✨</h2>
+                <div class="star-rating" id="winStars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <div class="badges" id="winBadges">
+                    <span class="badge conductor">🎵 Conductor</span>
+                    <span class="badge minimalist">📦 Minimalist</span>
+                    <span class="badge chromatic">🌈 Chromatic</span>
+                </div>
+                <p id="winScore">Score: 0</p>
+                <button onclick="nextLevel()">NEXT LEVEL →</button>
+            </div>
+            
+            <div id="loseOverlay" class="overlay hidden">
+                <h2>💥 BEAT DROPPED! 💥</h2>
+                <p id="failReason">Receiver not satisfied!</p>
+                <p>Don't give up! The cosmic disco needs its conductor!</p>
+                <button onclick="retryLevel()">↻ TRY AGAIN</button>
+            </div>
+        </div>
+        
+        <div id="palette">
+            <div class="tool selected" data-tool="mirror" onclick="selectTool('mirror')">
+                <span class="tool-count">∞</span>
+                <div class="tool-icon">🪞</div>
+                <span class="tool-name">Mirror</span>
+            </div>
+            <div class="tool" data-tool="prism" onclick="selectTool('prism')">
+                <span class="tool-count" id="prismCount">3</span>
+                <div class="tool-icon">💎</div>
+                <span class="tool-name">Prism</span>
+            </div>
+            <div class="tool" data-tool="filter" onclick="selectTool('filter')">
+                <span class="tool-count" id="filterCount">3</span>
+                <div class="tool-icon">🎨</div>
+                <span class="tool-name">Filter</span>
+            </div>
+            <div class="tool" data-tool="eraser" onclick="selectTool('eraser')">
+                <span class="tool-count">∞</span>
+                <div class="tool-icon">🗑️</div>
+                <span class="tool-name">Erase</span>
+            </div>
+        </div>
+        
+        <div id="controls">
+            <button class="control-btn" onclick="togglePause()">⏸️ Pause</button>
+            <button class="control-btn" onclick="retryLevel()">↻ Restart</button>
+            <button class="control-btn" onclick="toggleMute()">🔊 Sound</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== GAME CONSTANTS ====================
+        const GRID_COLS = 12;
+        const GRID_ROWS = 10;
+        const CELL_SIZE = 50;
+        const PLANNING_TIME = 8000; // 8 seconds
+        
+        const COLORS = {
+            RED: { r: 255, g: 0, b: 0, hex: '#ff0044' },
+            GREEN: { r: 0, g: 255, b: 0, hex: '#00ff44' },
+            BLUE: { r: 0, g: 100, b: 255, hex: '#0066ff' },
+            YELLOW: { r: 255, g: 255, b: 0, hex: '#ffff00' },
+            CYAN: { r: 0, g: 255, b: 255, hex: '#00ffff' },
+            MAGENTA: { r: 255, g: 0, b: 255, hex: '#ff00ff' },
+            WHITE: { r: 255, g: 255, b: 255, hex: '#ffffff' },
+            NONE: { r: 0, g: 0, b: 0, hex: '#000000' }
+        };
+        
+        // ==================== GAME STATE ====================
+        let gameState = {
+            level: 1,
+            score: 0,
+            totalStars: 0,
+            phase: 'PLANNING', // PLANNING, EXECUTION, RESULT
+            planningTimeLeft: PLANNING_TIME,
+            selectedTool: 'mirror',
+            grid: [],
+            emitters: [],
+            receivers: [],
+            beams: [],
+            particles: [],
+            toolCounts: { mirror: Infinity, prism: 3, filter: 3 },
+            lastBeat: 0,
+            beatPhase: 0,
+            executionTime: 0,
+            won: false,
+            paused: false,
+            muted: false,
+            starRatings: [0, 0, 0, 0, 0], // Stars per level
+            levelBadges: [[], [], [], [], []]
+        };
+        
+        // ==================== CANVAS SETUP ====================
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // ==================== AUDIO CONTEXT ====================
+        let audioCtx = null;
+        
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        
+        function playTone(freq, duration, type = 'sine', volume = 0.3) {
+            if (gameState.muted || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+        
+        function playBeat() {
+            if (gameState.muted || !audioCtx) return;
+            playTone(80, 0.1, 'square', 0.2);
+            setTimeout(() => playTone(120, 0.05, 'square', 0.15), 100);
+        }
+        
+        function playWin() {
+            if (gameState.muted || !audioCtx) return;
+            [440, 554, 659, 880].forEach((f, i) => {
+                setTimeout(() => playTone(f, 0.3, 'sine', 0.3), i * 150);
+            });
+        }
+        
+        function playFail() {
+            if (gameState.muted || !audioCtx) return;
+            [220, 196, 174].forEach((f, i) => {
+                setTimeout(() => playTone(f, 0.4, 'sawtooth', 0.3), i * 200);
+            });
+        }
+        
+        function playPlace() {
+            if (gameState.muted || !audioCtx) return;
+            playTone(600, 0.08, 'sine', 0.15);
+        }
+        
+        function playSuccess() {
+            if (gameState.muted || !audioCtx) return;
+            playTone(880, 0.1, 'sine', 0.2);
+        }
+        
+        // ==================== CLASSES ====================
+        class Cell {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.device = null; // 'mirror', 'prism', 'filter'
+                device: null,
+                deviceData: {},
+                this.deviceData = {};
+                this.rotation = 0;
+                this.pulse = 0;
+            }
+        }
+        
+        class Emitter {
+            constructor(x, color, direction = 'down') {
+                this.x = x;
+                this.y = 0;
+                this.color = color;
+                this.direction = direction;
+                this.pulse = 0;
+            }
+        }
+        
+        class Receiver {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.requiredColor = color;
+                this.satisfied = false;
+                this.receivedColors = [];
+                this.pulse = 0;
+                this.shake = 0;
+            }
+        }
+        
+        class Beam {
+            constructor(x, y, color, direction, parent = null) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.direction = direction; // 'up', 'down', 'left', 'right'
+                this.parent = parent;
+                this.path = [{x, y}];
+                this.intensity = 1;
+                this.active = true;
+            }
+        }
+        
+        class Particle {
+            constructor(x, y, color, type = 'sparkle') {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 4;
+                this.vy = (Math.random() - 0.5) * 4;
+                this.life = 1;
+                this.color = color;
+                this.type = type;
+                this.size = Math.random() * 4 + 2;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.1; // gravity
+                this.life -= 0.02;
+                this.size *= 0.98;
+            }
+        }
+        
+        // ==================== LEVEL DEFINITIONS ====================
+        const LEVELS = [
+            // Level 1: Basic mirror
+            {
+                emitters: [{x: 2, color: COLORS.RED}],
+                receivers: [{x: 8, y: 9, color: COLORS.RED}],
+                toolCounts: { mirror: Infinity, prism: 0, filter: 0 },
+                hints: ['Place mirrors to reflect the beam!']
+            },
+            // Level 2: Two beams
+            {
+                emitters: [
+                    {x: 1, color: COLORS.RED},
+                    {x: 10, color: COLORS.BLUE}
+                ],
+                receivers: [
+                    {x: 10, y: 9, color: COLORS.RED},
+                    {x: 1, y: 9, color: COLORS.BLUE}
+                ],
+                toolCounts: { mirror: Infinity, prism: 0, filter: 0 },
+                hints: ['Guide both beams to their receivers!']
+            },
+            // Level 3: Prism splits white
+            {
+                emitters: [{x: 6, color: COLORS.WHITE}],
+                receivers: [
+                    {x: 3, y: 9, color: COLORS.RED},
+                    {x: 6, y: 9, color: COLORS.GREEN},
+                    {x: 9, y: 9, color: COLORS.BLUE}
+                ],
+                toolCounts: { mirror: Infinity, prism: 2, filter: 0 },
+                hints: ['Use PRISMS to split white light!']
+            },
+            // Level 4: Filters
+            {
+                emitters: [
+                    {x: 2, color: COLORS.WHITE},
+                    {x: 9, color: COLORS.WHITE}
+                ],
+                receivers: [
+                    {x: 2, y: 9, color: COLORS.RED},
+                    {x: 9, y: 9, color: COLORS.BLUE}
+                ],
+                toolCounts: { mirror: Infinity, prism: 0, filter: 2 },
+                hints: ['Use FILTERS to block unwanted colors!']
+            },
+            // Level 5: Master level - moving receivers
+            {
+                emitters: [
+                    {x: 0, color: COLORS.WHITE},
+                    {x: 11, color: COLORS.WHITE}
+                ],
+                receivers: [
+                    {x: 3, y: 9, color: COLORS.YELLOW},
+                    {x: 8, y: 9, color: COLORS.CYAN}
+                ],
+                movingReceivers: true,
+                toolCounts: { mirror: Infinity, prism: 3, filter: 3 },
+                hints: ['Mix colors to create new ones! Red+Green=Yellow, Blue+Green=Cyan']
+            }
+        ];
+        
+        // ==================== INITIALIZATION ====================
+        function initGrid() {
+            gameState.grid = [];
+            for (let y = 0; y < GRID_ROWS; y++) {
+                gameState.grid[y] = [];
+                for (let x = 0; x < GRID_COLS; x++) {
+                    gameState.grid[y][x] = new Cell(x, y);
+                }
+            }
+        }
+        
+        function loadLevel(levelNum) {
+            const level = LEVELS[levelNum - 1];
+            gameState.level = levelNum;
+            gameState.phase = 'PLANNING';
+            gameState.planningTimeLeft = PLANNING_TIME;
+            gameState.executionTime = 0;
+            gameState.won = false;
+            gameState.beams = [];
+            gameState.particles = [];
+            
+            initGrid();
+            
+            // Setup emitters
+            gameState.emitters = level.emitters.map(e => new Emitter(e.x, e.color));
+            
+            // Setup receivers
+            gameState.receivers = level.receivers.map(r => new Receiver(r.x, r.y, r.color));
+            
+            // Setup tools
+            gameState.toolCounts = {...level.toolCounts};
+            updateToolDisplay();
+            
+            // Hide overlays
+            document.getElementById('winOverlay').classList.add('hidden');
+            document.getElementById('loseOverlay').classList.add('hidden');
+            
+            updateUI();
+        }
+        
+        function startGame() {
+            initAudio();
+            document.getElementById('instructionsOverlay').classList.add('hidden');
+            loadLevel(1);
+            gameLoop();
+        }
+        
+        // ==================== GAME LOGIC ====================
+        function selectTool(tool) {
+            gameState.selectedTool = tool;
+            document.querySelectorAll('.tool').forEach(t => t.classList.remove('selected'));
+            document.querySelector(`[data-tool="${tool}"]`).classList.add('selected');
+        }
+        
+        function updateToolDisplay() {
+            const prismCount = document.getElementById('prismCount');
+            const filterCount = document.getElementById('filterCount');
+            
+            prismCount.textContent = gameState.toolCounts.prism === Infinity ? '∞' : gameState.toolCounts.prism;
+            filterCount.textContent = gameState.toolCounts.filter === Infinity ? '∞' : gameState.toolCounts.filter;
+            
+            // Update infinite class
+            document.querySelector('[data-tool="prism"]').classList.toggle('infinite', gameState.toolCounts.prism === Infinity);
+            document.querySelector('[data-tool="filter"]').classList.toggle('infinite', gameState.toolCounts.filter === Infinity);
+        }
+        
+        function getCellFromMouse(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+            const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+            if (x >= 0 && x < GRID_COLS && y >= 0 && y < GRID_ROWS) {
+                return {x, y};
+            }
+            return null;
+        }
+        
+        canvas.addEventListener('click', (e) => {
+            if (gameState.phase !== 'PLANNING' || gameState.paused) return;
+            
+            const cell = getCellFromMouse(e);
+            if (!cell) return;
+            
+            const gridCell = gameState.grid[cell.y][cell.x];
+            
+            if (gameState.selectedTool === 'eraser') {
+                if (gridCell.device) {
+                    // Return tool
+                    if (gridCell.device === 'prism') gameState.toolCounts.prism++;
+                    if (gridCell.device === 'filter') gameState.toolCounts.filter++;
+                    updateToolDisplay();
+                    gridCell.device = null;
+                    gridCell.deviceData = {};
+                    playPlace();
+                }
+            } else if (gameState.selectedTool === 'mirror') {
+                gridCell.device = 'mirror';
+                gridCell.rotation = (gridCell.rotation + 1) % 4;
+                gridCell.deviceData = { rotation: gridCell.rotation };
+                playPlace();
+            } else if (gameState.selectedTool === 'prism' && gameState.toolCounts.prism > 0) {
+                if (gridCell.device !== 'prism') {
+                    gameState.toolCounts.prism--;
+                    updateToolDisplay();
+                }
+                gridCell.device = 'prism';
+                gridCell.rotation = (gridCell.rotation + 1) % 4;
+                gridCell.deviceData = { rotation: gridCell.rotation };
+                playPlace();
+            } else if (gameState.selectedTool === 'filter' && gameState.toolCounts.filter > 0) {
+                if (gridCell.device !== 'filter') {
+                    gameState.toolCounts.filter--;
+                    updateToolDisplay();
+                }
+                gridCell.device = 'filter';
+                gridCell.rotation = (gridCell.rotation + 1) % 4;
+                const colors = [COLORS.RED, COLORS.GREEN, COLORS.BLUE];
+                gridCell.deviceData = { 
+                    rotation: gridCell.rotation,
+                    filterColor: colors[gridCell.rotation % 3]
+                };
+                playPlace();
+            }
+        });
+        
+        // ==================== BEAM PHYSICS ====================
+        function getNextPosition(x, y, direction) {
+            switch(direction) {
+                case 'up': return {x, y: y - 1};
+                case 'down': return {x, y: y + 1};
+                case 'left': return {x: x - 1, y};
+                case 'right': return {x: x + 1, y};
+            }
+            return {x, y};
+        }
+        
+        function reflect(direction, mirrorRotation) {
+            // Mirror rotation: 0=/, 1=\, 2=/, 3=\
+            const isForward = mirrorRotation % 2 === 0;
+            
+            const reflections = {
+                'up': isForward ? 'right' : 'left',
+                'down': isForward ? 'left' : 'right',
+                'left': isForward ? 'down' : 'up',
+                'right': isForward ? 'up' : 'down'
+            };
+            
+            return reflections[direction];
+        }
+        
+        function splitPrism(color, direction, rotation) {
+            if (color === COLORS.WHITE) {
+                // Split into RGB
+                return [
+                    {color: COLORS.RED, direction},
+                    {color: COLORS.GREEN, direction},
+                    {color: COLORS.BLUE, direction}
+                ];
+            }
+            return [{color, direction}];
+        }
+        
+        function applyFilter(color, filterColor) {
+            // Filter only allows its color through
+            if (color === COLORS.WHITE) return filterColor;
+            if (color === filterColor) return color;
+            return COLORS.NONE;
+        }
+        
+        function simulateBeams() {
+            gameState.beams = [];
+            const beams = [];
+            
+            // Create initial beams from emitters
+            gameState.emitters.forEach(emitter => {
+                beams.push({
+                    x: emitter.x,
+                    y: emitter.y,
+                    color: emitter.color,
+                    direction: 'down',
+                    path: [{x: emitter.x, y: emitter.y}]
+                });
+            });
+            
+            // Process beams
+            const processed = new Set();
+            const maxSteps = 50;
+            
+            beams.forEach(beam => {
+                let steps = 0;
+                let current = {...beam};
+                
+                while (steps < maxSteps) {
+                    const next = getNextPosition(current.x, current.y, current.direction);
+                    
+                    // Check bounds
+                    if (next.x < 0 || next.x >= GRID_COLS || next.y < 0 || next.y >= GRID_ROWS) {
+                        current.path.push({x: next.x, y: next.y});
+                        break;
+                    }
+                    
+                    current.path.push({x: next.x, y: next.y});
+                    
+                    const cell = gameState.grid[next.y][next.x];
+                    
+                    // Check for receivers
+                    const receiver = gameState.receivers.find(r => r.x === next.x && r.y === next.y);
+                    if (receiver) {
+                        receiver.receivedColors.push(current.color);
+                        break;
+                    }
+                    
+                    // Process device
+                    if (cell.device === 'mirror') {
+                        current.direction = reflect(current.direction, cell.rotation);
+                    } else if (cell.device === 'prism') {
+                        // For simplicity, prism passes white as white but splits when it hits
+                        if (current.color === COLORS.WHITE) {
+                            // Spawn split beams
+                            const splits = splitPrism(current.color, current.direction, cell.rotation);
+                            // For visual, we keep white
+                        }
+                    } else if (cell.device === 'filter') {
+                        current.color = applyFilter(current.color, cell.deviceData.filterColor);
+                        if (current.color === COLORS.NONE) break;
+                    }
+                    
+                    current.x = next.x;
+                    current.y = next.y;
+                    steps++;
+                }
+                
+                gameState.beams.push(current);
+            });
+            
+            // Handle prism splitting visually
+            handlePrismBeams();
+        }
+        
+        function handlePrismBeams() {
+            // Additional beams from prisms
+            const newBeams = [];
+            
+            gameState.beams.forEach(beam => {
+                beam.path.forEach((point, idx) => {
+                    if (idx === 0) return;
+                    const cell = gameState.grid[point.y][point.x];
+                    if (cell.device === 'prism' && beam.color === COLORS.WHITE) {
+                        // Add RGB beams continuing from this point
+                        [COLORS.RED, COLORS.GREEN, COLORS.BLUE].forEach(color => {
+                            const splitBeam = {
+                                x: point.x,
+                                y: point.y,
+                                color: color,
+                                direction: beam.direction,
+                                path: [point],
+                                isSplit: true
+                            };
+                            
+                            // Continue the split beam
+                            let cx = point.x, cy = point.y;
+                            const dir = beam.direction;
+                            for (let s = 0; s < 30; s++) {
+                                const next = getNextPosition(cx, cy, dir);
+                                if (next.x < 0 || next.x >= GRID_COLS || 
+                                    next.y < 0 || next.y >= GRID_ROWS) {
+                                    splitBeam.path.push(next);
+                                    break;
+                                }
+                                splitBeam.path.push(next);
+                                
+                                const r = gameState.receivers.find(rec => 
+                                    rec.x === next.x && rec.y === next.y);
+                                if (r) {
+                                    r.receivedColors.push(color);
+                                    break;
+                                }
+                                
+                                cx = next.x;
+                                cy = next.y;
+                            }
+                            
+                            newBeams.push(splitBeam);
+                        });
+                    }
+                });
+            });
+            
+            gameState.beams.push(...newBeams);
+        }
+        
+        // ==================== EXECUTION PHASE ====================
+        function startExecution() {
+            gameState.phase = 'EXECUTION';
+            gameState.executionTime = 0;
+            
+            // Reset receivers
+            gameState.receivers.forEach(r => {
+                r.receivedColors = [];
+                r.satisfied = false;
+                r.pulse = 0;
+            });
+            
+            simulateBeams();
+            playBeat();
+            
+            // Check results after animation
+            setTimeout(checkResults, 2000);
+        }
+        
+        function checkResults() {
+            let allSatisfied = true;
+            let failedReceiver = null;
+            
+            gameState.receivers.forEach(receiver => {
+                // Mix received colors
+                const mixed = mixColors(receiver.receivedColors);
+                
+                if (colorsEqual(mixed, receiver.requiredColor)) {
+                    receiver.satisfied = true;
+                    receiver.pulse = 1;
+                    createParticles(
+                        receiver.x * CELL_SIZE + CELL_SIZE/2,
+                        receiver.y * CELL_SIZE + CELL_SIZE/2,
+                        receiver.requiredColor,
+                        20
+                    );
+                    playSuccess();
+                } else {
+                    allSatisfied = false;
+                    receiver.shake = 1;
+                    failedReceiver = {
+                        receiver,
+                        received: mixed,
+                        needed: receiver.requiredColor
+                    };
+                }
+            });
+            
+            if (allSatisfied) {
+                handleWin();
+            } else {
+                handleLoss(failedReceiver);
+            }
+        }
+        
+        function mixColors(colors) {
+            if (colors.length === 0) return COLORS.NONE;
+            if (colors.length === 1) return colors[0];
+            
+            // Simple color mixing logic
+            let hasRed = colors.some(c => c === COLORS.RED);
+            let hasGreen = colors.some(c => c === COLORS.GREEN);
+            let hasBlue = colors.some(c => c === COLORS.BLUE);
+            
+            if (hasRed && hasGreen && hasBlue) return COLORS.WHITE;
+            if (hasRed && hasGreen) return COLORS.YELLOW;
+            if (hasRed && hasBlue) return COLORS.MAGENTA;
+            if (hasGreen && hasBlue) return COLORS.CYAN;
+            
+            return colors[0];
+        }
+        
+        function colorsEqual(c1, c2) {
+            return c1.r === c2.r && c1.g === c2.g && c1.b === c2.b;
+        }
+        
+        function handleWin() {
+            gameState.won = true;
+            gameState.phase = 'RESULT';
+            playWin();
+            
+            // Calculate stars
+            const stars = calculateStars();
+            gameState.starRatings[gameState.level - 1] = stars;
+            gameState.totalStars = gameState.starRatings.reduce((a, b) => a + b, 0);
+            
+            // Calculate badges
+            const badges = calculateBadges();
+            gameState.levelBadges[gameState.level - 1] = badges;
+            
+            // Update score
+            const levelScore = 1000 + (stars * 500) + (gameState.planningTimeLeft / 10);
+            gameState.score += Math.floor(levelScore);
+            
+            // Show win overlay
+            setTimeout(() => {
+                showWinOverlay(stars, badges);
+            }, 1000);
+        }
+        
+        function handleLoss(failed) {
+            gameState.phase = 'RESULT';
+            playFail();
+            
+            setTimeout(() => {
+                showLoseOverlay(failed);
+            }, 500);
+        }
+        
+        function calculateStars() {
+            let stars = 1; // Completion
+            
+            // 2 stars: Beat timing (used < half planning time)
+            if (gameState.planningTimeLeft > PLANNING_TIME / 2) {
+                stars++;
+            }
+            
+            // 3 stars: Efficient (minimal tools)
+            const level = LEVELS[gameState.level - 1];
+            const usedPrisms = level.toolCounts.prism - gameState.toolCounts.prism;
+            const usedFilters = level.toolCounts.filter - gameState.toolCounts.filter;
+            if (usedPrisms <= 1 && usedFilters <= 1) {
+                stars++;
+            }
+            
+            return stars;
+        }
+        
+        function calculateBadges() {
+            const badges = [];
+            
+            // Conductor: Fast planning
+            if (gameState.planningTimeLeft > PLANNING_TIME * 0.7) {
+                badges.push('conductor');
+            }
+            
+            // Minimalist: Used minimum devices
+            const mirrorCount = gameState.grid.flat().filter(c => c.device === 'mirror').length;
+            if (mirrorCount <= gameState.receivers.length + 1) {
+                badges.push('minimalist');
+            }
+            
+            // Chromatic: All receivers hit simultaneously
+            badges.push('chromatic');
+            
+            return badges;
+        }
+        
+        function showWinOverlay(stars, badges) {
+            const overlay = document.getElementById('winOverlay');
+            const starEls = document.querySelectorAll('#winStars .star');
+            const badgeEls = document.querySelectorAll('#winBadges .badge');
+            
+            starEls.forEach((el, i) => {
+                el.classList.toggle('earned', i < stars);
+            });
+            
+            badgeEls.forEach(el => {
+                el.classList.remove('earned');
+                if (badges.includes(el.classList[1])) {
+                    el.classList.add('earned');
+                }
+            });
+            
+            document.getElementById('winScore').textContent = `Score: ${gameState.score}`;
+            
+            overlay.classList.remove('hidden');
+            updateUI();
+        }
+        
+        function showLoseOverlay(failed) {
+            const overlay = document.getElementById('loseOverlay');
+            const reasonEl = document.getElementById('failReason');
+            
+            if (failed.received === COLORS.NONE) {
+                reasonEl.textContent = `Receiver got NO light! Needed ${getColorName(failed.needed)}`;
+            } else {
+                reasonEl.textContent = `Got ${getColorName(failed.received)}, needed ${getColorName(failed.needed)}!`;
+            }
+            
+            overlay.classList.remove('hidden');
+        }
+        
+        function getColorName(color) {
+            for (let name in COLORS) {
+                if (COLORS[name] === color) return name;
+            }
+            return 'UNKNOWN';
+        }
+        
+        // ==================== NAVIGATION ====================
+        function nextLevel() {
+            if (gameState.level < 5) {
+                loadLevel(gameState.level + 1);
+            } else {
+                // Game complete - restart
+                gameState.score = 0;
+                gameState.totalStars = 0;
+                gameState.starRatings = [0, 0, 0, 0, 0];
+                loadLevel(1);
+            }
+        }
+        
+        function retryLevel() {
+            loadLevel(gameState.level);
+        }
+        
+        function togglePause() {
+            gameState.paused = !gameState.paused;
+        }
+        
+        function toggleMute() {
+            gameState.muted = !gameState.muted;
+        }
+        
+        // ==================== PARTICLES ====================
+        function createParticles(x, y, color, count) {
+            for (let i = 0; i < count; i++) {
+                gameState.particles.push(new Particle(x, y, color));
+            }
+        }
+        
+        // ==================== RENDERING ====================
+        function render() {
+            // Clear canvas
+            ctx.fillStyle = '#0d0221';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw starfield background
+            drawStarfield();
+            
+            // Draw grid
+            drawGrid();
+            
+            // Draw beams preview in planning phase
+            if (gameState.phase === 'PLANNING') {
+                drawPreviewBeams();
+            }
+            
+            // Draw actual beams in execution phase
+            if (gameState.phase === 'EXECUTION' || gameState.phase === 'RESULT') {
+                drawBeams();
+            }
+            
+            // Draw emitters
+            gameState.emitters.forEach(emitter => {
+                drawEmitter(emitter);
+            });
+            
+            // Draw receivers
+            gameState.receivers.forEach(receiver => {
+                drawReceiver(receiver);
+            });
+            
+            // Draw grid devices
+            for (let y = 0; y < GRID_ROWS; y++) {
+                for (let x = 0; x < GRID_COLS; x++) {
+                    const cell = gameState.grid[y][x];
+                    if (cell.device) {
+                        drawDevice(cell);
+                    }
+                }
+            }
+            
+            // Draw particles
+            drawParticles();
+            
+            // Draw beat pulse effect
+            if (gameState.phase === 'EXECUTION') {
+                drawBeatPulse();
+            }
+        }
+        
+        function drawStarfield() {
+            ctx.save();
+            for (let i = 0; i < 50; i++) {
+                const x = (i * 137) % canvas.width;
+                const y = (i * 73) % canvas.height;
+                const twinkle = Math.sin(Date.now() * 0.002 + i) * 0.5 + 0.5;
+                ctx.fillStyle = `rgba(255, 255, 255, ${0.1 + twinkle * 0.3})`;
+                ctx.fillRect(x, y, 1 + twinkle, 1 + twinkle);
+            }
+            ctx.restore();
+        }
+        
+        function drawGrid() {
+            ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+            ctx.lineWidth = 1;
+            
+            for (let x = 0; x <= GRID_COLS; x++) {
+                ctx.beginPath();
+                ctx.moveTo(x * CELL_SIZE, 0);
+                ctx.lineTo(x * CELL_SIZE, canvas.height);
+                ctx.stroke();
+            }
+            
+            for (let y = 0; y <= GRID_ROWS; y++) {
+                ctx.beginPath();
+                ctx.moveTo(0, y * CELL_SIZE);
+                ctx.lineTo(canvas.width, y * CELL_SIZE);
+                ctx.stroke();
+            }
+        }
+        
+        function drawEmitter(emitter) {
+            const x = emitter.x * CELL_SIZE + CELL_SIZE / 2;
+            const y = emitter.y * CELL_SIZE + CELL_SIZE / 2;
+            
+            // Glow
+            const pulse = Math.sin(Date.now() * 0.005) * 0.3 + 0.7;
+            ctx.shadowColor = emitter.color.hex;
+            ctx.shadowBlur = 20 * pulse;
+            
+            ctx.fillStyle = emitter.color.hex;
+            ctx.beginPath();
+            ctx.arc(x, y, 15, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Direction indicator
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y + 20);
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            ctx.shadowBlur = 0;
+        }
+        
+        function drawReceiver(receiver) {
+            const x = receiver.x * CELL_SIZE + CELL_SIZE / 2;
+            const y = receiver.y * CELL_SIZE + CELL_SIZE / 2;
+            
+            // Shake effect on fail
+            let offsetX = 0;
+            if (receiver.shake > 0) {
+                offsetX = Math.sin(receiver.shake * 20) * 5;
+                receiver.shake -= 0.05;
+            }
+            
+            // Glow if satisfied
+            if (receiver.satisfied) {
+                ctx.shadowColor = receiver.requiredColor.hex;
+                ctx.shadowBlur = 30;
+            }
+            
+            // Target color ring
+            ctx.strokeStyle = receiver.requiredColor.hex;
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(x + offsetX, y, 18, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Inner circle
+            ctx.fillStyle = receiver.satisfied ? receiver.requiredColor.hex : 'rgba(0,0,0,0.5)';
+            ctx.beginPath();
+            ctx.arc(x + offsetX, y, 12, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Target icon
+            ctx.fillStyle = receiver.requiredColor.hex;
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('◎', x + offsetX, y);
+            
+            ctx.shadowBlur = 0;
+        }
+        
+        function drawDevice(cell) {
+            const x = cell.x * CELL_SIZE + CELL_SIZE / 2;
+            const y = cell.y * CELL_SIZE + CELL_SIZE / 2;
+            const size = 35;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            
+            if (cell.device === 'mirror') {
+                // Mirror: diagonal line
+                ctx.rotate(cell.rotation * Math.PI / 2);
+                ctx.strokeStyle = '#silver';
+                ctx.lineWidth = 4;
+                ctx.shadowColor = '#aaa';
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.moveTo(-size/2, -size/2);
+                ctx.lineTo(size/2, size/2);
+                ctx.stroke();
+                
+                // Mirror backing
+                ctx.strokeStyle = 'rgba(200,200,200,0.3)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(-size/2 + 5, -size/2 - 5);
+                ctx.lineTo(size/2 + 5, size/2 - 5);
+                ctx.stroke();
+            } else if (cell.device === 'prism') {
+                // Prism: triangle
+                ctx.rotate(cell.rotation * Math.PI / 2);
+                ctx.fillStyle = 'rgba(200,200,255,0.3)';
+                ctx.strokeStyle = '#aaf';
+                ctx.lineWidth = 2;
+                ctx.shadowColor = '#aaf';
+                ctx.shadowBlur = 10;
+                
+                ctx.beginPath();
+                ctx.moveTo(0, -size/2);
+                ctx.lineTo(size/2, size/2);
+                ctx.lineTo(-size/2, size/2);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                
+                // Rainbow hint
+                const grad = ctx.createLinearGradient(-size/3, size/3, size/3, size/3);
+                grad.addColorStop(0, 'rgba(255,0,0,0.5)');
+                grad.addColorStop(0.5, 'rgba(0,255,0,0.5)');
+                grad.addColorStop(1, 'rgba(0,0,255,0.5)');
+                ctx.fillStyle = grad;
+                ctx.fill();
+            } else if (cell.device === 'filter') {
+                // Filter: circle with color
+                const filterColor = cell.deviceData.filterColor || COLORS.RED;
+                ctx.fillStyle = filterColor.hex + '44';
+                ctx.strokeStyle = filterColor.hex;
+                ctx.lineWidth = 3;
+                ctx.shadowColor = filterColor.hex;
+                ctx.shadowBlur = 15;
+                
+                ctx.beginPath();
+                ctx.arc(0, 0, size/2 - 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                
+                // Filter icon
+                ctx.fillStyle = filterColor.hex;
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('●', 0, 0);
+            }
+            
+            ctx.restore();
+        }
+        
+        function drawPreviewBeams() {
+            // Simple preview of beam paths
+            ctx.save();
+            ctx.globalAlpha = 0.3;
+            
+            gameState.emitters.forEach(emitter => {
+                const startX = emitter.x * CELL_SIZE + CELL_SIZE / 2;
+                const startY = emitter.y * CELL_SIZE + CELL_SIZE / 2;
+                
+                ctx.strokeStyle = emitter.color.hex;
+                ctx.lineWidth = 3;
+                ctx.setLineDash([5, 5]);
+                
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(startX, canvas.height);
+                ctx.stroke();
+            });
+            
+            ctx.restore();
+        }
+        
+        function drawBeams() {
+            ctx.save();
+            
+            gameState.beams.forEach(beam => {
+                if (beam.path.length < 2) return;
+                
+                const progress = Math.min(1, gameState.executionTime / 1000);
+                const visibleLength = Math.floor(beam.path.length * progress);
+                
+                if (visibleLength < 2) return;
+                
+                ctx.strokeStyle = beam.color.hex;
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.shadowColor = beam.color.hex;
+                ctx.shadowBlur = 15;
+                
+                ctx.beginPath();
+                const start = beam.path[0];
+                ctx.moveTo(start.x * CELL_SIZE + CELL_SIZE / 2, start.y * CELL_SIZE + CELL_SIZE / 2);
+                
+                for (let i = 1; i < visibleLength; i++) {
+                    const p = beam.path[i];
+                    ctx.lineTo(p.x * CELL_SIZE + CELL_SIZE / 2, p.y * CELL_SIZE + CELL_SIZE / 2);
+                }
+                
+                ctx.stroke();
+                
+                // Beam head
+                const head = beam.path[visibleLength - 1];
+                ctx.fillStyle = '#fff';
+                ctx.shadowBlur = 20;
+                ctx.beginPath();
+                ctx.arc(head.x * CELL_SIZE + CELL_SIZE / 2, head.y * CELL_SIZE + CELL_SIZE / 2, 6, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            ctx.restore();
+        }
+        
+        function drawParticles() {
+            gameState.particles = gameState.particles.filter(p => p.life > 0);
+            
+            gameState.particles.forEach(p => {
+                p.update();
+                
+                ctx.globalAlpha = p.life;
+                ctx.fillStyle = p.color.hex;
+                ctx.shadowColor = p.color.hex;
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+            });
+        }
+        
+        function drawBeatPulse() {
+            const pulse = Math.sin(gameState.executionTime * 0.01) * 0.5 + 0.5;
+            ctx.strokeStyle = `rgba(255,0,255,${0.1 + pulse * 0.2})`;
+            ctx.lineWidth = 3;
+            ctx.strokeRect(5, 5, canvas.width - 10, canvas.height - 10);
+        }
+        
+        // ==================== UPDATE ====================
+        function update(deltaTime) {
+            if (gameState.paused) return;
+            
+            if (gameState.phase === 'PLANNING') {
+                gameState.planningTimeLeft -= deltaTime;
+                
+                if (gameState.planningTimeLeft <= 0) {
+                    gameState.planningTimeLeft = 0;
+                    startExecution();
+                }
+                
+                // Update UI
+                const progress = (gameState.planningTimeLeft / PLANNING_TIME) * 100;
+                document.getElementById('beatProgress').style.width = progress + '%';
+            } else if (gameState.phase === 'EXECUTION') {
+                gameState.executionTime += deltaTime;
+                document.getElementById('beatProgress').style.width = '100%';
+            }
+            
+            // Update emitters pulse
+            gameState.emitters.forEach(e => {
+                e.pulse = Math.sin(Date.now() * 0.005) * 0.5 + 0.5;
+            });
+            
+            // Update receivers pulse
+            gameState.receivers.forEach(r => {
+                if (r.satisfied) {
+                    r.pulse = Math.sin(Date.now() * 0.008) * 0.5 + 0.5;
+                }
+            });
+            
+            // Update UI
+            updateUI();
+        }
+        
+        function updateUI() {
+            document.getElementById('levelDisplay').textContent = `${gameState.level}/5`;
+            document.getElementById('scoreDisplay').textContent = gameState.score;
+            document.getElementById('starsDisplay').textContent = `⭐ ${gameState.totalStars}`;
+            
+            const phaseEl = document.getElementById('phaseIndicator');
+            phaseEl.className = gameState.phase === 'PLANNING' ? 'planning' : 'execution';
+            phaseEl.textContent = gameState.phase === 'PLANNING' ? '⚡ PLANNING PHASE ⚡' : '💫 EXECUTION PHASE 💫';
+        }
+        
+        // ==================== GAME LOOP ====================
+        let lastTime = 0;
+        
+        function gameLoop(currentTime = 0) {
+            const deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+            
+            update(deltaTime);
+            render();
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Start
+        render();
+    </script>
+</body>
+</html>

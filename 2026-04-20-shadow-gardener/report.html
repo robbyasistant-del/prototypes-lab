@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadow Gardener - Game Strategy Report</title>
+<style>
+body { font-family: 'Segoe UI', system-ui, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #0d0221; color: #e0d5f5; line-height: 1.6; }
+h1 { background: linear-gradient(90deg, #c9a8ff, #7df9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 42px; margin-bottom: 8px; }
+h2 { color: #c9a8ff; border-bottom: 1px solid #3d2b5e; padding-bottom: 8px; margin-top: 36px; }
+h3 { color: #9b84c0; margin-top: 24px; }
+.subtitle { color: #9b84c0; font-size: 18px; margin-bottom: 30px; }
+.card { background: rgba(30, 15, 60, 0.6); border: 1px solid #3d2b5e; border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight { background: rgba(90, 63, 138, 0.3); padding: 2px 8px; border-radius: 4px; color: #c9a8ff; }
+ul { padding-left: 24px; }
+li { margin: 8px 0; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+.metric { font-size: 32px; font-weight: 700; color: #4ecdc4; }
+.metric-label { font-size: 12px; text-transform: uppercase; color: #9b84c0; letter-spacing: 1px; }
+.tag { display: inline-block; background: rgba(78, 205, 196, 0.2); color: #4ecdc4; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin: 4px 4px 0 0; }
+.risk-high { color: #e74c3c; }
+.risk-med { color: #f39c12; }
+.risk-low { color: #2ecc71; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #3d2b5e; }
+th { color: #c9a8ff; font-weight: 600; background: rgba(30, 15, 60, 0.8); }
+tr:hover { background: rgba(50, 30, 90, 0.3); }
+</style>
+</head>
+<body>
+
+<h1>🌿 Shadow Gardener</h1>
+<div class="subtitle">Game Strategy, Monetization &amp; Market Analysis</div>
+
+<div class="card">
+<h2>🎮 Game Hook (Elevator Pitch)</h2>
+<p><strong>"Shadow Gardener"</strong> is a tranquil yet strategic puzzle game where you nurture bioluminescent plants by casting the perfect shadows. Light beams stream across your garden grid—too much light burns your plants, too little starves them. Place umbrellas, clouds, and mystical crystals to create the ideal gloom zones and watch your garden bloom.</p>
+<p>The game combines <span class="highlight">ray-casting physics</span>, <span class="highlight">grid-based strategy</span>, and <span class="highlight">real-time growth simulation</span> into a unique puzzle experience that feels like a digital bonsai garden crossed with light-bending optics.</p>
+</div>
+
+<h2>🔄 Core Game Loop</h2>
+<div class="card">
+<ol>
+<li><strong>Observe:</strong> Players assess the light sources and plant positions on the grid</li>
+<li><strong>Plan:</strong> Identify which plants need more/less shadow (shown in tooltips)</li>
+<li><strong>Place:</strong> Drag shadow-casting objects (umbrellas, clouds, crystals) onto the grid</li>
+<li><strong>Rotate:</strong> Adjust object orientation to optimize shadow coverage</li>
+<li><strong>React:</strong> Watch real-time feedback—plants show health bars and states (burn/wilt/grow)</li>
+<li><strong>Iterate:</strong> Add, remove, or reposition objects until all plants bloom</li>
+<li><strong>Reward:</strong> Earn stars, unlock badges, progress to more complex levels</li>
+</ol>
+</div>
+
+<h2>🎯 Key Mechanics</h2>
+<div class="grid-2">
+<div class="card">
+<h3>Ray-Casting Shadow System</h3>
+<p>Light sources cast rays across the grid. Shadow objects block these rays based on their shape and rotation. The system computes real-time shadow coverage per tile (0-100%).</p>
+</div>
+<div class="card">
+<h3>Plant Growth Simulation</h3>
+<p>Each plant species has specific shadow needs (e.g., Moonflower: 35-55%). Plants grow when conditions are perfect, burn when over-lit, and wilt when under-lit.</p>
+</div>
+<div class="card">
+<h3>Tool Variety</h3>
+<p>4 shadow object types with different sizes and blocking percentages: Umbrella (90%), Crystal (95%), Cloud (70%), Shade Panel (80%).</p>
+</div>
+<div class="card">
+<h3>Scoring &amp; Progression</h3>
+<p>3-star rating per level based on: bloom completion, time par, move efficiency. Badges reward mastery: Green Thumb, Minimalist, Speed Grower.</p>
+</div>
+</div>
+
+<h2>💰 Monetization Hooks</h2>
+
+<h3>Free-to-Play Model (Recommended)</h3>
+<table>
+<tr><th>Revenue Stream</th><th>Implementation</th><th>Est. ARPU</th></tr>
+<tr>
+<td><strong>Rewarded Video</strong></td>
+<td>Watch ad to reveal optimal shadow placement hint (2-3 per level max)</td>
+<td>$0.05-0.15</td>
+</tr>
+<tr>
+<td><strong>Continue Tokens</strong></td>
+<td>Ad or gem to revive a burned plant (1 per level)</td>
+<td>$0.02-0.08</td>
+</tr>
+<tr>
+<td><strong>Cosmetic IAP</strong></td>
+<td>Plant skins (aurora blooms), garden themes (twilight forest, nebula), shadow object variants</td>
+<td>$0.99-4.99</td>
+</tr>
+<tr>
+<td><strong>Season Pass</strong></td>
+<td>Monthly "Garden Seasons" with 15 new levels, exclusive plants, and badges</td>
+<td>$4.99/season</td>
+</tr>
+<tr>
+<td><strong>Premium Remove Ads</strong></td>
+<td>$2.99 to disable interstitial ads between levels</td>
+<td>$2.99 one-time</td>
+</tr>
+</table>
+
+<h3>Premium Model Alternative</h3>
+<div class="card">
+<p>One-time purchase at <strong>$3.99</strong> includes:</p>
+<ul>
+<li>All 50+ base levels</li>
+<li>No advertisements</li>
+<li>Unlimited daily challenge mode</li>
+<li>Level editor (create &amp; share gardens)</li>
+</ul>
+<p>DLC expansion packs at $1.99 each (new plant types, biomes, 20 levels)</p>
+</div>
+
+<h2>🔍 ASO / SEO Keywords</h2>
+<div class="card">
+<h3>Primary Keywords (High Intent)</h3>
+<div style="margin: 10px 0;">
+<span class="tag">puzzle game</span>
+<span class="tag">garden game</span>
+<span class="tag">relaxing games</span>
+<span class="tag">zen puzzle</span>
+<span class="tag">strategy puzzle</span>
+<span class="tag">casual game</span>
+</div>
+
+<h3>Long-Tail Keywords</h3>
+<div style="margin: 10px 0;">
+<span class="tag">plant growing games</span>
+<span class="tag">shadow puzzle game</span>
+<span class="tag">light puzzle</span>
+<span class="tag">indie puzzle games</span>
+<span class="tag">mind relaxing games</span>
+<span class="tag">physics puzzle</span>
+<span class="tag">grid strategy game</span>
+<span class="tag">garden simulator</span>
+</div>
+
+<h3>Store Description Optimization</h3>
+<p><em>"Grow a garden of mystical bioluminescent plants in Shadow Gardener, the most relaxing yet challenging puzzle game of 2026. Master light and shadow to make your garden bloom. No timers, no pressure—just pure strategic zen. Perfect for fans of Monument Valley, Hitman Go, and calm puzzle experiences."</em></p>
+</div>
+
+<h2>📊 KPI Targets (30-60-90 Day)</h2>
+<div class="grid-2">
+<div class="card" style="text-align: center;">
+<div class="metric">35%</div>
+<div class="metric-label">D1 Retention</div>
+<p style="font-size: 13px; color: #9b84c0; margin-top: 8px;">Target for casual puzzle</p>
+</div>
+<div class="card" style="text-align: center;">
+<div class="metric">12%</div>
+<div class="metric-label">D7 Retention</div>
+<p style="font-size: 13px; color: #9b84c0; margin-top: 8px;">Strong for puzzle genre</p>
+</div>
+<div class="card" style="text-align: center;">
+<div class="metric">4.5★</div>
+<div class="metric-label">Store Rating</div>
+<p style="font-size: 13px; color: #9b84c0; margin-top: 8px;">Quality benchmark</p>
+</div>
+<div class="card" style="text-align: center;">
+<div class="metric">8 min</div>
+<div class="metric-label">Avg Session</div>
+<p style="font-size: 13px; color: #9b84c0; margin-top: 8px;">Per session engagement</p>
+</div>
+</div>
+
+<table style="margin-top: 24px;">
+<tr><th>Metric</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr>
+<tr><td>Downloads (Organic)</td><td>10K</td><td>25K</td><td>50K</td></tr>
+<tr><td>MAU</td><td>3.5K</td><td>8K</td><td>15K</td></tr>
+<tr><td>ARPDAU</td><td>$0.03</td><td>$0.05</td><td>$0.08</td></tr>
+<tr><td>Ad Fill Rate</td><td>85%</td><td>90%</td><td>92%</td></tr>
+<tr><td>IAP Conversion</td><td>1.5%</td><td>2.2%</td><td>3.0%</td></tr>
+</table>
+
+<h2>🧪 A/B Test Ideas</h2>
+
+<h3>High Priority</h3>
+<div class="card">
+<table>
+<tr><th>Test</th><th>Variant A</th><th>Variant B</th><th>Success Metric</th></tr>
+<tr>
+<td><strong>First Level Difficulty</strong></td>
+<td>Pre-placed umbrella (tutorial hand-holding)</td>
+<td>Current grace period only (player figures it out)</td>
+<td>D1 Retention, L2 completion</td>
+</tr>
+<tr>
+<td><strong>Ad Frequency</strong></td>
+<td>Interstitial every 3 levels</td>
+<td>Interstitial every 5 levels + rewarded hint option</td>
+<td>Retention vs Revenue</td>
+</tr>
+<tr>
+<td><strong>Heatmap Default</strong></td>
+<td>On by default</td>
+<td>Off by default (player toggles)</td>
+<td>L1 completion rate</td>
+</tr>
+<tr>
+<td><strong>Grace Period Length</strong></td>
+<td>6 seconds</td>
+<td>10 seconds</td>
+<td>First-session churn</td>
+</tr>
+</table>
+</div>
+
+<h3>Medium Priority</h3>
+<div class="card">
+<ul>
+<li><strong>Color Palette:</strong> Current deep purple vs softer teal/green garden theme</li>
+<li><strong>Plant Death:</strong> Instant game over vs health recovery possible (soft penalty)</li>
+<li><strong>Hint System:</strong> Shadow overlay hint vs directional arrow hint</li>
+<li><strong>Progression Gates:</strong> Star requirements to unlock levels vs unlock all</li>
+<li><strong>Premium Positioning:</strong> $2.99 vs $4.99 price point test</li>
+</ul>
+</div>
+
+<h2>⚠️ Risk Assessment</h2>
+
+<table>
+<tr><th>Risk</th><th>Severity</th><th>Mitigation</th></tr>
+<tr>
+<td><strong>Ray-casting performance on low-end devices</strong></td>
+<td><span class="risk-med">MEDIUM</span></td>
+<td>Optimize grid resolution (reduce from 14×11 for older devices), cache shadow calculations</td>
+</tr>
+<tr>
+<td><strong>Player confusion without tutorial</strong></td>
+<td><span class="risk-high">HIGH</span></td>
+<td>Interactive tutorial level, animated hint arrows, "show solution" option after 2 failures</td>
+</tr>
+<tr>
+<td><strong>Content exhaustion (short LTV)</strong></td>
+<td><span class="risk-med">MEDIUM</span></td>
+<td>Level editor/community gardens, daily challenge mode, procedural level generation</td>
+</tr>
+<tr>
+<td><strong>Similar games in market</strong></td>
+<td><span class="risk-low">LOW</span></td>
+<td>Strong visual differentiation, unique plant/garden theming, narrative wrapper</td>
+</tr>
+<tr>
+<td><strong>Ad revenue dependent on retention</strong></td>
+<td><span class="risk-med">MEDIUM</span></td>
+<td>Multiple ad networks, diversify with Battle Pass model, strong push notification strategy</td>
+</tr>
+<tr>
+<td><strong>Accessibility (colorblind players)</strong></td>
+<td><span class="risk-med">MEDIUM</span></td>
+<td>Pattern overlays on heatmap, icon-based plant states, high-contrast mode option</td>
+</tr>
+</table>
+
+<h2>🚀 Launch Strategy</h2>
+
+<div class="card">
+<h3>Soft Launch (Weeks 1-4)</h3>
+<ul>
+<li>Canada + Australia test markets</li>
+<li>Measure D1/D7 retention, session length, level progression funnel</li>
+<li>Fix critical bugs, optimize performance</li>
+</ul>
+
+<h3>Global Launch (Week 5)</h3>
+<ul>
+<li>iOS App Store + Google Play simultaneous</li>
+<li>Featured placement push (Apple Editorial, Google Indie Showcase)</li>
+<li>Influencer campaign: cozy gaming YouTubers, puzzle game streamers</li>
+</ul>
+
+<h3>Post-Launch (Ongoing)</h3>
+<ul>
+<li>Weekly "Shadow Challenges" (community levels)</li>
+<li>Seasonal events (Winter Bloom, Eclipse Festival)</li>
+<li>Reddit AMA, TouchArcade features</li>
+</ul>
+</div>
+
+<h2>🎨 Competitive Analysis</h2>
+
+<table>
+<tr><th>Game</th><th>Similarity</th><th>Differentiation</th></tr>
+<tr>
+<td><strong>Monument Valley</strong></td>
+<td>Atmospheric puzzle, relaxing</td>
+<td>Shadow Gardener has real-time simulation vs MV's static puzzles</td>
+</tr>
+<tr>
+<td><strong>Prune</strong></td>
+<td>Growth mechanic, minimalist</td>
+<td>Shadow Gardener focuses on light/shadow physics vs Prune's cutting</td>
+</tr>
+<tr>
+<td><strong>Hitman Go</strong></td>
+<td>Grid-based strategy</td>
+<td>Shadow Gardener is real-time growth, not turn-based stealth</td>
+</tr>
+<tr>
+<td><strong>Alto's Odyssey</strong></td>
+<td>Zen atmosphere</td>
+<td>Shadow Gardener is puzzle/strategy vs endless runner</td>
+</tr>
+<tr>
+<td><strong>Sokobond</strong></td>
+<td>Grid puzzle, chemistry theme</td>
+<td>Shadow Gardener has physics simulation and visual feedback</td>
+</tr>
+</table>
+
+<h2>📈 Success Metrics Summary</h2>
+
+<div class="card">
+<table>
+<tr><th>Category</th><th>Target</th><th>Why It Matters</th></tr>
+<tr><td><strong>Retention (D1)</strong></td><td>35%+</td><td>Puzzle game benchmark; below 30% indicates tutorial issues</td></tr>
+<tr><td><strong>Retention (D7)</strong></td><td>12%+</td><td>Indicates depth and replayability</td></tr>
+<tr><td><strong>Level 1 Completion</strong></td><td>85%+</td><td>Core mechanic comprehension</td></tr>
+<tr><td><strong>Session Count/Day</strong></td><td>3.5+</td><td>Engagement and habit formation</td></tr>
+<tr><td><strong>Ad View/DAU</strong></td><td>4.0+</td><td>Monetization efficiency</td></tr>
+<tr><td><strong>IAP Conversion</strong></td><td>2.5%+</td><td>Willingness to pay for cosmetics/premium</td></tr>
+</table>
+</div>
+
+<div class="card" style="margin-top: 40px; text-align: center; background: rgba(78, 205, 196, 0.1); border-color: #4ecdc4;">
+<h3 style="color: #4ecdc4; margin-top: 0;">Summary</h3>
+<p><strong>Shadow Gardener</strong> targets the underserved "relaxing but challenging" puzzle niche. Its unique light/shadow mechanic provides intellectual satisfaction while the bioluminescent aesthetic delivers emotional payoff. With careful monetization that respects the player's zen state, this game can capture both high retention and solid ARPDAU.</p>
+<p><em>Key to success: Never compromise the tranquility for monetization pressure.</em></p>
+</div>
+
+</body>
+</html>

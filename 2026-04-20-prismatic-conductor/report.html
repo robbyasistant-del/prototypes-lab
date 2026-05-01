@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prismatic Conductor - Strategy Document</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+            margin-bottom: 10px;
+        }
+        @keyframes shimmer { to { background-position: 200% center; } }
+        .subtitle {
+            font-size: 1.2em;
+            color: #888;
+        }
+        h2 {
+            font-size: 1.8em;
+            color: #00ffff;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0,255,255,0.3);
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #ff00ff;
+            margin: 25px 0 15px;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(0,255,255,0.2));
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #00ffff;
+        }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .metric-card {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00ffff;
+        }
+        .metric-label {
+            color: #888;
+            font-size: 0.9em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            background: rgba(0,255,255,0.1);
+            color: #00ffff;
+            font-weight: 600;
+        }
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin: 3px;
+        }
+        .tag-pink { background: rgba(255,0,255,0.2); color: #ff00ff; border: 1px solid #ff00ff; }
+        .tag-cyan { background: rgba(0,255,255,0.2); color: #00ffff; border: 1px solid #00ffff; }
+        .tag-gold { background: rgba(255,215,0,0.2); color: #ffd700; border: 1px solid #ffd700; }
+        .tag-green { background: rgba(0,255,136,0.2); color: #00ff88; border: 1px solid #00ff88; }
+        .tag-red { background: rgba(255,68,68,0.2); color: #ff4444; border: 1px solid #ff4444; }
+        ul { margin: 10px 0 10px 20px; }
+        li { margin: 8px 0; }
+        .risk-high { color: #ff4444; }
+        .risk-medium { color: #ffa500; }
+        .risk-low { color: #00ff88; }
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            margin-top: 40px;
+        }
+        .phase-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .phase-box {
+            background: rgba(255,255,255,0.1);
+            padding: 20px 30px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 150px;
+        }
+        .phase-arrow {
+            font-size: 2em;
+            color: #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌈 PRISMATIC CONDUCTOR</h1>
+            <p class="subtitle">Strategy Document v1.0 | Cosmic Light Puzzle Game</p>
+        </header>
+
+        <section>
+            <h2>🎮 Game Hook</h2>
+            <div class="highlight-box">
+                <strong>"You're the DJ of light!"</strong> Prismatic Conductor combines the zen-like satisfaction of optical puzzles with the adrenaline rush of rhythm games. Players must plan light paths during a brief planning phase, then watch their creation come alive in time with the cosmic beat. It's <strong>Lumines meets The Incredible Machine</strong> in a neon-soaked disco galaxy.
+            </div>
+            
+            <h3>Unique Selling Points</h3>
+            <ul>
+                <li><strong>Dual-Phase Gameplay:</strong> Unique tension between planning (strategy) and execution (spectacle)</li>
+                <li><strong>Visual Feedback Loop:</strong> Satisfying light beams, particle explosions, and rhythmic pulsing</li>
+                <li><strong>Accessible Complexity:</strong> Easy to learn, genuinely challenging to master</li>
+                <li><strong>No Language Barrier:</strong> Universal visual language of colors and symbols</li>
+                <li><strong>ASMR Adjacent:</strong> Satisfying sound design appeals to relaxation content audiences</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>🔄 Core Game Loop</h2>
+            <div class="phase-diagram">
+                <div class="phase-box">
+                    <strong>PLAN</strong><br>
+                    <small>5-10 seconds</small><br>
+                    🖱️ Drag devices
+                </div>
+                <div class="phase-arrow">→</div>
+                <div class="phase-box">
+                    <strong>EXECUTE</strong><br>
+                    <small>Beat drops</small><br>
+                    🎵 Lights animate
+                </div>
+                <div class="phase-arrow">→</div>
+                <div class="phase-box">
+                    <strong>REACT</strong><br>
+                    <small>Win/Lose</small><br>
+                    ✨ Feedback burst
+                </div>
+                <div class="phase-arrow">→</div>
+                <div class="phase-box">
+                    <strong>RETRY</strong><br>
+                    <small>One more go!</small><br>
+                    ↻ Instant restart
+                </div>
+            </div>
+
+            <h3>Player Psychology Hooks</h3>
+            <div class="card">
+                <table>
+                    <tr>
+                        <th>Psychological Driver</th>
+                        <th>Implementation</th>
+                        <th>Outcome</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Time Pressure</strong></td>
+                        <td>Visible countdown bar, ticking audio</td>
+                        <td>Creates urgency, prevents analysis paralysis</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Completionism</strong></td>
+                        <td>3-star system, level badges</td>
+                        <td>Encourages replay for perfect scores</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Near-Miss Effect</strong></td>
+                        <td>Clear failure reason, close calls</td>
+                        <td>"Just one more try" retention</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sensory Reward</strong></td>
+                        <td>Particle explosions, color flashes</td>
+                        <td>Dopamine hit on success</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>💰 Monetization Hooks</h2>
+            
+            <h3>Free-to-Play Model (Recommended)</h3>
+            <div class="card">
+                <table>
+                    <tr>
+                        <th>Revenue Stream</th>
+                        <th>Implementation</th>
+                        <th>Estimated ARPDAU</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Interstitial Ads</strong></td>
+                        <td>After every 3-5 failed attempts</td>
+                        <td>$0.02-0.05</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rewarded Video</strong></td>
+                        <td>Extra planning time, hint preview</td>
+                        <td>$0.03-0.08</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Battle Pass</strong></td>
+                        <td>Seasonal cosmetics + new levels</td>
+                        <td>$0.10-0.25</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cosmetic IAP</strong></td>
+                        <td>Beam skins, stage themes, music</td>
+                        <td>$0.05-0.15</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Premium SKU ($2.99)</h3>
+            <ul>
+                <li>Remove all advertisements</li>
+                <li>Unlock 50+ exclusive "Galaxy" levels</li>
+                <li>Exclusive "Neon Noir" visual theme</li>
+                <li>Custom level editor + community sharing</li>
+                <li>Original soundtrack download</li>
+            </ul>
+
+            <h3>Whale Hunting (High Spenders)</h3>
+            <div class="highlight-box">
+                <strong>Legendary Conductor Status:</strong> $19.99 one-time purchase
+                <ul>
+                    <li>Unique avatar frame and title</li>
+                    <li>Exclusive particle effects</li>
+                    <li>Early access to new levels</li>
+                    <li>Discord VIP channel access</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>🔍 ASO/SEO Keywords</h2>
+            
+            <h3>Primary Keywords (High Volume)</h3>
+            <div>
+                <span class="tag tag-pink">puzzle game</span>
+                <span class="tag tag-pink">logic puzzle</span>
+                <span class="tag tag-pink">brain game</span>
+                <span class="tag tag-pink">color puzzle</span>
+                <span class="tag tag-pink">light puzzle</span>
+                <span class="tag tag-pink">rhythm game</span>
+            </div>
+
+            <h3>Secondary Keywords (Niche)</h3>
+            <div>
+                <span class="tag tag-cyan">optical puzzle</span>
+                <span class="tag tag-cyan">mirror puzzle</span>
+                <span class="tag tag-cyan">prism game</span>
+                <span class="tag tag-cyan">laser puzzle</span>
+                <span class="tag tag-cyan">reflection game</span>
+                <span class="tag tag-cyan">neon game</span>
+            </div>
+
+            <h3>Long-Tail Keywords</h3>
+            <div>
+                <span class="tag tag-gold">games like Lumines</span>
+                <span class="tag tag-gold">music puzzle games</span>
+                <span class="tag tag-gold">minimalist puzzle</span>
+                <span class="tag tag-gold">relaxing puzzle games</span>
+                <span class="tag tag-gold">physics puzzle mobile</span>
+            </div>
+
+            <h3>App Store Optimization Strategy</h3>
+            <table>
+                <tr>
+                    <th>Element</th>
+                    <th>Strategy</th>
+                </tr>
+                <tr>
+                    <td><strong>App Icon</strong></td>
+                    <td>Prismatic triangle with glowing edges, high contrast on dark background</td>
+                </tr>
+                <tr>
+                    <td><strong>Screenshots</strong></td>
+                    <td>Show beam tracing in motion, particle explosions, before/after planning</td>
+                </tr>
+                <tr>
+                    <td><strong>Preview Video</strong></td>
+                    <td>15-second beat-synchronized montage of satisfying wins</td>
+                </tr>
+                <tr>
+                    <td><strong>Subtitle</strong></td>
+                    <td>"Rhythm Light Puzzles" - combines two high-value keywords</td>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>📊 KPI Targets</h2>
+            
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value">45%</div>
+                    <div class="metric-label">Day 1 Retention</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">20%</div>
+                    <div class="metric-label">Day 7 Retention</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">8%</div>
+                    <div class="metric-label">Day 30 Retention</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">15%</div>
+                    <div class="metric-label">Ad View Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">3.5%</div>
+                    <div class="metric-label">IAP Conversion</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$0.12</div>
+                    <div class="metric-label">Target ARPDAU</div>
+                </div>
+            </div>
+
+            <h3>Session Metrics</h3>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Target</th>
+                    <th>Benchmark</th>
+                </tr>
+                <tr>
+                    <td>Avg Session Length</td>
+                    <td>8-12 minutes</td>
+                    <td>Puzzle genre avg: 6 min</td>
+                </tr>
+                <tr>
+                    <td>Sessions per Day</td>
+                    <td>2.5+</td>
+                    <td>Casual avg: 2.1</td>
+                </tr>
+                <tr>
+                    <td>Levels per Session</td>
+                    <td>8-15</td>
+                    <td>Short loop advantage</td>
+                </tr>
+                <tr>
+                    <td>Retry Rate</td>
+                    <td>65%+</td>
+                    <td>Indicates engagement</td>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>🧪 A/B Test Ideas</h2>
+            
+            <div class="card">
+                <h3>High Priority Tests</h3>
+                <table>
+                    <tr>
+                        <th>Test</th>
+                        <th>Variant A</th>
+                        <th>Variant B</th>
+                        <th>Success Metric</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Planning Time</strong></td>
+                        <td>8 seconds (current)</td>
+                        <td>12 seconds</td>
+                        <td>Win rate vs tension</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Failure Feedback</strong></td>
+                        <td>Show wrong color received</td>
+                        <td>Show solution ghost</td>
+                        <td>Retry rate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ad Placement</strong></td>
+                        <td>After every 3 fails</td>
+                        <td>After every 5 fails</td>
+                        <td>Revenue vs retention</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Beat Timing</strong></td>
+                        <td>Manual beat trigger</td>
+                        <td>Auto-execute on timer</td>
+                        <td>Session length</td>
+                    </tr>
+                    <tr>
+                        <td><strong>First Level</strong></td>
+                        <td>Tutorial with text</td>
+                        <td>Visual-only guidance</td>
+                        <td>D1 retention</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Visual A/B Tests</h3>
+            <ul>
+                <li><strong>Color Palette:</strong> Neon (current) vs Pastel vs Monochrome</li>
+                <li><strong>Grid Visibility:</strong> Faint lines vs strong grid vs no grid</li>
+                <li><strong>Beam Style:</strong> Solid lines vs glowing aura vs particle trails</li>
+                <li><strong>Beat Indicator:</strong> Progress bar vs pulsing border vs audio-only</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>⚠️ Risk Assessment</h2>
+            
+            <table>
+                <tr>
+                    <th>Risk</th>
+                    <th>Severity</th>
+                    <th>Mitigation</th>
+                </tr>
+                <tr>
+                    <td><strong>Difficulty Spikes</strong></td>
+                    <td class="risk-high">HIGH</td>
+                    <td>Implement dynamic difficulty adjustment; offer optional hints after 3 failures</td>
+                </tr>
+                <tr>
+                    <td><strong>Audio Copyright</strong></td>
+                    <td class="risk-high">HIGH</td>
+                    <td>Use original compositions or properly licensed royalty-free EDM tracks</td>
+                </tr>
+                <tr>
+                    <td><strong>Color Blindness</strong></td>
+                    <td class="risk-medium">MEDIUM</td>
+                    <td>Include symbols/patterns on colors; offer high-contrast colorblind mode</td>
+                </tr>
+                <tr>
+                    <td><strong>Performance on Low-End</strong></td>
+                    <td class="risk-medium">MEDIUM</td>
+                    <td>Offer "performance mode" with reduced particles; optimize beam rendering</td>
+                </tr>
+                <tr>
+                    <td><strong>Similar Games</strong></td>
+                    <td class="risk-medium">MEDIUM</td>
+                    <td>Double-down on rhythm integration as differentiator; unique visual style</td>
+                </tr>
+                <tr>
+                    <td><strong>Content Exhaustion</strong></td>
+                    <td class="risk-low">LOW</td>
+                    <td>Level editor for UGC; weekly community level challenges; procedural endless mode</td>
+                </tr>
+            </table>
+
+            <h3>Technical Risks</h3>
+            <div class="card">
+                <ul>
+                    <li><strong>Canvas Performance:</strong> Many simultaneous beams could lag on older devices → Implement beam culling and LOD</li>
+                    <li><strong>Audio Sync:</strong> Web Audio timing drift → Use AudioContext scheduled playback</li>
+                    <li><strong>Touch Accuracy:</strong> Small grid cells on mobile → Implement snap-to-grid with generous hit areas</li>
+                    <li><strong>Save Data:</strong> LocalStorage limits → Compress level progress, use IndexedDB for UGC</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>🚀 Post-Launch Roadmap</h2>
+            
+            <h3>Month 1-2: Polish & Retention</h3>
+            <ul>
+                <li>Analytics integration (Firebase, GameAnalytics)</li>
+                <li>Crash reporting and performance optimization</li>
+                <li>First content update: 20 new levels</li>
+                <li>Community features: Leaderboards, achievements</li>
+            </ul>
+
+            <h3>Month 3-4: Monetization</h3>
+            <ul>
+                <li>Battle Pass Season 1 launch</li>
+                <li>Ad network optimization (ironSource, MAX)</li>
+                <li>Limited-time events with exclusive rewards</li>
+                <li>Premium SKU A/B test</li>
+            </ul>
+
+            <h3>Month 5-6: Expansion</h3>
+            <ul>
+                <li>Level Editor + Community Sharing</li>
+                <li>"Daily Challenge" mode</li>
+                <li>Multiplayer async (ghost runs)</li>
+                <li>Port to Steam (premium only)</li>
+            </ul>
+
+            <h3>Year 1: Live Ops</h3>
+            <ul>
+                <li>Seasonal events (Halloween, Winter, Summer themes)</li>
+                <li>IP collaboration events</li>
+                <li>Prismatic Conductor 2 pre-production</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>📈 Competitive Analysis</h2>
+            
+            <table>
+                <tr>
+                    <th>Competitor</th>
+                    <th>Strengths</th>
+                    <th>Our Differentiator</th>
+                </tr>
+                <tr>
+                    <td><strong>Lumines</strong></td>
+                    <td>Perfect rhythm-puzzle blend</td>
+                    <td>More strategic planning phase, physics-based</td>
+                </tr>
+                <tr>
+                    <td><strong>Monument Valley</strong></td>
+                    <td>Stunning visuals, narrative</td>
+                    <td>Real-time execution, replayability</td>
+                </tr>
+                <tr>
+                    <td><strong>Laser Quest</strong></td>
+                    <td>Classic mirror puzzle</td>
+                    <td>Rhythm integration, color mixing</td>
+                </tr>
+                <tr>
+                    <td><strong>Hexcells</strong></td>
+                    <td>Deep logic, minimal UI</td>
+                    <td>Action-oriented, sensory feedback</td>
+                </tr>
+                <tr>
+                    <td><strong>Threes/2048</strong></td>
+                    <td>Quick sessions, viral</td>
+                    <td>Visual spectacle, skill expression</td>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>🎯 Success Criteria</h2>
+            
+            <div class="highlight-box">
+                <strong>Soft Launch Goals (Philippines/Canada):</strong>
+                <ul>
+                    <li>D1 Retention > 40%</li>
+                    <li>Cost per Install < $0.50</li>
+                    <li>Organic/UA ratio > 30%</li>
+                    <li>Average rating > 4.2★</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <strong>Global Launch Goals:</strong>
+                <ul>
+                    <li>1M downloads in first 30 days</li>
+                    <li>Featured by Apple/Google Store</li>
+                    <li>Top 50 Puzzle category</li>
+                    <li>Positive YouTuber coverage (5+ videos)</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer>
+            <p>Prismatic Conductor Strategy Document</p>
+            <p>Created: April 2026 | Version 1.0</p>
+            <p style="margin-top: 20px; font-size: 0.9em; color: #444;">
+                "In the cosmic disco, you don't just hear the beat—you conduct the light."
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

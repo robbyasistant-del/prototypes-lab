@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resonance Vault — Strategy Document</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:#060a14;color:#c8d4e8;font-family:'Segoe UI',system-ui,sans-serif;line-height:1.7;padding:40px 20px;max-width:900px;margin:0 auto}
+  h1{font-size:36px;margin-bottom:8px;background:linear-gradient(135deg,#00b4ff,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  h2{font-size:22px;color:#ffd700;margin-top:36px;margin-bottom:12px;border-bottom:1px solid #1a3a5a;padding-bottom:6px}
+  h3{font-size:16px;color:#60a5fa;margin-top:20px;margin-bottom:8px}
+  p,li{color:#a0b4d0;margin-bottom:8px}
+  ul{margin-left:20px;margin-bottom:16px}
+  li{margin-bottom:6px}
+  .badge{display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;font-weight:600;margin-right:6px}
+  .badge.core{background:rgba(0,180,255,0.15);color:#00b4ff;border:1px solid rgba(0,180,255,0.3)}
+  .badge.rev{background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3)}
+  .badge.risk{background:rgba(255,100,100,0.15);color:#ff6b6b;border:1px solid rgba(255,100,100,0.3)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+  .card{background:#0a1420;border:1px solid #1a3a5a;border-radius:8px;padding:16px}
+  .card h4{color:#ffd700;font-size:14px;margin-bottom:8px}
+  .card p{font-size:13px;margin-bottom:4px}
+  table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #1a3a5a}
+  th{color:#ffd700;font-weight:600;background:rgba(255,215,0,0.05)}
+  td{color:#a0b4d0}
+  .metric{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .metric-dot{width:8px;height:8px;border-radius:50%}
+  .tip{background:rgba(0,180,255,0.08);border-left:3px solid #00b4ff;padding:10px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13px}
+  .warning{background:rgba(255,100,100,0.08);border-left:3px solid #ff6b6b}
+  .success{background:rgba(74,222,128,0.08);border-left:3px solid #4ade80}
+</style>
+</head>
+<body>
+
+<h1>🎵 Resonance Vault</h1>
+<p style="font-size:15px;color:#6b8aaa;margin-bottom:24px">Strategy Document &nbsp;|&nbsp; Sound-Stealth Puzzle Game &nbsp;|&nbsp; v1.0 Prototype &nbsp;|&nbsp; April 2026</p>
+
+<h2>🎯 Game Hook</h2>
+<p><strong>"Steal the sound. Escape the silence."</strong></p>
+<p>Resonance Vault is a sound-stealth puzzle game where players infiltrate a music-themed vault hidden in total darkness. The twist: <b>your only way to see is to make noise</b>. Sonar pulses reveal the map, guards, and treasure — but each pulse is a gamble. Ambient noise (dripping water, wind, thunder) creates rhythm-based safe windows. Time your pulses. Read the guards. Vanish with the loot.</p>
+
+<p>The game fuses three dopamine loops:</p>
+<ul>
+  <li><b>Exploration tension</b> — "What's behind that wall?"</li>
+  <li><b>Rhythm mastery</b> — nailing a perfect pulse during a thunderclap</li>
+  <li><b>Stealth perfection</b> — completing a level undetected earns the "Ghost" badge</li>
+</ul>
+
+<div class="tip">
+  <b>Why it stands out:</b> Most stealth games punish visibility. Resonance Vault punishes <i>sound</i>. The sonar mechanic turns the player's primary tool into their greatest risk. The ambient noise meter adds a rhythm-game layer that no pure stealth or puzzle game offers.
+</div>
+
+<h2>🔄 Core Loop</h2>
+<div class="grid">
+  <div class="card">
+    <h4>1. Observe</h4>
+    <p>Player studies the ambient noise meter. Green safe zones drift across the timeline. Guards patrol with visible (post-pulse) vision cones. Loot glitters in the dark.</p>
+  </div>
+  <div class="card">
+    <h4>2. Pulse</h4>
+    <p>Spacebar or click emits a sonar ripple. If timed in a green zone, the pulse is silent. If red-zone, nearby guards become suspicious and converge on the source.</p>
+  </div>
+  <div class="card">
+    <h4>3. Move</h4>
+    <p>Click or arrow keys to move one tile. Navigate revealed corridors. Avoid guard vision cones. Collect loot for score multipliers.</p>
+  </div>
+  <div class="card">
+    <h4>4. Escape</h4>
+    <p>Reach the glowing EXIT tile. Time bonus ticks down — faster = higher score. Fewer pulses = stealth bonus. 100% loot = Looter King badge.</p>
+  </div>
+</div>
+
+<h3>Session Flow</h3>
+<table>
+  <tr><th>Phase</th><th>Duration</th><th>Player Goal</th><th>Emotion</th></tr>
+  <tr><td>Instructions</td><td>10s</td><td>Learn mechanics</td><td>Curiosity</td></tr>
+  <tr><td>Level 1-2</td><td>2-3 min</td><td>Master pulsing + movement</td><td>Discovery, tension</td></tr>
+  <tr><td>Level 3-4</td><td>3-4 min</td><td>Optimize routes, manage risk</td><td>Flow state</td></tr>
+  <tr><td>Level 5</td><td>2-3 min</td><td>Execute perfect run</td><td>Mastery, triumph</td></tr>
+  <tr><td>End screen</td><td>15s</td><td>Review badges, retry for better</td><td>"One more try"</td></tr>
+</table>
+
+<h3>Progression Systems</h3>
+<ul>
+  <li><b>5 Levels</b> — procedurally varied layouts, increasing guard count, tighter safe windows, more loot</li>
+  <li><b>3 Badges per level</b> — Ghost (0 detected pulses), Looter King (100% loot), Speed Thief (under par time)</li>
+  <li><b>Cumulative Score</b> — loot value + time remaining × 10 + (total loot − detected pulses) × 50</li>
+  <li><b>Star Rating</b> — 1★ clear, 2★ +1 badge, 3★ all badges</li>
+</ul>
+
+<h2>💰 Monetization Hooks</h2>
+
+<h3>Tier 1 — Ad-Supported (Hypercasual funnel)</h3>
+<ul>
+  <li><b>Interstitial ads</b> between levels (every 2-3 levels to avoid fatigue)</li>
+  <li><b>Rewarded video</b> → +15 seconds on failed level, or reveal full map for 3 seconds</li>
+  <li><b>Banner ad</b> on game-over screen + main menu</li>
+</ul>
+
+<h3>Tier 2 — IAP / Premium ($2.99 unlock)</h3>
+<ul>
+  <li><b>Remove all ads</b> — one-time purchase</li>
+  <li><b>Sound Packs</b> — alternative ambient themes ("Jazz Club", "Cyberpunk", "Rainforest") — $0.99 each</li>
+  <li><b>Thief Skins</b> — visual player customizations — $0.99 each or $3.99 bundle</li>
+  <li><b>Endless Mode</b> — infinite procedural levels, global leaderboard — $1.99</li>
+</ul>
+
+<h3>Tier 3 — Subscription ($4.99/mo "Vault Pass")</h3>
+<ul>
+  <li>Daily challenge levels with unique modifiers</li>
+  <li>Exclusive skins and sound packs</li>
+  <li>Advanced analytics: heatmap of where you were detected most</li>
+  <li>"Ghost Run" replays — share undetected runs as GIFs</li>
+</ul>
+
+<div class="tip success">
+  <b>Conversion anchor:</b> Show the player their "Ghost" badge progress during the game-over screen. "You were detected 1 time — remove ads and get unlimited retries to nail that perfect run." Scarcity + pride = conversion.
+</div>
+
+<h2>🔍 ASO / SEO Keywords</h2>
+
+<h3>Primary Keywords (High intent, medium competition)</h3>
+<table>
+  <tr><th>Keyword</th><th>Search Volume Est.</th><th>Competition</th><th>Target Rank</th></tr>
+  <tr><td>stealth puzzle game</td><td>High</td><td>Medium</td><td>Top 20</td></tr>
+  <tr><td>sonar game</td><td>Medium</td><td>Low</td><td>Top 10</td></tr>
+  <tr><td>rhythm stealth</td><td>Medium</td><td>Low</td><td>Top 5</td></tr>
+  <tr><td>dark puzzle game</td><td>Medium</td><td>Medium</td><td>Top 20</td></tr>
+  <tr><td>sound based game</td><td>Medium</td><td>Low</td><td>Top 10</td></tr>
+</table>
+
+<h3>Long-Tail Keywords (Low competition, high conversion)</h3>
+<ul>
+  <li>"game where you can't see the map"</li>
+  <li>"stealth game with noise mechanic"</li>
+  <li>"rhythm puzzle game no ads"</li>
+  <li>"indie vault heist game"</li>
+  <li>"sonar echo stealth game mobile"</li>
+  <li>"pulse timing puzzle game"</li>
+</ul>
+
+<h3>App Store Title Variants to A/B Test</h3>
+<ul>
+  <li>A: <b>Resonance Vault</b> — Sound-Stealth Puzzle</li>
+  <li>B: <b>Resonance Vault</b> — Stealth Sonar Game</li>
+  <li>C: <b>Resonance Vault</b> — Rhythm Heist Puzzle</li>
+  <li>D: <b>Resonance Vault</b> — Dark Puzzle Stealth</li>
+</ul>
+
+<h2>📊 KPI Targets</h2>
+
+<table>
+  <tr><th>KPI</th><th>Target (Week 4)</th><th>Target (Month 3)</th><th>Measurement</th></tr>
+  <tr><td>D1 Retention</td><td>35%</td><td>42%</td><td>% players returning next day</td></tr>
+  <tr><td>D7 Retention</td><td>12%</td><td>18%</td><td>% players returning day 7</td></tr>
+  <tr><td>D30 Retention</td><td>4%</td><td>8%</td><td>% players returning day 30</td></tr>
+  <tr><td>Session Length</td><td>4.5 min</td><td>6 min</td><td>Average session duration</td></tr>
+  <tr><td>Sessions / User / Day</td><td>2.5</td><td>3.5</td><td>Average daily sessions</td></tr>
+  <tr><td>Level 1 Complete Rate</td><td>80%</td><td>90%</td><td>% who finish level 1</td></tr>
+  <tr><td>Level 5 Reach Rate</td><td>15%</td><td>30%</td><td>% who reach final level</td></tr>
+  <tr><td>Ad eCPM</td><td>$3.50</td><td>$4.20</td><td>Effective CPM</td></tr>
+  <tr><td>IAP Conversion</td><td>1.2%</td><td>2.5%</td><td>% players making any purchase</td></tr>
+  <tr><td>ARPDAU</td><td>$0.04</td><td>$0.08</td><td>Average revenue per daily active user</td></tr>
+  <tr><td>Review Score</td><td>4.2★</td><td>4.5★</td><td>App store rating</td></tr>
+  <tr><td>Organic Install %</td><td>25%</td><td>40%</td><td>% installs from search/browse</td></tr>
+</table>
+
+<h2>🧪 A/B Test Ideas</h2>
+
+<table>
+  <tr><th>Test</th><th>Variant A</th><th>Variant B</th><th>Primary Metric</th><th>Hypothesis</th></tr>
+  <tr>
+    <td><b>Instructions Length</b></td>
+    <td>Full overlay (current)</td>
+    <td>Animated 5s intro + tooltip hints during play</td>
+    <td>Level 1 completion rate</td>
+    <td>Shorter onboarding reduces drop-off without hurting comprehension</td>
+  </tr>
+  <tr>
+    <td><b>Safe Window Visibility</b></td>
+    <td>Green zones on meter (current)</td>
+    <td>Green zones + audible "safe" tick sound</td>
+    <td>Avg pulses detected / level</td>
+    <td>Audio cue improves timing without making game too easy</td>
+  </tr>
+  <tr>
+    <td><b>Game Over Screen</b></td>
+    <td>Timeline + retry button (current)</td>
+    <td>Timeline + "Watch ad for +10s" CTA</td>
+    <td>Rewarded video starts</td>
+    <td>Contextual reward (extra time) outperforms generic rewards</td>
+  </tr>
+  <tr>
+    <td><b>Badge Display</b></td>
+    <td>Show badges during play (current)</td>
+    <td>Show badges only on end screen (surprise reveal)</td>
+    <td>Retry rate</td>
+    <td>Surprise badge reveal creates stronger "one more try" moment</td>
+  </tr>
+  <tr>
+    <td><b>Pulse Visual Feedback</b></td>
+    <td>Blue ripple (current)</td>
+    <td>Red ripple when unsafe pulse emitted</td>
+    <td>Pulse detection rate</td>
+    <td>Immediate color feedback trains players faster</td>
+  </tr>
+  <tr>
+    <td><b>Difficulty Curve</b></td>
+    <td>5 levels with escalating difficulty</td>
+    <td>3 levels + "hard mode" unlock after first clear</td>
+    <td>Session length</td>
+    <td>Shorter initial campaign increases completion rate and retry loops</td>
+  </tr>
+  <tr>
+    <td><b>Monetization Gate</b></td>
+    <td>Free to play all levels</td>
+    <td>Level 4+ locked behind $1.99 or watch 3 ads</td>
+    <td>IAP conversion + retention</td>
+    <td>Soft paywall at 75% completion targets engaged players</td>
+  </tr>
+  <tr>
+    <td><b>Social Sharing</b></td>
+    <td>No sharing</td>
+    <td>"Share your Ghost run" button on win screen</td>
+    <td>Organic installs</td>
+    <td>Ghost badge is brag-worthy; social proof drives organic growth</td>
+  </tr>
+</table>
+
+<h2>⚠️ Risk Assessment</h2>
+
+<table>
+  <tr><th>Risk</th><th>Probability</th><th>Impact</th><th>Mitigation</th></tr>
+  <tr>
+    <td><b>High early churn</b><br>Players don't understand the sonar + noise mechanic</td>
+    <td class="badge risk">HIGH</td>
+    <td class="badge risk">HIGH</td>
+    <td>Interactive tutorial (not just text). First level has oversized safe windows. Tooltip hints on first 3 pulses.</td>
+  </tr>
+  <tr>
+    <td><b>Difficulty spike</b><br>Level 3+ feels unfair due to guard AI</td>
+    <td class="badge risk">MEDIUM</td>
+    <td class="badge risk">HIGH</td>
+    <td>Dynamic difficulty: if player dies 3x on same level, increase safe window duration by 20%. Cap guard speed.</td>
+  </tr>
+  <tr>
+    <td><b>Ad fatigue</b><br>Too many interstitials hurt retention</td>
+    <td class="badge risk">MEDIUM</td>
+    <td class="badge risk">MEDIUM</td>
+    <td>Show interstitials only every 3 levels max. Prioritize rewarded video (opt-in). Offer ad-removal IAP prominently.</td>
+  </tr>
+  <tr>
+    <td><b>Genre confusion</b><br>Marketed as stealth but plays like puzzle</td>
+    <td class="badge risk">LOW</td>
+    <td class="badge risk">MEDIUM</td>
+    <td>Store screenshots show both stealth (guards, vision cones) and puzzle (noise meter, timing). Tag both genres.</td>
+  </tr>
+  <tr>
+    <td><b>Session length too short</b><br>Full run is only ~10 min</td>
+    <td class="badge risk">MEDIUM</td>
+    <td class="badge risk">MEDIUM</td>
+    <td>Add endless mode, daily challenges, and speedrun leaderboards. Badge hunting adds replay value.</td>
+  </tr>
+  <tr>
+    <td><b>Accessibility</b><br>Colorblind players can't see green/red zones</td>
+    <td class="badge risk">LOW</td>
+    <td class="badge risk">LOW</td>
+    <td>Add patterns to safe zones (stripes). Include high-contrast mode. Provide audio cues for safe windows.</td>
+  </tr>
+  <tr>
+    <td><b>Clone risk</b><br>Mechanic is novel but copyable</td>
+    <td class="badge risk">HIGH</td>
+    <td class="badge risk">MEDIUM</td>
+    <td>Build brand around "Resonance Vault" art style (dark vault + neon sonar). Add narrative hooks (lore fragments). Community features (shared ghost runs).</td>
+  </tr>
+  <tr>
+    <td><b>Platform dependency</b><br>Mobile web vs. native app performance</td>
+    <td class="badge risk">MEDIUM</td>
+    <td class="badge risk">LOW</td>
+    <td>Canvas 2D is lightweight. Target 60fps on mid-tier devices. Test on iPhone 12 / Pixel 6 minimum. Consider Capacitor wrapper for native stores.</td>
+  </tr>
+</table>
+
+<h2>🗺 Roadmap Snapshot</h2>
+
+<table>
+  <tr><th>Phase</th><th>Timeline</th><th>Deliverables</th></tr>
+  <tr>
+    <td><b>Prototype</b></td>
+    <td>Week 1-2</td>
+    <td>Playable HTML5 demo (✅ complete), core loop validated, 5 levels</td>
+  </tr>
+  <tr>
+    <td><b>Soft Launch</b></td>
+    <td>Week 3-6</td>
+    <td>Android beta (Philippines, Brazil), ad SDK integration, analytics, first A/B tests</td>
+  </tr>
+  <tr>
+    <td><b>Polish</b></td>
+    <td>Week 7-10</td>
+    <td>Sound design, particle effects, 10 additional levels, endless mode, social sharing</td>
+  </tr>
+  <tr>
+    <td><b>Global Launch</b></td>
+    <td>Week 11-12</td>
+    <td>iOS + Android worldwide, influencer seeding, ASO optimization, paid UA (Tier 2/3)</td>
+  </tr>
+  <tr>
+    <td><b>Live Ops</b></td>
+    <td>Month 3+</td>
+    <td>Weekly challenge levels, seasonal events, community leaderboard, content updates</td>
+  </tr>
+</table>
+
+<div class="tip">
+  <b>Next immediate action:</b> Run a playtest with 5-10 players. Measure time-to-first-pulse, level-1 completion rate, and emotional response (frustration vs. excitement). Iterate on tutorial before soft launch.
+</div>
+
+</body>
+</html>

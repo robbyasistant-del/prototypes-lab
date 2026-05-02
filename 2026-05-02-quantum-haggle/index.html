@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Quantum Haggle — Entanglement Trading</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6ff;overflow:hidden;height:100vh;width:100vw;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#gameContainer{width:100%;max-width:480px;height:100%;max-height:850px;display:flex;flex-direction:column;padding:10px;position:relative}
+#header{display:flex;justify-content:space-between;align-items:center;padding:8px 4px;margin-bottom:6px}
+#header h1{font-size:18px;color:#7dd3fc;letter-spacing:1px}
+#stats{display:flex;gap:12px;font-size:14px;font-weight:600}
+#stats .stat{background:#131b2e;border:1px solid #1e3a5f;border-radius:8px;padding:4px 10px}
+#stats .stat span{color:#fbbf24}
+#timerBar{height:4px;background:#1e3a5f;border-radius:2px;overflow:hidden;margin-bottom:10px}
+#timerBar #timerFill{height:100%;background:linear-gradient(90deg,#22d3ee,#0ea5e9);width:100%;transition:width .1s linear}
+#board{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:4px;overflow-y:auto}
+.particleCard{background:linear-gradient(135deg,#131b2e 0%,#1a2744 100%);border:2px solid #2d4a6f;border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .2s;position:relative;user-select:none;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.particleCard:hover{border-color:#38bdf8;transform:scale(1.03)}
+.particleCard.entangled::after{content:'🔗';position:absolute;top:2px;right:4px;font-size:12px;opacity:.7}
+.particleCard.selected{border-color:#22d3ee;box-shadow:0 0 12px rgba(34,211,238,.3)}
+.particleCard.profit{border-color:#4ade80;box-shadow:0 0 12px rgba(74,222,128,.3)}
+.particleCard.loss{border-color:#f87171;box-shadow:0 0 12px rgba(248,113,113,.3)}
+.particleCard .icon{font-size:28px;margin-bottom:4px}
+.particleCard .name{font-size:11px;color:#94a3b8;margin-bottom:4px}
+.particleCard .price{font-size:16px;font-weight:700;color:#fbbf24}
+.particleCard .trend{font-size:10px;margin-top:2px}
+.particleCard .trend.up{color:#4ade80}
+.particleCard .trend.down{color:#f87171}
+.particleCard .partnerLabel{font-size:9px;color:#a78bfa;margin-top:2px}
+#actionPanel{display:flex;gap:8px;padding:10px 4px}
+#actionPanel button{flex:1;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;color:#fff}
+#actionPanel button:disabled{opacity:.4;cursor:not-allowed}
+#btnBuy{background:linear-gradient(135deg,#16a34a,#22c55e)}
+#btnBuy:active{transform:scale(.97)}
+#btnSell{background:linear-gradient(135deg,#dc2626,#ef4444)}
+#btnSell:active{transform:scale(.97)}
+#btnHold{background:linear-gradient(135deg,#4b5563,#6b7280)}
+#btnHold:active{transform:scale(.97)}
+#messageArea{min-height:40px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;padding:6px;color:#cbd5e1}
+#messageArea.flash{color:#22d3ee;font-weight:700}
+#overlay{position:absolute;inset:0;background:rgba(10,14,26,.92);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:100;text-align:center;padding:20px;border-radius:12px}
+#overlay.active{display:flex}
+#overlay h2{font-size:28px;margin-bottom:10px;color:#7dd3fc}
+#overlay .scoreBig{font-size:48px;font-weight:800;color:#fbbf24;margin:10px 0}
+#overlay p{color:#94a3b8;margin-bottom:6px;font-size:14px}
+#overlay button{margin-top:16px;padding:14px 36px;font-size:16px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#0ea5e9,#22d3ee);color:#0a0e1a;cursor:pointer}
+#overlay button:active{transform:scale(.97)}
+#startOverlay{position:absolute;inset:0;background:rgba(10,14,26,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:101;text-align:center;padding:24px;border-radius:12px}
+#startOverlay h1{font-size:32px;color:#7dd3fc;margin-bottom:12px}
+#startOverlay .subtitle{color:#94a3b8;font-size:15px;margin-bottom:8px;max-width:340px;line-height:1.5}
+#startOverlay .rules{text-align:left;color:#cbd5e1;font-size:13px;margin:12px 0;max-width:340px;line-height:1.6}
+#startOverlay .rules li{margin-bottom:6px}
+#startOverlay button{margin-top:14px;padding:14px 40px;font-size:16px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#0ea5e9,#22d3ee);color:#0a0e1a;cursor:pointer}
+#startOverlay button:active{transform:scale(.97)}
+#entanglementLines{position:absolute;inset:0;pointer-events:none;z-index:5}
+.line{position:absolute;height:2px;background:linear-gradient(90deg,transparent,#a78bfa,transparent);opacity:.5;transform-origin:left center;transition:opacity .3s}
+.line.flash{opacity:1;background:linear-gradient(90deg,transparent,#22d3ee,transparent);animation:pulseLine .4s ease}
+@keyframes pulseLine{0%{opacity:1;height:2px}50%{opacity:.8;height:3px}100%{opacity:.5;height:2px}}
+#levelInfo{text-align:center;font-size:12px;color:#64748b;margin-bottom:6px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.badge{font-size:11px;padding:3px 8px;border-radius:6px;background:#1e3a5f;color:#7dd3fc;border:1px solid #2d4a6f}
+</style>
+</head>
+<body>
+<div id="gameContainer">
+<div id="startOverlay">
+<h1>⚛️ Quantum Haggle</h1>
+<p class="subtitle">You're a quantum merchant. Particles are <b>entangled</b> — touch one, its partner reacts instantly!</p>
+<ul class="rules">
+<li>🔬 <b>Buy low</b> when price is down, <b>sell high</b> when it's up</li>
+<li>🔗 When you buy/sell a particle, its <b>entangled partner</b> changes too</li>
+<li>⏱️ You have <b>60 seconds</b> per round to hit the profit target</li>
+<li>📈 Chain reactions = <b>bonus multipliers</b></li>
+<li>💥 Market can <b>crash</b> — watch the volatility meter!</li>
+</ul>
+<button onclick="startGame()">START TRADING</button>
+</div>
+<div id="header"><h1>⚛️ Quantum Haggle</h1><div id="stats"><div class="stat">💰 <span id="money">1000</span></div><div class="stat">🎯 <span id="target">1500</span></div></div></div>
+<div id="levelInfo">Round 1 — Target: <span id="levelTarget">$500</span> profit</div>
+<div id="timerBar"><div id="timerFill"></div></div>
+<canvas id="entanglementLines" style="display:none;"></canvas>
+<div id="board"></div>
+<div id="messageArea">Select a particle to trade</div>
+<div id="actionPanel">
+<button id="btnBuy" onclick="trade('buy')" disabled>BUY</button>
+<button id="btnSell" onclick="trade('sell')" disabled>SELL</button>
+<button id="btnHold" onclick="trade('hold')">SKIP</button>
+</div>
+<div id="overlay">
+<h2 id="endTitle">ROUND COMPLETE</h2>
+<div class="scoreBig" id="endScore">+0</div>
+<p id="endDetail">Profit earned this round</p>
+<div class="badges" id="badges"></div>
+<button onclick="nextRound()" id="nextBtn">NEXT ROUND</button>
+</div>
+</div>
+<script>
+const PARTICLE_TYPES=[
+{name:'Photon',icon:'⚡',base:100,vol:15},{name:'Electron',icon:'🔵',base:80,vol:12},{name:'Quark',icon:'🔴',base:60,vol:20},{name:'Neutrino',icon:'👻',base:40,vol:25},{name:'Boson',icon:'💫',base:120,vol:10},{name:'Gluon',icon:'🌐',base:90,vol:18},{name:'Muon',icon:'🟣',base:70,vol:14},{name:'Tachyon',icon:'🏃',base:150,vol:30}
+];
+let state={round:1,money:1000,targetProfit:500,timeLeft:60,selected:null,particles:[],owned:{},history:[],chainCount:0,totalProfit:0,started:false,ended:false};
+let timerInterval;
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function rand(min,max){return Math.random()*(max-min)+min}
+
+function generateParticles(){
+const count=state.round>=3?12:8;
+const types=shuffle([...PARTICLE_TYPES]).slice(0,Math.min(count,8));
+const particles=[];
+for(let i=0;i<count;i++){
+const t=types[i%types.length];
+const price=Math.max(10,Math.round(t.base+rand(-t.vol,t.vol)));
+particles.push({id:i,name:t.name,icon:t.icon,base:t.base,price:price,prevPrice:price,entangled:null,volatility:t.vol,trend:0});
+}
+// Create entanglement pairs
+const indices=shuffle([...Array(count).keys()]);
+for(let i=0;i<Math.floor(count/2)*2;i+=2){
+const a=indices[i],b=indices[i+1];
+particles[a].entangled=b;
+particles[b].entangled=a;
+}
+return particles;
+}
+
+function renderBoard(){
+const b=document.getElementById('board');
+b.innerHTML='';
+state.particles.forEach((p,i)=>{
+const el=document.createElement('div');
+el.className='particleCard'+(state.selected===i?' selected':'')+(p.entangled!==null?' entangled':'');
+el.innerHTML=`<div class="icon">${p.icon}</div><div class="name">${p.name}</div><div class="price">$${p.price}</div><div class="trend ${p.trend>0?'up':p.trend<0?'down':''}">${p.trend>0?'▲ '+p.trend:p.trend<0?'▼ '+Math.abs(p.trend):'—'}</div>${p.entangled!==null?`<div class="partnerLabel">🔗 ${state.particles[p.entangled].name}</div>`:''}`;
+el.onclick=()=>selectParticle(i);
+b.appendChild(el);
+});
+updateActions();
+}
+
+function selectParticle(i){
+if(state.ended)return;
+state.selected=i;
+renderBoard();
+const p=state.particles[i];
+setMessage(`Selected ${p.name} at $${p.price}${p.entangled!==null?` — entangled with ${state.particles[p.entangled].name}`:''}`);
+}
+
+function updateActions(){
+const p=state.selected!==null?state.particles[state.selected]:null;
+const buyBtn=document.getElementById('btnBuy');
+const sellBtn=document.getElementById('btnSell');
+if(!p){buyBtn.disabled=true;sellBtn.disabled=true;return}
+const canBuy=state.money>=p.price;
+const canSell=(state.owned[p.name]||0)>0;
+buyBtn.disabled=!canBuy;
+sellBtn.disabled=!canSell;
+}
+
+function setMessage(msg,flash=false){
+const m=document.getElementById('messageArea');
+m.textContent=msg;
+if(flash){m.classList.add('flash');setTimeout(()=>m.classList.remove('flash'),600)}
+}
+
+function updateStats(){
+document.getElementById('money').textContent=state.money;
+document.getElementById('target').textContent=Math.round(state.money+state.targetProfit);
+document.getElementById('levelTarget').textContent='$'+state.targetProfit;
+}
+
+function trade(action){
+if(state.ended||state.selected===null)return;
+const p=state.particles[state.selected];
+if(action==='hold'){setMessage('Skipped turn');tick();return}
+if(action==='buy'&&state.money<p.price){setMessage('Not enough funds!');return}
+if(action==='sell'&&!(state.owned[p.name]>0)){setMessage('You don\'t own any!');return}
+
+let profit=0;
+if(action==='buy'){
+state.money-=p.price;
+state.owned[p.name]=(state.owned[p.name]||0)+1;
+setMessage(`Bought ${p.name} for $${p.price}`,true);
+}else if(action==='sell'){
+state.money+=p.price;
+state.owned[p.name]--;
+profit=p.price-p.base;
+setMessage(`Sold ${p.name} for $${p.price} (profit $${profit})`,true);
+}
+
+// Entanglement effect!
+if(p.entangled!==null){
+const partner=state.particles[p.entangled];
+const oldPrice=partner.price;
+if(action==='buy'){partner.price=Math.max(5,partner.price+Math.round(rand(5,partner.volatility+10)))}
+else{partner.price=Math.max(5,partner.price-Math.round(rand(5,partner.volatility+10)))}
+partner.prevPrice=oldPrice;
+partner.trend=partner.price-oldPrice;
+state.chainCount++;
+setMessage(`${p.name} ${action}ed! Entangled ${partner.name} spiked to $${partner.price} 🔗`,true);
+}
+
+state.history.push({action,particle:p.name,price:p.price,profit});
+updateStats();
+tick();
+}
+
+function tick(){
+// Update all prices with small random movement
+state.particles.forEach(p=>{
+if(p.entangled===null||state.selected!==p.id){
+const old=p.price;
+const change=Math.round(rand(-p.volatility/2,p.volatility/2));
+p.price=Math.max(5,p.price+change);
+p.prevPrice=old;
+p.trend=p.price-old;
+}
+});
+state.selected=null;
+renderBoard();
+}
+
+function startTimer(){
+clearInterval(timerInterval);
+const startT=Date.now();
+const total=state.timeLeft*1000;
+const bar=document.getElementById('timerFill');
+timerInterval=setInterval(()=>{
+const elapsed=Date.now()-startT;
+const remaining=Math.max(0,total-elapsed);
+const pct=remaining/total*100;
+bar.style.width=pct+'%';
+if(pct<30)bar.style.background='linear-gradient(90deg,#ef4444,#f87171)';
+else if(pct<60)bar.style.background='linear-gradient(90deg,#fbbf24,#f59e0b)';
+if(remaining<=0){endRound(false)}
+},100);
+}
+
+function startGame(){
+document.getElementById('startOverlay').style.display='none';
+state={round:1,money:1000,targetProfit:500,timeLeft:60,selected:null,particles:generateParticles(),owned:{},history:[],chainCount:0,totalProfit:0,started:true,ended:false};
+document.getElementById('overlay').classList.remove('active');
+updateStats();
+renderBoard();
+startTimer();
+setMessage('Round 1 — Buy low, sell high! Watch for entanglement chains 🔗');
+}
+
+function endRound(won){
+state.ended=true;
+clearInterval(timerInterval);
+const profit=state.money-1000;
+const overlay=document.getElementById('overlay');
+const title=document.getElementById('endTitle');
+const score=document.getElementById('endScore');
+const detail=document.getElementById('endDetail');
+const badges=document.getElementById('badges');
+const nextBtn=document.getElementById('nextBtn');
+
+if(profit>=state.targetProfit||won){
+title.textContent='ROUND CLEARED! 🎉';
+title.style.color='#4ade80';
+score.textContent='+$'+profit;
+detail.textContent=`Round ${state.round} complete — Money: $${state.money}`;
+state.totalProfit+=profit;
+nextBtn.textContent=state.round>=5?'FINISH':'NEXT ROUND';
+nextBtn.onclick=state.round>=5?showFinal:nextRound;
+}else{
+title.textContent='MARKET CRASHED! 💥';
+title.style.color='#f87171';
+score.textContent='$'+profit;
+detail.textContent='Target not reached. Try exploiting entanglement chains!';
+nextBtn.textContent='TRY AGAIN';
+nextBtn.onclick=startGame;
+}
+
+badges.innerHTML='';
+if(state.chainCount>=3)badges.innerHTML+='<span class="badge">🔗 Chain Master</span>';
+if(profit>=state.targetProfit*2)badges.innerHTML+='<span class="badge">🚀 Overachiever</span>';
+if(state.timeLeft>30)badges.innerHTML+='<span class="badge">⚡ Speed Demon</span>';
+if(Object.keys(state.owned).length>=4)badges.innerHTML+='<span class="badge">📊 Diversified</span>';
+
+overlay.classList.add('active');
+}
+
+function nextRound(){
+state.round++;
+state.targetProfit=Math.round(500+(state.round-1)*300);
+state.timeLeft=Math.max(30,60-(state.round-1)*5);
+state.selected=null;
+state.owned={};
+state.history=[];
+state.chainCount=0;
+state.ended=false;
+state.particles=generateParticles();
+document.getElementById('overlay').classList.remove('active');
+document.getElementById('levelInfo').textContent=`Round ${state.round} — Target: $${state.targetProfit} profit`;
+document.getElementById('timerFill').style.width='100%';
+document.getElementById('timerFill').style.background='linear-gradient(90deg,#22d3ee,#0ea5e9)';
+updateStats();
+renderBoard();
+startTimer();
+setMessage(`Round ${state.round}! Target profit: $${state.targetProfit}`);
+}
+
+function showFinal(){
+const overlay=document.getElementById('overlay');
+const title=document.getElementById('endTitle');
+const score=document.getElementById('endScore');
+const detail=document.getElementById('endDetail');
+const badges=document.getElementById('badges');
+const nextBtn=document.getElementById('nextBtn');
+
+title.textContent='🏆 QUANTUM TYCOON!';
+title.style.color='#fbbf24';
+score.textContent='$'+state.totalProfit;
+detail.textContent=`5 rounds complete — Final money: $${state.money}`;
+nextBtn.textContent='PLAY AGAIN';
+nextBtn.onclick=startGame;
+
+badges.innerHTML='';
+if(state.totalProfit>=3000)badges.innerHTML+='<span class="badge">👑 Quantum King</span>';
+if(state.totalProfit>=5000)badges.innerHTML+='<span class="badge">🌌 Universe Broker</span>';
+if(state.chainCount>=10)badges.innerHTML+='<span class="badge">🔗 Entanglement God</span>';
+}
+
+// Auto-end if target reached early
+setInterval(()=>{
+if(state.started&&!state.ended&&state.money>=1000+state.targetProfit){
+endRound(true);
+}
+},500);
+
+renderBoard();
+updateStats();
+</script>
+</body>
+</html>

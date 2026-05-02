@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Liar's Roulette — Detect the Deception</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#140a1a;color:#f0e6ff;overflow:hidden;height:100vh;width:100vw;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#gameContainer{width:100%;max-width:480px;height:100%;max-height:850px;display:flex;flex-direction:column;padding:10px;position:relative}
+#header{display:flex;justify-content:space-between;align-items:center;padding:8px 4px}
+#header h1{font-size:18px;color:#f472b6;letter-spacing:1px}
+#stats{display:flex;gap:10px;font-size:14px;font-weight:700}
+#stats .stat{background:#1a1025;border:1px solid #4a2040;border-radius:8px;padding:4px 10px;color:#e879f9}
+#roundInfo{text-align:center;font-size:12px;color:#a855f7;margin-bottom:8px}
+#tableArea{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;position:relative}
+#dealerArea{width:100%;text-align:center;margin-bottom:10px}
+#dealerCard{background:linear-gradient(135deg,#2a1a3a,#1a1025);border:2px solid #7c3aed;border-radius:14px;padding:14px;max-width:320px;margin:0 auto;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+#dealerCard .statement{font-size:16px;color:#e0e0e0;font-weight:600;margin-bottom:6px;text-align:center;line-height:1.4}
+#dealerCard .timerBar{height:3px;background:#4a2040;border-radius:2px;width:100%;margin-top:8px;overflow:hidden}
+#dealerCard .timerFill{height:100%;background:linear-gradient(90deg,#a855f7,#f472b6);width:100%}
+#dealerCard .avatar{font-size:36px;margin-bottom:6px}
+#dealerCard .nameTag{font-size:11px;color:#c084fc;margin-bottom:2px}
+#dealerCard .roleReveal{font-size:13px;color:#fbbf24;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s}
+#dealerCard .roleReveal.show{opacity:1}
+#players{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:360px}
+.playerCard{background:linear-gradient(135deg,#1a1025,#2a1a3a);border:2px solid #4a2040;border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .2s;position:relative;user-select:none}
+.playerCard:hover{border-color:#a855f7;transform:scale(1.04)}
+.playerCard.selected{border-color:#f472b6;box-shadow:0 0 14px rgba(244,114,182,.25)}
+.playerCard.eliminated{opacity:.35;filter:grayscale(.8);pointer-events:none}
+.playerCard .avatar{font-size:32px;margin-bottom:4px;transition:transform .3s}
+.playerCard .name{font-size:11px;color:#d8b4fe;margin-bottom:2px}
+.playerCard .tells{font-size:9px;color:#a855f7;min-height:14px}
+.playerCard.liar{border-color:#ef4444}
+.playerCard.truth{border-color:#22c55e}
+#actionArea{display:flex;gap:10px;padding:12px 4px;justify-content:center}
+#actionArea button{padding:14px 28px;font-size:15px;font-weight:800;border:none;border-radius:12px;cursor:pointer;transition:.15s;color:#fff;flex:1;max-width:140px}
+#btnTruth{background:linear-gradient(135deg,#16a34a,#22c55e)}
+#btnLie{background:linear-gradient(135deg,#dc2626,#ef4444)}
+#actionArea button:active{transform:scale(.96)}
+#actionArea button:disabled{opacity:.35;cursor:not-allowed}
+#messageArea{min-height:36px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;padding:6px;color:#e9d5ff;font-weight:600}
+#streakArea{text-align:center;font-size:12px;color:#fbbf24;margin-bottom:4px;min-height:18px}
+#overlay{position:absolute;inset:0;background:rgba(20,10,26,.93);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:100;text-align:center;padding:20px;border-radius:12px}
+#overlay.active{display:flex}
+#overlay h2{font-size:26px;margin-bottom:8px;color:#f472b6}
+#overlay .scoreBig{font-size:44px;font-weight:800;color:#fbbf24;margin:8px 0}
+#overlay p{color:#d8b4fe;margin-bottom:6px;font-size:14px}
+#overlay button{margin-top:14px;padding:12px 32px;font-size:15px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#a855f7,#f472b6);color:#fff;cursor:pointer}
+#overlay button:active{transform:scale(.97)}
+.badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.badge{font-size:10px;padding:3px 8px;border-radius:6px;background:#2a1a3a;color:#e879f9;border:1px solid #4a2040}
+#startOverlay{position:absolute;inset:0;background:rgba(20,10,26,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:101;text-align:center;padding:24px;border-radius:12px}
+#startOverlay h1{font-size:30px;color:#f472b6;margin-bottom:10px}
+#startOverlay .subtitle{color:#d8b4fe;font-size:14px;margin-bottom:8px;max-width:340px;line-height:1.5}
+#startOverlay .rules{text-align:left;color:#e9d5ff;font-size:12px;margin:10px 0;max-width:340px;line-height:1.6}
+#startOverlay .rules li{margin-bottom:6px}
+#startOverlay button{margin-top:12px;padding:14px 40px;font-size:16px;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#a855f7,#f472b6);color:#fff;cursor:pointer}
+#startOverlay button:active{transform:scale(.97)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.shake{animation:shake .3s ease}
+@keyframes sweat{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
+.sweat{animation:sweat 1s ease infinite}
+@keyframes nervous{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+.nervous{animation:nervous .5s ease infinite}
+</style>
+</head>
+<body>
+<div id="gameContainer">
+<div id="startOverlay">
+<h1>🎭 Liar's Roulette</h1>
+<p class="subtitle">5 suspects. Some are <b>liars</b>. Can you spot the deception in <b>3 seconds</b>?</p>
+<ul class="rules">
+<li>🎭 Each round, a suspect makes a <b>statement</b> about a hidden fact</li>
+<li>👁️ Watch their <b>visual tells</b> — sweating, nervous ticks, shifting eyes</li>
+<li>⚡ You have <b>3 seconds</b> to call TRUTH or LIE</li>
+<li>🔥 <b>Streaks multiply</b> your score — 5 correct = x3!</li>
+<li>💀 3 wrong calls = <b>GAME OVER</b></li>
+<li>🎯 Reach <b>20 correct</b> to win</li>
+</ul>
+<button onclick="startGame()">START DETECTING</button>
+</div>
+<div id="header"><h1>🎭 Liar's Roulette</h1><div id="stats"><div class="stat">✅ <span id="correct">0</span>/20</div><div class="stat">❌ <span id="wrong">0</span>/3</div></div></div>
+<div id="roundInfo">Round <span id="roundNum">1</span> — Streak: <span id="streak">0</span></div>
+<div id="streakArea"></div>
+<div id="tableArea">
+<div id="dealerArea">
+<div id="dealerCard">
+<div class="nameTag" id="dealerName">???</div>
+<div class="avatar" id="dealerAvatar">🎭</div>
+<div class="statement" id="statement">Ready?</div>
+<div class="timerBar"><div class="timerFill" id="timerFill"></div></div>
+<div class="roleReveal" id="roleReveal"></div>
+</div>
+</div>
+<div id="players"></div>
+</div>
+<div id="messageArea">Wait for the statement...</div>
+<div id="actionArea">
+<button id="btnTruth" onclick="call('truth')" disabled>TRUTH ✅</button>
+<button id="btnLie" onclick="call('lie')" disabled>LIE ❌</button>
+</div>
+<div id="overlay">
+<h2 id="endTitle">GAME OVER</h2>
+<div class="scoreBig" id="endScore">0</div>
+<p id="endDetail"></p>
+<div class="badges" id="badges"></div>
+<button onclick="restart()" id="restartBtn">PLAY AGAIN</button>
+</div>
+</div>
+<script>
+const CHARACTERS=[
+{name:'Vince',avatar:'🕵️',liarRate:.6,tells:['sweat','nervous']},
+{name:'Mira',avatar:'👩‍💼',liarRate:.4,tells:['shifty']},
+{name:'Rex',avatar:'🤠',liarRate:.5,tells:['sweat']},
+{name:'Luna',avatar:'🧙‍♀️',liarRate:.3,tells:['nervous']},
+{name:'Kato',avatar:'🥷',liarRate:.7,tells:['shifty','sweat']},
+{name:'Zara',avatar:'👩‍🎤',liarRate:.45,tells:['nervous','shifty']},
+];
+const STATEMENTS=[
+{txt:'I was at the library all night.',truth:true},{txt:'I never touched the safe.',truth:false},{txt:'The window was already open.',truth:true},{txt:'I saw someone running away.',truth:false},
+{txt:'I only arrived at 9 PM.',truth:true},{txt:'The alarm never went off.',truth:false},{txt:'I heard a strange noise upstairs.',truth:true},{txt:'I locked the door myself.',truth:false},
+{txt:'There were two people in the hall.',truth:true},{txt:'I was alone the whole time.',truth:false},{txt:'The lights were off when I came.',truth:true},{txt:'I called the police immediately.',truth:false},
+{txt:'My phone died at 8 PM.',truth:true},{txt:'I never met the victim.',truth:false},{txt:'The back door was wide open.',truth:true},{txt:'I checked all the rooms.',truth:false},
+{txt:'Someone knocked at midnight.',truth:true},{txt:'I was sleeping until morning.',truth:false},{txt:'I saw a red car outside.',truth:true},{txt:'The security camera was broken.',truth:false},
+{txt:'I heard three gunshots.',truth:true},{txt:'The safe code was 1234.',truth:false},{txt:'There was blood on the stairs.',truth:true},{txt:'I turned off the alarm.',truth:false},
+];
+let state={round:1,correct:0,wrong:0,streak:0,active:false,currentChar:null,currentStmt:null,timer:null,timeLeft:3000,totalTime:3000,ended:false,players:[]};
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function rand(min,max){return Math.random()*(max-min)+min}
+
+function initPlayers(){
+state.players=shuffle([...CHARACTERS]).slice(0,5).map((c,i)=>({...c,id:i,eliminated:false}));
+}
+
+function renderPlayers(){
+const p=document.getElementById('players');
+p.innerHTML='';
+state.players.forEach(pl=>{
+const el=document.createElement('div');
+el.className='playerCard'+(pl.eliminated?' eliminated':'');
+el.innerHTML=`<div class="avatar">${pl.avatar}</div><div class="name">${pl.name}</div><div class="tells" id="tell_${pl.id}"></div>`;
+p.appendChild(el);
+});
+}
+
+function showTell(charIdx,type){
+const tellEl=document.getElementById('tell_'+charIdx);
+if(!tellEl)return;
+if(type==='sweat')tellEl.innerHTML='<span class="sweat">💧 sweating...</span>';
+if(type==='nervous')tellEl.innerHTML='<span class="nervous">😰 nervous...</span>';
+if(type==='shifty')tellEl.innerHTML='👀 shifting...';
+}
+
+function clearTells(){
+state.players.forEach(p=>{const el=document.getElementById('tell_'+p.id);if(el)el.textContent='';});
+}
+
+function startRound(){
+if(state.ended)return;
+if(state.correct>=20){endGame(true);return}
+state.active=true;
+state.timeLeft=state.totalTime;
+clearTells();
+
+// Pick random character
+const avail=state.players.filter(p=>!p.eliminated);
+if(avail.length===0){endGame(false);return}
+state.currentChar=avail[Math.floor(Math.random()*avail.length)];
+
+// Is this character lying this round?
+const isLiar=Math.random()<state.currentChar.liarRate;
+const truthPool=STATEMENTS.filter(s=>s.truth===!isLiar);
+const stmt=truthPool[Math.floor(Math.random()*truthPool.length)];
+state.currentStmt={...stmt,isLiar:isLiar,character:state.currentChar};
+
+// Visual tells if lying
+if(isLiar){
+const tell=state.currentChar.tells[Math.floor(Math.random()*state.currentChar.tells.length)];
+setTimeout(()=>showTell(state.currentChar.id,tell),200+Math.random()*400);
+}
+
+// Render dealer
+const dName=document.getElementById('dealerName');
+const dAvatar=document.getElementById('dealerAvatar');
+const dStmt=document.getElementById('statement');
+const dReveal=document.getElementById('roleReveal');
+dName.textContent=state.currentChar.name;
+dAvatar.textContent=state.currentChar.avatar;
+dStmt.textContent='"'+stmt.txt+'"';
+dReveal.textContent='';
+dReveal.classList.remove('show');
+
+// Timer
+const bar=document.getElementById('timerFill');
+bar.style.width='100%';
+bar.style.background='linear-gradient(90deg,#a855f7,#f472b6)';
+
+// Enable buttons
+document.getElementById('btnTruth').disabled=false;
+document.getElementById('btnLie').disabled=false;
+document.getElementById('messageArea').textContent='TRUTH or LIE? Watch the tells!';
+
+// Start countdown
+const start=Date.now();
+if(state.timer)clearInterval(state.timer);
+state.timer=setInterval(()=>{
+const elapsed=Date.now()-start;
+const remaining=Math.max(0,state.totalTime-elapsed);
+const pct=remaining/state.totalTime*100;
+bar.style.width=pct+'%';
+if(pct<40)bar.style.background='linear-gradient(90deg,#ef4444,#dc2626)';
+if(remaining<=0){
+clearInterval(state.timer);
+timeoutRound();
+}
+},50);
+}
+
+function timeoutRound(){
+document.getElementById('btnTruth').disabled=true;
+document.getElementById('btnLie').disabled=true;
+document.getElementById('messageArea').textContent='⏱️ Too slow! That counts as wrong...';
+state.wrong++;
+state.streak=0;
+updateStats();
+showResult(false,true);
+}
+
+function call(type){
+if(!state.active||state.ended)return;
+clearInterval(state.timer);
+state.active=false;
+document.getElementById('btnTruth').disabled=true;
+document.getElementById('btnLie').disabled=true;
+
+const isLie=state.currentStmt.isLiar;
+const isCorrect=(type==='lie'&&isLie)||(type==='truth'&&!isLie);
+
+if(isCorrect){
+state.correct++;
+state.streak++;
+const mult=Math.floor(state.streak/5)+1;
+const pts=10*mult;
+document.getElementById('messageArea').textContent=`✅ CORRECT! ${state.currentChar.name} was ${isLie?'LYING':'telling TRUTH'} — +${pts} pts`;
+document.getElementById('messageArea').style.color='#4ade80';
+}else{
+state.wrong++;
+state.streak=0;
+document.getElementById('messageArea').textContent=`❌ WRONG! ${state.currentChar.name} was ${isLie?'LYING':'telling TRUTH'} — Ouch!`;
+document.getElementById('messageArea').style.color='#f87171';
+}
+
+updateStats();
+showResult(isCorrect,false);
+}
+
+function showResult(correct,timeout){
+const dReveal=document.getElementById('roleReveal');
+const isLiar=state.currentStmt.isLiar;
+dReveal.textContent=isLiar?'🔴 LIAR!':'🟢 TRUTHFUL';
+dReveal.style.color=isLiar?'#f87171':'#4ade80';
+dReveal.classList.add('show');
+
+// Highlight the player card
+const cards=document.querySelectorAll('.playerCard');
+const idx=state.currentChar.id;
+if(cards[idx]){
+cards[idx].classList.add(isLiar?'liar':'truth');
+}
+
+setTimeout(()=>{
+if(state.wrong>=3){endGame(false);return}
+if(state.correct>=20){endGame(true);return}
+// Clear highlights
+const allCards=document.querySelectorAll('.playerCard');
+allCards.forEach(c=>c.classList.remove('liar','truth'));
+document.getElementById('messageArea').style.color='#e9d5ff';
+startRound();
+},1500);
+}
+
+function updateStats(){
+document.getElementById('correct').textContent=state.correct;
+document.getElementById('wrong').textContent=state.wrong;
+document.getElementById('roundNum').textContent=state.round;
+document.getElementById('streak').textContent=state.streak;
+const streakArea=document.getElementById('streakArea');
+if(state.streak>=3){streakArea.textContent='🔥 '+state.streak+'x STREAK!';}
+else if(state.streak>=5){streakArea.textContent='🔥🔥 '+state.streak+'x STREAK — x'+(Math.floor(state.streak/5)+1)+' MULTIPLIER!';}
+else{streakArea.textContent='';}
+}
+
+function endGame(won){
+state.ended=true;
+clearInterval(state.timer);
+const overlay=document.getElementById('overlay');
+const title=document.getElementById('endTitle');
+const score=document.getElementById('endScore');
+const detail=document.getElementById('endDetail');
+const badges=document.getElementById('badges');
+
+if(won){
+title.textContent='🎉 MASTER DETECTIVE!';
+title.style.color='#4ade80';
+score.textContent=state.correct+'/'+state.correct;
+detail.textContent='You caught every deception. Impressive!';
+}else{
+title.textContent=state.wrong>=3?'💀 BUSTED!':'⏱️ TIME UP!';
+title.style.color='#f87171';
+score.textContent=state.correct+' correct';
+detail.textContent=state.wrong>=3?'3 strikes — the liars fooled you.':'Ran out of suspects to question.';
+}
+
+badges.innerHTML='';
+if(state.streak>=10)badges.innerHTML+='<span class="badge">🔥 Streak Legend</span>';
+if(state.correct>=20)badges.innerHTML+='<span class="badge">🕵️ Perfect Sleuth</span>';
+if(state.wrong===0)badges.innerHTML+='<span class="badge">🎯 Flawless</span>';
+if(state.correct>=10&&state.wrong<=1)badges.innerHTML+='<span class="badge">🧠 Sharp Mind</span>';
+
+overlay.classList.add('active');
+}
+
+function startGame(){
+document.getElementById('startOverlay').style.display='none';
+document.getElementById('overlay').classList.remove('active');
+state={round:1,correct:0,wrong:0,streak:0,active:false,currentChar:null,currentStmt:null,timer:null,timeLeft:3000,totalTime:3000,ended:false,players:[]};
+initPlayers();
+renderPlayers();
+updateStats();
+setTimeout(startRound,500);
+}
+
+function restart(){
+startGame();
+}
+
+initPlayers();
+renderPlayers();
+updateStats();
+</script>
+</body>
+</html>

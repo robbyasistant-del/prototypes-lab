@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Echo Sculptor — Strategy Report</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#050a10;color:#c0d8e8;padding:24px;max-width:720px;margin:0 auto;line-height:1.6}
+h1{color:#67e8f9;margin-bottom:8px}
+h2{color:#fbbf24;margin-top:24px;margin-bottom:10px;font-size:20px}
+h3{color:#7dd3fc;margin-top:16px;margin-bottom:6px;font-size:16px}
+.meta{color:#64748b;font-size:13px;margin-bottom:20px;border-bottom:1px solid #1e3a5f;padding-bottom:12px}
+.section{background:#0f1a25;border:1px solid #1e3a5f;border-radius:12px;padding:16px;margin-bottom:16px}
+ul{margin-left:20px;color:#94a3b8}
+li{margin-bottom:6px}
+.badge{display:inline-block;padding:3px 10px;border-radius:6px;background:#1e3a5f;color:#7dd3fc;font-size:12px;margin:2px;border:1px solid #2d4a6f}
+.stat{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1e3a5f}
+.stat:last-child{border:none}
+</style>
+</head>
+<body>
+<h1>🔊 Echo Sculptor</h1>
+<div class="meta">2026-05-02 | Echo-Based Cave Navigation | Strategy Report</div>
+
+<div class="section">
+<h2>🎯 Core Concept</h2>
+<p>A <b>sound-based exploration puzzle</b> where you are trapped in total darkness. The only way to "see" is by emitting <b>sound pulses</b> that bounce off walls and briefly illuminate the cave. Limited pulses, dangerous silence zones, and hidden crystals create tense resource-management gameplay. A genuinely original mechanic never before prototyped.</p>
+</div>
+
+<div class="section">
+<h2>🎮 Gameplay Loop</h2>
+<ul>
+<li>Player is placed in a dark, procedurally generated cave (grid-based)</li>
+<li>Emit a PULSE to send out expanding sound waves</li>
+<li>Waves bounce off walls and temporarily reveal tiles they touch</li>
+<li>Navigate using D-pad, keyboard, or swipe controls</li>
+<li>Collect Resonance Crystals (+2 pulses each)</li>
+<li>Avoid Silence Zones that absorb echoes</li>
+<li>Find the Exit Portal to escape and advance to the next level</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🧠 Unique Mechanics</h2>
+<h3>Echo Reveal System</h3>
+<p>The cave is completely dark except where sound waves have recently traveled. Waves expand as concentric circles with fading opacity. When a wave intersects with a wall, that wall tile is <b>briefly illuminated</b> with cyan glow. This creates a "memory map" gameplay where players must mentally track the layout between pulses.</p>
+<h3>Resonance Crystals</h3>
+<p>Crystals emit a faint glow when revealed by echoes. Collecting them refills 2 pulses, creating a <b>risk/reward decision</b>: spend a pulse to explore a side passage for crystals, or conserve pulses for the main path?</p>
+<h3>Silence Zones (Levels 2+)</h3>
+<p>Red-tinged tiles that absorb sound. Passing through them gives no echo benefit and wastes movement. In later levels, silence zones block optimal paths, forcing longer routes.</p>
+<h3>Procedural Cave Generation</h3>
+<p>Each level generates interconnected rooms and corridors using random room placement + corridor carving. Ensures replayability and escalating difficulty (larger caves, more silence zones).</p>
+</div>
+
+<div class="section">
+<h2>📊 Scoring & Progression</h2>
+<div class="stat"><span>Starting pulses</span><span>6 + level/2</span></div>
+<div class="stat"><span>Crystal bonus</span><span>+2 pulses each</span></div>
+<div class="stat"><span>Level clear bonus</span><span>100 × level</span></div>
+<div class="stat"><span>Pulse save bonus</span><span>50 per pulse saved</span></div>
+<div class="stat"><span>Crystal collect bonus</span><span>30 per crystal</span></div>
+<div class="stat"><span>Total levels</span><span>5 (escalating size)</span></div>
+</div>
+
+<div class="section">
+<h2>🏅 Badges System</h2>
+<span class="badge">🔊 Echo Master</span>
+<span class="badge">💎 Collector</span>
+<span class="badge">🏆 Cave King</span>
+<span class="badge">👑 Echo Legend</span>
+</div>
+
+<div class="section">
+<h2>📱 Mobile Design</h2>
+<ul>
+<li>On-screen D-pad for precise movement (bottom-left)</li>
+<li>Large circular PULSE button (bottom-right, 64px)</li>
+<li>Swipe controls for quick navigation</li>
+<li>Tap canvas to pulse or move to adjacent tiles</li>
+<li>No external dependencies — single HTML file</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🎨 Visual Polish</h2>
+<ul>
+<li>Deep oceanic palette (near-black base, cyan/teal accents)</li>
+<li>Sound waves rendered as expanding glowing circles</li>
+<li>Fog of war with opacity layers (fully dark → partially revealed)</li>
+<li>Player avatar with pulsing aura for visibility</li>
+<li>Crystals glow with bright cyan; Exit glows green</li>
+<li>Silence zones rendered in muted red tones</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🧪 Market Positioning</h2>
+<p><b>Trend alignment:</b> Echo/locator mechanics appear in AAA games (God of War Ragnarök's sonar arrows, The Last of Us listening mode) but are <b>untapped in browser hypercasual</b>. The "navigate darkness" trope is universally compelling. This game creates tension through resource scarcity (limited pulses) rather than time pressure — a refreshing pace change from typical speed games. Appeals to puzzle explorers and players who enjoy methodical, atmospheric gameplay. The procedural generation ensures infinite replayability.</p>
+</div>
+
+<div class="section">
+<h2>✅ Verification Checklist</h2>
+<ul>
+<li>✅ Complete playable loop with clear instructions on start screen</li>
+<li>✅ Explicit WIN (exit reached) and GAME OVER (pulses depleted) states</li>
+<li>✅ Scoring system with pulse/crystal bonuses + badge rewards</li>
+<li>✅ Immediate feedback per action (echo animations, crystal collection messages)</li>
+<li>✅ "One more try" urge — procedural caves, escalating difficulty, perfect optimization chase</li>
+<li>✅ Visually polished with atmospheric fog-of-war + glowing echoes</li>
+<li>✅ Mobile-responsive with D-pad + swipe + tap controls</li>
+<li>✅ Single HTML file, zero external dependencies, 60fps canvas animations</li>
+</ul>
+</div>
+</body>
+</html>

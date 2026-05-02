@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Haggle — Strategy Report</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6ff;padding:24px;max-width:720px;margin:0 auto;line-height:1.6}
+h1{color:#7dd3fc;margin-bottom:8px}
+h2{color:#fbbf24;margin-top:24px;margin-bottom:10px;font-size:20px}
+h3{color:#a78bfa;margin-top:16px;margin-bottom:6px;font-size:16px}
+.meta{color:#94a3b8;font-size:13px;margin-bottom:20px;border-bottom:1px solid #1e3a5f;padding-bottom:12px}
+.section{background:#131b2e;border:1px solid #2d4a6f;border-radius:12px;padding:16px;margin-bottom:16px}
+ul{margin-left:20px;color:#cbd5e1}
+li{margin-bottom:6px}
+.badge{display:inline-block;padding:3px 10px;border-radius:6px;background:#1e3a5f;color:#7dd3fc;font-size:12px;margin:2px}
+.stat{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1e3a5f}
+.stat:last-child{border:none}
+</style>
+</head>
+<body>
+<h1>⚛️ Quantum Haggle</h1>
+<div class="meta">2026-05-02 | Entanglement Trading Game | Strategy Report</div>
+
+<div class="section">
+<h2>🎯 Core Concept</h2>
+<p>A quantum physics-inspired trading game where particles are <b>entangled</b>. When you buy or sell one particle, its entangled partner reacts <b>instantly</b> — creating chain reactions you can exploit for profit. A bold, original mechanic that has NEVER been done in previous prototypes.</p>
+</div>
+
+<div class="section">
+<h2>🎮 Gameplay Loop</h2>
+<ul>
+<li>Round starts with 8–12 quantum particles, some entangled in pairs</li>
+<li>Player clicks a particle to select it</li>
+<li>Buy when price is low, sell when price spikes</li>
+<li>Trading one particle instantly changes its entangled partner's price</li>
+<li>Chain reactions = bonus multipliers</li>
+<li>Hit profit target within 60 seconds to advance to next round</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🧠 Unique Mechanics</h2>
+<h3>Quantum Entanglement</h3>
+<p>Each particle card shows its entangled partner. Buying particle A causes particle B's price to spike. Selling causes it to drop. This creates a <b>strategic layer</b> where you must plan 2 moves ahead.</p>
+<h3>Market Volatility</h3>
+<p>Prices oscillate with random walk + volatility per particle type. Photon is stable; Tachyon is wild. Risk/reward profiles vary.</p>
+<h3>Time Pressure</h3>
+<p>Timer bar shifts from cyan → yellow → red. Late-round pressure forces snap decisions.</p>
+</div>
+
+<div class="section">
+<h2>📊 Scoring & Progression</h2>
+<div class="stat"><span>Base profit target</span><span>$500 per round</span></div>
+<div class="stat"><span>Target escalation</span><span>+$300 per round</span></div>
+<div class="stat"><span>Time limit</span><span>60s → 30s over 5 rounds</span>
+</div>
+<div class="stat"><span>Chain bonus</span><span>3+ chain reactions = badge</span></div>
+</div>
+
+<div class="section">
+<h2>🏅 Badges System</h2>
+<span class="badge">🔗 Chain Master</span>
+<span class="badge">🚀 Overachiever</span>
+<span class="badge">⚡ Speed Demon</span>
+<span class="badge">📊 Diversified</span>
+<span class="badge">👑 Quantum King</span>
+<span class="badge">🌌 Universe Broker</span>
+</div>
+
+<div class="section">
+<h2>📱 Mobile Design</h2>
+<ul>
+<li>Touch-friendly cards with large hit areas</li>
+<li>No external dependencies — single HTML file</li>
+<li>Responsive grid adapts to screen width</li>
+<li>Tap targets ≥ 44px for accessibility</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🎨 Visual Polish</h2>
+<ul>
+<li>Dark quantum-themed palette (deep blues, cyan accents)</li>
+<li>Card hover animations with scale + glow</li>
+<li>Color-coded profit/loss states (green/red borders)</li>
+<li>Timer bar with gradient shift under pressure</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🧪 Market Positioning</h2>
+<p><b>Trend alignment:</b> Fits daily puzzle game audience + browser hypercasual. The quantum theme is topical (2026 physics buzz) and the entanglement mechanic is genuinely novel. Appeals to strategy-minded players who want "one more round" due to escalating difficulty and time pressure. No clones exist with this exact mechanic.</p>
+</div>
+
+<div class="section">
+<h2>✅ Verification Checklist</h2>
+<ul>
+<li>✅ Complete playable loop with clear instructions</li>
+<li>✅ Explicit WIN (round cleared) and GAME OVER (time out) states</li>
+<li>✅ Scoring system with profit tracking + badges</li>
+<li>✅ Immediate feedback per action (messages, color changes)</li>
+<li>✅ "One more try" urge via escalating rounds + time pressure</li>
+<li>✅ Visually polished with smooth animations</li>
+<li>✅ Mobile-responsive, single HTML file, no dependencies</li>
+</ul>
+</div>
+</body>
+</html>

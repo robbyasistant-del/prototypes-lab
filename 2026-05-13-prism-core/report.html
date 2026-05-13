@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prism Core - Prototype Report</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0a1a;color:#e8e0ff;line-height:1.6;padding:40px 20px;max-width:900px;margin:0 auto}
+h1{font-size:2.5rem;font-weight:800;background:linear-gradient(90deg,#ff0055,#00ff88,#0088ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+h2{font-size:1.3rem;color:#00ff88;margin:1.8rem 0 .6rem;font-weight:700}
+h3{font-size:1.05rem;color:#a090c0;margin:1.2rem 0 .4rem;font-weight:600}
+.subtitle{color:#a090c0;font-size:1.1rem;margin-bottom:2rem}
+.section{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px;margin-bottom:16px}
+.tag{display:inline-block;background:rgba(0,255,136,.1);color:#00ff88;padding:3px 10px;border-radius:20px;font-size:.8rem;font-weight:600;margin:2px}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+th{color:#a090c0;font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
+.metric{font-size:2rem;font-weight:800;color:#ffcc00}
+.metric-label{font-size:.75rem;color:#a090c0;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:12px 0}
+.card{background:rgba(255,255,255,.04);border-radius:8px;padding:14px;text-align:center}
+ul{margin:.5rem 0 .5rem 1.2rem}
+li{margin:.25rem 0}
+.highlight{color:#ffcc00;font-weight:600}
+.risk-high{color:#ff0055}
+.risk-med{color:#ffaa00}
+.risk-low{color:#00ff88}
+</style>
+</head>
+<body>
+<h1>Prism Core</h1>
+<div class="subtitle">Prototype Report — May 13, 2026</div>
+
+<div class="section">
+<h2>🎯 Strategy</h2>
+<p><strong>Concept:</strong> A real-time color-mixing defense game where players rotate three orbital prisms (RGB) to match incoming enemy colors. Where beams overlap, they mix into secondary colors. This creates a <span class="highlight">unique spatial puzzle layered onto action gameplay</span> — players must think in both position AND color theory simultaneously.</p>
+<h3>Target Audience</h3>
+<p>Puzzle-action fans aged 16-40. Cross-appeal to:</p>
+<ul>
+<li>Tower defense players (positioning strategy)</li>
+<li>Puzzle fans (color mixing logic)</li>
+<li>Casual arcade players (quick sessions, high score chasing)</li>
+</ul>
+<h3>Monetization Potential</h3>
+<ul>
+<li><strong>Cosmetics:</strong> Prism shapes, beam effects, core skins, background nebulas ($0.99-$4.99)</li>
+<li><strong>Boosts:</strong> Slow-mo for 5s, auto-aim assistant, shield bubble (rewarded video or soft currency)</li>
+<li><strong>Battle Pass:</strong> "Spectrum Seasons" with 50 tiers of cosmetics + currency</li>
+<li><strong>Remove Ads:</strong> $3.99 with exclusive "Pure Light" core skin</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🔄 Core Loop</h2>
+<pre style="background:rgba(255,255,255,.04);padding:14px;border-radius:8px;font-size:.85rem;overflow-x:auto">
+START WAVE
+    ↓
+ENEMIES SPAWN from screen edges (colored shapes approaching core)
+    ↓
+ROTATE PRISMS to aim beams at enemies
+    ↓
+OVERLAP BEAMS to mix colors when needed (Yellow/Magenta/Cyan/White enemies)
+    ↓
+CORRECT MATCH → Enemy destroyed → Score + Combo buildup
+    ↓
+WRONG MATCH → Enemy resists → Speeds up → Risk to core
+    ↓
+ALL ENEMIES DEFEATED + CORE ALIVE → WAVE COMPLETE → Badges → Next Wave
+         │
+         └─CORE DESTROYED → GAME OVER → Share score → Retry
+</pre>
+<p><strong>Session target:</strong> 4-8 minutes for full 10-wave run. Individual wave: 20-60 seconds.</p>
+</div>
+
+<div class="section">
+<h2>🏆 Rewards & Badge System</h2>
+<table>
+<tr><th>Badge</th><th>Condition</th><th>Reward</th></tr>
+<tr><td>⭐ Survivor</td><td>Complete wave with core alive</td><td>Unlock next wave</td></tr>
+<tr><td>⭐⭐ Perfect Defense</td><td>Complete wave with 100% core HP</td><td>+100% wave score bonus</td></tr>
+<tr><td>⭐⭐⭐ Combo Breaker</td><td>Perfect wave + max combo ≥5</td><td>Unlock "Prism Master" title, +10% soft currency</td></tr>
+<tr><td>🌈 Chromatic</td><td>Defeat one of every enemy type in a single wave</td><td>Rare "Rainbow Beam" cosmetic unlock</td></tr>
+</table>
+<p><strong>Progression:</strong> Every 5 waves unlocks a new difficulty tier (Faster spawns, Black/Void enemies). Every 10 waves = "Nebula Boss" with unique patterns.</p>
+</div>
+
+<div class="section">
+<h2>📊 KPI Projections</h2>
+<div class="grid">
+<div class="card"><div class="metric">52%</div><div class="metric-label">D1 Retention</div></div>
+<div class="card"><div class="metric">22%</div><div class="metric-label">D7 Retention</div></div>
+<div class="card"><div class="metric">10%</div><div class="metric-label">D30 Retention</div></div>
+<div class="card"><div class="metric">5.5m</div><div class="metric-label">Avg Session</div></div>
+<div class="card"><div class="metric">5.2</div><div class="metric-label">Sessions/Day</div></div>
+<div class="card"><div class="metric">0.42</div><div class="metric-label">Viral K-Factor</div></div>
+</div>
+<p><strong>ARPU estimate:</strong> $0.12 (ads) to $0.65 (ads+IAP). <strong>LTV:</strong> $0.90-$1.80 for engaged users. Higher monetization potential due to cosmetic appeal.</p>
+</div>
+
+<div class="section">
+<h2>🔍 SEO / ASO / SEM</h2>
+<h3>Keywords (High Priority)</h3>
+<p><span class="tag">color mixing game</span> <span class="tag">tower defense</span> <span class="tag">puzzle action</span> <span class="tag">rgb game</span> <span class="tag">arcade defense</span> <span class="tag">color puzzle</span> <span class="tag">neon shooter</span> <span class="tag">skill game</span></p>
+<h3>App Store Description (Draft)</h3>
+<p><em>"The colors are coming. Only you can mix the light to stop them."</em></p>
+<p>Prism Core is a <strong>fast-paced color-mixing defense game</strong> where your reflexes and color theory skills are your only weapons. Rotate RGB prisms, overlap their beams to create new colors, and destroy enemies before they breach your core. Simple to learn. Brutal to master. Can you survive all 10 waves?</p>
+<h3>Ad Angles</h3>
+<ul>
+<li><strong>Hook:</strong> "This color game is actually HARD" / "I failed wave 3 47 times"</li>
+<li><strong>Visual:</strong> 6-second clip showing beam overlap creating white light to destroy a boss</li>
+<li><strong>Channels:</strong> TikTok (trending sounds + gameplay), Reddit (r/gaming, r/mobilegaming), YouTube Shorts</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🧪 Experiments (A/B Tests)</h2>
+<table>
+<tr><th>Experiment</th><th>Variant A</th><th>Variant B</th><th>Primary Metric</th></tr>
+<tr><td>Control scheme</td><td>Drag individual prisms</td><td>Rotate entire orbit with single drag</td><td>Wave completion rate</td></tr>
+<tr><td>Difficulty curve</td><td>White enemies at wave 6</td><td>White enemies at wave 8</td><td>D7 Retention</td></tr>
+<tr><td>Feedback style</td><td>Text floats (PERFECT/GOOD)</td><td>Pure visual (particles only)</td><td>Session length</td></tr>
+<tr><td>Core health</td><td>100 HP, -20 per enemy</td><td>5 lives, 1 per enemy</td><td>Retry rate</td></tr>
+<tr><td>Social layer</td><td>Global leaderboard only</td><td>Weekly clan tournaments</td><td>K-factor + Retention</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>⚠️ Risks & Mitigations</h2>
+<table>
+<tr><th>Risk</th><th>Level</th><th>Mitigation</th></tr>
+<tr><td>Color mixing too complex for casual players</td><td class="risk-high">HIGH</td><td>Extended tutorial (3 interactive steps). Color wheel always visible. "Assist mode" highlights correct prism.</td></tr>
+<tr><td>Multi-touch conflicts on mobile</td><td class="risk-high">HIGH</td><td>Simplify to single-drag orbit rotation as default. Individual prism drag as "advanced" option.</td></tr>
+<tr><td>Difficulty spike at white/black enemies</td><td class="risk-med">MED</td><td>Introduce new enemy types in isolated tutorial waves first. Allow difficulty selection (Casual/Normal/Hard).</td></tr>
+<tr><td>Visual clutter with many beams/enemies</td><td class="risk-med">MED</td><td>Dynamic beam opacity. Enemy health bars only on damage. Screen-space UI to declutter.</td></tr>
+<tr><td>Colorblind accessibility</td><td class="risk-med">MED</td><td>Implement shape+symbol system (enemies have unique shapes AND colors). "Colorblind mode" with high-contrast patterns.</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>📋 Build Notes</h2>
+<ul>
+<li>Single-file HTML5 prototype using Canvas 2D with 'lighter' composite for beam blending</li>
+<li>3 orbital prisms with drag + keyboard rotation controls</li>
+<li>8 enemy types (R,G,B,Y,M,C,W,K) with unique shapes for accessibility</li>
+<li>10 waves with progressive difficulty scaling</li>
+<li>Combo system, accuracy tracking, 3-tier badge system</li>
+<li>Screen shake, hit flash, particle explosions for feedback</li>
+</ul>
+</div>
+
+</body>
+</html>

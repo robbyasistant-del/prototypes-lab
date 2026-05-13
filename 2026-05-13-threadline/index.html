@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Threadline</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;touch-action:none;-webkit-user-select:none;user-select:none;}
+body{background:#1a1410;overflow:hidden;font-family:'Georgia','Times New Roman',serif;color:#f5e6d0;}
+#c{display:block;width:100vw;height:100vh;}
+#ui{position:absolute;inset:0;pointer-events:none;}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(26,20,16,0.96);backdrop-filter:blur(8px);pointer-events:auto;z-index:10;transition:opacity .4s;}
+.hidden{opacity:0;pointer-events:none !important;}
+.title{font-size:clamp(34px,8vw,68px);font-weight:700;color:#d4a574;text-shadow:0 2px 20px rgba(212,165,116,0.3);margin-bottom:6px;letter-spacing:2px;}
+.subtitle{font-size:clamp(13px,2.5vw,18px);color:#a08060;margin-bottom:28px;text-align:center;max-width:480px;padding:0 20px;line-height:1.5;}
+.btn{padding:13px 36px;font-size:16px;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:all .2s;margin:6px;text-transform:uppercase;letter-spacing:1.5px;pointer-events:auto;font-family:'Segoe UI',sans-serif;}
+.btn-primary{background:linear-gradient(135deg,#d4a574,#8b6914);color:#1a1410;box-shadow:0 4px 16px rgba(212,165,116,0.3);}
+.btn-primary:hover{transform:scale(1.05);box-shadow:0 6px 24px rgba(212,165,116,0.5);}
+.btn-secondary{background:rgba(212,165,116,0.1);color:#d4a574;border:1px solid rgba(212,165,116,0.25);}
+.btn-secondary:hover{background:rgba(212,165,116,0.18);}
+.hud{position:absolute;font-size:14px;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,0.8);opacity:0;transition:opacity .4s;font-family:'Segoe UI',sans-serif;}
+.hud.show{opacity:1;}
+#hudScore{top:12px;left:12px;color:#d4a574;}
+#hudLevel{top:12px;right:12px;text-align:right;color:#d4a574;}
+#hudLives{bottom:16px;left:12px;color:#c04040;}
+#hudStreak{bottom:16px;right:12px;text-align:right;color:#ffcc00;}
+#hudPhase{top:40px;left:50%;transform:translateX(-50%);font-size:18px;color:#a08060;}
+.stats-row{display:flex;gap:24px;margin:14px 0;flex-wrap:wrap;justify-content:center;}
+.stat{text-align:center;}
+.stat-v{font-size:26px;font-weight:800;color:#d4a574;}
+.stat-l{font-size:11px;color:#a08060;text-transform:uppercase;letter-spacing:1px;}
+.badge-box{display:flex;gap:10px;margin:14px 0;}
+.badge{font-size:34px;filter:grayscale(1);opacity:.4;transition:all .5s;}
+.badge.on{filter:grayscale(0);opacity:1;transform:scale(1.15);}
+.lc-title{color:#d4a574;font-size:clamp(26px,5vw,44px);font-weight:700;text-shadow:0 2px 16px rgba(212,165,116,0.3);margin-bottom:8px;}
+.go-title{color:#c04040;font-size:clamp(26px,5vw,44px);font-weight:700;text-shadow:0 2px 16px rgba(192,64,64,0.3);margin-bottom:8px;}
+.tip{font-size:13px;color:#806040;margin-top:8px;text-align:center;max-width:400px;padding:0 16px;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div id="menuScreen" class="screen">
+    <div class="title">THREADLINE</div>
+    <div class="subtitle">Watch. Remember. Weave.</div>
+    <button class="btn btn-primary" onclick="showInstructions()">Play</button>
+    <button class="btn btn-secondary" onclick="showInstructions()">How to Play</button>
+  </div>
+
+  <div id="instructionsScreen" class="screen hidden">
+    <div class="title" style="font-size:clamp(24px,5vw,40px)">The Art of Weaving</div>
+    <div class="subtitle"><strong>1. Watch</strong> — Threads weave across the loom.<br><strong>2. Remember</strong> — Their paths, colors, and order.<br><strong>3. Weave</strong> — Draw each thread exactly as shown.</div>
+    <div class="tip">✦ Crossings matter — note which thread passes OVER the other.</div>
+    <button class="btn btn-primary" onclick="startGame()">Start Weaving</button>
+    <button class="btn btn-secondary" onclick="showMenu()">Back</button>
+  </div>
+
+  <div id="levelCompleteScreen" class="screen hidden">
+    <div class="lc-title">Pattern Complete!</div>
+    <div class="subtitle" id="lcSubtitle">Level 1 woven perfectly</div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-v" id="lcScore">0</div><div class="stat-l">Score</div></div>
+      <div class="stat"><div class="stat-v" id="lcTime">0s</div><div class="stat-l">Time</div></div>
+      <div class="stat"><div class="stat-v" id="lcAccuracy">100%</div><div class="stat-l">Accuracy</div></div>
+    </div>
+    <div class="badge-box" id="lcBadges"><div class="badge" id="lb1">⭐</div><div class="badge" id="lb2">⭐</div><div class="badge" id="lb3">⭐</div></div>
+    <button class="btn btn-primary" id="nextLevelBtn" onclick="nextLevel()">Next Level</button>
+    <button class="btn btn-secondary" onclick="showMenu()">Main Menu</button>
+  </div>
+
+  <div id="gameOverScreen" class="screen hidden">
+    <div class="go-title">Thread Snapped</div>
+    <div class="subtitle" id="goSubtitle">The pattern was lost.</div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-v" id="goScore">0</div><div class="stat-l">Score</div></div>
+      <div class="stat"><div class="stat-v" id="goLevel">0</div><div class="stat-l">Level</div></div>
+      <div class="stat"><div class="stat-v" id="goStreak">0</div><div class="stat-l">Best Streak</div></div>
+    </div>
+    <button class="btn btn-primary" onclick="retryLevel()">Retry</button>
+    <button class="btn btn-secondary" onclick="showMenu()">Main Menu</button>
+  </div>
+
+  <div class="hud" id="hudScore">Score: 0</div>
+  <div class="hud" id="hudLevel">Level: 1</div>
+  <div class="hud" id="hudLives">❤️❤️❤️</div>
+  <div class="hud" id="hudStreak">Streak: 0</div>
+  <div class="hud" id="hudPhase"></div>
+</div>
+
+<script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W,H,S=1;
+function resize(){W=window.innerWidth;H=window.innerHeight;canvas.width=W*S;canvas.height=H*S;ctx.setTransform(S,0,0,S,0,0);}
+resize();window.addEventListener('resize',resize);
+
+// Colors
+const TC=['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#34495e'];
+const ST={MENU:0,INST:1,PLAY:2,WIN:3,LOSE:4};
+let state=ST.MENU;
+let level=1,score=0,lives=3,streak=0,bestStreak=0;
+let gridSize=5,cellSize=0,gridX=0,gridY=0;
+let phase='memorize'; // memorize, recall
+let phaseTimer=0,memorizeTime=180,recallStartTime=0;
+let threads=[],drawnThreads=[],currentThread=0;
+let isDrawing=false,drawPath=[],drawColor=null;
+let particles=[],floats=[],woodPattern=null;
+let mistakesThisLevel=0,parTimes=[12,14,16,20,24,28,32,38,44,50];
+
+function showMenu(){state=ST.MENU;updateUI();}
+function showInstructions(){state=ST.INST;updateUI();}
+function startGame(){level=1;score=0;lives=3;streak=0;bestStreak=0;loadLevel();state=ST.PLAY;updateUI();}
+function nextLevel(){if(level<10){level++;loadLevel();state=ST.PLAY;}else{showMenu();}updateUI();}
+function retryLevel(){lives=3;streak=0;loadLevel();state=ST.PLAY;updateUI();}
+
+function updateUI(){
+  document.getElementById('menuScreen').classList.toggle('hidden',state!==ST.MENU);
+  document.getElementById('instructionsScreen').classList.toggle('hidden',state!==ST.INST);
+  document.getElementById('levelCompleteScreen').classList.toggle('hidden',state!==ST.WIN);
+  document.getElementById('gameOverScreen').classList.toggle('hidden',state!==ST.LOSE);
+  ['hudScore','hudLevel','hudLives','hudStreak','hudPhase'].forEach(id=>document.getElementById(id).classList.toggle('show',state===ST.PLAY));
+}
+
+function getGridSize(){return Math.min(5+Math.floor((level-1)/2),8);}
+function getThreadCount(){return Math.min(2+Math.floor((level-1)/2),5);}
+function getMemorizeTime(){return Math.min(180+level*12,300);}
+
+function loadLevel(){
+  gridSize=getGridSize();
+  cellSize=Math.min(W,H)*0.7/gridSize;
+  gridX=(W-cellSize*gridSize)/2;
+  gridY=(H-cellSize*gridSize)/2+10;
+  phase='memorize';phaseTimer=getMemorizeTime();
+  currentThread=0;drawnThreads=[];mistakesThisLevel=0;
+  isDrawing=false;drawPath=[];drawColor=null;particles=[];floats=[];
+  generateThreads();
+}
+
+function generateThreads(){
+  threads=[];
+  const count=getThreadCount();
+  const usedColors=[];
+  for(let i=0;i<count;i++){
+    let colorIdx;
+    do{colorIdx=Math.floor(Math.random()*TC.length);}while(usedColors.includes(colorIdx));
+    usedColors.push(colorIdx);
+    const entrySide=Math.floor(Math.random()*4);
+    let sx,sy,ex,ey;
+    // Entry
+    if(entrySide===0){sx=Math.floor(Math.random()*gridSize);sy=0;}
+    else if(entrySide===1){sx=gridSize-1;sy=Math.floor(Math.random()*gridSize);}
+    else if(entrySide===2){sx=Math.floor(Math.random()*gridSize);sy=gridSize-1;}
+    else{sx=0;sy=Math.floor(Math.random()*gridSize);}
+    // Exit (different side)
+    let exitSide;
+    do{exitSide=Math.floor(Math.random()*4);}while(exitSide===entrySide);
+    if(exitSide===0){ex=Math.floor(Math.random()*gridSize);ey=0;}
+    else if(exitSide===1){ex=gridSize-1;ey=Math.floor(Math.random()*gridSize);}
+    else if(exitSide===2){ex=Math.floor(Math.random()*gridSize);ey=gridSize-1;}
+    else{ex=0;ey=Math.floor(Math.random()*gridSize);}
+    
+    // Generate path
+    const path=[{x:sx,y:sy}];
+    let cx=sx,cy=sy;
+    // Simple path: move toward exit with 0-1 L-turn
+    if(level<=3){
+      // Straight then turn
+      if(sx!==ex&&sy!==ey){
+        if(Math.random()<0.5){cx=ex;path.push({x:cx,y:cy});}else{cy=ey;path.push({x:cx,y:cy});}
+      }
+      cx=ex;cy=ey;path.push({x:cx,y:cy});
+    }else{
+      // More complex with possible extra point
+      const mid1x=Math.floor((sx+ex)/2);
+      const mid1y=Math.floor((sy+ey)/2);
+      if(Math.random()<0.6&&(Math.abs(sx-ex)>1||Math.abs(sy-ey)>1)){
+        path.push({x:mid1x,y:sy});
+        path.push({x:mid1x,y:ey});
+      }
+      path.push({x:ex,y:ey});
+    }
+    threads.push({color:TC[colorIdx],path:path,drawn:false,index:i});
+  }
+}
+
+function getCellCenter(gx,gy){return{x:gridX+gx*cellSize+cellSize/2,y:gridY+gy*cellSize+cellSize/2};}
+
+// Input
+let mx=0,my=0,md=false;
+canvas.addEventListener('mousedown',e=>{md=true;mx=e.clientX;my=e.clientY;handleDown();});
+canvas.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;handleMove();});
+canvas.addEventListener('mouseup',()=>{md=false;handleUp();});
+canvas.addEventListener('touchstart',e=>{md=true;mx=e.touches[0].clientX;my=e.touches[0].clientY;handleDown();},{passive:false});
+canvas.addEventListener('touchmove',e=>{md=true;mx=e.touches[0].clientX;my=e.touches[0].clientY;handleMove();e.preventDefault();},{passive:false});
+canvas.addEventListener('touchend',()=>{md=false;handleUp();});
+
+function handleDown(){
+  if(state!==ST.PLAY||phase!=='recall')return;
+  const gx=Math.floor((mx-gridX)/cellSize);
+  const gy=Math.floor((my-gridY)/cellSize);
+  if(gx>=0&&gx<gridSize&&gy>=0&&gy<gridSize){
+    const target=threads[currentThread];
+    if(!target.drawn&&target.path[0].x===gx&&target.path[0].y===gy){
+      isDrawing=true;drawPath=[{x:gx,y:gy}];drawColor=target.color;
+    }
+  }
+}
+
+function handleMove(){
+  if(!isDrawing||state!==ST.PLAY)return;
+  const gx=Math.floor((mx-gridX)/cellSize);
+  const gy=Math.floor((my-gridY)/cellSize);
+  if(gx>=0&&gx<gridSize&&gy>=0&&gy<gridSize){
+    const last=drawPath[drawPath.length-1];
+    if((gx!==last.x||gy!==last.y)&&Math.abs(gx-last.x)<=1&&Math.abs(gy-last.y)<=1&&!(gx===last.x&&gy===last.y)){
+      drawPath.push({x:gx,y:gy});
+    }
+  }
+}
+
+function handleUp(){
+  if(!isDrawing)return;isDrawing=false;
+  validateDraw();
+}
+
+function validateDraw(){
+  const target=threads[currentThread];
+  const tp=target.path;
+  let match=drawPath.length===tp.length;
+  if(match){
+    for(let i=0;i<tp.length;i++){
+      if(drawPath[i].x!==tp[i].x||drawPath[i].y!==tp[i].y){match=false;break;}
+    }
+  }
+  if(match){
+    target.drawn=true;currentThread++;
+    const timeBonus=Math.max(0,Math.floor((parTimes[level-1]-((Date.now()-recallStartTime)/1000))*10));
+    score+=100+timeBonus;
+    streak++;if(streak>bestStreak)bestStreak=streak;
+    // Particles at end point
+    const end=getCellCenter(tp[tp.length-1].x,tp[tp.length-1].y);
+    for(let i=0;i<10;i++){
+      const a=(Math.PI*2*i)/10;
+      particles.push({x:end.x,y:end.y,vx:Math.cos(a)*2,vy:Math.sin(a)*2,life:30,color:target.color,size:3});
+    }
+    floats.push({x:end.x,y:end.y-20,text:'+ '+(100+timeBonus),color:target.color,life:40});
+    if(currentThread>=threads.length){
+      levelComplete();
+    }
+  }else{
+    mistakesThisLevel++;lives--;streak=0;
+    // Wrong feedback
+    const last=drawPath[drawPath.length-1]||target.path[0];
+    const pos=getCellCenter(last.x,last.y);
+    floats.push({x:pos.x,y:pos.y-20,text:'Wrong!',color:'#c04040',life:40});
+    for(let i=0;i<8;i++){
+      const a=(Math.PI*2*i)/8;
+      particles.push({x:pos.x,y:pos.y,vx:Math.cos(a)*3,vy:Math.sin(a)*3,life:20,color:'#c04040',size:3});
+    }
+    if(lives<=0){
+      setTimeout(()=>gameOver(),600);
+    }
+  }
+  drawPath=[];drawColor=null;
+}
+
+function levelComplete(){
+  const time=(Date.now()-recallStartTime)/1000;
+  const perfect=mistakesThisLevel===0;
+  const underPar=time<parTimes[level-1];
+  
+  document.getElementById('lcSubtitle').textContent='Level '+level+(perfect?' woven perfectly':' completed');
+  document.getElementById('lcScore').textContent=score;
+  document.getElementById('lcTime').textContent=time.toFixed(1)+'s';
+  document.getElementById('lcAccuracy').textContent=(mistakesThisLevel===0?'100%':Math.max(0,100-mistakesThisLevel*25)+'%');
+  
+  const b1=document.getElementById('lb1'),b2=document.getElementById('lb2'),b3=document.getElementById('lb3');
+  b1.className='badge';b2.className='badge';b3.className='badge';
+  setTimeout(()=>b1.classList.add('on'),300);
+  if(perfect)setTimeout(()=>b2.classList.add('on'),700);
+  if(perfect&&underPar)setTimeout(()=>b3.classList.add('on'),1100);
+  
+  document.getElementById('nextLevelBtn').textContent=level>=10?'Finish':'Next Level';
+  state=ST.WIN;updateUI();
+}
+
+function gameOver(){
+  document.getElementById('goSubtitle').textContent='Reached Level '+level;
+  document.getElementById('goScore').textContent=score;
+  document.getElementById('goLevel').textContent=level;
+  document.getElementById('goStreak').textContent=bestStreak;
+  state=ST.LOSE;updateUI();
+}
+
+function update(){
+  if(state!==ST.PLAY)return;
+  
+  if(phase==='memorize'){
+    phaseTimer--;
+    if(phaseTimer<=0){
+      phase='recall';recallStartTime=Date.now();
+    }
+  }
+  
+  // Particles
+  for(let p of particles){p.x+=p.vx;p.y+=p.vy;p.life--;p.vx*=0.95;p.vy*=0.95;}
+  particles=particles.filter(p=>p.life>0);
+  
+  // Floats
+  for(let f of floats){f.y-=0.6;f.life--;f.opacity=f.life/40;}
+  floats=floats.filter(f=>f.life>0);
+  
+  // HUD
+  document.getElementById('hudScore').textContent='Score: '+score;
+  document.getElementById('hudLevel').textContent='Level: '+level;
+  document.getElementById('hudLives').textContent='❤️'.repeat(Math.max(0,lives));
+  document.getElementById('hudStreak').textContent='Streak: '+streak;
+  document.getElementById('hudPhase').textContent=phase==='memorize'?'👁️ Memorize ('+Math.ceil(phaseTimer/60)+')':'✏️ Weave Thread '+(currentThread+1)+'/'+threads.length;
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  if(state!==ST.PLAY&&state!==ST.WIN&&state!==ST.LOSE)return;
+  
+  // Wood background
+  ctx.fillStyle='#1a1410';ctx.fillRect(0,0,W,H);
+  
+  // Loom frame
+  const fx=gridX-12,fy=gridY-12,fw=gridSize*cellSize+24,fh=gridSize*cellSize+24;
+  ctx.fillStyle='#3d2817';ctx.fillRect(fx,fy,fw,fh);
+  ctx.strokeStyle='#5a3a22';ctx.lineWidth=3;
+  ctx.strokeRect(fx,fy,fw,fh);
+  // Inner bevel
+  ctx.strokeStyle='#2a1a0f';ctx.lineWidth=2;
+  ctx.strokeRect(fx+4,fy+4,fw-8,fh-8);
+  
+  // Grid dots
+  ctx.fillStyle='#5a3a2288';
+  for(let gy=0;gy<gridSize;gy++){
+    for(let gx=0;gx<gridSize;gx++){
+      const c=getCellCenter(gx,gy);
+      ctx.beginPath();ctx.arc(c.x,c.y,3,0,Math.PI*2);ctx.fill();
+    }
+  }
+  
+  // Warp threads (vertical background lines)
+  ctx.strokeStyle='rgba(180,140,100,0.15)';
+  ctx.lineWidth=1;
+  for(let gx=0;gx<=gridSize;gx++){
+    const x=gridX+gx*cellSize;
+    ctx.beginPath();ctx.moveTo(x,gridY);ctx.lineTo(x,gridY+gridSize*cellSize);ctx.stroke();
+  }
+  
+  if(state===ST.PLAY||state===ST.WIN){
+    // Draw completed threads
+    for(let t of threads){
+      if(!t.drawn)continue;
+      drawThreadPath(t.path,t.color,1,false);
+    }
+    
+    // Draw current target thread during memorize
+    if(phase==='memorize'){
+      for(let t of threads){
+        const alpha=Math.min(1,phaseTimer/60);
+        drawThreadPath(t.path,t.color,alpha,true);
+      }
+      // Progress bar
+      ctx.fillStyle='rgba(212,165,116,0.3)';
+      ctx.fillRect(gridX,gridY-30,gridSize*cellSize,6);
+      ctx.fillStyle='#d4a574';
+      ctx.fillRect(gridX,gridY-30,gridSize*cellSize*(phaseTimer/getMemorizeTime()),6);
+    }
+    
+    // Draw active drawing
+    if(isDrawing&&drawPath.length>0){
+      drawThreadPath(drawPath,drawColor,0.8,true);
+    }
+    
+    // Highlight current thread start
+    if(phase==='recall'&&currentThread<threads.length){
+      const target=threads[currentThread];
+      const start=getCellCenter(target.path[0].x,target.path[0].y);
+      ctx.strokeStyle=target.color;
+      ctx.lineWidth=2;
+      ctx.setLineDash([5,5]);
+      ctx.beginPath();ctx.arc(start.x,start.y,cellSize*0.35,0,Math.PI*2);ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+  
+  // Particles
+  for(let p of particles){
+    ctx.fillStyle=p.color;
+    ctx.globalAlpha=p.life/30;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  
+  // Floats
+  for(let f of floats){
+    ctx.save();
+    ctx.translate(f.x,f.y);
+    ctx.fillStyle=f.color;
+    ctx.globalAlpha=f.opacity||1;
+    ctx.font='bold 16px Georgia';
+    ctx.textAlign='center';
+    ctx.fillText(f.text,0,0);
+    ctx.restore();
+  }
+  ctx.globalAlpha=1;
+  
+  requestAnimationFrame(loop);
+}
+
+function drawThreadPath(path,color,alpha,animated){
+  if(!path||path.length<2)return;
+  ctx.save();
+  ctx.strokeStyle=color;
+  ctx.globalAlpha=alpha;
+  ctx.lineWidth=5;
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+  ctx.shadowColor=color;
+  ctx.shadowBlur=10;
+  ctx.beginPath();
+  for(let i=0;i<path.length;i++){
+    const c=getCellCenter(path[i].x,path[i].y);
+    if(i===0)ctx.moveTo(c.x,c.y);else ctx.lineTo(c.x,c.y);
+  }
+  ctx.stroke();
+  ctx.shadowBlur=0;
+  ctx.globalAlpha=alpha*0.4;
+  ctx.lineWidth=12;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function loop(){update();draw();}
+
+updateUI();
+loop();
+</script>
+</body>
+</html>

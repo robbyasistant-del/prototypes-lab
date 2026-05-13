@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Aether Drift</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; touch-action: none; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a12; font-family: 'Segoe UI', system-ui, sans-serif; }
+  canvas { display: block; width: 100%; height: 100%; }
+  #gameContainer { position: relative; width: 100vw; height: 100vh; }
+  .ui-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; display: none; }
+  .ui-overlay.active { display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: auto; }
+  .panel { background: rgba(10, 10, 25, 0.92); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 20px; padding: 32px 40px; text-align: center; max-width: 90vw; backdrop-filter: blur(12px); box-shadow: 0 0 60px rgba(0, 200, 255, 0.15), inset 0 0 40px rgba(0, 200, 255, 0.05); animation: panelIn 0.4s ease-out; }
+  @keyframes panelIn { from { opacity: 0; transform: scale(0.85) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+  h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; color: #00e5ff; text-shadow: 0 0 30px rgba(0, 230, 255, 0.5); margin-bottom: 8px; letter-spacing: 2px; }
+  h2 { font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 700; color: #ffd700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.4); margin-bottom: 16px; }
+  p { color: #b0c0d0; font-size: clamp(0.9rem, 2.5vw, 1.1rem); line-height: 1.6; margin-bottom: 12px; }
+  .btn { display: inline-block; margin: 8px 6px; padding: 14px 36px; font-size: clamp(1rem, 3vw, 1.2rem); font-weight: 700; color: #0a0a18; background: linear-gradient(135deg, #00e5ff, #0099cc); border: none; border-radius: 50px; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 20px rgba(0, 230, 255, 0.35); text-transform: uppercase; letter-spacing: 1px; }
+  .btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 30px rgba(0, 230, 255, 0.55); }
+  .btn:active { transform: translateY(0) scale(0.98); }
+  .btn.secondary { background: linear-gradient(135deg, #ff6b6b, #cc4444); box-shadow: 0 4px 20px rgba(255, 100, 100, 0.35); }
+  .btn.secondary:hover { box-shadow: 0 6px 30px rgba(255, 100, 100, 0.55); }
+  .btn.success { background: linear-gradient(135deg, #00ff88, #00aa55); box-shadow: 0 4px 20px rgba(0, 255, 136, 0.35); }
+  .stars { margin: 12px 0; font-size: clamp(1.5rem, 4vw, 2.2rem); }
+  .star { display: inline-block; color: #444; transition: all 0.5s; margin: 0 4px; }
+  .star.unlocked { color: #ffd700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.7); animation: starPop 0.5s ease-out; }
+  @keyframes starPop { 0% { transform: scale(0) rotate(-180deg); } 70% { transform: scale(1.3) rotate(10deg); } 100% { transform: scale(1) rotate(0); } }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; margin: 16px 0; text-align: left; }
+  .stat-item { color: #a0b0c0; font-size: clamp(0.85rem, 2.2vw, 1rem); }
+  .stat-val { color: #00e5ff; font-weight: 700; }
+  .badge-row { margin: 16px 0; }
+  .badge { display: inline-block; padding: 6px 16px; margin: 4px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; background: rgba(255,255,255,0.08); color: #8899aa; border: 1px solid rgba(255,255,255,0.1); }
+  .badge.earned { background: rgba(0, 230, 255, 0.15); color: #00e5ff; border-color: rgba(0, 230, 255, 0.4); animation: badgeIn 0.4s ease-out; }
+  @keyframes badgeIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+  .demo-area { width: 200px; height: 120px; margin: 16px auto; position: relative; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(0,255,255,0.15); overflow: hidden; }
+  .demo-pulse { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,255,255,0.3); border: 2px solid #00e5ff; top: 40px; left: 130px; animation: demoPulse 2s infinite; }
+  @keyframes demoPulse { 0%,100%{transform:scale(1);opacity:0.6;} 50%{transform:scale(1.5);opacity:0.2;} }
+  .demo-particle { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: #00e5ff; box-shadow: 0 0 12px #00e5ff; top: 52px; left: 52px; animation: demoMove 2s infinite; }
+  @keyframes demoMove { 0%,100%{left:52px;} 50%{left:82px;} }
+  .demo-arrow { position: absolute; top: 54px; left: 75px; width: 40px; height: 2px; background: #ffd700; animation: demoArrow 2s infinite; }
+  .demo-arrow::after { content:''; position:absolute; right:0; top:-3px; border:4px solid transparent; border-left:6px solid #ffd700; }
+  @keyframes demoArrow { 0%,100%{opacity:0.3; width:20px;} 50%{opacity:1; width:40px;} }
+  .hud { position: absolute; top: 0; left: 0; width: 100%; padding: 12px 16px; display: none; justify-content: space-between; align-items: flex-start; pointer-events: none; }
+  .hud.active { display: flex; }
+  .hud-item { background: rgba(10, 10, 30, 0.7); border: 1px solid rgba(0, 255, 255, 0.2); border-radius: 12px; padding: 8px 16px; color: #00e5ff; font-weight: 700; font-size: clamp(0.8rem, 2vw, 1rem); backdrop-filter: blur(8px); }
+  .hud-item .label { color: #8899aa; font-size: 0.75em; font-weight: 500; }
+  .combo-meter { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: none; }
+  .combo-meter.active { display: block; }
+  .combo-text { color: #ffd700; font-weight: 800; font-size: 1.2rem; text-shadow: 0 0 20px rgba(255,215,0,0.5); animation: comboPulse 0.3s ease-out; }
+  @keyframes comboPulse { 0%{transform:scale(2);} 100%{transform:scale(1);} }
+  .level-dots { display: flex; gap: 6px; justify-content: center; margin: 12px 0; }
+  .level-dot { width: 10px; height: 10px; border-radius: 50%; background: #333; transition: all 0.3s; }
+  .level-dot.completed { background: #00ff88; box-shadow: 0 0 8px #00ff88; }
+  .level-dot.current { background: #00e5ff; box-shadow: 0 0 8px #00e5ff; animation: dotPulse 1s infinite; }
+  @keyframes dotPulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+  .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin: 8px 0; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #00e5ff, #00ff88); border-radius: 2px; transition: width 0.3s; }
+</style>
+</head>
+<body>
+<div id="gameContainer">
+  <canvas id="gameCanvas"></canvas>
+
+  <div id="hud" class="hud">
+    <div class="hud-item"><div class="label">SCORE</div><span id="hudScore">0</span></div>
+    <div class="hud-item"><div class="label">LEVEL</div><span id="hudLevel">1</span>/10</div>
+    <div class="hud-item"><div class="label">TIME</div><span id="hudTime">0</span>s</div>
+    <div class="hud-item"><div class="label">ORBS</div><span id="hudOrbs">0</span>/<span id="hudTotalOrbs">0</span></div>
+  </div>
+
+  <div id="comboMeter" class="combo-meter"><div class="combo-text" id="comboText"></div></div>
+
+  <!-- MENU -->
+  <div id="menuScreen" class="ui-overlay active">
+    <div class="panel">
+      <h1>🔷 AETHER DRIFT 🔷</h1>
+      <p style="color:#8899aa; margin-bottom:20px;">Navigate the void. Master the pulse.</p>
+      <div class="level-dots" id="menuDots"></div>
+      <div style="margin-top:16px;">
+        <button class="btn" id="btnPlay">Start Game</button>
+        <button class="btn secondary" id="btnInstructions">How to Play</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTRUCTIONS -->
+  <div id="instructionsScreen" class="ui-overlay">
+    <div class="panel">
+      <h2>How to Drift</h2>
+      <div class="demo-area">
+        <div class="demo-particle"></div>
+        <div class="demo-arrow"></div>
+        <div class="demo-pulse"></div>
+      </div>
+      <p><strong style="color:#00e5ff;">Click or tap</strong> anywhere to emit a pulse.</p>
+      <p>You move in the <strong style="color:#ffd700;">OPPOSITE</strong> direction.</p>
+      <p style="font-size:0.9em; color:#8899aa;">Pass through gates, collect orbs, avoid the void.</p>
+      <div style="margin-top:16px;">
+        <button class="btn" id="btnStartGame">Begin Journey</button>
+        <button class="btn secondary" id="btnBackMenu">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL COMPLETE -->
+  <div id="levelCompleteScreen" class="ui-overlay">
+    <div class="panel">
+      <h2>✨ Level Complete! ✨</h2>
+      <div class="stars" id="levelStars"><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span></div>
+      <div class="stats-grid">
+        <div class="stat-item">Score: <span class="stat-val" id="lcScore">0</span></div>
+        <div class="stat-item">Time: <span class="stat-val" id="lcTime">0</span>s</div>
+        <div class="stat-item">Orbs: <span class="stat-val" id="lcOrbs">0</span>/<span id="lcTotalOrbs">0</span></div>
+        <div class="stat-item">Gates: <span class="stat-val" id="lcGates">0</span></div>
+      </div>
+      <div class="badge-row" id="levelBadges"></div>
+      <div style="margin-top:16px;">
+        <button class="btn success" id="btnNextLevel">Next Level ➜</button>
+        <button class="btn secondary" id="btnReplayLevel">Replay</button>
+        <button class="btn" id="btnLevelMenu">Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME OVER -->
+  <div id="gameOverScreen" class="ui-overlay">
+    <div class="panel">
+      <h2 style="color:#ff4444;">💀 Drift Lost 💀</h2>
+      <p id="deathReason">The void claims all...</p>
+      <div class="stats-grid">
+        <div class="stat-item">Final Score: <span class="stat-val" id="goScore">0</span></div>
+        <div class="stat-item">Level Reached: <span class="stat-val" id="goLevel">1</span></div>
+      </div>
+      <div style="margin-top:16px;">
+        <button class="btn" id="btnRetry">Retry Level</button>
+        <button class="btn secondary" id="btnGoMenu">Main Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VICTORY -->
+  <div id="victoryScreen" class="ui-overlay">
+    <div class="panel">
+      <h1>🏆 AETHER MASTER 🏆</h1>
+      <p>All 10 levels conquered! You have mastered the drift.</p>
+      <div class="stars" id="victoryStars"></div>
+      <div class="stats-grid">
+        <div class="stat-item">Total Score: <span class="stat-val" id="vScore">0</span></div>
+        <div class="stat-item">Total Time: <span class="stat-val" id="vTime">0</span>s</div>
+      </div>
+      <div class="badge-row" id="victoryBadges"></div>
+      <div style="margin-top:16px;">
+        <button class="btn" id="btnNewGame">New Journey</button>
+        <button class="btn secondary" id="btnVictoryMenu">Menu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+'use strict';
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+// ============ STATE ============
+const STATE = { MENU: 0, INSTRUCTIONS: 1, PLAYING: 2, LEVEL_COMPLETE: 3, GAME_OVER: 4, VICTORY: 5 };
+let gameState = STATE.MENU;
+let currentLevel = 0;
+let totalScore = 0;
+let levelStartTime = 0;
+let levelTime = 0;
+let offScreenTimer = 0;
+let comboCount = 0;
+let lastGatePerfect = false;
+let screenShake = { x: 0, y: 0, intensity: 0 };
+let slowMo = 1;
+let slowMoTimer = 0;
+let levelResults = [];
+
+// ============ PHYSICS ============
+const FRICTION = 0.985;
+const PULSE_FORCE = 4.5;
+const MAX_SPEED = 8;
+const PLAYER_RADIUS = 10;
+
+let player = { x: 0, y: 0, vx: 0, vy: 0 };
+let camera = { x: 0, y: 0 };
+
+// ============ ENTITIES ============
+let gates = [];
+let orbs = [];
+let voids = [];
+let particles = [];
+let stars = [];
+let scorePopups = [];
+let walls = [];
+
+// ============ INPUT ============
+let input = { x: 0, y: 0, down: false };
+
+// ============ LEVELS ============
+const LEVELS = [
+  { // Level 1: Tutorial
+    parTime: 20,
+    playerStart: { x: 100, y: 300 },
+    gates: [
+      { x: 400, y: 300, r: 50, rotSpeed: 0.01 }
+    ],
+    orbs: [
+      { x: 300, y: 250 }, { x: 300, y: 350 }
+    ],
+    voids: [],
+    walls: []
+  },
+  { // Level 2: First void
+    parTime: 25,
+    playerStart: { x: 80, y: 300 },
+    gates: [
+      { x: 350, y: 200, r: 45, rotSpeed: 0.015 },
+      { x: 600, y: 400, r: 50, rotSpeed: -0.01 }
+    ],
+    orbs: [
+      { x: 250, y: 350 }, { x: 480, y: 280 }, { x: 550, y: 450 }
+    ],
+    voids: [
+      { x: 450, y: 300, r: 40 }
+    ],
+    walls: []
+  },
+  { // Level 3: Walls appear
+    parTime: 30,
+    playerStart: { x: 80, y: 500 },
+    gates: [
+      { x: 300, y: 300, r: 45, rotSpeed: 0.02 },
+      { x: 550, y: 200, r: 40, rotSpeed: -0.015 },
+      { x: 750, y: 400, r: 50, rotSpeed: 0.01 }
+    ],
+    orbs: [
+      { x: 200, y: 200 }, { x: 420, y: 400 }, { x: 650, y: 300 }, { x: 700, y: 500 }
+    ],
+    voids: [
+      { x: 450, y: 350, r: 35 }
+    ],
+    walls: [
+      { x1: 200, y1: 400, x2: 200, y2: 600 },
+      { x1: 500, y1: 0, x2: 500, y2: 250 }
+    ]
+  },
+  { // Level 4: Corridor
+    parTime: 35,
+    playerStart: { x: 60, y: 300 },
+    gates: [
+      { x: 250, y: 300, r: 40, rotSpeed: 0.025 },
+      { x: 450, y: 300, r: 40, rotSpeed: -0.02 },
+      { x: 650, y: 300, r: 45, rotSpeed: 0.015 },
+      { x: 850, y: 300, r: 50, rotSpeed: -0.01 }
+    ],
+    orbs: [
+      { x: 180, y: 200 }, { x: 350, y: 400 }, { x: 550, y: 200 }, { x: 750, y: 400 }
+    ],
+    voids: [
+      { x: 350, y: 300, r: 30 }, { x: 550, y: 300, r: 30 }
+    ],
+    walls: [
+      { x1: 0, y1: 150, x2: 1000, y2: 150 },
+      { x1: 0, y1: 450, x2: 1000, y2: 450 }
+    ]
+  },
+  { // Level 5: The Maze
+    parTime: 40,
+    playerStart: { x: 60, y: 100 },
+    gates: [
+      { x: 250, y: 200, r: 40, rotSpeed: 0.02 },
+      { x: 500, y: 350, r: 45, rotSpeed: -0.015 },
+      { x: 750, y: 500, r: 50, rotSpeed: 0.01 }
+    ],
+    orbs: [
+      { x: 150, y: 350 }, { x: 350, y: 100 }, { x: 400, y: 500 }, { x: 650, y: 200 }, { x: 800, y: 350 }
+    ],
+    voids: [
+      { x: 400, y: 300, r: 45 }, { x: 600, y: 150, r: 35 }
+    ],
+    walls: [
+      { x1: 150, y1: 0, x2: 150, y2: 280 },
+      { x1: 150, y1: 280, x2: 350, y2: 280 },
+      { x1: 350, y1: 280, x2: 350, y2: 450 },
+      { x1: 350, y1: 450, x2: 600, y2: 450 },
+      { x1: 600, y1: 250, x2: 600, y2: 450 },
+      { x1: 600, y1: 250, x2: 800, y2: 250 },
+      { x1: 800, y1: 100, x2: 800, y2: 250 }
+    ]
+  },
+  { // Level 6: Spinning gauntlet
+    parTime: 35,
+    playerStart: { x: 80, y: 300 },
+    gates: [
+      { x: 250, y: 150, r: 35, rotSpeed: 0.04 },
+      { x: 450, y: 300, r: 40, rotSpeed: -0.03 },
+      { x: 650, y: 450, r: 35, rotSpeed: 0.04 },
+      { x: 850, y: 300, r: 45, rotSpeed: -0.025 }
+    ],
+    orbs: [
+      { x: 350, y: 250 }, { x: 350, y: 350 }, { x: 550, y: 200 }, { x: 550, y: 400 }, { x: 750, y: 300 }
+    ],
+    voids: [
+      { x: 350, y: 300, r: 40 }, { x: 550, y: 300, r: 40 }
+    ],
+    walls: [
+      { x1: 0, y1: 80, x2: 1000, y2: 80 },
+      { x1: 0, y1: 520, x2: 1000, y2: 520 }
+    ]
+  },
+  { // Level 7: Vertical challenge
+    parTime: 40,
+    playerStart: { x: 500, y: 550 },
+    gates: [
+      { x: 500, y: 450, r: 40, rotSpeed: 0.02 },
+      { x: 300, y: 350, r: 35, rotSpeed: -0.025 },
+      { x: 700, y: 250, r: 40, rotSpeed: 0.02 },
+      { x: 500, y: 100, r: 50, rotSpeed: -0.015 }
+    ],
+    orbs: [
+      { x: 400, y: 450 }, { x: 600, y: 450 }, { x: 400, y: 250 }, { x: 600, y: 250 }, { x: 500, y: 300 }
+    ],
+    voids: [
+      { x: 500, y: 350, r: 35 }, { x: 500, y: 200, r: 30 }
+    ],
+    walls: [
+      { x1: 200, y1: 500, x2: 400, y2: 500 },
+      { x1: 600, y1: 400, x2: 800, y2: 400 },
+      { x1: 200, y1: 300, x2: 400, y2: 300 },
+      { x1: 600, y1: 200, x2: 800, y2: 200 }
+    ]
+  },
+  { // Level 8: The Spiral
+    parTime: 45,
+    playerStart: { x: 80, y: 300 },
+    gates: [
+      { x: 200, y: 200, r: 35, rotSpeed: 0.03 },
+      { x: 350, y: 400, r: 35, rotSpeed: -0.03 },
+      { x: 500, y: 200, r: 35, rotSpeed: 0.03 },
+      { x: 650, y: 400, r: 35, rotSpeed: -0.03 },
+      { x: 800, y: 300, r: 50, rotSpeed: 0.02 }
+    ],
+    orbs: [
+      { x: 275, y: 300 }, { x: 425, y: 300 }, { x: 575, y: 300 }, { x: 725, y: 300 },
+      { x: 200, y: 400 }, { x: 350, y: 200 }, { x: 500, y: 400 }, { x: 650, y: 200 }
+    ],
+    voids: [
+      { x: 275, y: 250, r: 25 }, { x: 425, y: 350, r: 25 }, { x: 575, y: 250, r: 25 }, { x: 725, y: 350, r: 25 }
+    ],
+    walls: [
+      { x1: 150, y1: 100, x2: 150, y2: 500 },
+      { x1: 150, y1: 100, x2: 850, y2: 100 },
+      { x1: 850, y1: 100, x2: 850, y2: 500 },
+      { x1: 150, y1: 500, x2: 850, y2: 500 }
+    ]
+  },
+  { // Level 9: Precision required
+    parTime: 50,
+    playerStart: { x: 60, y: 300 },
+    gates: [
+      { x: 220, y: 300, r: 30, rotSpeed: 0.05 },
+      { x: 400, y: 200, r: 30, rotSpeed: -0.04 },
+      { x: 400, y: 400, r: 30, rotSpeed: 0.04 },
+      { x: 600, y: 300, r: 30, rotSpeed: -0.05 },
+      { x: 800, y: 300, r: 40, rotSpeed: 0.03 }
+    ],
+    orbs: [
+      { x: 150, y: 200 }, { x: 150, y: 400 }, { x: 310, y: 250 }, { x: 310, y: 350 },
+      { x: 500, y: 300 }, { x: 700, y: 200 }, { x: 700, y: 400 }
+    ],
+    voids: [
+      { x: 310, y: 300, r: 30 }, { x: 500, y: 200, r: 25 }, { x: 500, y: 400, r: 25 }, { x: 700, y: 300, r: 30 }
+    ],
+    walls: [
+      { x1: 120, y1: 150, x2: 120, y2: 450 },
+      { x1: 880, y1: 150, x2: 880, y2: 450 },
+      { x1: 120, y1: 150, x2: 300, y2: 150 },
+      { x1: 120, y1: 450, x2: 300, y2: 450 },
+      { x1: 650, y1: 150, x2: 880, y2: 150 },
+      { x1: 650, y1: 450, x2: 880, y2: 450 }
+    ]
+  },
+  { // Level 10: The Final Drift
+    parTime: 55,
+    playerStart: { x: 80, y: 300 },
+    gates: [
+      { x: 200, y: 200, r: 35, rotSpeed: 0.06 },
+      { x: 350, y: 400, r: 35, rotSpeed: -0.05 },
+      { x: 500, y: 200, r: 35, rotSpeed: 0.05 },
+      { x: 650, y: 400, r: 35, rotSpeed: -0.06 },
+      { x: 800, y: 300, r: 40, rotSpeed: 0.04 },
+      { x: 950, y: 300, r: 50, rotSpeed: -0.03 }
+    ],
+    orbs: [
+      { x: 150, y: 350 }, { x: 275, y: 150 }, { x: 275, y: 450 }, { x: 425, y: 300 },
+      { x: 575, y: 150 }, { x: 575, y: 450 }, { x: 725, y: 300 }, { x: 875, y: 200 }, { x: 875, y: 400 }
+    ],
+    voids: [
+      { x: 275, y: 300, r: 30 }, { x: 425, y: 200, r: 25 }, { x: 425, y: 400, r: 25 },
+      { x: 575, y: 300, r: 30 }, { x: 725, y: 200, r: 25 }, { x: 725, y: 400, r: 25 }
+    ],
+    walls: [
+      { x1: 0, y1: 100, x2: 150, y2: 100 },
+      { x1: 0, y1: 500, x2: 150, y2: 500 },
+      { x1: 350, y1: 100, x2: 500, y2: 100 },
+      { x1: 350, y1: 500, x2: 500, y2: 500 },
+      { x1: 650, y1: 100, x2: 800, y2: 100 },
+      { x1: 650, y1: 500, x2: 800, y2: 500 }
+    ]
+  }
+];
+
+// ============ INIT ============
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+function initStars() {
+  stars = [];
+  for (let layer = 0; layer < 3; layer++) {
+    const count = 80 + layer * 60;
+    const speed = 0.1 + layer * 0.15;
+    const sizeBase = 0.5 + layer * 0.5;
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * 3000 - 500,
+        y: Math.random() * 2000 - 200,
+        size: sizeBase + Math.random() * 1.5,
+        speed: speed,
+        alpha: 0.3 + Math.random() * 0.7,
+        twinkleSpeed: 0.5 + Math.random() * 2,
+        twinklePhase: Math.random() * Math.PI * 2,
+        layer: layer
+      });
+    }
+  }
+}
+initStars();
+
+// ============ LEVEL SETUP ============
+function loadLevel(idx) {
+  currentLevel = idx;
+  const lvl = LEVELS[idx];
+  player.x = lvl.playerStart.x;
+  player.y = lvl.playerStart.y;
+  player.vx = 0;
+  player.vy = 0;
+  
+  gates = lvl.gates.map((g, i) => ({
+    x: g.x, y: g.y, r: g.r, rot: 0, rotSpeed: g.rotSpeed,
+    passed: false, flashTimer: 0, perfect: false, id: i
+  }));
+  
+  orbs = lvl.orbs.map((o, i) => ({
+    x: o.x, y: o.y, r: 10, collected: false, id: i,
+    sparklePhase: Math.random() * Math.PI * 2
+  }));
+  
+  voids = lvl.voids.map(v => ({
+    x: v.x, y: v.y, r: v.r, rot: 0
+  }));
+  
+  walls = lvl.walls.map(w => ({
+    x1: w.x1, y1: w.y1, x2: w.x2, y2: w.y2
+  }));
+  
+  particles = [];
+  scorePopups = [];
+  comboCount = 0;
+  lastGatePerfect = false;
+  offScreenTimer = 0;
+  levelStartTime = performance.now();
+  levelTime = 0;
+  slowMo = 1;
+  slowMoTimer = 0;
+  
+  updateHUD();
+}
+
+function updateHUD() {
+  const lvl = LEVELS[currentLevel];
+  const collected = orbs.filter(o => o.collected).length;
+  document.getElementById('hudScore').textContent = Math.floor(totalScore);
+  document.getElementById('hudLevel').textContent = currentLevel + 1;
+  document.getElementById('hudTime').textContent = Math.floor(levelTime);
+  document.getElementById('hudOrbs').textContent = collected;
+  document.getElementById('hudTotalOrbs').textContent = orbs.length;
+}
+
+// ============ PARTICLES ============
+function spawnParticles(x, y, color, count, speed, life) {
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const spd = speed * (0.3 + Math.random() * 0.7);
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * spd,
+      vy: Math.sin(angle) * spd,
+      life: life * (0.7 + Math.random() * 0.6),
+      maxLife: life,
+      color,
+      size: 2 + Math.random() * 4
+    });
+  }
+}
+
+function spawnScorePopup(x, y, text, color) {
+  scorePopups.push({ x, y, text, color, life: 1.5, vy: -1.5 });
+}
+
+// ============ PHYSICS ============
+function updatePhysics(dt) {
+  const dt2 = dt * slowMo;
+  
+  player.vx *= Math.pow(FRICTION, dt2 * 60);
+  player.vy *= Math.pow(FRICTION, dt2 * 60);
+  
+  const speed = Math.sqrt(player.vx * player.vx + player.vy * player.vy);
+  if (speed > MAX_SPEED) {
+    const scale = MAX_SPEED / speed;
+    player.vx *= scale;
+    player.vy *= scale;
+  }
+  
+  player.x += player.vx * dt2 * 60;
+  player.y += player.vy * dt2 * 60;
+  
+  // Wall collisions
+  for (const w of walls) {
+    const closest = pointLineClosest(player.x, player.y, w.x1, w.y1, w.x2, w.y2);
+    const dx = player.x - closest.x;
+    const dy = player.y - closest.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < PLAYER_RADIUS + 4) {
+      const nx = dx / (dist || 1);
+      const ny = dy / (dist || 1);
+      const overlap = PLAYER_RADIUS + 4 - dist;
+      player.x += nx * overlap;
+      player.y += ny * overlap;
+      const dot = player.vx * nx + player.vy * ny;
+      if (dot < 0) {
+        player.vx -= dot * nx * 1.8;
+        player.vy -= dot * ny * 1.8;
+        lastGatePerfect = false;
+        addScreenShake(3);
+        spawnParticles(player.x, player.y, '#ff8844', 5, 2, 0.5);
+      }
+    }
+  }
+  
+  // Trail particles
+  if (speed > 0.5 && Math.random() < 0.4) {
+    spawnParticles(player.x, player.y, 'rgba(0, 230, 255, 0.6)', 1, 0.5, 0.4);
+  }
+  
+  // Off-screen check
+  const margin = 60;
+  if (player.x < -margin || player.x > canvas.width + margin ||
+      player.y < -margin || player.y > canvas.height + margin) {
+    offScreenTimer += dt2;
+    if (offScreenTimer > 3) {
+      gameOver('Lost in the endless void...');
+    }
+  } else {
+    offScreenTimer = Math.max(0, offScreenTimer - dt2);
+  }
+}
+
+function pointLineClosest(px, py, x1, y1, x2, y2) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const lenSq = dx * dx + dy * dy;
+  if (lenSq === 0) return { x: x1, y: y1 };
+  let t = ((px - x1) * dx + (py - y1) * dy) / lenSq;
+  t = Math.max(0, Math.min(1, t));
+  return { x: x1 + t * dx, y: y1 + t * dy };
+}
+
+// ============ COLLISIONS ============
+function checkCollisions() {
+  // Gates
+  for (const g of gates) {
+    if (g.passed) continue;
+    const dx = player.x - g.x;
+    const dy = player.y - g.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < g.r - PLAYER_RADIUS) {
+      g.passed = true;
+      g.perfect = lastGatePerfect;
+      g.flashTimer = 1;
+      
+      const isPerfect = lastGatePerfect;
+      if (isPerfect) {
+        comboCount++;
+      } else {
+        comboCount = 1;
+      }
+      lastGatePerfect = true;
+      
+      let points = 50;
+      if (comboCount > 1) {
+        points = Math.floor(50 * comboCount);
+        spawnScorePopup(g.x, g.y - g.r - 20, `${comboCount}x COMBO! +${points}`, '#ffd700');
+      } else {
+        spawnScorePopup(g.x, g.y - g.r - 20, `+${points}`, '#00ff88');
+      }
+      totalScore += points;
+      
+      addScreenShake(isPerfect ? 6 : 3);
+      spawnParticles(g.x, g.y, isPerfect ? '#00ff88' : '#ffd700', 20, 4, 0.8);
+      
+      updateComboMeter();
+      checkLevelComplete();
+    }
+  }
+  
+  // Orbs
+  for (const o of orbs) {
+    if (o.collected) continue;
+    const dx = player.x - o.x;
+    const dy = player.y - o.y;
+    if (dx * dx + dy * dy < (PLAYER_RADIUS + o.r) * (PLAYER_RADIUS + o.r)) {
+      o.collected = true;
+      totalScore += 100;
+      spawnScorePopup(o.x, o.y - 15, '+100', '#ffd700');
+      spawnParticles(o.x, o.y, '#ffd700', 15, 5, 0.7);
+      addScreenShake(4);
+      updateHUD();
+      checkLevelComplete();
+    }
+  }
+  
+  // Voids
+  for (const v of voids) {
+    const dx = player.x - v.x;
+    const dy = player.y - v.y;
+    if (dx * dx + dy * dy < (PLAYER_RADIUS + v.r * 0.7) * (PLAYER_RADIUS + v.r * 0.7)) {
+      slowMo = 0.15;
+      slowMoTimer = 1.5;
+      spawnParticles(player.x, player.y, '#ff2244', 40, 6, 1.5);
+      gameOver('Consumed by the abyss...');
+    }
+  }
+}
+
+function checkLevelComplete() {
+  const allGates = gates.every(g => g.passed);
+  const allOrbs = orbs.every(o => o.collected);
+  if (allGates && allOrbs) {
+    levelComplete();
+  }
+}
+
+function updateComboMeter() {
+  const el = document.getElementById('comboMeter');
+  const txt = document.getElementById('comboText');
+  if (comboCount > 1) {
+    el.classList.add('active');
+    txt.textContent = `${comboCount}x COMBO`;
+    txt.style.animation = 'none';
+    txt.offsetHeight; // reflow
+    txt.style.animation = 'comboPulse 0.3s ease-out';
+  } else {
+    el.classList.remove('active');
+  }
+}
+
+// ============ SCREEN EFFECTS ============
+function addScreenShake(intensity) {
+  screenShake.intensity = Math.max(screenShake.intensity, intensity);
+}
+
+function updateScreenEffects(dt) {
+  screenShake.intensity *= 0.9;
+  screenShake.x = (Math.random() - 0.5) * screenShake.intensity;
+  screenShake.y = (Math.random() - 0.5) * screenShake.intensity;
+  
+  if (slowMoTimer > 0) {
+    slowMoTimer -= dt;
+    if (slowMoTimer <= 0) slowMo = 1;
+  }
+}
+
+// ============ RENDER ============
+function render() {
+  ctx.save();
+  ctx.translate(screenShake.x, screenShake.y);
+  
+  // Background
+  ctx.fillStyle = '#0a0a12';
+  ctx.fillRect(-10, -10, canvas.width + 20, canvas.height + 20);
+  
+  // Stars
+  for (const s of stars) {
+    const twinkle = 0.5 + 0.5 * Math.sin(performance.now() * 0.001 * s.twinkleSpeed + s.twinklePhase);
+    ctx.globalAlpha = s.alpha * twinkle;
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  
+  // Walls
+  ctx.strokeStyle = 'rgba(0, 200, 255, 0.4)';
+  ctx.lineWidth = 4;
+  ctx.shadowColor = 'rgba(0, 200, 255, 0.3)';
+  ctx.shadowBlur = 10;
+  for (const w of walls) {
+    ctx.beginPath();
+    ctx.moveTo(w.x1, w.y1);
+    ctx.lineTo(w.x2, w.y2);
+    ctx.stroke();
+  }
+  ctx.shadowBlur = 0;
+  
+  // Voids
+  for (const v of voids) {
+    v.rot += 0.02;
+    ctx.save();
+    ctx.translate(v.x, v.y);
+    ctx.rotate(v.rot);
+    
+    ctx.fillStyle = 'rgba(80, 0, 120, 0.6)';
+    ctx.beginPath();
+    ctx.arc(0, 0, v.r, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.strokeStyle = 'rgba(160, 0, 255, 0.5)';
+    ctx.lineWidth = 2;
+    for (let i = 0; i < 3; i++) {
+      ctx.save();
+      ctx.rotate(v.rot * (i + 1) + i * 2.1);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, v.r * 0.7, v.r * 0.2, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+  
+  // Gates
+  for (const g of gates) {
+    g.rot += g.rotSpeed;
+    if (g.flashTimer > 0) g.flashTimer -= 0.016;
+    
+    ctx.save();
+    ctx.translate(g.x, g.y);
+    ctx.rotate(g.rot);
+    
+    const color = g.flashTimer > 0 
+      ? (g.perfect ? '#00ff88' : '#ffd700')
+      : (g.passed ? 'rgba(0, 255, 136, 0.3)' : 'rgba(0, 230, 255, 0.6)');
+    
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 3;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = g.flashTimer > 0 ? 25 : 12;
+    
+    // Hexagon
+    ctx.beginPath();
+    for (let i = 0; i < 6; i++) {
+      const angle = (i / 6) * Math.PI * 2;
+      const px = Math.cos(angle) * g.r;
+      const py = Math.sin(angle) * g.r;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.stroke();
+    
+    // Inner ring
+    ctx.beginPath();
+    for (let i = 0; i < 6; i++) {
+      const angle = (i / 6) * Math.PI * 2;
+      const px = Math.cos(angle) * (g.r * 0.7);
+      const py = Math.sin(angle) * (g.r * 0.7);
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.stroke();
+    
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  }
+  
+  // Orbs
+  for (const o of orbs) {
+    if (o.collected) continue;
+    o.sparklePhase += 0.03;
+    
+    ctx.save();
+    ctx.translate(o.x, o.y);
+    
+    ctx.fillStyle = '#ffd700';
+    ctx.shadowColor = '#ffd700';
+    ctx.shadowBlur = 20;
+    ctx.beginPath();
+    ctx.arc(0, 0, o.r, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Sparkle
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.shadowBlur = 10;
+    for (let i = 0; i < 4; i++) {
+      const angle = o.sparklePhase + (i * Math.PI / 2);
+      const r1 = o.r * 0.3;
+      const r2 = o.r * 1.4;
+      ctx.beginPath();
+      ctx.moveTo(Math.cos(angle) * r1, Math.sin(angle) * r1);
+      ctx.lineTo(Math.cos(angle) * r2, Math.sin(angle) * r2);
+      ctx.stroke();
+    }
+    
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  }
+  
+  // Particles
+  for (const p of particles) {
+    ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * (p.life / p.maxLife), 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  
+  // Score popups
+  for (const sp of scorePopups) {
+    ctx.globalAlpha = Math.max(0, sp.life / 1.5);
+    ctx.fillStyle = sp.color;
+    ctx.font = 'bold 18px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(sp.text, sp.x, sp.y);
+  }
+  ctx.globalAlpha = 1;
+  
+  // Player
+  ctx.save();
+  ctx.translate(player.x, player.y);
+  
+  // Aura
+  const pulse = 1 + 0.15 * Math.sin(performance.now() * 0.005);
+  ctx.fillStyle = 'rgba(0, 230, 255, 0.15)';
+  ctx.beginPath();
+  ctx.arc(0, 0, PLAYER_RADIUS * 2.5 * pulse, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Core
+  ctx.fillStyle = '#00e5ff';
+  ctx.shadowColor = '#00e5ff';
+  ctx.shadowBlur = 20;
+  ctx.beginPath();
+  ctx.arc(0, 0, PLAYER_RADIUS, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Inner glow
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowBlur = 10;
+  ctx.beginPath();
+  ctx.arc(0, 0, PLAYER_RADIUS * 0.5, 0, Math.PI * 2);
+  ctx.fill();
+  
+  ctx.shadowBlur = 0;
+  ctx.restore();
+  
+  // Off-screen warning
+  if (offScreenTimer > 0) {
+    ctx.globalAlpha = Math.min(1, offScreenTimer * 0.3);
+    ctx.fillStyle = '#ff4444';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(`WARNING: ${(3 - offScreenTimer).toFixed(1)}s`, canvas.width / 2, 80);
+    ctx.globalAlpha = 1;
+  }
+  
+  ctx.restore();
+}
+
+// ============ GAME STATE ============
+function levelComplete() {
+  gameState = STATE.LEVEL_COMPLETE;
+  const lvl = LEVELS[currentLevel];
+  const elapsed = (performance.now() - levelStartTime) / 1000;
+  const timeBonus = Math.max(0, Math.floor((lvl.parTime - elapsed) * 10));
+  const gateCount = gates.length;
+  const orbCount = orbs.filter(o => o.collected).length;
+  const totalOrbs = orbs.length;
+  
+  totalScore += timeBonus;
+  
+  // Stars
+  let stars = 1; // Complete
+  if (orbCount === totalOrbs) stars = 2;
+  if (elapsed < lvl.parTime) stars = 3;
+  
+  levelResults[currentLevel] = { stars, score: totalScore, time: elapsed, orbs: orbCount, gates: gateCount };
+  
+  document.getElementById('lcScore').textContent = Math.floor(totalScore);
+  document.getElementById('lcTime').textContent = elapsed.toFixed(1);
+  document.getElementById('lcOrbs').textContent = orbCount;
+  document.getElementById('lcTotalOrbs').textContent = totalOrbs;
+  document.getElementById('lcGates').textContent = gateCount;
+  
+  const starEls = document.querySelectorAll('#levelStars .star');
+  starEls.forEach((el, i) => {
+    el.classList.toggle('unlocked', i < stars);
+  });
+  
+  const badges = document.getElementById('levelBadges');
+  badges.innerHTML = '';
+  if (stars >= 1) badges.innerHTML += '<span class="badge earned">🏁 Level Complete</span>';
+  if (stars >= 2) badges.innerHTML += '<span class="badge earned">💎 All Orbs</span>';
+  if (stars >= 3) badges.innerHTML += '<span class="badge earned">⚡ Under Par</span>';
+  if (comboCount >= 3) badges.innerHTML += '<span class="badge earned">🔥 Combo Master</span>';
+  
+  showScreen('levelCompleteScreen');
+}
+
+function gameOver(reason) {
+  gameState = STATE.GAME_OVER;
+  document.getElementById('deathReason').textContent = reason;
+  document.getElementById('goScore').textContent = Math.floor(totalScore);
+  document.getElementById('goLevel').textContent = currentLevel + 1;
+  showScreen('gameOverScreen');
+}
+
+function victory() {
+  gameState = STATE.VICTORY;
+  const totalTime = levelResults.reduce((s, r) => s + (r ? r.time : 0), 0);
+  
+  document.getElementById('vScore').textContent = Math.floor(totalScore);
+  document.getElementById('vTime').textContent = totalTime.toFixed(1);
+  
+  const totalStars = levelResults.reduce((s, r) => s + (r ? r.stars : 0), 0);
+  const maxStars = 30;
+  
+  const starContainer = document.getElementById('victoryStars');
+  starContainer.innerHTML = '';
+  for (let i = 0; i < 5; i++) {
+    const el = document.createElement('span');
+    el.className = 'star' + (i < Math.ceil(totalStars / 6) ? ' unlocked' : '');
+    el.textContent = '⭐';
+    starContainer.appendChild(el);
+  }
+  
+  const badges = document.getElementById('victoryBadges');
+  badges.innerHTML = '';
+  if (totalStars >= 10) badges.innerHTML += '<span class="badge earned">🌟 Star Collector</span>';
+  if (totalStars >= 20) badges.innerHTML += '<span class="badge earned">⭐⭐ Star Master</span>';
+  if (totalStars === 30) badges.innerHTML += '<span class="badge earned">👑 Perfect Run</span>';
+  
+  showScreen('victoryScreen');
+}
+
+// ============ UI ============
+function showScreen(id) {
+  document.querySelectorAll('.ui-overlay').forEach(el => el.classList.remove('active'));
+  document.getElementById('hud').classList.remove('active');
+  document.getElementById('comboMeter').classList.remove('active');
+  if (id) document.getElementById(id).classList.add('active');
+  if (id === null) {
+    document.getElementById('hud').classList.add('active');
+  }
+}
+
+function updateMenuDots() {
+  const container = document.getElementById('menuDots');
+  container.innerHTML = '';
+  for (let i = 0; i < 10; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'level-dot';
+    if (levelResults[i]) dot.classList.add('completed');
+    if (i === currentLevel && !levelResults[i]) dot.classList.add('current');
+    container.appendChild(dot);
+  }
+}
+
+// ============ INPUT HANDLING ============
+function handlePulse(px, py) {
+  if (gameState !== STATE.PLAYING) return;
+  
+  const dx = player.x - px;
+  const dy = player.y - py;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist < 1) return;
+  
+  const nx = dx / dist;
+  const ny = dy / dist;
+  
+  player.vx += nx * PULSE_FORCE;
+  player.vy += ny * PULSE_FORCE;
+  
+  addScreenShake(5);
+  spawnParticles(px, py, 'rgba(0, 230, 255, 0.8)', 12, 4, 0.6);
+  spawnParticles(player.x, player.y, 'rgba(0, 200, 255, 0.5)', 8, 2, 0.4);
+}
+
+canvas.addEventListener('mousedown', e => {
+  const rect = canvas.getBoundingClientRect();
+  handlePulse(e.clientX - rect.left, e.clientY - rect.top);
+});
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const touch = e.touches[0];
+  handlePulse(touch.clientX - rect.left, touch.clientY - rect.top);
+}, { passive: false });
+
+// Button handlers
+document.getElementById('btnPlay').onclick = () => {
+  totalScore = 0;
+  levelResults = [];
+  loadLevel(0);
+  showScreen(null);
+  gameState = STATE.PLAYING;
+};
+
+document.getElementById('btnInstructions').onclick = () => {
+  showScreen('instructionsScreen');
+  gameState = STATE.INSTRUCTIONS;
+};
+
+document.getElementById('btnStartGame').onclick = () => {
+  totalScore = 0;
+  levelResults = [];
+  loadLevel(0);
+  showScreen(null);
+  gameState = STATE.PLAYING;
+};
+
+document.getElementById('btnBackMenu').onclick = () => {
+  updateMenuDots();
+  showScreen('menuScreen');
+  gameState = STATE.MENU;
+};
+
+document.getElementById('btnNextLevel').onclick = () => {
+  if (currentLevel < 9) {
+    loadLevel(currentLevel + 1);
+    showScreen(null);
+    gameState = STATE.PLAYING;
+  } else {
+    victory();
+  }
+};
+
+document.getElementById('btnReplayLevel').onclick = () => {
+  totalScore = levelResults.slice(0, currentLevel).reduce((s, r) => s + (r ? r.score : 0), 0);
+  loadLevel(currentLevel);
+  showScreen(null);
+  gameState = STATE.PLAYING;
+};
+
+document.getElementById('btnLevelMenu').onclick = () => {
+  updateMenuDots();
+  showScreen('menuScreen');
+  gameState = STATE.MENU;
+};
+
+document.getElementById('btnRetry').onclick = () => {
+  totalScore = levelResults.slice(0, currentLevel).reduce((s, r) => s + (r ? r.score : 0), 0);
+  loadLevel(currentLevel);
+  showScreen(null);
+  gameState = STATE.PLAYING;
+};
+
+document.getElementById('btnGoMenu').onclick = () => {
+  updateMenuDots();
+  showScreen('menuScreen');
+  gameState = STATE.MENU;
+};
+
+document.getElementById('btnNewGame').onclick = () => {
+  totalScore = 0;
+  levelResults = [];
+  loadLevel(0);
+  showScreen(null);
+  gameState = STATE.PLAYING;
+};
+
+document.getElementById('btnVictoryMenu').onclick = () => {
+  updateMenuDots();
+  showScreen('menuScreen');
+  gameState = STATE.MENU;
+};
+
+// ============ MAIN LOOP ============
+let lastTime = performance.now();
+
+function gameLoop(now) {
+  const dt = Math.min((now - lastTime) / 1000, 0.05);
+  lastTime = now;
+  
+  if (gameState === STATE.PLAYING) {
+    levelTime = (now - levelStartTime) / 1000;
+    updatePhysics(dt);
+    checkCollisions();
+    updateHUD();
+  }
+  
+  // Update particles
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life -= dt;
+    if (p.life <= 0) particles.splice(i, 1);
+  }
+  
+  // Update score popups
+  for (let i = scorePopups.length - 1; i >= 0; i--) {
+    const sp = scorePopups[i];
+    sp.y += sp.vy;
+    sp.life -= dt;
+    if (sp.life <= 0) scorePopups.splice(i, 1);
+  }
+  
+  updateScreenEffects(dt);
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+updateMenuDots();
+requestAnimationFrame(gameLoop);
+
+})();
+</script>
+</body>
+</html>

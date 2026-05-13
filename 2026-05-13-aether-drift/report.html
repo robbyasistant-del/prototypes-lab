@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aether Drift - Prototype Report</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#080a14;color:#e0f7ff;line-height:1.6;padding:40px 20px;max-width:900px;margin:0 auto}
+h1{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#00e5ff,#7c4dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+h2{font-size:1.3rem;color:#00e5ff;margin:1.8rem 0 .6rem;font-weight:700}
+h3{font-size:1.05rem;color:#90a0b8;margin:1.2rem 0 .4rem;font-weight:600}
+.subtitle{color:#90a0b8;font-size:1.1rem;margin-bottom:2rem}
+.section{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px;margin-bottom:16px}
+.tag{display:inline-block;background:rgba(0,229,255,.12);color:#00e5ff;padding:3px 10px;border-radius:20px;font-size:.8rem;font-weight:600;margin:2px}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+th{color:#90a0b8;font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
+.metric{font-size:2rem;font-weight:800;color:#ffcc00}
+.metric-label{font-size:.75rem;color:#90a0b8;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:12px 0}
+.card{background:rgba(255,255,255,.04);border-radius:8px;padding:14px;text-align:center}
+ul{margin:.5rem 0 .5rem 1.2rem}
+li{margin:.25rem 0}
+.highlight{color:#ffcc00;font-weight:600}
+.risk-high{color:#ff4444}
+.risk-med{color:#ffaa00}
+.risk-low{color:#00ff88}
+</style>
+</head>
+<body>
+<h1>Aether Drift</h1>
+<div class="subtitle">Prototype Report — May 13, 2026</div>
+
+<div class="section">
+<h2>🎯 Strategy</h2>
+<p><strong>Concept:</strong> Momentum-based physics navigation game where players control a luminous particle through space using Newtonian pulse propulsion. The unique mechanic — <span class="highlight">clicking propels you in the OPPOSITE direction</span> — creates a skillful, meditative-yet-intense gameplay loop that differentiates from typical tap-to-fly games.</p>
+<h3>Target Audience</h3>
+<p>Casual mobile gamers aged 18-35 who enjoy <span class="highlight">"one more try"</span> games with high skill ceilings. Appeals to fans of <em>Flappy Bird</em>, <em>Geometry Dash</em>, and <em>Dune!</em> — but with a physics-driven twist.</p>
+<h3>Monetization Potential</h3>
+<ul>
+<li><strong>Ad-supported:</strong> Rewarded video for extra lives (max 1 per level). Interstitial between levels.</li>
+<li><strong>Cosmetics IAP:</strong> Particle skins (fire, ice, neon, bio), trail effects, gate themes.</li>
+<li><strong>Season Pass:</strong> Monthly "Nebula Tours" with 30 hand-crafted levels + exclusive cosmetics.</li>
+<li><strong>Premium:</strong> $2.99 remove-ads with bonus "Void Walker" skin.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🔄 Core Loop</h2>
+<pre style="background:rgba(255,255,255,.04);padding:14px;border-radius:8px;font-size:.85rem;overflow-x:auto">
+LOAD LEVEL
+    ↓
+MEMORIZE gate/orb/void layout (3-5 seconds of free drift)
+    ↓
+PULSE to navigate → Build momentum → Thread the needle through gates
+    ↓
+COLLECT orbs for score → Maintain combo streak for multiplier
+    ↓
+AVOID void zones (instant death) → Wall bounces break combo
+    ↓
+ALL GATES PASSED? ──YES──→ LEVEL COMPLETE → Badge evaluation → Next Level
+         │
+         └─NO──→ Continue drifting (time penalty) or Die (lose life)
+    ↓
+3 LIVES LOST → GAME OVER → Share score → Retry → Back to Menu
+</pre>
+<p><strong>Session target:</strong> 3-7 minutes for full 10-level run. Individual level: 15-45 seconds.</p>
+</div>
+
+<div class="section">
+<h2>🏆 Rewards & Badge System</h2>
+<table>
+<tr><th>Badge</th><th>Condition</th><th>Reward</th></tr>
+<tr><td>⭐ Complete</td><td>Pass all gates</td><td>Unlock next level</td></tr>
+<tr><td>⭐⭐ Collector</td><td>Collect 100% of orbs</td><td>+50% level score bonus</td></tr>
+<tr><td>⭐⭐⭐ Speedster</td><td>Complete under par time</td><td>+100% level score bonus, unlocks "Aether" particle skin at 10⭐⭐⭐</td></tr>
+<tr><td>🔥 Combo Master</td><td>Reach 10x combo in a level</td><td>Permanent +5% score multiplier (stackable to +50%)</td></tr>
+</table>
+<p><strong>Daily Challenges:</strong> One special level per day with global leaderboard. Top 10% earn exclusive badge.</p>
+</div>
+
+<div class="section">
+<h2>📊 KPI Projections</h2>
+<div class="grid">
+<div class="card"><div class="metric">45%</div><div class="metric-label">D1 Retention</div></div>
+<div class="card"><div class="metric">18%</div><div class="metric-label">D7 Retention</div></div>
+<div class="card"><div class="metric">8%</div><div class="metric-label">D30 Retention</div></div>
+<div class="card"><div class="metric">4.2m</div><div class="metric-label">Avg Session</div></div>
+<div class="card"><div class="metric">6.8</div><div class="metric-label">Sessions/Day</div></div>
+<div class="card"><div class="metric">0.35</div><div class="metric-label">Viral K-Factor</div></div>
+</div>
+<p><strong>ARPU estimate:</strong> $0.08 (ads) to $0.45 (ads+IAP) depending on region. <strong>LTV:</strong> $0.60-$1.20 for engaged users.</p>
+</div>
+
+<div class="section">
+<h2>🔍 SEO / ASO / SEM</h2>
+<h3>Keywords (High Priority)</h3>
+<p><span class="tag">space game</span> <span class="tag">physics puzzle</span> <span class="tag">neon drift</span> <span class="tag">one tap game</span> <span class="tag">endless runner</span> <span class="tag">retro arcade</span> <span class="tag">momentum game</span> <span class="tag">casual arcade</span></p>
+<h3>App Store Description (Draft)</h3>
+<p><em>"Master the art of zero-gravity flight. One pulse. One trajectory. Infinite possibilities."</em></p>
+<p>Aether Drift is a mesmerizing physics-driven arcade game where <strong>your clicks become propulsion</strong>. Navigate luminous gates, collect energy orbs, and thread the needle through the void. Easy to learn. Impossible to master. How far can you drift?</p>
+<h3>Ad Angles</h3>
+<ul>
+<li><strong>Hook:</strong> "I can't stop playing this" / "Just one more level" UGC-style</li>
+<li><strong>Visual:</strong> 5-second clip of near-miss through gate + combo explosion</li>
+<li><strong>Channels:</strong> TikTok Spark Ads, Instagram Reels, Unity Rewarded Video</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🧪 Experiments (A/B Tests)</h2>
+<table>
+<tr><th>Experiment</th><th>Variant A</th><th>Variant B</th><th>Primary Metric</th></tr>
+<tr><td>Tutorial length</td><td>Interactive 3-enemy tutorial</td><td>Text-only instructions</td><td>D1 Retention</td></tr>
+<tr><td>Lives system</td><td>3 lives, lose 1 per death</td><td>Energy bar (depletes on death, regens)</td><td>Session length</td></tr>
+<tr><td>Gate shape</td><td>Hexagons</td><td>Circles with rotating segments</td><td>Level completion rate</td></tr>
+<tr><td>Monetization</td><td>Banner ads + interstitials</td><td>Rewarded video only, no banners</td><td>ARPU + Retention</td></tr>
+<tr><td>Social feature</td><td>Global leaderboard</td><td>Friend leaderboard + weekly tournaments</td><td>K-factor</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>⚠️ Risks & Mitigations</h2>
+<table>
+<tr><th>Risk</th><th>Level</th><th>Mitigation</th></tr>
+<tr><td>Physics feels too floaty / uncontrollable</td><td class="risk-high">HIGH</td><td>Extensive playtesting with friction/tuning params. Add "assisted drift" mode.</td></tr>
+<tr><td>Late levels too difficult, causing churn</td><td class="risk-high">HIGH</td><td>Dynamic difficulty: adjust void count based on player death count. Skip level option after 5 fails.</td></tr>
+<tr><td>Similar to existing games (Dune!, Space Frontier)</td><td class="risk-med">MED</td><td>Emphasize unique "pulse opposite" mechanic in all marketing. Patent-pending feel.</td></tr>
+<tr><td>Low ad inventory in casual games market</td><td class="risk-med">MED</td><td>Diversify: rewarded video for revives, interstitials, offerwall, seasonal IAP.</td></tr>
+<tr><td>Canvas performance on low-end Android</td><td class="risk-low">LOW</td><td>Implement quality settings. Reduce particle count on <2GB RAM devices.</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>📋 Build Notes</h2>
+<ul>
+<li>Built as single-file HTML5 prototype using Canvas 2D API</li>
+<li>No external dependencies — loads instantly anywhere</li>
+<li>Responsive touch + mouse input</li>
+<li>10 procedurally varied levels with par times</li>
+<li>Star/badge system with 3 tiers per level</li>
+</ul>
+</div>
+
+</body>
+</html>

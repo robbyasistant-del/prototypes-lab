@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threadline - Prototype Report</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Georgia','Times New Roman',serif;background:#1a1410;color:#f5e6d0;line-height:1.6;padding:40px 20px;max-width:900px;margin:0 auto}
+h1{font-size:2.5rem;font-weight:700;color:#d4a574;text-shadow:0 2px 16px rgba(212,165,116,0.2);margin-bottom:.5rem;letter-spacing:2px}
+h2{font-size:1.3rem;color:#d4a574;margin:1.8rem 0 .6rem;font-weight:700}
+h3{font-size:1.05rem;color:#a08060;margin:1.2rem 0 .4rem;font-weight:600}
+.subtitle{color:#a08060;font-size:1.1rem;margin-bottom:2rem}
+.section{background:rgba(212,165,116,.04);border:1px solid rgba(212,165,116,.1);border-radius:12px;padding:20px;margin-bottom:16px}
+.tag{display:inline-block;background:rgba(212,165,116,.12);color:#d4a574;padding:3px 10px;border-radius:20px;font-size:.8rem;font-weight:600;margin:2px}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid rgba(212,165,116,.1)}
+th{color:#a08060;font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
+.metric{font-size:2rem;font-weight:800;color:#d4a574}
+.metric-label{font-size:.75rem;color:#a08060;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:12px 0}
+.card{background:rgba(212,165,116,.04);border-radius:8px;padding:14px;text-align:center}
+ul{margin:.5rem 0 .5rem 1.2rem}
+li{margin:.25rem 0}
+.highlight{color:#d4a574;font-weight:600}
+.risk-high{color:#c04040}
+.risk-med{color:#d4a574}
+.risk-low{color:#8b9e6b}
+</style>
+</head>
+<body>
+<h1>Threadline</h1>
+<div class="subtitle">Prototype Report — May 13, 2026</div>
+
+<div class="section">
+<h2>🎯 Strategy</h2>
+<p><strong>Concept:</strong> A tactile memory & pattern game with a textile/weaving aesthetic. Players watch colored threads animate across a loom grid, then must recreate the exact pattern by drawing lines in the correct order, direction, and color. The <span class="highlight">"crossing memory"</span> mechanic — remembering which thread passes over which — adds a unique spatial layer absent from typical memory games.</p>
+<h3>Target Audience</h3>
+<p>Players who enjoy meditative, skill-based puzzle games:</p>
+<ul>
+<li>Fans of <em>Monument Valley</em>, <em>Alto's Odyssey</em> (aesthetic appeal)</li>
+<li>Memory game players (<em>Simon</em>, <em>Lumosity</em> users)</li>
+<li>Casual players seeking "brain training" with style</li>
+<li>Strong appeal to 25-55 female demographic (craft aesthetic)</li>
+</ul>
+<h3>Monetization Potential</h3>
+<ul>
+<li><strong>Premium unlock:</strong> $2.99 for "Master Weaver" — removes ads, unlocks all 100 levels</li>
+<li><strong>Thread packs:</strong> $0.99 cosmetic thread themes (silk, neon, gold, holographic)</li>
+<li><strong>Loom skins:</strong> $1.99 backgrounds (Japanese tatami, Moroccan tile, Scandinavian wood)</li>
+<li><strong>Hint system:</strong> Watch rewarded video for 3-second replay of target thread</li>
+<li><strong>Daily weave:</strong> One special pattern per day with global accuracy leaderboard</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🔄 Core Loop</h2>
+<pre style="background:rgba(212,165,116,.04);padding:14px;border-radius:8px;font-size:.85rem;overflow-x:auto">
+LOAD LEVEL
+    ↓
+MEMORIZE PHASE (3-8 seconds)
+    └─ Threads animate across loom in sequence
+    └─ Player watches paths, colors, crossing order
+    ↓
+RECALL PHASE
+    └─ Loom clears to grid only
+    └─ Player draws Thread 1 → then Thread 2 → etc.
+    └─ Must match path, color, AND entry point exactly
+    ↓
+VALIDATION (per thread)
+    ├─ CORRECT → Thread locks in place → Pleasant chime → Next thread
+    ├─ WRONG → Thread snaps → Lose 1 life → Retry same thread
+    ↓
+ALL THREADS CORRECT → LEVEL COMPLETE → Badges → Next Level
+         │
+         └─ 3 LIVES LOST → GAME OVER → Share score → Retry
+</pre>
+<p><strong>Session target:</strong> 5-10 minutes for 10-level run. Individual level: 20-50 seconds.</p>
+</div>
+
+<div class="section">
+<h2>🏆 Rewards & Badge System</h2>
+<table>
+<tr><th>Badge</th><th>Condition</th><th>Reward</th></tr>
+<tr><td>⭐ Weaver</td><td>Complete level (any accuracy)</td><td>Unlock next level</td></tr>
+<tr><td>⭐⭐ Perfect Loom</td><td>Zero mistakes in level</td><td>+50% level score, "Perfect" tally on level select</td></tr>
+<tr><td>⭐⭐⭐ Speed Weaver</td><td>Perfect + under par time</td><td>+100% level score, exclusive thread color unlock, bragging rights on leaderboard</td></tr>
+<tr><td>🔥 Streak Master</td><td>5 consecutive perfect levels</td><td>Permanent +10% score multiplier, golden loom frame</td></tr>
+</table>
+<p><strong>Life Regen:</strong> Every 3 perfect levels restores 1 life (max 3). Encourages risk-taking for perfection.</p>
+</div>
+
+<div class="section">
+<h2>📊 KPI Projections</h2>
+<div class="grid">
+<div class="card"><div class="metric">48%</div><div class="metric-label">D1 Retention</div></div>
+<div class="card"><div class="metric">20%</div><div class="metric-label">D7 Retention</div></div>
+<div class="card"><div class="metric">9%</div><div class="metric-label">D30 Retention</div></div>
+<div class="card"><div class="metric">5.8m</div><div class="metric-label">Avg Session</div></div>
+<div class="card"><div class="metric">4.5</div><div class="metric-label">Sessions/Day</div></div>
+<div class="card"><div class="metric">0.28</div><div class="metric-label">Viral K-Factor</div></div>
+</div>
+<p><strong>ARPU estimate:</strong> $0.06 (ads) to $0.35 (ads+IAP). <strong>LTV:</strong> $0.50-$1.10. Lower ARPU offset by strong premium conversion (aesthetic appeal drives IAP).</p>
+</div>
+
+<div class="section">
+<h2>🔍 SEO / ASO / SEM</h2>
+<h3>Keywords (High Priority)</h3>
+<p><span class="tag">memory game</span> <span class="tag">pattern puzzle</span> <span class="tag">weaving game</span> <span class="tag">brain training</span> <span class="tag">calm puzzle</span> <span class="tag">textile art</span> <span class="tag">mind game</span> <span class="tag">casual puzzle</span></p>
+<h3>App Store Description (Draft)</h3>
+<p><em>"Every thread tells a story. Can you remember them all?"</em></p>
+<p>Threadline is a <strong>beautiful memory puzzle</strong> that transforms your screen into a weaver's loom. Watch silky threads dance across the grid, then weave them back from memory. With each level, the patterns grow more intricate, the crossings more cunning. No timers pressuring you. No gimmicks. Just you, the loom, and the threadline.</p>
+<h3>Ad Angles</h3>
+<ul>
+<li><strong>Hook:</strong> "The most satisfying puzzle game you've never played" / "I can FEEL the threads"</li>
+<li><strong>Visual:</strong> ASMR-style clip of thread drawing with soft chime sounds</li>
+<li><strong>Channels:</strong> Pinterest (craft aesthetic), Instagram (Reels of satisfying gameplay), Facebook (35+ demographic)</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🧪 Experiments (A/B Tests)</h2>
+<table>
+<tr><th>Experiment</th><th>Variant A</th><th>Variant B</th><th>Primary Metric</th></tr>
+<tr><td>Memorize duration</td><td>Fixed time (scales with level)</td><td>Player-controlled (tap when ready)</td><td>Level completion rate</td></tr>
+<tr><td>Mistake penalty</td><td>Lose 1 life, continue thread</td><td>No lives, just score penalty</td><td>D1 Retention</td></tr>
+<tr><td>Drawing input</td><td>Draw continuous path</td><td>Tap cells in sequence</td><td>Session length + accuracy</td></tr>
+<tr><td>Crossing indication</td><td>Subtle shadow on top thread</td><td>No crossing indicator (harder)</td><td>D7 Retention</td></tr>
+<tr><td>Social feature</td><td>Share pattern image</td><td>Challenge friend to same pattern</td><td>K-factor</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>⚠️ Risks & Mitigations</h2>
+<table>
+<tr><th>Risk</th><th>Level</th><th>Mitigation</th></tr>
+<tr><td>Memorize phase too short, causing frustration</td><td class="risk-high">HIGH</td><td>Dynamic memorize time: base + 2s per thread. Difficulty settings. "Peek" button (watch again for ad).</td></tr>
+<tr><td>Drawing tolerance too strict on mobile</td><td class="risk-high">HIGH</td><td>15px touch tolerance, snap-to-grid drawing. Alternative tap-mode for accessibility.</td></tr>
+<tr><td>Aesthetic niche limits mass appeal</td><td class="risk-med">MED</td><td>Offer multiple themes (neon cyberpunk, minimal, kids). Default to broad-appeal theme.</td></tr>
+<tr><td>Level generation creates impossible patterns</td><td class="risk-med">MED</td><td>Hand-curate first 30 levels. Procedural only after level 30 with validation rules.</td></tr>
+<tr><td>Audio dependency for feedback (chime)</td><td class="risk-low">LOW</td><td>Strong visual feedback ensures playability muted. Haptic feedback on mobile.</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>📋 Build Notes</h2>
+<ul>
+<li>Single-file HTML5 prototype using Canvas 2D API</li>
+<li>No external dependencies — loads instantly anywhere</li>
+<li>5x5 to 8x8 grid scaling across 10 levels</li>
+<li>Memorize phase with animated thread drawing</li>
+<li>Recall phase with touch/mouse path drawing (snap-to-grid)</li>
+<li>3-star badge system with par times per level</li>
+<li>Wooden loom aesthetic with warm palette</li>
+</ul>
+</div>
+
+</body>
+</html>

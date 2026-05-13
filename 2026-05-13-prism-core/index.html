@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Prism Core</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;touch-action:none;-webkit-user-select:none;user-select:none;}
+body{background:#0a0a1a;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif;color:#e8e0ff;}
+#c{display:block;width:100vw;height:100vh;}
+#ui{position:absolute;inset:0;pointer-events:none;}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,10,26,0.95);backdrop-filter:blur(10px);pointer-events:auto;z-index:10;transition:opacity .4s;}
+.hidden{opacity:0;pointer-events:none !important;}
+.title{font-size:clamp(32px,7vw,64px);font-weight:800;background:linear-gradient(90deg,#ff0055,#00ff88,#0088ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
+.subtitle{font-size:clamp(13px,2.5vw,18px);color:#a090c0;margin-bottom:28px;text-align:center;max-width:520px;padding:0 20px;line-height:1.5;}
+.btn{padding:13px 36px;font-size:17px;font-weight:700;border:none;border-radius:28px;cursor:pointer;transition:all .2s;margin:6px;text-transform:uppercase;letter-spacing:1px;pointer-events:auto;}
+.btn-primary{background:linear-gradient(90deg,#ff0055,#0088ff);color:#fff;box-shadow:0 4px 20px rgba(255,0,85,0.3);}
+.btn-primary:hover{transform:scale(1.06);box-shadow:0 6px 30px rgba(255,0,85,0.5);}
+.btn-secondary{background:rgba(255,255,255,0.06);color:#e8e0ff;border:1px solid rgba(255,255,255,0.12);}
+.btn-secondary:hover{background:rgba(255,255,255,0.12);}
+.hud{position:absolute;font-size:14px;font-weight:700;text-shadow:0 0 12px rgba(0,0,0,0.8);opacity:0;transition:opacity .4s;}
+.hud.show{opacity:1;}
+#hudScore{top:12px;left:12px;}
+#hudWave{top:12px;right:12px;text-align:right;}
+#hudCombo{bottom:16px;left:50%;transform:translateX(-50%);font-size:22px;color:#ffcc00;text-shadow:0 0 20px rgba(255,204,0,0.6);}
+#hudAccuracy{top:36px;right:12px;text-align:right;font-size:12px;color:#a090c0;}
+.color-wheel{width:160px;height:160px;margin:16px auto;position:relative;}
+.cw-slice{position:absolute;width:80px;height:80px;border-radius:0 80px 0 0;transform-origin:0 0;}
+.cw-r{background:#ff0055;transform:rotate(0deg);top:80px;left:80px;}
+.cw-g{background:#00ff88;transform:rotate(120deg);top:80px;left:80px;}
+.cw-b{background:#0088ff;transform:rotate(240deg);top:80px;left:80px;}
+.cw-center{position:absolute;width:50px;height:50px;background:#fff;border-radius:50%;top:55px;left:55px;box-shadow:0 0 20px rgba(255,255,255,0.5);}
+.stats-row{display:flex;gap:24px;margin:14px 0;flex-wrap:wrap;justify-content:center;}
+.stat{text-align:center;}
+.stat-v{font-size:26px;font-weight:800;}
+.stat-l{font-size:11px;color:#a090c0;text-transform:uppercase;letter-spacing:1px;}
+.badge-box{display:flex;gap:10px;margin:14px 0;}
+.badge{font-size:34px;filter:grayscale(1);opacity:.4;transition:all .5s;}
+.badge.on{filter:grayscale(0);opacity:1;transform:scale(1.15);}
+.lc-title{color:#00ff88;font-size:clamp(26px,5vw,44px);font-weight:800;text-shadow:0 0 20px rgba(0,255,136,0.4);margin-bottom:8px;}
+.go-title{color:#ff0055;font-size:clamp(26px,5vw,44px);font-weight:800;text-shadow:0 0 20px rgba(255,0,85,0.4);margin-bottom:8px;}
+#coreHpRing{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;border:3px solid rgba(255,255,255,0.1);pointer-events:none;opacity:0;transition:opacity .4s;}
+#coreHpRing.show{opacity:1;}
+#coreHpFill{position:absolute;inset:0;border-radius:50%;background:conic-gradient(#00ff88 var(--hp),transparent var(--hp));transition:--hp .3s;}
+@property --hp{syntax:'<percentage>';initial-value:100%;inherits:false;}
+.tut-step{font-size:15px;color:#c0b0e0;margin:8px 0;text-align:center;max-width:420px;padding:0 16px;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div id="menuScreen" class="screen">
+    <div class="title">PRISM CORE</div>
+    <div class="subtitle">Rotate prisms. Mix colors. Defend the core.</div>
+    <button class="btn btn-primary" onclick="showInstructions()">Play</button>
+    <button class="btn btn-secondary" onclick="showInstructions()">How to Play</button>
+  </div>
+
+  <div id="instructionsScreen" class="screen hidden">
+    <div class="title" style="font-size:clamp(22px,5vw,38px)">How to Defend</div>
+    <div class="color-wheel">
+      <div class="cw-slice cw-r"></div><div class="cw-slice cw-g"></div><div class="cw-slice cw-b"></div>
+      <div class="cw-center"></div>
+    </div>
+    <div class="tut-step"><strong>Drag</strong> prisms to rotate them around the core.</div>
+    <div class="tut-step"><strong>Overlap beams</strong> to mix colors: R+G=<span style="color:#ffcc00">Yellow</span>, R+B=<span style="color:#ff00ff">Magenta</span>, G+B=<span style="color:#00ffff">Cyan</span>, All=<span style="color:#fff">White</span>.</div>
+    <div class="tut-step"><strong>Match</strong> enemy colors to destroy them. Wrong color = they keep coming!</div>
+    <button class="btn btn-primary" onclick="startGame()">Start Defense</button>
+    <button class="btn btn-secondary" onclick="showMenu()">Back</button>
+  </div>
+
+  <div id="levelCompleteScreen" class="screen hidden">
+    <div class="lc-title">Core Secured!</div>
+    <div class="subtitle" id="lcSubtitle">Wave 1 complete</div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-v" id="lcScore">0</div><div class="stat-l">Score</div></div>
+      <div class="stat"><div class="stat-v" id="lcAccuracy">0%</div><div class="stat-l">Accuracy</div></div>
+      <div class="stat"><div class="stat-v" id="lcCombo">0</div><div class="stat-l">Max Combo</div></div>
+    </div>
+    <div class="badge-box" id="lcBadges"><div class="badge" id="lb1">⭐</div><div class="badge" id="lb2">⭐</div><div class="badge" id="lb3">⭐</div></div>
+    <button class="btn btn-primary" id="nextWaveBtn" onclick="nextWave()">Next Wave</button>
+    <button class="btn btn-secondary" onclick="showMenu()">Main Menu</button>
+  </div>
+
+  <div id="gameOverScreen" class="screen hidden">
+    <div class="go-title">Core Breached!</div>
+    <div class="subtitle" id="goSubtitle">The core could not withstand the assault.</div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-v" id="goScore">0</div><div class="stat-l">Score</div></div>
+      <div class="stat"><div class="stat-v" id="goWave">0</div><div class="stat-l">Wave</div></div>
+      <div class="stat"><div class="stat-v" id="goAccuracy">0%</div><div class="stat-l">Accuracy</div></div>
+    </div>
+    <button class="btn btn-primary" onclick="retryGame()">Retry</button>
+    <button class="btn btn-secondary" onclick="showMenu()">Main Menu</button>
+  </div>
+
+  <div class="hud" id="hudScore">Score: 0</div>
+  <div class="hud" id="hudWave">Wave: 1/10</div>
+  <div class="hud" id="hudAccuracy">Accuracy: 100%</div>
+  <div class="hud" id="hudCombo"></div>
+</div>
+
+<script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W,H,S=1;
+function resize(){W=window.innerWidth;H=window.innerHeight;canvas.width=W*S;canvas.height=H*S;ctx.setTransform(S,0,0,S,0,0);}
+resize();window.addEventListener('resize',resize);
+
+// Game state
+const ST={MENU:0,INST:1,PLAY:2,WIN:3,LOSE:4};
+let state=ST.MENU;
+let wave=1,score=0,coreHp=100,combo=0,maxCombo=0,hits=0,misses=0;
+let prisms=[],enemies=[],particles=[],floats=[],stars=[];
+let shake=0,coreFlash=0,selectedPrism=-1;
+let waveActive=false,waveTimer=0,enemiesSpawned=0,enemiesToSpawn=0,spawnTimer=0;
+let dragStartAngle=0,dragPrismStartAngle=0,isDragging=false;
+
+// Constants
+const CORE_R=28,ORBIT_R=110;
+const COLORS={R:'#ff0055',G:'#00ff88',B:'#0088ff',Y:'#ffcc00',M:'#ff00ff',C:'#00ffff',W:'#ffffff',K:'#1a0a2e'};
+const COLOR_NAME={R:'Red',G:'Green',B:'Blue',Y:'Yellow',M:'Magenta',C:'Cyan',W:'White',K:'Void'};
+
+function initPrisms(){
+  prisms=[
+    {angle:0,color:'R',dragging:false},
+    {angle:Math.PI*2/3,color:'G',dragging:false},
+    {angle:Math.PI*4/3,color:'B',dragging:false}
+  ];
+}
+initPrisms();
+
+function showMenu(){state=ST.MENU;updateUI();}
+function showInstructions(){state=ST.INST;updateUI();}
+function startGame(){wave=1;score=0;coreHp=100;combo=0;maxCombo=0;hits=0;misses=0;initPrisms();startWave();state=ST.PLAY;updateUI();}
+function nextWave(){if(wave<10){wave++;startWave();state=ST.PLAY;}else{showMenu();}updateUI();}
+function retryGame(){wave=1;score=0;coreHp=100;combo=0;maxCombo=0;hits=0;misses=0;initPrisms();startWave();state=ST.PLAY;updateUI();}
+
+function startWave(){
+  enemies=[];particles=[];floats=[];waveActive=true;enemiesSpawned=0;
+  enemiesToSpawn=4+wave*2+Math.floor(wave/3);
+  spawnTimer=0;waveTimer=0;
+}
+
+function updateUI(){
+  document.getElementById('menuScreen').classList.toggle('hidden',state!==ST.MENU);
+  document.getElementById('instructionsScreen').classList.toggle('hidden',state!==ST.INST);
+  document.getElementById('levelCompleteScreen').classList.toggle('hidden',state!==ST.WIN);
+  document.getElementById('gameOverScreen').classList.toggle('hidden',state!==ST.LOSE);
+  ['hudScore','hudWave','hudAccuracy','hudCombo'].forEach(id=>document.getElementById(id).classList.toggle('show',state===ST.PLAY));
+}
+
+// Input
+let mx=0,my=0,md=false;
+canvas.addEventListener('mousedown',e=>{md=true;mx=e.clientX;my=e.clientY;handlePointerDown(mx,my);});
+canvas.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;if(md)handlePointerDrag(mx,my);});
+canvas.addEventListener('mouseup',()=>{md=false;isDragging=false;selectedPrism=-1;});
+canvas.addEventListener('touchstart',e=>{md=true;mx=e.touches[0].clientX;my=e.touches[0].clientY;handlePointerDown(mx,my);},{passive:false});
+canvas.addEventListener('touchmove',e=>{md=true;mx=e.touches[0].clientX;my=e.touches[0].clientY;handlePointerDrag(mx,my);e.preventDefault();},{passive:false});
+canvas.addEventListener('touchend',()=>{md=false;isDragging=false;selectedPrism=-1;});
+
+function handlePointerDown(x,y){
+  if(state!==ST.PLAY)return;
+  const cx=W/2,cy=H/2;
+  const dx=x-cx,dy=y-cy;
+  const dist=Math.sqrt(dx*dx+dy*dy);
+  // Check if clicking near a prism
+  for(let i=0;i<prisms.length;i++){
+    const p=prisms[i];
+    const px=cx+Math.cos(p.angle)*ORBIT_R;
+    const py=cy+Math.sin(p.angle)*ORBIT_R;
+    const pd=Math.hypot(x-px,y-py);
+    if(pd<35){selectedPrism=i;isDragging=true;dragStartAngle=Math.atan2(dy,dx);dragPrismStartAngle=p.angle;return;}
+  }
+  // Click on orbit ring to rotate all
+  if(dist>ORBIT_R-40&&dist<ORBIT_R+40){
+    isDragging=true;selectedPrism=-2;dragStartAngle=Math.atan2(dy,dx);dragPrismStartAngle=prisms[0].angle;
+  }
+}
+
+function handlePointerDrag(x,y){
+  if(!isDragging||state!==ST.PLAY)return;
+  const cx=W/2,cy=H/2;
+  const angle=Math.atan2(y-cy,x-cx);
+  const delta=angle-dragStartAngle;
+  if(selectedPrism>=0){
+    prisms[selectedPrism].angle=dragPrismStartAngle+delta;
+  }else if(selectedPrism===-2){
+    const baseDelta=dragPrismStartAngle+delta-prisms[0].angle;
+    for(let p of prisms)p.angle+=baseDelta;
+  }
+}
+
+// Keyboard
+const keys={};
+window.addEventListener('keydown',e=>{keys[e.key]=true;});
+window.addEventListener('keyup',e=>{keys[e.key]=false;});
+
+function update(){
+  if(state!==ST.PLAY)return;
+  
+  // Keyboard rotation
+  const rotSpeed=0.04;
+  if(keys['a']||keys['ArrowLeft']||keys['q'])for(let p of prisms)p.angle-=rotSpeed;
+  if(keys['d']||keys['ArrowRight']||keys['e'])for(let p of prisms)p.angle+=rotSpeed;
+  
+  // Normalize angles
+  for(let p of prisms){while(p.angle<0)p.angle+=Math.PI*2;while(p.angle>=Math.PI*2)p.angle-=Math.PI*2;}
+  
+  // Spawn enemies
+  if(waveActive&&enemiesSpawned<enemiesToSpawn){
+    spawnTimer++;
+    if(spawnTimer>=40-wave*2){
+      spawnTimer=0;enemiesSpawned++;
+      const side=Math.floor(Math.random()*4);
+      let ex,ey,ea;
+      const margin=60;
+      switch(side){
+        case 0:ex=Math.random()*W;ey=-margin;ea=Math.PI/2+((Math.random()-.5)*0.4);break;
+        case 1:ex=W+margin;ey=Math.random()*H;ea=Math.PI+((Math.random()-.5)*0.4);break;
+        case 2:ex=Math.random()*W;ey=H+margin;ea=-Math.PI/2+((Math.random()-.5)*0.4);break;
+        case 3:ex=-margin;ey=Math.random()*H;ea=((Math.random()-.5)*0.4);break;
+      }
+      const types=getWaveTypes(wave);
+      const type=types[Math.floor(Math.random()*types.length)];
+      const speed=0.6+wave*0.15+Math.random()*0.3;
+      enemies.push({x:ex,y:ey,vx:Math.cos(ea)*speed,vy:Math.sin(ea)*speed,type:type,hp:1+(type==='W'?1:0),maxHp:1+(type==='W'?1:0),hitFlash:0,alive:true});
+    }
+  }
+  
+  // Update enemies
+  const cx=W/2,cy=H/2;
+  for(let e of enemies){
+    if(!e.alive)continue;
+    e.x+=e.vx;e.y+=e.vy;
+    if(e.hitFlash>0)e.hitFlash--;
+    const distToCore=Math.hypot(e.x-cx,e.y-cy);
+    if(distToCore<CORE_R+15){
+      e.alive=false;coreHp-=20;coreFlash=15;shake=12;combo=0;
+      for(let i=0;i<10;i++)particles.push({x:e.x,y:e.y,vx:(Math.random()-.5)*6,vy:(Math.random()-.5)*6,life:20,color:COLORS[e.type],size:3});
+      if(coreHp<=0){coreHp=0;setTimeout(()=>gameOver(),500);}
+    }
+  }
+  enemies=enemies.filter(e=>e.alive);
+  
+  // Check if all enemies dead and spawned
+  if(enemiesSpawned>=enemiesToSpawn&&enemies.length===0&&waveActive){
+    waveActive=false;setTimeout(()=>waveComplete(),400);
+  }
+  
+  // Beam-enemy collision
+  const beams=getBeams();
+  for(let e of enemies){
+    if(!e.alive)continue;
+    for(let b of beams){
+      const d=pointLineDist(e.x,e.y,cx,cy,b.x,b.y);
+      if(d<22&&isColorMatch(b.color,e.type)){
+        e.hp--;e.hitFlash=8;
+        if(e.hp<=0){
+          e.alive=false;hits++;
+          combo++;if(combo>maxCombo)maxCombo=combo;
+          const mult=Math.min(combo,5);
+          const pts=50*mult;
+          score+=pts;
+          const label=mult>=5?'PERFECT':mult>=3?'GREAT':'GOOD';
+          const col=mult>=5?'#ffcc00':mult>=3?'#00ff88':'#00e5ff';
+          floats.push({x:e.x,y:e.y,text:label+' +'+pts,color:col,life:40});
+          for(let i=0;i<12;i++){
+            const a=(Math.PI*2*i)/12;
+            particles.push({x:e.x,y:e.y,vx:Math.cos(a)*3,vy:Math.sin(a)*3,life:25,color:COLORS[e.type],size:3});
+          }
+        }else{
+          // White enemy took 1 damage, still alive
+          floats.push({x:e.x,y:e.y,text:'HIT','#ffffff',life:25});
+        }
+        break;
+      }else if(d<22){
+        // Wrong color hit
+        misses++;combo=0;
+        e.vx*=1.05;e.vy*=1.05;e.hitFlash=5;
+        floats.push({x:e.x,y:e.y,text:'RESIST','#ff4444',life:25});
+      }
+    }
+  }
+  
+  // Particles
+  for(let p of particles){p.x+=p.vx;p.y+=p.vy;p.life--;p.vx*=0.96;p.vy*=0.96;}
+  particles=particles.filter(p=>p.life>0);
+  
+  // Floats
+  for(let f of floats){f.y-=0.8;f.life--;f.opacity=f.life/40;}
+  floats=floats.filter(f=>f.life>0);
+  
+  // Shake
+  if(shake>0)shake*=0.9;if(shake<0.5)shake=0;
+  if(coreFlash>0)coreFlash--;
+  
+  // HUD
+  document.getElementById('hudScore').textContent='Score: '+score;
+  document.getElementById('hudWave').textContent='Wave: '+wave+'/10';
+  const acc=hits+misses>0?Math.round(hits/(hits+misses)*100):100;
+  document.getElementById('hudAccuracy').textContent='Accuracy: '+acc+'%';
+  const hcb=document.getElementById('hudCombo');
+  if(combo>1){hcb.textContent='Combo x'+combo;hcb.style.opacity=1;}else{hcb.style.opacity=0;}
+}
+
+function getWaveTypes(w){
+  const base=['R','G','B'];
+  if(w>=3)base.push('Y','M','C');
+  if(w>=6)base.push('W');
+  if(w>=8)base.push('K');
+  return base;
+}
+
+function getBeams(){
+  const cx=W/2,cy=H/2;
+  const beams=[];
+  for(let i=0;i<prisms.length;i++){
+    const p1=prisms[i];
+    const bx=cx+Math.cos(p1.angle)*W;
+    const by=cy+Math.sin(p1.angle)*H;
+    beams.push({x:bx,y:by,color:p1.color});
+    // Check overlaps
+    for(let j=i+1;j<prisms.length;j++){
+      const p2=prisms[j];
+      const angDiff=Math.abs(normalizeAngle(p1.angle-p2.angle));
+      if(angDiff<0.35||angDiff>Math.PI*2-0.35){
+        const mixed=mixColors(p1.color,p2.color);
+        if(mixed)beams.push({x:bx,y:by,color:mixed});
+      }
+    }
+    // Check all 3 overlap
+    const d12=Math.abs(normalizeAngle(prisms[0].angle-prisms[1].angle));
+    const d23=Math.abs(normalizeAngle(prisms[1].angle-prisms[2].angle));
+    const d31=Math.abs(normalizeAngle(prisms[2].angle-prisms[0].angle));
+    if((d12<0.35||d12>Math.PI*2-0.35)&&(d23<0.35||d23>Math.PI*2-0.35)&&(d31<0.35||d31>Math.PI*2-0.35)){
+      beams.push({x:bx,y:by,color:'W'});
+    }
+  }
+  return beams;
+}
+
+function normalizeAngle(a){while(a<-Math.PI)a+=Math.PI*2;while(a>Math.PI)a-=Math.PI*2;return Math.abs(a);}
+function mixColors(a,b){
+  if((a==='R'&&b==='G')||(a==='G'&&b==='R'))return'Y';
+  if((a==='R'&&b==='B')||(a==='B'&&b==='R'))return'M';
+  if((a==='G'&&b==='B')||(a==='B'&&b==='G'))return'C';
+  return null;
+}
+function isColorMatch(beamColor,enemyType){
+  if(beamColor===enemyType)return true;
+  if(enemyType==='K'&&beamColor==='W')return true;
+  return false;
+}
+function pointLineDist(px,py,x1,y1,x2,y2){
+  const A=px-x1,B=py-y1,C=x2-x1,D=y2-y1;
+  const dot=A*C+B*D;const lenSq=C*C+D*D;
+  let param=lenSq!==0?dot/lenSq:-1;
+  let xx,yy;
+  if(param<0){xx=x1;yy=y1;}else if(param>1){xx=x2;yy=y2;}else{xx=x1+param*C;yy=y1+param*D;}
+  return Math.hypot(px-xx,py-yy);
+}
+
+function waveComplete(){
+  const acc=hits+misses>0?Math.round(hits/(hits+misses)*100):100;
+  const perfectWave=coreHp===100;
+  document.getElementById('lcSubtitle').textContent='Wave '+wave+' complete — Core at '+coreHp+'%';
+  document.getElementById('lcScore').textContent=score;
+  document.getElementById('lcAccuracy').textContent=acc+'%';
+  document.getElementById('lcCombo').textContent=maxCombo;
+  const b1=document.getElementById('lb1'),b2=document.getElementById('lb2'),b3=document.getElementById('lb3');
+  b1.className='badge';b2.className='badge';b3.className='badge';
+  setTimeout(()=>b1.classList.add('on'),300);
+  if(perfectWave)setTimeout(()=>b2.classList.add('on'),700);
+  if(perfectWave&&maxCombo>=5)setTimeout(()=>b3.classList.add('on'),1100);
+  document.getElementById('nextWaveBtn').textContent=wave>=10?'Victory':'Next Wave';
+  state=ST.WIN;updateUI();
+}
+
+function gameOver(){
+  const acc=hits+misses>0?Math.round(hits/(hits+misses)*100):100;
+  document.getElementById('goSubtitle').textContent='Reached Wave '+wave+' — Core destroyed.';
+  document.getElementById('goScore').textContent=score;
+  document.getElementById('goWave').textContent=wave;
+  document.getElementById('goAccuracy').textContent=acc+'%';
+  state=ST.LOSE;updateUI();
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  if(state!==ST.PLAY&&state!==ST.WIN&&state!==ST.LOSE)return;
+  
+  const cx=W/2,cy=H/2;
+  ctx.save();
+  if(shake>0)ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);
+  
+  // Stars
+  for(let s of stars){
+    ctx.fillStyle=`rgba(255,255,255,${s.a})`;
+    ctx.fillRect(s.x,s.y,s.size,s.size);
+  }
+  
+  // Orbit ring
+  ctx.strokeStyle='rgba(255,255,255,0.06)';
+  ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(cx,cy,ORBIT_R,0,Math.PI*2);ctx.stroke();
+  
+  // Beams
+  const beams=getBeams();
+  ctx.globalCompositeOperation='lighter';
+  for(let b of beams){
+    ctx.strokeStyle=COLORS[b.color]+'44';
+    ctx.lineWidth=18;
+    ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(b.x,b.y);ctx.stroke();
+    ctx.strokeStyle=COLORS[b.color]+'88';
+    ctx.lineWidth=8;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(b.x,b.y);ctx.stroke();
+    ctx.strokeStyle=COLORS[b.color]+'CC';
+    ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(b.x,b.y);ctx.stroke();
+  }
+  ctx.globalCompositeOperation='source-over';
+  
+  // Core
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.fillStyle='#ffffff';
+  ctx.shadowColor='#ffffff';
+  ctx.shadowBlur=coreFlash>0?40:20;
+  ctx.beginPath();ctx.arc(0,0,CORE_R,0,Math.PI*2);ctx.fill();
+  ctx.shadowBlur=0;
+  // HP ring
+  ctx.strokeStyle=coreHp>60?'#00ff88':coreHp>30?'#ffcc00':'#ff0055';
+  ctx.lineWidth=4;
+  ctx.beginPath();
+  ctx.arc(0,0,CORE_R+10,0,(Math.PI*2)*(coreHp/100));
+  ctx.stroke();
+  ctx.restore();
+  
+  // Prisms
+  for(let p of prisms){
+    const px=cx+Math.cos(p.angle)*ORBIT_R;
+    const py=cy+Math.sin(p.angle)*ORBIT_R;
+    ctx.save();
+    ctx.translate(px,py);
+    ctx.rotate(p.angle+Math.PI/2);
+    ctx.fillStyle=COLORS[p.color];
+    ctx.shadowColor=COLORS[p.color];
+    ctx.shadowBlur=15;
+    ctx.beginPath();
+    ctx.moveTo(0,-18);ctx.lineTo(15,12);ctx.lineTo(-15,12);ctx.closePath();
+    ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.restore();
+  }
+  
+  // Enemies
+  for(let e of enemies){
+    if(!e.alive)continue;
+    ctx.save();
+    ctx.translate(e.x,e.y);
+    if(e.hitFlash>0)ctx.globalAlpha=0.6;
+    const shapeR=14;
+    ctx.fillStyle=COLORS[e.type];
+    ctx.shadowColor=COLORS[e.type];
+    ctx.shadowBlur=12;
+    ctx.beginPath();
+    if(e.type==='R'||e.type==='K'){ctx.arc(0,0,shapeR,0,Math.PI*2);}
+    else if(e.type==='G'){ctx.moveTo(0,-shapeR);ctx.lineTo(shapeR,shapeR);ctx.lineTo(-shapeR,shapeR);ctx.closePath();}
+    else if(e.type==='B'){ctx.rect(-shapeR*0.7,-shapeR*0.7,shapeR*1.4,shapeR*1.4);}
+    else if(e.type==='Y'){ctx.moveTo(0,-shapeR);ctx.lineTo(12,0);ctx.lineTo(0,shapeR);ctx.lineTo(-12,0);ctx.closePath();}
+    else if(e.type==='M'){ctx.moveTo(0,-shapeR);ctx.lineTo(10,-4);ctx.lineTo(6,shapeR);ctx.lineTo(-6,shapeR);ctx.lineTo(-10,-4);ctx.closePath();}
+    else if(e.type==='C'){for(let i=0;i<6;i++){const a=(Math.PI*2*i)/6- Math.PI/2;const x=Math.cos(a)*shapeR,y=Math.sin(a)*shapeR;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.closePath();}
+    else if(e.type==='W'){ctx.arc(0,0,shapeR+4,0,Math.PI*2);}
+    ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.globalAlpha=1;
+    // HP bar for white
+    if(e.maxHp>1){
+      ctx.fillStyle='#333';ctx.fillRect(-14,20,28,4);
+      ctx.fillStyle='#fff';ctx.fillRect(-14,20,28*(e.hp/e.maxHp),4);
+    }
+    ctx.restore();
+  }
+  
+  // Particles
+  for(let p of particles){
+    ctx.fillStyle=p.color;
+    ctx.globalAlpha=p.life/25;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  
+  // Float texts
+  for(let f of floats){
+    ctx.save();
+    ctx.translate(f.x,f.y);
+    ctx.fillStyle=f.color||'#fff';
+    ctx.globalAlpha=f.opacity||1;
+    ctx.font='bold 16px Segoe UI';
+    ctx.textAlign='center';
+    ctx.fillText(f.text,0,0);
+    ctx.restore();
+  }
+  ctx.globalAlpha=1;
+  
+  ctx.restore();
+  requestAnimationFrame(loop);
+}
+
+function loop(){update();draw();}
+
+// Stars
+for(let i=0;i<120;i++)stars.push({x:Math.random()*2000,y:Math.random()*2000,a:Math.random()*0.5+0.1,size:Math.random()*2});
+
+updateUI();
+loop();
+</script>
+</body>
+</html>
